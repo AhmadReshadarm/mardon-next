@@ -1,0 +1,225 @@
+@font-face {
+  font-family: 'Intro';
+  src: url('/fonts/IntroDemo-BlackCAPS.woff2') format('woff2'),
+    url('/fonts/IntroDemo-BlackCAPS.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Anticva';
+  src: url('/fonts/Anticva-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baskerville';
+  src: url('/fonts/BaskervilleCyrLTStd-Bold.woff') format('woff'),
+    url('/fonts/BaskervilleCyrLTStd-Bold.woff2') format('woff2');
+  font-style: normal;
+  font-display: swap;
+}
+
+/* @font-face {
+  font-family: 'Baskerville';
+  src: url('/fonts/baskvl.woff') format('woff2');
+  font-style: normal;
+  font-display: swap;
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* scroll-behavior: smooth; */
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  /* scroll-behavior: smooth; */
+  overflow-x: hidden;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+button:focus,
+input:focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  background: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+/* custom scroll bar */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(60, 60, 60);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #000;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 25px;
+  margin: auto;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.exclamation-icon {
+  color: rgb(196, 0, 0);
+  line-height: 0;
+  font-size: 2rem;
+  position: relative;
+  left: -7px;
+  top: 0px;
+}
+
+.spinner {
+  display: block;
+  margin-top: 100px;
+}
+
+.success-icon {
+  color: green;
+  line-height: 0;
+  font-size: 2rem;
+  position: relative;
+  left: -7px;
+  top: 0px;
+}
+
+.ant-carousel .slick-list .slick-slide > div > div {
+  text-align: center;
+}
+
+/* custom css for rich text editor */
+
+.rdw-image-alignment {
+  display: inline !important;
+  object-fit: cover;
+}
+
+.rdw-image-center {
+  display: flex !important;
+  justify-content: center;
+}
+
+.rdw-image-right {
+  float: right !important;
+}
+
+.rdw-image-left {
+  float: left !important;
+}
+
+.preview-advertisment img {
+  object-fit: cover !important;
+  float: inline-start !important;
+}
+
+.main-page-advertisment {
+  width: 100%;
+  padding: 100px 0;
+}
