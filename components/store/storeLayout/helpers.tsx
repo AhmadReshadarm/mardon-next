@@ -5,6 +5,11 @@ import {
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
+import {
+  changeCatelogDisplayState,
+  changeCatelogState,
+  changeDropDownState,
+} from 'redux/slicers/store/globalUISlicer';
 const paginateHandler = () => {
   const widthOrHeightRef = useRef<any>();
 
@@ -83,7 +88,59 @@ const outsideClickListner = (
     });
   };
 };
+// ---------------------- menu handlers and hooks -----------------------------
+const outsideClickListnerRedux = (
+  listening: boolean,
+  setListening: Dispatch<SetStateAction<boolean>>,
+  menuRef: HTMLDivElement | any,
+  btnRef: HTMLDivElement | any,
+  dispatch: AppDispatch,
+  ChangeIsOpenState: any,
+  ChangeDisplayState: any,
+) => {
+  return () => {
+    if (listening) return;
+    if (!menuRef || !btnRef) return;
 
+    setListening(true);
+
+    [`click`, `touchstart`].forEach((type) => {
+      document.addEventListener(`click`, (evt) => {
+        const node = evt.target;
+        if (menuRef.contains(node) || btnRef.contains(node)) return;
+        dispatch(ChangeIsOpenState(false));
+
+        setTimeout(() => {
+          dispatch(ChangeDisplayState(PopupDisplay.None));
+        }, 100);
+      });
+    });
+  };
+};
+
+const handleMenuStateRedux =
+  (
+    dispatch: AppDispatch,
+    ChangeIsOpenState: any,
+    ChangeDisplayState: any,
+    isOpenState: boolean,
+    displayState: PopupDisplay,
+  ) =>
+  () => {
+    dispatch(ChangeIsOpenState(!isOpenState));
+
+    setTimeout(() => {
+      dispatch(
+        ChangeDisplayState(
+          displayState == PopupDisplay.None
+            ? PopupDisplay.Flex
+            : PopupDisplay.None,
+        ),
+      );
+    }, 100);
+  };
+
+// ------------------------- end of menu state hooks and handlers ------------------------
 const handleMenuState =
   (
     setIsOpened: Dispatch<SetStateAction<boolean>>,
@@ -174,8 +231,10 @@ export {
   paginateHandler,
   UseImagePaginat,
   outsideClickListner,
+  outsideClickListnerRedux,
   handleDragEnd,
   handleMenuState,
+  handleMenuStateRedux,
   overrideDefaultIOSZoom,
   acceptedCookies,
   handleCookiesClick,

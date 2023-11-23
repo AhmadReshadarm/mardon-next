@@ -16,55 +16,43 @@ const handleSearchItemClick = (dispatch: AppDispatch) => () => {
   dispatch(clearSearchQuery());
 };
 
-const handleSearchQueryChange =
-  (
-    selected: CategoryInTree | undefined,
-    // setFocused: Dispatch<SetStateAction<boolean>>,
-    dispatch: AppDispatch,
-  ) =>
-  (e: any) => {
-    const searchQuery = e.target.value;
+const handleSearchQueryChange = (dispatch: AppDispatch) => (e: any) => {
+  const searchQuery = e.target.value;
 
-    dispatch(changeSearchQuery(searchQuery));
+  dispatch(changeSearchQuery(searchQuery));
 
-    if (!searchQuery || searchQuery == '') {
-      dispatch(clearSearchProducts());
+  if (!searchQuery || searchQuery == '') {
+    dispatch(clearSearchProducts());
 
-      return;
-    }
+    return;
+  }
 
-    // setFocused(true);
-
-    const payload = {
-      name: searchQuery,
-      parent: selected?.url,
-      limit: 5,
-    };
-
-    dispatch(searchProducts(payload));
+  const payload = {
+    name: searchQuery,
+    limit: 12,
   };
+
+  dispatch(searchProducts(payload));
+};
 
 const handleSearchFormSubmit =
   (
-    selectedCategory: CategoryInTree | undefined,
     searchQuery: string,
     router: NextRouter,
-    setSearchActive: Dispatch<SetStateAction<boolean>>,
-    setSearchDisplay: Dispatch<SetStateAction<PopupDisplay>>,
+    changeSearchFormState: any,
+    changeSearchDisplayState: any,
     dispatch: AppDispatch,
   ) =>
   (e) => {
     e.preventDefault();
-    if (searchQuery == '') return;
 
-    if (searchQuery !== '') {
+    if (searchQuery == undefined || searchQuery == '') return;
+
+    if (searchQuery !== undefined || searchQuery !== '') {
       const query: { name: string; categories?: string } = {
         name: searchQuery,
       };
 
-      if (selectedCategory) {
-        query.categories = selectedCategory?.url;
-      }
       dispatch(clearSearchQuery());
       dispatch(clearSearchProducts());
 
@@ -73,10 +61,10 @@ const handleSearchFormSubmit =
         query,
       });
 
-      setSearchActive(false);
+      dispatch(changeSearchFormState(false));
       setTimeout(() => {
-        setSearchDisplay(PopupDisplay.None);
-      }, 150);
+        dispatch(changeSearchDisplayState(PopupDisplay.None));
+      }, 100);
     }
   };
 

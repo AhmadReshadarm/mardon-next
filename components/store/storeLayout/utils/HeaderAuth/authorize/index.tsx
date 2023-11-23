@@ -2,105 +2,83 @@ import { paginateTo } from 'components/store/checkout/constant';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import styled from 'styled-components';
 import { PopupDisplay } from '../../../constants';
-import { AuthBtns, Content, Loading } from './common';
+import { Loading } from './common';
 import SignIn from './signin';
 import SignUp from './signup';
-
 type Props = {
   direction: number;
   authType: string;
   paginate: (newDirection: number, newType: any) => void;
-  onAfterAuthorized?: () => void;
 };
-const Authorization: React.FC<Props> = ({
-  direction,
-  authType,
-  paginate,
-  onAfterAuthorized,
-}) => {
-  const [isCap, setCap] = useState(false);
-  const { serverErr, loading } = useAppSelector<TAuthState>(
-    (state) => state.auth,
-  );
+
+type StyleProps = {
+  isLoginActive: boolean;
+  isSingUpActive: boolean;
+};
+const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
+  const { loading } = useAppSelector<TAuthState>((state) => state.auth);
 
   return (
     <>
-      <Content
-        dragConstraints={{ left: 0, right: 0 }}
-        custom={direction}
-        variants={variants.authorizeSlideX}
-        animate={authType == 'selection' ? 'center' : 'enter'}
-      >
-        <AuthMessege
-          custom={0.1}
-          initial="init"
-          whileInView="animate"
-          variants={variants.fadInSlideUp}
-        >
-          <h3>Fingarden</h3>
-          <h4>Войдите или зарегистрируйтесь для оформления заказа</h4>
-          <span className="sing-up-notice">
-            При регистрации мы вышлем вам ссылку для подтверждения на ваш
-            почтовый ящик
-          </span>
-        </AuthMessege>
-        <SingInUpBtnsWrapper>
-          <AuthBtns
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            bgcolor={color.btnPrimary}
-            textcolor={color.textPrimary}
-            onClick={() => paginate(paginateTo.forward, 'signin')}
+      <AuthorizationWrapper>
+        <div className="auth-intial-image-wrapper">
+          <img src="/singin-static.jpg" alt="" />
+        </div>
+        <div className="auth-parrent-wrapper">
+          <AuthHeader
+            custom={0.1}
+            initial="init"
+            whileInView="animate"
+            variants={variants.fadInSlideUp}
           >
-            Войти
-          </AuthBtns>
-          <span style={{ fontFamily: 'intro' }}>или</span>
-          <AuthBtns
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            bgcolor={color.btnPrimary}
-            textcolor={color.textPrimary}
-            onClick={() => paginate(paginateTo.forward, 'signup')}
-          >
-            Зарегистрироваться
-          </AuthBtns>
-        </SingInUpBtnsWrapper>
-      </Content>
-
-      <SignIn
-        direction={direction}
-        authType={authType}
-        serverErr={serverErr}
-        isCap={isCap}
-        setCap={setCap}
-        paginate={paginate}
-        onAfterAuthorized={onAfterAuthorized}
-      />
-      <SignUp
-        direction={direction}
-        authType={authType}
-        paginate={paginate}
-        serverErr={serverErr}
-        isCap={isCap}
-        setCap={setCap}
-      />
-      <Loading
-        style={{
-          display: loading ? PopupDisplay.Flex : PopupDisplay.None,
-        }}
-      />
+            <AuthTabWrapper
+              isLoginActive={authType == 'selection'}
+              isSingUpActive={authType == 'signup'}
+            >
+              <motion.div
+                animate={authType == 'selection' ? 'init' : 'animate'}
+                variants={{ init: { x: 0 }, animate: { x: 100 } }}
+                className="auth-page-indecator"
+              ></motion.div>
+              <div className="auth-buttons-row">
+                <h2
+                  className="sign-in-tab"
+                  onClick={() => paginate(paginateTo.forward, 'selection')}
+                >
+                  ВХОД
+                </h2>
+                <span>/</span>
+                <h2
+                  className="sign-up-tab"
+                  onClick={() => paginate(paginateTo.back, 'signup')}
+                >
+                  РЕГИСТРАЦИЯ
+                </h2>
+              </div>
+            </AuthTabWrapper>
+          </AuthHeader>
+          <SignIn direction={direction} authType={authType} />
+          <SignUp
+            direction={direction}
+            authType={authType}
+            paginate={paginate}
+          />
+          <Loading
+            style={{
+              display: loading ? PopupDisplay.Flex : PopupDisplay.None,
+            }}
+          />
+        </div>
+      </AuthorizationWrapper>
     </>
   );
 };
 
-const AuthMessege = styled(motion.div)`
+const AuthHeader = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -108,12 +86,86 @@ const AuthMessege = styled(motion.div)`
   align-items: flex-start;
   gap: 15px;
   h3 {
-    font-family: 'intro';
+    font-family: ricordi;
     font-size: 2rem;
-    margin: 0;
   }
-  .sing-up-notice {
-    color: ${color.bgSecondary};
+  span {
+    font-weight: 500;
+    font-size: 16px;
+  }
+`;
+
+const AuthorizationWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  felx-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 30px;
+  .auth-intial-image-wrapper {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    img {
+      width: 100%;
+      height: 370px;
+      object-fit: cover;
+    }
+  }
+  .auth-parrent-wrapper {
+    width: 55%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: 60px;
+  }
+`;
+
+const AuthTabWrapper = styled.div<StyleProps>`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  z-index: 9;
+  .auth-page-indecator {
+    width: 50px;
+    height: 3px;
+    background-color: ${color.buttonPrimary};
+  }
+  .auth-buttons-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    h2 {
+      font-family: ricordi;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: ${color.inactiveIcons};
+      &:hover {
+        color: ${color.activeIcons};
+      }
+    }
+    ${({ isLoginActive, isSingUpActive }: StyleProps) => {
+      if (isLoginActive) {
+        return `
+          .sign-in-tab{
+            color:${color.activeIcons}
+          }
+        `;
+      }
+      if (isSingUpActive) {
+        return `
+          .sign-up-tab{
+            color:${color.activeIcons}
+          }
+        `;
+      }
+    }}
   }
 `;
 

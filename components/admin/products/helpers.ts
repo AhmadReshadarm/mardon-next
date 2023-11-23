@@ -53,8 +53,8 @@ const handleDataConvertation = (
     const id: string = form[`id[${index}]`];
     const price: number = form[`${ManageProductFields.Price}[${index}]`];
     const oldPrice: number = form[`${ManageProductFields.OldPrice}[${index}]`];
-    const wholeSalePrice: number =
-      form[`${ManageProductFields.wholeSalePrice}[${index}]`];
+    // const wholeSalePrice: number =
+    //   form[`${ManageProductFields.wholeSalePrice}[${index}]`];
     const available: boolean =
       form[`${ManageProductFields.Available}[${index}]`];
     const color: number = form[`${ManageProductFields.Color}[${index}]`];
@@ -62,7 +62,7 @@ const handleDataConvertation = (
       id,
       price,
       oldPrice,
-      wholeSalePrice,
+      // wholeSalePrice,
       available,
       color,
       images: null,
@@ -100,6 +100,7 @@ const handleFormSubmitProduct =
         desc: JSON.stringify(form.desc),
       };
     }
+    console.log(form);
 
     const convertedForm = handleDataConvertation(
       form,
@@ -178,8 +179,8 @@ const initialValuesConverter = (product: Product) => {
     newProduct[`id[${index}]`] = variant.id;
     newProduct[`${ManageProductFields.Price}[${index}]`] = variant.price;
     newProduct[`${ManageProductFields.OldPrice}[${index}]`] = variant.oldPrice;
-    newProduct[`${ManageProductFields.wholeSalePrice}[${index}]`] =
-      variant.wholeSalePrice;
+    // newProduct[`${ManageProductFields.wholeSalePrice}[${index}]`] =
+    //   variant.wholeSalePrice;
     newProduct[`${ManageProductFields.Available}[${index}]`] =
       variant.available;
     newProduct[`${ManageProductFields.Color}[${index}]`] = variant.color?.id;

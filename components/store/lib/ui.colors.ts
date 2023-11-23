@@ -1,7 +1,5 @@
 const color = {
   btnPrimary: '#000000',
-  textPrimary: '#ffffff',
-  textSecondary: '#AAB4BD',
   textTertiary: '#707F8D',
   hover: '#ED3969',
   hoverBtnBg: '#5A6445',
@@ -23,6 +21,14 @@ const color = {
   rangeBgcolor: '#D0D3CB',
   searchBtnBg: '#ABAD98',
   bgProductSecondry: '#E7E7E7BF',
+  // ______________________________________________
+  backgroundPrimary: '#ffffff',
+  textPrimary: '#ffffff',
+  textSecondary: '#000000',
+  inactiveIcons: '#939393',
+  activeIcons: '#000000',
+  buttonPrimary: '#000000',
+  textBase: '#949494',
 };
 
 export default color;

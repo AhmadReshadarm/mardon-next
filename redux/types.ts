@@ -5,6 +5,7 @@ import {
   AnalyticsUser,
   DynamicData,
 } from 'common/interfaces/data-analytics.interfaces';
+import { PopupDisplay } from 'components/store/storeLayout/constants';
 import {
   Advertisement,
   Basket,
@@ -167,6 +168,21 @@ type TGlobalState = {
   products: Product[];
   loading: boolean;
   productsLoading: boolean;
+};
+
+type TGlobalUIState = {
+  isCatalogOpen: boolean;
+  isAuthFormOpen: boolean;
+  isBasketOpen: boolean;
+  isWishlistOpen: boolean;
+  isSearchFormActive: boolean;
+  isOrderCallFormActive: boolean;
+  isDropDownOpen: boolean;
+  catelogDisplay: PopupDisplay;
+  searchDisplay: PopupDisplay;
+  wishlistDisplay: PopupDisplay;
+  cartDisplay: PopupDisplay;
+  authDisplay: PopupDisplay;
 };
 
 type ImageDTO = {
@@ -348,6 +364,7 @@ export type {
   TSizeState,
   TReviewState,
   TGlobalState,
+  TGlobalUIState,
   TCartState,
   TFilters,
   TCatalogState,

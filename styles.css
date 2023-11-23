@@ -83,26 +83,71 @@
   font-display: swap;
 }
 
-/* @font-face {
-  font-family: 'Baskerville';
-  src: url('/fonts/baskvl.woff') format('woff2');
+/* ---------------------------------- Circe font ----------------------------------------- */
+
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/Circe/Circe-Thin.woff') format('woff');
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
-} */
+}
 
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/Circe/Circe-ExtraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/Circe/Circe-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/Circe/Circe-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/Circe/Circe-Bold.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/Circe/Circe-ExtraBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+/* ---------------------------------- Circe font end ----------------------------------------- */
+@font-face {
+  font-family: 'ricordi';
+  src: url('/fonts/tt-ricordi-marmo-trial-variable.woff') format('woff');
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* scroll-behavior: smooth; */
-  font-family: 'Jost', sans-serif;
+  font-family: 'Circe', 'Jost', sans-serif;
 }
 
 body {
   width: 100%;
   margin: 0;
   padding: 0;
-  /* scroll-behavior: smooth; */
   overflow-x: hidden;
   height: 100%;
 }
@@ -117,6 +162,10 @@ li {
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+svg:focus {
+  outline: none;
 }
 
 button:focus,

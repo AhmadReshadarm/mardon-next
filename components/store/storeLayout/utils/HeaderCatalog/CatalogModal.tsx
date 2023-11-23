@@ -1,20 +1,21 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { TGlobalState } from 'redux/types';
-import { useAppSelector } from 'redux/hooks';
+import { TGlobalState, TGlobalUIState } from 'redux/types';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import TagsModal from './Tagsmodal';
-
-// import {
-//   handleBrandClick,
-//   handleCategoryHover,
-//   handleSubCategoryHover,
-// } from './helpers';
-
-type Props = { setOnWhichNav: any };
-
-const CatalogModal: React.FC<Props> = ({ setOnWhichNav }) => {
+import { handleMenuStateRedux } from '../../helpers';
+import {
+  changeCatelogDisplayState,
+  changeCatelogState,
+} from 'redux/slicers/store/globalUISlicer';
+type Props = {
+  setHoveredCategory;
+};
+const CatalogModal: React.FC<Props> = ({ setHoveredCategory }) => {
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
-
+  const dispatch = useAppDispatch();
+  const { isCatalogOpen, catelogDisplay, isDropDownOpen } =
+    useAppSelector<TGlobalUIState>((state) => state.globalUI);
   return (
     <CatalogContentWrapper>
       {categories.map((category, indexmain) => {
@@ -22,8 +23,17 @@ const CatalogModal: React.FC<Props> = ({ setOnWhichNav }) => {
           <MainCatalogWrapper key={indexmain}>
             <div className="main-catagory">
               <Link
-                onClick={() => setOnWhichNav('')}
+                onClick={handleMenuStateRedux(
+                  dispatch,
+                  changeCatelogState,
+                  changeCatelogDisplayState,
+                  isCatalogOpen,
+                  catelogDisplay,
+                )}
                 href={`/catalog?categories=${category.url}`}
+                onMouseOver={() =>
+                  setHoveredCategory(`/api/images/${category.image}`)
+                }
               >
                 <span>{category.name}</span>
               </Link>
@@ -33,15 +43,23 @@ const CatalogModal: React.FC<Props> = ({ setOnWhichNav }) => {
                 return (
                   <SubCategoriesContainer key={index}>
                     <Link
-                      onClick={() => setOnWhichNav('')}
+                      onClick={handleMenuStateRedux(
+                        dispatch,
+                        changeCatelogState,
+                        changeCatelogDisplayState,
+                        isCatalogOpen,
+                        catelogDisplay,
+                      )}
                       href={`/catalog?categories=${category.url}&subCategories=${subCategory.url}`}
+                      onMouseOver={() =>
+                        setHoveredCategory(`/api/images/${subCategory.image}`)
+                      }
                     >
                       <span className="sub-category">{subCategory.name}</span>
                     </Link>
                     <TagsModal
                       category={category.url!}
                       subCategory={subCategory.url!}
-                      setOnWhichNav={setOnWhichNav}
                     />
                   </SubCategoriesContainer>
                 );
@@ -55,7 +73,7 @@ const CatalogModal: React.FC<Props> = ({ setOnWhichNav }) => {
 };
 
 const CatalogContentWrapper = styled.div`
-  width: 85%;
+  width: 95%;
   height: 100%;
   padding: 30px 0;
   overflow-y: scroll;
@@ -68,15 +86,10 @@ const CatalogContentWrapper = styled.div`
   &::-webkit-scrollbar {
     width: 5px;
   }
-  span {
-    &:hover {
-      color: #526725;
-    }
-  }
 `;
 
 const MainCatalogWrapper = styled.div`
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -84,11 +97,17 @@ const MainCatalogWrapper = styled.div`
   gap: 10px;
   .main-catagory {
     width: 100%;
-    border-bottom: 1.5px solid;
-    padding: 0 0 15px 150px;
+    padding: 0 0 15px 15px;
+    margin: auto;
+    border-bottom: none;
+    background: linear-gradient(black, black) bottom no-repeat;
+    background-size: 50% 1px;
+    background-position: left;
+    background-position-y: 45px;
     span {
-      font-size: 2.5rem;
-      font-weight: 500;
+      font-size: 2rem;
+      transition: 200ms;
+      font-family: ricordi;
     }
   }
 `;
@@ -96,9 +115,9 @@ const MainCatalogWrapper = styled.div`
 const SubCategoriesWrapper = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 10px 0 0 150px;
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
+  padding: 0 0 15px 15px;
 `;
 
 const SubCategoriesContainer = styled.div`
@@ -108,7 +127,8 @@ const SubCategoriesContainer = styled.div`
   align-items: flex-start;
   gap: 10px;
   .sub-category {
-    font-weight: 600;
+    transition: 200ms;
+    font-size: 1.2rem;
   }
 `;
 

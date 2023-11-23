@@ -1,19 +1,14 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
-import { styleProps } from 'components/store/lib/types';
 
 const Content = styled(motion.div)`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   position: absolute;
-  top: 0;
+  top: 70px;
   left: 0;
-  padding: 30px;
+  padding: 60px;
   a {
     width: 100%;
     text-align: start;
@@ -21,26 +16,13 @@ const Content = styled(motion.div)`
   }
 `;
 
-const AuthBtns = styled(motion.button)`
+const AuthorizationFormWrapper = styled.div`
   width: 100%;
-  height: 50px;
-  display: flex;
-  flex-direcion: row;
-  justify-content: center;
-  align-items: center;
-  background-color: ${(p: styleProps) => p.bgcolor};
-  color: ${(p: styleProps) => p.textcolor};
-  border-radius: 5px;
-  font-family: 'intro';
-`;
-
-const BtnsWrapper = styled.div`
-  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const FormWrapper = styled.form`
@@ -49,9 +31,28 @@ const FormWrapper = styled.form`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 10px;
-  h4 {
-    font-size: 1rem;
+  gap: 25px;
+  .form-inputs-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .action-buttons-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    button {
+      padding: 10px 15px;
+      border-radius: 30px;
+      background-color: ${color.buttonPrimary};
+      color: ${color.textPrimary};
+      font-family: ricordi;
+    }
   }
   .newsletter-wrapper {
     padding: 5px 0;
@@ -68,7 +69,7 @@ const AuthInputsWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
   position: relative;
   label {
@@ -95,48 +96,12 @@ const AuthInputsWrapper = styled(motion.div)`
   }
 `;
 
-const AuthInput = styled(motion.input)`
+const AuthInput = styled.input`
   width: 100%;
-  height: 50px;
-  border-radius: 5px;
-  padding: 0 10px;
-  font-size: 1rem;
+  padding: 5px 10px;
   background: transparent;
-  &::placeholder {
-    color: ${color.bgSecondary};
-  }
-  &::-ms-input-placeholder {
-    color: ${color.bgSecondary};
-  }
-`;
-const ConfidentialityWrapper = styled.div`
-  width: 40px;
-  height: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 32px;
-  right: 5px;
-  .content-confidentiality {
-    width: 35px;
-    height: 25px;
-    overflow: hidden;
-    position: relative;
-    span {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      cursor: pointer;
-    }
-  }
+  border: none;
+  border-bottom: 1px solid;
 `;
 
 const Loading = styled.div`
@@ -150,11 +115,9 @@ const Loading = styled.div`
 
 export {
   Content,
-  AuthBtns,
-  BtnsWrapper,
   FormWrapper,
   AuthInput,
   AuthInputsWrapper,
-  ConfidentialityWrapper,
   Loading,
+  AuthorizationFormWrapper,
 };

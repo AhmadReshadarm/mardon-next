@@ -56,12 +56,12 @@ const ProductVariant: React.FC<Props> = ({
         />
       </Form.Item>
       {/* ----------------------OLD PRICE---------------------- */}
-      <Form.Item name={`${ManageProductFields.OldPrice}[${index}]`}>
-        <span>
-          опцию Оставьте пустым, если хотите скрыть эту опцию на стороне
-          клиента.
-        </span>
+      <span>
+        опцию Оставьте пустым, если хотите скрыть эту опцию на стороне клиента.
+      </span>
+      <Form.Item name={`${ManageProductFields.OldPrice}[${index}]`} required>
         <Input
+          required={true}
           type={'number'}
           placeholder="Введите устаревшую стоимость продукта"
         />

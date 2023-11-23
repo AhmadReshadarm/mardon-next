@@ -46,7 +46,6 @@ const handleCartBtnClick =
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
-    // localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
     if (curOrderProduct) {
       dispatch(
         updateCart({
@@ -70,7 +69,7 @@ const handleCartBtnClick =
           ?.concat({ product: { id: product?.id }, qty: 1 })
           .map((orderProduct) => ({
             productId: orderProduct.product?.id,
-            qty: 1,
+            qty: orderProduct.qty,
             productVariantId: variant?.id!,
             productSize,
           })),
@@ -84,7 +83,6 @@ const handleWishBtnClick =
     const curItem = wishlist?.items?.find(
       (wishlistProduct) => wishlistProduct.productId == product?.id,
     );
-    console.log(wishlist);
 
     if (curItem) {
       dispatch(

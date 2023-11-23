@@ -22,6 +22,7 @@ import {
   handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
+import ItemCounter from 'ui-kit/ItemCounter';
 
 type Props = {
   product: Product;
@@ -37,70 +38,75 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
     (state) => state.wishlist,
   );
   return (
-    <Link key={index} href={`/product/${product.url}`}>
-      <CardItemContainer
-        custom={1.01}
-        whileHover="hover"
-        whileTap="tap"
-        variants={variants.grow}
-      >
-        <ItemImageAndBtnWrapper>
-          <span className="ItemPriceWrapper">
-            Цена: {product?.productVariants![0].price} ₽
-          </span>
-          <ItemActionBtnsWrapper>
-            <ArrowBtns
-              bgcolor={color.glassmorphismSeconderBG}
-              filterdropback="blur(9px);"
-              position="relative"
-              onClick={TrigerhandleCartBtnClick(
-                product,
-                handleCartBtnClick(
+    <>
+      <Link key={index} href={`/product/${product.url}`}>
+        <CardItemContainer
+          custom={1.01}
+          whileHover="hover"
+          whileTap="tap"
+          variants={variants.grow}
+        >
+          <ItemImageAndBtnWrapper>
+            <span className="ItemPriceWrapper">
+              Цена: {product?.productVariants![0].price} ₽
+            </span>
+            <ItemActionBtnsWrapper>
+              <ArrowBtns
+                bgcolor={color.glassmorphismSeconderBG}
+                filterdropback="blur(9px);"
+                position="relative"
+                onClick={TrigerhandleCartBtnClick(
                   product,
-                  dispatch,
-                  product.productVariants![0],
-                  cart,
-                ),
-              )}
-            >
-              <AddToCart
-                product={product}
-                cart={cart}
-                checkIfItemInCart={checkIfItemInCart}
-              />
-            </ArrowBtns>
-            <ArrowBtns
-              bgcolor={color.glassmorphismSeconderBG}
-              filterdropback="blur(9px);"
-              position="relative"
-              onClick={TrigerhandleWishBtnClick(
-                product,
-                handleWishBtnClick(product, dispatch, wishlist!),
-              )}
-            >
-              <AddToWishlist
-                checkIfItemInWishlist={checkIfItemInWishlist}
-                product={product}
-                wishlist={wishlist!}
-              />
-            </ArrowBtns>
-          </ItemActionBtnsWrapper>
-          <img
-            onClick={handleSearchItemClick(dispatch)}
-            src={`/api/images/${images[0]}`}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-              currentTarget.className = 'image-on-error';
-            }}
-            alt={product.name}
-          />
-        </ItemImageAndBtnWrapper>
-        <ItemTitelWrapper onClick={handleSearchItemClick(dispatch)}>
+                  handleCartBtnClick(
+                    product,
+                    dispatch,
+                    product.productVariants![0],
+                    cart,
+                  ),
+                )}
+              >
+                {/* <AddToCart
+                  product={product}
+                  cart={cart}
+                  // checkIfItemInCart={checkIfItemInCart}
+                /> */}
+              </ArrowBtns>
+              <ArrowBtns
+                bgcolor={color.glassmorphismSeconderBG}
+                filterdropback="blur(9px);"
+                position="relative"
+                onClick={TrigerhandleWishBtnClick(
+                  product,
+                  handleWishBtnClick(product, dispatch, wishlist!),
+                )}
+              >
+                {/* <AddToWishlist
+                  product={product}
+                /> */}
+              </ArrowBtns>
+            </ItemActionBtnsWrapper>
+            <img
+              onClick={handleSearchItemClick(dispatch)}
+              src={`/api/images/${images[0]}`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/img_not_found.png';
+                currentTarget.className = 'image-on-error';
+              }}
+              alt={product.name}
+            />
+          </ItemImageAndBtnWrapper>
+          {/* <ItemTitelWrapper onClick={handleSearchItemClick(dispatch)}>
           {product.name}
-        </ItemTitelWrapper>
-      </CardItemContainer>
-    </Link>
+        </ItemTitelWrapper> */}
+        </CardItemContainer>
+      </Link>
+      <AddToWishlist product={product} />
+      <AddToCart product={product} qty={1} />
+      {/* {cart.orderProducts?.map((orders, index) => {
+        return <ItemCounter key={index} qty={orders.qty!} product={product} />;
+      })} */}
+    </>
   );
 };
 

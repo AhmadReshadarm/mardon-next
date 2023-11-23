@@ -1,4 +1,12 @@
+import { openErrorNotification } from 'common/helpers';
 import { useState } from 'react';
+import {
+  createSubscriber,
+  sendAdminCallEmail,
+} from 'redux/slicers/subscriberSlicer';
+import { AppDispatch } from 'redux/store';
+import isEmail from 'validator/lib/isEmail';
+import isEmpty from 'validator/lib/isEmpty';
 const UsePagination = (): [
   number,
   string,
@@ -15,4 +23,29 @@ const UsePagination = (): [
   return [direction, authType, paginate];
 };
 
-export { UsePagination };
+const handleSubscriber =
+  (name: string, email: string, dispatch: AppDispatch) => () => {
+    if (isEmpty(email))
+      return openErrorNotification(
+        'адрес электронной почты не может быть пустым',
+      );
+    if (isEmpty(name)) return openErrorNotification('имя не может быть пустым');
+    if (!isEmail(email))
+      return openErrorNotification('Неверный адрес электронной почты');
+    dispatch(createSubscriber({ name, email }));
+  };
+const handleAdminCall =
+  (name: string, phone: string, dispatch: AppDispatch) => () => {
+    if (isEmpty(phone))
+      return openErrorNotification('Номер телефона не может быть пустым');
+    if (isEmpty(name)) return openErrorNotification('имя не может быть пустым');
+    dispatch(
+      sendAdminCallEmail({
+        to: 'info@fingarden.ru',
+        subject: `${name} просит перезвонить`,
+        html: `имя: ${name}, Номер телефона: ${phone}`,
+      }),
+    );
+  };
+
+export { UsePagination, handleSubscriber, handleAdminCall };

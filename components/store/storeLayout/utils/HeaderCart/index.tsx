@@ -5,115 +5,133 @@ import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
-import { Basket } from 'swagger/services';
-import BasketNormalSvg from '../../../../../assets/basket_normal.svg';
-import { Btns } from '../../common';
-import CartItem from './CartItem';
-import { outsideClickListner } from 'components/store/storeLayout/helpers';
-import { handleMenuState } from '../../helpers';
-import { handleItemCountChange, handleItemRemove } from './helpers';
-import { PopupDisplay } from '../../constants';
-import { TCartState } from 'redux/types';
+import {
+  handleMenuStateRedux,
+  outsideClickListnerRedux,
+} from 'components/store/storeLayout/helpers';
+import { TCartState, TGlobalUIState } from 'redux/types';
 import { getTotalPrice } from 'components/store/cart/helpers';
 import { TAuthState } from 'redux/types';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
+import HeaderProductItmes from 'ui-kit/HeaderProductItems';
+import {
+  changeBasketState,
+  changeCartDisplayState,
+} from 'redux/slicers/store/globalUISlicer';
 
-const HeaderCart = () => {
+type Props = {
+  cartButtonRef: HTMLDivElement | any;
+};
+
+type StyleProps = {
+  isLargeTotal: boolean;
+};
+const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
   const dispatch = useAppDispatch();
-  const [isOpened, setIsOpened] = useState(false);
-  const [display, setDisplay] = useState(PopupDisplay.None);
-  const [menuRef, setMenuRef] = useState(null);
-  const [btnRef, setBtnRef] = useState(null);
-  const [listening, setListening] = useState(false);
-  const menuNode = useCallback((node: any) => {
-    setMenuRef(node);
-  }, []);
-  const btnNode = useCallback((node: any) => {
-    setBtnRef(node);
-  }, []);
 
-  useEffect(
-    outsideClickListner(
-      listening,
-      setListening,
-      menuRef,
-      btnRef,
-      setIsOpened,
-      setDisplay,
-    ),
-  );
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const handleGoToCart = () => {
     dispatch(setOneClickBy(false));
   };
+
+  //  -------------------------- UI HOOKS ------------------------------
+  const { isBasketOpen, cartDisplay } = useAppSelector<TGlobalUIState>(
+    (state) => state.globalUI,
+  );
+  const [cartWrapperRef, setCartWrapperRef] = useState(null);
+  const [listening, setListening] = useState(false);
+  const cartWrapperNode = useCallback((node: any) => {
+    setCartWrapperRef(node);
+  }, []);
+
+  useEffect(
+    outsideClickListnerRedux(
+      listening,
+      setListening,
+      cartWrapperRef,
+      cartButtonRef,
+      dispatch,
+      changeBasketState,
+      changeCartDisplayState,
+    ),
+  );
+  // ---------------------- end of UI hooks ---------------------
   return (
     <>
-      <div style={{ position: 'relative' }}>
-        {!!cart?.orderProducts?.length && (
-          <Counter>{cart?.orderProducts?.length}</Counter>
-        )}
-        <Btns
-          ref={btnNode}
-          id="cart-btn"
-          title="Корзина"
-          onClick={handleMenuState(setIsOpened, setDisplay)}
-        >
-          <span>
-            <BasketNormalSvg />
-          </span>
-        </Btns>
-      </div>
       <PopupWrapper
-        ref={menuNode}
-        style={{ display }}
-        animate={isOpened ? 'open' : 'close'}
+        ref={cartWrapperNode}
+        style={{ display: cartDisplay }}
+        animate={isBasketOpen ? 'open' : 'close'}
         variants={variants.fadeInReveal}
       >
+        <div className="header-basket-form-background"></div>
+        <div className="header-spacer"></div>
         {!cart?.orderProducts?.length ? (
-          <span style={{ color: color.hover }}>Корзина пуста</span>
+          <div className="empty-wrapper">
+            <h1>{`Корзина пуста`.toLocaleUpperCase()}</h1>
+          </div>
         ) : (
           <PopupDivider>
             <PopupContent>
-              {cart?.orderProducts?.map((item, index: any) => {
+              {cart?.orderProducts?.map((orderProduct, index: any) => {
                 return (
-                  <CartItem
+                  <HeaderProductItmes
                     key={`cart-item-${index}`}
-                    item={item}
-                    onRemove={handleItemRemove(dispatch, cart)}
-                    onCountChange={handleItemCountChange(dispatch, cart)}
+                    orderProduct={orderProduct}
+                    dataType="cart"
+                    handleMenuState={handleMenuStateRedux(
+                      dispatch,
+                      changeBasketState,
+                      changeCartDisplayState,
+                      isBasketOpen,
+                      cartDisplay,
+                    )}
                   />
                 );
               })}
             </PopupContent>
-            <TotalPriceWrapper>
-              <span>Итого:</span>
-              <span>{getTotalPrice(cart.orderProducts, user!)}₽</span>
-            </TotalPriceWrapper>
+
             <PopupBtnsDivider>
               <Link href="/cart">
                 <ActionBtns
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                  onClick={handleMenuState(setIsOpened, setDisplay)}
+                  onClick={handleMenuStateRedux(
+                    dispatch,
+                    changeBasketState,
+                    changeCartDisplayState,
+                    isBasketOpen,
+                    cartDisplay,
+                  )}
                 >
-                  Перейти в корзину
+                  {`корзина`.toLocaleUpperCase()}
                 </ActionBtns>
               </Link>
-              <Link style={{ alignSelf: 'flex-end' }} href="/checkout">
+              <Link href="/checkout">
                 <ActionBtns
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
                   onClick={() => {
                     handleGoToCart();
-                    handleMenuState(setIsOpened, setDisplay);
+                    handleMenuStateRedux(
+                      dispatch,
+                      changeBasketState,
+                      changeCartDisplayState,
+                      isBasketOpen,
+                      cartDisplay,
+                    )();
                   }}
                 >
-                  Перейти к оформлению
+                  {`Оформить заказ`.toLocaleUpperCase()}
                 </ActionBtns>
               </Link>
+              <TotalPriceWrapper
+                isLargeTotal={
+                  getTotalPrice(cart.orderProducts, user!)! > 100000
+                }
+              >
+                <h1>ОБЩИЙ СЧЕТ</h1>
+                <h1 className="total-price-wrapper">
+                  {getTotalPrice(cart.orderProducts, user!)}₽
+                </h1>
+              </TotalPriceWrapper>
             </PopupBtnsDivider>
           </PopupDivider>
         )}
@@ -122,43 +140,52 @@ const HeaderCart = () => {
   );
 };
 
-const Counter = styled.span`
-  position: absolute;
-  top: -8px;
-  right: -10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${color.hoverBtnBg};
-  color: ${color.textPrimary};
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
-`;
-
 const PopupWrapper = styled(motion.div)`
-  width: 450px;
-  height: 350px;
+  width: 80%;
+  height: 100vh;
   position: absolute;
-  top: 60px;
+  top: 0;
   right: 0;
-  border-radius: 15px;
+  z-index: 99;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${color.glassmorphismBg};
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
-  box-shadow: 0px 2px 10px ${color.boxShadowBtn};
-  overflow: hidden;
-  z-index: 99;
+  padding: 0 50px 50px 50px;
+  .header-basket-form-background {
+    width: calc(100% + 50vw);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: -50vw;
+    background-color: ${color.glassmorphismBg};
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+    z-index: -1;
+  }
+  .header-spacer {
+    width: 100%;
+    height: 90px;
+    min-height: 100px;
+  }
+  .empty-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      font-family: ricordi;
+    }
+  }
+  @media (min-width: 1024px) and (max-width: 1150px) {
+    width: 90%;
+  }
 `;
 
 const PopupDivider = styled.div`
-  width: 90%;
+  width: 100%;
   height: 90%;
   display: flex;
   flex-direction: column;
@@ -169,28 +196,38 @@ const PopupDivider = styled.div`
 
 const PopupBtnsDivider = styled.div`
   width: 100%;
+  height: 110px;
+  background-color: ${color.backgroundPrimary};
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+  justify-content: flex-start;
   align-items: center;
-  padding: 10px 0;
+  padding: 30px;
+  border: 1px solid #e5e2d9;
   gap: 30px;
-  a {
-    width: 100%;
-  }
 `;
 
-const TotalPriceWrapper = styled.div`
-  width: 100%;
+const TotalPriceWrapper = styled.div<StyleProps>`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 10px 0;
-  gap: 10px;
-  padding-right: 10px;
-  span {
-    font-size: 1.3rem;
+  gap: 20px;
+  h1 {
+    font-size: 1.8rem;
+    font-family: ricordi;
+    color: ${color.textBase};
+    white-space: nowrap;
+  }
+  .total-price-wrapper {
+    color: ${color.textSecondary};
+    ${({ isLargeTotal }) => {
+      if (isLargeTotal) {
+        return `
+        font-size:1rem;`;
+      }
+    }}
   }
 `;
 
@@ -206,27 +243,21 @@ const PopupContent = styled(motion.ul)`
   &::-webkit-scrollbar {
     width: 5px;
   }
-  a {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px 10px 10px 0;
-  }
 `;
 
-const ActionBtns = styled(motion.button)`
-  width: 100%;
-  height: 45px;
+const ActionBtns = styled.button`
+  width: 200px;
+  height: 50px;
   background: ${color.btnPrimary};
   color: ${color.textPrimary};
   border: none;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  border-radius: 30px;
+  font-family: ricordi;
+  &:active {
+    border: 1px solid;
+    background: ${color.backgroundPrimary};
+    color: ${color.textSecondary};
+  }
 `;
 
 export default HeaderCart;

@@ -13,12 +13,15 @@ import {
   handleDragEnd,
 } from 'components/store/storeLayout/helpers';
 import { Slide } from 'swagger/services';
-import { devices } from 'components/store/lib/Devices';
+import { useAppSelector } from 'redux/hooks';
+import { TGlobalUIState, TGlobalState } from 'redux/types';
 
 type Props = {
   slides: Slide[] | undefined;
 };
-
+interface StyleProps {
+  isDisplay: boolean;
+}
 const ImageBanner: React.FC<Props> = ({ slides }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, Number(slides?.length), page);
@@ -36,6 +39,14 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     };
   });
   const [imageIndexForDots, setImageIndexForDots] = useState(0);
+  const {
+    isCatalogOpen,
+    isSearchFormActive,
+    isWishlistOpen,
+    isBasketOpen,
+    isAuthFormOpen,
+  } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
+  const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
   return (
     <SliderWrapper
       key="slider-home-banners"
@@ -73,6 +84,14 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
             onDrag={() => setUserIntract(true)}
+            isDisplay={
+              isCatalogOpen ||
+              isSearchFormActive ||
+              isWishlistOpen ||
+              isBasketOpen ||
+              isAuthFormOpen ||
+              !!searchQuery
+            }
           />
         </AnimatePresence>
       </Link>
@@ -118,61 +137,40 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
           <ArrowSVG />
         </ArrowSpan>
       </ArrowBtns>
-      <div className="dots-wrapper">
-        {slides?.map((item, index) => {
-          return (
-            <span
-              className="image-dots"
-              key={index}
-              style={{
-                backgroundColor:
-                  index == imageIndexForDots ? '#606060' : '#d0d3cb',
-              }}
-            ></span>
-          );
-        })}
-      </div>
     </SliderWrapper>
   );
 };
 
 const SliderWrapper = styled(motion.div)`
   width: 100%;
-  height: 500px;
+  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  over-flow: hidden;
   .error_img {
-    object-fit: contain;
+    object-fit: cover;
     height: 400px;
-  }
-  .dots-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    position: absolute;
-    bottom: -30px;
-    z-index: 2;
-    .image-dots {
-      padding: 3px;
-      border-radius: 50%;
-      background-color: #d0d3cb;
-    }
   }
 `;
 
-const Slider = styled(motion.img)`
+const Slider = styled(motion.img)<StyleProps>`
   width: 100%;
   height: 100%;
   position: absolute;
   left: 0;
   top: 0;
   object-fit: cover;
+  ${(props) => {
+    if (props.isDisplay) {
+      return `
+         -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+      `;
+    }
+  }}
 `;
 
 export default memo(ImageBanner);

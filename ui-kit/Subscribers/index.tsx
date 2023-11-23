@@ -3,42 +3,14 @@ import color from 'components/store/lib/ui.colors';
 import { useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import { useAppDispatch } from 'redux/hooks';
-import {
-  createSubscriber,
-  sendAdminCallEmail,
-} from 'redux/slicers/subscriberSlicer';
-import isEmail from 'validator/lib/isEmail';
-import isEmpty from 'validator/lib/isEmpty';
-import { openErrorNotification } from 'common/helpers';
-import { UsePagination } from './helpers';
+import { UsePagination, handleSubscriber, handleAdminCall } from './helpers';
 import { motion } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import { paginateTo } from 'components/store/checkout/constant';
 import InputMask from 'react-input-mask';
 const Subscribers = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const handleSubscriber = (name: string, email: string) => {
-    if (isEmpty(email))
-      return openErrorNotification(
-        'адрес электронной почты не может быть пустым',
-      );
-    if (isEmpty(name)) return openErrorNotification('имя не может быть пустым');
-    if (!isEmail(email))
-      return openErrorNotification('Неверный адрес электронной почты');
-    dispatch(createSubscriber({ name, email }));
-  };
-  const handleAdminCall = (name: string, phone: string) => {
-    if (isEmpty(phone))
-      return openErrorNotification('Номер телефона не может быть пустым');
-    if (isEmpty(name)) return openErrorNotification('имя не может быть пустым');
-    dispatch(
-      sendAdminCallEmail({
-        to: 'info@fingarden.ru',
-        subject: `${name} просит перезвонить`,
-        html: `имя: ${name}, Номер телефона: ${phone}`,
-      }),
-    );
-  };
+
   const [subscriber, setSubscriber] = useState({ name: '', email: '' });
   const [client, setClient] = useState({ clientName: '', phone: '' });
   const [direction, authType, paginate] = UsePagination();
@@ -95,7 +67,11 @@ const Subscribers = (): JSX.Element => {
                 </InputMask>
               </div>
               <ActionBtn
-                onClick={() => handleAdminCall(client.clientName, client.phone)}
+                onClick={handleAdminCall(
+                  client.clientName,
+                  client.phone,
+                  dispatch,
+                )}
               >
                 <span>ЗАКАЗАТЬ ЗВОНОК</span>
               </ActionBtn>
@@ -136,9 +112,11 @@ const Subscribers = (): JSX.Element => {
                 />
               </div>
               <ActionBtn
-                onClick={() =>
-                  handleSubscriber(subscriber.name, subscriber.email)
-                }
+                onClick={handleSubscriber(
+                  subscriber.name,
+                  subscriber.email,
+                  dispatch,
+                )}
               >
                 <span>ПОДПИСАТЬСЯ</span>
               </ActionBtn>

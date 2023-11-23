@@ -11,7 +11,6 @@ import TelegraSVG from '../../../assets/telegramcolored.svg';
 import WhatsappSVG from '../../../assets/whatsappcolored.svg';
 import CloseSVg from '../../../assets/close_black.svg';
 import { handleCookiesClick, acceptedCookies } from './helpers';
-import { content } from './utils/ExtraNav/helpers';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
@@ -59,7 +58,7 @@ const Footer = (): JSX.Element => {
                     );
                   })}
                 </div>
-                <div className="footer-columns-wrapper">
+                {/* <div className="footer-columns-wrapper">
                   <span className="columns-header">Услуги</span>
                   {content.services.map((service, index) => {
                     return (
@@ -84,7 +83,7 @@ const Footer = (): JSX.Element => {
                       </Link>
                     );
                   })}
-                </div>
+                </div> */}
               </FooterLeftContentWrapper>
               <FooterRightContentWrapper>
                 <div className="right-column-content">

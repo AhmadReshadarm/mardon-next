@@ -39,12 +39,10 @@ const handleSignIn =
     email,
     password,
     dispatch,
-    onAfterAuthorized,
   }: {
     email: string;
     password: string;
     dispatch: AppDispatch;
-    onAfterAuthorized?: () => void;
   }) =>
   async (e) => {
     e.preventDefault();
@@ -54,38 +52,17 @@ const handleSignIn =
         password,
       };
 
-      const resp: any = await dispatch(userSignin(payload));
-
-      if (!resp.error) {
-        if (onAfterAuthorized) {
-          onAfterAuthorized();
-        }
-      }
+      await dispatch(userSignin(payload));
     }
   };
 
-const handleLogout =
-  (
-    dispatch: AppDispatch,
-    setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
-    setIsOpened: Dispatch<SetStateAction<boolean>>,
-  ) =>
-  () => {
-    setIsOpened((prev) => !prev);
-    setTimeout(() => {
-      setDisplay((prev) =>
-        prev === PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
-      );
-    });
-    dispatch(signout());
-  };
+const handleLogout = (dispatch: AppDispatch) => () => {
+  dispatch(signout());
+};
 
 const handleSignUp =
   (
-    firstName: string,
-    lastName: string,
     email: string,
-    password: string,
     isSubscribed: boolean,
     paginate: any,
     dispatch: AppDispatch,
@@ -94,56 +71,12 @@ const handleSignUp =
     e.preventDefault();
     if (isEmail(email)) {
       const payload = {
-        firstName,
-        lastName,
         email,
-        password,
         isSubscribed,
       };
-      const resp: any = await dispatch(signup(payload));
-
-      if (!resp.error) {
-        paginate(paginateTo.back, 'signin');
-
-        return;
-      }
-
-      paginate(paginateTo.back, 'signup');
+      await dispatch(signup(payload));
+      paginate(paginateTo.back, 'selection');
     }
-  };
-
-const handleEmailChange =
-  (
-    nameInput: boolean,
-    lastNameInput: boolean,
-    setEmail: Dispatch<SetStateAction<string>>,
-    setInputsErr: Dispatch<SetStateAction<[boolean, boolean, boolean]>>,
-    dispatch: AppDispatch,
-  ) =>
-  (e) => {
-    setEmail(e.target.value.toLowerCase());
-    dispatch(clearServerErr());
-    setInputsErr([
-      nameInput ? true : false,
-      lastNameInput ? true : false,
-      true,
-    ]);
-  };
-
-const handleFirstNameChange =
-  (
-    lastNameInput: boolean,
-    emailInput: boolean,
-    setName: Dispatch<SetStateAction<string>>,
-    setInputsErr: Dispatch<SetStateAction<[boolean, boolean, boolean]>>,
-  ) =>
-  (e) => {
-    setName(e.target.value);
-    setInputsErr([
-      true,
-      lastNameInput ? true : false,
-      emailInput ? true : false,
-    ]);
   };
 
 const handleLastNameChange =
@@ -164,7 +97,5 @@ export {
   handleSignIn,
   handleSignUp,
   handleLogout,
-  handleEmailChange,
-  handleFirstNameChange,
   handleLastNameChange,
 };

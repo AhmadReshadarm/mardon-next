@@ -145,7 +145,7 @@ export const fetchNewsPost = createAsyncThunk<
 
 export const searchProducts = createAsyncThunk<
   Product[],
-  { name?: string; parent?: string },
+  { name?: string },
   { rejectValue: string }
 >(
   'global/searchProducts',

@@ -7,12 +7,12 @@ type props = {
   height?: string;
   flex_direction?: string;
   justify_content?: string;
+  align_items?: string;
   position?: string;
   padding?: string;
   top?: string;
   z_index?: string;
   bg_color?: string;
-  align_items?: string;
   gap?: string;
   box_shadow?: string;
 };
@@ -44,7 +44,7 @@ const Container = styled(motion.div)`
   display: flex;
   flex-direction: ${(p: props) => p.flex_direction};
   justify-content: ${(p: props) => p.justify_content};
-  align-items: center;
+  align-items: ${(p: props) => p.align_items};
   position: ${(p: props) => p.position};
   padding: ${(p: props) => p.padding};
   top: ${(p: props) => p.top};
@@ -59,7 +59,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   gap: ${(p: props) => p.gap};
   align-items: center;
-
+  position: ${(p: props) => p.position};
   @media ${devices.laptopS} {
     max-width: unset;
     width: 95%;

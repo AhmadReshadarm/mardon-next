@@ -6,13 +6,16 @@ import ReviewsSVG from '../../../../../assets/reviews.svg';
 import BasketNormalSVG from '../../../../../assets/basket_normal.svg';
 import SettingskSVG from '../../../../../assets/settings.svg';
 import variants from 'components/store/lib/variants';
-import { handleMenuState } from '../../helpers';
 import { handleLogout } from './authorize/helpers';
 import { useAppDispatch } from 'redux/hooks';
 import { User } from 'swagger/services';
-import { Dispatch, SetStateAction } from 'react';
-import { PopupDisplay } from '../../constants';
-
+import { handleMenuStateRedux } from '../../helpers';
+import {
+  changeAuthFormDisplayState,
+  changeAuthFormState,
+} from 'redux/slicers/store/globalUISlicer';
+import { useAppSelector } from 'redux/hooks';
+import { TGlobalUIState } from 'redux/types';
 type StyleProps = {
   width: number;
 };
@@ -20,17 +23,13 @@ type StyleProps = {
 type Props = {
   user: User | null;
   direction: number;
-  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
-  setIsOpened: Dispatch<SetStateAction<boolean>>;
 };
 
-const Profile: React.FC<Props> = ({
-  user,
-  direction,
-  setDisplay,
-  setIsOpened,
-}) => {
+const Profile: React.FC<Props> = ({ user, direction }) => {
   const dispatch = useAppDispatch();
+  const { isAuthFormOpen, authDisplay } = useAppSelector<TGlobalUIState>(
+    (state) => state.globalUI,
+  );
 
   return (
     <AuthContent
@@ -39,10 +38,6 @@ const Profile: React.FC<Props> = ({
       variants={variants.slider_auth}
       initial="enter"
       animate="center"
-      transition={{
-        x: { type: 'spring', stiffness: 300, damping: 30 },
-        opacity: { duration: 0.4 },
-      }}
     >
       <ProfileWrapper>
         <AuthDevider style={{ justifyContent: 'flex-start' }}>
@@ -69,7 +64,13 @@ const Profile: React.FC<Props> = ({
             <Link href="/profile">
               <span
                 className="user-profile-link"
-                onClick={handleMenuState(setIsOpened, setDisplay)}
+                onClick={handleMenuStateRedux(
+                  dispatch,
+                  changeAuthFormState,
+                  changeAuthFormDisplayState,
+                  isAuthFormOpen,
+                  authDisplay,
+                )}
               >
                 <b>Личные данные</b>
               </span>
@@ -84,7 +85,13 @@ const Profile: React.FC<Props> = ({
             whileTap="tap"
             custom={1.04}
             variants={variants.grow}
-            onClick={handleMenuState(setIsOpened, setDisplay)}
+            onClick={handleMenuStateRedux(
+              dispatch,
+              changeAuthFormState,
+              changeAuthFormDisplayState,
+              isAuthFormOpen,
+              authDisplay,
+            )}
           >
             <ReviewsSVG />
             <span>Мои отзывы</span>
@@ -96,7 +103,13 @@ const Profile: React.FC<Props> = ({
             whileTap="tap"
             custom={1.04}
             variants={variants.grow}
-            onClick={handleMenuState(setIsOpened, setDisplay)}
+            onClick={handleMenuStateRedux(
+              dispatch,
+              changeAuthFormState,
+              changeAuthFormDisplayState,
+              isAuthFormOpen,
+              authDisplay,
+            )}
           >
             <span style={{ width: '35px', height: '35px' }}>
               <BasketNormalSVG />
@@ -110,7 +123,13 @@ const Profile: React.FC<Props> = ({
             whileTap="tap"
             custom={1.04}
             variants={variants.grow}
-            onClick={handleMenuState(setIsOpened, setDisplay)}
+            onClick={handleMenuStateRedux(
+              dispatch,
+              changeAuthFormState,
+              changeAuthFormDisplayState,
+              isAuthFormOpen,
+              authDisplay,
+            )}
           >
             <SettingskSVG />
             <span>Настройки</span>
@@ -123,7 +142,7 @@ const Profile: React.FC<Props> = ({
         custom={1.01}
         variants={variants.grow}
         width="100"
-        onClick={handleLogout(dispatch, setDisplay, setIsOpened)}
+        onClick={handleLogout(dispatch)}
       >
         Выйти
       </AuthBtns>

@@ -54,8 +54,8 @@ export const userSignin = createAsyncThunk<
 
       return response;
     } catch (error: any) {
-      // return rejectWithValue(getErrorMassage(error.response.status));
-      return rejectWithValue(error.response.status);
+      return rejectWithValue(getErrorMassage(error.response.status));
+      // return rejectWithValue(error.response.status);
     }
   },
 );
@@ -63,10 +63,7 @@ export const userSignin = createAsyncThunk<
 export const signup = createAsyncThunk<
   { user: User; accessToken: string; refreshToken: string },
   {
-    firstName: string;
-    lastName: string;
     email: string;
-    password: string;
     isSubscribed: boolean;
   },
   { rejectValue: string }
@@ -78,8 +75,8 @@ export const signup = createAsyncThunk<
 
     return repsonse;
   } catch (error: any) {
-    // return rejectWithValue(getErrorMassage(error.response.status));
-    return rejectWithValue(error.response.status);
+    return rejectWithValue(getErrorMassage(error.response.status));
+    // return rejectWithValue(error.response.status);
   }
 });
 
@@ -320,14 +317,13 @@ const authSlicer = createSlice({
         state.serverErr = undefined;
         console.log('fulfilled');
       })
-      .addCase(
-        userSignin.rejected,
-        (state, action: PayloadAction<any, any, any, any>) => {
-          state.loading = false;
-          state.serverErr = action.payload;
-          console.log('rejected');
-        },
-      )
+      .addCase(userSignin.rejected, handleError)
+      //  userSignin.rejected,
+      //   (state, action: PayloadAction<any, any, any, any>) => {
+      //     state.loading = false;
+      //     state.serverErr = action.payload;
+      //     console.log('rejected');
+      //   },
       //signup
       .addCase(signup.pending, handlePending)
       .addCase(signup.fulfilled, (state, action) => {
@@ -335,9 +331,7 @@ const authSlicer = createSlice({
         state.loading = false;
         localStorage.setItem('accessToken', action.payload.accessToken);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
-        openSuccessNotification(
-          'Письмо с подтверждение аккаунта отправлено вам на почту',
-        );
+        openSuccessNotification('Мы отправили вам письмо с логином и паролем');
         openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
         console.log('fulfilled');
@@ -346,7 +340,7 @@ const authSlicer = createSlice({
         signup.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
           state.loading = false;
-          state.serverErr = action.payload;
+          // state.serverErr = action.payload;
           console.log('rejected');
         },
       )

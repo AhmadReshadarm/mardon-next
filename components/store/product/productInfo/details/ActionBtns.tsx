@@ -115,7 +115,7 @@ const ActionBtns: React.FC<Props> = ({
           <ItemCounter
             qty={orderProduct?.qty!}
             product={orderProduct?.product!}
-            onCountChange={onCountChange}
+            // onCountChange={onCountChange}
           />
           <Link href="/cart">
             <AddtoCartWrapper>
