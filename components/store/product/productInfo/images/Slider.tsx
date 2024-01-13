@@ -87,31 +87,10 @@ const Slider: React.FC<Props> = ({
             currentTarget.onerror = null;
             currentTarget.src = '/img_not_found.png';
           }}
-          style={{ objectFit: isOpened ? 'contain' : 'cover' }}
+          style={{ objectFit: 'cover' }}
         />
       </AnimatePresence>
-      <div
-        style={{ left: isOpened ? '30px' : '40px' }}
-        className="wishlist-btn-parrent"
-      >
-        <ArrowBtns
-          style={{
-            background: color.glassmorphismSeconderBG,
-            backdropFilter: 'blur(9px)',
-            position: 'relative',
-          }}
-          onClick={TrigerhandleWishBtnClick(
-            product!,
-            handleWishBtnClick(product!, dispatch, wishlist!),
-          )}
-        >
-          <AddToWishlist
-            checkIfItemInWishlist={checkIfItemInWishlist}
-            product={product!}
-            wishlist={wishlist!}
-          />
-        </ArrowBtns>
-      </div>
+
       <div
         style={{ display: isOpened ? 'none' : '' }}
         className="fullscreen-btn-parrent"
@@ -136,8 +115,8 @@ const Slider: React.FC<Props> = ({
 };
 
 const SliderWrapper = styled(motion.div)`
-  width: 80%;
-  height: 400px;
+  width: 600px;
+  height: 600px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -151,7 +130,23 @@ const SliderWrapper = styled(motion.div)`
   .fullscreen-btn-parrent {
     position: absolute;
     bottom: 30px;
-    left: 90px;
+    left: 30px;
+  }
+  @media ${devices.laptopM} {
+    width: 500px;
+    height: 500px;
+  }
+  @media ${devices.laptopS} {
+    width: 100%;
+    height: 500px;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+    height: 300px;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+    height: 300px;
   }
   @media ${devices.mobileL} {
     width: 100%;

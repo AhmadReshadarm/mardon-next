@@ -10,6 +10,7 @@ import variants from 'components/store/lib/variants';
 import Pagination from './Pagination';
 import { handleMenuState } from 'components/store/storeLayout/helpers';
 import CloseSVG from '../../../../../assets/close_black.svg';
+import SliderFullScreen from './SliderFullScreen';
 type Props = {
   product?: Product;
   images: string[];
@@ -35,9 +36,6 @@ const Images: React.FC<Props> = ({
   const [display, setDisplay] = useState(PopupDisplay.None);
   return (
     <ImagesContainer>
-      {/* <div className="product-title">
-        <h1>{product?.name}</h1>
-      </div> */}
       <Slider
         images={images}
         selectedIndex={selectedIndex}
@@ -50,6 +48,7 @@ const Images: React.FC<Props> = ({
         setIsOpened={setIsOpened}
         setDisplay={setDisplay}
       />
+
       {/* fullscreen mode  start */}
       <ProductImagesFullScreenWrapper
         style={{ display }}
@@ -63,7 +62,8 @@ const Images: React.FC<Props> = ({
           >
             <CloseSVG />
           </span>
-          <Slider
+
+          <SliderFullScreen
             images={images}
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
@@ -71,10 +71,6 @@ const Images: React.FC<Props> = ({
             page={page}
             paginateImage={paginateImage}
             alt={product?.name}
-            product={product}
-            setIsOpened={setIsOpened}
-            setDisplay={setDisplay}
-            isOpened={isOpened}
           />
           <Pagination
             images={images}
@@ -95,9 +91,8 @@ const ImagesContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-end;
-  // background-color: ${color.bgSecondary};
   position: relative;
   .product-title {
     width: 100%;
@@ -109,6 +104,22 @@ const ImagesContainer = styled.div`
     }
   }
   @media ${devices.laptopS} {
+    align-items: center;
+    padding: 30px 0;
+    gap: 30px;
+    .product-title {
+      position: unset;
+    }
+  }
+  @media ${devices.tabletL} {
+    align-items: center;
+    padding: 30px 0;
+    gap: 30px;
+    .product-title {
+      position: unset;
+    }
+  }
+  @media ${devices.tabletS} {
     align-items: center;
     padding: 30px 0;
     gap: 30px;
@@ -191,6 +202,24 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       top: -50px;
     }
   }
+  @media ${devices.tabletL} {
+    .pagination-and-slider-wrapper {
+      width: 95%;
+      flex-direction: column;
+    }
+    .close-btn-wrapper {
+      top: -30px;
+    }
+  }
+  @media ${devices.tabletS} {
+    .pagination-and-slider-wrapper {
+      width: 95%;
+      flex-direction: column;
+    }
+    .close-btn-wrapper {
+      top: -30px;
+    }
+  }
 
   @media ${devices.mobileL} {
     .pagination-and-slider-wrapper {
@@ -198,7 +227,7 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       flex-direction: column;
     }
     .close-btn-wrapper {
-      top: -50px;
+      top: -30px;
     }
   }
   @media ${devices.mobileM} {
@@ -207,7 +236,7 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       flex-direction: column;
     }
     .close-btn-wrapper {
-      top: -50px;
+      top: -30px;
     }
   }
 
@@ -217,7 +246,7 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       flex-direction: column;
     }
     .close-btn-wrapper {
-      top: -50px;
+      top: -30px;
     }
   }
 `;

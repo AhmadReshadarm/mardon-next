@@ -123,13 +123,6 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
             />
           </NavWrapper>
           <ContentCotainer>
-            <div className="product-title-wrappre">
-              <h1>{product?.name}</h1>
-            </div>
-            <div className="product-background">
-              <div className="left-side"></div>
-              <div className="right-side"></div>
-            </div>
             <Grid>
               <Images
                 product={product}
@@ -168,7 +161,6 @@ const ContentCotainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
   border-radius: 10px;
   position: relative;
   .product-title-wrappre {
@@ -181,28 +173,7 @@ const ContentCotainer = styled.div`
       font-size: 2.25rem;
     }
   }
-  .product-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    .left-side {
-      width: 100%;
-      height: 100%;
-      background-color: ${color.bgProductSecondry};
-    }
-    .right-side {
-      width: 100%;
-      height: 100%;
-      background-color: ${color.bgProduct};
-    }
-  }
+
   @media ${devices.laptopS} {
     .product-title-wrappre {
       padding: 40px 20px;
@@ -247,7 +218,14 @@ const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
   user-select: none;
   z-index: 2;
+
   @media ${devices.laptopS} {
+    grid-template-columns: 1fr;
+  }
+  @media ${devices.tabletL} {
+    grid-template-columns: 1fr;
+  }
+  @media ${devices.tabletS} {
     grid-template-columns: 1fr;
   }
 
@@ -295,12 +273,44 @@ const NavWrapper = styled.div`
       white-space: nowrap;
     }
   }
+  @media ${devices.laptopM} {
+    width: 95%;
+  }
   @media ${devices.laptopS} {
     flex-direction: column;
     align-items: flex-start;
     gap: 30px;
   }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
 
+    .nav-rightWrapper {
+      width: ${(p: StyleProps) => p.width};
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 8px 0;
+      &::-webkit-scrollbar {
+        height: 2px;
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+
+    .nav-rightWrapper {
+      width: ${(p: StyleProps) => p.width};
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 8px 0;
+      &::-webkit-scrollbar {
+        height: 2px;
+      }
+    }
+  }
   @media ${devices.mobileL} {
     flex-direction: column;
     align-items: flex-start;

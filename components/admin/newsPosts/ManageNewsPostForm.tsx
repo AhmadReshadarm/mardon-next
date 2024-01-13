@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Spin, Switch } from 'antd';
+import { Button, Form, Input, Spin, Switch } from 'antd';
 import { InsertRowLeftOutlined } from '@ant-design/icons';
 import TextArea from 'antd/lib/input/TextArea';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
@@ -6,30 +6,23 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
-import {
-  clearImageList,
-  setDefaultSingleImageList,
-} from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
 import { News } from 'swagger/services';
-import color from 'components/store/lib/ui.colors';
 import DatabaseImages from 'ui-kit/DatabaseImages';
 import FormItem from '../generalComponents/FormItem';
 import ImageUpload from '../generalComponents/ImageUpload';
 import styles from './brands.module.scss';
 import { handleFormSubmitBrands } from './helpers';
 import { ManageNewsPostFields } from './ManageNewsPostsFields.enum';
-import { handleFalsyValuesCheck } from '../../../common/helpers/handleFalsyValuesCheck.helper';
-import { convertFromRaw, EditorState, convertToRaw } from 'draft-js';
 import dynamic from 'next/dynamic';
-import { EditorProps } from 'react-draft-wysiwyg';
-const Editor = dynamic<EditorProps>(
-  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
-  { ssr: false },
-);
-import draftToHtml from 'draftjs-to-html';
-import { uploadImage } from '../products/helpers';
-import DOMPurify from 'dompurify';
+import {
+  clearImageList,
+  setDefaultSingleImageList,
+} from 'redux/slicers/imagesSlicer';
+const Editor = dynamic(() => import('ui-kit/Editor'), {
+  ssr: false,
+});
+
 // _________________
 
 type Props = {
@@ -68,40 +61,12 @@ const ManageNewsPostForm = ({
   const [url, setUrl] = useState<string>();
   const [titleDB, setTitle] = useState<string>();
   const imageList = useAppSelector((state) => state.images.imageList);
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty(),
-  );
 
-  const isJsonString = (str) => {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
-    }
-    return true;
+  // ------------------- descrption editor hooks -----------------------
+  const [editorModal, setEditorModal] = useState(newsPost?.post! ?? '');
+  const handleEditorChange = (evt) => {
+    setEditorModal(evt);
   };
-  const isConvertable = (data) => {
-    if (typeof JSON.parse(data) == 'object') {
-      return true;
-    }
-    return false;
-  };
-
-  useEffect(() => {
-    if (
-      !isLoading &&
-      newsPost &&
-      isJsonString(newsPost.post) &&
-      isConvertable(newsPost.post) &&
-      newsPost.post !== ''
-    ) {
-      setEditorState(
-        EditorState.createWithContent(
-          convertFromRaw(JSON.parse(newsPost.post!)),
-        ),
-      );
-    }
-  }, [newsPost]);
 
   useEffect(() => {
     if (newsPost) {
@@ -123,31 +88,12 @@ const ManageNewsPostForm = ({
     dispatch(clearImageList());
   }, []);
 
-  const isDisabled: boolean = handleFalsyValuesCheck(titleDB, url, imageList);
-
-  const fontSizes: number[] = [];
-  for (let index = 0; index < 97; index++) {
-    if (index !== 0) {
-      fontSizes.push(index);
-    }
-  }
-
-  // _________________________ preview converter _______________________
-  const [convertedContent, setConvertedContent] = useState(null);
   useEffect(() => {
-    const rawContentState = convertToRaw(editorState.getCurrentContent());
-    const htmlOutput = draftToHtml(rawContentState);
-    setConvertedContent(htmlOutput);
-  }, [editorState]);
-
-  function createMarkup(html) {
-    if (typeof window !== 'undefined') {
-      const domPurify = DOMPurify(window);
-      return {
-        __html: domPurify.sanitize(html),
-      };
-    }
-  }
+    setTimeout(() => {
+      setEditorModal(newsPost?.post!);
+    }, 500);
+  }, [newsPost, editMode]);
+  // ---------------------------------------------------------------
 
   return (
     <>
@@ -159,7 +105,12 @@ const ManageNewsPostForm = ({
       ) : (
         <Form
           layout="vertical"
-          onFinish={handleFormSubmitBrands(router, dispatch, imageList)}
+          onFinish={handleFormSubmitBrands(
+            router,
+            dispatch,
+            imageList,
+            editorModal,
+          )}
           form={form}
           initialValues={initialValues}
           requiredMark={true}
@@ -223,65 +174,23 @@ const ManageNewsPostForm = ({
               isOpen={isOpen}
             />
           </Form.Item>
+          {/* --------------------- editor -------------------------- */}
           <FormItem
             option={ManageNewsPostFields.Post}
             children={
               <Editor
-                editorState={editorState}
-                onEditorStateChange={setEditorState}
-                wrapperClassName="wrapper-class"
-                editorClassName="editor-class"
-                toolbarClassName="toolbar-class"
-                editorStyle={{
-                  border: `1px solid ${color.textSecondary}`,
-                  borderRadius: '5px',
-                }}
-                localization={{ locale: 'ru' }}
-                toolbar={{
-                  fontFamily: {
-                    options: ['Jost', 'Anticva'],
-                    className: undefined,
-                    component: undefined,
-                    dropdownClassName: undefined,
-                  },
-                  image: {
-                    className: undefined,
-                    component: undefined,
-                    popupClassName: undefined,
-                    urlEnabled: true,
-                    uploadEnabled: true,
-                    alignmentEnabled: true,
-                    uploadCallback: (file) => uploadImage(file, dispatch),
-                    previewImage: true,
-                    inputAccept:
-                      'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                    alt: { present: true, mandatory: false },
-                    defaultSize: {
-                      height: 'auto',
-                      width: 'auto',
-                    },
-                  },
-                  fontSize: {
-                    options: fontSizes,
-                  },
-                }}
+                handleEditorChange={handleEditorChange}
+                editorModal={editorModal}
               />
             }
           />
-          <div className="preview-wrapper">
-            <h1>Просмотр:</h1>
-            <div
-              className="preview-advertisment"
-              dangerouslySetInnerHTML={createMarkup(convertedContent)}
-            ></div>
-          </div>
           <Form.Item className={styles.createBrandForm__buttonsStack}>
             <Button
               type="primary"
               htmlType="submit"
               className={styles.createBrandForm__buttonsStack__submitButton}
               loading={isSaveLoading}
-              disabled={isDisabled}
+              // disabled={isDisabled}
             >
               {newsPosts ? 'Сохранить' : 'Создать'}
             </Button>

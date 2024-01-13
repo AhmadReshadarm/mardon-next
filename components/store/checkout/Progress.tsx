@@ -128,7 +128,7 @@ const ProgressBarWrapper = styled.div`
 
 const ProgressBar = styled(motion.span)`
   height: 100%;
-  background-color: ${color.ok};
+  background: linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%);
   border-radius: 5px;
   position: absolute;
   top: 0;

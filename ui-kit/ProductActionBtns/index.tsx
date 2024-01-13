@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Basket, Product, Wishlist } from 'swagger/services';
+import { Product } from 'swagger/services';
 import variants from 'components/store/lib/variants';
-import WishlistNormalSVG from '../../assets/wishlist_normal.svg';
-import WishlistPressedSVG from '../../assets/wishlilst_pressed.svg';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import ItemCounter from 'ui-kit/ItemCounter';
 import color from 'components/store/lib/ui.colors';
@@ -13,6 +11,7 @@ import {
   handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
+import { devices } from 'components/store/lib/Devices';
 
 type PropsCart = {
   product: Product;
@@ -95,7 +94,7 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
 };
 
 const CartButtonWrapper = styled(motion.button)`
-  width: 180px;
+  width: 150px;
   height: 50px;
   border-radius: 30px;
   background-color: ${color.buttonPrimary};
@@ -113,10 +112,13 @@ const CartButtonWrapper = styled(motion.button)`
       color: ${color.textSecondary};
     }
   }
+  @media ${devices.laptopM} {
+    width: 140px;
+  }
 `;
 
 const NotWishlistButtonContent = styled(motion.button)`
-  width: 180px;
+  width: 150px;
   height: 50px;
   border-radius: 30px;
   background: linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%);
@@ -132,10 +134,13 @@ const NotWishlistButtonContent = styled(motion.button)`
   &:active {
     background: #c1ab93;
   }
+  @media ${devices.laptopM} {
+    width: 140px;
+  }
 `;
 
 const InWishlistButtonContent = styled(motion.div)`
-  width: 180px;
+  width: 150px;
   height: 50px;
   border-radius: 30px;
   background: linear-gradient(
@@ -158,18 +163,25 @@ const InWishlistButtonContent = styled(motion.div)`
   span {
     color: ${color.textSecondary};
     font-family: ricordi;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 
   &:active {
     background: #c1ab93;
     border: none;
   }
+  @media ${devices.laptopM} {
+    width: 140px;
+  }
 `;
 
 const WishlistButtonWrapper = styled.div`
   background: transparent;
-  width: 180px;
+  width: 150px;
   height: 50px;
   position: relative;
+  overflow: hidden;
+  @media ${devices.laptopM} {
+    width: 140px;
+  }
 `;

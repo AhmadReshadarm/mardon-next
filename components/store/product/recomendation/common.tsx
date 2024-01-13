@@ -1,34 +1,17 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import variants from 'components/store/lib/variants';
 import { Product } from 'swagger/services';
 import ProductItem from 'ui-kit/products/productItem';
 import Loading from 'ui-kit/Loading';
+import { devices } from 'components/store/lib/Devices';
 type Props = {
   products: Product[];
-  children?: JSX.Element;
-  width?: any;
-  widthRef?: any;
-  slideTo?: number;
   loading: boolean;
 };
-const ProductFlex: React.FC<Props> = ({
-  products,
-  width,
-  widthRef,
-  slideTo,
-  loading,
-}) => {
+const ProductFlex: React.FC<Props> = ({ products, loading }) => {
   return (
     <FlexWrapper>
-      <SliderWrapper
-        drag="x"
-        dragConstraints={{ right: 0, left: -width }}
-        ref={widthRef}
-        custom={slideTo}
-        animate="animate"
-        variants={variants.sliderX}
-      >
+      <SliderWrapper>
         {!loading ? (
           products?.map((product, index) => {
             return (
@@ -36,9 +19,6 @@ const ProductFlex: React.FC<Props> = ({
                 key={`product-item-${index}`}
                 product={product}
                 custom={index * 0.05}
-                name={
-                  product.sizes![0] == undefined ? '' : product.sizes![0].name!
-                }
               />
             );
           })
@@ -52,7 +32,110 @@ const ProductFlex: React.FC<Props> = ({
 
 const FlexWrapper = styled(motion.div)`
   width: 100%;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  @media ${devices.laptopL} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 100px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.laptopL} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 100px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.laptopM} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 100px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.laptopS} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 100px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.tabletL} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 100px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.tabletS} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 70px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.mobileL} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 50px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.mobileM} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 50px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
+  @media ${devices.mobileS} {
+    &::after {
+      content: '';
+      box-shadow: inset -35px 0px 20px -18px #595959;
+      width: 50px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0px;
+    }
+  }
 `;
 
 const SliderWrapper = styled(motion.ul)`
@@ -64,6 +147,39 @@ const SliderWrapper = styled(motion.ul)`
   align-items: center;
   gap: 20px;
   padding: 20px;
+
+  @media ${devices.laptopL} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.laptopM} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.laptopS} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.tabletL} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.tabletS} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.mobileL} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.mobileM} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  @media ${devices.mobileS} {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -72,16 +188,16 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   aling-items: center;
-  gap: 20px;
+  gap: 60px;
 `;
 const HeaderWrapper = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   h3 {
-    font-family: 'Anticva';
+    font-family: ricordi;
     font-size: 1.2rem;
   }
 `;

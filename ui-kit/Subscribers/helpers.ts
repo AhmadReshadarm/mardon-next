@@ -41,7 +41,7 @@ const handleAdminCall =
     if (isEmpty(name)) return openErrorNotification('имя не может быть пустым');
     dispatch(
       sendAdminCallEmail({
-        to: 'info@fingarden.ru',
+        to: 'info@nbhoz.ru',
         subject: `${name} просит перезвонить`,
         html: `имя: ${name}, Номер телефона: ${phone}`,
       }),

@@ -15,6 +15,7 @@ import {
 import { Slide } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState, TGlobalState } from 'redux/types';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   slides: Slide[] | undefined;
@@ -31,14 +32,14 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     if (!userIntract) {
       timer = setTimeout(() => {
         paginateImage(1);
-        setImageIndexForDots(imageIndex);
+        // setImageIndexForDots(imageIndex);
       }, 10000);
     }
     return () => {
       if (userIntract) window.clearTimeout(timer);
     };
   });
-  const [imageIndexForDots, setImageIndexForDots] = useState(0);
+  // const [imageIndexForDots, setImageIndexForDots] = useState(0);
   const {
     isCatalogOpen,
     isSearchFormActive,
@@ -95,48 +96,50 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
           />
         </AnimatePresence>
       </Link>
-      <ArrowBtns
-        whileHover="hover"
-        whileTap="tap"
-        custom={1.1}
-        variants={variants.grow}
-        right="10%"
-        top="auto"
-        position="absolute"
-        boxshadow="transparent"
-        bgcolor={color.glassmorphismSeconderBG}
-        filterdropback="blur"
-        onClick={() => {
-          paginateImage(1);
-          setUserIntract(true);
-          setImageIndexForDots(imageIndex);
-        }}
-      >
-        <ArrowSpan rotate="0">
-          <ArrowSVG />
-        </ArrowSpan>
-      </ArrowBtns>
-      <ArrowBtns
-        whileHover="hover"
-        whileTap="tap"
-        custom={1.1}
-        variants={variants.grow}
-        left="10%"
-        top="auto"
-        position="absolute"
-        boxshadow="transparent"
-        bgcolor={color.glassmorphismSeconderBG}
-        filterdropback="blur"
-        onClick={() => {
-          paginateImage(-1);
-          setUserIntract(true);
-          setImageIndexForDots(imageIndex);
-        }}
-      >
-        <ArrowSpan rotate="180">
-          <ArrowSVG />
-        </ArrowSpan>
-      </ArrowBtns>
+      <div className="banner-arrows-wrapper">
+        <ArrowBtns
+          whileHover="hover"
+          whileTap="tap"
+          custom={1.1}
+          variants={variants.grow}
+          right="0"
+          top="50%"
+          position="absolute"
+          boxshadow="transparent"
+          bgcolor={color.glassmorphismSeconderBG}
+          filterdropback="blur"
+          onClick={() => {
+            paginateImage(1);
+            setUserIntract(true);
+            // setImageIndexForDots(imageIndex);
+          }}
+        >
+          <ArrowSpan rotate="0">
+            <ArrowSVG />
+          </ArrowSpan>
+        </ArrowBtns>
+        <ArrowBtns
+          whileHover="hover"
+          whileTap="tap"
+          custom={1.1}
+          variants={variants.grow}
+          left="0"
+          top="50%"
+          position="absolute"
+          boxshadow="transparent"
+          bgcolor={color.glassmorphismSeconderBG}
+          filterdropback="blur"
+          onClick={() => {
+            paginateImage(-1);
+            setUserIntract(true);
+            // setImageIndexForDots(imageIndex);
+          }}
+        >
+          <ArrowSpan rotate="180">
+            <ArrowSVG />
+          </ArrowSpan>
+        </ArrowBtns>
+      </div>
     </SliderWrapper>
   );
 };
@@ -153,6 +156,59 @@ const SliderWrapper = styled(motion.div)`
   .error_img {
     object-fit: cover;
     height: 400px;
+  }
+  .banner-arrows-wrapper {
+    width: 100%;
+    height: 100%;
+    max-width: 1500px;
+    position: relative;
+  }
+  @media ${devices.laptopL} {
+    .banner-arrows-wrapper {
+      max-width: 1230px;
+    }
+  }
+  @media ${devices.laptopM} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
+  }
+  @media ${devices.laptopS} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
+  }
+  @media ${devices.tabletL} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
+  }
+  @media ${devices.tabletS} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
+  }
+  @media ${devices.mobileL} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
+  }
+  @media ${devices.mobileM} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
+  }
+  @media ${devices.mobileS} {
+    .banner-arrows-wrapper {
+      width: 95%;
+      max-width: unset;
+    }
   }
 `;
 

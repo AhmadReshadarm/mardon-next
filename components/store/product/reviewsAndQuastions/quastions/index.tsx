@@ -62,6 +62,16 @@ const ContentContainer = styled.div`
     display: flex;
     flex-direction: column-reverse;
   }
+  @media ${devices.tabletL} {
+    width: 95%;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  @media ${devices.tabletS} {
+    width: 95%;
+    display: flex;
+    flex-direction: column-reverse;
+  }
 
   @media ${devices.mobileL} {
     width: 95%;
@@ -82,6 +92,7 @@ const ContentContainer = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -89,10 +100,6 @@ const ContentWrapper = styled.div`
   padding: 20px 0;
   gap: 20px;
   position: relative;
-
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
 `;
 
 const AddReviewBtn = styled.button`

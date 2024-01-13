@@ -27,13 +27,9 @@ export const handleDeleteNewsPost =
   };
 
 export const handleFormSubmitBrands =
-  (router: NextRouter, dispatch: AppDispatch, image: any) => async (form) => {
-    if (typeof form.post !== 'string') {
-      form = {
-        ...form,
-        post: JSON.stringify(form.post),
-      };
-    }
+  (router: NextRouter, dispatch: AppDispatch, image: any, post: string) =>
+  async (form) => {
+    form.post = post;
     if (router.query.id) {
       const isSaved: any = await dispatch(
         editNews({

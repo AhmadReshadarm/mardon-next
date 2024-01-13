@@ -1,19 +1,21 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
-import { Container, Wrapper, Content } from './common';
+import { Container } from './common';
 import { devices } from '../lib/Devices';
-import VKSVG from '../../../assets/vkcolored.svg';
-import TelegraSVG from '../../../assets/telegramcolored.svg';
-import WhatsappSVG from '../../../assets/whatsappcolored.svg';
 import CloseSVg from '../../../assets/close_black.svg';
 import { handleCookiesClick, acceptedCookies } from './helpers';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
+import {
+  LocationPointerSVG,
+  MailSVG,
+  PhoneSVG,
+  WatchSVG,
+} from 'assets/icons/UI-icons';
+import { content } from './constants';
 const Footer = (): JSX.Element => {
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   const copyRighYear = new Date().getFullYear();
@@ -34,14 +36,9 @@ const Footer = (): JSX.Element => {
         flex_direction="row"
         justify_content="space-evenly"
         padding="100px 0"
-        bg_color={color.bgFooter}
+        bg_color={color.backgroundSecondery}
       >
-        <Wrapper
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <Wrapper>
           <FooterContentWrapper>
             <FooterTopContentWrapper>
               <FooterLeftContentWrapper>
@@ -58,7 +55,7 @@ const Footer = (): JSX.Element => {
                     );
                   })}
                 </div>
-                {/* <div className="footer-columns-wrapper">
+                <div className="footer-columns-wrapper">
                   <span className="columns-header">Услуги</span>
                   {content.services.map((service, index) => {
                     return (
@@ -83,31 +80,44 @@ const Footer = (): JSX.Element => {
                       </Link>
                     );
                   })}
-                </div> */}
+                </div>
               </FooterLeftContentWrapper>
               <FooterRightContentWrapper>
                 <div className="right-column-content">
-                  <img src="/icons/call_phone_dark.png" alt="call fingarden" />
-                  <Link href="tel:+78124253130">
-                    <span>+7 812 425 31 30</span>
-                  </Link>
+                  <PhoneSVG />
+                  <div className="call-row-wrapper">
+                    <Link href="tel:89268999954">
+                      <span>8-926-899-99-54</span>
+                    </Link>
+                    <span className="call-saperator">|</span>
+                    <Link href="tel:89652287705">
+                      <span> 8-926-699-99-52</span>
+                    </Link>
+                    <span className="call-saperator">|</span>
+                    <Link href="tel:89652287705">
+                      <span> 8-925-486-54-44</span>
+                    </Link>
+                  </div>
                 </div>
                 <div className="right-column-content">
-                  <img
-                    src="/icons/work_hours_dark.png"
-                    alt="fingarden work hours"
-                  />
-                  <span>Пн-Все 10.00-22.00</span>
+                  <MailSVG />
+                  <div className="call-row-wrapper">
+                    <Link href="mailto:info@nbhoz.ru">
+                      <span>info@nbhoz.ru</span>
+                    </Link>
+                    <span className="call-saperator">|</span>
+                    <Link href="mailto:exlon@hoz-mardon.ru">
+                      <span>exlon@hoz-mardon.ru</span>
+                    </Link>
+                  </div>
                 </div>
                 <div className="right-column-content">
-                  <img
-                    src="/icons/location_dark.png"
-                    alt="fingarden location"
-                  />
-                  <span>
-                    Санкт-Петербург, ТЦ Villa ул. Савушкина д.119, корп.3, 2
-                    этаж, В-59
-                  </span>
+                  <WatchSVG />
+                  <span>Понедельник-Суббота с 9:00 до 19:00</span>
+                </div>
+                <div className="right-column-content">
+                  <LocationPointerSVG />
+                  <span>г. Москва, Каширское шоссе</span>
                 </div>
               </FooterRightContentWrapper>
             </FooterTopContentWrapper>
@@ -122,7 +132,7 @@ const Footer = (): JSX.Element => {
               </div>
               <div className="bottom-right-wrapper">
                 <span>
-                  Fingarden. All rights reserved. Все права защищены ©{' '}
+                  Nbhoz. All rights reserved. Все права защищены ©{' '}
                   {copyRighYear}
                 </span>
               </div>
@@ -151,17 +161,26 @@ const Footer = (): JSX.Element => {
               <span>Политикой использования файлов cookie.</span>
             </Link>
           </span>
-          <button
-            className="accept-cookies"
-            onClick={() => handleCookiesClick(setOpen)}
-          >
-            Принять все файлы cookie
-          </button>
         </div>
+        <button
+          className="accept-cookies"
+          onClick={() => handleCookiesClick(setOpen)}
+        >
+          Принять все файлы cookie
+        </button>
       </CookiesNotification>
     </>
   );
 };
+
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const FooterContentWrapper = styled.div`
   width: 90%;
@@ -182,6 +201,14 @@ const FooterTopContentWrapper = styled.div`
     flex-direction: column;
     gap: 30px;
   }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    gap: 30px;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+    gap: 30px;
+  }
   @media ${devices.mobileL} {
     flex-direction: column;
     gap: 30px;
@@ -197,7 +224,7 @@ const FooterTopContentWrapper = styled.div`
 `;
 
 const FooterLeftContentWrapper = styled.div`
-  width: 70%;
+  width: 60%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -208,13 +235,23 @@ const FooterLeftContentWrapper = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 5px;
+    gap: 15px;
     .columns-header {
-      font-weight: 700;
+      font-size: 1.4rem;
       padding: 0 0 25px 0;
     }
   }
   @media ${devices.laptopS} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media ${devices.tabletS} {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -237,7 +274,7 @@ const FooterLeftContentWrapper = styled.div`
 `;
 
 const FooterRightContentWrapper = styled.div`
-  width: 30%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -249,18 +286,103 @@ const FooterRightContentWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    svg {
+      min-width: 25px;
+      min-height: 25px;
+    }
+    .call-row-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+      span {
+        text-wrap: nowrap;
+      }
+      .call-saperator {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  @media ${devices.laptopM} {
+    .right-column-content {
+      .call-row-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        .call-saperator {
+          display: none;
+        }
+      }
+    }
   }
   @media ${devices.laptopS} {
     width: 100%;
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+    .right-column-content {
+      .call-row-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        .call-saperator {
+          display: none;
+        }
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+    .right-column-content {
+      .call-row-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        .call-saperator {
+          display: none;
+        }
+      }
+    }
+  }
   @media ${devices.mobileL} {
     width: 100%;
+    .right-column-content {
+      .call-row-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        .call-saperator {
+          display: none;
+        }
+      }
+    }
   }
   @media ${devices.mobileM} {
     width: 100%;
+    .right-column-content {
+      .call-row-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        .call-saperator {
+          display: none;
+        }
+      }
+    }
   }
   @media ${devices.mobileS} {
     width: 100%;
+    .right-column-content {
+      .call-row-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        .call-saperator {
+          display: none;
+        }
+      }
+    }
   }
 `;
 
@@ -287,6 +409,26 @@ const FooterBottomContentWrapper = styled.div`
     gap: 10px;
   }
   @media ${devices.laptopS} {
+    flex-direction: column;
+    gap: 30px;
+    .bottom-left-wrapper {
+      width: 100%;
+    }
+    .bottom-right-wrapper {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    gap: 30px;
+    .bottom-left-wrapper {
+      width: 100%;
+    }
+    .bottom-right-wrapper {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletS} {
     flex-direction: column;
     gap: 30px;
     .bottom-left-wrapper {
@@ -329,23 +471,29 @@ const FooterBottomContentWrapper = styled.div`
 `;
 
 const CookiesNotification = styled.div`
-  width: 100%;
-  background-color: ${color.textPrimary};
-  position: sticky;
-  bottom: 0;
+  width: 350px;
+  height: 350px;
+  border-raidus: 40px;
+  background-color: ${color.glassmorphismBg};
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  z-index: 99999;
-  padding: 0 0 20px 0;
+  z-index: 9999;
+  border-radius: 40px;
+  padding: 10px 15px 20px 10px;
+  box-shadow: 0 0 4px 0 ${color.textBase};
   .close-cookies {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    padding: 10px 10px 0 0;
     .close-btn-wrapper {
       display: flex;
       flex-direction: row;
@@ -366,50 +514,58 @@ const CookiesNotification = styled.div`
     justify-content: center;
     align-items: center;
     gap: 30px;
-    .accept-cookies {
-      width: 270px;
-      height: 40px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      border-radius: 3px;
-      background-color: ${color.btnSecondery};
-      cursor: pointer;
-      transition: 300ms;
-      &:hover {
-        background-color: ${color.btnPrimary};
-        color: ${color.textPrimary};
-        transform: scale(1.02);
-      }
-      &:active {
-        transform: scale(1);
-      }
-      span {
-        font-family: 'Jost';
-        font-size: 1rem;
-      }
+  }
+  .accept-cookies {
+    width: 200px;
+    height: 50px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: ${color.textSecondary};
+    color: ${color.textPrimary};
+    cursor: pointer;
+
+    &:active {
+      background-color: ${color.backgroundPrimary};
+      color: ${color.textSecondary};
+      border: 1px solid;
+    }
+    span {
+      font-family: ricordi;
     }
   }
+
   @media ${devices.laptopS} {
-    .notification-cookies {
-      flex-direction: column;
-    }
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+    bottom: 0;
+    right: 0;
   }
   @media ${devices.mobileL} {
-    .notification-cookies {
-      flex-direction: column;
-    }
+    width: 100%;
+    bottom: 0;
+    right: 0;
   }
   @media ${devices.mobileM} {
-    .notification-cookies {
-      flex-direction: column;
-    }
+    width: 100%;
+    bottom: 0;
+    right: 0;
   }
   @media ${devices.mobileS} {
-    .notification-cookies {
-      flex-direction: column;
-    }
+    width: 100%;
+    bottom: 0;
+    right: 0;
   }
 `;
 

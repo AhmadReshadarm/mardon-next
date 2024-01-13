@@ -1,6 +1,6 @@
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
-import { Container, Wrapper } from 'components/store/storeLayout/common';
+import { Container } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
@@ -33,6 +33,13 @@ import {
 import Loading from 'ui-kit/Loading';
 import SEOnews from 'components/store/SEO/SEOnews';
 import Subscribers from 'ui-kit/Subscribers';
+import dynamic from 'next/dynamic';
+const TextEditorConverter = dynamic(
+  () => import('ui-kit/TextEditorConverter'),
+  {
+    ssr: false,
+  },
+);
 // _________________________
 
 const News = () => {
@@ -71,53 +78,6 @@ const News = () => {
   }, [currentPage]);
   // _____________________ paginition end ________________________
 
-  // _________________________ preview converter _______________________
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty(),
-  );
-  const [convertedContent, setConvertedContent] = useState(null);
-  useEffect(() => {
-    const rawContentState = convertToRaw(editorState.getCurrentContent());
-    const htmlOutput = draftToHtml(rawContentState);
-    setConvertedContent(htmlOutput);
-  }, [editorState]);
-
-  function createMarkup(html) {
-    if (typeof window !== 'undefined') {
-      const domPurify = DOMPurify(window);
-      return {
-        __html: domPurify.sanitize(html),
-      };
-    }
-  }
-  const isJsonString = (str) => {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
-  const isConvertable = (data) => {
-    if (typeof JSON.parse(data) == 'object') {
-      return true;
-    }
-    return false;
-  };
-  useEffect(() => {
-    if (
-      !loading &&
-      news &&
-      isJsonString(news.post) &&
-      isConvertable(news.post) &&
-      news.post !== ''
-    ) {
-      setEditorState(
-        EditorState.createWithContent(convertFromRaw(JSON.parse(news.post!))),
-      );
-    }
-  }, [news]);
-  // _____________________ end of converter ____________________________
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   const [baseUrl, setBaseUrl] = useState('');
   useEffect(() => {
@@ -135,31 +95,12 @@ const News = () => {
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="50px 0"
+        padding="50px 0 0 0"
         bg_color={color.textPrimary}
       >
-        <BackToMain>
-          <Link className="back-to-main" href="/">
-            <img src="/icons/back_arrow.png" alt="back button" />
-            <span>Обратно на главную</span>
-          </Link>
-        </BackToMain>
-        <HeaderWrapper>
-          <div className="header-title-wrapper">
-            <span>Новости</span>
-          </div>
-          <div className="header-divder-wrapper"></div>
-        </HeaderWrapper>
-        <Wrapper
-          flex_direction="column"
-          gap="40px"
-          style={{ flexDirection: 'column' }}
-        >
+        <Wrapper>
           <NewsContent>
-            <div
-              className="preview-advertisment"
-              dangerouslySetInnerHTML={createMarkup(convertedContent)}
-            ></div>
+            <TextEditorConverter editorModal={news?.post!} />
           </NewsContent>
           <ShareToSocialWrapper>
             <span>Поделиться с друзьями!</span>
@@ -321,96 +262,13 @@ const News = () => {
   );
 };
 
-const BackToMain = styled.div`
+const Wrapper = styled.div`
   width: 100%;
-  max-width: 1230px;
-  padding: 0 0 50px 0;
-  .back-to-main {
-    display: flex;
-    felx-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    img {
-      width: 40px;
-    }
-  }
-  @media ${devices.laptopS} {
-    width: 95%;
-    max-width: unset;
-  }
-
-  @media ${devices.mobileL} {
-    width: 95%;
-    max-width: unset;
-  }
-  @media ${devices.mobileM} {
-    width: 95%;
-    max-width: unset;
-  }
-
-  @media ${devices.mobileS} {
-    width: 95%;
-    max-width: unset;
-  }
-`;
-const HeaderWrapper = styled.div`
-  width: 100%;
+  max-width: 1500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
-  border-bottom: 1px solid ${color.textSecondary};
-  position: relative;
-
-  .header-title-wrapper {
-    max-width: 1230px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0 0 20px 30px;
-    border-bottom: 1px solid ${color.textSecondary};
-    z-index: 2;
-    margin-bottom: -1px;
-    span {
-      font-family: Anticva;
-      font-size: 1.5rem;
-    }
-  }
-  .header-divder-wrapper {
-    width: 50%;
-    align-self: flex-start;
-    border-bottom: 20px solid ${color.textPrimary};
-    z-index: 1;
-    position: absolute;
-    top: 40px;
-    left: 0;
-  }
-  @media ${devices.laptopS} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-
-  @media ${devices.mobileL} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-  @media ${devices.mobileM} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-
-  @media ${devices.mobileS} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
 `;
 
 const NewsContent = styled.div`
@@ -510,14 +368,16 @@ const NewsGridContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 40px;
+  padding: 50px 10px;
   .news-grid {
-    min-width: 1230px;
-    max-width: 1230px;
+    min-width: 1500px;
+    max-width: 1500px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 50px;
     row-gap: 30px;
+    padding: 20px;
   }
   @media ${devices.laptopS} {
     .news-grid {
@@ -579,7 +439,7 @@ const NewsItem = styled.li`
   border-radius: 10px;
   transition: 200ms;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.005);
   }
   &:active {
     transform: scale(1);

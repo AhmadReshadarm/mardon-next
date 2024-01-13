@@ -3,6 +3,7 @@ import {
   Content,
   Wrapper,
 } from 'components/store/storeLayout/common';
+import StoreLayout from 'components/store/storeLayout/layouts';
 import CheckoutContent from 'components/store/checkout';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
@@ -31,7 +32,7 @@ const Checkout = () => {
         }}
       >
         <Head>
-          <title>Оформить заказ | Fingarden</title>
+          <title>Оформить заказ | Nbhoz</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"
@@ -60,10 +61,11 @@ const Checkout = () => {
             </Content>
           </Wrapper>
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </YMaps>
     </>
   );
 };
 
+Checkout.PageLayout = StoreLayout;
 export default Checkout;

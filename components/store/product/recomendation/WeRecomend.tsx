@@ -13,7 +13,7 @@ const WeRecomend = ({ product }) => {
   useEffect(() => {
     (async () => {
       const response = (await ProductService.getProducts({
-        limit: 8,
+        limit: 4,
         parent: product?.category.parent?.url,
       })) as unknown as { rows: Product[]; length: number };
 
@@ -21,70 +21,27 @@ const WeRecomend = ({ product }) => {
       setLoading(false);
     })();
   }, []);
-  const [
-    setRefType,
-    widthOrHeightRef,
-    widthOrHeight,
-    slideTo,
-    paginate,
-    setSlideAmount,
-  ] = paginateHandler();
 
-  useEffect(() => {
-    setRefType('width');
-    setSlideAmount(200);
-  }, []);
   return (
-    <ContentWrapper>
-      <HeaderWrapper
-        custom={0.2}
-        initial="init"
-        whileInView="animate"
-        viewport={{ once: true }}
-        variants={variants.fadInSlideUp}
-      >
-        <h3>Рекомендуем также</h3>
-      </HeaderWrapper>
+    <>
+      {products.length !== 0 ? (
+        <ContentWrapper>
+          <HeaderWrapper
+            custom={0.2}
+            initial="init"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={variants.fadInSlideUp}
+          >
+            <h3>Рекомендуем также</h3>
+          </HeaderWrapper>
 
-      <ProductFlex
-        width={widthOrHeight}
-        widthRef={widthOrHeightRef}
-        slideTo={slideTo}
-        products={products}
-        loading={loading}
-      />
-
-      <BtnsWrapper>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          bgcolor={color.btnPrimary}
-          boxshadow={color.boxShadowBtn}
-          variants={variants.grow}
-          position="abolute"
-          onClick={() => paginate(1)}
-        >
-          <ArrowSpan rotate="180">
-            <ArrowWhite />
-          </ArrowSpan>
-        </ArrowBtns>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          bgcolor={color.btnPrimary}
-          boxshadow={color.boxShadowBtn}
-          variants={variants.grow}
-          position="abolute"
-          onClick={() => paginate(-1)}
-        >
-          <ArrowSpan rotate="0">
-            <ArrowWhite />
-          </ArrowSpan>
-        </ArrowBtns>
-      </BtnsWrapper>
-    </ContentWrapper>
+          <ProductFlex products={products} loading={loading} />
+        </ContentWrapper>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 

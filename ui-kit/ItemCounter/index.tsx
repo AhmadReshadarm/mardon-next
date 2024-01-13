@@ -13,6 +13,7 @@ import {
   MenuActiveStateSVG,
 } from 'assets/icons/UI-icons';
 import { handleCartBtnClick } from 'ui-kit/products/helpers';
+import { devices } from 'components/store/lib/Devices';
 type Props = {
   qty: number;
   product: Product;
@@ -29,10 +30,26 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
   useEffect(() => {
     setInputValue(qty);
   }, [qty]);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+  // -----------------------------------------------
   return (
     <ItemCounterWrapper
       initial={{ width: '0px' }}
-      animate={{ width: '180px' }}
+      animate={{ width: windowWidth > 1240 ? '150px' : '140px' }}
       onClick={(e) => e.preventDefault()}
     >
       <motion.div
@@ -135,7 +152,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
 };
 
 const ItemCounterWrapper = styled(motion.div)`
-  width: 180px;
+  width: 150px;
   height: 50px;
   display: flex;
   flex-direction: row;
@@ -161,7 +178,7 @@ const ItemCounterWrapper = styled(motion.div)`
       cursor: pointer;
     }
     input {
-      width: 50px;
+      width: 40px;
       height: 30px;
       border-radius: 3px;
       background-color: #d6cec1;
@@ -183,6 +200,9 @@ const ItemCounterWrapper = styled(motion.div)`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+  @media ${devices.laptopM} {
+    width: 140px;
   }
 `;
 

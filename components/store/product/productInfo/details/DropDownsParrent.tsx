@@ -99,6 +99,10 @@ const InfoContentWrappers = styled(motion.div)`
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
+    .fr-view {
+      width: 100%;
+      padding: 5px 20px;
+    }
   }
 `;
 

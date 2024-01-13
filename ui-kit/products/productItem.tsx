@@ -12,17 +12,19 @@ import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Basket } from 'swagger/services';
 import { checkIfItemInCart, handleCartBtnClick } from 'ui-kit/products/helpers';
 import { TrigerhandleCartBtnClick } from 'components/store/storeLayout/utils/SearchBar/helpers';
+import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
+import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 type Props = {
   product: Product;
   custom: number;
-  name: string;
+  // name: string;
 };
-
-const ProductItem: React.FC<Props> = ({ product, custom, name }) => {
+//  name
+const ProductItem: React.FC<Props> = ({ product, custom }) => {
   const images = getProductVariantsImages(product.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
-
+  const { price, oldPrice } = product.productVariants![0];
   return (
     <ItemContainer
       custom={custom}
@@ -40,41 +42,26 @@ const ProductItem: React.FC<Props> = ({ product, custom, name }) => {
             href={`/product/${product.url}`}
           >
             <span>
-              {product.name?.length! > 55
-                ? `${product.name?.slice(0, 55)}...`
+              {product.name?.length! > 40
+                ? `${product.name?.slice(0, 40)}...`
                 : product.name}
             </span>
           </Link>
-          <AddtoCartWrapper
-            onClick={TrigerhandleCartBtnClick(
-              product,
-              handleCartBtnClick(
-                product,
-                dispatch,
-                product.productVariants![0],
-                cart,
-                name,
-              ),
-            )}
-          >
-            <motion.button
-              key={'basket-pressed'}
-              animate={checkIfItemInCart(product, cart!) ? 'animate' : 'exit'}
-              variants={variants.fadeOutSlideOut}
-              className="in-cart"
-            >
-              <span>УЖЕ В КОРЗИНЕ</span>
-              <img src="/icons/vector.png" alt="in cart sign" />
-            </motion.button>
-            <motion.button
-              key={'basket-normal'}
-              animate={checkIfItemInCart(product, cart!) ? 'exit' : 'animate'}
-              variants={variants.fadeOutSlideOut}
-              className="not-in-cart"
-            >
-              <span>В КОРЗИНУ</span>
-            </motion.button>
-          </AddtoCartWrapper>
+          <div className="product-description-wrapper">
+            <span>
+              {product.shortDesc?.length! > 100
+                ? `${product.shortDesc?.slice(0, 100)}...`
+                : product.shortDesc}
+            </span>
+          </div>
+          <div className="product-price-wrapper">
+            {oldPrice ? <span className="old-price">{oldPrice} ₽</span> : ''}
+            <span>{price} ₽</span>
+          </div>
+          <div className="action-buttons-wrapper">
+            <AddToWishlist product={product} />
+            <AddToCart product={product} qty={findCartQTY(product, cart)} />
+          </div>
         </div>
       </ItemWrapper>
     </ItemContainer>
@@ -83,52 +70,59 @@ const ProductItem: React.FC<Props> = ({ product, custom, name }) => {
 
 const ItemContainer = styled(motion.li)`
   width: 100%;
-  min-width: 260px;
-  max-width: 275px;
-  height: 420px;
-  box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-  background-color: ${color.bgProduct};
-  border-radius: 10px;
+  min-width: 330px;
+  max-width: 330px;
+  height: 650px;
+  background-color: ${color.productCart};
+  padding: 10px;
+  border: 1px solid #e5e2d9;
 
-  @media ${devices.mobileL} {
-    min-width: 310px;
+  @media ${devices.laptopM} {
     max-width: 310px;
-    width: 100%;
+    min-width: 310px;
+  }
+
+  @media ${devices.laptopS} {
+    max-width: 375px;
+    min-width: 375px;
+  }
+
+  @media ${devices.tabletL} {
+    min-width: 220px;
+    max-width: 220px;
+  }
+  @media ${devices.tabletS} {
+    min-width: 160px;
+    max-width: 160px;
+  }
+  @media ${devices.tabletS} {
+    min-width: 170px;
+    max-width: 170px;
+  }
+  @media ${devices.mobileL} {
+    min-width: 95vw;
+    max-width: 95vw;
   }
   @media ${devices.mobileM} {
-    min-width: 230px;
-    max-width: 230px;
-    width: 100%;
+    min-width: 95vw;
+    max-width: 95vw;
   }
 
   @media ${devices.mobileS} {
-    min-width: 210px;
-    max-width: 210px;
-    width: 100%;
+    min-width: 95vw;
+    max-width: 95vw;
   }
 `;
 
 const ItemWrapper = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 0 20px 0;
-  .product-title {
-    width: 90%;
-    padding: 20px 0;
-    span {
-      width: 100%;
-      color: ${color.btnPrimary};
-      text-align: right;
-      font-size: 20px;
-      font-weight: 300;
-      &:hover {
-        color: ${color.hoverBtnBg};
-      }
-    }
-  }
+  // padding: 0 0 20px 0;
+
   .product-title-add-to-card-wrapper {
     width: 100%;
     height: 100%;
@@ -136,44 +130,141 @@ const ItemWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    .product-title {
+      width: 100%;
+      padding: 10px 0 20px 0;
+      span {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 1.3rem;
+        font-family: ricordi;
+        &:hover {
+          color: ${color.textBase};
+        }
+      }
+    }
+    .product-description-wrapper {
+      width: 100%;
+      padding: 30px 0;
+      span {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+      }
+    }
+    .product-price-wrapper {
+      width: 100%;
+      padding: 5px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      span {
+        font-size: 1.5rem;
+        user-select: none;
+      }
+      .old-price {
+        text-decoration: line-through;
+        font-size: 0.9rem;
+        color: ${color.textBase};
+      }
+    }
+    .action-buttons-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
   }
-`;
+  @media ${devices.laptopS} {
+    .product-title-add-to-card-wrapper {
+      .product-description-wrapper {
+        padding: 5px 0;
+      }
+    }
+  }
+  @media ${devices.tabletL} {
+    .product-title-add-to-card-wrapper {
+      .product-description-wrapper {
+        padding: 5px 0;
+      }
+      .action-buttons-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    .product-title-add-to-card-wrapper {
+      .product-title {
+        line-break: anywhere;
+      }
+      .product-description-wrapper {
+        padding: 5px 0;
+      }
+      .action-buttons-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  }
+  @media ${devices.mobileL} {
+    .product-title-add-to-card-wrapper {
+      .product-title {
+        line-break: anywhere;
+      }
+      .product-description-wrapper {
+        padding: 5px 0;
+      }
+      .action-buttons-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  }
+  @media ${devices.mobileM} {
+    .product-title-add-to-card-wrapper {
+      .product-title {
+        line-break: anywhere;
+      }
+      .product-description-wrapper {
+        padding: 5px 0;
+      }
+      .action-buttons-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  }
 
-const AddtoCartWrapper = styled.div`
-  width: 90%;
-  height: 40px;
-  position: relative;
-  overflow: hidden;
-  transition: 300ms;
-  &:hover {
-    transform: scale(1.02);
-  }
-  &:active {
-    transform: scale(1);
-  }
-  .in-cart {
-    border: 1px solid;
-    gap: 10px;
-    cursor: pointer;
-  }
-  .not-in-cart {
-    background-color: ${color.btnPrimary};
-    color: ${color.textPrimary};
-    cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: 200;
-  }
-  button {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  @media ${devices.mobileS} {
+    .product-title-add-to-card-wrapper {
+      .product-title {
+        line-break: anywhere;
+      }
+      .product-description-wrapper {
+        padding: 5px 0;
+      }
+      .action-buttons-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
   }
 `;
 

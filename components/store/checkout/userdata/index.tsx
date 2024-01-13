@@ -18,6 +18,7 @@ import { TStoreCheckoutState, TCartState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { initialStateAdress } from './constant';
+import { openErrorNotification } from 'common/helpers';
 // import * as turf from '@turf/turf';
 
 const UserData = ({ setStep, backToFinal, setHasAddress }) => {
@@ -63,6 +64,18 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   };
 
   const handleClickSave = () => {
+    if (address == '') {
+      openErrorNotification('Адрес пуст');
+      return;
+    }
+    if (receiverName == '') {
+      openErrorNotification('Имя пусто emtpy');
+      return;
+    }
+    if (receiverPhone == '') {
+      openErrorNotification('Телефон пуст');
+      return;
+    }
     const payload = {
       address,
       receiverName,
@@ -125,7 +138,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
         variants={variants.fadInSlideUp}
       >
         {backToFinal ? (
-          <ActionBtns bgcolor={color.btnSecondery} onClick={handleClickBack}>
+          <ActionBtns bgcolor={color.textSecondary} onClick={handleClickBack}>
             Назад
           </ActionBtns>
         ) : (
@@ -175,9 +188,8 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
             setEmailWithoutRegister={setEmailWithoutRegister}
           />
           <ActionBtns
-            bgcolor={submitDisabled ? color.textSecondary : color.btnSecondery}
-            // emailWithoutRegister
-            disabled={submitDisabled}
+            bgcolor={color.textSecondary}
+            // disabled={submitDisabled}
             onClick={handleClickSave}
           >
             Сохранить и продолжить
@@ -224,8 +236,7 @@ const Container = styled.div`
 
 const FormContainer = styled(motion.div)`
   width: 450px;
-  // height: 95vh;
-  // min-height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -235,12 +246,6 @@ const FormContainer = styled(motion.div)`
   border-radius: 20px;
   padding: 20px;
   gap: 20px;
-  // position: absolute;
-  // top: 0;
-  // left: 0;
-  // z-index: 10;
-  // overflow-y: scroll;
-  // overflow-x: hidden;
   user-select: none;
   &::-webkit-scrollbar {
     width: 5px;
@@ -277,19 +282,18 @@ const FormContainer = styled(motion.div)`
 
 const ActionBtns = styled.button`
   width: 100%;
-  height: 40px;
-  min-height: 40px;
-  border-radius: 3px;
+  height: 50px;
+  min-height: 50px;
+  border-radius: 30px;
   background-color: ${(p: styleProps) => p.bgcolor};
   cursor: pointer;
-  transition: 300ms;
-  &:hover {
-    background-color: ${color.btnPrimary};
-    color: ${color.textPrimary};
-    transform: scale(1.02);
-  }
+  transition: 150ms;
+  color: ${color.textPrimary};
+
   &:active {
-    transform: scale(1);
+    background-color: ${color.textPrimary};
+    color: ${color.textSecondary};
+    border: 1px solid ${color.textSecondary};
   }
   span {
     font-family: 'Jost';

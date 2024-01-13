@@ -85,7 +85,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               </Link>
             </AuthInputsWrapper>
           </div>
-          <div className="action-buttons-wrapper ">
+          <div className="action-buttons-wrapper">
             <button
               type={'submit'}
               disabled={

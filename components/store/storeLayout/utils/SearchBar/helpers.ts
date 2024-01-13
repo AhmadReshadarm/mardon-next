@@ -16,24 +16,26 @@ const handleSearchItemClick = (dispatch: AppDispatch) => () => {
   dispatch(clearSearchQuery());
 };
 
-const handleSearchQueryChange = (dispatch: AppDispatch) => (e: any) => {
-  const searchQuery = e.target.value;
+const handleSearchQueryChange =
+  (selected: CategoryInTree | undefined, dispatch: AppDispatch) => (e: any) => {
+    const searchQuery = e.target.value;
 
-  dispatch(changeSearchQuery(searchQuery));
+    dispatch(changeSearchQuery(searchQuery));
 
-  if (!searchQuery || searchQuery == '') {
-    dispatch(clearSearchProducts());
+    if (!searchQuery || searchQuery == '') {
+      dispatch(clearSearchProducts());
 
-    return;
-  }
+      return;
+    }
 
-  const payload = {
-    name: searchQuery,
-    limit: 12,
+    const payload = {
+      name: searchQuery,
+      parent: selected?.url,
+      limit: 5,
+    };
+
+    dispatch(searchProducts(payload));
   };
-
-  dispatch(searchProducts(payload));
-};
 
 const handleSearchFormSubmit =
   (

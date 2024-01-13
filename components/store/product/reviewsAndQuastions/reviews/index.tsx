@@ -200,27 +200,24 @@ export const ThumbnailsWrapper = styled.div`
   }
   .show-all-action-btn {
     width: 200px;
-    height: 40px;
-    background-color: ${color.btnSecondery};
+    height: 50px;
+    background-color: ${color.activeIcons};
     cursor: pointer;
     transition: 300ms;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-radius: 3px;
-    &:hover {
-      background-color: ${color.searchBtnBg};
+    border-radius: 30px;
+    color: ${color.backgroundPrimary};
 
-      transform: scale(1.02);
-    }
     &:active {
-      transform: scale(1);
-      background-color: ${color.btnPrimary};
-      color: ${color.textPrimary};
+      border: 1px solid;
+      background-color: ${color.backgroundPrimary};
+      color: ${color.activeIcons};
     }
     span {
-      font-family: 'Jost';
+      font-family: ricordi;
       font-size: 1rem;
     }
   }
@@ -239,7 +236,16 @@ const ContentContainer = styled.div`
     display: flex;
     flex-direction: column-reverse;
   }
-
+  @media ${devices.tabletL} {
+    width: 95%;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  @media ${devices.tabletS} {
+    width: 95%;
+    display: flex;
+    flex-direction: column-reverse;
+  }
   @media ${devices.mobileL} {
     width: 95%;
     display: flex;
@@ -271,8 +277,19 @@ const ContentWrapper = styled.div`
   @media ${devices.laptopS} {
     width: 100%;
   }
-
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
+    width: 100%;
+  }
+  @media ${devices.mobileM} {
+    width: 100%;
+  }
+  @media ${devices.mobileS} {
     width: 100%;
   }
 `;
@@ -311,6 +328,7 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
     top: 0;
     right: 0;
     transition: 200ms;
+    z-index: 9;
     &:hover {
       transform: scale(1.2);
     }
@@ -320,28 +338,45 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       width: 95%;
       flex-direction: column;
     }
-    .close-btn-wrapper {
-      top: -50px;
-    }
+    // .close-btn-wrapper {
+    //   top: -50px;
+    // }
   }
-
+  @media ${devices.tabletL} {
+    .pagination-and-slider-wrapper {
+      width: 95%;
+      flex-direction: column;
+    }
+    // .close-btn-wrapper {
+    //   top: -50px;
+    // }
+  }
+  @media ${devices.tabletS} {
+    .pagination-and-slider-wrapper {
+      width: 95%;
+      flex-direction: column;
+    }
+    // .close-btn-wrapper {
+    //   top: -50px;
+    // }
+  }
   @media ${devices.mobileL} {
     .pagination-and-slider-wrapper {
       width: 95%;
       flex-direction: column;
     }
-    .close-btn-wrapper {
-      top: -50px;
-    }
+    // .close-btn-wrapper {
+    //   top: -50px;
+    // }
   }
   @media ${devices.mobileM} {
     .pagination-and-slider-wrapper {
       width: 95%;
       flex-direction: column;
     }
-    .close-btn-wrapper {
-      top: -50px;
-    }
+    // .close-btn-wrapper {
+    //   top: -50px;
+    // }
   }
 
   @media ${devices.mobileS} {
@@ -349,9 +384,9 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       width: 95%;
       flex-direction: column;
     }
-    .close-btn-wrapper {
-      top: -50px;
-    }
+    // .close-btn-wrapper {
+    //   top: -50px;
+    // }
   }
 `;
 

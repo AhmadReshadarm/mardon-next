@@ -11,10 +11,11 @@ import ArrowWhite from '../../../../assets/arrow_white.svg';
 const BuyTogether = ({ product }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     (async () => {
       const response = (await ProductService.getProducts({
-        limit: 8,
+        limit: 4,
         brands: [product?.brand.url],
         tags: product?.tags?.map((tag: any) => tag.url),
       })) as unknown as { rows: Product[]; length: number };
@@ -22,68 +23,26 @@ const BuyTogether = ({ product }) => {
       setLoading(false);
     })();
   }, []);
-  const [
-    setRefType,
-    widthOrHeightRef,
-    widthOrHeight,
-    slideTo,
-    paginate,
-    setSlideAmount,
-  ] = paginateHandler();
 
-  useEffect(() => {
-    setRefType('width');
-    setSlideAmount(200);
-  }, []);
   return (
-    <ContentWrapper>
-      <HeaderWrapper
-        custom={0.2}
-        initial="init"
-        whileInView="animate"
-        viewport={{ once: true }}
-        variants={variants.fadInSlideUp}
-      >
-        <h3>Покупают вместе</h3>
-      </HeaderWrapper>
-      <ProductFlex
-        width={widthOrHeight}
-        widthRef={widthOrHeightRef}
-        slideTo={slideTo}
-        products={products}
-        loading={loading}
-      />
-      <BtnsWrapper>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          bgcolor={color.btnPrimary}
-          boxshadow={color.boxShadowBtn}
-          variants={variants.grow}
-          position="abolute"
-          onClick={() => paginate(1)}
-        >
-          <ArrowSpan rotate="180">
-            <ArrowWhite />
-          </ArrowSpan>
-        </ArrowBtns>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          bgcolor={color.btnPrimary}
-          boxshadow={color.boxShadowBtn}
-          variants={variants.grow}
-          position="abolute"
-          onClick={() => paginate(-1)}
-        >
-          <ArrowSpan rotate="0">
-            <ArrowWhite />
-          </ArrowSpan>
-        </ArrowBtns>
-      </BtnsWrapper>
-    </ContentWrapper>
+    <>
+      {products.length !== 0 ? (
+        <ContentWrapper>
+          <HeaderWrapper
+            custom={0.2}
+            initial="init"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={variants.fadInSlideUp}
+          >
+            <h3>Покупают вместе</h3>
+          </HeaderWrapper>
+          <ProductFlex products={products} loading={loading} />
+        </ContentWrapper>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 

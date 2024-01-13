@@ -174,7 +174,7 @@ const Header = () => {
         justify_content="center"
         align_items="center"
         position="relative"
-        bg_color={color.backgroundPrimary}
+        bg_color={color.backgroundSecondery}
       >
         <Wrapper flex_direction="column" position="relative">
           <Content
@@ -379,7 +379,7 @@ const Header = () => {
 };
 
 const LogoWrapper = styled.div`
-  z-index: 9999;
+  z-index: 100;
   // @media ${devices.laptopS} {
   // }
 
@@ -415,7 +415,16 @@ const IconsWrapper = styled.div`
       display: none;
     }
   }
-
+  @media ${devices.tabletL} {
+    .icons-parent-wrapper {
+      display: none;
+    }
+  }
+  @media ${devices.tabletS} {
+    .icons-parent-wrapper {
+      display: none;
+    }
+  }
   @media ${devices.mobileL} {
     .icons-parent-wrapper {
       display: none;
@@ -437,6 +446,12 @@ const MenuButtonWrapper = styled.div`
   z-index: 100;
   cursor: pointer;
   @media ${devices.laptopS} {
+    display: none;
+  }
+  @media ${devices.tabletL} {
+    display: none;
+  }
+  @media ${devices.tabletS} {
     display: none;
   }
   @media ${devices.mobileL} {

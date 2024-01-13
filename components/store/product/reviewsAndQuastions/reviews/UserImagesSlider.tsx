@@ -68,8 +68,8 @@ const UserImagesSlider: React.FC<Props> = ({
 };
 
 const SliderWrapper = styled(motion.div)`
-  width: 80%;
-  height: 400px;
+  width: 100vw;
+  height: 75vh;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

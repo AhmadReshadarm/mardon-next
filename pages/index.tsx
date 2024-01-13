@@ -1,6 +1,6 @@
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Banners from 'components/store/homePage/banners';
-import CustomBanner from 'components/store/homePage/custombanner';
+import ProductsSlider from 'components/store/homePage/productsSlider';
 import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
 import NewsMainPage from 'components/store/homePage/newsMainPage';
 import ReviewMainPage from 'components/store/homePage/reviewMainPage';
@@ -10,6 +10,7 @@ import SEOstatic from 'components/store/SEO/SEOstatic';
 import Loading from 'ui-kit/Loading';
 import React, { Suspense, useEffect } from 'react';
 import { baseUrl } from '../common/constant';
+import BestProduct from 'components/store/homePage/bestProducts';
 const IndexPage = (): JSX.Element => {
   return (
     <>
@@ -17,20 +18,21 @@ const IndexPage = (): JSX.Element => {
         page={{
           name: 'Главный',
           url: '/',
-          desc: 'Интернет-магазин Fingarden',
-          keywords: 'fingarden, fingarden.ru',
+          desc: 'Интернет-магазин NBhoz',
+          keywords: 'nbhoz, nbhoz.ru',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }}
-        image={`${baseUrl}/fingarden.svg`}
+        image={`${baseUrl}/favicon.svg`}
       />
 
       <Suspense fallback={<Loading />}>
         <Banners />
-        <CustomBanner />
-        <MainPageCatalog />
+        <ProductsSlider />
+        <BestProduct />
+        {/* <MainPageCatalog />
         <NewsMainPage />
-        <ReviewMainPage />
+        <ReviewMainPage /> */}
         <Subscribers />
         <ContactsMainPage />
       </Suspense>

@@ -17,7 +17,6 @@ import Quastions from './quastions';
 import { HeaderWrapper } from '../common';
 import { useAppSelector } from 'redux/hooks';
 import { Product } from 'swagger/services';
-// import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 import { TAuthState } from 'redux/types';
 type Props = {
   reviewRef: MutableRefObject<null>;
@@ -54,18 +53,6 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
           align_items="center"
           gap="30px"
         >
-          <HeaderWrapper
-            custom={0.2}
-            initial="init"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={variants.fadInSlideUp}
-            style={{ position: 'relative' }}
-          >
-            <h3>Отзывы и вопросы о товаре</h3>
-            <TotalReviews>{product?.reviews?.length}</TotalReviews>
-          </HeaderWrapper>
-
           <Box
             sx={{
               width: '100%',
@@ -79,12 +66,12 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
               >
                 <Tab
                   ref={reviewRef}
-                  label="Отзывы о товаре"
+                  label={`${product?.reviews?.length} Отзыв(ов) о товаре`}
                   {...a11yProps(0)}
                 />
                 <Tab
                   ref={questionRef}
-                  label="Вопросы и ответы о товаре"
+                  label={`${product?.questions?.length} Вопрос(ов) о товаре`}
                   {...a11yProps(1)}
                 />
               </Tabs>
@@ -101,28 +88,5 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
     </Container>
   );
 };
-
-const TotalReviews = styled.span`
-  position: absolute;
-  top: -12px;
-  left: 330px;
-  color: ${color.textSecondary};
-  font-family: intro;
-  font-size: 1rem;
-`;
-
-const NoContent = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px 0;
-  h3 {
-    font-family: 'intro';
-    font-size: 1.2rem;
-    color: ${color.hover};
-  }
-`;
 
 export default ReveiwsAndQuastions;

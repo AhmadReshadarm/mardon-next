@@ -27,14 +27,7 @@ const ProductGrid: React.FC<Props> = ({
       {!loading ? (
         <>
           {!!products.length ? (
-            <Grid
-              laptopGridTemplateAreas={gridStyle?.laptopGridTemplateAreas}
-              laptopSGridTemplateAreas={gridStyle?.laptopSGridTemplateAreas}
-              laptopGridTemplateColumns={gridStyle?.laptopGridTemplateColumns}
-              laptopColumnGap={gridStyle?.laptopColumnGap}
-              laptopSColumnGap={gridStyle?.laptopSColumnGap}
-              style={gridStyle}
-            >
+            <Grid>
               {children}
 
               {products.map((product, index) => {
@@ -43,11 +36,6 @@ const ProductGrid: React.FC<Props> = ({
                     key={`product-item-${index}`}
                     product={product}
                     custom={delay[index]}
-                    name={
-                      product.sizes![0] == undefined
-                        ? ''
-                        : product.sizes![0].name!
-                    }
                   />
                 );
               })}
@@ -65,44 +53,43 @@ const ProductGrid: React.FC<Props> = ({
   );
 };
 
-const Grid = styled.ul<any>`
+const Grid = styled.ul`
   width: 100%;
-  display: grid;
+  display: inline-grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 50px;
   row-gap: 30px;
   padding: 10px;
+  justify-items: center;
+
+  @media ${devices.laptopL} {
+    grid-template-columns: repeat(3, 1fr);
+  }
   @media ${devices.laptopM} {
-    column-gap: ${(props) => props.laptopColumnGap ?? '90px'};
-    grid-template-areas: ${(props) => props.laptopGridTemplateAreas ?? ''};
-    grid-template-columns: ${(props) =>
-      props.laptopGridTemplateColumns ?? 'repeat(3, 1fr)'};
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 40px;
   }
-
   @media ${devices.laptopS} {
-    grid-template-columns: ${(props) =>
-      props.laptopGridTemplateColumns ?? 'repeat(3, 1fr)'};
-    column-gap: ${(props) => props.laptopSColumnGap ?? '34px'};
-    grid-template-areas: ${(props) => props.laptopSGridTemplateAreas ?? ''};
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 5px;
   }
-
+  @media ${devices.tabletL} {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+  }
+  @media ${devices.tabletS} {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+  }
   @media ${devices.mobileL} {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
+    grid-template-columns: repeat(1, 1fr);
+    column-gap: 10px;
   }
   @media ${devices.mobileM} {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
+    grid-template-columns: repeat(1, 1fr);
   }
   @media ${devices.mobileS} {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
 
@@ -116,7 +103,7 @@ const EmptyProductsTitle = styled.div`
   padding-top: 100px;
   h3 {
     font-size: 2rem;
-    font-family: 'Anticva';
+    font-family: ricordi;
   }
 `;
 

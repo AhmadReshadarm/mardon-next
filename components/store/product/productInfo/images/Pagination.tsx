@@ -144,10 +144,10 @@ const Pagination: React.FC<Props> = ({
                     currentTarget.src = '/img_not_found.png';
                   }}
                   alt={alt}
-                  style={{
-                    width: index == selectedIndex ? '90%' : '100%',
-                    height: index == selectedIndex ? '90%' : '100%',
-                  }}
+                  // style={{
+                  //   width: index == selectedIndex ? '90%' : '100%',
+                  //   height: index == selectedIndex ? '90%' : '100%',
+                  // }}
                 />
               </ThumbnailItem>
             );
@@ -196,6 +196,53 @@ const ThumbnailContainer = styled.div`
       }
     }
   }
+  @media ${devices.tabletL} {
+    flex-direction: row;
+    width: 80%;
+    height: unset;
+    .thumbnail-content {
+      height: unset;
+      width: 100%;
+    }
+    .media-css-right {
+      right: -40px !important;
+      top: 40px !important;
+      span {
+        transform: rotate(0deg) !important;
+      }
+    }
+    .media-css-left {
+      left: -40px !important;
+      top: 40px !important;
+      span {
+        transform: rotate(180deg) !important;
+      }
+    }
+  }
+
+  @media ${devices.tabletS} {
+    flex-direction: row;
+    width: 80%;
+    height: unset;
+    .thumbnail-content {
+      height: unset;
+      width: 100%;
+    }
+    .media-css-right {
+      right: -40px !important;
+      top: 40px !important;
+      span {
+        transform: rotate(0deg) !important;
+      }
+    }
+    .media-css-left {
+      left: -40px !important;
+      top: 40px !important;
+      span {
+        transform: rotate(180deg) !important;
+      }
+    }
+  }
 
   @media ${devices.mobileL} {
     flex-direction: row;
@@ -229,14 +276,14 @@ const ThumbnailContainer = styled.div`
       width: 100%;
     }
     .media-css-right {
-      right: -40px !important;
+      right: -30px !important;
       top: 40px !important;
       span {
         transform: rotate(0deg) !important;
       }
     }
     .media-css-left {
-      left: -40px !important;
+      left: -30px !important;
       top: 40px !important;
       span {
         transform: rotate(180deg) !important;
@@ -252,14 +299,14 @@ const ThumbnailContainer = styled.div`
       width: 100%;
     }
     .media-css-right {
-      right: -40px !important;
+      right: -30px !important;
       top: 40px !important;
       span {
         transform: rotate(0deg) !important;
       }
     }
     .media-css-left {
-      left: -40px !important;
+      left: -30px !important;
       top: 40px !important;
       span {
         transform: rotate(180deg) !important;
@@ -278,6 +325,16 @@ const ThumbnailWrapper = styled(motion.ul)`
   gap: 20px;
   padding: 3px;
   @media ${devices.laptopS} {
+    flex-direction: row;
+    width: 100%;
+    height: unset;
+  }
+  @media ${devices.tabletL} {
+    flex-direction: row;
+    width: 100%;
+    height: unset;
+  }
+  @media ${devices.tabletS} {
     flex-direction: row;
     width: 100%;
     height: unset;
@@ -317,8 +374,40 @@ const ThumbnailItem = styled(motion.li)`
   img {
     width: 90px;
     height: 90px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 3px;
+  }
+  @media ${devices.tabletL} {
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+  @media ${devices.tabletS} {
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  @media ${devices.mobileL} {
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+  @media ${devices.mobileM} {
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  @media ${devices.mobileS} {
+    img {
+      width: 70px;
+      height: 70px;
+    }
   }
 `;
 

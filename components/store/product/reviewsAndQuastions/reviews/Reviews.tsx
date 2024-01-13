@@ -20,6 +20,7 @@ import { TProductInfoState } from 'redux/types';
 import styled from 'styled-components';
 import {
   LoadMoreBtnWrapper,
+  ReplyWrapper,
   ReviewContainer,
   ReviewReplyContent,
   ReviewReplyItem,
@@ -224,13 +225,12 @@ const Review = ({ product }) => {
                 viewport={{ once: true }}
                 custom={0.2}
                 variants={variants.fadInSlideUp}
-                padding="0"
               >
                 <ReviewReplyContent>
                   <UserImageWrapper>
                     <div className="user-profile-img">
                       {review.user?.role === Role.Admin ? (
-                        <span>Fingarden</span>
+                        <span>NBHOZ</span>
                       ) : (
                         <img
                           src={
@@ -399,14 +399,13 @@ const Review = ({ product }) => {
                 );
 
                 return (
-                  <ReviewReplyWrapper
+                  <ReplyWrapper
                     key={`comments-reviwe-${index}`}
                     initial="init"
                     whileInView="animate"
                     viewport={{ once: true }}
                     custom={0.3}
                     variants={variants.fadInSlideUp}
-                    padding="50px"
                   >
                     {/* ______ edite mode start  _______ */}
                     {isCommentEditeSendVisibleMap[comment?.id!] ? (
@@ -443,7 +442,7 @@ const Review = ({ product }) => {
                         <UserImageWrapper>
                           <div className="user-profile-img">
                             {comment.user?.role === Role.Admin ? (
-                              <span>Fingarden</span>
+                              <span>NBHOZ</span>
                             ) : (
                               <img
                                 src={
@@ -520,7 +519,7 @@ const Review = ({ product }) => {
                         </ReviewReplyItem>
                       </ReviewReplyContent>
                     )}
-                  </ReviewReplyWrapper>
+                  </ReplyWrapper>
                 );
               })}
               {/* ____________ Comments end _______________ */}
@@ -638,6 +637,24 @@ const ProductImagesFullScreenWrapper = styled(motion.div)`
       top: -50px;
     }
   }
+  @media ${devices.tabletL} {
+    .pagination-and-slider-wrapper {
+      width: 95%;
+      flex-direction: column;
+    }
+    .close-btn-wrapper {
+      top: -50px;
+    }
+  }
+  @media ${devices.tabletS} {
+    .pagination-and-slider-wrapper {
+      width: 95%;
+      flex-direction: column;
+    }
+    .close-btn-wrapper {
+      top: -50px;
+    }
+  }
 
   @media ${devices.mobileL} {
     .pagination-and-slider-wrapper {
@@ -703,31 +720,42 @@ const UserCommentField = styled.textarea`
 
 const SendUserCommentBtn = styled.button`
   width: 100px;
-  height: 40px;
-  border-radius: 5px;
+  height: 50px;
+  border-radius: 30px;
   background-color: ${color.btnPrimary};
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   color: ${color.textPrimary};
+  &:active {
+    background-color: ${color.backgroundPrimary};
+    color: ${color.activeIcons};
+    border: 1px solid;
+  }
 `;
 
-const Slidercontainer = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background-color: ${color.glassmorphismBg};
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
-  z-index: 25;
-  border-radius: 25px;
-`;
+// const ReplyWrapper = styled(motion.div)`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+//   align-items: flex-start;
+//   gap: 10px;
+//   user-select: none;
+//   padding: 0 0 0 50px;
+//   @media ${devices.tabletS} {
+//     padding: 0;
+//   }
+//   @media ${devices.mobileL} {
+//     padding: 0;
+//   }
+//   @media ${devices.mobileM} {
+//     padding: 0;
+//   }
+//   @media ${devices.mobileS} {
+//     padding: 0;
+//   }
+// `;
 
 export default Review;

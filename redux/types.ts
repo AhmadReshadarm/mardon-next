@@ -162,11 +162,13 @@ type TGlobalState = {
   searchQuery: string;
   wishlist: Wishlist | null;
   categories: CategoryInTree[];
-  brands: Brand[];
   tags: Tag[];
   newsPosts: NewsPosts;
   products: Product[];
+  caroselProducts: Product[];
+  bestProduct: Product[];
   loading: boolean;
+  loadingCarosel: boolean;
   productsLoading: boolean;
 };
 
@@ -213,6 +215,7 @@ type TFilters = {
   brands?: string[];
   tags?: string[];
   sizes?: string[];
+  fetchFor?: string;
 };
 
 type TCatalogState = {

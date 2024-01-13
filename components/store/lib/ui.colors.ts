@@ -23,12 +23,14 @@ const color = {
   bgProductSecondry: '#E7E7E7BF',
   // ______________________________________________
   backgroundPrimary: '#ffffff',
+  backgroundSecondery: '#EEE8DC',
   textPrimary: '#ffffff',
   textSecondary: '#000000',
   inactiveIcons: '#939393',
   activeIcons: '#000000',
   buttonPrimary: '#000000',
   textBase: '#949494',
+  productCart: '#F5F1EC',
 };
 
 export default color;

@@ -4,13 +4,11 @@ import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { convertFromRaw, EditorState } from 'draft-js';
 import dynamic from 'next/dynamic';
-import { EditorProps } from 'react-draft-wysiwyg';
-const Editor = dynamic<EditorProps>(
-  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
-  { ssr: false },
-);
+
+const Editor = dynamic(() => import('ui-kit/Editor'), {
+  ssr: false,
+});
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
@@ -22,7 +20,6 @@ import {
   Brand,
   Category,
   Color,
-  Image,
   ParameterProduct,
   Product,
   Size,
@@ -35,13 +32,11 @@ import {
   handleFormSubmitProduct,
   initialValuesConverter,
   handleParameterChange,
-  uploadImage,
 } from './helpers';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
 import ProductVariantForm from './ProductVariantForm';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import color from 'components/store/lib/ui.colors';
 
 const { Option } = Select;
 
@@ -85,41 +80,6 @@ const ManageProductForm = ({
     (state) => state.multipleImages,
   );
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty(),
-  );
-
-  const isJsonString = (str) => {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
-
-  const isConvertable = (data) => {
-    if (typeof JSON.parse(data) == 'object') {
-      return true;
-    }
-    return false;
-  };
-  useEffect(() => {
-    if (
-      !isLoading &&
-      product &&
-      isJsonString(product?.desc!) &&
-      isConvertable(product?.desc!) &&
-      product.desc !== ''
-    ) {
-      setEditorState(
-        EditorState.createWithContent(
-          convertFromRaw(JSON.parse(product.desc!)),
-        ),
-      );
-    }
-  }, [product]);
-
   useEffect(() => {
     for (let index = 0; index < product?.productVariants?.length!; index++) {
       initialValues[index]?.forEach((image) => {
@@ -149,6 +109,18 @@ const ManageProductForm = ({
     setVariants((prev) => prev.concat({}));
   };
 
+  // ------------------- descrption editor hooks -----------------------
+  const [editorModal, setEditorModal] = useState(product?.desc ?? '');
+  const handleEditorChange = (evt) => {
+    setEditorModal(evt);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setEditorModal(product?.desc!);
+    }, 500);
+  }, [product, editMode]);
+  // ---------------------------------------------------------------
   return (
     <>
       <div className={styles.createProductHeader}>
@@ -165,6 +137,7 @@ const ManageProductForm = ({
             imagesMap,
             parameterProducts,
             variants.length,
+            editorModal,
           )}
           form={form}
           initialValues={initialValues}
@@ -190,42 +163,8 @@ const ManageProductForm = ({
             option={ManageProductFields.Desc}
             children={
               <Editor
-                editorState={editorState}
-                onEditorStateChange={setEditorState}
-                wrapperClassName="wrapper-class"
-                editorClassName="editor-class"
-                toolbarClassName="toolbar-class"
-                editorStyle={{
-                  border: `1px solid ${color.textSecondary}`,
-                  borderRadius: '5px',
-                }}
-                localization={{ locale: 'ru' }}
-                toolbar={{
-                  fontFamily: {
-                    options: ['Jost', 'Anticva, Baskerville, sans-serif'],
-                    className: undefined,
-                    component: undefined,
-                    dropdownClassName: undefined,
-                  },
-                  image: {
-                    // icon: image,
-                    className: undefined,
-                    component: undefined,
-                    popupClassName: undefined,
-                    urlEnabled: true,
-                    uploadEnabled: true,
-                    alignmentEnabled: true,
-                    uploadCallback: (file) => uploadImage(file, dispatch),
-                    previewImage: true,
-                    inputAccept:
-                      'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                    alt: { present: true, mandatory: false },
-                    defaultSize: {
-                      height: '100%',
-                      width: '100%',
-                    },
-                  },
-                }}
+                handleEditorChange={handleEditorChange}
+                editorModal={editorModal}
               />
             }
           />

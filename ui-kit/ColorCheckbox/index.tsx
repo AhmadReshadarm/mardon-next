@@ -33,7 +33,10 @@ const ColorCheckbox: React.FC<Props> = ({
 
   return (
     <CheckboxWrapper style={style} onClick={handleClick}>
-      <Checkbox active={!!stateChecked} style={{ backgroundColor: color }}>
+      <Checkbox
+        active={!!stateChecked}
+        style={{ backgroundColor: color, border: '1px solid' }}
+      >
         <input
           ref={nativeCheckboxRef}
           checked={stateChecked}
@@ -42,7 +45,7 @@ const ColorCheckbox: React.FC<Props> = ({
           hidden
         />
       </Checkbox>
-      <CheckboxLabel>{label}</CheckboxLabel>
+      {/* <CheckboxLabel>{label}</CheckboxLabel> */}
     </CheckboxWrapper>
   );
 };
@@ -56,8 +59,8 @@ const CheckboxWrapper = styled.div`
 const Checkbox = styled.div<{
   active: boolean;
 }>`
-  width: 19px;
-  height: 19px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background: #ccc;
 
@@ -66,12 +69,13 @@ const Checkbox = styled.div<{
       return css`
         &::before {
           content: '✓';
-          color: #fff;
+          color: #000;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 20px;
-          height: 20px;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
           background: #ffffff59;
         }
       `;

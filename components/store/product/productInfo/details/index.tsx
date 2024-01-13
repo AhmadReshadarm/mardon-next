@@ -79,107 +79,98 @@ const Details: React.FC<Props> = ({
   return (
     <DetailsContainer>
       <UserSelectWrapper>
-        <motion.h3
-          key="title-product-page"
-          custom={0.1}
-          initial="init"
-          animate="animate"
-          exit={{ y: -20, opacity: 0, transition: { delay: 0.05 } }}
-          variants={variants.fadInSlideUp}
-        >
-          Общие характеристики:
-        </motion.h3>
-        <SpecsKeyValueWrapper>
-          <li className="wrapper-key-vlaue">
-            <span id="key-specs">Цвет: </span>
-            <span id="value-specs">
-              {variant?.color?.name ?? product?.productVariants![0].color?.name}
-            </span>
-          </li>
-          {product?.parameterProducts?.map((item, index) => {
-            return (
-              <span key={`product-dropdown-${index}`}>
-                {item.value == '_' || item.value == '-' || item.value == '' ? (
-                  ''
-                ) : (
-                  <li
-                    className="wrapper-key-vlaue"
-                    key={`parameter-product-label-${index}`}
-                  >
-                    <span id="key-specs">{item.parameter?.name}: </span>
-                    <span id="value-specs">{item.value}</span>
-                  </li>
-                )}
-              </span>
-            );
-          })}
-        </SpecsKeyValueWrapper>
+        <div className="product-title-wrapper">
+          <div className="title-top-bar"></div>
+          <motion.h1
+            key="title-product-page"
+            custom={0.1}
+            initial="init"
+            animate="animate"
+            exit={{ y: -20, opacity: 0, transition: { delay: 0.05 } }}
+            variants={variants.fadInSlideUp}
+            className="product-header-1"
+          >
+            {product?.name}
+          </motion.h1>
+        </div>
+
         <div className="short-description-wrapper">
           <p>
             <span> {product?.shortDesc}</span>
           </p>
         </div>
         <ConvoContainer>
-          <ConvoWrappers
-            key="reveiws-product-page"
-            custom={0.2}
+          <div className="convo-contentWrapper">
+            <ConvoWrappers
+              key="reveiws-product-page"
+              custom={0.2}
+              initial="init"
+              animate="animate"
+              exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
+              variants={variants.fadInSlideUp}
+            >
+              <Rating
+                value={product?.rating?.avg}
+                precision={0.5}
+                size="medium"
+                readOnly
+              />
+            </ConvoWrappers>
+            <ConvoWrappers>
+              <span
+                className="reviews-text-wrapper"
+                onClick={() => {
+                  reviewRef.current.click();
+                  reviewRef.current.scrollIntoView();
+                }}
+              >
+                <span>{product?.reviews?.length ?? 0}</span>
+                <span>Отзыв(ов) об этом товаре</span>
+              </span>
+            </ConvoWrappers>
+            <ConvoWrappers
+              key="quastions-product-page"
+              custom={0.3}
+              initial="init"
+              animate="animate"
+              exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
+              variants={variants.fadInSlideUp}
+            >
+              <span>
+                <Quastions />
+              </span>
+
+              <span
+                onClick={() => {
+                  questionRef.current.click();
+                  questionRef.current.scrollIntoView();
+                }}
+              >
+                <span>{product?.questions?.length} вопрос(ов) о товаре</span>
+              </span>
+            </ConvoWrappers>
+          </div>
+          <PriceWrapper
+            key="prices-product-page"
+            custom={0.35}
             initial="init"
             animate="animate"
             exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
             variants={variants.fadInSlideUp}
           >
-            <Rating value={product?.rating?.avg} size="small" readOnly />
-
-            <span
-              onClick={() => {
-                reviewRef.current.click();
-                reviewRef.current.scrollIntoView();
-              }}
-            >
-              <span>{product?.reviews?.length ?? 0} Отзыв(ов)</span>
-            </span>
-          </ConvoWrappers>
-          <ConvoWrappers
-            key="quastions-product-page"
-            custom={0.3}
-            initial="init"
-            animate="animate"
-            exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
-            variants={variants.fadInSlideUp}
-          >
-            <span>
-              <Quastions />
-            </span>
-
-            <span
-              onClick={() => {
-                questionRef.current.click();
-                questionRef.current.scrollIntoView();
-              }}
-            >
-              <span>{product?.questions?.length} вопрос(ов)</span>
-            </span>
-          </ConvoWrappers>
+            <PriceItem>
+              {checkHasOldPrice(variant! ?? product?.productVariants![0])
+                ? `${
+                    variant?.oldPrice ?? product?.productVariants![0].oldPrice
+                  } ₽`
+                : ''}
+            </PriceItem>
+            <PriceItem>
+              {variant?.price ?? product?.productVariants![0].price} ₽
+            </PriceItem>
+          </PriceWrapper>
         </ConvoContainer>
-        <PriceWrapper
-          key="prices-product-page"
-          custom={0.35}
-          initial="init"
-          animate="animate"
-          exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
-          variants={variants.fadInSlideUp}
-        >
-          <PriceItem>Цена:</PriceItem>
-          <PriceItem>
-            {variant?.price ?? product?.productVariants![0].price}₽
-          </PriceItem>
 
-          <PriceItem>
-            {checkHasOldPrice(variant! ?? product?.productVariants![0])
-              ? `${variant?.oldPrice ?? product?.productVariants![0].oldPrice}₽`
-              : ''}
-          </PriceItem>
-        </PriceWrapper>
         <SizePickerWrapper>
           <div className="info-size-wrapper">
             <span className="title">Выберите цвет:</span>
@@ -192,33 +183,9 @@ const Details: React.FC<Props> = ({
             paginateImage={paginateImage}
           />
         </SizePickerWrapper>
-
-        {product?.sizes?.length == 0 ? (
-          ''
-        ) : (
-          <SizePickerWrapper>
-            <div className="info-size-wrapper">
-              <span className="title">Выберите размер:</span>
-            </div>
-            <SizeItemsParent>
-              <SizePicker sizes={product?.sizes} />
-            </SizeItemsParent>
-          </SizePickerWrapper>
-        )}
       </UserSelectWrapper>
 
-      <ActionBtns
-        orderProduct={orderProduct}
-        isInCart={checkIfItemInCart(product, cart)}
-        onCartBtnClick={handleCartBtnClick(
-          product!,
-          dispatch,
-          variant!,
-          cart,
-          productSize,
-        )}
-        onCountChange={onCountChange}
-      />
+      <ActionBtns orderProduct={orderProduct} cart={cart} product={product!} />
     </DetailsContainer>
   );
 };
@@ -231,14 +198,17 @@ const DetailsContainer = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 0 40px 130px 50px;
+  @media ${devices.tabletS} {
+    padding: 0;
+  }
   @media ${devices.mobileL} {
-    padding: 30px 10px 130px 10px;
+    padding: 0;
   }
   @media ${devices.mobileM} {
-    padding: 30px 10px 130px 10px;
+    padding: 0;
   }
   @media ${devices.mobileS} {
-    padding: 30px 10px 130px 10px;
+    padding: 0;
   }
 `;
 
@@ -249,46 +219,50 @@ const ConvoContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
-
-  @media ${devices.laptopS} {
-    display: block;
-  }
-`;
-
-const SpecsKeyValueWrapper = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 10px;
-  .wrapper-key-vlaue {
+  padding: 30px 0;
+  .convo-contentWrapper {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    span {
-      font-size: 0.875rem;
-    }
-    #key-specs {
-      color: ${color.textSecondary};
-    }
+    align-items: flex-start;
+    gap: 10px;
+  }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileL} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileM} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileS} {
+    flex-direction: column;
   }
 `;
 
 const ConvoWrappers = styled(motion.div)`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
+  .reviews-text-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+  }
   span {
-    font-size: 0.8rem;
     cursor: pointer;
     &:hover {
-      color: ${color.hover};
+      color: ${color.textBase};
     }
   }
 `;
@@ -297,21 +271,36 @@ const PriceWrapper = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
+  @media ${devices.tabletL} {
+    justify-content: flex-start;
+  }
+  @media ${devices.tabletS} {
+    justify-content: flex-start;
+  }
+  @media ${devices.mobileL} {
+    justify-content: flex-start;
+  }
+  @media ${devices.mobileM} {
+    justify-content: flex-start;
+  }
+  @media ${devices.mobileS} {
+    justify-content: flex-start;
+  }
 `;
 
 const PriceItem = styled.span`
   font-size: 2rem;
-  font-weight: 200;
-  &:nth-child(2) {
-    font-weight: 400;
-  }
-  &:nth-child(3) {
+  font-family: ricordi;
+  &:nth-child(1) {
+    font-size: 1rem;
     text-decoration: line-through;
-    text-decoration-color: ${color.hover};
-    color: ${color.textSecondary};
+    color: ${color.textBase};
+  }
+  &:nth-child(2) {
+    font-weight: 600;
   }
 `;
 

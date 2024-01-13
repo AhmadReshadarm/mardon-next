@@ -1,4 +1,4 @@
-import { Refund } from '@a2seven/yoo-checkout';
+// import { Refund } from '@a2seven/yoo-checkout';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { axiosInstance } from 'common/axios.instance';
 import {
@@ -30,25 +30,25 @@ export const fetchCheckouts = createAsyncThunk<
   },
 );
 
-export const cancelCheckout = createAsyncThunk<
-  any,
-  string,
-  { rejectValue: string }
->(
-  'checkout/cancelCheckout',
-  async function (paymentId, { rejectWithValue }): Promise<any> {
-    try {
-      const response = await axiosInstance.delete<Refund>('/payments', {
-        data: {
-          paymentId,
-        },
-      } as any);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+// export const cancelCheckout = createAsyncThunk<
+//   any,
+//   string,
+//   { rejectValue: string }
+// >(
+//   'checkout/cancelCheckout',
+//   async function (paymentId, { rejectWithValue }): Promise<any> {
+//     try {
+//       const response = await axiosInstance.delete<Refund>('/payments', {
+//         data: {
+//           paymentId,
+//         },
+//       } as any);
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue(getErrorMassage(error.response.status));
+//     }
+//   },
+// );
 
 const initialState: TStoreCheckoutState = {
   checkouts: [],
@@ -77,8 +77,14 @@ const storeCheckoutSlicer = createSlice({
       // fetchCheckouts
       .addCase(fetchCheckouts.pending, handlePending)
       .addCase(fetchCheckouts.fulfilled, (state, action) => {
+        let payload: any = null;
+        action.payload.map((checkout, index) => {
+          if (payload == null) {
+            payload = checkout.address;
+          }
+        });
         state.checkouts = action.payload;
-        state.deliveryInfo = action.payload[0].address;
+        state.deliveryInfo = payload;
         state.loading = false;
         console.log('fulfilled');
       })
@@ -88,18 +94,18 @@ const storeCheckoutSlicer = createSlice({
 
         console.log('rejected');
       });
-    builder
-      // cancelCheckout
-      .addCase(cancelCheckout.pending, handleChangePending)
-      .addCase(cancelCheckout.fulfilled, (state, action) => {
-        state.checkouts = state.checkouts!.filter(
-          (checkout) => checkout.paymentId !== action.payload.payment_id,
-        );
-        state.saveLoading = false;
-        openSuccessNotification('Ваш Заказ успешно отменен');
-        console.log('fulfilled');
-      })
-      .addCase(cancelCheckout.rejected, handleChangeError);
+    // builder
+    //   // cancelCheckout
+    //   .addCase(cancelCheckout.pending, handleChangePending)
+    //   .addCase(cancelCheckout.fulfilled, (state, action) => {
+    //     state.checkouts = state.checkouts!.filter(
+    //       (checkout) => checkout.paymentId !== action.payload.payment_id,
+    //     );
+    //     state.saveLoading = false;
+    //     openSuccessNotification('Ваш Заказ успешно отменен');
+    //     console.log('fulfilled');
+    //   })
+    //   .addCase(cancelCheckout.rejected, handleChangeError);
   },
 });
 

@@ -97,12 +97,12 @@ const FilterWrapper = styled(motion.div)`
 `;
 
 const FilterDropDownBtn = styled(motion.button)`
-  height: 40px;
+  height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 30px;
   padding: 0 15px;
   gap: 20px;
   background-color: ${color.btnPrimary};
@@ -112,6 +112,7 @@ const FilterDropDownBtn = styled(motion.button)`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    font-family: ricordi;
   }
 `;
 
@@ -125,7 +126,7 @@ const FilterDropDownWrapper = styled(motion.div)`
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${color.boxShadow};
   position: absolute;
-  top: 70px;
+  top: 75px;
   left: 0;
   z-index: 2;
 `;

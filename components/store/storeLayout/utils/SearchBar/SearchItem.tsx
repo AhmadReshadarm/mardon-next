@@ -128,6 +128,7 @@ const CardItemContainer = styled(motion.li)`
     min-width: 225px !important;
     width: 225px !important;
   }
+
   @media ${devices.mobileL} {
     min-width: 280px;
   }
@@ -188,13 +189,6 @@ const ItemActionBtnsWrapper = styled.div`
   align-items: center;
   gap: 10px;
   padding: 0 20px;
-`;
-
-const ItemTitelWrapper = styled.span`
-  width: 100%;
-  height: 25%;
-  text-align: left;
-  padding: 20px 10px;
 `;
 
 export default SearchItem;

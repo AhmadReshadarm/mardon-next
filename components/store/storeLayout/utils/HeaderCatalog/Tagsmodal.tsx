@@ -21,25 +21,32 @@ const TagsModal: React.FC<Props> = ({ category, subCategory }) => {
     <TagsWrapper>
       {tags.map((tag, index) => {
         return (
-          <Link
-            key={index}
-            onClick={handleMenuStateRedux(
-              dispatch,
-              changeCatelogState,
-              changeCatelogDisplayState,
-              isCatalogOpen,
-              catelogDisplay,
+          <>
+            {tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
+            tag.url?.match(/(?:^|\W)main-page(?:$|\W)/) ? (
+              ''
+            ) : (
+              <Link
+                key={index}
+                onClick={handleMenuStateRedux(
+                  dispatch,
+                  changeCatelogState,
+                  changeCatelogDisplayState,
+                  isCatalogOpen,
+                  catelogDisplay,
+                )}
+                href={`/catalog?categories=${category}&subCategories=${subCategory}&tags=${tag.url}`}
+              >
+                <span>
+                  {tag.products?.find((product: Product) => {
+                    return product.category?.url === subCategory;
+                  })
+                    ? tag.name
+                    : ''}
+                </span>
+              </Link>
             )}
-            href={`/catalog?categories=${category}&subCategories=${subCategory}&tags=${tag.url}`}
-          >
-            <span>
-              {tag.products?.find((product: Product) => {
-                return product.category?.url === subCategory;
-              })
-                ? tag.name
-                : ''}
-            </span>
-          </Link>
+          </>
         );
       })}
     </TagsWrapper>

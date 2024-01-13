@@ -92,15 +92,10 @@ const handleFormSubmitProduct =
     imagesMap: Object,
     parameterProducts: ParameterProduct[],
     variantsLength: number,
+    desc: string,
   ) =>
   async (form) => {
-    if (typeof form.desc !== 'string') {
-      form = {
-        ...form,
-        desc: JSON.stringify(form.desc),
-      };
-    }
-    console.log(form);
+    form.desc = desc;
 
     const convertedForm = handleDataConvertation(
       form,

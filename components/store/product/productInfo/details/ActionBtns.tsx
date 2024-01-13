@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { OrderProduct, Product } from 'swagger/services';
+import { Basket, OrderProduct, Product } from 'swagger/services';
 import ItemCounter from 'ui-kit/ItemCounter';
 import React from 'react';
 import Link from 'next/link';
@@ -17,48 +17,53 @@ import {
   clearproductSize,
   setOneClickBy,
 } from 'redux/slicers/store/cartSlicer';
+import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
+import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
+import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
 type Props = {
   orderProduct?: OrderProduct;
-  isInCart: boolean;
-  onCartBtnClick: () => void;
-  onCountChange: (counter: number, product: Product) => void;
+  cart: Basket;
+  product: Product;
+  // onCartBtnClick: () => void;
+  // onCountChange: (counter: number, product: Product) => void;
 };
 
 const ActionBtns: React.FC<Props> = ({
   orderProduct,
-  isInCart,
-  onCartBtnClick,
-  onCountChange,
+  cart,
+  product,
+  // onCartBtnClick,
+  // onCountChange,
 }) => {
   const dispatch = useAppDispatch();
   const { variant, productSize } = useAppSelector<TCartState>(
     (state) => state.cart,
   );
 
-  const handleAddToCartClick = () => {
-    dispatch(setOneClickBy(false));
-    if (variant == null) openErrorNotification('Выберите цвет');
-    if (productSize == '') openErrorNotification('Выберите размер');
-    if (variant !== null && productSize !== '' && !isInCart) {
-      onCartBtnClick();
-    }
-  };
+  // const handleAddToCartClick = () => {
+  //   dispatch(setOneClickBy(false));
+  //   if (variant == null) openErrorNotification('Выберите цвет');
+  //   // if (productSize == '') openErrorNotification('Выберите размер'); && productSize !== ''
+  //   if (variant !== null && !isInCart) {
+  //     onCartBtnClick();
+  //   }
+  // };
 
-  const handleRemoveFromCartClick = () => {
-    onCartBtnClick();
-  };
+  // const handleRemoveFromCartClick = () => {
+  //   onCartBtnClick();
+  // };
 
-  const handleOneClickBuy = (evt) => {
-    dispatch(setOneClickBy(true));
-    if (variant == null || productSize == '') {
-      evt.preventDefault();
-    }
-    if (variant == null) openErrorNotification('Выберите цвет');
-    if (productSize == '') openErrorNotification('Выберите размер');
-    if (variant !== null && productSize !== '' && !isInCart) {
-      onCartBtnClick();
-    }
-  };
+  // const handleOneClickBuy = (evt) => {
+  //   dispatch(setOneClickBy(true));
+  //   if (variant == null || productSize == '') {
+  //     evt.preventDefault();
+  //   }
+  //   if (variant == null) openErrorNotification('Выберите цвет');
+  //   // if (productSize == '') openErrorNotification('Выберите размер'); && productSize !== ''
+  //   if (variant !== null && !isInCart) {
+  //     onCartBtnClick();
+  //   }
+  // };
 
   const handleGoToCart = () => {
     clearVariant();
@@ -75,48 +80,15 @@ const ActionBtns: React.FC<Props> = ({
         exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
         variants={variants.fadInSlideUp}
       >
-        <AddtoCartWrapper>
-          <motion.button
-            onClick={handleRemoveFromCartClick}
-            key={'basket-pressed'}
-            animate={isInCart ? 'animate' : 'exit'}
-            variants={variants.fadeOutSlideOut}
-            className="in-cart"
-          >
-            <span>уже в корзине</span>
-            <img src="/icons/vector.png" alt="in cart sign" />
-          </motion.button>
-          <motion.button
-            onClick={handleAddToCartClick}
-            key={'basket-normal'}
-            animate={isInCart ? 'exit' : 'animate'}
-            variants={variants.fadeOutSlideOut}
-            className="not-in-cart"
-          >
-            <span>В КОРЗИНУ</span>
-          </motion.button>
-        </AddtoCartWrapper>
-        <AddtoCartWrapper>
-          <Link href="/checkout">
-            <button
-              onClick={(evt) => handleOneClickBuy(evt)}
-              className="not-in-cart btn-secondery"
-            >
-              <span>КУПИТЬ В ОДИН КЛИК</span>
-            </button>
-          </Link>
-        </AddtoCartWrapper>
+        <AddToWishlist product={product!} />
+        <AddToCart product={product!} qty={findCartQTY(product, cart!)} />
       </ActionBtnsWrapper>
-      {!!orderProduct && (
+      {checkIfItemInCart(product, cart!) && (
         <CounterAndGotoCartWrapper
-          animate={isInCart ? 'animate' : 'exit'}
+          initial="exit"
+          animate="animate"
           variants={variants.fadeInSlideIn}
         >
-          <ItemCounter
-            qty={orderProduct?.qty!}
-            product={orderProduct?.product!}
-            // onCountChange={onCountChange}
-          />
           <Link href="/cart">
             <AddtoCartWrapper>
               <button onClick={handleGoToCart} className="in-cart">
@@ -137,6 +109,7 @@ const ActionBtnContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
+  padding: 50px 0;
 `;
 
 const ActionBtnsWrapper = styled(motion.div)`
@@ -146,6 +119,18 @@ const ActionBtnsWrapper = styled(motion.div)`
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
+  @media ${devices.mobileL} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  @media ${devices.mobileM} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  @media ${devices.mobileS} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const CounterAndGotoCartWrapper = styled(motion.div)`
@@ -162,73 +147,33 @@ const CounterAndGotoCartWrapper = styled(motion.div)`
 `;
 
 const AddtoCartWrapper = styled.div`
-  width: 200px;
-  height: 40px;
-  position: relative;
-  overflow: hidden;
-  transition: 300ms;
-  &:hover {
-    transform: scale(1.02);
-  }
-  &:active {
-    transform: scale(1);
-  }
+  background: ${color.activeIcons};
+  width: 150px;
+  height: 50px;
+  border-radius: 30px;
+
   .in-cart {
-    border: 1px solid;
-    gap: 10px;
-    cursor: pointer;
-
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     span {
-      font-size: 1rem;
-      font-weight: 300;
-    }
-  }
-  .not-in-cart {
-    background-color: ${color.btnPrimary};
-    color: ${color.textPrimary};
-    cursor: pointer;
-    span {
-      font-size: 1rem;
-      font-weight: 300;
-    }
-  }
-  .btn-secondery {
-    background-color: ${color.btnSecondery};
-    color: ${color.btnPrimary};
-    &:hover {
-      background-color: ${color.searchBtnBg};
-
-      transform: scale(1.02);
-    }
-    &:active {
-      transform: scale(1);
-      background-color: ${color.btnPrimary};
+      font-size: 0.7rem;
       color: ${color.textPrimary};
     }
   }
-  button {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  &:active {
+    border: 1px solid;
+    background-color: ${color.textPrimary};
+    .in-cart {
+      span {
+        color: ${color.activeIcons};
+      }
+    }
   }
-  @media ${devices.laptopS} {
-    width: 100%;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
+  @media ${devices.laptopM} {
+    width: 140px;
   }
 `;
 

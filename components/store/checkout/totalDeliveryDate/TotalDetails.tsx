@@ -265,21 +265,19 @@ const ItemColumn = styled(motion.div)`
     width: 100%;
     .checkout-action-btn {
       width: 100%;
-      height: 40px;
-      border-radius: 3px;
-      background-color: ${color.btnSecondery};
+      height: 50px;
+      border-radius: 30px;
+      background-color: ${color.textSecondary};
       cursor: pointer;
-      transition: 300ms;
-      &:hover {
-        background-color: ${color.btnPrimary};
-        color: ${color.textPrimary};
-        transform: scale(1.02);
-      }
+      transition: 150ms;
+      color: ${color.textPrimary};
+
       &:active {
-        transform: scale(1);
+        background-color: ${color.textPrimary};
+        color: ${color.textSecondary};
+        border: 1px solid ${color.textSecondary};
       }
       span {
-        font-family: 'Jost';
         font-size: 1rem;
       }
     }

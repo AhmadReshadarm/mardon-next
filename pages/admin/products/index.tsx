@@ -235,11 +235,11 @@ const ProductsPage = () => {
               // }}
             />
           )}
-          <Pagination
+          {/* <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             nPages={nPages}
-          />
+          /> */}
         </Content>
       </CatelogContentWrapper>
     </>

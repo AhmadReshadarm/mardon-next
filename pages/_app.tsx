@@ -11,6 +11,7 @@ import {
   fetchCategories,
   fetchTags,
   fetchNewsPost,
+  fetchMainPageProducts,
 } from 'redux/slicers/store/globalSlicer';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { ContextProvider } from 'common/context/AppContext';
@@ -85,6 +86,15 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     dispatch(fetchTags());
     dispatch(fetchAdvertisement());
     dispatch(fetchNewsPost());
+    dispatch(
+      fetchMainPageProducts({ tags: ['main-page'], fetchFor: 'carosel' }),
+    );
+    dispatch(
+      fetchMainPageProducts({
+        tags: ['best_product'],
+        fetchFor: 'best-product',
+      }),
+    );
   }, []);
 
   const [isClient, setClient] = useState(false);

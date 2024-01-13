@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Header from './Header';
-// import Authorize from './authorize';
 import UserData from './userdata';
 import TotalDeleveryDate from './totalDeliveryDate';
 import { useAppSelector } from 'redux/hooks';
@@ -80,7 +79,7 @@ const Content = styled.div`
 
 const Contianer = styled(motion.div)`
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -96,8 +95,8 @@ const Contianer = styled(motion.div)`
 `;
 
 const Wrapper = styled(motion.div)`
-  width: 400px;
-  height: 412px;
+  width: 100vw;
+  height: 100%;
   position: relative;
   border-radius: 25px;
   display: flex;
@@ -113,16 +112,13 @@ const Wrapper = styled(motion.div)`
 
 const AuthContent = styled(motion.div)`
   width: 85%;
-  height: 300px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   p {
     text-align: center;
-  }
-  span {
-    color: ${color.hover};
   }
 `;
 

@@ -21,6 +21,8 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import { MenuActiveStateSVG } from 'assets/icons/UI-icons';
 import { devices } from 'components/store/lib/Devices';
+import ProductItem from 'ui-kit/products/productItem';
+import { getAnimationDelay } from 'ui-kit/products/helpers';
 
 type Props = {
   searchButtonRef: HTMLDivElement | any;
@@ -63,6 +65,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
       dispatch(clearSearchProducts());
     }
   }, [isSearchFormActive]);
+  const delay = getAnimationDelay(products.length);
   // --------------------- end of UI hooks -------------------------
 
   return (
@@ -96,7 +99,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
           <MenuActiveStateSVG fill={color.inactiveIcons} />
         </div>
         <SearchFieldInput
-          onChange={handleSearchQueryChange(dispatch)}
+          onChange={handleSearchQueryChange(undefined, dispatch)}
           placeholder="Введите ключевые слова, артикул или символы"
           type="input"
           value={searchQuery}
@@ -120,10 +123,10 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
             >
               {products.map((product, index: number) => {
                 return (
-                  <SearchItem
+                  <ProductItem
                     key={`search-bar-item-${index}`}
                     product={product}
-                    index={index}
+                    custom={delay[index]}
                   />
                 );
               })}
@@ -170,6 +173,12 @@ const SearchFormWrapper = styled(motion.div)`
   @media ${devices.laptopS} {
     position: unset;
   }
+  @media ${devices.tabletL} {
+    position: unset;
+  }
+  @media ${devices.tabletS} {
+    position: unset;
+  }
 
   @media ${devices.mobileL} {
     position: unset;
@@ -205,6 +214,14 @@ const SearchForm = styled(motion.form)`
     border: 1px solid;
   }
 
+  @media ${devices.tabletL} {
+    width: 100%;
+    border: 1px solid;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+    border: 1px solid;
+  }
   @media ${devices.mobileL} {
     width: 100%;
     border: 1px solid;
@@ -289,7 +306,7 @@ const ResultsWrapper = styled(motion.div)`
 const ResultsContent = styled.ul`
   width: 100%;
   max-width: 1230px;
-  height: 350px;
+  height: 80vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;

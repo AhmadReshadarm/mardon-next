@@ -3,7 +3,6 @@ import {
   Wrapper,
   Content,
 } from 'components/store/storeLayout/common';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import WeRecomend from './WeRecomend';
 import BuyTogether from './BuyTogether';
@@ -15,8 +14,8 @@ const Recomendation = ({ product }) => {
       flex_direction="row"
       justify_content="center"
       align_items="center"
-      padding="50px 0"
-      bg_color={color.textPrimary}
+      padding="80px 0"
+      bg_color="#595959"
       initial="start"
       whileInView="middle"
       viewport={{ once: true }}

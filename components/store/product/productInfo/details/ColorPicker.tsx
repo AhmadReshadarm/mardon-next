@@ -90,7 +90,7 @@ const ColorPicker: React.FC<Props> = ({
           ''
         )}
       </ColorPickerNameWrapper> */}
-      <ColorPickerList width={variantImages?.length! < 6 ? '60%' : '100%'}>
+      <ColorPickerList>
         {variantImages?.map((variant, colIndex) => (
           <ImageTooltip
             enterTouchDelay={0}
@@ -102,7 +102,7 @@ const ColorPicker: React.FC<Props> = ({
                   style={{
                     width: '100px',
                     height: '100px',
-                    objectFit: 'contain',
+                    objectFit: 'cover',
                   }}
                   src={`/api/images/${variant.image}`}
                   alt={`${variant.image}`}
@@ -202,21 +202,22 @@ const ColorPickerContainer = styled.div`
   gap: 20px;
 `;
 
-const ColorPickerNameWrapper = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-`;
-
 const ColorPickerList = styled.ul`
   width: ${(p: StyleProps) => p.width};
-  display: grid;
+  display: inline-grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-column-gap: 10px;
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  justify-content: center;
+  align-items: center;
+  justify-items: flex-start;
   @media ${devices.laptopS} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media ${devices.tabletL} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media ${devices.tabletS} {
     grid-template-columns: repeat(4, 1fr);
   }
   @media ${devices.mobileL} {
@@ -262,32 +263,20 @@ const ColorPickerPriceWrapper = styled.div`
 `;
 
 const ColorPickerSpan = styled.span`
-  font-size: 1rem;
-  font-family: Anticva;
+  font-size: 1.1rem;
+  font-family: ricordi;
 
   &:nth-child(2) {
     font-size: 1rem;
     text-decoration: line-through;
-    text-decoration-color: ${color.hover};
-    color: ${color.textSecondary};
-  }
-`;
-
-const ColorWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  span {
-    font-size: 2rem;
-    font-weight: 200;
-    color: ${color.textTertiary};
+    color: ${color.textBase};
   }
 `;
 
 const ColorItem = styled.div`
   background-color: ${(props: StyleProps) => props.backgroundColor};
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
 `;
 

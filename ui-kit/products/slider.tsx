@@ -5,17 +5,11 @@ import Link from 'next/link';
 import { wrap } from 'popmotion';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
-import Arrow from '../../assets/arrow_white.svg';
-import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
-import { handleHistory } from './helpers';
-import { AddToWishlist } from 'ui-kit/ProductActionBtns';
-import { TrigerhandleWishBtnClick } from 'components/store/storeLayout/utils/SearchBar/helpers';
+import { handleHistory, handlePagination } from './helpers';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { devices } from 'components/store/lib/Devices';
-import { handleWishBtnClick, checkIfItemInWishlist } from './helpers';
-import { useAppSelector, useAppDispatch } from 'redux/hooks';
-import { TWishlistState } from 'redux/types';
-import { formatNumber } from 'common/helpers/number.helper';
+
+import { useState } from 'react';
 type Props = {
   url?: string;
   images: string[];
@@ -25,14 +19,8 @@ type Props = {
 const Slider: React.FC<Props> = ({ product, url, images }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, images.length, page);
-  const dispatch = useAppDispatch();
-  const { wishlist }: TWishlistState = useAppSelector(
-    (state) => state.wishlist,
-  );
-  const loading = useAppSelector((state) => state.global.loading);
-  const { price, oldPrice } = product.productVariants![0]
-    ? product.productVariants![0]
-    : ({} as any);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+
   return (
     <>
       <ImageSliderWrapper>
@@ -44,7 +32,7 @@ const Slider: React.FC<Props> = ({ product, url, images }) => {
             <ImageSlider
               key={`slider-image${imageIndex}`}
               custom={direction}
-              variants={variants.sliderProduct}
+              variants={variants.slider}
               initial="enter"
               animate="center"
               exit="exit"
@@ -63,8 +51,8 @@ const Slider: React.FC<Props> = ({ product, url, images }) => {
               //   paginateImage,
               //   SWIPE_CONFIDENCE_THRESHOLD,
               // )}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 1 }}
+              // whileHover={{ scale: 1.2 }}
+              // whileTap={{ scale: 1 }}
               alt={product.name}
               src={`/api/images/${images[imageIndex]}`}
               onError={({ currentTarget }) => {
@@ -74,115 +62,60 @@ const Slider: React.FC<Props> = ({ product, url, images }) => {
               }}
             />
           </AnimatePresence>
+          <ul className="image-scroll-wrapper">
+            {images.map((images, index) => {
+              return (
+                <li
+                  onMouseOver={() =>
+                    handlePagination(
+                      index,
+                      currentSlide,
+                      setCurrentSlide,
+                      paginateImage,
+                    )
+                  }
+                  key={index}
+                  className="image-index"
+                ></li>
+              );
+            })}
+          </ul>
         </Link>
-        <PriceWrapper>
-          <span>Цена:</span>
-          <span>{formatNumber(price)}₽</span>
-          {oldPrice ? (
-            <span
-              style={{
-                textDecoration: 'line-through',
-                textDecorationColor: color.hover,
-                textDecorationThickness: '1.5px',
-                color: '#d6d7d7',
-              }}
-            >
-              {formatNumber(oldPrice)}₽
-            </span>
-          ) : (
-            <></>
-          )}
-        </PriceWrapper>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          variants={variants.grow}
-          top="200px"
-          left="15px"
-          topmobile="15px"
-          position="absolute"
-          style={{
-            background: color.glassmorphismSeconderBG,
-            backdropFilter: 'blur(9px)',
-          }}
-          onClick={TrigerhandleWishBtnClick(
-            product,
-            handleWishBtnClick(product, dispatch, wishlist!),
-          )}
-          disabled={loading ? true : false}
-        >
-          <AddToWishlist
-            checkIfItemInWishlist={checkIfItemInWishlist}
-            product={product}
-            wishlist={wishlist!}
-          />
-        </ArrowBtns>
-
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          variants={variants.grow}
-          top="150px"
-          right="15px"
-          topmobile="195px"
-          position="absolute"
-          style={{
-            background: color.glassmorphismSeconderBG,
-            backdropFilter: 'blur(9px)',
-          }}
-          onClick={() => paginateImage(1)}
-        >
-          <ArrowSpan rotate="-90">
-            <Arrow />
-          </ArrowSpan>
-        </ArrowBtns>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.2}
-          variants={variants.grow}
-          top="200px"
-          topmobile="260px"
-          right="15px"
-          position="absolute"
-          style={{
-            background: color.glassmorphismSeconderBG,
-            backdropFilter: 'blur(9px)',
-          }}
-          onClick={() => paginateImage(-1)}
-        >
-          <ArrowSpan rotate="90">
-            <Arrow />
-          </ArrowSpan>
-        </ArrowBtns>
       </ImageSliderWrapper>
     </>
   );
 };
-
 const ImageSliderWrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
-  min-height: 250px;
-  background-color: ${color.textPrimary};
-  border-radius: 10px 10px 0 0;
+  min-height: 300px;
+  min-width: 300px;
   position: relative;
   overflow: hidden;
-
+  .image-scroll-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    z-index: 2;
+    .image-index {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+  }
   a {
+    display: flex;
     width: 100%;
     height: 100%;
   }
 
-  @media ${devices.laptopS} {
-    width: 220px;
-  }
-
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
   .not-found {
     width: 100%;
     height: 100%;
@@ -195,11 +128,61 @@ const ImageSliderWrapper = styled(motion.div)`
     align-items: center;
     padding: 10px;
   }
+
+  @media ${devices.laptopM} {
+    min-height: 300px;
+    max-height: 300px;
+    min-width: 300px;
+    max-width: 300px;
+  }
+
+  @media ${devices.laptopS} {
+    min-height: 365px;
+    max-height: 365px;
+    min-width: 365px;
+    max-width: 365px;
+  }
+
+  @media ${devices.tabletL} {
+    min-height: 210px;
+    max-height: 210px;
+    min-width: 210px;
+    max-width: 210px;
+  }
+  @media ${devices.tabletS} {
+    min-height: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    max-width: 150px;
+  }
+
+  @media ${devices.mobileL} {
+    min-height: unset;
+    max-height: unset;
+    min-width: unset;
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.mobileM} {
+    min-height: unset;
+    max-height: unset;
+    min-width: unset;
+    max-width: unset;
+    width: 95%;
+  }
+
+  @media ${devices.mobileS} {
+    min-height: unset;
+    max-height: unset;
+    min-width: unset;
+    max-width: unset;
+    width: 95%;
+  }
 `;
 
 const ImageSlider = styled(motion.img)`
   width: 100%;
-  height: 300px;
+  height: 100%;
   position: absolute;
   object-fit: cover;
   left: 0;

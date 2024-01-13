@@ -244,7 +244,7 @@ const variants = {
   authorizeSlideX: {
     enter: (direction: number) => {
       return {
-        x: direction > 0 ? -400 : 400,
+        x: direction > 0 ? -550 : 550,
         opacity: 0,
       };
     },

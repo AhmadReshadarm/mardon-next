@@ -45,9 +45,19 @@ const HeaderProductItmes: React.FC<Props> = ({
                 onClick={() => handleMenuState()}
                 href={`/product/${orderProduct!.product?.url}`}
               >
-                <h1>{orderProduct!.product!.name}</h1>
+                <h1>
+                  {orderProduct!.product!.name?.length! > 18
+                    ? orderProduct!.product!.name?.slice(0, 18) + ' ...'
+                    : orderProduct!.product!.name}
+                </h1>
               </Link>
-              <span>{orderProduct!.product?.shortDesc}</span>
+              <span>
+                {`${
+                  orderProduct!.product?.shortDesc?.length! > 80
+                    ? orderProduct!.product?.shortDesc?.slice(0, 80) + ' ...'
+                    : orderProduct!.product?.shortDesc
+                }`}
+              </span>
             </div>
 
             <div className="price-sperator-wrapper">
@@ -89,9 +99,19 @@ const HeaderProductItmes: React.FC<Props> = ({
                 onClick={() => handleMenuState()}
                 href={`/product/${product?.url}`}
               >
-                <h1>{product?.name}</h1>
+                <h1>
+                  {product!.name?.length! > 18
+                    ? product!.name?.slice(0, 18) + ' ...'
+                    : product!.name}
+                </h1>
               </Link>
-              <span>{product?.shortDesc}</span>
+              <span>
+                {`${
+                  product?.shortDesc?.length! > 80
+                    ? product?.shortDesc?.slice(0, 80) + ' ...'
+                    : product?.shortDesc
+                }`}
+              </span>
             </div>
 
             <div className="price-sperator-wrapper">
@@ -149,10 +169,12 @@ const ProductItemWrapper = styled.div`
       justify-content: flex-start;
       align-items: flex-start;
       gap: 15px;
+
       a {
         padding: 0;
         h1 {
           font-family: ricordi;
+          font-size: 1.3rem;
         }
       }
     }

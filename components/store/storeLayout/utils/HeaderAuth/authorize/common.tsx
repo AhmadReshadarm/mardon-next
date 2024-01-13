@@ -52,6 +52,11 @@ const FormWrapper = styled.form`
       background-color: ${color.buttonPrimary};
       color: ${color.textPrimary};
       font-family: ricordi;
+      &:active {
+        border: 1px solid;
+        background-color: ${color.backgroundPrimary} !important;
+        color: ${color.textSecondary};
+      }
     }
   }
   .newsletter-wrapper {

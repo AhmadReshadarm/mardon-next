@@ -51,7 +51,7 @@ const Container = styled.div`
     gap: 20px;
     a {
       &:hover {
-        color: ${color.hover};
+        color: ${color.textBase};
       }
     }
     h1 {

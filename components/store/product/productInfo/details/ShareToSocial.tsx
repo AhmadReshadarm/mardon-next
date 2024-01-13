@@ -26,6 +26,7 @@ type Props = {
   productId?: string;
   image?: string;
   title?: string;
+  artical?: string;
   description?: string;
 };
 
@@ -33,6 +34,7 @@ const ShareToSocial: React.FC<Props> = ({
   productId,
   image,
   title,
+  artical,
   description,
 }) => {
   const router = useRouter();
@@ -89,7 +91,10 @@ const ShareToSocial: React.FC<Props> = ({
       exit={{ y: -30, opacity: 0, transition: { delay: 0.2 } }}
       variants={variants.fadInSlideUp}
     >
-      <span id="product-code">{`Код товара: ${productId}`}</span>
+      <div className="product-artical-wrapper">
+        <span className="product-code">{`Артикул товара: ${artical}`}</span>
+        <span className="product-code">{`Код товара: ${productId}`}</span>
+      </div>
       <motion.button
         className="share-btn-pc"
         ref={btnNode}
@@ -148,7 +153,7 @@ const ShareToSocial: React.FC<Props> = ({
               <motion.span
                 animate={isCopied ? 'animate' : 'exit'}
                 variants={variants.fadeInSlideIn}
-                style={{ color: color.ok }}
+                style={{ color: color.textBase }}
               >
                 Ссылка скопирована
               </motion.span>
@@ -247,8 +252,15 @@ const SocialParent = styled(motion.div)`
   align-items: center;
   gap: 20px;
   position: relative;
-  #product-code {
-    color: ${color.textSecondary};
+  .product-artical-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    .product-code {
+      color: ${color.textSecondary};
+    }
   }
   .share-btn-pc {
     display: flex;
@@ -265,10 +277,6 @@ const SocialParent = styled(motion.div)`
   }
 
   @media ${devices.laptopS} {
-    justify-content: flex-start;
-  }
-
-  @media ${devices.mobileL} {
     margin-bottom: -40px;
     justify-content: space-between;
     .share-btn-pc {
@@ -282,11 +290,74 @@ const SocialParent = styled(motion.div)`
       gap: 5px;
       color: ${color.yellow};
       cursor: pointer;
+    }
+  }
+  @media ${devices.tabletL} {
+    margin-bottom: -40px;
+    justify-content: space-between;
+    .share-btn-pc {
+      display: none;
+    }
+    .share-btn-mobile {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      color: ${color.yellow};
+      cursor: pointer;
+    }
+  }
+  @media ${devices.tabletS} {
+    margin-bottom: -40px;
+    justify-content: space-between;
+    align-items: flex-start;
+    .share-btn-pc {
+      display: none;
+    }
+    .share-btn-mobile {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      color: ${color.yellow};
+      cursor: pointer;
+    }
+    .product-artical-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+  @media ${devices.mobileL} {
+    margin-bottom: -40px;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    .share-btn-pc {
+      display: none;
+    }
+    .share-btn-mobile {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      color: ${color.yellow};
+      cursor: pointer;
+    }
+    .product-artical-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
     }
   }
   @media ${devices.mobileM} {
     margin-bottom: -40px;
     justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     .share-btn-pc {
       display: none;
     }
@@ -298,11 +369,18 @@ const SocialParent = styled(motion.div)`
       gap: 5px;
       color: ${color.yellow};
       cursor: pointer;
+    }
+    .product-artical-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
     }
   }
   @media ${devices.mobileS} {
     margin-bottom: -40px;
     justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     .share-btn-pc {
       display: none;
     }
@@ -314,6 +392,11 @@ const SocialParent = styled(motion.div)`
       gap: 5px;
       color: ${color.yellow};
       cursor: pointer;
+    }
+    .product-artical-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
     }
   }
 `;
@@ -354,7 +437,7 @@ const ShareToSocialWrapper = styled(motion.div)`
         gap: 15px;
         color: ${color.textTertiary};
         &:hover {
-          color: ${color.hover};
+          color: ${color.textBase};
         }
       }
       .copy-url-btn {
@@ -369,7 +452,7 @@ const ShareToSocialWrapper = styled(motion.div)`
           position: absolute;
           cursor: pointer;
           &:hover {
-            color: ${color.hover};
+            color: ${color.textBase};
           }
         }
       }

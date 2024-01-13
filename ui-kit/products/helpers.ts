@@ -9,6 +9,7 @@ import {
   Wishlist,
 } from 'swagger/services';
 import { updateWishlist } from 'redux/slicers/store/wishlistSlicer';
+import { Dispatch, SetStateAction } from 'react';
 const getAnimationDelay = (length: number) => {
   let delay = 0.8;
   const passDelay: number[] = [];
@@ -40,7 +41,7 @@ const handleCartBtnClick =
     dispatch: AppDispatch,
     variant: ProductVariant,
     cart?: Basket,
-    productSize?: string,
+    // productSize?: string,
   ) =>
   async () => {
     const curOrderProduct = cart?.orderProducts?.find(
@@ -55,7 +56,7 @@ const handleCartBtnClick =
               productId: orderProduct.product?.id?.toString(),
               qty: orderProduct.qty,
               productVariantId: variant?.id!,
-              productSize,
+              // productSize,
             })),
         }),
       );
@@ -71,7 +72,7 @@ const handleCartBtnClick =
             productId: orderProduct.product?.id,
             qty: orderProduct.qty,
             productVariantId: variant?.id!,
-            productSize,
+            // productSize,
           })),
       }),
     );
@@ -145,6 +146,21 @@ const handleHistory = (productId: any) => {
   }
 };
 
+const handlePagination = (
+  index: number,
+  currentSlide: number,
+  setCurrentSlide: Dispatch<SetStateAction<number>>,
+  paginateImage: any,
+) => {
+  setCurrentSlide(index);
+  if (index > currentSlide) {
+    paginateImage(1);
+  }
+  if (index < currentSlide) {
+    paginateImage(-1);
+  }
+};
+
 export {
   getAnimationDelay,
   handleCartBtnClick,
@@ -152,4 +168,5 @@ export {
   checkIfItemInCart,
   checkIfItemInWishlist,
   handleHistory,
+  handlePagination,
 };

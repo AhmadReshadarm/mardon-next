@@ -12,6 +12,7 @@ import {
   ReviewReplyContent,
   ReviewReplyItem,
   UserImageWrapper,
+  ReplyWrapper,
 } from '../../common';
 import moment from 'moment';
 import { Modal } from 'antd';
@@ -189,13 +190,12 @@ const Quastion = ({ product }) => {
                 viewport={{ once: true }}
                 custom={0.2}
                 variants={variants.fadInSlideUp}
-                padding="0"
               >
                 <ReviewReplyContent>
                   <UserImageWrapper>
                     <div className="user-profile-img">
                       {question.user.role === Role.Admin ? (
-                        <span>Fingarden</span>
+                        <span>NBHOZ</span>
                       ) : (
                         <img
                           src={
@@ -281,13 +281,12 @@ const Quastion = ({ product }) => {
                 );
 
                 return (
-                  <ReviewReplyWrapper
+                  <ReplyWrapper
                     initial="init"
                     whileInView="animate"
                     viewport={{ once: true }}
                     custom={0.3}
                     variants={variants.fadInSlideUp}
-                    padding="50px"
                   >
                     {/* ______ edite mode start  _______ */}
                     {isCommentEditeSendVisibleMap[comment?.id!] ? (
@@ -322,7 +321,7 @@ const Quastion = ({ product }) => {
                       // edite mode end
                       <ReviewReplyContent>
                         <UserImageWrapper>
-                          <span className="reply-logo">Fingarden</span>
+                          <span className="reply-logo">NBHOZ</span>
                           <div className="side-line"></div>
                         </UserImageWrapper>
                         <ReviewReplyItem>
@@ -384,7 +383,7 @@ const Quastion = ({ product }) => {
                         </ReviewReplyItem>
                       </ReviewReplyContent>
                     )}
-                  </ReviewReplyWrapper>
+                  </ReplyWrapper>
                 );
               })}
               {!isCommentSendVisibleMap[question?.id!] &&
@@ -427,16 +426,6 @@ const Quastion = ({ product }) => {
             </>
           );
         })}
-        <LoadMoreBtnWrapper>
-          {/* <motion.button
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            // onClick={() => setReveiwsData(reviewData + 1)}
-          >
-            Еще...
-          </motion.button> */}
-        </LoadMoreBtnWrapper>
       </ReviewContainer>
       <Modal
         title={'Вы действительно хотите удалить этот вопрос?'}
@@ -488,14 +477,19 @@ const UserCommentField = styled.textarea`
 
 const SendUserCommentBtn = styled.button`
   width: 100px;
-  height: 40px;
-  border-radius: 5px;
+  height: 50px;
+  border-radius: 30px;
   background-color: ${color.btnPrimary};
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   color: ${color.textPrimary};
+  &:active {
+    background-color: ${color.backgroundPrimary};
+    color: ${color.activeIcons};
+    border: 1px solid;
+  }
 `;
 
 export default Quastion;

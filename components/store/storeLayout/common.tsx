@@ -54,13 +54,29 @@ const Container = styled(motion.div)`
 `;
 const Wrapper = styled.div`
   width: 100%;
-  max-width: 1230px;
+  max-width: 1500px;
   display: flex;
   flex-direction: row;
   gap: ${(p: props) => p.gap};
   align-items: center;
   position: ${(p: props) => p.position};
+  @media ${devices.laptopL} {
+    max-width: 1230px;
+  }
+  @media ${devices.laptopM} {
+    max-width: unset;
+  }
   @media ${devices.laptopS} {
+    max-width: unset;
+    width: 95%;
+    flex-direction: ${(p?: props) => p?.flex_direction};
+  }
+  @media ${devices.tabletL} {
+    max-width: unset;
+    width: 95%;
+    flex-direction: ${(p?: props) => p?.flex_direction};
+  }
+  @media ${devices.tabletS} {
     max-width: unset;
     width: 95%;
     flex-direction: ${(p?: props) => p?.flex_direction};

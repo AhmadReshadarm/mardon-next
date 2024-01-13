@@ -169,13 +169,4 @@ const AuthTabWrapper = styled.div<StyleProps>`
   }
 `;
 
-const SingInUpBtnsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-`;
-
 export default Authorization;
