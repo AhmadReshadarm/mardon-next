@@ -1,4 +1,4 @@
-import { updateCart } from 'redux/slicers/store/cartSlicer';
+import { setOneClickBy, updateCart } from 'redux/slicers/store/cartSlicer';
 // import { updateWishlist } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
 import {
@@ -48,6 +48,7 @@ const handleCartBtnClick =
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
     if (curOrderProduct) {
+      dispatch(setOneClickBy(false));
       dispatch(
         updateCart({
           orderProducts: cart?.orderProducts

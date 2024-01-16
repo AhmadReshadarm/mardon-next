@@ -100,6 +100,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
             totalAmount: getTotalPrice(cart, withDelivery),
             comment: payload.comment,
             leaveNearDoor: payload.leaveNearDoor,
+            userId: user?.id,
           } as CheckoutDTO,
         });
 

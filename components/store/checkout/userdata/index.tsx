@@ -13,7 +13,10 @@ import Locate from '../../../../assets/geolocate.svg';
 import AddressDetails from './AddressDetails';
 import ReciverData from './ReciverData';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setDeliveryInfo } from 'redux/slicers/store/checkoutSlicer';
+import {
+  fetchAddress,
+  setDeliveryInfo,
+} from 'redux/slicers/store/checkoutSlicer';
 import { TStoreCheckoutState, TCartState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
@@ -28,7 +31,6 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   );
   const { isOneClickBuy } = useAppSelector<TCartState>((state) => state.cart);
 
-  const [address, setAddress] = useState('');
   const mapRef: any = useRef(null);
   // const [viewport, setViewPort]: [any, any] = useState({
   //   latitude: 59.98653,
@@ -48,6 +50,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   //   let distance = turf.distance(from, to, { units: 'kilometers' });
   //   console.log(distance);
   // }, [viewport]);
+  const [address, setAddress] = useState('');
   const [zipCode, setPostCode] = useState('');
   const [roomOrOffice, setRoomOrOffice] = useState('');
   const [door, setDoor] = useState('');
@@ -59,6 +62,30 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleClickBack = () => {
+    if (address == '') {
+      openErrorNotification('Адрес пуст');
+      return;
+    }
+    if (receiverName == '') {
+      openErrorNotification('Имя пусто emtpy');
+      return;
+    }
+    if (receiverPhone == '') {
+      openErrorNotification('Телефон пуст');
+      return;
+    }
+    const payload = {
+      address,
+      receiverName,
+      receiverPhone,
+      receiverEmail: emailWithoutRegister,
+      floor,
+      door,
+      roomOrOffice,
+      zipCode,
+      rignBell,
+    };
+    dispatch(setDeliveryInfo(payload));
     setStep(2);
     setHasAddress(true);
   };
@@ -93,6 +120,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   };
 
   useEffect(() => {
+    setAddress(deliveryInfo?.address ?? '');
     setPostCode(deliveryInfo?.zipCode ?? '');
     setRoomOrOffice(deliveryInfo?.roomOrOffice ?? '');
     setDoor(deliveryInfo?.door ?? '');
@@ -102,10 +130,11 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
     setPhone(deliveryInfo?.receiverPhone ?? '');
     setEmailWithoutRegister(deliveryInfo?.receiverEmail ?? '');
     setAddress(deliveryInfo?.address ?? '');
-  }, [deliveryInfo]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCheckouts());
+    dispatch(fetchAddress());
   }, []);
 
   useEffect(() => {

@@ -68,7 +68,10 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
         <div className="order-status-wrapper">
           <Header>
             <span> Заказ № {checkout.id}.</span>
-            <Price>{(checkout as any)?.totalAmount} ₽</Price>
+            <div className="price-wrapper">
+              <Price>итого: </Price>
+              <Price>{(checkout as any)?.totalAmount} ₽</Price>
+            </div>
           </Header>
           <div className="order-status">
             <span
@@ -221,7 +224,7 @@ const Items = styled(motion.li)`
     padding: 30px;
     border-radius: 15px 15px 0 0;
     background-color: ${color.bgProduct};
-
+    box-shadow: 0px -3px 6px #62626233;
     span {
       color: ${color.textSecondary};
       font-size: 1rem;
@@ -469,12 +472,16 @@ const Header = styled.span`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  .price-wrapper {
+    display: flex;
+    flex-direction: row;
+    aling-items: center;
+    gap: 5px;
+  }
 `;
 
 const Price = styled.span`
-  font-weight: bold;
-  font-size: 1.1rem !important;
-  color: #000 !important;
+  font-size: 1.5rem !important;
 `;
 
 export default Orders;
