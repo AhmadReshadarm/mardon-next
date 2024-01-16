@@ -71,11 +71,11 @@ const CartItem: React.FC<Props> = ({ item, cart, onRemove, wishlist }) => {
                 handleWishBtnClick(item.product!, dispatch, wishlist),
               )}
             >
-              <AddToWishlist
-                checkIfItemInWishlist={checkIfItemInWishlist}
+              {/* <AddToWishlist
+                // checkIfItemInWishlist={checkIfItemInWishlist}
                 product={item.product!}
                 wishlist={wishlist}
-              />
+              /> */}
             </ArrowBtns>
           </div>
         </ImageWrapper>

@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
-import { fetchBrands } from 'redux/slicers/store/globalSlicer';
+// import { fetchBrands } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
 import { CategoryInTree } from 'swagger/services';
 import { PopupDisplay } from '../../constants';
+import { fetchBrands } from 'redux/slicers/store/catalogSlicer';
 
 const handleCategoryHover =
   (
