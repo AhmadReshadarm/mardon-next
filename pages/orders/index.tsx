@@ -107,6 +107,12 @@ const BasketHeader = styled.div`
   @media ${devices.laptopS} {
     width: 95%;
   }
+  @media ${devices.tabletL} {
+    width: 95%;
+  }
+  @media ${devices.tabletS} {
+    width: 95%;
+  }
   @media ${devices.mobileL} {
     width: 95%;
   }
@@ -153,6 +159,16 @@ const HeaderWrapper = styled.div`
     left: 0;
   }
   @media ${devices.laptopS} {
+    .header-title-wrapper {
+      max-width: unset;
+    }
+  }
+  @media ${devices.tabletL} {
+    .header-title-wrapper {
+      max-width: unset;
+    }
+  }
+  @media ${devices.tabletS} {
     .header-title-wrapper {
       max-width: unset;
     }

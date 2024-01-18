@@ -82,7 +82,19 @@ const ProductWrapper = styled(motion.div)`
   @media ${devices.laptopS} {
     grid-template-columns: repeat(2, 1fr);
   }
+  @media ${devices.tabletL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.tabletS} {
+    grid-template-columns: repeat(1, 1fr);
+  }
   @media ${devices.mobileL} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media ${devices.mobileM} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media ${devices.mobileS} {
     grid-template-columns: repeat(1, 1fr);
   }
 `;
@@ -102,7 +114,7 @@ const Product = styled.div`
   }
   .product-name-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     gap: 5px;

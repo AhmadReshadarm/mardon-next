@@ -95,6 +95,22 @@ const CartTotalPrice = styled.div`
   .total-text {
     font-weight: 300;
   }
+  @media ${devices.tabletL} {
+    .total-text {
+      font-size: 1.8rem;
+    }
+    span {
+      font-size: 1.8rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    .total-text {
+      font-size: 1.8rem;
+    }
+    span {
+      font-size: 1.8rem;
+    }
+  }
   @media ${devices.mobileL} {
     .total-text {
       font-size: 1.8rem;
@@ -121,20 +137,6 @@ const CartTotalPrice = styled.div`
   }
 `;
 
-const StoreLocationWrapper = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 30px;
-  gap: 10px;
-  span {
-    font-weight: 500;
-  }
-`;
-
 const CheckoutBtnWrapper = styled.div`
   width: 100%;
   max-width: 1200px;
@@ -144,6 +146,20 @@ const CheckoutBtnWrapper = styled.div`
   align-items: center;
   padding: 30px;
   gap: 50px;
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    gap: 20px;
+    a {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+    gap: 20px;
+    a {
+      width: 100%;
+    }
+  }
   @media ${devices.mobileL} {
     flex-direction: column;
     gap: 20px;
@@ -174,6 +190,16 @@ const CheckoutBtn = styled(motion.button)`
   padding: 12px 81px;
   border-radius: 5px;
   cursor: pointer;
+  @media ${devices.tabletL} {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.8rem;
+  }
   @media ${devices.mobileL} {
     width: 100%;
     padding: 10px;

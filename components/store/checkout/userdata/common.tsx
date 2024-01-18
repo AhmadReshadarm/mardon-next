@@ -10,6 +10,18 @@ const DetailsRowWrapper = styled.div`
   justify-content: ${(p: styleProps) => p.justifycontent};
   align-items: center;
   gap: 10px;
+  @media ${devices.tabletS} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileL} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileM} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileS} {
+    flex-direction: column;
+  }
 `;
 const DetailsColumnWrapper = styled.div`
   width: 100%;
@@ -27,6 +39,12 @@ const DetailsColumnWrapper = styled.div`
     gap: 10px;
     padding: 5px;
     span {
+      @media ${devices.tabletL} {
+        font-size: 0.6rem;
+      }
+      @media ${devices.tabletS} {
+        font-size: 0.6rem;
+      }
       @media ${devices.mobileL} {
         font-size: 0.6rem;
       }
@@ -45,7 +63,24 @@ const DetailsColumnWrapper = styled.div`
     .required {
       color: ${color.hover};
     }
+    @media ${devices.tabletL} {
+      font-size: 13px;
+      width: 100%;
+      padding-right: 0;
 
+      &.MuiInputLabel-root {
+        font-size: 14px;
+      }
+    }
+    @media ${devices.tabletS} {
+      font-size: 13px;
+      width: 100%;
+      padding-right: 0;
+
+      &.MuiInputLabel-root {
+        font-size: 14px;
+      }
+    }
     @media ${devices.mobileL} {
       font-size: 13px;
       width: 100%;

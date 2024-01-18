@@ -88,10 +88,6 @@ const Contianer = styled(motion.div)`
   background-repeat: no-repeat;
   background-position: center;
   background-size: 350px;
-  @media ${devices.mobileL} {
-    height: auto;
-    padding: 30px 0;
-  }
 `;
 
 const Wrapper = styled(motion.div)`

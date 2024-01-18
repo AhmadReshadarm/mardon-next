@@ -56,7 +56,19 @@ const Headers = styled.h1`
   text-align: start;
   font-family: 'Anticva';
   font-size: 1rem;
+  @media ${devices.tabletL} {
+    max-width: 95vw;
+  }
+  @media ${devices.tabletS} {
+    max-width: 95vw;
+  }
   @media ${devices.mobileL} {
+    max-width: 95vw;
+  }
+  @media ${devices.mobileM} {
+    max-width: 95vw;
+  }
+  @media ${devices.mobileS} {
     max-width: 95vw;
   }
 `;
@@ -66,7 +78,19 @@ const Contents = styled.span`
   text-align: start;
   line-height: 1.5rem;
   font-size: 1rem;
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
+    width: 100%;
+  }
+  @media ${devices.mobileM} {
+    width: 100%;
+  }
+  @media ${devices.mobileS} {
     width: 100%;
   }
 `;
@@ -83,7 +107,19 @@ const ListsDots = styled.ul`
   li {
     list-style-type: circle;
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
+    width: 100%;
+  }
+  @media ${devices.mobileM} {
+    width: 100%;
+  }
+  @media ${devices.mobileS} {
     width: 100%;
   }
 `;

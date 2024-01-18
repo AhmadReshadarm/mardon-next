@@ -11,6 +11,12 @@ const Container = styled.div`
   align-items: flex-start;
   gap: 40px;
   padding: 50px 0;
+  @media ${devices.tabletL} {
+    height: 100%;
+  }
+  @media ${devices.tabletS} {
+    height: 100%;
+  }
   @media ${devices.mobileL} {
     height: 100%;
   }
@@ -36,6 +42,12 @@ const PopupContainer = styled.div`
   box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
   border-radius: 5px;
   @media ${devices.laptopS} {
+    width: 100%;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
     width: 100%;
   }
   @media ${devices.mobileM} {

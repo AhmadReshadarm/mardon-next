@@ -54,6 +54,12 @@ const Wrapper = styled.div`
   h2 {
     padding: 0 20px;
   }
+  @media ${devices.tabletL} {
+    height: 100%;
+  }
+  @media ${devices.tabletS} {
+    height: 100%;
+  }
   @media ${devices.mobileL} {
     height: 100%;
   }

@@ -72,6 +72,30 @@ const KeyValueWrapper = styled(motion.div)`
     }
   }
 
+  @media ${devices.tabletL} {
+    gap: 10px;
+    .edit-data {
+      display: none;
+    }
+    .key {
+      width: 100%;
+    }
+    .value {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletS} {
+    gap: 10px;
+    .edit-data {
+      display: none;
+    }
+    .key {
+      width: 100%;
+    }
+    .value {
+      width: 100%;
+    }
+  }
   @media ${devices.mobileL} {
     gap: 10px;
     .edit-data {
@@ -116,6 +140,12 @@ const EditData = styled.span`
   color: ${color.textSecondary};
   &:hover {
     color: ${color.hover};
+  }
+  @media ${devices.tabletL} {
+    display: none;
+  }
+  @media ${devices.tabletS} {
+    display: none;
   }
   @media ${devices.mobileL} {
     display: none;

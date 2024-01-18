@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
+import { devices } from 'components/store/lib/Devices';
 
 const Content = styled(motion.div)`
   width: 100%;
@@ -13,6 +14,24 @@ const Content = styled(motion.div)`
     width: 100%;
     text-align: start;
     padding: 10px 0;
+  }
+  @media ${devices.laptopS} {
+    padding: 0;
+  }
+  @media ${devices.tabletL} {
+    padding: 0;
+  }
+  @media ${devices.tabletS} {
+    padding: 0;
+  }
+  @media ${devices.mobileL} {
+    padding: 0;
+  }
+  @media ${devices.mobileM} {
+    padding: 0;
+  }
+  @media ${devices.mobileS} {
+    padding: 0;
   }
 `;
 

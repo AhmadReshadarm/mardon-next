@@ -100,7 +100,12 @@ const WrapperNav = styled.ul`
   overflow: hidden;
   box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
   background-color: ${color.bgProduct};
-
+  @media ${devices.tabletL} {
+    display: none;
+  }
+  @media ${devices.tabletS} {
+    display: none;
+  }
   @media ${devices.mobileL} {
     display: none;
   }

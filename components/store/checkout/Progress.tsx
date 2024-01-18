@@ -75,9 +75,22 @@ const StepsWrapper = styled(motion.div)`
   span {
     font-size: 1rem;
   }
-
+  @media ${devices.laptopS} {
+    flex-direction: column;
+  }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+  }
   @media ${devices.mobileL} {
-    width: 350px;
+    flex-direction: column;
+  }
+  @media ${devices.mobileM} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileS} {
     flex-direction: column;
   }
 `;
@@ -106,7 +119,22 @@ const ProgressBarContaier = styled(motion.div)`
   }
 
   @media ${devices.laptopS} {
-    width: 174px;
+    width: 70vw;
+  }
+  @media ${devices.tabletL} {
+    width: 70vw;
+  }
+  @media ${devices.tabletS} {
+    width: 70vw;
+  }
+  @media ${devices.mobileL} {
+    width: 70vw;
+  }
+  @media ${devices.mobileM} {
+    width: 70vw;
+  }
+  @media ${devices.mobileS} {
+    width: 70vw;
   }
 `;
 

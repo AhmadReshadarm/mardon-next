@@ -84,6 +84,12 @@ const Container = styled.div`
   @media ${devices.laptopS} {
     flex-direction: column;
   }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+  }
   @media ${devices.mobileL} {
     flex-direction: column;
   }
@@ -105,7 +111,19 @@ const Wrapper = styled.div`
   @media ${devices.laptopS} {
     width: 100%;
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
+    width: 100%;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
     width: 100%;
   }
 `;

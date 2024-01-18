@@ -238,6 +238,44 @@ const Notifaction = styled.div`
       }
     }
   }
+  @media ${devices.tabletL} {
+    .input-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      span {
+        width: 100%;
+      }
+      .notify-email-wrapper {
+        width: 100%;
+        flex-direction: column;
+        .change-email-btn {
+          width: 100%;
+        }
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    .input-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      span {
+        width: 100%;
+      }
+      .notify-email-wrapper {
+        width: 100%;
+        flex-direction: column;
+        .change-email-btn {
+          width: 100%;
+        }
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
   @media ${devices.mobileL} {
     .input-wrapper {
       flex-direction: column;

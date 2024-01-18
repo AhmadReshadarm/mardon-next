@@ -243,6 +243,20 @@ const AddReviewContainer = styled(motion.div)`
       }
     }
   }
+  @media ${devices.tabletL} {
+    width: 90%;
+    .close-btn {
+      top: -20px;
+      right: 10px;
+    }
+  }
+  @media ${devices.tabletS} {
+    width: 90%;
+    .close-btn {
+      top: -20px;
+      right: 10px;
+    }
+  }
   @media ${devices.mobileL} {
     width: 90%;
     .close-btn {

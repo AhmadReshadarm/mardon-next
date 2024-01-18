@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { Rating } from '@mui/material';
@@ -15,7 +15,9 @@ type Props = {
 };
 const ReviewsItems: React.FC<Props> = ({ review }) => {
   const [isOpen, setOpen] = useState(false);
-  const images = review.product?.productVariants![0].images?.split(', ');
+  const images = review.product?.productVariants?.map((variants) =>
+    variants.images?.split(', '),
+  );
 
   return (
     <ReviewsItem
@@ -120,6 +122,34 @@ const ReviewsItem = styled(motion.li)`
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+  @media ${devices.tabletL} {
+    flex-direction: column-reverse;
+    gap: 15px;
+    .review-info-wrapper {
+      align-items: center;
+      .product-title {
+        text-align: center;
+      }
+      .review-text {
+        width: 90%;
+        text-align: center;
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column-reverse;
+    gap: 15px;
+    .review-info-wrapper {
+      align-items: center;
+      .product-title {
+        text-align: center;
+      }
+      .review-text {
+        width: 90%;
+        text-align: center;
+      }
     }
   }
   @media ${devices.mobileL} {

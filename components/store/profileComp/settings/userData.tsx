@@ -191,6 +191,12 @@ const UserDataContainer = styled(motion.form)`
   .success {
     color: ${color.ok};
   }
+  @media ${devices.tabletL} {
+    width: 90%;
+  }
+  @media ${devices.tabletS} {
+    width: 90%;
+  }
   @media ${devices.mobileL} {
     width: 90%;
   }

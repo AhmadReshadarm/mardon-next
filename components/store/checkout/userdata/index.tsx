@@ -243,6 +243,18 @@ const Container = styled.div`
     justify-content: center;
     gap: 30px;
   }
+  @media ${devices.tabletL} {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+  }
   @media ${devices.mobileL} {
     flex-direction: column-reverse;
     align-items: center;
@@ -280,6 +292,20 @@ const FormContainer = styled(motion.div)`
     width: 5px;
   }
   @media (min-width: 768px) and (max-width: 1100px) {
+    padding: 15px;
+    position: relative;
+    overflow-y: unset;
+    width: 100%;
+    height: auto;
+  }
+  @media ${devices.tabletL} {
+    padding: 15px;
+    position: relative;
+    overflow-y: unset;
+    width: 100%;
+    height: auto;
+  }
+  @media ${devices.tabletS} {
     padding: 15px;
     position: relative;
     overflow-y: unset;
@@ -355,6 +381,33 @@ const FormWrapper = styled.div`
     }
     &:hover {
       color: ${color.hover};
+    }
+  }
+  @media ${devices.mobileL} {
+    .geolocate {
+      flex-direction: column;
+      align-items: flex-start;
+      span {
+        text-align: left;
+      }
+    }
+  }
+  @media ${devices.mobileM} {
+    .geolocate {
+      flex-direction: column;
+      align-items: flex-start;
+      span {
+        text-align: left;
+      }
+    }
+  }
+  @media ${devices.mobileS} {
+    .geolocate {
+      flex-direction: column;
+      align-items: flex-start;
+      span {
+        text-align: left;
+      }
     }
   }
 `;

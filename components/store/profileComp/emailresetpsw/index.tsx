@@ -149,6 +149,12 @@ const InputWrapper = styled.form`
       }
     }
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
     width: 100%;
   }

@@ -26,6 +26,14 @@ const ContainerSideBar = styled.div`
     width: 100%;
     position: unset;
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+    position: unset;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+    position: unset;
+  }
   @media ${devices.mobileL} {
     width: 100%;
     position: unset;

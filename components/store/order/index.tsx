@@ -40,7 +40,14 @@ const Wrapper = styled.div`
     max-width: unset;
     width: 95%;
   }
-
+  @media ${devices.tabletL} {
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.tabletS} {
+    max-width: unset;
+    width: 95%;
+  }
   @media ${devices.mobileL} {
     max-width: unset;
     width: 95%;

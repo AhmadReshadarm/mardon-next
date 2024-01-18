@@ -360,6 +360,12 @@ const Wrapper = styled.form`
     color: ${color.ok};
     font-size: 1rem;
   }
+  @media ${devices.tabletL} {
+    align-items: center;
+  }
+  @media ${devices.tabletS} {
+    align-items: center;
+  }
   @media ${devices.mobileL} {
     align-items: center;
   }
@@ -390,6 +396,12 @@ const AuthBtns = styled.button`
     font-family: 'Jost';
     font-size: 1rem;
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
     width: 100%;
   }
@@ -410,6 +422,12 @@ const FormWrapper = styled.form`
   gap: 15px;
   h4 {
     font-size: 1rem;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
   }
   @media ${devices.mobileL} {
     width: 100%;
@@ -464,6 +482,12 @@ const AuthInput = styled(motion.input)`
   font-weight: 300;
   background-color: ${color.btnSecondery};
   border: none;
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
     width: 100%;
   }

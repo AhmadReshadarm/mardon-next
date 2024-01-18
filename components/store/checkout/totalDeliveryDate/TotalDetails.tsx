@@ -225,8 +225,19 @@ const Container = styled.div`
   .total-header {
     color: ${color.textSecondary};
   }
-
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
+    width: 100%;
+  }
+  @media ${devices.mobileM} {
+    width: 100%;
+  }
+  @media ${devices.mobileS} {
     width: 100%;
   }
 `;
@@ -336,6 +347,18 @@ const ItemRow = styled(motion.div)`
     font-size: 1.1rem;
   }
   @media ${devices.laptopS} {
+    .product-price-mobile-wrapper {
+      width: 100%;
+      text-align: end;
+    }
+  }
+  @media ${devices.tabletL} {
+    .product-price-mobile-wrapper {
+      width: 100%;
+      text-align: end;
+    }
+  }
+  @media ${devices.tabletS} {
     .product-price-mobile-wrapper {
       width: 100%;
       text-align: end;

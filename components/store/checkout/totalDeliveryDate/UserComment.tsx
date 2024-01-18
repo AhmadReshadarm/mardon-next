@@ -77,6 +77,14 @@ const CommentWrapper = styled.div`
     right: 20px;
     cursor: pointer;
   }
+  @media ${devices.tabletL} {
+    width: 95%;
+    padding: 30px 10px;
+  }
+  @media ${devices.tabletS} {
+    width: 95%;
+    padding: 30px 10px;
+  }
   @media ${devices.mobileL} {
     width: 95%;
     padding: 30px 10px;

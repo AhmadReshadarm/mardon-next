@@ -7,7 +7,6 @@ import {
   Content,
 } from 'components/store/storeLayout/common';
 import Head from 'next/head';
-import NotFoundSvg from 'components/store/404';
 import styled from 'styled-components';
 
 const NotFound = (): JSX.Element => {

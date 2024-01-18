@@ -69,8 +69,19 @@ const Wrapper = styled.div`
   align-items: flex-start;
   padding: 20px 0;
   gap: 30px;
-
+  @media ${devices.tabletL} {
+    flex-direction: column;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+  }
   @media ${devices.mobileL} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileM} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileS} {
     flex-direction: column;
   }
 `;

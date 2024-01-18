@@ -421,6 +421,36 @@ const Items = styled(motion.li)`
       }
     }
   }
+  @media ${devices.tabletL} {
+    .order-details-wrapper {
+      flex-direction: column;
+      padding: 10px;
+      .product-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 8px;
+        .product {
+          width: 100%;
+        }
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    .order-details-wrapper {
+      flex-direction: column;
+      padding: 10px;
+      .product-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 8px;
+        .product {
+          width: 100%;
+        }
+      }
+    }
+  }
   @media ${devices.mobileL} {
     .order-details-wrapper {
       flex-direction: column;

@@ -38,13 +38,15 @@ const UserDetails = (props: any) => {
         <span>
           <Delivery />
         </span>
-        <div className="address-wrapper">
-          <h3>Курьером по адресу</h3>
-          <span>{`${deliveryInfo?.address!}`}</span>
+        <div className="edit-button-wrapper">
+          <div className="address-wrapper">
+            <h3>Курьером по адресу</h3>
+            <span>{`${deliveryInfo?.address!}`}</span>
+          </div>
+          <span>
+            <ArrowGray />
+          </span>
         </div>
-        <span>
-          <ArrowGray />
-        </span>
       </Wrapper>
       <Wrapper
         custom={0.2}
@@ -56,13 +58,15 @@ const UserDetails = (props: any) => {
         <span>
           <Avatar />
         </span>
-        <div className="user-comment-wrapper">
-          <span>{deliveryInfo?.receiverName}</span>
-          <span>{deliveryInfo?.receiverPhone}</span>
+        <div className="edit-button-wrapper">
+          <div className="user-comment-wrapper">
+            <span>{deliveryInfo?.receiverName}</span>
+            <span>{deliveryInfo?.receiverPhone}</span>
+          </div>
+          <span>
+            <ArrowGray />
+          </span>
         </div>
-        <span>
-          <ArrowGray />
-        </span>
       </Wrapper>
       <Wrapper
         custom={0.3}
@@ -74,12 +78,14 @@ const UserDetails = (props: any) => {
         <span>
           <Comment />
         </span>
-        <div className="user-comment-wrapper">
-          <span>Комментарий курьеру</span>
+        <div className="edit-button-wrapper">
+          <div className="user-comment-wrapper">
+            <span>Комментарий курьеру</span>
+          </div>
+          <span>
+            <ArrowGray />
+          </span>
         </div>
-        <span>
-          <ArrowGray />
-        </span>
       </Wrapper>
       {/* <Wrapper
         custom={0.3}
@@ -149,18 +155,28 @@ const Wrapper = styled(motion.div)`
       cursor: pointer;
     }
   }
-  .address-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-    h3 {
-      font-size: 1.2rem;
-      font-weight: 800;
+  .edit-button-wrapper {
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items;center;
+  
+    .address-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+
+      h3 {
+        font-size: 1.2rem;
+        font-weight: 800;
+      }
     }
   }
+
   .user-comment-wrapper {
     width: 100%;
     display: flex;
@@ -184,8 +200,42 @@ const Wrapper = styled(motion.div)`
     font-size: 1.1rem;
     font-weight: 700;
   }
-
+  @media ${devices.tabletL} {
+    flex-direction:column;
+    align-items:flex-start;
+    .user-comment-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  @media ${devices.tabletS} {
+        flex-direction:column;
+    align-items:flex-start;
+    .user-comment-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
   @media ${devices.mobileL} {
+        flex-direction:column;
+    align-items:flex-start;
+    .user-comment-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media ${devices.mobileM} {
+        flex-direction:column;
+    align-items:flex-start;
+    .user-comment-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  @media ${devices.mobileS} {
+        flex-direction:column;
+    align-items:flex-start;
     .user-comment-wrapper {
       flex-direction: column;
       align-items: flex-start;

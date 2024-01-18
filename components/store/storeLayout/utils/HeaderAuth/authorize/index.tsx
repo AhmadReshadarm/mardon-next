@@ -9,6 +9,7 @@ import { PopupDisplay } from '../../../constants';
 import { Loading } from './common';
 import SignIn from './signin';
 import SignUp from './signup';
+import { devices } from 'components/store/lib/Devices';
 type Props = {
   direction: number;
   authType: string;
@@ -119,6 +120,67 @@ const AuthorizationWrapper = styled.div`
     position: relative;
     overflow: hidden;
     padding: 60px;
+  }
+  @media ${devices.laptopS} {
+    padding: 30px 0;
+    .auth-intial-image-wrapper {
+      display: none;
+    }
+    .auth-parrent-wrapper {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  @media ${devices.tabletL} {
+    padding: 30px 0;
+    .auth-intial-image-wrapper {
+      display: none;
+    }
+    .auth-parrent-wrapper {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  @media ${devices.tabletS} {
+    padding: 30px 0;
+    .auth-intial-image-wrapper {
+      display: none;
+    }
+    .auth-parrent-wrapper {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  @media ${devices.mobileL} {
+    padding: 30px 0;
+    .auth-intial-image-wrapper {
+      display: none;
+    }
+    .auth-parrent-wrapper {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  @media ${devices.mobileM} {
+    padding: 30px 0;
+    .auth-intial-image-wrapper {
+      display: none;
+    }
+    .auth-parrent-wrapper {
+      width: 100%;
+      padding: 0;
+    }
+  }
+  @media ${devices.mobileS} {
+    padding: 30px 0;
+    .auth-intial-image-wrapper {
+      display: none;
+      padding: 0;
+    }
+    .auth-parrent-wrapper {
+      width: 100%;
+      padding: 0;
+    }
   }
 `;
 

@@ -195,6 +195,12 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 30px;
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
     width: 100%;
   }
@@ -236,6 +242,12 @@ const AuthInputsWrapper = styled(motion.div)`
     .required {
       color: ${color.hover};
     }
+  }
+  @media ${devices.tabletL} {
+    width: 90%;
+  }
+  @media ${devices.tabletS} {
+    width: 90%;
   }
   @media ${devices.mobileL} {
     width: 90%;
@@ -310,6 +322,12 @@ const ActionBtn = styled.button`
     font-size: 1rem;
     font-weight: 300;
     color: ${color.textPrimary};
+  }
+  @media ${devices.tabletL} {
+    width: 90%;
+  }
+  @media ${devices.tabletS} {
+    width: 90%;
   }
   @media ${devices.mobileL} {
     width: 90%;

@@ -84,7 +84,7 @@ const MapContainer = (props: any) => {
     setAddress(viewport.address);
   }, [viewport]);
   return (
-    <MapContianer>
+    <MapContianerWrapper>
       <input
         style={{ display: 'none' }}
         ref={searchRef}
@@ -143,11 +143,11 @@ const MapContainer = (props: any) => {
 
         <NavigationControl />
       </Map> */}
-    </MapContianer>
+    </MapContianerWrapper>
   );
 };
 
-const MapContianer = styled.div`
+const MapContianerWrapper = styled.div`
   width: 60%;
   height: 95vh;
   display: flex;
@@ -167,12 +167,7 @@ const MapContianer = styled.div`
     flex-direction: row;
     align-items: center;
   }
-  // .ymaps-2-1-79-zoom__icon {
-  //   bottom: 0px;
-  //   top: 5px;
-  //   right: 0;
-  //   left: 5px;
-  // }
+
   .placemark {
     width: 35px;
     height: 35px;
@@ -184,11 +179,19 @@ const MapContianer = styled.div`
     fontsize: 35px !important;
     cursor: grab;
   }
-  @media (min-width: 768px) and (max-width: 1100px) {
+
+  @media ${devices.laptopS} {
     width: 95vw;
     height: 75vh;
   }
-
+  @media ${devices.tabletL} {
+    width: 95vw;
+    height: 75vh;
+  }
+  @media ${devices.tabletS} {
+    width: 95vw;
+    height: 75vh;
+  }
   @media ${devices.mobileL} {
     width: 95vw;
     height: 75vh;
