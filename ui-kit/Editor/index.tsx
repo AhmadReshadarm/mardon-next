@@ -1,23 +1,41 @@
 // import FroalaEditor from 'react-froala-wysiwyg';
 import Froalaeditor from 'froala-editor';
 // import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/js/froala_editor.pkgd.min.js';
-import 'froala-editor/js/plugins.pkgd.min.js';
+// import 'froala-editor/css/froala_style.min.css';
+// import 'froala-editor/css/froala_editor.pkgd.min.css';
+// import 'froala-editor/js/froala_editor.pkgd.min.js';
+// import 'froala-editor/js/plugins.pkgd.min.js';
 import { useAppDispatch } from 'redux/hooks';
 import { createImage } from 'redux/slicers/imagesSlicer';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 const FroalaEditor = dynamic(
   async () => {
-    return await import('react-froala-wysiwyg');
+    const values = await Promise.all([
+      import('react-froala-wysiwyg'),
+      import('froala-editor/css/froala_style.min.css'),
+      import('froala-editor/css/froala_editor.pkgd.min.css'),
+      import('froala-editor/js/plugins.pkgd.min.js'),
+      import('froala-editor/js/plugins/image.min.js'),
+      import('froala-editor/js/froala_editor.pkgd.min.js'),
+    ]);
+    return values[0];
   },
   {
-    loading: () => <p>LOADING!!!</p>,
+    loading: () => <p>loading...</p>,
     ssr: false,
   },
 );
+
+// dynamic(
+//   async () => {
+//     return await import('react-froala-wysiwyg');
+//   },
+//   {
+//     loading: () => <p>LOADING!!!</p>,
+//     ssr: false,
+//   },
+// );
 
 const FroalaEditorView = dynamic(
   async () => {
@@ -58,7 +76,7 @@ const Editor = ({ handleEditorChange, editorModal }) => {
 
   return (
     <Wrapper>
-      {/* <FroalaEditor
+      <FroalaEditor
         onModelChange={handleEditorChange}
         config={{
           key: 'TEB9iD7D5A3A4E3G3c1JWSDBCQJ1ZGDa1F1c1JXDAAOZWJhB3D3C10A6C3B4B4F3G3B3==',
@@ -150,7 +168,7 @@ const Editor = ({ handleEditorChange, editorModal }) => {
           },
         }}
         model={editorModal}
-      /> */}
+      />
       <span>Просмотр:</span>
       <FroalaEditorView model={editorModal} />
     </Wrapper>
