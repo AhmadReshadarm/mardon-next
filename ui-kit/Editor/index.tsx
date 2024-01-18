@@ -29,12 +29,7 @@ const FroalaEditorView = dynamic(
   },
 );
 
-type Props = {
-  handleEditorChange: any;
-  editorModal: string;
-};
-
-const Editor: React.FC<Props> = ({ handleEditorChange, editorModal }) => {
+const Editor = ({ handleEditorChange, editorModal }) => {
   const dispatch = useAppDispatch();
 
   const handleImageUpload = async (images, editor) => {
