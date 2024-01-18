@@ -110,7 +110,7 @@ const ManageProductForm = ({
   };
 
   // ------------------- descrption editor hooks -----------------------
-  const [editorModal, setEditorModal] = useState(product?.desc ?? '');
+  const [editorModal, setEditorModal] = useState('');
   const handleEditorChange = (evt) => {
     setEditorModal(evt);
   };
@@ -159,7 +159,7 @@ const ManageProductForm = ({
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
-          {/* <FormItem
+          <FormItem
             option={ManageProductFields.Desc}
             children={
               <Editor
@@ -167,7 +167,7 @@ const ManageProductForm = ({
                 editorModal={editorModal}
               />
             }
-          /> */}
+          />
           {/* ----------------------SHORT DESCRIPTION---------------------- */}
           <FormItem
             option={ManageProductFields.ShortDesc}
