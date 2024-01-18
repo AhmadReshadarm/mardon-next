@@ -117,7 +117,7 @@ const ManageProductForm = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (editMode) setEditorModal(product?.desc!);
+      if (editMode && product?.desc) setEditorModal(product?.desc!);
     }, 500);
   }, [product, editMode]);
   // ---------------------------------------------------------------
