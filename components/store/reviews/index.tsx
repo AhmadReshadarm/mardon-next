@@ -10,7 +10,9 @@ type Props = {
   review: Review;
 };
 const ReviewsItems: React.FC<Props> = ({ review }) => {
-  const images = review.product?.productVariants![0].images?.split(', ');
+  const images = review.product?.productVariants?.map((variants) =>
+    variants.images?.split(', '),
+  );
 
   return (
     <ReviewsItem>
@@ -117,6 +119,44 @@ const ReviewsItem = styled(motion.li)`
       object-fit: cover;
     }
   }
+  @media ${devices.tabletL} {
+    flex-direction: column-reverse;
+    gap: 15px;
+    .review-info-wrapper {
+      align-items: center;
+      .product-title {
+        text-align: center;
+      }
+
+      .review-and-profile-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        .profile-rating-wrapper {
+          align-items: center;
+        }
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column-reverse;
+    gap: 15px;
+    .review-info-wrapper {
+      align-items: center;
+      .product-title {
+        text-align: center;
+      }
+
+      .review-and-profile-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        .profile-rating-wrapper {
+          align-items: center;
+        }
+      }
+    }
+  }
   @media ${devices.mobileL} {
     flex-direction: column-reverse;
     gap: 15px;
@@ -189,6 +229,12 @@ const ReviewWrapper = styled.div`
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+  }
+  @media ${devices.tabletL} {
+    align-items: center;
+  }
+  @media ${devices.tabletS} {
+    align-items: center;
   }
   @media ${devices.mobileL} {
     align-items: center;

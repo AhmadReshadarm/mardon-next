@@ -38,7 +38,7 @@ const MapContainer = (props: any) => {
       <MapAndAddressWrapper>
         <div className="address-container">
           <ContactsHeaderWrapper>
-            <h2>Интернет-магазин fingarden товаров для загородной жизни</h2>
+            <h2>Интернет-магазин nbhoz товаров для загородной жизни</h2>
           </ContactsHeaderWrapper>
           <ContactContentWrapper>
             <div className="first-column">
@@ -60,25 +60,20 @@ const MapContainer = (props: any) => {
                   }}
                   title="Нажмите, чтобы скопировать адрес"
                 >
-                  Санкт-Петербург, ТЦ Villa - ул. Савушкина д.119, корп.3, 2
-                  этаж, В-59
+                  Москва, Малая Юшуньская улица, 1к1
                 </span>
               </div>
               <div className="first-column-content-wrapper">
                 <img src="/icons/available_time.png" alt="working hours" />
-                <span>Пн-Все 10.00-22.00</span>
+                <span>Пн-Все 09.00-21.00</span>
               </div>
               <div className="first-column-content-wrapper">
                 <img src="/icons/email.png" alt="mail to" />
                 <span>
-                  <Link target="_blank" href="mailto:info@fingarden.ru">
-                    info@fingarden.ru
+                  <Link target="_blank" href="mailto:info@nbhoz.ru">
+                    info@nbhoz.ru
                   </Link>
                 </span>
-              </div>
-              <div className="first-column-last-content">
-                <span>ИНН: 7814726563</span>
-                <span>ОГРН: 1187847112111</span>
               </div>
             </div>
             <div className="second-column">
@@ -87,22 +82,18 @@ const MapContainer = (props: any) => {
                   src="/icons/phone_call.png"
                   alt="call fingarden via phone"
                 />
-                <span>
-                  <Link target="_blank" href="tel:+78124253130">
-                    +7 812 425-31-30
+
+                <div className="phone-number-wrapper">
+                  <Link href="tel:89268999954">
+                    <span>8-926-899-99-54</span>
                   </Link>
-                </span>
-              </div>
-              <div className="second-column-content-wrapper">
-                <img
-                  src="/icons/whatsApp_call.png"
-                  alt="call fingarden via WhatsApp"
-                />
-                <span>
-                  <Link target="_blank" href="https://wa.me/0079313539004">
-                    +7 931 353-90-04
+                  <Link href="tel:89652287705">
+                    <span> 8-926-699-99-52</span>
                   </Link>
-                </span>
+                  <Link href="tel:89652287705">
+                    <span> 8-925-486-54-44</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </ContactContentWrapper>
@@ -131,6 +122,18 @@ const MapAndAddressWrapper = styled.div`
     border-radius: 15px;
     padding: 30px;
     margin-top: -200px;
+  }
+  @media ${devices.tabletL} {
+    align-items: center;
+    .address-container {
+      margin-top: -85px;
+    }
+  }
+  @media ${devices.tabletS} {
+    align-items: center;
+    .address-container {
+      margin-top: -85px;
+    }
   }
   @media ${devices.mobileL} {
     align-items: center;
@@ -167,6 +170,18 @@ const ContactsHeaderWrapper = styled.div`
   }
 
   @media ${devices.laptopS} {
+    h2 {
+      width: 100%;
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.tabletL} {
+    h2 {
+      width: 100%;
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.tabletS} {
     h2 {
       width: 100%;
       font-size: 1.2rem;
@@ -241,6 +256,13 @@ const ContactContentWrapper = styled.div`
       justify-content: flex-start;
       align-items: center;
       gap: 15px;
+      .phone-number-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 15px;
+      }
     }
     .second-column-last-content {
       display: flex;
@@ -290,7 +312,32 @@ const ContactContentWrapper = styled.div`
       width: 100%;
     }
   }
-
+  @media ${devices.tabletL} {
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+    .first-column {
+      width: 100%;
+    }
+    .second-column {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletS} {
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+    .first-column {
+      width: 100%;
+    }
+    .second-column {
+      width: 100%;
+    }
+  }
   @media ${devices.mobileL} {
     padding: 0;
     flex-direction: column;
@@ -342,7 +389,12 @@ const MapContianer = styled.div`
   align-items: flex-end;
   box-shadow: 0px 2px 6px ${color.boxShadowBtn};
   border-radius: 20px;
-
+  @media ${devices.tabletL} {
+    height: 40vh;
+  }
+  @media ${devices.tabletS} {
+    height: 40vh;
+  }
   @media ${devices.mobileL} {
     height: 40vh;
   }

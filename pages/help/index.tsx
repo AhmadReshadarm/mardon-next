@@ -147,6 +147,12 @@ const InputWrapper = styled.div`
       font-weight: 300;
       color: ${color.textPrimary};
     }
+    @media ${devices.tabletL} {
+      width: 90%;
+    }
+    @media ${devices.tabletS} {
+      width: 90%;
+    }
     @media ${devices.mobileL} {
       width: 90%;
     }

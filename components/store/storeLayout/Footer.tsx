@@ -113,7 +113,7 @@ const Footer = (): JSX.Element => {
                 </div>
                 <div className="right-column-content">
                   <WatchSVG />
-                  <span>Понедельник-Суббота с 9:00 до 19:00</span>
+                  <span>Понедельник-Суббота с 9:00 до 21:00</span>
                 </div>
                 <div className="right-column-content">
                   <LocationPointerSVG />

@@ -47,6 +47,7 @@ import {
   changeWishlistDisplayState,
 } from 'redux/slicers/store/globalUISlicer';
 import HeaderWishlist from './utils/HeaderWishlist';
+import NavMobile from './utils/mobileNav';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -374,6 +375,7 @@ const Header = () => {
           />
         </Wrapper>
       </Container>
+      <NavMobile />
     </>
   );
 };

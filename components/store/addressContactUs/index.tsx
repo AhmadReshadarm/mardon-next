@@ -5,14 +5,14 @@ import MapContainer from './MapContainer';
 
 const AddressContactUs = () => {
   const [viewport, setViewPort]: [any, any] = useState({
-    latitude: 59.98653,
-    longitude: 30.22623,
+    latitude: 55.65437,
+    longitude: 37.59342,
     zoom: 18,
     width: 'fit',
   });
   const [viewportUser, setViewPortUser]: [any, any] = useState({
-    latitude: 59.98653,
-    longitude: 30.22623,
+    latitude: 55.65437,
+    longitude: 37.59342,
     zoom: 16,
     width: 'fit',
   });
@@ -27,25 +27,5 @@ const AddressContactUs = () => {
     </>
   );
 };
-
-const Headers = styled.h1`
-  width: 100%;
-  text-aling: start;
-  font-family: Anticva;
-  font-size: 1.5rem;
-`;
-
-const Contents = styled.span`
-  width: 100%;
-  text-align: start;
-  font-size: 1rem;
-`;
-
-const Links = styled.span`
-  color: ${color.yellow};
-  &:hover {
-    color: ${color.hover};
-  }
-`;
 
 export default AddressContactUs;

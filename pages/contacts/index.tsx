@@ -83,7 +83,14 @@ const BackToMain = styled.div`
     width: 95%;
     max-width: unset;
   }
-
+  @media ${devices.tabletL} {
+    width: 95%;
+    max-width: unset;
+  }
+  @media ${devices.tabletS} {
+    width: 95%;
+    max-width: unset;
+  }
   @media ${devices.mobileL} {
     width: 95%;
     max-width: unset;
@@ -138,7 +145,16 @@ const HeaderWrapper = styled.div`
       max-width: unset;
     }
   }
-
+  @media ${devices.tabletL} {
+    .header-title-wrapper {
+      max-width: unset;
+    }
+  }
+  @media ${devices.tabletS} {
+    .header-title-wrapper {
+      max-width: unset;
+    }
+  }
   @media ${devices.mobileL} {
     .header-title-wrapper {
       max-width: unset;

@@ -60,6 +60,24 @@ const SliderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media ${devices.laptopS} {
+    height: 300px;
+  }
+  @media ${devices.tabletL} {
+    height: 300px;
+  }
+  @media ${devices.tabletS} {
+    height: 300px;
+  }
+  @media ${devices.mobileL} {
+    height: 300px;
+  }
+  @media ${devices.mobileM} {
+    height: 300px;
+  }
+  @media ${devices.mobileS} {
+    height: 300px;
+  }
 `;
 
 export default Banners;

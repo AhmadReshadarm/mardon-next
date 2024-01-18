@@ -137,7 +137,16 @@ const Item = styled.li`
       flex-direction: column;
     }
   }
-
+  @media ${devices.tabletL} {
+    .item-container {
+      flex-direction: column;
+    }
+  }
+  @media ${devices.tabletS} {
+    .item-container {
+      flex-direction: column;
+    }
+  }
   @media ${devices.mobileL} {
     .item-container {
       flex-direction: column;
@@ -277,7 +286,30 @@ const ItemDetails = styled.div`
       }
     }
   }
-
+  @media ${devices.tabletL} {
+    .product-title {
+      h4 {
+        text-align: center;
+      }
+    }
+    .item-action-btns-wrapper {
+      .in-cart-sign {
+        width: 100%;
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    .product-title {
+      h4 {
+        text-align: center;
+      }
+    }
+    .item-action-btns-wrapper {
+      .in-cart-sign {
+        width: 100%;
+      }
+    }
+  }
   @media ${devices.mobileL} {
     .product-title {
       h4 {

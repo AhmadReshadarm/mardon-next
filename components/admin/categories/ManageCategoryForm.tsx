@@ -59,16 +59,16 @@ const ManageCategoryForm = ({
     parent: category?.parent?.id?.toString(),
   };
 
-  const [name, setName] = useState<string>();
-  const [url, setUrl] = useState<string>();
-  const [desc, setDesc] = useState<string>();
+  // const [name, setName] = useState<string>();
+  // const [url, setUrl] = useState<string>();
+  // const [desc, setDesc] = useState<string>();
 
-  useEffect(() => {
-    if (category) {
-      setName(category?.name);
-      setUrl(category?.url);
-    }
-  }, [category]);
+  // useEffect(() => {
+  //   if (category) {
+  //     setName(category?.name);
+  //     setUrl(category?.url);
+  //   }
+  // }, [category]);
 
   useEffect(() => {
     dispatch(clearImageList());
@@ -87,12 +87,12 @@ const ManageCategoryForm = ({
     setParameters(category?.parameters! ? [...category?.parameters!] : []);
   }, [category]);
 
-  const isDisabled: boolean = handleFalsyValuesCheck(
-    name,
-    url,
-    desc,
-    imageList,
-  );
+  // const isDisabled: boolean = handleFalsyValuesCheck(
+  //   name,
+  //   url,
+  //   desc,
+  //   imageList,
+  // );
   const [isOpen, setOpen] = useState(false);
   return (
     <>
@@ -116,7 +116,7 @@ const ManageCategoryForm = ({
               <Input
                 required={true}
                 placeholder="Введите имя категории"
-                onChange={(e) => setName(e.target.value)}
+                // onChange={(e) => setName(e.target.value)}
               />
             }
           />
@@ -127,7 +127,7 @@ const ManageCategoryForm = ({
                 required={true}
                 rows={4}
                 placeholder="Краткое описание"
-                onChange={(e) => setDesc(e.target.value)}
+                // onChange={(e) => setDesc(e.target.value)}
               />
             }
           />
@@ -137,7 +137,7 @@ const ManageCategoryForm = ({
               <Input
                 required={true}
                 placeholder="Введите URL категории"
-                onChange={(e) => setUrl(e.target.value)}
+                // onChange={(e) => setUrl(e.target.value)}
               />
             }
           />

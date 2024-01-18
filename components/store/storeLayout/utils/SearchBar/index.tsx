@@ -282,7 +282,18 @@ const ResultsWrapper = styled(motion.div)`
     backdrop-filter: blur(9px);
     -webkit-backdrop-filter: blur(9px);
   }
-
+  @media ${devices.tabletL} {
+    top: 200px;
+    background-color: ${color.glassmorphismBg};
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+  }
+  @media ${devices.tabletS} {
+    top: 200px;
+    background-color: ${color.glassmorphismBg};
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+  }
   @media ${devices.mobileL} {
     top: 200px;
     background-color: ${color.glassmorphismBg};
@@ -305,7 +316,7 @@ const ResultsWrapper = styled(motion.div)`
 
 const ResultsContent = styled.ul`
   width: 100%;
-  max-width: 1230px;
+  max-width: 1500px;
   height: 80vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -318,6 +329,44 @@ const ResultsContent = styled.ul`
   overflow-x: hidden;
   &::-webkit-scrollbar {
     width: 5px;
+  }
+  @media ${devices.laptopL} {
+    max-width: 1400px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media ${devices.laptopM} {
+    max-width: 1230px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media ${devices.laptopS} {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.tabletL} {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.tabletS} {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.mobileL} {
+    grid-template-columns: repeat(1, 1fr);
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.mobileM} {
+    grid-template-columns: repeat(1, 1fr);
+    max-width: unset;
+    width: 95%;
+  }
+  @media ${devices.mobileS} {
+    grid-template-columns: repeat(1, 1fr);
+    max-width: unset;
+    width: 95%;
   }
 `;
 

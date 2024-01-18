@@ -188,6 +188,12 @@ const Contents = styled.span`
   text-align: start;
   line-height: 1.5rem;
   font-size: 1rem;
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
     width: 100%;
   }
@@ -209,6 +215,12 @@ const ListsDots = styled.ul`
   li {
     list-style-type: circle;
   }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
+  }
   @media ${devices.mobileL} {
     width: 100%;
   }
@@ -221,6 +233,12 @@ const ListNumbers = styled.ol`
   font-size: 1rem;
   li {
     list-style-type: number;
+  }
+  @media ${devices.tabletL} {
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
+    width: 100%;
   }
   @media ${devices.mobileL} {
     width: 100%;

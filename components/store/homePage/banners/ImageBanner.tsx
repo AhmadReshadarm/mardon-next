@@ -227,6 +227,24 @@ const Slider = styled(motion.img)<StyleProps>`
       `;
     }
   }}
+  @media ${devices.laptopS} {
+    object-fit: contain;
+  }
+  @media ${devices.tabletL} {
+    object-fit: contain;
+  }
+  @media ${devices.tabletS} {
+    object-fit: contain;
+  }
+  @media ${devices.mobileL} {
+    object-fit: contain;
+  }
+  @media ${devices.mobileM} {
+    object-fit: contain;
+  }
+  @media ${devices.mobileS} {
+    object-fit: contain;
+  }
 `;
 
 export default memo(ImageBanner);

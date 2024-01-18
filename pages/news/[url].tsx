@@ -279,7 +279,14 @@ const NewsContent = styled.div`
     max-width: 95vw;
     min-width: 95vw;
   }
-
+  @media ${devices.tabletL} {
+    max-width: 95vw;
+    min-width: 95vw;
+  }
+  @media ${devices.tabletS} {
+    max-width: 95vw;
+    min-width: 95vw;
+  }
   @media ${devices.mobileL} {
     max-width: 95vw;
     min-width: 95vw;
@@ -347,6 +354,14 @@ const ShareToSocialWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
   }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   @media ${devices.mobileL} {
     flex-direction: column;
     align-items: flex-start;
@@ -380,6 +395,28 @@ const NewsGridContainer = styled.div`
     padding: 20px;
   }
   @media ${devices.laptopS} {
+    .news-grid {
+      min-width: 95vw;
+      max-width: 95vw;
+      display: flex;
+      flex-direction: row;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 20px;
+    }
+  }
+  @media ${devices.tabletL} {
+    .news-grid {
+      min-width: 95vw;
+      max-width: 95vw;
+      display: flex;
+      flex-direction: row;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 20px;
+    }
+  }
+  @media ${devices.tabletS} {
     .news-grid {
       min-width: 95vw;
       max-width: 95vw;
@@ -480,6 +517,16 @@ const NewsItem = styled.li`
     }
   }
   @media ${devices.laptopS} {
+    min-width: 310px;
+    max-width: 310px;
+    width: 100%;
+  }
+  @media ${devices.tabletL} {
+    min-width: 310px;
+    max-width: 310px;
+    width: 100%;
+  }
+  @media ${devices.tabletS} {
     min-width: 310px;
     max-width: 310px;
     width: 100%;

@@ -9,9 +9,7 @@ const useCopyToClipboard = () => {
     }
 
     try {
-      await navigator.clipboard.writeText(
-        'Санкт-Петербург, Улица Савушкина Дом 119',
-      );
+      await navigator.clipboard.writeText('Москва, Малая Юшуньская улица, 1к1');
       setCopiedText(true);
       return true;
     } catch (error) {

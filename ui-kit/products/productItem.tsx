@@ -14,6 +14,10 @@ import { checkIfItemInCart, handleCartBtnClick } from 'ui-kit/products/helpers';
 import { TrigerhandleCartBtnClick } from 'components/store/storeLayout/utils/SearchBar/helpers';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
+import {
+  clearSearchProducts,
+  clearSearchQuery,
+} from 'redux/slicers/store/globalSlicer';
 type Props = {
   product: Product;
   custom: number;
@@ -25,6 +29,10 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
   const { price, oldPrice } = product.productVariants![0];
+
+  // dispatch(clearSearchQuery());
+  // dispatch(clearSearchProducts());
+
   return (
     <ItemContainer
       custom={custom}
@@ -38,7 +46,11 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
         <div className="product-title-add-to-card-wrapper">
           <Link
             className="product-title"
-            onClick={() => handleHistory(product.id)}
+            onClick={() => {
+              handleHistory(product.id);
+              dispatch(clearSearchQuery());
+              dispatch(clearSearchProducts());
+            }}
             href={`/product/${product.url}`}
           >
             <span>

@@ -10,6 +10,11 @@ import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { devices } from 'components/store/lib/Devices';
 
 import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import {
+  clearSearchProducts,
+  clearSearchQuery,
+} from 'redux/slicers/store/globalSlicer';
 type Props = {
   url?: string;
   images: string[];
@@ -20,12 +25,16 @@ const Slider: React.FC<Props> = ({ product, url, images }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, images.length, page);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-
+  const dispatch = useAppDispatch();
   return (
     <>
       <ImageSliderWrapper>
         <Link
-          onClick={() => handleHistory(product.id)}
+          onClick={() => {
+            handleHistory(product.id);
+            dispatch(clearSearchQuery());
+            dispatch(clearSearchProducts());
+          }}
           href={`/product/${url}`}
         >
           <AnimatePresence initial={false} custom={direction}>

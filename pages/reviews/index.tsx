@@ -89,7 +89,7 @@ const Reviews = () => {
           page={{
             name: title,
             url: `${router.asPath}`,
-            desc: `Интернет-магазин Fingarden - ${shortDesc}`,
+            desc: `Интернет-магазин NBHOZ - ${shortDesc}`,
             keywords: keywords,
             createdAt: createdAt,
             updatedAt: updatedAt,
@@ -98,7 +98,7 @@ const Reviews = () => {
         />
       ) : (
         <Head>
-          <title>Отзывы | Fingarden</title>
+          <title>Отзывы | NBHOZ</title>
         </Head>
       )}
       <Container
@@ -192,7 +192,14 @@ const BackToMain = styled.div`
     width: 95%;
     max-width: unset;
   }
-
+  @media ${devices.tabletL} {
+    width: 95%;
+    max-width: unset;
+  }
+  @media ${devices.tabletS} {
+    width: 95%;
+    max-width: unset;
+  }
   @media ${devices.mobileL} {
     width: 95%;
     max-width: unset;
@@ -248,6 +255,16 @@ const HeaderWrapper = styled.div`
     }
   }
 
+  @media ${devices.tabletL} {
+    .header-title-wrapper {
+      max-width: unset;
+    }
+  }
+  @media ${devices.tabletS} {
+    .header-title-wrapper {
+      max-width: unset;
+    }
+  }
   @media ${devices.mobileL} {
     .header-title-wrapper {
       max-width: unset;

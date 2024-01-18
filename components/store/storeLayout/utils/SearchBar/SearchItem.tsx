@@ -128,7 +128,12 @@ const CardItemContainer = styled(motion.li)`
     min-width: 225px !important;
     width: 225px !important;
   }
-
+  @media ${devices.tabletL} {
+    min-width: 280px;
+  }
+  @media ${devices.tabletS} {
+    min-width: 280px;
+  }
   @media ${devices.mobileL} {
     min-width: 280px;
   }

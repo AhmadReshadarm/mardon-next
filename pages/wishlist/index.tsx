@@ -10,7 +10,7 @@ const WishlistPage = () => {
   return (
     <>
       <Head>
-        <title>Избранное | fingarden</title>
+        <title>Избранное | NBHOZ</title>
       </Head>
       <Container
         variants={variants.fadInOut}
