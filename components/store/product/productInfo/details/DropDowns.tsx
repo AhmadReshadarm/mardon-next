@@ -73,7 +73,8 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
       variants={variants.fadInSlideUp}
     >
       <InfoDropdown title="Описание">
-        <TextEditorConverter editorModal={product?.desc!} />
+        {/* <TextEditorConverter editorModal={product?.desc!} /> */}
+        <p>{product?.desc}</p>
         {/* {loading ? (
           <Loading />
         ) : (

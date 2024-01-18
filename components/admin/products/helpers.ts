@@ -92,10 +92,10 @@ const handleFormSubmitProduct =
     imagesMap: Object,
     parameterProducts: ParameterProduct[],
     variantsLength: number,
-    desc: string,
+    // desc: string,
   ) =>
   async (form) => {
-    form.desc = desc;
+    // form.desc = desc;
 
     const convertedForm = handleDataConvertation(
       form,

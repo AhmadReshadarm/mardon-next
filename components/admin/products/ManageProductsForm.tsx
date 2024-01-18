@@ -112,16 +112,16 @@ const ManageProductForm = ({
   };
 
   // ------------------- descrption editor hooks -----------------------
-  const [editorModal, setEditorModal] = useState('');
-  const handleEditorChange = (evt) => {
-    setEditorModal(evt);
-  };
+  // const [editorModal, setEditorModal] = useState('');
+  // const handleEditorChange = (evt) => {
+  //   setEditorModal(evt);
+  // };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (editMode && product?.desc) setEditorModal(product?.desc!);
-    }, 500);
-  }, [product, editMode]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (editMode && product?.desc) setEditorModal(product?.desc!);
+  //   }, 500);
+  // }, [product, editMode]);
   // ---------------------------------------------------------------
   return (
     <>
@@ -139,7 +139,7 @@ const ManageProductForm = ({
             imagesMap,
             parameterProducts,
             variants.length,
-            editorModal,
+            // editorModal,
           )}
           form={form}
           initialValues={initialValues}
@@ -165,11 +165,14 @@ const ManageProductForm = ({
             <FormItem
               option={ManageProductFields.Desc}
               children={
-                <Editor
-                  handleEditorChange={handleEditorChange}
-                  editorModal={editorModal}
-                />
+                <TextArea required={true} rows={5} placeholder="Описание" />
               }
+              // children={
+              //   <Editor
+              //     handleEditorChange={handleEditorChange}
+              //     editorModal={editorModal}
+              //   />
+              // }
             />
           </ErrorBoundary>
           {/* ----------------------SHORT DESCRIPTION---------------------- */}
