@@ -5,7 +5,9 @@ import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-
+import { ErrorBoundary } from 'react-error-boundary';
+import fallbackRender from 'common/fallbackRender';
+// import Editor from 'ui-kit/Editor';
 const Editor = dynamic(async () => await import('ui-kit/Editor'), {
   ssr: false,
 });
@@ -159,15 +161,17 @@ const ManageProductForm = ({
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
-          <FormItem
-            option={ManageProductFields.Desc}
-            children={
-              <Editor
-                handleEditorChange={handleEditorChange}
-                editorModal={editorModal}
-              />
-            }
-          />
+          <ErrorBoundary fallbackRender={fallbackRender}>
+            <FormItem
+              option={ManageProductFields.Desc}
+              children={
+                <Editor
+                  handleEditorChange={handleEditorChange}
+                  editorModal={editorModal}
+                />
+              }
+            />
+          </ErrorBoundary>
           {/* ----------------------SHORT DESCRIPTION---------------------- */}
           <FormItem
             option={ManageProductFields.ShortDesc}
