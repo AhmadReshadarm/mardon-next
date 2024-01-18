@@ -136,8 +136,8 @@ const Editor: React.FC<Props> = ({ handleEditorChange, editorModal }) => {
         }}
         model={editorModal}
       />
-      <span>Просмотр:</span>
-      <FroalaEditorView model={editorModal} />
+      {/* <span>Просмотр:</span>
+      <FroalaEditorView model={editorModal} /> */}
     </Wrapper>
   );
 };
