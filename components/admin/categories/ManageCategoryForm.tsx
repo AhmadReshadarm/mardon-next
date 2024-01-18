@@ -226,7 +226,7 @@ const ManageCategoryForm = ({
               htmlType="submit"
               className={styles.createCategoryForm__buttonsStack__submitButton}
               loading={isSaveLoading}
-              disabled={isDisabled}
+              // disabled={isDisabled}
             >
               {category ? 'Сохранить' : 'Создать'}
             </Button>
