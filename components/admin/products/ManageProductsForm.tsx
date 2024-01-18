@@ -159,7 +159,7 @@ const ManageProductForm = ({
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
-          <FormItem
+          {/* <FormItem
             option={ManageProductFields.Desc}
             children={
               <Editor
@@ -167,7 +167,7 @@ const ManageProductForm = ({
                 editorModal={editorModal}
               />
             }
-          />
+          /> */}
           {/* ----------------------SHORT DESCRIPTION---------------------- */}
           <FormItem
             option={ManageProductFields.ShortDesc}
