@@ -43,7 +43,7 @@ const Editor: React.FC<Props> = ({ handleEditorChange, editorModal }) => {
 
   return (
     <Wrapper>
-      <FroalaEditor
+      {/* <FroalaEditor
         onModelChange={handleEditorChange}
         config={{
           key: 'TEB9iD7D5A3A4E3G3c1JWSDBCQJ1ZGDa1F1c1JXDAAOZWJhB3D3C10A6C3B4B4F3G3B3==',
@@ -135,7 +135,7 @@ const Editor: React.FC<Props> = ({ handleEditorChange, editorModal }) => {
           },
         }}
         model={editorModal}
-      />
+      /> */}
       {/* <span>Просмотр:</span>
       <FroalaEditorView model={editorModal} /> */}
     </Wrapper>
