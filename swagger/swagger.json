@@ -1674,13 +1674,7 @@
             "required": false,
             "type": "string"
           },
-          {
-            "name": "artical",
-            "in": "query",
-            "description": "Filtering products by artical",
-            "required": false,
-            "type": "string"
-          },
+
           {
             "name": "minPrice",
             "in": "query",
