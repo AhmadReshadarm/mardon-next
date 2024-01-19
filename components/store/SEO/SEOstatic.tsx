@@ -60,7 +60,7 @@ const SEOstatic = ({ page, image }) => {
 
   return (
     <Head>
-      <title>{page?.name} | nbhoz</title>
+      <title>{page?.name} | NBHOZ</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={page?.name} />
       <meta name="description" content={page?.desc} />

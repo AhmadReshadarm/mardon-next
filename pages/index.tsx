@@ -1,14 +1,11 @@
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';
-import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
-import NewsMainPage from 'components/store/homePage/newsMainPage';
-import ReviewMainPage from 'components/store/homePage/reviewMainPage';
 import ContactsMainPage from 'components/store/homePage/contactsMainPage';
 import Subscribers from 'ui-kit/Subscribers';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import Loading from 'ui-kit/Loading';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
 const IndexPage = (): JSX.Element => {
@@ -16,10 +13,11 @@ const IndexPage = (): JSX.Element => {
     <>
       <SEOstatic
         page={{
-          name: 'Главный',
+          name: 'Главный | NBHOZ',
           url: '/',
-          desc: 'Интернет-магазин NBhoz',
-          keywords: 'nbhoz, nbhoz.ru',
+          desc: 'NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москва и все Россия, купить Кухонная утварь, Товары для сервировки стола, Товары для ванной комнаты',
+          keywords:
+            'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }}
@@ -30,9 +28,6 @@ const IndexPage = (): JSX.Element => {
         <Banners />
         <ProductsSlider />
         <BestProduct />
-        {/* <MainPageCatalog />
-        <NewsMainPage />
-        <ReviewMainPage /> */}
         <Subscribers />
         <ContactsMainPage />
       </Suspense>

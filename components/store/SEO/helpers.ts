@@ -6,12 +6,13 @@ const settings = {
   },
   meta: {
     rootUrl: baseUrl,
-    title: 'Fingarden',
-    description: 'Fingarden, где вы найдете удовольствие',
+    title: 'NBHOZ',
+    description:
+      'NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москва и все Россия, купить Кухонная утварь, Товары для сервировки стола, Товары для ванной комнаты',
     social: {
       graphic:
         'https://cheatcode-assets.s3.amazonaws.com/default-social-graphic.png',
-      twitter: '@fingarden',
+      twitter: '@nbhoz',
     },
   },
   routes: {

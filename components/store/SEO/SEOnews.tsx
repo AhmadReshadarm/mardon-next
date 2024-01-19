@@ -64,13 +64,13 @@ const SEOnews: React.FC<Props> = ({ newsPost }) => {
 
   return (
     <Head>
-      <title>{newsPost?.title} | Fingarden</title>
+      <title>{newsPost?.title} | NBHOZ</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={newsPost?.title} />
       <meta name="description" content={newsPost?.description} />
       <meta name="image" content={image} />
       {socialTags({
-        openGraphType: 'product',
+        openGraphType: 'blog',
         url: url,
         title: newsPost?.title,
         description: newsPost?.description,

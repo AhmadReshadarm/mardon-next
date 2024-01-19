@@ -121,7 +121,7 @@ const CatalogPage = () => {
           page={{
             name: `${selectedCategory?.name ?? 'Каталог'}`,
             url: `${router.asPath}`,
-            desc: `Интернет-магазин Fingarden - ${
+            desc: `Интернет-магазин Nbhoz - ${
               selectedCategory?.name ?? 'Каталог'
             } - ${
               selectedCategory?.desc ?? products[randomProduct]?.shortDesc

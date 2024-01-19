@@ -164,11 +164,11 @@ const initialValuesConverter = (product: Product) => {
   const newProduct: any & Product = { ...product };
   newProduct.available = newProduct.available?.toString();
   newProduct.category = newProduct.category?.id;
-  newProduct.brand = newProduct.brand?.id;
+  // newProduct.brand = newProduct.brand?.id;
 
   // newProduct.colors = multipleItemsConverter(newProduct.colors);
   newProduct.tags = multipleItemsConverter(newProduct.tags);
-  newProduct.sizes = multipleItemsConverter(newProduct.sizes);
+  // newProduct.sizes = multipleItemsConverter(newProduct.sizes);
 
   // newProduct.images = imagesConverter(newProduct.images);
   for (let index = 0; index < product?.productVariants?.length!; index++) {

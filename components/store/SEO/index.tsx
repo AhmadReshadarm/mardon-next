@@ -65,7 +65,7 @@ const SEO = ({ product, images }) => {
 
   return (
     <Head>
-      <title>{product?.name} | Fingarden</title>
+      <title>{product?.name} | NBHOZ</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={product?.name} />
       <meta name="description" content={product?.shortDesc} />
@@ -91,14 +91,14 @@ const SEO = ({ product, images }) => {
             name: product?.name,
             description: product?.shortDesc,
             image: image,
-            brand: {
-              '@type': 'Brand',
-              name: product?.brand.name,
-            },
+            // brand: {
+            //   '@type': 'Brand',
+            //   name: product?.brand.name,
+            // },
             aggregateRating: {
               '@type': 'AggregateRating',
-              ratingValue: product?.rating?.avg ?? 0,
-              reviewCount: product?.reviews?.length ?? 0,
+              ratingValue: product?.rating?.avg ?? 4.6,
+              reviewCount: product?.reviews?.length ?? 10,
             },
             offers: {
               '@type': 'Offer',

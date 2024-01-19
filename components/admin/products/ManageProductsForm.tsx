@@ -17,7 +17,7 @@ import {
 import { TMultipleImageState } from 'redux/types';
 import { Page } from 'routes/constants';
 import {
-  Brand,
+  // Brand,
   Category,
   Color,
   ParameterProduct,
