@@ -138,7 +138,6 @@ const ProductsPage = () => {
       name,
       desc,
       category,
-      brand,
       tags,
       sizes,
       url,
@@ -163,7 +162,7 @@ const ProductsPage = () => {
         <FilterBar
           categories={categories}
           subCategories={subCategories}
-          brands={brands}
+          // brands={brands}
           colors={filteredColors}
           priceRange={priceRange}
           tags={tags}

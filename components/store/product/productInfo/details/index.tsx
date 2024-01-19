@@ -73,7 +73,7 @@ const Details: React.FC<Props> = ({
   //     dispatch(setproductSize('_'));
   //   }
   // }, [product]);
-
+  const [variantIndex, setVariantIndex] = useState(0);
   return (
     <DetailsContainer>
       <UserSelectWrapper>
@@ -94,7 +94,7 @@ const Details: React.FC<Props> = ({
 
         <div className="short-description-wrapper">
           <p>
-            <span> {product?.shortDesc}</span>
+            <span> {product?.desc?.slice(0, 150)}...</span>
           </p>
         </div>
         <ConvoContainer>
@@ -171,7 +171,7 @@ const Details: React.FC<Props> = ({
 
         <SizePickerWrapper>
           <div className="info-size-wrapper">
-            <span className="title">Выберите цвет:</span>
+            <span className="title">Выберите артикул:</span>
           </div>
           <ColorPicker
             variantColor={variant?.color ?? product?.productVariants![0].color}
@@ -183,12 +183,7 @@ const Details: React.FC<Props> = ({
         </SizePickerWrapper>
       </UserSelectWrapper>
 
-      <ActionBtns
-        orderProduct={orderProduct}
-        cart={cart}
-        product={product!}
-        selectedIndex={selectedIndex}
-      />
+      <ActionBtns orderProduct={orderProduct} cart={cart} product={product!} />
     </DetailsContainer>
   );
 };

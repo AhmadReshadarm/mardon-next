@@ -100,20 +100,6 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   </span>
                 </Link>
               )}
-              <span>
-                <ArrowGray />
-              </span>
-              {!!product?.brand && (
-                <Link
-                  href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}&&brands=${product?.brand?.url}`}
-                >
-                  <span title={product?.brand?.name}>
-                    {product?.brand?.name?.length! > 20
-                      ? `${product?.brand?.name?.slice(0, 20)}..`
-                      : product?.brand?.name}
-                  </span>
-                </Link>
-              )}
             </div>
             <ShareToSocial
               title={product?.name}

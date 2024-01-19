@@ -4,7 +4,7 @@ import ManageProductForm from 'components/admin/products/ManageProductsForm';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { clearBrands, fetchBrands } from 'redux/slicers/brandsSlicer';
+// import { clearBrands, fetchBrands } from 'redux/slicers/brandsSlicer';
 import {
   clearCategories,
   fetchCategories,
@@ -34,7 +34,7 @@ const ManageProduct = () => {
   const colors = useAppSelector((state) => state.colors.colors);
   const categories = useAppSelector((state) => state.categories.categories);
   const filteredCategories = categories.filter((category) => !!category.parent);
-  const brands = useAppSelector((state) => state.brands.brands);
+  // const brands = useAppSelector((state) => state.brands.brands);
   const tags = useAppSelector((state) => state.tags.tags);
   // const sizes = useAppSelector((state) => state.sizes.sizes);
 
@@ -47,7 +47,6 @@ const ManageProduct = () => {
 
     dispatch(fetchColors(basicRequestParams));
     dispatch(fetchCategories(basicRequestParams));
-    dispatch(fetchBrands(basicRequestParams));
     dispatch(fetchTags(basicRequestParams));
     // dispatch(fetchSizes(basicRequestParams));
 
@@ -57,7 +56,6 @@ const ManageProduct = () => {
 
       dispatch(clearColors());
       dispatch(clearCategories());
-      dispatch(clearBrands());
       dispatch(clearTags());
       // dispatch(clearSizes());
     };
@@ -67,7 +65,6 @@ const ManageProduct = () => {
     <ManageProductForm
       tags={tags}
       // sizes={sizes}
-      brands={brands}
       categories={filteredCategories}
       colors={colors}
       title={title}

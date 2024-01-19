@@ -2,7 +2,7 @@ import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
 import { Product, Tag } from 'swagger/services';
-import { handleRedirectBrands } from '../brands/helpers';
+// import { handleRedirectBrands } from '../brands/helpers';
 import { handleRedirectCategory } from '../categories/helpers';
 
 import TableLink from '../products/TableLink';
@@ -74,19 +74,19 @@ export const columns: ColumnsType<Product> = [
     },
     width: '7.5%',
   },
-  {
-    title: 'Бренд',
-    render: (_, record) => {
-      return (
-        <TableLink
-          id={record.brand!.id as string}
-          name={record.brand!.name as string}
-          handleRedirect={handleRedirectBrands}
-        />
-      );
-    },
-    width: '7.5%',
-  },
+  // {
+  //   title: 'Бренд',
+  //   render: (_, record) => {
+  //     return (
+  //       <TableLink
+  //         id={record.brand!.id as string}
+  //         name={record.brand!.name as string}
+  //         handleRedirect={handleRedirectBrands}
+  //       />
+  //     );
+  //   },
+  //   width: '7.5%',
+  // },
   // {
   //   title: 'URL',
   //   dataIndex: 'url',

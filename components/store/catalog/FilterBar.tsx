@@ -20,7 +20,7 @@ import CloseSVG from '../../../assets/close_black.svg';
 type Props = {
   categories: Category[];
   subCategories: Category[];
-  brands: Brand[];
+  // brands: Brand[];
   colors: Color[];
   tags: Tag[];
   priceRange: PriceRange;
@@ -32,7 +32,7 @@ type Props = {
 const FilterBar: React.FC<Props> = ({
   categories,
   subCategories,
-  brands,
+  // brands,
   colors,
   tags,
   priceRange,
@@ -46,7 +46,7 @@ const FilterBar: React.FC<Props> = ({
     getFiltersConfig({
       categories,
       subCategories,
-      brands,
+      // brands,
       colors,
       priceRange,
       filters,
@@ -70,14 +70,14 @@ const FilterBar: React.FC<Props> = ({
       getFiltersConfig({
         categories,
         subCategories,
-        brands,
+        // brands,
         colors,
         priceRange,
         filters,
         tags,
       }),
     );
-  }, [categories, subCategories, brands, colors, priceRange, tags]);
+  }, [categories, subCategories, colors, priceRange, tags]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
@@ -92,7 +92,7 @@ const FilterBar: React.FC<Props> = ({
       (category) => category.url === checkedCategory?.url,
     );
     setSelectedCategory(selectedCategory);
-  }, [categories, subCategories, brands, colors, priceRange, tags]);
+  }, [categories, subCategories, colors, priceRange, tags]);
 
   return (
     <FilterBarContent expanded={expanded}>

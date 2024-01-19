@@ -4,7 +4,7 @@ import {
   clearColors,
   clearSubCategories,
   clearTags,
-  fetchBrands,
+  // fetchBrands,
   fetchColors,
   fetchPriceRange,
   fetchProducts,
@@ -21,7 +21,7 @@ const PAGE_ITEMS_LIMIT = 12;
 const convertQueryParams = (query: {
   [k: string]: string | string[] | undefined;
 }) => {
-  const { categories, subCategories, brands, colors, tags } = query;
+  const { categories, subCategories, colors, tags } = query;
   const categoriesArray = categories
     ? Array.isArray(categories)
       ? categories
@@ -32,11 +32,11 @@ const convertQueryParams = (query: {
       ? subCategories
       : [subCategories]
     : undefined;
-  const brandsArray = brands
-    ? Array.isArray(brands)
-      ? brands
-      : [brands]
-    : undefined;
+  // const brandsArray = brands
+  //   ? Array.isArray(brands)
+  //     ? brands
+  //     : [brands]
+  //   : undefined;
   const colorsArray = colors
     ? Array.isArray(colors)
       ? colors
@@ -47,7 +47,7 @@ const convertQueryParams = (query: {
   return {
     categories: categoriesArray,
     subCategories: subCategoriesArray,
-    brands: brandsArray,
+    // brands: brandsArray,
     colors: colorsArray,
     tags: tagsArray,
   };
@@ -56,7 +56,7 @@ const convertQueryParams = (query: {
 const getFiltersConfig = ({
   categories,
   subCategories,
-  brands,
+  // brands,
   colors,
   priceRange,
   filters,
@@ -77,12 +77,12 @@ const getFiltersConfig = ({
         (categoryUrl) => categoryUrl === url,
       ),
     })) as FilterOption[],
-    brandOptions: brands.map(({ id, name, url }) => ({
-      id,
-      name,
-      url,
-      checked: !!filters.brands?.find((brandUrl) => brandUrl === url),
-    })) as FilterOption[],
+    // brandOptions: brands.map(({ id, name, url }) => ({
+    //   id,
+    //   name,
+    //   url,
+    //   checked: !!filters.brands?.find((brandUrl) => brandUrl === url),
+    // })) as FilterOption[],
     colorOptions: colors.map(({ id, name, url, code }) => ({
       id,
       name,
@@ -115,10 +115,10 @@ const setPriceRange = (dispatch: AppDispatch) => {
 const onLocationChange = (dispatch: AppDispatch) => async () => {
   const queryParams = getQueryParams(window.location.search);
   const { minPrice, maxPrice, name, page } = queryParams;
-  const { categories, subCategories, brands, colors, tags } =
+  const { categories, subCategories, colors, tags } =
     convertQueryParams(queryParams);
   const payload = {
-    brands,
+    // brands,
     colors,
     tags,
     name,
@@ -147,11 +147,11 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
 
     if (category) {
       await dispatch(fetchSubCategories(category));
-      await dispatch(fetchBrands({ parent: category }));
+      // await dispatch(fetchBrands({ parent: category }));
       await dispatch(fetchColors({ parent: category }));
     } else {
       await dispatch(clearSubCategories());
-      await dispatch(clearBrands());
+      // await dispatch(clearBrands());
       await dispatch(clearColors());
     }
     setPriceRange(dispatch);
@@ -163,7 +163,7 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
   ) {
     const subCategory = subCategories ? subCategories[0] : '';
     if (subCategories) {
-      await dispatch(fetchBrands({ category: subCategories[0] }));
+      // await dispatch(fetchBrands({ category: subCategories[0] }));
       await dispatch(fetchColors({ category: subCategories[0] }));
       await dispatch(fetchTags({ children: subCategory }));
     } else {

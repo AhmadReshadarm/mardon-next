@@ -176,8 +176,7 @@ const initialValuesConverter = (product: Product) => {
     newProduct[`id[${index}]`] = variant.id;
     newProduct[`${ManageProductFields.Price}[${index}]`] = variant.price;
     newProduct[`${ManageProductFields.OldPrice}[${index}]`] = variant.oldPrice;
-    // newProduct[`${ManageProductFields.wholeSalePrice}[${index}]`] =
-    //   variant.wholeSalePrice;
+    newProduct[`${ManageProductFields.Artical}[${index}]`] = variant.artical;
     newProduct[`${ManageProductFields.Available}[${index}]`] =
       variant.available;
     newProduct[`${ManageProductFields.Color}[${index}]`] = variant.color?.id;

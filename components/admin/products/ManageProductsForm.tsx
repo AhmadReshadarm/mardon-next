@@ -51,7 +51,6 @@ type Props = {
   // sizes: Size[];
   colors: Color[];
   categories: Category[];
-  brands: Brand[];
 };
 
 const ManageProductForm = ({
@@ -65,7 +64,6 @@ const ManageProductForm = ({
   // sizes,
   colors,
   categories,
-  brands,
 }: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -209,18 +207,6 @@ const ManageProductForm = ({
                 return (
                   <Option key={item.id} value={item.id}>
                     {item.parent?.name} / {item.name}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-          {/* ----------------------BRANDS---------------------- */}
-          <Form.Item label="Бренд" name="brand" required>
-            <Select style={{ width: '100%' }}>
-              {brands?.map((item) => {
-                return (
-                  <Option key={item.id} value={item.id}>
-                    {item.name}
                   </Option>
                 );
               })}

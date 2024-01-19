@@ -24,7 +24,6 @@ type Props = {
   orderProduct?: OrderProduct;
   cart: Basket;
   product: Product;
-  selectedIndex: number;
   // onCartBtnClick: () => void;
   // onCountChange: (counter: number, product: Product) => void;
 };
@@ -33,7 +32,6 @@ const ActionBtns: React.FC<Props> = ({
   orderProduct,
   cart,
   product,
-  selectedIndex,
   // onCartBtnClick,
   // onCountChange,
 }) => {
@@ -41,19 +39,6 @@ const ActionBtns: React.FC<Props> = ({
   const { variant, productSize } = useAppSelector<TCartState>(
     (state) => state.cart,
   );
-
-  // const handleAddToCartClick = () => {
-  //   dispatch(setOneClickBy(false));
-  //   if (variant == null) openErrorNotification('Выберите цвет');
-  //   // if (productSize == '') openErrorNotification('Выберите размер'); && productSize !== ''
-  //   if (variant !== null && !isInCart) {
-  //     onCartBtnClick();
-  //   }
-  // };
-
-  // const handleRemoveFromCartClick = () => {
-  //   onCartBtnClick();
-  // };
 
   // const handleOneClickBuy = (evt) => {
   //   dispatch(setOneClickBy(true));
@@ -86,7 +71,7 @@ const ActionBtns: React.FC<Props> = ({
         <AddToCart
           product={product!}
           qty={findCartQTY(product, cart!)}
-          variant={product?.productVariants![selectedIndex]}
+          variant={variant ?? product?.productVariants![0]}
         />
       </ActionBtnsWrapper>
       {checkIfItemInCart(product, cart!) && (

@@ -10,7 +10,6 @@ export enum ManageProductFields {
   Color = 'color',
   Category = 'category',
   Images = 'images',
-  Brand = 'brand',
   Tags = 'tags',
   Url = 'url',
 }

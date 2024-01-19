@@ -23,7 +23,7 @@ import { motion } from 'framer-motion';
 type Props = {
   categories: Category[];
   subCategories: Category[];
-  brands: Brand[];
+  // brands: Brand[];
   colors: Color[];
   tags: Tag[];
   priceRange: PriceRange;
@@ -35,7 +35,7 @@ type Props = {
 const TopFilterBar: React.FC<Props> = ({
   categories,
   subCategories,
-  brands,
+  // brands,
   colors,
   tags,
   priceRange,
@@ -49,7 +49,7 @@ const TopFilterBar: React.FC<Props> = ({
     getFiltersConfig({
       categories,
       subCategories,
-      brands,
+      // brands,
       colors,
       priceRange,
       filters,
@@ -73,14 +73,14 @@ const TopFilterBar: React.FC<Props> = ({
       getFiltersConfig({
         categories,
         subCategories,
-        brands,
+        // brands,
         colors,
         priceRange,
         filters,
         tags,
       }),
     );
-  }, [categories, subCategories, brands, colors, priceRange, tags]);
+  }, [categories, subCategories, colors, priceRange, tags]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
@@ -95,7 +95,7 @@ const TopFilterBar: React.FC<Props> = ({
       (category) => category.url === checkedCategory?.url,
     );
     setSelectedCategory(selectedCategory);
-  }, [categories, subCategories, brands, colors, priceRange, tags]);
+  }, [categories, subCategories, colors, priceRange, tags]);
 
   const [isMoreFilters, setMoreFilters] = useState(false);
   return (

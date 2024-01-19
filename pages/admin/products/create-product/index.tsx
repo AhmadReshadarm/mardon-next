@@ -23,20 +23,18 @@ const CreateProduct = () => {
   const colors = useAppSelector((state) => state.colors.colors);
   const categories = useAppSelector((state) => state.categories.categories);
   const filteredCategories = categories.filter((category) => !!category.parent);
-  const brands = useAppSelector((state) => state.brands.brands);
+  // const brands = useAppSelector((state) => state.brands.brands);
   const tags = useAppSelector((state) => state.tags.tags);
   // const sizes = useAppSelector((state) => state.sizes.sizes);
 
   useEffect(() => {
     dispatch(fetchColors(basicRequestParams));
     dispatch(fetchCategories(basicRequestParams));
-    dispatch(fetchBrands(basicRequestParams));
     dispatch(fetchTags(basicRequestParams));
     // dispatch(fetchSizes(basicRequestParams));
     return () => {
       dispatch(clearColors());
       dispatch(clearCategories());
-      dispatch(clearBrands());
       dispatch(clearTags());
       // dispatch(clearSizes());
       dispatch(clearImageList());
@@ -47,7 +45,6 @@ const CreateProduct = () => {
     <ManageProductForm
       tags={tags}
       // sizes={sizes}
-      brands={brands}
       categories={filteredCategories}
       colors={colors}
       title={title}

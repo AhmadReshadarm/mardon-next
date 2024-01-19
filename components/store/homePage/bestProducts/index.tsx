@@ -27,7 +27,7 @@ const BestProduct: React.FC<Props> = () => {
   useEffect(() => {
     if (bestProduct) {
       delay = getAnimationDelay(bestProduct.length);
-      setLoaded(bestProduct.length <= 1 ? false : true);
+      setLoaded(bestProduct.length < 1 ? false : true);
     }
   }, [bestProduct]);
 

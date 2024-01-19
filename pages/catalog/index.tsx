@@ -35,7 +35,7 @@ const CatalogPage = () => {
     products,
     categories,
     subCategories,
-    brands,
+    // brands,
     colors,
     tags,
     priceRange,
@@ -157,7 +157,7 @@ const CatalogPage = () => {
               <TopFilterBar
                 categories={categories}
                 subCategories={subCategories}
-                brands={brands}
+                // brands={brands}
                 colors={filteredColors}
                 priceRange={priceRange}
                 tags={filteredTags}

@@ -40,7 +40,7 @@ const ProductsSlider = () => {
     if (caroselProducts) {
       setCurrentProduct(caroselProducts[caroselIndex]);
       setImages(getProductVariantsImages(currentProduct?.productVariants));
-      setLoaded(caroselProducts.length <= 1 ? false : true);
+      setLoaded(caroselProducts.length < 1 ? false : true);
     }
   }, [caroselProducts]);
 

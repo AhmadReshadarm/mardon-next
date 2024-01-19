@@ -13,7 +13,7 @@ enum FilterType {
 const getFilters = ({
   sectionOptions,
   subSectionOptions,
-  brandOptions,
+  // brandOptions,
   colorOptions,
   tagOptions,
   minPrice,
@@ -21,7 +21,7 @@ const getFilters = ({
 }: {
   sectionOptions: FilterOption[];
   subSectionOptions: FilterOption[];
-  brandOptions: FilterOption[];
+  // brandOptions: FilterOption[];
   colorOptions: FilterOption[];
   tagOptions: FilterOption[];
   minPrice: number;
@@ -38,7 +38,7 @@ const getFilters = ({
         pushQueryParams([
           { name: 'categories', value: categories },
           { name: 'subCategories', value: [] },
-          { name: 'brands', value: [] },
+          // { name: 'brands', value: [] },
           { name: 'colors', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
@@ -55,7 +55,7 @@ const getFilters = ({
 
         pushQueryParams([
           { name: 'subCategories', value: subCategories },
-          { name: 'brands', value: [] },
+          // { name: 'brands', value: [] },
           { name: 'colors', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
@@ -63,19 +63,19 @@ const getFilters = ({
         ]);
       },
     },
-    {
-      title: 'Бренды',
-      options: cloneDeep(brandOptions),
-      type: FilterType.MULTIPLE_SELECTION,
-      onChange: (selectedOptions: FilterOption[] | undefined) => {
-        const brands = selectedOptions?.map((option) => option.url);
+    // {
+    //   title: 'Бренды',
+    //   options: cloneDeep(brandOptions),
+    //   type: FilterType.MULTIPLE_SELECTION,
+    //   onChange: (selectedOptions: FilterOption[] | undefined) => {
+    //     const brands = selectedOptions?.map((option) => option.url);
 
-        pushQueryParams([
-          { name: 'brands', value: brands },
-          { name: 'page', value: 1 },
-        ]);
-      },
-    },
+    //     pushQueryParams([
+    //       { name: 'brands', value: brands },
+    //       { name: 'page', value: 1 },
+    //     ]);
+    //   },
+    // },
     {
       title: 'Коллекция',
       options: cloneDeep(tagOptions),
