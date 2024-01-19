@@ -30,6 +30,7 @@ const handleSearchQueryChange =
 
     const payload = {
       name: searchQuery,
+      artical: searchQuery,
       parent: selected?.url,
       limit: 5,
     };
