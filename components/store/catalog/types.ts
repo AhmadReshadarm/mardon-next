@@ -29,7 +29,6 @@ export type TFiltersConfig = {
   brands: Brand[];
   colors: Color[];
   tags: Tag[];
-  sizes: Size[];
   priceRange: PriceRange;
   filters: TFilters;
 };

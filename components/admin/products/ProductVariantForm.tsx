@@ -64,13 +64,10 @@ const ProductVariant: React.FC<Props> = ({
           placeholder="Введите устаревшую стоимость продукта"
         />
       </Form.Item>
-      {/* ----------------------wholeSalePrice---------------------- */}
-      {/* <Form.Item
-        name={`${ManageProductFields.wholeSalePrice}[${index}]`}
-        required
-      >
-        <Input type={'number'} placeholder="введите оптовую цену" />
-      </Form.Item> */}
+      {/* ----------------------Artical---------------------- */}
+      <Form.Item name={`${ManageProductFields.Artical}[${index}]`} required>
+        <Input required={true} placeholder="введите Артикул" />
+      </Form.Item>
       {/* ----------------------AVAILABLE---------------------- */}
       <Form.Item
         label="В наличии"

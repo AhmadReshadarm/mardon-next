@@ -119,7 +119,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               title={product?.name}
               image={images[0]}
               productId={product?.id}
-              description={product?.desc}
+              artical={product?.productVariants![selectedIndex]?.artical}
             />
           </NavWrapper>
           <ContentCotainer>

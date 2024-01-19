@@ -8,6 +8,7 @@ import {
   changeCatelogDisplayState,
   changeCatelogState,
 } from 'redux/slicers/store/globalUISlicer';
+import { devices } from 'components/store/lib/Devices';
 type Props = {
   setHoveredCategory;
 };
@@ -105,7 +106,7 @@ const MainCatalogWrapper = styled.div`
     background-position: left;
     background-position-y: 45px;
     span {
-      font-size: 2rem;
+      font-size: 1.5rem;
       transition: 200ms;
       font-family: ricordi;
     }
@@ -118,6 +119,18 @@ const SubCategoriesWrapper = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
   padding: 0 0 15px 15px;
+  @media ${devices.desktop} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media ${devices.laptopL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.laptopM} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.laptopS} {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const SubCategoriesContainer = styled.div`
@@ -128,7 +141,7 @@ const SubCategoriesContainer = styled.div`
   gap: 10px;
   .sub-category {
     transition: 200ms;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 `;
 

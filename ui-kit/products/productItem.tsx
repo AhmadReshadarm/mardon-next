@@ -59,6 +59,12 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : product.name}
             </span>
           </Link>
+          <div className="artical-wrapper">
+            <span style={{ fontFamily: 'ricordi' }}>Артикул : </span>
+            <span>
+              {product?.productVariants![0]?.artical?.toLocaleUpperCase()}
+            </span>
+          </div>
           <div className="product-description-wrapper">
             <span>
               {product.shortDesc?.length! > 100
@@ -72,7 +78,11 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </div>
           <div className="action-buttons-wrapper">
             <AddToWishlist product={product} />
-            <AddToCart product={product} qty={findCartQTY(product, cart)} />
+            <AddToCart
+              product={product}
+              qty={findCartQTY(product, cart)}
+              variant={product?.productVariants![0]}
+            />
           </div>
         </div>
       </ItemWrapper>
@@ -197,6 +207,14 @@ const ItemWrapper = styled.div`
       align-items: center;
       padding: 20px 0;
     }
+    .artical-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+    }
   }
   @media ${devices.laptopS} {
     .product-title-add-to-card-wrapper {
@@ -229,6 +247,10 @@ const ItemWrapper = styled.div`
         flex-direction: column;
         justify-content: center;
         gap: 15px;
+      }
+      .artical-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   }
@@ -275,6 +297,10 @@ const ItemWrapper = styled.div`
         flex-direction: column;
         justify-content: center;
         gap: 15px;
+      }
+      .artical-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   }

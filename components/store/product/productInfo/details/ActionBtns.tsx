@@ -24,6 +24,7 @@ type Props = {
   orderProduct?: OrderProduct;
   cart: Basket;
   product: Product;
+  selectedIndex: number;
   // onCartBtnClick: () => void;
   // onCountChange: (counter: number, product: Product) => void;
 };
@@ -32,6 +33,7 @@ const ActionBtns: React.FC<Props> = ({
   orderProduct,
   cart,
   product,
+  selectedIndex,
   // onCartBtnClick,
   // onCountChange,
 }) => {
@@ -81,7 +83,11 @@ const ActionBtns: React.FC<Props> = ({
         variants={variants.fadInSlideUp}
       >
         <AddToWishlist product={product!} />
-        <AddToCart product={product!} qty={findCartQTY(product, cart!)} />
+        <AddToCart
+          product={product!}
+          qty={findCartQTY(product, cart!)}
+          variant={product?.productVariants![selectedIndex]}
+        />
       </ActionBtnsWrapper>
       {checkIfItemInCart(product, cart!) && (
         <CounterAndGotoCartWrapper

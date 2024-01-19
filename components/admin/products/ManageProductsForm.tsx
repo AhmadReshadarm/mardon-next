@@ -5,12 +5,10 @@ import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ErrorBoundary } from 'react-error-boundary';
-import fallbackRender from 'common/fallbackRender';
 // import Editor from 'ui-kit/Editor';
-const Editor = dynamic(async () => await import('ui-kit/Editor'), {
-  ssr: false,
-});
+// const Editor = dynamic(async () => await import('ui-kit/Editor'), {
+//   ssr: false,
+// });
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
@@ -24,7 +22,7 @@ import {
   Color,
   ParameterProduct,
   Product,
-  Size,
+  // Size,
   Tag,
 } from 'swagger/services';
 
@@ -50,7 +48,7 @@ type Props = {
   isSaveLoading: boolean;
   editMode: boolean;
   tags: Tag[];
-  sizes: Size[];
+  // sizes: Size[];
   colors: Color[];
   categories: Category[];
   brands: Brand[];
@@ -64,7 +62,7 @@ const ManageProductForm = ({
   isSaveLoading,
   editMode,
   tags,
-  sizes,
+  // sizes,
   colors,
   categories,
   brands,
@@ -161,20 +159,20 @@ const ManageProductForm = ({
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
-          <ErrorBoundary fallbackRender={fallbackRender}>
-            <FormItem
-              option={ManageProductFields.Desc}
-              children={
-                <TextArea required={true} rows={5} placeholder="Описание" />
-              }
-              // children={
-              //   <Editor
-              //     handleEditorChange={handleEditorChange}
-              //     editorModal={editorModal}
-              //   />
-              // }
-            />
-          </ErrorBoundary>
+
+          <FormItem
+            option={ManageProductFields.Desc}
+            children={
+              <TextArea required={true} rows={5} placeholder="Описание" />
+            }
+            // children={
+            //   <Editor
+            //     handleEditorChange={handleEditorChange}
+            //     editorModal={editorModal}
+            //   />
+            // }
+          />
+
           {/* ----------------------SHORT DESCRIPTION---------------------- */}
           <FormItem
             option={ManageProductFields.ShortDesc}
@@ -242,7 +240,7 @@ const ManageProductForm = ({
             </Select>
           </Form.Item>
           {/* ----------------------SIZES---------------------- */}
-          <Form.Item label="Размер" name="sizes">
+          {/* <Form.Item label="Размер" name="sizes">
             <Select
               mode="multiple"
               allowClear
@@ -253,7 +251,7 @@ const ManageProductForm = ({
                 <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
               ))}
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           {/* ----------------------PRODUCT VARIANTS---------------------- */}
           <h2 style={{ fontSize: '26px', marginBottom: '20px' }}>
             Варианты продукта

@@ -12,7 +12,7 @@ import {
 import { clearColors, fetchColors } from 'redux/slicers/colorsSlicer';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
 import { clearTags, fetchTags } from 'redux/slicers/tagsSlicer';
-import { clearSizes, fetchSizes } from 'redux/slicers/sizesSlicer';
+// import { clearSizes, fetchSizes } from 'redux/slicers/sizesSlicer';
 import {
   clearChosenProduct,
   fetchChosenProduct,
@@ -36,7 +36,7 @@ const ManageProduct = () => {
   const filteredCategories = categories.filter((category) => !!category.parent);
   const brands = useAppSelector((state) => state.brands.brands);
   const tags = useAppSelector((state) => state.tags.tags);
-  const sizes = useAppSelector((state) => state.sizes.sizes);
+  // const sizes = useAppSelector((state) => state.sizes.sizes);
 
   const dispatch = useAppDispatch();
 
@@ -49,7 +49,7 @@ const ManageProduct = () => {
     dispatch(fetchCategories(basicRequestParams));
     dispatch(fetchBrands(basicRequestParams));
     dispatch(fetchTags(basicRequestParams));
-    dispatch(fetchSizes(basicRequestParams));
+    // dispatch(fetchSizes(basicRequestParams));
 
     return () => {
       dispatch(clearChosenProduct());
@@ -59,14 +59,14 @@ const ManageProduct = () => {
       dispatch(clearCategories());
       dispatch(clearBrands());
       dispatch(clearTags());
-      dispatch(clearSizes());
+      // dispatch(clearSizes());
     };
   }, [dispatch, router.query]);
 
   return (
     <ManageProductForm
       tags={tags}
-      sizes={sizes}
+      // sizes={sizes}
       brands={brands}
       categories={filteredCategories}
       colors={colors}

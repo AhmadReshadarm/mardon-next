@@ -11,14 +11,7 @@ import SingleSelectionFilter from 'components/store/catalog/topFilters/SingleSel
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  Brand,
-  Category,
-  Color,
-  PriceRange,
-  Size,
-  Tag,
-} from 'swagger/services';
+import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
@@ -33,7 +26,6 @@ type Props = {
   brands: Brand[];
   colors: Color[];
   tags: Tag[];
-  sizes: Size[];
   priceRange: PriceRange;
   expanded: any;
   handleExpantionChange: any;
@@ -46,7 +38,6 @@ const TopFilterBar: React.FC<Props> = ({
   brands,
   colors,
   tags,
-  sizes,
   priceRange,
   expanded,
   handleExpantionChange,
@@ -63,7 +54,6 @@ const TopFilterBar: React.FC<Props> = ({
       priceRange,
       filters,
       tags,
-      sizes,
     }),
   );
 
@@ -88,10 +78,9 @@ const TopFilterBar: React.FC<Props> = ({
         priceRange,
         filters,
         tags,
-        sizes,
       }),
     );
-  }, [categories, subCategories, brands, colors, priceRange, tags, sizes]);
+  }, [categories, subCategories, brands, colors, priceRange, tags]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
@@ -106,7 +95,7 @@ const TopFilterBar: React.FC<Props> = ({
       (category) => category.url === checkedCategory?.url,
     );
     setSelectedCategory(selectedCategory);
-  }, [categories, subCategories, brands, colors, priceRange, tags, sizes]);
+  }, [categories, subCategories, brands, colors, priceRange, tags]);
 
   const [isMoreFilters, setMoreFilters] = useState(false);
   return (

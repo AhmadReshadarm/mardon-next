@@ -10,6 +10,7 @@ import {
 } from 'swagger/services';
 import { updateWishlist } from 'redux/slicers/store/wishlistSlicer';
 import { Dispatch, SetStateAction } from 'react';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 const getAnimationDelay = (length: number) => {
   let delay = 0.8;
   const passDelay: number[] = [];
@@ -47,6 +48,10 @@ const handleCartBtnClick =
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
+    if (!curOrderProduct)
+      openSuccessNotification(
+        `Вы выбрали артикул: ${variant?.artical?.toLocaleUpperCase()}`,
+      );
     if (curOrderProduct) {
       dispatch(setOneClickBy(false));
       dispatch(

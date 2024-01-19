@@ -117,7 +117,9 @@ const ColorPicker: React.FC<Props> = ({
                     width: '100%',
                   }}
                 />
-                {variantColor?.url != '_' ? (
+                {variantColor?.url === '_' || variantColor?.url === '-' ? (
+                  ''
+                ) : (
                   <ColorPickerSpan
                     style={{
                       display: 'flex',
@@ -128,10 +130,11 @@ const ColorPicker: React.FC<Props> = ({
                     <span>Цвет:</span>
                     <ColorItem backgroundColor={variant.color.code!} />
                   </ColorPickerSpan>
-                ) : (
-                  ''
                 )}
-
+                <ArticalWrapper>
+                  <span>Артикул:</span>
+                  <span>{variant.artical.toLocaleUpperCase()}</span>
+                </ArticalWrapper>
                 {!variant.available ? (
                   <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                 ) : (
@@ -201,7 +204,16 @@ const ColorPickerContainer = styled.div`
   align-items: flex-start;
   gap: 20px;
 `;
-
+const ArticalWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  span {
+    font-size: 0.8rem;
+  }
+`;
 const ColorPickerList = styled.ul`
   width: ${(p: StyleProps) => p.width};
   display: inline-grid;

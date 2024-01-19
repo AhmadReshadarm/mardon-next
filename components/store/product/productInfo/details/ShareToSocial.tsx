@@ -27,7 +27,7 @@ type Props = {
   image?: string;
   title?: string;
   artical?: string;
-  description?: string;
+  // description?: string;
 };
 
 const ShareToSocial: React.FC<Props> = ({
@@ -35,7 +35,7 @@ const ShareToSocial: React.FC<Props> = ({
   image,
   title,
   artical,
-  description,
+  // description,
 }) => {
   const router = useRouter();
   const [isCopied, setCopied, copy] = useCopyToClipboard();
@@ -92,7 +92,7 @@ const ShareToSocial: React.FC<Props> = ({
       variants={variants.fadInSlideUp}
     >
       <div className="product-artical-wrapper">
-        <span className="product-code">{`Артикул товара: ${artical}`}</span>
+        <span className="product-code">{`Артикул товара: ${artical?.toLocaleUpperCase()}`}</span>
         <span className="product-code">{`Код товара: ${productId}`}</span>
       </div>
       <motion.button

@@ -16,7 +16,6 @@ const getFilters = ({
   brandOptions,
   colorOptions,
   tagOptions,
-  sizeOptions,
   minPrice,
   maxPrice,
 }: {
@@ -25,7 +24,6 @@ const getFilters = ({
   brandOptions: FilterOption[];
   colorOptions: FilterOption[];
   tagOptions: FilterOption[];
-  sizeOptions: FilterOption[];
   minPrice: number;
   maxPrice: number;
 }): Filter[] => {
@@ -100,19 +98,6 @@ const getFilters = ({
 
         pushQueryParams([
           { name: 'colors', value: colors },
-          { name: 'page', value: 1 },
-        ]);
-      },
-    },
-    {
-      title: 'Размеры',
-      options: cloneDeep(sizeOptions),
-      type: FilterType.MULTIPLE_SELECTION,
-      onChange: (selectedOptions: FilterOption[] | undefined) => {
-        const sizes = selectedOptions?.map((option) => option.url);
-
-        pushQueryParams([
-          { name: 'sizes', value: sizes },
           { name: 'page', value: 1 },
         ]);
       },

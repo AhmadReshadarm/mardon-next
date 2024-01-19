@@ -35,10 +35,8 @@ const Details: React.FC<Props> = ({
   setSelectedIndex,
   paginateImage,
 }) => {
-  const dispatch = useAppDispatch();
-  const { variant, productSize } = useAppSelector<TCartState>(
-    (state) => state.cart,
-  );
+  // const dispatch = useAppDispatch();
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const orderProduct = cart?.orderProducts?.find(
@@ -49,32 +47,32 @@ const Details: React.FC<Props> = ({
     if (productVariant.oldPrice) return true;
     return false;
   };
-  const onCountChange = (counter: number, product: Product) => {
-    dispatch(
-      updateCart({
-        orderProducts: cart?.orderProducts
-          ?.filter((orderProduct) => orderProduct.product?.id != product.id)
-          ?.concat({
-            product: { id: product.id },
-            qty: counter,
-            productVariantId: variant?.id!,
-            productSize: productSize,
-          } as any)
-          .map((orderProduct) => ({
-            productId: orderProduct.product?.id,
-            qty: orderProduct.qty,
-            productVariantId: orderProduct?.productVariant?.id,
-            productSize: productSize,
-          })),
-      }),
-    );
-  };
+  // const onCountChange = (counter: number, product: Product) => {
+  //   dispatch(
+  //     updateCart({
+  //       orderProducts: cart?.orderProducts
+  //         ?.filter((orderProduct) => orderProduct.product?.id != product.id)
+  //         ?.concat({
+  //           product: { id: product.id },
+  //           qty: counter,
+  //           productVariantId: variant?.id!,
+  //           productSize: productSize,
+  //         } as any)
+  //         .map((orderProduct) => ({
+  //           productId: orderProduct.product?.id,
+  //           qty: orderProduct.qty,
+  //           productVariantId: orderProduct?.productVariant?.id,
+  //           productSize: productSize,
+  //         })),
+  //     }),
+  //   );
+  // };
 
-  useEffect(() => {
-    if (!product?.sizes) {
-      dispatch(setproductSize('_'));
-    }
-  }, [product]);
+  // useEffect(() => {
+  //   if (!product?.sizes) {
+  //     dispatch(setproductSize('_'));
+  //   }
+  // }, [product]);
 
   return (
     <DetailsContainer>
@@ -185,7 +183,12 @@ const Details: React.FC<Props> = ({
         </SizePickerWrapper>
       </UserSelectWrapper>
 
-      <ActionBtns orderProduct={orderProduct} cart={cart} product={product!} />
+      <ActionBtns
+        orderProduct={orderProduct}
+        cart={cart}
+        product={product!}
+        selectedIndex={selectedIndex}
+      />
     </DetailsContainer>
   );
 };

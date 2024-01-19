@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Product } from 'swagger/services';
+import { Product, ProductVariant } from 'swagger/services';
 import variants from 'components/store/lib/variants';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import ItemCounter from 'ui-kit/ItemCounter';
@@ -16,8 +16,9 @@ import { devices } from 'components/store/lib/Devices';
 type PropsCart = {
   product: Product;
   qty: number;
+  variant: ProductVariant | undefined;
 };
-export const AddToCart: React.FC<PropsCart> = ({ product, qty }) => {
+export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const dispatch = useAppDispatch();
   return (
@@ -27,12 +28,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty }) => {
           initial={{ height: '0px' }}
           animate={{ height: '50px' }}
           transition={{ duration: 0.004 }}
-          onClick={handleCartBtnClick(
-            product,
-            dispatch,
-            product.productVariants![0],
-            cart!,
-          )}
+          onClick={handleCartBtnClick(product, dispatch, variant!, cart!)}
         >
           <motion.span
             initial={{ opacity: 0 }}

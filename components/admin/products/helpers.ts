@@ -53,6 +53,7 @@ const handleDataConvertation = (
     const id: string = form[`id[${index}]`];
     const price: number = form[`${ManageProductFields.Price}[${index}]`];
     const oldPrice: number = form[`${ManageProductFields.OldPrice}[${index}]`];
+    const artical: string = form[`${ManageProductFields.Artical}[${index}]`];
     // const wholeSalePrice: number =
     //   form[`${ManageProductFields.wholeSalePrice}[${index}]`];
     const available: boolean =
@@ -63,6 +64,7 @@ const handleDataConvertation = (
       price,
       oldPrice,
       // wholeSalePrice,
+      artical,
       available,
       color,
       images: null,

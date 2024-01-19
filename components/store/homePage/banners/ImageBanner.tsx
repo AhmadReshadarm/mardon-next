@@ -227,6 +227,12 @@ const Slider = styled(motion.img)<StyleProps>`
       `;
     }
   }}
+  @media ${devices.laptopL} {
+    object-fit: contain;
+  }
+  @media ${devices.laptopM} {
+    object-fit: contain;
+  }
   @media ${devices.laptopS} {
     object-fit: contain;
   }

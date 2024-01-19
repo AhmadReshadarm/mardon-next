@@ -124,9 +124,13 @@ const ProductsSlider = () => {
                   </div>
                   <div className="cart-price-n-action-button-wrapper">
                     <div className="price-wrapper">
-                      <span className="old-price">
-                        {`${currentProduct.productVariants![0].oldPrice}`} ₽
-                      </span>
+                      {currentProduct.productVariants![0].oldPrice ? (
+                        <span className="old-price">
+                          {`${currentProduct.productVariants![0].oldPrice}`} ₽
+                        </span>
+                      ) : (
+                        ''
+                      )}
                       <span>
                         {`${currentProduct.productVariants![0].price}`} ₽
                       </span>
@@ -136,6 +140,7 @@ const ProductsSlider = () => {
                       <AddToCart
                         product={currentProduct!}
                         qty={findCartQTY(currentProduct, cart!)}
+                        variant={currentProduct?.productVariants![0]}
                       />
                     </div>
                   </div>
@@ -191,6 +196,12 @@ const ProductsSlider = () => {
                     : currentProduct.name
                 }`}</h1>
               </Link>
+              <div>
+                <span>Артикул: </span>
+                <span>
+                  {currentProduct?.productVariants[0].artical.toLocaleUpperCase()}
+                </span>
+              </div>
               <span>{`${
                 currentProduct.shortDesc?.length! > 250
                   ? currentProduct.shortDesc?.slice(0, 250) + '...'

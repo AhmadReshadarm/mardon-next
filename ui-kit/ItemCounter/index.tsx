@@ -138,7 +138,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
         onClick={handleCartBtnClick(
           product,
           dispatch,
-          product.productVariants![0],
+          product?.productVariants![0],
           cart!,
         )}
         initial={{ opacity: 0 }}

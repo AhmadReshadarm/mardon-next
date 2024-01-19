@@ -1,7 +1,6 @@
 import {
   clearQueryParams,
   getQueryParams,
-  pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/filters/ColorFilter';
@@ -11,16 +10,7 @@ import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelect
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import variants from '../lib/variants';
-import {
-  Brand,
-  Category,
-  Color,
-  PriceRange,
-  Size,
-  Tag,
-} from 'swagger/services';
+import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
@@ -33,7 +23,6 @@ type Props = {
   brands: Brand[];
   colors: Color[];
   tags: Tag[];
-  sizes: Size[];
   priceRange: PriceRange;
   expanded: any;
   handleExpantionChange: any;
@@ -46,7 +35,6 @@ const FilterBar: React.FC<Props> = ({
   brands,
   colors,
   tags,
-  sizes,
   priceRange,
   expanded,
   handleExpantionChange,
@@ -63,7 +51,6 @@ const FilterBar: React.FC<Props> = ({
       priceRange,
       filters,
       tags,
-      sizes,
     }),
   );
 
@@ -88,10 +75,9 @@ const FilterBar: React.FC<Props> = ({
         priceRange,
         filters,
         tags,
-        sizes,
       }),
     );
-  }, [categories, subCategories, brands, colors, priceRange, tags, sizes]);
+  }, [categories, subCategories, brands, colors, priceRange, tags]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
@@ -106,7 +92,7 @@ const FilterBar: React.FC<Props> = ({
       (category) => category.url === checkedCategory?.url,
     );
     setSelectedCategory(selectedCategory);
-  }, [categories, subCategories, brands, colors, priceRange, tags, sizes]);
+  }, [categories, subCategories, brands, colors, priceRange, tags]);
 
   return (
     <FilterBarContent expanded={expanded}>

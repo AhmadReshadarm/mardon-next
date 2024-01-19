@@ -7139,6 +7139,9 @@
         "wholeSalePrice": {
           "type": "integer"
         },
+        "artical": {
+          "type": "string"
+        },
         "available": {
           "type": "boolean"
         },

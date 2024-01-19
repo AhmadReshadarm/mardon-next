@@ -24,7 +24,7 @@ const HeaderProductItmes: React.FC<Props> = ({
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const images = getProductVariantsImages(
     dataType == 'cart'
-      ? orderProduct!.product!.productVariants
+      ? orderProduct!?.product!?.productVariants
       : product?.productVariants,
   );
 
@@ -46,16 +46,16 @@ const HeaderProductItmes: React.FC<Props> = ({
                 href={`/product/${orderProduct!.product?.url}`}
               >
                 <h1>
-                  {orderProduct!.product!.name?.length! > 18
-                    ? orderProduct!.product!.name?.slice(0, 18) + ' ...'
-                    : orderProduct!.product!.name}
+                  {orderProduct!?.product!?.name?.length! > 18
+                    ? orderProduct!?.product!?.name?.slice(0, 18) + ' ...'
+                    : orderProduct!?.product!?.name}
                 </h1>
               </Link>
               <span>
                 {`${
-                  orderProduct!.product?.shortDesc?.length! > 80
-                    ? orderProduct!.product?.shortDesc?.slice(0, 80) + ' ...'
-                    : orderProduct!.product?.shortDesc
+                  orderProduct!?.product?.shortDesc?.length! > 80
+                    ? orderProduct!?.product?.shortDesc?.slice(0, 80) + ' ...'
+                    : orderProduct!?.product?.shortDesc
                 }`}
               </span>
             </div>
@@ -64,23 +64,24 @@ const HeaderProductItmes: React.FC<Props> = ({
               <div className="old-new-price-wrapper">
                 {orderProduct!.productVariant?.oldPrice ? (
                   <span className="old-price">
-                    {orderProduct!.productVariant?.oldPrice} ₽
+                    {orderProduct!?.productVariant?.oldPrice} ₽
                   </span>
                 ) : (
                   ''
                 )}
-                <span>{orderProduct!.productVariant?.price} ₽</span>
+                <span>{orderProduct!?.productVariant?.price} ₽</span>
               </div>
               <span className="total-price-wrapper">
-                {orderProduct!.qty! * orderProduct!.productVariant?.price!} ₽
+                {orderProduct!?.qty! * orderProduct!?.productVariant?.price!} ₽
               </span>
             </div>
           </div>
           <div className="action-buttons-wrapper">
-            <AddToWishlist product={orderProduct!.product!} />
+            <AddToWishlist product={orderProduct!?.product!} />
             <AddToCart
-              product={orderProduct!.product!}
-              qty={orderProduct!.qty!}
+              product={orderProduct!?.product!}
+              qty={orderProduct!?.qty!}
+              variant={product?.productVariants![0]}
             />
           </div>
         </>
@@ -100,9 +101,9 @@ const HeaderProductItmes: React.FC<Props> = ({
                 href={`/product/${product?.url}`}
               >
                 <h1>
-                  {product!.name?.length! > 18
-                    ? product!.name?.slice(0, 18) + ' ...'
-                    : product!.name}
+                  {product!?.name?.length! > 18
+                    ? product!?.name?.slice(0, 18) + ' ...'
+                    : product!?.name}
                 </h1>
               </Link>
               <span>
@@ -116,20 +117,24 @@ const HeaderProductItmes: React.FC<Props> = ({
 
             <div className="price-sperator-wrapper">
               <div className="old-new-price-wishlist-wrapper">
-                {product?.productVariants![0].oldPrice ? (
+                {product?.productVariants![0]?.oldPrice ? (
                   <span className="old-price">
-                    {product?.productVariants![0].oldPrice} ₽
+                    {product?.productVariants![0]?.oldPrice} ₽
                   </span>
                 ) : (
                   ''
                 )}
-                <span>{product?.productVariants![0].price} ₽</span>
+                <span>{product?.productVariants![0]?.price} ₽</span>
               </div>
             </div>
           </div>
           <div className="action-buttons-wrapper">
             <AddToWishlist product={product!} />
-            <AddToCart product={product!} qty={findCartQTY(product, cart!)} />
+            <AddToCart
+              product={product!}
+              qty={findCartQTY(product, cart!)}
+              variant={product?.productVariants![0]}
+            />
           </div>
         </>
       )}

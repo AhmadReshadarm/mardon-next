@@ -54,7 +54,6 @@ const ProductsPage = () => {
     brands,
     colors,
     tags,
-    sizes,
     priceRange,
     loading,
     page,
@@ -99,13 +98,6 @@ const ProductsPage = () => {
     };
   }, []);
 
-  const filteredSizes: any = sizes.filter((size) => {
-    if (size.url?.match(/(?:^|\W)not-in-stock(?:$|\W)/)) {
-      return;
-    }
-    return size;
-  });
-
   const filteredColors: any = colors.filter((color) => color.url != '_');
 
   const [expanded, setExpanded] = useState(false);
@@ -132,13 +124,8 @@ const ProductsPage = () => {
     ({
       id,
       name,
-      // price,
-      // oldPrice,
       desc,
-      // available,
-      // colors,
       category,
-      // images,
       brand,
       tags,
       sizes,
@@ -149,13 +136,8 @@ const ProductsPage = () => {
       key: id,
       id,
       name,
-      // oldPrice,
-      // price,
       desc,
-      // available: available ? 'Да' : 'Нет',
-      // colors,
       category,
-      // images: (images as string)?.split(','),
       brand,
       tags,
       sizes,
@@ -163,20 +145,6 @@ const ProductsPage = () => {
       productVariants,
     }),
   ) as unknown as DataType[];
-
-  // useEffect(() => {
-  //   dispatch(
-  //     fetchProducts({
-  //       offset: String(offset),
-  //       limit: '20',
-  //     }),
-  //   );
-
-  //   return () => {
-  //     dispatch(clearProducts());
-  //     setOffset(0);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -199,7 +167,6 @@ const ProductsPage = () => {
           colors={filteredColors}
           priceRange={priceRange}
           tags={tags}
-          sizes={filteredSizes.reverse()}
           expanded={expanded}
           handleExpantionChange={handleExpantionChange}
           setSelectedCategory={setSelectedCategory}
@@ -210,36 +177,14 @@ const ProductsPage = () => {
           ) : (
             <Table
               scroll={{
-                // x: 1366,
                 y: 768,
               }}
-              // pagination={{
-              //   pageSize: 20,
-              //   current: currentPage,
-              // }}
               columns={
                 columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
               }
               dataSource={dataSource}
-              // onChange={(event) => {
-              //   const newOffset = ((event.current as number) - 1) * 20;
-              //   setOffset(newOffset);
-              //   // dispatch(
-              //   //   fetchProducts({
-              //   //     offset: String(newOffset),
-              //   //     limit: '20',
-              //   //   }),
-              //   // );
-              //   handleLocationChange();
-              //   setCurrentPage(event.current as number);
-              // }}
             />
           )}
-          {/* <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            nPages={nPages}
-          /> */}
         </Content>
       </CatelogContentWrapper>
     </>

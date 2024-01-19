@@ -1,10 +1,7 @@
-// import { Pagination } from 'antd';
-import Link from 'next/link';
 import {
   getQueryParams,
   pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
-import FilterBar from 'components/store/catalog/FilterBar';
 import Pagination from 'ui-kit/Pagination';
 import {
   convertQueryParams,
@@ -24,8 +21,6 @@ import styled from 'styled-components';
 import { Category } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-import color from 'components/store/lib/ui.colors';
-import FiltersSVg from '../../assets/catalog-filters.svg';
 import { baseUrl } from 'common/constant';
 import Loading from 'ui-kit/Loading';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
@@ -33,7 +28,6 @@ import TopFilterBar from 'components/store/catalog/TopFilterBar';
 const CatalogPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // const [category, setCategory] = useState<Category | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<
     Category | undefined
   >();
@@ -44,7 +38,6 @@ const CatalogPage = () => {
     brands,
     colors,
     tags,
-    sizes,
     priceRange,
     loading,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
@@ -89,12 +82,6 @@ const CatalogPage = () => {
   }, []);
 
   const randomProduct = Math.floor(Math.random() * products?.length);
-  const filteredSizes: any = sizes.filter((size) => {
-    if (size.url?.match(/(?:^|\W)not-in-stock(?:$|\W)/)) {
-      return;
-    }
-    return size;
-  });
 
   const filteredTags: any = tags.filter((tag) => {
     if (
@@ -174,7 +161,6 @@ const CatalogPage = () => {
                 colors={filteredColors}
                 priceRange={priceRange}
                 tags={filteredTags}
-                sizes={filteredSizes.reverse()}
                 expanded={expanded}
                 handleExpantionChange={handleExpantionChange}
                 setSelectedCategory={setSelectedCategory}
