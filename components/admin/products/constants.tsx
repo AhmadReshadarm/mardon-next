@@ -7,7 +7,6 @@ import { handleRedirectCategory } from '../categories/helpers';
 
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleRedirectTags } from '../tags/helpers';
-import { handleRedirectSizes } from '../sizes/helpers';
 import { handleDeleteProduct, handleRedirectProducts } from './helpers';
 import styles from './products.module.scss';
 import TableLink from './TableLink';

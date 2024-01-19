@@ -102,7 +102,11 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
         </CardItemContainer>
       </Link>
       <AddToWishlist product={product} />
-      <AddToCart product={product} qty={1} />
+      <AddToCart
+        product={product}
+        qty={1}
+        variant={product?.productVariants![0]}
+      />
       {/* {cart.orderProducts?.map((orders, index) => {
         return <ItemCounter key={index} qty={orders.qty!} product={product} />;
       })} */}
