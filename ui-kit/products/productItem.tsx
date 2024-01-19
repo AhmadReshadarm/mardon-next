@@ -67,9 +67,9 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </div>
           <div className="product-description-wrapper">
             <span>
-              {product.shortDesc?.length! > 100
-                ? `${product.shortDesc?.slice(0, 100)}...`
-                : product.shortDesc}
+              {product.desc?.length! > 80
+                ? `${product.desc?.slice(0, 80)}...`
+                : product.desc}
             </span>
           </div>
           <div className="product-price-wrapper">
