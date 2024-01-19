@@ -8,14 +8,14 @@ import ColorPicker from './ColorPicker';
 import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
 import { Basket, Product, ProductVariant } from 'swagger/services';
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
-import { checkIfItemInCart, handleCartBtnClick } from 'ui-kit/products/helpers';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { updateCart } from 'redux/slicers/store/cartSlicer';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+// import { checkIfItemInCart, handleCartBtnClick } from 'ui-kit/products/helpers';
+import { useAppSelector } from 'redux/hooks';
+// import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { devices } from 'components/store/lib/Devices';
 import { TCartState } from 'redux/types';
-import SizePicker from './SizePicker';
-import { setproductSize } from 'redux/slicers/store/cartSlicer';
+// import SizePicker from './SizePicker';
+// import { setproductSize } from 'redux/slicers/store/cartSlicer';
 import { useState } from 'react';
 
 type Props = {

@@ -17,6 +17,8 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import ArrowGray from '../../../../assets/arrowGray.svg';
 import Link from 'next/link';
 import DropDowns from './details/DropDowns';
+import { useAppSelector } from 'redux/hooks';
+import { TCartState } from 'redux/types';
 type Props = {
   product?: Product;
   reviewRef: MutableRefObject<any>;
@@ -46,7 +48,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
       window.removeEventListener('resize', handleWindowResize);
     };
   });
-
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
   return (
     <Container
       key="container-product-section-one"
@@ -105,7 +107,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               title={product?.name}
               image={images[0]}
               productId={product?.id}
-              artical={product?.productVariants![selectedIndex]?.artical}
+              artical={variant?.artical}
             />
           </NavWrapper>
           <ContentCotainer>
