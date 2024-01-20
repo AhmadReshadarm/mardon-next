@@ -94,7 +94,7 @@ const ItemContainer = styled(motion.li)`
   width: 100%;
   min-width: 330px;
   max-width: 330px;
-  height: 650px;
+  height: 700px;
   background-color: ${color.productCart};
   padding: 10px;
   border: 1px solid #e5e2d9;
