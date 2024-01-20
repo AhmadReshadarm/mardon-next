@@ -86,7 +86,10 @@ const CatalogPage = () => {
   const filteredTags: any = tags.filter((tag) => {
     if (
       tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
-      tag.url?.match(/(?:^|\W)main-page(?:$|\W)/)
+      tag.url?.match(/(?:^|\W)main-page(?:$|\W)/) ||
+      tag.url?.match(/(?:^|\W)-(?:$|\W)/) ||
+      tag.url?.match(/(?:^|\W)_(?:$|\W)/) ||
+      tag.url?.match(/(?:^|\W) (?:$|\W)/)
     ) {
       return;
     }

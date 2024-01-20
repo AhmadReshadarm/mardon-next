@@ -112,28 +112,34 @@ const Selection = styled.div<{
     text-align: center;
   }
   @media ${devices.laptopS} {
-    min-width: 200px;
-    max-width: 200px;
+    span {
+      white-space: nowrap;
+    }
   }
   @media ${devices.tabletL} {
-    min-width: 200px;
-    max-width: 200px;
+    span {
+      white-space: nowrap;
+    }
   }
   @media ${devices.tabletS} {
-    min-width: 200px;
-    max-width: 200px;
+    span {
+      white-space: nowrap;
+    }
   }
   @media ${devices.mobileL} {
-    min-width: 200px;
-    max-width: 200px;
+    span {
+      white-space: nowrap;
+    }
   }
   @media ${devices.mobileM} {
-    min-width: 200px;
-    max-width: 200px;
+    span {
+      white-space: nowrap;
+    }
   }
   @media ${devices.mobileS} {
-    min-width: 200px;
-    max-width: 200px;
+    span {
+      white-space: nowrap;
+    }
   }
 `;
 

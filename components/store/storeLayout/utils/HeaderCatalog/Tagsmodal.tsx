@@ -23,7 +23,10 @@ const TagsModal: React.FC<Props> = ({ category, subCategory }) => {
         return (
           <>
             {tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
-            tag.url?.match(/(?:^|\W)main-page(?:$|\W)/) ? (
+            tag.url?.match(/(?:^|\W)main-page(?:$|\W)/) ||
+            tag.url?.match(/(?:^|\W)-(?:$|\W)/) ||
+            tag.url?.match(/(?:^|\W)_(?:$|\W)/) ||
+            tag.url?.match(/(?:^|\W) (?:$|\W)/) ? (
               ''
             ) : (
               <Link

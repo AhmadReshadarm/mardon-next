@@ -1,14 +1,7 @@
 import { Input, Slider as SliderInit } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  Filter,
-  FilterBody,
-  FilterTitle,
-  TopFilter,
-  TopFilterBody,
-  TopFilterTitle,
-} from '../common';
+import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
 import debounce from 'lodash/debounce';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
