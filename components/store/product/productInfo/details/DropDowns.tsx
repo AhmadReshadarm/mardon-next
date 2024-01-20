@@ -86,21 +86,23 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
           <SpecsKeyValueWrapper>
             {parameterProducts?.map((item, index) => {
               return (
-                <span key={`dropdown-below-key-${index}`}>
+                <>
                   {item.value == '_' ||
                   item.value == '-' ||
                   item.value == '' ? (
                     ''
                   ) : (
-                    <li
-                      className="wrapper-key-vlaue"
-                      key={`parameter-product-label-${index}`}
-                    >
-                      <span id="key-specs">{item.parameter?.name}: </span>
-                      <span id="value-specs">{item.value}</span>
-                    </li>
+                    <span key={`dropdown-below-key-${index}`}>
+                      <li
+                        className="wrapper-key-vlaue"
+                        key={`parameter-product-label-${index}`}
+                      >
+                        <span id="key-specs">{item.parameter?.name}: </span>
+                        <span id="value-specs">{item.value}</span>
+                      </li>
+                    </span>
                   )}
-                </span>
+                </>
               );
             })}
           </SpecsKeyValueWrapper>
