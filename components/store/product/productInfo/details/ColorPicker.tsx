@@ -16,7 +16,7 @@ type StyleProps = {
   backgroundColor?: string;
   width?: string;
 };
-
+let variant = null;
 type Props = {
   variantColor: Color | undefined;
   productVariants: ProductVariant[] | undefined;
@@ -71,6 +71,10 @@ const ColorPicker: React.FC<Props> = ({
       window.removeEventListener('resize', handleWindowResize);
     };
   });
+  const [initialVariant, setInitialVariant] = useState(productVariants![0]);
+  useEffect(() => {
+    dispatch(setVariant(initialVariant));
+  }, []);
   return (
     <ColorPickerContainer>
       {/* <ColorPickerNameWrapper
@@ -91,106 +95,109 @@ const ColorPicker: React.FC<Props> = ({
         )}
       </ColorPickerNameWrapper> */}
       <ColorPickerList>
-        {variantImages?.map((variant, colIndex) => (
-          <ImageTooltip
-            enterTouchDelay={0}
-            leaveTouchDelay={5000}
-            key={`image-item-${colIndex}`}
-            title={
-              <React.Fragment>
+        {variantImages?.map((variant, colIndex) => {
+          if (!initialVariant) setInitialVariant(variant);
+          return (
+            <ImageTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
+              key={`image-item-${colIndex}`}
+              title={
+                <React.Fragment>
+                  <img
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      objectFit: 'cover',
+                    }}
+                    src={`/api/images/${variant.image}`}
+                    alt={`${variant.image}`}
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null;
+                      currentTarget.src = '/img_not_found.png';
+                    }}
+                  />
+                  <hr
+                    style={{
+                      backgroundColor: color.textTertiary,
+                      width: '100%',
+                    }}
+                  />
+                  {variantColor?.url === '_' || variantColor?.url === '-' ? (
+                    ''
+                  ) : (
+                    <ColorPickerSpan
+                      style={{
+                        display: 'flex',
+                        gap: '10px',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <span>Цвет:</span>
+                      <ColorItem backgroundColor={variant.color.code!} />
+                    </ColorPickerSpan>
+                  )}
+                  <ArticalWrapper>
+                    <span>Артикул:</span>
+                    <span>{variant.artical.toLocaleUpperCase()}</span>
+                  </ArticalWrapper>
+                  {!variant.available ? (
+                    <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
+                  ) : (
+                    <ColorPickerPriceWrapper>
+                      <ColorPickerSpan>{`${
+                        user?.role === Role.SuperUser
+                          ? variant.wholeSalePrice
+                          : variant.price
+                      }₽`}</ColorPickerSpan>
+                      {!variant.oldPrice ? (
+                        ''
+                      ) : (
+                        <ColorPickerSpan>
+                          {`${variant.oldPrice}₽`}
+                        </ColorPickerSpan>
+                      )}
+                    </ColorPickerPriceWrapper>
+                  )}
+                </React.Fragment>
+              }
+            >
+              <ColorPickerItems
+                key="prices-product-page"
+                custom={0.05 * colIndex}
+                initial="init"
+                animate="animate"
+                exit={{
+                  y: -20,
+                  opacity: 0,
+                  transition: { delay: 0.05 * colIndex },
+                }}
+                variants={variants.fadInSlideUp}
+                onClick={handleImageChange(
+                  variant,
+                  colIndex,
+                  selectedIndex,
+                  setSelectedIndex,
+                  paginateImage,
+                )}
+              >
                 <img
                   style={{
-                    width: '100px',
-                    height: '100px',
-                    objectFit: 'cover',
+                    width: selectedIndex == colIndex ? '95%' : '100%',
+                    height: selectedIndex == colIndex ? '95%' : '100%',
                   }}
                   src={`/api/images/${variant.image}`}
-                  alt={`${variant.image}`}
+                  alt={variant.image}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null;
                     currentTarget.src = '/img_not_found.png';
                   }}
                 />
-                <hr
-                  style={{
-                    backgroundColor: color.textTertiary,
-                    width: '100%',
-                  }}
-                />
-                {variantColor?.url === '_' || variantColor?.url === '-' ? (
-                  ''
-                ) : (
-                  <ColorPickerSpan
-                    style={{
-                      display: 'flex',
-                      gap: '10px',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span>Цвет:</span>
-                    <ColorItem backgroundColor={variant.color.code!} />
-                  </ColorPickerSpan>
-                )}
-                <ArticalWrapper>
-                  <span>Артикул:</span>
-                  <span>{variant.artical.toLocaleUpperCase()}</span>
-                </ArticalWrapper>
-                {!variant.available ? (
-                  <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
-                ) : (
-                  <ColorPickerPriceWrapper>
-                    <ColorPickerSpan>{`${
-                      user?.role === Role.SuperUser
-                        ? variant.wholeSalePrice
-                        : variant.price
-                    }₽`}</ColorPickerSpan>
-                    {!variant.oldPrice ? (
-                      ''
-                    ) : (
-                      <ColorPickerSpan>
-                        {`${variant.oldPrice}₽`}
-                      </ColorPickerSpan>
-                    )}
-                  </ColorPickerPriceWrapper>
-                )}
-              </React.Fragment>
-            }
-          >
-            <ColorPickerItems
-              key="prices-product-page"
-              custom={0.05 * colIndex}
-              initial="init"
-              animate="animate"
-              exit={{
-                y: -20,
-                opacity: 0,
-                transition: { delay: 0.05 * colIndex },
-              }}
-              variants={variants.fadInSlideUp}
-              onClick={handleImageChange(
-                variant,
-                colIndex,
-                selectedIndex,
-                setSelectedIndex,
-                paginateImage,
-              )}
-            >
-              <img
-                style={{
-                  width: selectedIndex == colIndex ? '95%' : '100%',
-                  height: selectedIndex == colIndex ? '95%' : '100%',
-                }}
-                src={`/api/images/${variant.image}`}
-                alt={variant.image}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = '/img_not_found.png';
-                }}
-              />
-              {!variant.available ? <div></div> : ''}
-            </ColorPickerItems>
-          </ImageTooltip>
-        ))}
+                {!variant.available ? <div></div> : ''}
+              </ColorPickerItems>
+            </ImageTooltip>
+          );
+        })}
       </ColorPickerList>
     </ColorPickerContainer>
   );

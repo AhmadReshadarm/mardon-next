@@ -4,24 +4,12 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
 import InfoDropdown from './DropDownsParrent';
-import DeleveryBox from '../../../../../assets/deleveryBox.svg';
 import { devices } from 'components/store/lib/Devices';
 import { ParameterProduct } from 'swagger/services';
-import { useEffect, useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
-import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import DOMPurify from 'dompurify';
 import { TProductInfoState } from 'redux/types';
-import Loading from 'ui-kit/Loading';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-const TextEditorConverter = dynamic(
-  () => import('ui-kit/TextEditorConverter'),
-  {
-    ssr: false,
-  },
-);
+
 type Props = {
   description?: any;
   parameterProducts?: ParameterProduct[];
@@ -73,13 +61,7 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
       variants={variants.fadInSlideUp}
     >
       <InfoDropdown title="Описание">
-        {/* <TextEditorConverter editorModal={product?.desc!} /> */}
-        <p>{product?.desc}</p>
-        {/* {loading ? (
-          <Loading />
-        ) : (
-          <div dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-        )} */}
+        <p>{!loading ? product?.desc : ''}</p>
       </InfoDropdown>
       <InfoDropdown title="Характеристики">
         <SpecsContainer>

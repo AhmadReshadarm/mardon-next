@@ -171,18 +171,28 @@ const ProductsPage = () => {
           setSelectedCategory={setSelectedCategory}
         />
         <Content>
-          {loading ? (
+          {loading || !productsLength ? (
             <Spin className={styles.spinner} size="large" />
           ) : (
-            <Table
-              scroll={{
-                y: 768,
-              }}
-              columns={
-                columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
-              }
-              dataSource={dataSource}
-            />
+            <>
+              <Table
+                scroll={{
+                  y: 768,
+                }}
+                columns={
+                  columns as (
+                    | ColumnGroupType<DataType>
+                    | ColumnType<DataType>
+                  )[]
+                }
+                dataSource={dataSource}
+              />
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                nPages={nPages}
+              />
+            </>
           )}
         </Content>
       </CatelogContentWrapper>

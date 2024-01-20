@@ -73,7 +73,6 @@ const Details: React.FC<Props> = ({
   //     dispatch(setproductSize('_'));
   //   }
   // }, [product]);
-  const [variantIndex, setVariantIndex] = useState(0);
   return (
     <DetailsContainer>
       <UserSelectWrapper>
