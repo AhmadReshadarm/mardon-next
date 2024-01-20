@@ -98,8 +98,6 @@ const ProductsPage = () => {
     };
   }, []);
 
-  const filteredColors: any = colors.filter((color) => color.url != '_');
-
   const [expanded, setExpanded] = useState(false);
 
   const handleExpantionChange = () => {
@@ -110,14 +108,14 @@ const ProductsPage = () => {
     (state) => state.catalog.productsLength,
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(12);
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const nPages = Math.ceil(paginationLength / recordsPerPage);
+  // const [recordsPerPage] = useState(12);
+  // const indexOfLastRecord = currentPage * recordsPerPage;
+  // const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // const nPages = Math.ceil(paginationLength / recordsPerPage);
 
-  useEffect(() => {
-    handlePageChange(currentPage);
-  }, [currentPage]);
+  // useEffect(() => {
+  // handlePageChange(currentPage);
+  // }, [currentPage]);
 
   // ___________________________________________________________________
   const dataSource = products?.map(
@@ -163,7 +161,7 @@ const ProductsPage = () => {
           categories={categories}
           subCategories={subCategories}
           // brands={brands}
-          colors={filteredColors}
+          colors={colors}
           priceRange={priceRange}
           tags={tags}
           expanded={expanded}
@@ -185,13 +183,31 @@ const ProductsPage = () => {
                     | ColumnType<DataType>
                   )[]
                 }
+                pagination={{
+                  pageSize: 12,
+                  current: currentPage,
+                  total: paginationLength,
+                }}
                 dataSource={dataSource}
+                onChange={(event) => {
+                  // const newOffset = ((event.current as number) - 1) * 20;
+                  setCurrentPage(event.current as number);
+                  handlePageChange(event.current as number);
+                  // setOffset(newOffset);
+                  // dispatch(
+                  //   fetchCategories({
+                  //     offset: String(newOffset),
+                  //     limit: '20',
+                  //   }),
+                  // );
+                  // setCurrentPage(event.current as number);
+                }}
               />
-              <Pagination
+              {/* <Pagination
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={setFakeCurrentPage}
                 nPages={nPages}
-              />
+              /> */}
             </>
           )}
         </Content>
@@ -229,9 +245,9 @@ const Content = styled.div`
     margin-left: 0;
     padding: 10px 15px;
   }
-  .ant-pagination {
-    display: none;
-  }
+  // .ant-pagination {
+  //   display: none;
+  // }
 `;
 
 ProductsPage.PageLayout = AdminLayout;
