@@ -73,13 +73,11 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
             ></span>
           </div>
         )}
-        {orderProduct.productSize ? (
+        {
           <div className="selected-sizes">
             <span>Артикул: {orderProduct.productVariant?.artical}</span>
           </div>
-        ) : (
-          ''
-        )}
+        }
       </div>
     </li>
   );
