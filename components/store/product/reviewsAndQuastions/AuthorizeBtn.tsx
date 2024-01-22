@@ -21,7 +21,9 @@ const AuthorizeReviewBtn = (props: any) => {
               openErrorNotification('Этого товара нет в списке ваших заказов');
             }
             if (!user.isVerified) {
-              openErrorNotification('Адрес эл. почты не подтвержден');
+              openErrorNotification(
+                'Адрес эл. почты не подтвержден, Зайти в личный кабинет для подтверждения',
+              );
             }
           }
           setTimeout(() => {
