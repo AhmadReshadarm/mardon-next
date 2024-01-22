@@ -21,9 +21,12 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   return (
     <li className="product">
-      <div className="image-wrapper">
+      <Link
+        href={`/product/${orderProduct.product?.url}`}
+        className="image-wrapper"
+      >
         <img src={`/api/images/${images ? images[0] : ''}`} alt="" />
-      </div>
+      </Link>
       <div className="product-info-wrapper">
         <Link
           className="product-title-wrapper"
@@ -50,7 +53,11 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
             ''
           )}
         </div>
-        {orderProduct.productVariant?.color?.name !== '_' ? (
+        {orderProduct.productVariant?.color?.name === '_' ||
+        orderProduct.productVariant?.color?.name === '-' ||
+        orderProduct.productVariant?.color?.name === ' ' ? (
+          ''
+        ) : (
           <div className="color-wrapper">
             <span>Цвет: {orderProduct.productVariant?.color?.name}</span>
             <span
@@ -65,12 +72,10 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
               }}
             ></span>
           </div>
-        ) : (
-          ''
         )}
         {orderProduct.productSize ? (
           <div className="selected-sizes">
-            <span>размер: {orderProduct.productSize}</span>
+            <span>Артикул: {orderProduct.productVariant?.artical}</span>
           </div>
         ) : (
           ''

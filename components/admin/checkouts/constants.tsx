@@ -5,7 +5,7 @@ import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
 
 interface CheckoutsTableData {
   id: string;
-  user: { firstName: string; lastName: string };
+  user: { email: string };
   basket: { orderProducts: OrderProduct[] };
   address: { address: string; receiverPhone: string };
 }
@@ -20,11 +20,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
     title: 'Пользователь',
     dataIndex: 'user',
     render: (_, record) => {
-      return (
-        <p>
-          {record.user?.firstName}, {record.user.lastName}
-        </p>
-      );
+      return <p>{record.user.email}</p>;
     },
     width: '10%',
   },
@@ -49,7 +45,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
     width: '10%',
   },
   {
-    title: 'размер',
+    title: 'Артикул',
     dataIndex: 'size',
     render: (_, record) => {
       return (
@@ -58,7 +54,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
             return (
               <li key={`size-${index}`}>
                 {variant.productSize != ''
-                  ? `${index + 1}: ${variant.productSize}`
+                  ? `${index + 1}: ${variant.productVariant?.artical}`
                   : ''}
               </li>
             );
