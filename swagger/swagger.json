@@ -622,7 +622,7 @@
       }
     },
     "/users/email-confirmation": {
-      "get": {
+      "post": {
         "tags": ["userVerification"],
         "summary": "send user verification email",
         "operationId": "sendVerificationEmail",
