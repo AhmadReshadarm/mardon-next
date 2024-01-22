@@ -11,7 +11,7 @@ const AfterCheckout = () => {
   return (
     <>
       <Head>
-        <title>Заказ выполнен успешно | Fingarden</title>
+        <title>Заказ выполнен успешно | nbhoz</title>
       </Head>
       <Container
         variants={variants.fadInOut}
@@ -51,7 +51,7 @@ const AfterCheckout = () => {
                   <b>Спасибо за Ваш выбор. </b>
                 </span>
                 <span>
-                  <b>С Уважением, Ваш FINGARDEN</b>
+                  <b>С Уважением, Ваш NBHOZ</b>
                 </span>
               </div>
               <Link href="/catalog">
