@@ -2,8 +2,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import color from 'components/store/lib/ui.colors';
 import { verifyUserEmailByToken } from 'redux/slicers/authSlicer';
 
 const VerifyAcountByToken = () => {
@@ -28,16 +26,16 @@ const VerifyAcountByToken = () => {
 
   return (
     <>
-      <Counter>
-        Мы перенаправим вам на страницу Личные кабинет, после: {counter}
-      </Counter>
+      <Counter>пожалуйста, подождите</Counter>
+      <p>Мы проверяем информацию о подтверждении вашей электронной почты</p>
+      <span>Вы будете перенаправлены на личные кабинет, после: {counter}</span>
     </>
   );
 };
 
 const Counter = styled.h2`
-  color: ${color.ok};
-  font-family: 'intro';
+  font-size: 2rem;
+  font-family: 'ricordi';
 `;
 
 export default VerifyAcountByToken;

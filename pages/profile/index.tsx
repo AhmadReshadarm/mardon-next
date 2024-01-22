@@ -16,7 +16,7 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>Личные кабинет | Fingarden</title>
+        <title>Личные кабинет | NBHOZ</title>
       </Head>
       <Container
         variants={variants.fadInOut}

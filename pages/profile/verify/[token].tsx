@@ -13,7 +13,7 @@ const VerifyAcount = () => {
   return (
     <>
       <Head>
-        <title>Личные кабинет | Fingarden</title>
+        <title>Личные кабинет | NBHOZ</title>
       </Head>
       <Container
         variants={variants.fadInOut}
@@ -31,6 +31,7 @@ const VerifyAcount = () => {
           <Content
             flex_direction="column"
             justify_content="flex-start"
+            align_items="center"
             gap="30px"
           >
             <VerifyAcountByToken />
