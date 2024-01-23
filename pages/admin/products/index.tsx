@@ -1,19 +1,13 @@
 import { Button, Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
-// import { AppContext } from 'common/context/AppContext';
 import { navigateTo } from 'common/helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/products/constants';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
-
-// import {
-//   clearProducts,
-//   fetchProducts,
-// } from '../../../redux/slicers/productsSlicer';
 import styles from './index.module.scss';
 // _____________________________________________
 import FilterBar from 'components/store/catalog/FilterBar';
@@ -31,7 +25,6 @@ import {
   pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
-import Pagination from 'ui-kit/Pagination';
 // _____________________________________________
 const ProductsPage = () => {
   // const [currentPage, setCurrentPage] = useState<number>(1);

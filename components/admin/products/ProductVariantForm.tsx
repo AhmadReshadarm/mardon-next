@@ -7,8 +7,8 @@ import MultipleImageUpload from '../generalComponents/MultipleImageUpload';
 import { InsertRowLeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useState } from 'react';
-import DatabaseImages from 'ui-kit/DatabaseImages';
-
+import DatabaseImages from './databaseImages';
+// ui-kit/DatabaseImages
 const { Option } = Select;
 
 type Props = {

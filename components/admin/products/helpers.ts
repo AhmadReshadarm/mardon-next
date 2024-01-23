@@ -14,8 +14,14 @@ import { Category, Image, ParameterProduct, Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { ManageProductFields } from './ManageProductsFields.enum';
-import { createImage } from 'redux/slicers/imagesSlicer';
+import {
+  createImage,
+  deleteImage,
+  fetchImages,
+  setDefaultSingleImageList,
+} from 'redux/slicers/imagesSlicer';
 import { onLocationChange } from 'components/store/catalog/helpers';
+import { setDefaultImageList } from 'redux/slicers/mutipleImagesSlicer';
 const handleDeleteProduct =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
   async () => {
@@ -25,7 +31,7 @@ const handleDeleteProduct =
       dispatch(
         fetchProducts({
           offset: String(offset),
-          limit: '20',
+          limit: '12',
         }),
       );
       setVisible((prev) => !prev);
@@ -235,6 +241,45 @@ async function uploadImage(file, dispatch) {
   });
 }
 
+const handleImageDelete =
+  (fileName: string, dispatch: AppDispatch, offset: number) => async () => {
+    const isSaved: any = await dispatch(deleteImage({ fileName }));
+    if (!isSaved.error) {
+      dispatch(
+        fetchImages({
+          offset: String(offset),
+          limit: '20',
+        }),
+      );
+    }
+  };
+
+const handleSelectedImage = (
+  fileName: string,
+  dispatch: AppDispatch,
+  isProducts,
+  setOpen,
+  prodcutVariantIndex,
+) => {
+  if (isProducts) {
+    dispatch(
+      setDefaultImageList({
+        file: { name: fileName, url: `/api/images/${fileName}` },
+        index: prodcutVariantIndex,
+      }),
+    );
+  } else {
+    dispatch(
+      setDefaultSingleImageList({
+        name: fileName,
+        url: `/api/images/${fileName}`,
+      }),
+    );
+  }
+
+  setOpen(false);
+};
+
 export {
   handleDeleteProduct,
   handleFormSubmitProduct,
@@ -244,4 +289,6 @@ export {
   handleParameterChange,
   handleCategoryChange,
   uploadImage,
+  handleImageDelete,
+  handleSelectedImage,
 };

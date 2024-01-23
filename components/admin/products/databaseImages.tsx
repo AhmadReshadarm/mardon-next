@@ -1,45 +1,43 @@
 import color from 'components/store/lib/ui.colors';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import Delete from '../../../assets/delete.svg';
+import { useContext, useEffect, useState } from 'react';
 import CloseSVG from '../../../assets/close_black.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setDefaultImageList } from 'redux/slicers/mutipleImagesSlicer';
-import {
-  clearImageDBList,
-  deleteImage,
-  setDefaultSingleImageList,
-} from 'redux/slicers/imagesSlicer';
+import { clearImageDBList } from 'redux/slicers/imagesSlicer';
 import styles from './products.module.scss';
-import { Spin } from 'antd';
-import Pagination from 'ui-kit/Pagination';
+import { Spin, Table } from 'antd';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { DataType } from 'common/interfaces/data-type.interface';
 import { fetchImages } from 'redux/slicers/imagesSlicer';
+import { columnsImages } from './constantsImages';
+import { AppContext } from 'common/context/AppContext';
+import { Image } from 'swagger/services';
 type Props = {
   setOpen: any;
-  index?: number;
+  isOpen?: boolean;
+  prodcutVariantIndex?: number;
   isProducts: boolean;
 };
 
-const DatabaseImages = ({ setOpen, index, isProducts }: Props) => {
+const DatabaseImages = ({
+  isOpen,
+  setOpen,
+  prodcutVariantIndex,
+  isProducts,
+}: Props) => {
   const dispatch = useAppDispatch();
-  const imageDBs = useAppSelector((state) => state.images.imageListInDB);
+  const imageDBs: Image[] = useAppSelector(
+    (state) => state.images.imageListInDB,
+  );
   const isLoadingImageDB = useAppSelector((state) => state.images.loading);
   const paginationLength = useAppSelector(
     (state) => state.images.paginationLength,
   );
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(9);
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const nPages = Math.ceil(paginationLength / recordsPerPage);
-
-  const [content, setContent] = useState('<- Нажмите, чтобы скопировать URL');
   useEffect(() => {
     dispatch(
       fetchImages({
-        offset: `${indexOfFirstRecord}`,
-        limit: `${indexOfLastRecord}`,
+        offset: String(offset),
+        limit: '20',
       }),
     );
     return () => {
@@ -47,109 +45,64 @@ const DatabaseImages = ({ setOpen, index, isProducts }: Props) => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(
-      fetchImages({
-        offset: `${indexOfFirstRecord}`,
-        limit: `${indexOfLastRecord}`,
-      }),
-    );
-  }, [currentPage]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { offset, setOffset } = useContext(AppContext);
 
-  const handleImageDelete = async (fileName) => {
-    dispatch(deleteImage({ fileName }));
-  };
-
-  const handleSelectedImage = (image) => () => {
-    if (isProducts) {
-      dispatch(
-        setDefaultImageList({
-          file: { name: image.filename, url: `/api/images/${image.filename}` },
-          index,
-        }),
-      );
-    } else {
-      dispatch(
-        setDefaultSingleImageList({
-          name: image.filename,
-          url: `/api/images/${image.filename}`,
-        }),
-      );
-    }
-
-    setOpen(false);
-  };
-
-  const Files = ({ index, image }) => {
-    const [isHover, setHover] = useState(false);
-    return (
-      <li key={index}>
-        <div className="image-container">
-          <img
-            src={`/api/images/${image.filename}`}
-            alt={image.originalName}
-            onClick={handleSelectedImage(image)}
-          />
-        </div>
-
-        <div className="title-wrapper">
-          <span
-            onClick={() => {
-              navigator.clipboard.writeText(`/api/images/${image.filename}`);
-              setContent('URL скопирован');
-              setTimeout(() => {
-                setContent('<- Нажмите, чтобы скопировать URL');
-              }, 500);
-            }}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            className="file-name"
-          >
-            {image.originalName}
-          </span>
-          <span
-            style={{
-              display: isHover ? 'flex' : 'none',
-              opacity: isHover ? 1 : 0,
-            }}
-            className="notification-copy"
-          >
-            {content}
-          </span>
-          <button
-            onClick={() => handleImageDelete(image.filename)}
-            className="delete-wrapper"
-          >
-            <span>Удалить Файл</span>
-            <span>
-              <Delete />
-            </span>
-          </button>
-        </div>
-      </li>
-    );
-  };
+  const dataSource = imageDBs?.map(({ id, filename, originalName }) => {
+    return {
+      key: id,
+      filename,
+      originalName,
+      url: `/api/images/${filename}`,
+      isProducts,
+      setOpen,
+      prodcutVariantIndex,
+      dispatch,
+      offset,
+    };
+  }) as unknown as DataType[];
 
   return (
-    <Contaienr>
+    <Contaienr style={{ display: isOpen ? 'flex' : 'none' }}>
       <Wrapper>
         <CloseBtn onClick={() => setOpen(false)}>
           <CloseSVG />
         </CloseBtn>
-        <ImagesWrapper>
-          {!isLoadingImageDB ? (
-            imageDBs.map((image: any, index) => {
-              return <Files key={index} image={image} index={index} />;
-            })
-          ) : (
-            <Spin className={styles.spinner} size="large" />
-          )}
-        </ImagesWrapper>
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          nPages={nPages}
-        />
+        {isLoadingImageDB ? (
+          <Spin className={styles.spinner} size="large" />
+        ) : (
+          <TableWrapper>
+            {' '}
+            <Table
+              scroll={{
+                y: 768,
+              }}
+              columns={
+                columnsImages as (
+                  | ColumnGroupType<DataType>
+                  | ColumnType<DataType>
+                )[]
+              }
+              pagination={{
+                pageSize: 20,
+                current: currentPage,
+                total: paginationLength,
+              }}
+              dataSource={dataSource}
+              onChange={(event) => {
+                const newOffset = ((event.current as number) - 1) * 20;
+                setOffset(newOffset);
+                dispatch(
+                  fetchImages({
+                    offset: String(newOffset),
+                    limit: '20',
+                  }),
+                );
+                setCurrentPage(event.current as number);
+              }}
+            />
+          </TableWrapper>
+        )}
       </Wrapper>
     </Contaienr>
   );
@@ -171,8 +124,8 @@ const Contaienr = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -185,99 +138,10 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const ImagesWrapper = styled.ul`
+const TableWrapper = styled.div`
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  grid-gap: 50px;
-  li {
-    width: 200px;
-    height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-
-    .image-container {
-      width: 100%;
-      height: 100%;
-      transition: 150ms;
-      &:hover {
-        transform: scale(1.05);
-      }
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 5px;
-        cursor: pointer;
-        background: no-repeat url('/not_found.jpg');
-        background-size: cover;
-        font-size: 0;
-      }
-      img:before {
-        content: 'Изображение не найдено';
-        font-size: 1rem;
-        display: block;
-        margin-bottom: 10px;
-      }
-
-      img:after {
-        content: '';
-        display: block;
-        font-size: 12px;
-      }
-    }
-    .title-wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 10px;
-      position: relative;
-      .file-name {
-        cursor: pointer;
-      }
-      .notification-copy {
-        width: 80%;
-        position: absolute;
-        top: 0;
-        right: -160px;
-        border-radius: 3px;
-        padding: 5px;
-        box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        transition: 300ms;
-      }
-      span {
-        text-align: center;
-      }
-      .delete-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        transition: 150ms;
-        &:hover {
-          transform: scale(1.05);
-        }
-        span {
-          color: ${color.hover};
-        }
-      }
-    }
-  }
+  overflow: hidden;
 `;
 
 const CloseBtn = styled.span`
