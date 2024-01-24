@@ -132,10 +132,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               />
             </Grid>
           </ContentCotainer>
-          <DropDowns
-            parameterProducts={product?.parameterProducts}
-            description={product?.desc}
-          />
+          <DropDowns parameterProducts={product?.parameterProducts} />
         </Content>
       </Wrapper>
     </Container>

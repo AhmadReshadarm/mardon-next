@@ -9,13 +9,13 @@ import { ParameterProduct } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 type Props = {
-  description?: any;
   parameterProducts?: ParameterProduct[];
 };
 
-const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
+const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   const { product, loading }: TProductInfoState = useAppSelector(
     (state) => state.productInfo,
   );
@@ -74,15 +74,15 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
                   item.value == '' ? (
                     ''
                   ) : (
-                    <span key={`dropdown-below-key-${index}`}>
-                      <li
-                        className="wrapper-key-vlaue"
-                        key={`parameter-product-label-${index}`}
-                      >
-                        <span id="key-specs">{item.parameter?.name}: </span>
-                        <span id="value-specs">{item.value}</span>
-                      </li>
-                    </span>
+                    <li
+                      className="wrapper-key-vlaue"
+                      key={`parameter-product-label-${index}`}
+                    >
+                      <span className="key-wrapper">
+                        {item.parameter?.name}:{' '}
+                      </span>
+                      <span>{item.value}</span>
+                    </li>
                   )}
                 </>
               );
@@ -90,7 +90,7 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
           </SpecsKeyValueWrapper>
         </SpecsContainer>
       </InfoDropdown>
-      <InfoDropdown title="Подробнее о доставке">
+      <InfoDropdown title="Подробнее о доставке" borderBottom="none">
         <h3>КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?</h3>
 
         <Contents>
@@ -136,36 +136,21 @@ const SpecsKeyValueWrapper = styled.ul`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 30px;
   .wrapper-key-vlaue {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     gap: 15px;
-    span {
-      font-size: 0.875rem;
+    // border-bottom: 1px solid;
+    padding-bottom: 15px;
+    .key-wrapper {
+      white-space: nowrap;
     }
-    #key-specs {
-      width: 100%;
-
-      color: ${color.textSecondary};
-    }
-    #value-specs {
-      width: 50%;
-    }
-  }
-`;
-
-const Headers = styled.h1`
-  width: 100%;
-  text-align: start;
-  font-family: 'Anticva';
-  font-size: 1.5rem;
-  @media ${devices.mobileL} {
-    max-width: 95vw;
   }
 `;
 
@@ -174,23 +159,6 @@ const Contents = styled.span`
   text-align: start;
   line-height: 1.5rem;
   font-size: 1rem;
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
-
-const ListsDots = styled.ul`
-  width: 80%;
-  text-align: start;
-  padding-left: 15px;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  li {
-    list-style-type: circle;
-  }
   @media ${devices.mobileL} {
     width: 100%;
   }

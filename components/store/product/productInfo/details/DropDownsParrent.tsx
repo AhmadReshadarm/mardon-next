@@ -73,7 +73,7 @@ const InfoBtnWrappers = styled.div`
   cursor: pointer;
   h2 {
     font-size: 1rem;
-    font-family: Anticva;
+    font-weight: 400;
   }
   span {
     transform: rotate(90deg);
