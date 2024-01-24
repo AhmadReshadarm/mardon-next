@@ -6,7 +6,7 @@ const settings = {
   },
   meta: {
     rootUrl: baseUrl,
-    title: 'NBHOZ',
+    title: 'NBHOZ.ru',
     description:
       'NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москва и все Россия, купить Кухонная утварь, Товары для сервировки стола, Товары для ванной комнаты',
     social: {

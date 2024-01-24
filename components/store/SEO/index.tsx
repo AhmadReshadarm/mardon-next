@@ -34,11 +34,11 @@ const socialTags = ({
     },
     { name: 'twitter:image:src', content: image },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'og:title', content: title },
+    { name: 'og:title', content: title.slice(0, 34) },
     { name: 'og:type', content: openGraphType },
     { name: 'og:url', content: url },
     { name: 'og:image', content: image },
-    { name: 'og:description', content: description },
+    { name: 'og:description', content: description.slice(0, 64) },
     {
       name: 'og:site_name',
       content: settings && settings.meta && settings.meta.title,
@@ -90,15 +90,12 @@ const SEO = ({ product, images }) => {
             '@type': 'Product',
             name: product?.name,
             description: product?.shortDesc,
-            image: image,
-            // brand: {
-            //   '@type': 'Brand',
-            //   name: product?.brand.name,
-            // },
+            image: image[0],
+            sku: product?.productVariants[0]?.article,
             aggregateRating: {
               '@type': 'AggregateRating',
-              ratingValue: product?.rating?.avg ?? 4.6,
-              reviewCount: product?.reviews?.length ?? 10,
+              ratingValue: product?.rating?.avg ?? 0,
+              reviewCount: product?.reviews?.length ?? 0,
             },
             offers: {
               '@type': 'Offer',
