@@ -25,14 +25,10 @@ import {
   pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
+
 // _____________________________________________
 const ProductsPage = () => {
-  // const [currentPage, setCurrentPage] = useState<number>(1);
-  // const { offset, setOffset } = useContext(AppContext);
-
   const dispatch = useAppDispatch();
-  // const products = useAppSelector((state) => state.products.products);
-  // const isLoading = useAppSelector((state) => state.products.loading);
   const router = useRouter();
   // ____________________________________________________________________
   const [category, setCategory] = useState<Category | undefined>();
@@ -101,14 +97,6 @@ const ProductsPage = () => {
     (state) => state.catalog.productsLength,
   );
   const [currentPage, setCurrentPage] = useState(1);
-  // const [recordsPerPage] = useState(12);
-  // const indexOfLastRecord = currentPage * recordsPerPage;
-  // const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // const nPages = Math.ceil(paginationLength / recordsPerPage);
-
-  // useEffect(() => {
-  // handlePageChange(currentPage);
-  // }, [currentPage]);
 
   // ___________________________________________________________________
   const dataSource = products?.map(
@@ -153,7 +141,6 @@ const ProductsPage = () => {
         <FilterBar
           categories={categories}
           subCategories={subCategories}
-          // brands={brands}
           colors={colors}
           priceRange={priceRange}
           tags={tags}
@@ -183,24 +170,10 @@ const ProductsPage = () => {
                 }}
                 dataSource={dataSource}
                 onChange={(event) => {
-                  // const newOffset = ((event.current as number) - 1) * 20;
                   setCurrentPage(event.current as number);
                   handlePageChange(event.current as number);
-                  // setOffset(newOffset);
-                  // dispatch(
-                  //   fetchCategories({
-                  //     offset: String(newOffset),
-                  //     limit: '20',
-                  //   }),
-                  // );
-                  // setCurrentPage(event.current as number);
                 }}
               />
-              {/* <Pagination
-                currentPage={currentPage}
-                setCurrentPage={setFakeCurrentPage}
-                nPages={nPages}
-              /> */}
             </>
           )}
         </Content>

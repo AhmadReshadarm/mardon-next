@@ -23,7 +23,6 @@ import { motion } from 'framer-motion';
 import { devices } from '../lib/Devices';
 import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch } from 'redux/hooks';
-import NavWrapMobile from './NavWrapMobile';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
 import { handleSearchclosed } from './helpers';

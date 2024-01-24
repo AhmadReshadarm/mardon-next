@@ -1,7 +1,12 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { Btns } from '../../common';
-import { CatelogSVG, BasketSVG, WishlistSVG } from 'assets/icons/UI-icons';
+import {
+  CatelogSVG,
+  BasketSVG,
+  WishlistSVG,
+  HomePageIconSVG,
+} from 'assets/icons/UI-icons';
 import { devices } from '../../../lib/Devices';
 import { TCartState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
@@ -20,7 +25,7 @@ const NavMobile = () => {
     <NavWrap>
       <Link href="/">
         <span>
-          <CatelogSVG
+          <HomePageIconSVG
             colorState={router.pathname == '/' ? '#000000' : '#949494'}
           />
         </span>

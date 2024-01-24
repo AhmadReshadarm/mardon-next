@@ -7,7 +7,7 @@ import ColorFilter from 'components/store/catalog/filters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/filters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelectionFilter';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
@@ -16,6 +16,12 @@ import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import CloseSVG from '../../../assets/close_black.svg';
+import { AppDispatch } from 'redux/store';
+import {
+  changeSearchQuery,
+  clearSearchProducts,
+} from 'redux/slicers/store/globalSlicer';
+import { useAppDispatch } from 'redux/hooks';
 
 type Props = {
   categories: Category[];
@@ -93,10 +99,41 @@ const FilterBar: React.FC<Props> = ({
     );
     setSelectedCategory(selectedCategory);
   }, [categories, subCategories, colors, priceRange, tags]);
+  const dispatch = useAppDispatch();
+
+  // const handleSearchQueryChange =
+  //   (dispatch: AppDispatch, router: NextRouter) => (e: any) => {
+  //     const searchQuery = e.target.value;
+
+  //     dispatch(changeSearchQuery(searchQuery));
+
+  //     if (!searchQuery || searchQuery == '') {
+  //       dispatch(clearSearchProducts());
+
+  //       return;
+  //     }
+  //     const query: { name: string; article: string } = {
+  //       name: searchQuery,
+  //       article: searchQuery,
+  //     };
+
+  //     // router.push({
+  //     //   pathname: '/admin/products',
+  //     //   query,
+  //     // });
+
+  //     history.
+
+  //     localStorage.setItem('location', window.location.search);
+  //   };
 
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
+        {/* <input
+          type="text"
+          onChange={handleSearchQueryChange(dispatch, router)}
+        /> */}
         {localFilters.map(
           (filter, key) =>
             (filter.type === FilterType.SINGLE_SELECTION &&

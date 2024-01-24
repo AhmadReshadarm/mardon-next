@@ -2,7 +2,7 @@ import {
   getQueryParams,
   pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
-import Pagination from 'ui-kit/Pagination';
+// import Pagination from 'ui-kit/Pagination';
 import {
   convertQueryParams,
   onLocationChange,
@@ -24,6 +24,7 @@ import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from 'common/constant';
 import Loading from 'ui-kit/Loading';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
+import { Pagination } from 'antd';
 
 const CatalogPage = () => {
   const dispatch = useAppDispatch();
@@ -114,9 +115,9 @@ const CatalogPage = () => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const nPages = Math.ceil(paginationLength / recordsPerPage);
 
-  useEffect(() => {
-    handlePageChange(currentPage);
-  }, [currentPage]);
+  // useEffect(() => {
+  //   handlePageChange(currentPage);
+  // }, [currentPage]);
   return (
     <>
       {!!products ? (
@@ -181,10 +182,17 @@ const CatalogPage = () => {
                         }
                       />
                     </Products>
-                    <Pagination
+                    {/* <Pagination
                       currentPage={currentPage}
                       setCurrentPage={setCurrentPage}
                       nPages={nPages}
+                    /> */}
+                    <Pagination
+                      style={{ marginTop: '20px' }}
+                      defaultCurrent={currentPage}
+                      total={paginationLength}
+                      pageSize={12}
+                      onChange={handlePageChange}
                     />
                   </>
                 ) : (
