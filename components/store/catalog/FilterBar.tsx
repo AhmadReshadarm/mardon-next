@@ -1,6 +1,7 @@
 import {
   clearQueryParams,
   getQueryParams,
+  pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/filters/ColorFilter';
@@ -130,10 +131,20 @@ const FilterBar: React.FC<Props> = ({
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
-        {/* <input
+        <input
           type="text"
-          onChange={handleSearchQueryChange(dispatch, router)}
-        /> */}
+          onChange={(e) => {
+            pushQueryParams([{ name: 'name', value: e.target.value }]);
+          }}
+          placeholder="Название продукта или артикул"
+          style={{
+            width: '100%',
+            height: '50px',
+            borderRadius: '10px',
+            padding: '10px',
+            border: `1px solid ${color.activeIcons}`,
+          }}
+        />
         {localFilters.map(
           (filter, key) =>
             (filter.type === FilterType.SINGLE_SELECTION &&
