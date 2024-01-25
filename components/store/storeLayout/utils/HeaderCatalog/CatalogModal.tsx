@@ -142,6 +142,7 @@ const SubCategoriesContainer = styled.div`
   .sub-category {
     transition: 200ms;
     font-size: 1rem;
+    font-weight: 600;
   }
 `;
 
