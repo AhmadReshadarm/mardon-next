@@ -49,6 +49,7 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   //     };
   //   }
   // }
+  console.log(product?.desc?.split('|')[1]);
 
   return (
     <InfoContainer
@@ -61,7 +62,13 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
       variants={variants.fadInSlideUp}
     >
       <InfoDropdown title="Описание">
-        <p>{!loading ? product?.desc : ''}</p>
+        <p>
+          {!loading
+            ? product?.desc?.includes('|')
+              ? product?.desc?.split('|')[1]
+              : product?.desc
+            : ''}
+        </p>
       </InfoDropdown>
       <InfoDropdown title="Характеристики">
         <SpecsContainer>
