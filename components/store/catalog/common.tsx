@@ -14,6 +14,7 @@ const Filter = styled.div`
 
 const TopFilter = styled.div`
   width: 100%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

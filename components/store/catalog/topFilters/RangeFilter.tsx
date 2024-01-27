@@ -59,7 +59,7 @@ const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
         animate="animate"
         exit={{ y: -80, opacity: 0, transition: { delay: 0.4 } }}
         variants={variants.fadInSlideUp}
-        style={{ display: 'block' }}
+        style={{ display: 'block', minWidth: '250px', maxWidth: '350px' }}
       >
         <FieldsWrapper>
           <div className="fields-wrapper">
