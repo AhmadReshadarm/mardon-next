@@ -9,10 +9,10 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
 import { useAppSelector } from 'redux/hooks';
-import { TCatalogState } from 'redux/types';
+import { TGlobalState } from 'redux/types';
 const IndexPage = (): JSX.Element => {
-  const { categories, subCategories } = useAppSelector<TCatalogState>(
-    (state) => state.catalog,
+  const { categories, loading } = useAppSelector<TGlobalState>(
+    (state) => state.global,
   );
   const [categoriesList, setCategoriesList] = useState('');
   useEffect(() => {
@@ -21,12 +21,7 @@ const IndexPage = (): JSX.Element => {
         `${categoriesList}${categoriesList !== '' ? ', ' : ''}${category.name}`,
       ),
     );
-    subCategories.map((category) =>
-      setCategoriesList(
-        `${categoriesList}${categoriesList !== '' ? ', ' : ''}${category.name}`,
-      ),
-    );
-  }, [categories, subCategories]);
+  }, [categories]);
   return (
     <>
       <SEOstatic
