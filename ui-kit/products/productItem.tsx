@@ -67,9 +67,16 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </div>
           <div className="product-description-wrapper">
             <span>
-              {product.desc?.length! > 80
+              {/* {product.desc?.length! > 80
                 ? `${product.desc?.slice(0, 80)}...`
-                : product.desc}
+                : product.desc} */}
+              {product?.desc?.includes('|')
+                ? product?.desc?.split('|')[0]?.length! > 60
+                  ? product?.desc?.split('|')[0].slice(0, 60) + '...'
+                  : product?.desc?.split('|')[0]
+                : product?.desc?.length! > 60
+                ? product?.desc?.slice(0, 60) + '...'
+                : product?.desc?.slice(0, 60)}
             </span>
           </div>
           <div className="product-price-wrapper">

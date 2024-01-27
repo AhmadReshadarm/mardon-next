@@ -98,7 +98,9 @@ const Details: React.FC<Props> = ({
                 ? product?.desc?.split('|')[0]?.length! > 150
                   ? product?.desc?.split('|')[0].slice(0, 150) + '...'
                   : product?.desc?.split('|')[0]
-                : product?.desc?.slice(0, 150) + '...'}
+                : product?.desc?.length! > 150
+                ? product?.desc?.slice(0, 150) + '...'
+                : product?.desc?.slice(0, 150)}
             </span>
           </p>
         </div>
