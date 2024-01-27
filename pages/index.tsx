@@ -11,17 +11,8 @@ import BestProduct from 'components/store/homePage/bestProducts';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
 const IndexPage = (): JSX.Element => {
-  const { categories, loading } = useAppSelector<TGlobalState>(
-    (state) => state.global,
-  );
-  const [categoriesList, setCategoriesList] = useState('');
-  useEffect(() => {
-    categories.map((category) =>
-      setCategoriesList(
-        `${categoriesList}${categoriesList !== '' ? ', ' : ''}${category.name}`,
-      ),
-    );
-  }, [categories]);
+  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
+
   return (
     <>
       <SEOstatic
@@ -30,7 +21,9 @@ const IndexPage = (): JSX.Element => {
             'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           url: '/',
-          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categoriesList}`,
+          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categories.map(
+            (category) => `${category.name}, `,
+          )}`,
           keywords:
             'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
           createdAt: new Date().toISOString(),
