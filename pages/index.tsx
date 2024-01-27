@@ -5,23 +5,41 @@ import ContactsMainPage from 'components/store/homePage/contactsMainPage';
 import Subscribers from 'ui-kit/Subscribers';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import Loading from 'ui-kit/Loading';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
+import { useAppSelector } from 'redux/hooks';
+import { TCatalogState } from 'redux/types';
 const IndexPage = (): JSX.Element => {
+  const { categories, subCategories } = useAppSelector<TCatalogState>(
+    (state) => state.catalog,
+  );
+  const [categoriesList, setCategoriesList] = useState('');
+  useEffect(() => {
+    categories.map((category) =>
+      setCategoriesList(
+        `${categoriesList}${categoriesList !== '' ? ', ' : ''}${category.name}`,
+      ),
+    );
+    subCategories.map((category) =>
+      setCategoriesList(
+        `${categoriesList}${categoriesList !== '' ? ', ' : ''}${category.name}`,
+      ),
+    );
+  }, []);
   return (
     <>
       <SEOstatic
         page={{
-          name: 'Главный | NBHOZ',
+          name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           url: '/',
-          desc: 'NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москва и все Россия, купить Кухонная утварь, Товары для сервировки стола, Товары для ванной комнаты',
+          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categoriesList}`,
           keywords:
             'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }}
-        image={`${baseUrl}/favicon.svg`}
+        image={`${baseUrl}/static/favicon.png`}
       />
 
       <Suspense fallback={<Loading />}>

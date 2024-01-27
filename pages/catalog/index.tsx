@@ -82,7 +82,7 @@ const CatalogPage = () => {
     };
   }, []);
 
-  const randomProduct = Math.floor(Math.random() * products?.length);
+  const randomProduct = Math.floor(Math.random() * products?.length - 1);
 
   const filteredTags: any = tags.filter((tag) => {
     if (
@@ -97,7 +97,16 @@ const CatalogPage = () => {
     return tag;
   });
 
-  const filteredColors: any = colors.filter((color) => color.url != '_');
+  const filteredColors: any = colors.filter((color) => {
+    if (
+      color.url?.match(/(?:^|\W)-(?:$|\W)/) ||
+      color.url?.match(/(?:^|\W)_(?:$|\W)/) ||
+      color.url?.match(/(?:^|\W) (?:$|\W)/)
+    ) {
+      return;
+    }
+    return color;
+  });
 
   const [expanded, setExpanded] = useState(false);
 
@@ -110,10 +119,10 @@ const CatalogPage = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(12);
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const nPages = Math.ceil(paginationLength / recordsPerPage);
+  // const [recordsPerPage] = useState(12);
+  // const indexOfLastRecord = currentPage * recordsPerPage;
+  // const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // const nPages = Math.ceil(paginationLength / recordsPerPage);
 
   // useEffect(() => {
   //   handlePageChange(currentPage);
@@ -123,18 +132,19 @@ const CatalogPage = () => {
       {!!products ? (
         <SEOstatic
           page={{
-            name: `${selectedCategory?.name ?? 'Каталог'}`,
+            realName: `${selectedCategory?.name} | NBHOZ`,
+            name: `${products[randomProduct]?.name ?? 'Каталог'}`,
             url: `${router.asPath}`,
-            desc: `Интернет-магазин Nbhoz - ${
+            desc: `${
               selectedCategory?.name ?? 'Каталог'
-            } - ${
-              selectedCategory?.desc ?? products[randomProduct]?.shortDesc
+            } - покупайте на NBHOZ по выгодным ценам! оптом ${
+              products[randomProduct]?.shortDesc ?? selectedCategory?.desc
             }`,
             keywords: `${products[randomProduct]?.keywords}`,
             createdAt:
-              selectedCategory?.createdAt ?? products[randomProduct]?.createdAt,
+              products[randomProduct]?.createdAt ?? selectedCategory?.createdAt,
             updatedAt:
-              selectedCategory?.updatedAt ?? products[randomProduct]?.updatedAt,
+              products[randomProduct]?.updatedAt ?? selectedCategory?.updatedAt,
           }}
           image={
             `${baseUrl}/api/images/${products[0]?.category?.parent?.image}` ??

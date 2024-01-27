@@ -36,6 +36,7 @@ const Slider: React.FC<Props> = ({ product, url, images }) => {
             dispatch(clearSearchProducts());
           }}
           href={`/product/${url}`}
+          aria-label={product.name}
         >
           <AnimatePresence initial={false} custom={direction}>
             <ImageSlider
@@ -62,7 +63,7 @@ const Slider: React.FC<Props> = ({ product, url, images }) => {
               // )}
               // whileHover={{ scale: 1.2 }}
               // whileTap={{ scale: 1 }}
-              alt={product.name}
+              alt={product.shortDesc}
               src={`/api/images/${images[imageIndex]}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;

@@ -30,7 +30,7 @@ const handleSearchQueryChange =
 
     const payload = {
       name: searchQuery,
-      limit: 5,
+      limit: 1000,
     };
 
     dispatch(searchProducts(payload));

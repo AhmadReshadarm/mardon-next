@@ -64,6 +64,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
       >
         <AnimatePresence initial={false} custom={direction}>
           <Slider
+            alt={slides![imageIndex]?.link}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src = '/img_not_found.png';

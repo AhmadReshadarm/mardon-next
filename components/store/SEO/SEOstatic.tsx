@@ -56,11 +56,11 @@ const socialTags = ({
 };
 
 const SEOstatic = ({ page, image }) => {
-  const url = `https://nbhoz.ru${page.url}`;
+  const url = `https://nbhoz.ru${page.url}`; // no need to add / it will be provided by router
 
   return (
     <Head>
-      <title>{page?.name} | NBHOZ</title>
+      <title>{page?.realName}</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={page?.name} />
       <meta name="description" content={page?.desc} />

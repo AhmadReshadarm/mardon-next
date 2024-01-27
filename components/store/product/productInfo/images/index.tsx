@@ -77,7 +77,7 @@ const Images: React.FC<Props> = ({
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
             paginateImage={paginateImage}
-            alt={product?.name}
+            alt={product?.shortDesc}
             isOpened={isOpened}
           />
         </div>
