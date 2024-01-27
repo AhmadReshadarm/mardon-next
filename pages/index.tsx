@@ -31,6 +31,8 @@ const IndexPage = (): JSX.Element => {
     <>
       <SEOstatic
         page={{
+          realName:
+            'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           url: '/',
           desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categoriesList}`,
