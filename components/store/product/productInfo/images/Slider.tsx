@@ -142,11 +142,11 @@ const SliderWrapper = styled(motion.div)`
   }
   @media ${devices.tabletL} {
     width: 100%;
-    height: 300px;
+    height: 350px;
   }
   @media ${devices.tabletS} {
     width: 100%;
-    height: 300px;
+    height: 350px;
   }
   @media ${devices.mobileL} {
     width: 100%;
