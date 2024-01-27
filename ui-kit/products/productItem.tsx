@@ -61,7 +61,11 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </Link>
           <div className="artical-wrapper">
             <span style={{ fontFamily: 'ricordi' }}>Артикул : </span>
-            <span>{product?.productVariants![0]?.artical?.slice(0, 15)}</span>
+            <span>
+              {product
+                ?.productVariants![0]?.artical?.slice(0, 15)
+                .toLocaleUpperCase()}
+            </span>
           </div>
           <div className="product-description-wrapper">
             <span>
