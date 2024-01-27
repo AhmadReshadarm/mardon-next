@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import styled from 'styled-components';
 const UserSelectWrapper = styled.div`
   width: 100%;
@@ -33,6 +34,31 @@ const UserSelectWrapper = styled.div`
       width: 50px;
       height: 3px;
       background-color: #000000;
+    }
+  }
+  @media ${devices.tabletL} {
+    .product-header-1 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    .product-header-1 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.mobileL} {
+    .product-header-1 {
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.mobileM} {
+    .product-header-1 {
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.mobileS} {
+    .product-header-1 {
+      font-size: 1rem;
     }
   }
 `;
