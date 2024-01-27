@@ -26,7 +26,7 @@ const IndexPage = (): JSX.Element => {
         `${categoriesList}${categoriesList !== '' ? ', ' : ''}${category.name}`,
       ),
     );
-  }, []);
+  }, [categories, subCategories]);
   return (
     <>
       <SEOstatic
