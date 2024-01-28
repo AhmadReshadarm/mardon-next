@@ -232,6 +232,7 @@ const FormContent = styled.div`
   .news-letter-image-wrapper {
     width: 100%;
     height: 50vh;
+    min-height: 500px;
     img {
       width: 100%;
       height: 100%;
@@ -242,6 +243,7 @@ const FormContent = styled.div`
   .news-letter-form-wrapper {
     width: 100%;
     height: 50vh;
+    min-height: 500px;
     background-color: ${color.backgroundPrimary};
     padding: 50px;
     display: flex;
