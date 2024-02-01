@@ -307,7 +307,7 @@ const FilterBarContent = styled.div<any>`
 const FiltersWrapper = styled<any>(motion.div)`
   width: 100%;
   display: inline-grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   column-gap: 50px;
   row-gap: 30px;
   padding: 10px;
@@ -329,7 +329,7 @@ const FiltersWrapper = styled<any>(motion.div)`
     }
   }
   @media ${devices.desktop} {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   @media ${devices.laptopL} {
     grid-template-columns: repeat(3, 1fr);
