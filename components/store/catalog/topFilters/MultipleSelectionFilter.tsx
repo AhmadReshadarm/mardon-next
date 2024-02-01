@@ -46,7 +46,8 @@ const MultipleSelectionFilter: React.FC<Props> = ({
         animate="animate"
         exit={{ y: -80, opacity: 0, transition: { delay: 0.2 } }}
         variants={variants.fadInSlideUp}
-        style={{ alignItems: 'flex-start' }}
+        style={{ alignItems: 'flex-start', justifyItems: 'flex-start' }}
+        className="top-filter-body-special"
       >
         {options?.map((option) => (
           <FilterCheckbox

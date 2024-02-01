@@ -23,6 +23,9 @@ const TopFilter = styled.div`
   padding: 10px;
   background-color: ${color.backgroundPrimary};
   border-radius: 30px;
+  .top-filter-body-special {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
   @media ${devices.laptopS} {
     padding: 20px;
     background-color: #f4f4f4;
@@ -74,6 +77,7 @@ const TopFilterBody = styled(motion.div)`
   &::-webkit-scrollbar {
     display: none;
   }
+
   @media ${devices.laptopS} {
     width: 100%;
     display: flex;
