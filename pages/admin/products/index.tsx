@@ -97,9 +97,13 @@ const ProductsPage = () => {
     (state) => state.catalog.productsLength,
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize]: [number, any] = useState(12);
+  useEffect(() => {
+    pushQueryParams([{ name: 'limit', value: pageSize }]);
+  }, [pageSize]);
 
   // ___________________________________________________________________
-  const dataSource = products?.map(
+  let dataSource = products?.map(
     ({
       id,
       name,
@@ -147,10 +151,19 @@ const ProductsPage = () => {
           expanded={expanded}
           handleExpantionChange={handleExpantionChange}
           setSelectedCategory={setSelectedCategory}
+          setCurrentPage={setCurrentPage}
+          handlePageChange={handlePageChange}
+          setPageSize={setPageSize}
         />
         <Content>
-          {loading || !productsLength ? (
-            <Spin className={styles.spinner} size="large" />
+          {loading ? (
+            <EmptyProductsTitle>
+              <Spin className={styles.spinner} size="large" />
+            </EmptyProductsTitle>
+          ) : !productsLength ? (
+            <EmptyProductsTitle>
+              <h3>По вашему запросу ничего не найдено.</h3>
+            </EmptyProductsTitle>
           ) : (
             <>
               <Table
@@ -164,12 +177,14 @@ const ProductsPage = () => {
                   )[]
                 }
                 pagination={{
-                  pageSize: 12,
+                  pageSize: pageSize,
                   current: currentPage,
                   total: paginationLength,
+                  pageSizeOptions: [12, 24, 36, 50, 100],
                 }}
                 dataSource={dataSource}
                 onChange={(event) => {
+                  setPageSize(event.pageSize as number);
                   setCurrentPage(event.current as number);
                   handlePageChange(event.current as number);
                 }}
@@ -211,11 +226,21 @@ const Content = styled.div`
     margin-left: 0;
     padding: 10px 15px;
   }
-  // .ant-pagination {
-  //   display: none;
-  // }
 `;
 
+const EmptyProductsTitle = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 100px;
+  h3 {
+    font-size: 2rem;
+    font-family: ricordi;
+  }
+`;
 ProductsPage.PageLayout = AdminLayout;
 
 export default ProductsPage;

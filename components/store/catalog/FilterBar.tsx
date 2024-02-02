@@ -34,6 +34,9 @@ type Props = {
   expanded: any;
   handleExpantionChange: any;
   setSelectedCategory: any;
+  setCurrentPage?: any;
+  handlePageChange?: any;
+  setPageSize?: any;
 };
 
 const FilterBar: React.FC<Props> = ({
@@ -46,6 +49,9 @@ const FilterBar: React.FC<Props> = ({
   expanded,
   handleExpantionChange,
   setSelectedCategory,
+  setCurrentPage,
+  handlePageChange,
+  setPageSize,
 }) => {
   const router = useRouter();
   const filters = convertQueryParams(router.query);
@@ -65,6 +71,10 @@ const FilterBar: React.FC<Props> = ({
 
   const handleResetFilters = () => {
     clearQueryParams();
+    setSearchTerm('');
+    setCurrentPage(1);
+    handlePageChange(1);
+    setPageSize(12);
   };
 
   const hanldeResetBtnClick = () => {
@@ -89,7 +99,6 @@ const FilterBar: React.FC<Props> = ({
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
-  // useEffect(() => handleExpantionChange(), []);
 
   useEffect(() => {
     const checkedCategory = localFilters[0].options?.find(
@@ -100,41 +109,31 @@ const FilterBar: React.FC<Props> = ({
     );
     setSelectedCategory(selectedCategory);
   }, [categories, subCategories, colors, priceRange, tags]);
-  const dispatch = useAppDispatch();
 
-  // const handleSearchQueryChange =
-  //   (dispatch: AppDispatch, router: NextRouter) => (e: any) => {
-  //     const searchQuery = e.target.value;
+  const [searchTerm, setSearchTerm] = useState('');
 
-  //     dispatch(changeSearchQuery(searchQuery));
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      pushQueryParams([{ name: 'name', value: searchTerm }]);
+      // Send Axios request here
+    }, 800);
 
-  //     if (!searchQuery || searchQuery == '') {
-  //       dispatch(clearSearchProducts());
-
-  //       return;
-  //     }
-  //     const query: { name: string; article: string } = {
-  //       name: searchQuery,
-  //       article: searchQuery,
-  //     };
-
-  //     // router.push({
-  //     //   pathname: '/admin/products',
-  //     //   query,
-  //     // });
-
-  //     history.
-
-  //     localStorage.setItem('location', window.location.search);
-  //   };
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
 
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
+        <ResetButton onClick={hanldeResetBtnClick}>
+          <span>Сбросить фильтры</span>
+        </ResetButton>
         <input
+          autoFocus
+          autoComplete="on"
           type="text"
+          value={searchTerm}
           onChange={(e) => {
-            pushQueryParams([{ name: 'name', value: e.target.value }]);
+            setSearchTerm(e.target.value);
           }}
           placeholder="Название продукта или артикул"
           style={{
@@ -197,9 +196,6 @@ const FilterBar: React.FC<Props> = ({
                 />
               )),
         )}
-        <ResetButton onClick={hanldeResetBtnClick}>
-          <span>Сбросить фильтры</span>
-        </ResetButton>
       </FiltersWrapper>
       <CloseBtn onClick={handleExpantionChange} title="Закрыть фильтры">
         <span>Сохранить и Закрыть</span>

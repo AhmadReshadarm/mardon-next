@@ -44,6 +44,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
     onChange(curOption!);
   };
 
+  // const [hoveredIndex, setHoverdIndex]: [number | null, any] = useState(null);
   return (
     <TopFilter>
       <TopFilterTitle
@@ -62,13 +63,20 @@ const SingleSelectionFilter: React.FC<Props> = ({
         exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
         variants={variants.fadInSlideUp}
       >
-        {stateOptions?.map((option) => (
+        {stateOptions?.map((option, index) => (
           <Selection
             key={`filter-selection-${option.id}`}
             selected={!!option.checked}
             onClick={handleChange(option.id)}
+            // onMouseOver={() => setHoverdIndex(index)}
+            // onMouseLeave={() => setHoverdIndex(null)}
           >
-            <span>{option.name}</span>
+            <span>
+              {option.name}
+              {/* {hoveredIndex == index
+                ? option.name
+                : option.name.slice(0, 9) + '...'} */}
+            </span>
           </Selection>
         ))}
       </TopFilterBody>

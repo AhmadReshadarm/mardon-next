@@ -35,7 +35,7 @@ const FilterCheckbox: React.FC<Props> = ({
           marginLeft: '10px',
           userSelect: 'none',
           cursor: 'pointer',
-          textWrap: 'nowrap',
+          // textWrap: 'nowrap',
         }}
         label={label}
       />

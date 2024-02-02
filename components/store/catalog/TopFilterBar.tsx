@@ -189,7 +189,7 @@ const TopFilterBar: React.FC<Props> = ({
               : color.textPrimary,
           }}
         >
-          <span>{isMoreFilters ? 'меньше фильтров' : 'Большe фильтров'}</span>
+          <span>{isMoreFilters ? 'Меньше фильтров' : 'Большe фильтров'}</span>
           <span className="more-filter-icon">
             <LoadMoreIconSVG colorState={isMoreFilters ? 'white' : 'black'} />
           </span>
@@ -201,13 +201,6 @@ const TopFilterBar: React.FC<Props> = ({
           <span>Сбросить фильтры</span>
         </ResetButton>
       </ActionButtonsWrapper>
-
-      {/* <CloseBtn onClick={handleExpantionChange} title="Закрыть фильтры">
-        <span>Сохранить и Закрыть</span>
-        <span>
-          <CloseSVG />
-        </span>
-      </CloseBtn> */}
     </FilterBarContent>
   );
 };

@@ -114,7 +114,7 @@ const setPriceRange = (dispatch: AppDispatch) => {
 
 const onLocationChange = (dispatch: AppDispatch) => async () => {
   const queryParams = getQueryParams(window.location.search);
-  const { minPrice, maxPrice, name, page } = queryParams;
+  const { minPrice, maxPrice, name, page, limit } = queryParams;
   const { categories, subCategories, colors, tags } =
     convertQueryParams(queryParams);
   const payload = {
@@ -126,10 +126,10 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     categories: subCategories,
     minPrice: minPrice ? Number(minPrice) : undefined,
     maxPrice: maxPrice ? Number(maxPrice) : undefined,
-    limit: PAGE_ITEMS_LIMIT,
-    offset: PAGE_ITEMS_LIMIT * (Number(page ?? 1) - 1),
+    limit: limit ? limit : PAGE_ITEMS_LIMIT,
+    offset: Number(limit ?? PAGE_ITEMS_LIMIT) * (Number(page ?? 1) - 1),
   };
-
+  //
   dispatch(setPage(Number(page ?? 1)));
 
   dispatch(fetchProducts(payload));

@@ -69,6 +69,7 @@ const TopFilterBody = styled(motion.div)`
   justify-items: center;
   .check-box {
     label {
+      align-items: flex-start !important;
       span {
         cursor: pointer !important;
       }
@@ -88,6 +89,14 @@ const TopFilterBody = styled(motion.div)`
     overflow-y: hidden;
     padding: 20px;
     gap: 20px;
+    .check-box {
+      label {
+        align-items: center !important;
+        span {
+          text-wrap: nowrap;
+        }
+      }
+    }
   }
   @media ${devices.tabletL} {
     width: 100%;
@@ -99,6 +108,14 @@ const TopFilterBody = styled(motion.div)`
     overflow-y: hidden;
     padding: 20px;
     gap: 20px;
+    .check-box {
+      label {
+        align-items: center !important;
+        span {
+          text-wrap: nowrap;
+        }
+      }
+    }
   }
   @media ${devices.tabletS} {
     width: 100%;
@@ -110,6 +127,14 @@ const TopFilterBody = styled(motion.div)`
     overflow-y: hidden;
     padding: 20px 10px;
     gap: 20px;
+    .check-box {
+      label {
+        align-items: center !important;
+        span {
+          text-wrap: nowrap;
+        }
+      }
+    }
   }
   @media ${devices.mobileL} {
     width: 100%;
@@ -121,6 +146,14 @@ const TopFilterBody = styled(motion.div)`
     overflow-y: hidden;
     padding: 20px 10px;
     gap: 20px;
+    .check-box {
+      label {
+        align-items: center !important;
+        span {
+          text-wrap: nowrap;
+        }
+      }
+    }
   }
   @media ${devices.mobileM} {
     width: 100%;
@@ -132,6 +165,14 @@ const TopFilterBody = styled(motion.div)`
     overflow-y: hidden;
     padding: 20px 10px;
     gap: 20px;
+    .check-box {
+      label {
+        align-items: center !important;
+        span {
+          text-wrap: nowrap;
+        }
+      }
+    }
   }
   @media ${devices.mobileS} {
     width: 100%;
@@ -143,6 +184,14 @@ const TopFilterBody = styled(motion.div)`
     overflow-y: hidden;
     padding: 20px 10px;
     gap: 20px;
+    .check-box {
+      label {
+        align-items: center !important;
+        span {
+          text-wrap: nowrap;
+        }
+      }
+    }
   }
 `;
 
