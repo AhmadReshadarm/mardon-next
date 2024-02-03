@@ -93,7 +93,7 @@ const TopFilterBody = styled(motion.div)`
       label {
         align-items: center !important;
         span {
-          text-wrap: nowrap;
+          white-space: nowrap !important;
         }
       }
     }
@@ -112,7 +112,7 @@ const TopFilterBody = styled(motion.div)`
       label {
         align-items: center !important;
         span {
-          text-wrap: nowrap;
+          white-space: nowrap !important;
         }
       }
     }
@@ -131,7 +131,7 @@ const TopFilterBody = styled(motion.div)`
       label {
         align-items: center !important;
         span {
-          text-wrap: nowrap;
+          white-space: nowrap !important;
         }
       }
     }
@@ -150,7 +150,7 @@ const TopFilterBody = styled(motion.div)`
       label {
         align-items: center !important;
         span {
-          text-wrap: nowrap;
+          white-space: nowrap !important;
         }
       }
     }
@@ -169,7 +169,7 @@ const TopFilterBody = styled(motion.div)`
       label {
         align-items: center !important;
         span {
-          text-wrap: nowrap;
+          white-space: nowrap !important;
         }
       }
     }
@@ -188,7 +188,7 @@ const TopFilterBody = styled(motion.div)`
       label {
         align-items: center !important;
         span {
-          text-wrap: nowrap;
+          white-space: nowrap !important;
         }
       }
     }
