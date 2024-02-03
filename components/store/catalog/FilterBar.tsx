@@ -116,7 +116,7 @@ const FilterBar: React.FC<Props> = ({
     const delayDebounceFn = setTimeout(() => {
       pushQueryParams([{ name: 'name', value: searchTerm }]);
       // Send Axios request here
-    }, 800);
+    }, 1500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
