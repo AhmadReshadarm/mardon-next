@@ -48,7 +48,7 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
         >
           <ItemImageAndBtnWrapper>
             <span className="ItemPriceWrapper">
-              Цена: {product?.productVariants![0].price} ₽
+              Цена: {product?.productVariants![0].price ?? 1} ₽
             </span>
             <ItemActionBtnsWrapper>
               <ArrowBtns
