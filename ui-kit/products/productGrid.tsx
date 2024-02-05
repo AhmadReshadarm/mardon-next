@@ -4,6 +4,8 @@ import { Product } from 'swagger/services';
 import Loading from 'ui-kit/Loading';
 import { getAnimationDelay } from './helpers';
 import ProductItem from './productItem';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallbackRender from 'ui-kit/FallbackRenderer';
 
 type Props = {
   products: Product[];
@@ -32,11 +34,13 @@ const ProductGrid: React.FC<Props> = ({
 
               {products.map((product, index) => {
                 return (
-                  <ProductItem
-                    key={`product-item-${index}`}
-                    product={product}
-                    custom={delay[index]}
-                  />
+                  <ErrorBoundary fallbackRender={FallbackRender}>
+                    <ProductItem
+                      key={`product-item-${index}`}
+                      product={product}
+                      custom={delay[index]}
+                    />
+                  </ErrorBoundary>
                 );
               })}
             </Grid>

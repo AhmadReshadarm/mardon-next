@@ -44,7 +44,7 @@ const Details: React.FC<Props> = ({
   );
 
   const checkHasOldPrice = (productVariant: ProductVariant) => {
-    if (productVariant.oldPrice) return true;
+    if (productVariant?.oldPrice) return true;
     return false;
   };
   // const onCountChange = (counter: number, product: Product) => {
@@ -166,12 +166,12 @@ const Details: React.FC<Props> = ({
             <PriceItem>
               {checkHasOldPrice(variant! ?? product?.productVariants![0])
                 ? `${
-                    variant?.oldPrice ?? product?.productVariants![0].oldPrice
+                    variant?.oldPrice ?? product?.productVariants![0]?.oldPrice
                   } ₽`
                 : ''}
             </PriceItem>
             <PriceItem>
-              {variant?.price ?? product?.productVariants![0].price} ₽
+              {variant?.price ?? product?.productVariants![0]?.price} ₽
             </PriceItem>
           </PriceWrapper>
         </ConvoContainer>
@@ -181,7 +181,7 @@ const Details: React.FC<Props> = ({
             <span className="title">Выберите артикул:</span>
           </div>
           <ColorPicker
-            variantColor={variant?.color ?? product?.productVariants![0].color}
+            variantColor={variant?.color ?? product?.productVariants![0]?.color}
             productVariants={product?.productVariants}
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}

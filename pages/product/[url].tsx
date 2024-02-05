@@ -13,6 +13,8 @@ import styled from 'styled-components';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import React, { Suspense } from 'react';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallbackRender from 'ui-kit/FallbackRenderer';
 
 const ProductInfoPage = () => {
   const dispatch = useAppDispatch();
@@ -46,14 +48,16 @@ const ProductInfoPage = () => {
         questionRef={questionBtnRef}
         product={product}
       />
-      <Suspense fallback={<Loading />}>
+      <ErrorBoundary fallbackRender={FallbackRender}>
         <Recomendation product={product} />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallbackRender}>
         <ReveiwsAndQuastions
           product={product}
           reviewRef={reviewBtnRef}
           questionRef={questionBtnRef}
         />
-      </Suspense>
+      </ErrorBoundary>
     </>
   ) : (
     <LoadingWrapper>

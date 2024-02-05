@@ -23,7 +23,8 @@ import { MenuActiveStateSVG } from 'assets/icons/UI-icons';
 import { devices } from 'components/store/lib/Devices';
 import ProductItem from 'ui-kit/products/productItem';
 import { getAnimationDelay } from 'ui-kit/products/helpers';
-
+import { ErrorBoundary } from 'react-error-boundary';
+import FallbackRender from 'ui-kit/FallbackRenderer';
 type Props = {
   searchButtonRef: HTMLDivElement | any;
   windowWidth: number;
@@ -123,11 +124,13 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
             >
               {products.map((product, index: number) => {
                 return (
-                  <ProductItem
-                    key={`search-bar-item-${index}`}
-                    product={product}
-                    custom={delay[index]}
-                  />
+                  <ErrorBoundary fallbackRender={FallbackRender}>
+                    <ProductItem
+                      key={`search-bar-item-${index}`}
+                      product={product}
+                      custom={delay[index]}
+                    />
+                  </ErrorBoundary>
                 );
               })}
             </ResultsContent>

@@ -123,7 +123,9 @@ const ColorPicker: React.FC<Props> = ({
                       width: '100%',
                     }}
                   />
-                  {variantColor?.url === '_' || variantColor?.url === '-' ? (
+                  {variantColor?.url === '_' ||
+                  variantColor?.url === '-' ||
+                  variantColor?.url == ' ' ? (
                     ''
                   ) : (
                     <ColorPickerSpan
@@ -139,8 +141,21 @@ const ColorPicker: React.FC<Props> = ({
                   )}
                   <ArticalWrapper>
                     <span>Артикул:</span>
-                    <span>{variant.artical.toLocaleUpperCase()}</span>
+                    <span>
+                      {variant.artical.includes('|')
+                        ? variant.artical.split('|')[0].toLocaleUpperCase()
+                        : variant.artical.toLocaleUpperCase()}
+                    </span>
                   </ArticalWrapper>
+                  {variant.artical.includes('|') ? (
+                    <ArticalWrapper>
+                      <span>
+                        {variant.artical.split('|')[1].toLocaleUpperCase()}
+                      </span>
+                    </ArticalWrapper>
+                  ) : (
+                    ''
+                  )}
                   {!variant.available ? (
                     <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                   ) : (

@@ -23,12 +23,11 @@ type Props = {
   custom: number;
   // name: string;
 };
-//  name
+
 const ProductItem: React.FC<Props> = ({ product, custom }) => {
   const images = getProductVariantsImages(product.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
-  const { price, oldPrice } = product.productVariants![0];
 
   // dispatch(clearSearchQuery());
   // dispatch(clearSearchProducts());
@@ -69,9 +68,6 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </div>
           <div className="product-description-wrapper">
             <span>
-              {/* {product.desc?.length! > 80
-                ? `${product.desc?.slice(0, 80)}...`
-                : product.desc} */}
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 60
                   ? product?.desc?.split('|')[0].slice(0, 60) + '...'
@@ -82,8 +78,14 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             </span>
           </div>
           <div className="product-price-wrapper">
-            {oldPrice ? <span className="old-price">{oldPrice} ₽</span> : ''}
-            <span>{price} ₽</span>
+            {product.productVariants![0]?.oldPrice ? (
+              <span className="old-price">
+                {product.productVariants![0]?.oldPrice} ₽
+              </span>
+            ) : (
+              ''
+            )}
+            <span>{product.productVariants![0]?.price} ₽</span>
           </div>
           <div className="action-buttons-wrapper">
             <AddToWishlist product={product} />

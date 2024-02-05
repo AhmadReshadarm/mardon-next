@@ -19,6 +19,8 @@ import Link from 'next/link';
 import DropDowns from './details/DropDowns';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallbackRender from 'ui-kit/FallbackRenderer';
 type Props = {
   product?: Product;
   reviewRef: MutableRefObject<any>;
@@ -112,24 +114,28 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
           </NavWrapper>
           <ContentCotainer>
             <Grid>
-              <Images
-                product={product}
-                images={images}
-                selectedIndex={selectedIndex}
-                setSelectedIndex={setSelectedIndex}
-                paginateImage={paginateImage}
-                direction={direction}
-                page={page}
-                setPage={setPage}
-              />
-              <Details
-                product={product}
-                selectedIndex={selectedIndex}
-                paginateImage={paginateImage}
-                reviewRef={reviewRef}
-                questionRef={questionRef}
-                setSelectedIndex={setSelectedIndex}
-              />
+              <ErrorBoundary fallbackRender={FallbackRender}>
+                <Images
+                  product={product}
+                  images={images}
+                  selectedIndex={selectedIndex}
+                  setSelectedIndex={setSelectedIndex}
+                  paginateImage={paginateImage}
+                  direction={direction}
+                  page={page}
+                  setPage={setPage}
+                />
+              </ErrorBoundary>
+              <ErrorBoundary fallbackRender={FallbackRender}>
+                <Details
+                  product={product}
+                  selectedIndex={selectedIndex}
+                  paginateImage={paginateImage}
+                  reviewRef={reviewRef}
+                  questionRef={questionRef}
+                  setSelectedIndex={setSelectedIndex}
+                />
+              </ErrorBoundary>
             </Grid>
           </ContentCotainer>
           <DropDowns parameterProducts={product?.parameterProducts} />
