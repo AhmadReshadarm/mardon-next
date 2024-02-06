@@ -36,6 +36,7 @@ const ColorCheckbox: React.FC<Props> = ({
       <Checkbox
         active={!!stateChecked}
         style={{ backgroundColor: color, border: '1px solid' }}
+        title={label}
       >
         <input
           ref={nativeCheckboxRef}
