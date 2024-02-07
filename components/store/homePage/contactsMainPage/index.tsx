@@ -52,8 +52,8 @@ const ContactsMainPage = (): JSX.Element => {
                   <span>info@nbhoz.ru</span>
                 </Link>
                 <span className="call-saperator">|</span>
-                <Link href="mailto:exlon@hoz-mardon.ru">
-                  <span>exlon@hoz-mardon.ru</span>
+                <Link href="mailto:exelon@hoz-mardon.ru">
+                  <span>exelon@hoz-mardon.ru</span>
                 </Link>
               </div>
             </div>

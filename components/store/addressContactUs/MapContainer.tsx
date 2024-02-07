@@ -38,7 +38,7 @@ const MapContainer = (props: any) => {
       <MapAndAddressWrapper>
         <div className="address-container">
           <ContactsHeaderWrapper>
-            <h2>Интернет-магазин nbhoz товаров для загородной жизни</h2>
+            <h2>Интернет-магазин NBHOZ товаров для загородной жизни</h2>
           </ContactsHeaderWrapper>
           <ContactContentWrapper>
             <div className="first-column">
@@ -78,10 +78,7 @@ const MapContainer = (props: any) => {
             </div>
             <div className="second-column">
               <div className="second-column-content-wrapper">
-                <img
-                  src="/icons/phone_call.png"
-                  alt="call fingarden via phone"
-                />
+                <img src="/icons/phone_call.png" alt="call NBHOZ via phone" />
 
                 <div className="phone-number-wrapper">
                   <Link href="tel:89268999954">
