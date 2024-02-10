@@ -93,7 +93,7 @@ const ShareToSocial: React.FC<Props> = ({
     >
       <div className="product-artical-wrapper">
         <span className="product-code">{`Артикул товара: ${artical?.toLocaleUpperCase()}`}</span>
-        <span className="product-code">{`Код товара: ${productId}`}</span>
+        {/* <span className="product-code">{`Код товара: ${productId}`}</span> */}
       </div>
       <motion.button
         className="share-btn-pc"

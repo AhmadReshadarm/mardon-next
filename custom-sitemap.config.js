@@ -70,6 +70,34 @@ module.exports = {
         disallow: '/help',
       },
       {
+        userAgen: '*',
+        disallow: '/return-policy',
+      },
+      {
+        userAgen: '*',
+        disallow: '/how-to-buy',
+      },
+      {
+        userAgen: '*',
+        disallow: '/discount',
+      },
+      {
+        userAgen: '*',
+        disallow: '/guarantee',
+      },
+      {
+        userAgen: '*',
+        disallow: '/delivery',
+      },
+      {
+        userAgen: '*',
+        disallow: '/offerta',
+      },
+      {
+        userAgen: '*',
+        disallow: '/info-refund',
+      },
+      {
         userAgent: '*',
         allow: '/',
       },
