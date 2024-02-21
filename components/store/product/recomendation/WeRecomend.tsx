@@ -16,8 +16,13 @@ const WeRecomend = ({ product }) => {
         limit: 4,
         parent: product?.category.parent?.url,
       })) as unknown as { rows: Product[]; length: number };
-
-      setProducts(response.rows.filter((item) => item.id != product.id));
+      const offset = Math.floor(Math.random() * response.length) - 5;
+      const weRecomend = (await ProductService.getProducts({
+        limit: 4,
+        offset: `${offset < 5 ? 0 : offset}`,
+        parent: product?.category.parent?.url,
+      })) as unknown as { rows: Product[]; length: number };
+      setProducts(weRecomend.rows.filter((item) => item.id != product.id));
       setLoading(false);
     })();
   }, []);
