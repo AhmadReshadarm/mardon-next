@@ -1,7 +1,7 @@
 import { devices } from 'components/store/lib/Devices';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchMainPageProducts } from 'redux/slicers/store/globalSlicer';
+import { useEffect } from 'react';
+import { useAppSelector } from 'redux/hooks';
+
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
 import { getAnimationDelay } from 'ui-kit/products/helpers';
@@ -10,30 +10,20 @@ import Loading from 'ui-kit/Loading';
 type Props = {};
 
 const BestProduct: React.FC<Props> = () => {
-  const dispatch = useAppDispatch();
   let delay: number[] = [];
-  const { bestProduct, loadingCarosel } = useAppSelector<TGlobalState>(
+  const { bestProduct, loading } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    dispatch(
-      fetchMainPageProducts({
-        tags: ['best_product'],
-        fetchFor: 'best-product',
-      }),
-    );
-  }, []);
+
   useEffect(() => {
     if (bestProduct) {
       delay = getAnimationDelay(bestProduct.length);
-      setLoaded(bestProduct.length < 1 ? false : true);
     }
   }, [bestProduct]);
 
   return (
     <>
-      {!loadingCarosel && loaded ? (
+      {!loading ? (
         <Container>
           <Wrapper>
             <div className="section-title-wrapper">

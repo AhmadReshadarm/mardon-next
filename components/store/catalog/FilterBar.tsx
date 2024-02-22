@@ -73,7 +73,6 @@ const FilterBar: React.FC<Props> = ({
     clearQueryParams();
     setSearchTerm('');
     setCurrentPage(1);
-    handlePageChange(1);
     setPageSize(12);
   };
 
@@ -114,8 +113,13 @@ const FilterBar: React.FC<Props> = ({
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      pushQueryParams([{ name: 'name', value: searchTerm }]);
-      // Send Axios request here
+      setCurrentPage(1);
+      setPageSize(12);
+
+      pushQueryParams([
+        { name: 'name', value: searchTerm },
+        { name: 'page', value: 1 },
+      ]);
     }, 1500);
 
     return () => clearTimeout(delayDebounceFn);
@@ -134,6 +138,7 @@ const FilterBar: React.FC<Props> = ({
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
+            // handleSearch(e.target.value);
           }}
           placeholder="Название продукта или артикул"
           style={{

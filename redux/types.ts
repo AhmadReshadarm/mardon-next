@@ -215,7 +215,6 @@ type TFilters = {
   brands?: string[];
   tags?: string[];
   sizes?: string[];
-  fetchFor?: string;
 };
 
 type TCatalogState = {

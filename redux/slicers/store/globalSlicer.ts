@@ -92,17 +92,35 @@ export const fetchCategories = createAsyncThunk<
 );
 
 export const fetchMainPageProducts = createAsyncThunk<
-  { products: Product[]; fetchedFor: string },
+  Product[],
   TFilters,
   { rejectValue: string }
 >(
-  'catalog/fetchProducts',
+  'catalog/fetchMainPageProducts',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
       const response = (await ProductService.getProducts(
         payload,
       )) as unknown as { rows: Product[]; length: number };
-      return { products: response.rows, fetchedFor: payload.fetchFor };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const fetchBestProducts = createAsyncThunk<
+  Product[],
+  TFilters,
+  { rejectValue: string }
+>(
+  'catalog/fetchBestProducts',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const response = (await ProductService.getProducts(
+        payload,
+      )) as unknown as { rows: Product[]; length: number };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -240,20 +258,26 @@ const globalSlicer = createSlice({
       .addCase(fetchCategories.rejected, handleError)
       //fetchMainPageProducts
       .addCase(fetchMainPageProducts.pending, (state, action) => {
-        state.loadingCarosel = true;
+        state.loading = true;
         console.log('fetching caresol');
       })
       .addCase(fetchMainPageProducts.fulfilled, (state, action) => {
-        if ((action.payload.fetchedFor = 'carosel')) {
-          state.caroselProducts = action.payload.products;
-        }
-        if ((action.payload.fetchedFor = 'best-product')) {
-          state.bestProduct = action.payload.products;
-        }
-        state.loadingCarosel = false;
+        state.caroselProducts = action.payload;
+        state.loading = false;
         console.log('fulfilled');
       })
       .addCase(fetchMainPageProducts.rejected, handleError)
+      //fetchBestProducts
+      .addCase(fetchBestProducts.pending, (state, action) => {
+        state.loading = true;
+        console.log('fetching caresol');
+      })
+      .addCase(fetchBestProducts.fulfilled, (state, action) => {
+        state.bestProduct = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
+      .addCase(fetchBestProducts.rejected, handleError)
       //fetchTags
       .addCase(fetchTags.pending, handlePending)
       .addCase(fetchTags.fulfilled, (state, action) => {

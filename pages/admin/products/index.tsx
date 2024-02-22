@@ -64,10 +64,6 @@ const ProductsPage = () => {
     setCategory(category);
   };
 
-  const handlePageChange = (page: number) => {
-    pushQueryParams([{ name: 'page', value: page }]);
-  };
-
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
@@ -98,9 +94,22 @@ const ProductsPage = () => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize]: [number, any] = useState(12);
+
+  const handlePageChange = (
+    page: number,
+    pageSize: number,
+    current: number,
+  ) => {
+    setPageSize(pageSize);
+    setCurrentPage(current);
+    pushQueryParams([
+      { name: 'page', value: page },
+      { name: 'limit', value: pageSize },
+    ]);
+  };
   useEffect(() => {
-    pushQueryParams([{ name: 'limit', value: pageSize }]);
-  }, [pageSize]);
+    setCurrentPage(1);
+  }, [category, selectedCategory]);
 
   // ___________________________________________________________________
   let dataSource = products?.map(
@@ -184,9 +193,13 @@ const ProductsPage = () => {
                 }}
                 dataSource={dataSource}
                 onChange={(event) => {
-                  setPageSize(event.pageSize as number);
-                  setCurrentPage(event.current as number);
-                  handlePageChange(event.current as number);
+                  // setPageSize(event.pageSize as number);
+                  // setCurrentPage(event.current as number);
+                  handlePageChange(
+                    event.current as number,
+                    event.pageSize as number,
+                    event.current as number,
+                  );
                 }}
               />
             </>

@@ -12,6 +12,7 @@ import {
   fetchTags,
   fetchNewsPost,
   fetchMainPageProducts,
+  fetchBestProducts,
 } from 'redux/slicers/store/globalSlicer';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { ContextProvider } from 'common/context/AppContext';
@@ -86,13 +87,10 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     dispatch(fetchTags());
     dispatch(fetchAdvertisement());
     dispatch(fetchNewsPost());
+    dispatch(fetchMainPageProducts({ tags: ['main_page'] }));
     dispatch(
-      fetchMainPageProducts({ tags: ['main-page'], fetchFor: 'carosel' }),
-    );
-    dispatch(
-      fetchMainPageProducts({
+      fetchBestProducts({
         tags: ['best_product'],
-        fetchFor: 'best-product',
       }),
     );
   }, []);

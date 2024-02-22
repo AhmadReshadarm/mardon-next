@@ -1,6 +1,6 @@
 import color from 'components/store/lib/ui.colors';
 import { Container } from 'components/store/storeLayout/common';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { devices } from 'components/store/lib/Devices';
@@ -12,24 +12,16 @@ import { TCartState, TGlobalState } from 'redux/types';
 import Link from 'next/link';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Loading from 'ui-kit/Loading';
-import { fetchMainPageProducts } from 'redux/slicers/store/globalSlicer';
-const ProductsSlider = () => {
-  const dispatch = useAppDispatch();
 
-  const { caroselProducts, loadingCarosel } = useAppSelector<TGlobalState>(
+const ProductsSlider = () => {
+  const { caroselProducts, loading } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
 
-  useEffect(() => {
-    dispatch(
-      fetchMainPageProducts({ tags: ['main-page'], fetchFor: 'carosel' }),
-    );
-  }, []);
   // ------------------- UI hooks --------------------------------
-  const [loaded, setLoaded] = useState(false);
   const [caroselIndex, setCaroselIndex] = useState<number>(0);
-  const [currentProduct, setCurrentProduct] = useState<any>('');
+  const [currentProduct, setCurrentProduct] = useState<any>(null);
 
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [images, setImages] = useState<string[]>([]);
@@ -40,10 +32,9 @@ const ProductsSlider = () => {
     if (caroselProducts) {
       setCurrentProduct(caroselProducts[caroselIndex]);
       setImages(getProductVariantsImages(currentProduct?.productVariants));
-      setLoaded(caroselProducts.length < 1 ? false : true);
     }
   }, [caroselProducts]);
-
+  // caroselProducts
   useEffect(() => {
     if (caroselProducts) {
       const timer = setTimeout(() => {
@@ -86,6 +77,7 @@ const ProductsSlider = () => {
         setIndexIndecator(200);
         break;
       default:
+        setIndexIndecator(0);
         break;
     }
   };
@@ -104,7 +96,7 @@ const ProductsSlider = () => {
       bg_color={color.backgroundPrimary}
     >
       <Wrapper onMouseOver={() => setISMouseHover(true)}>
-        {!loadingCarosel && loaded ? (
+        {!loading && currentProduct ? (
           <Content>
             <div className="product-cart-wrapper">
               <div className="cart-title-n-action-buttons-wrapper">
@@ -114,25 +106,31 @@ const ProductsSlider = () => {
                       animate={{ x: indecatorIndex }}
                       className="index-indecator-top"
                     ></motion.div>
-                    <Link href={`/product/${currentProduct.url}`}>
+                    <Link href={`/product/${currentProduct?.url}`}>
                       <h1>{`${
-                        currentProduct.name?.length! > 40
-                          ? currentProduct.name?.slice(0, 40) + '...'
-                          : currentProduct.name
+                        currentProduct?.name?.length! > 40
+                          ? currentProduct?.name?.slice(0, 40) + '...'
+                          : currentProduct?.name
                       }`}</h1>
                     </Link>
                   </div>
                   <div className="cart-price-n-action-button-wrapper">
+                    <div className="artical-Wrapper">
+                      <h3>Артикул: </h3>
+                      <h3>
+                        {currentProduct?.productVariants[0].artical.toLocaleUpperCase()}
+                      </h3>
+                    </div>
                     <div className="price-wrapper">
-                      {currentProduct.productVariants![0].oldPrice ? (
+                      {currentProduct?.productVariants![0].oldPrice ? (
                         <span className="old-price">
-                          {`${currentProduct.productVariants![0].oldPrice}`} ₽
+                          {`${currentProduct?.productVariants![0].oldPrice}`} ₽
                         </span>
                       ) : (
                         ''
                       )}
                       <span>
-                        {`${currentProduct.productVariants![0].price}`} ₽
+                        {`${currentProduct?.productVariants![0].price}`} ₽
                       </span>
                     </div>
                     <div className="action-buttons-wrapper">
@@ -157,7 +155,7 @@ const ProductsSlider = () => {
                   </div>
                 </div>
               </div>
-              <Link href={`/product/${currentProduct.url}`}>
+              <Link href={`/product/${currentProduct?.url}`}>
                 <div className="cart-image-wrapper">
                   <ul className="images-scroll-wrapper">
                     {images.map((image, index) => {
@@ -177,7 +175,7 @@ const ProductsSlider = () => {
                       currentTarget.className = 'error_img';
                     }}
                     src={`/api/images/${images[imageIndex]}`}
-                    alt={currentProduct.name}
+                    alt={currentProduct?.name}
                   />
                 </div>
               </Link>
@@ -189,24 +187,28 @@ const ProductsSlider = () => {
                   className="index-indecator-top"
                 ></motion.div>
               </div>
-              <Link href={`/product/${currentProduct.url}`}>
+              <Link href={`/product/${currentProduct?.url}`}>
                 <h1>{`${
-                  currentProduct.name?.length! > 40
-                    ? currentProduct.name?.slice(0, 40) + '...'
-                    : currentProduct.name
+                  currentProduct?.name?.length! > 40
+                    ? currentProduct?.name?.slice(0, 40) + '...'
+                    : currentProduct?.name
                 }`}</h1>
               </Link>
-              <div>
-                <span>Артикул: </span>
-                <span>
+              <div className="artical-Wrapper">
+                <h3>Артикул: </h3>
+                <h3>
                   {currentProduct?.productVariants[0].artical.toLocaleUpperCase()}
-                </span>
+                </h3>
               </div>
-              <span>{`${
-                currentProduct.shortDesc?.length! > 250
-                  ? currentProduct.shortDesc?.slice(0, 250) + '...'
-                  : currentProduct.shortDesc
-              }`}</span>
+              <span>
+                {currentProduct?.desc?.includes('|')
+                  ? currentProduct?.desc?.split('|')[0]?.length! > 150
+                    ? currentProduct?.desc?.split('|')[0].slice(0, 150) + '...'
+                    : currentProduct?.desc?.split('|')[0]
+                  : currentProduct?.desc?.length! > 150
+                  ? currentProduct?.desc?.slice(0, 150) + '...'
+                  : currentProduct?.desc?.slice(0, 150)}
+              </span>
             </div>
           </Content>
         ) : (
@@ -327,6 +329,14 @@ const Content = styled.div`
               font-size: 1rem;
             }
           }
+          .artical-Wrapper {
+            display: none;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
+          }
           .action-buttons-wrapper {
             width: 110%;
             display: flex;
@@ -407,6 +417,16 @@ const Content = styled.div`
         background-color: ${color.activeIcons};
       }
     }
+    .artical-Wrapper {
+      display: flex;
+      flex-directions: row;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 5px;
+      h3 {
+        font-weight: 500;
+      }
+    }
     h1 {
       font-family: ricordi;
       font-size: 1.5rem;
@@ -445,6 +465,11 @@ const Content = styled.div`
         .cart-title-n-action-buttons-content {
           justify-content: flex-start;
           gap: 50px;
+          .cart-price-n-action-button-wrapper {
+            .artical-Wrapper {
+              display: flex;
+            }
+          }
         }
       }
     }
@@ -476,6 +501,9 @@ const Content = styled.div`
             .action-buttons-wrapper {
               flex-direction: column;
               align-items: flex-end;
+            }
+            .artical-Wrapper {
+              display: flex;
             }
           }
         }
@@ -509,6 +537,9 @@ const Content = styled.div`
             .action-buttons-wrapper {
               flex-direction: column;
               align-items: flex-end;
+            }
+            .artical-Wrapper {
+              display: flex;
             }
           }
         }
@@ -544,6 +575,9 @@ const Content = styled.div`
               flex-direction: column;
               align-items: flex-end;
             }
+            .artical-Wrapper {
+              display: flex;
+            }
           }
         }
       }
@@ -576,6 +610,9 @@ const Content = styled.div`
             .action-buttons-wrapper {
               flex-direction: column;
               align-items: flex-end;
+            }
+            .artical-Wrapper {
+              display: flex;
             }
           }
         }
@@ -610,6 +647,9 @@ const Content = styled.div`
             .action-buttons-wrapper {
               flex-direction: column;
               align-items: flex-end;
+            }
+            .artical-Wrapper {
+              display: flex;
             }
           }
         }
