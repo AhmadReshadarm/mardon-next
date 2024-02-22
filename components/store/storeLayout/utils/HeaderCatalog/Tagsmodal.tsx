@@ -21,7 +21,7 @@ const TagsModal: React.FC<Props> = ({ category, subCategory }) => {
   const filteredTags: any = tags.filter((tag) => {
     if (
       tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
-      tag.url?.match(/(?:^|\W)main-page(?:$|\W)/) ||
+      tag.url?.match(/(?:^|\W)main_page(?:$|\W)/) ||
       tag.url == '-' ||
       tag.url == '_' ||
       tag.url == ' ' ||
