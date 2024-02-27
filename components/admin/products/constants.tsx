@@ -33,10 +33,10 @@ export const columns: ColumnsType<Product> = [
             }}
           >
             <Carousel effect="fade">
-              {(images as unknown as string[])?.map((image) => {
+              {(images as unknown as string[])?.map((image, index) => {
                 if (image) {
                   return (
-                    <div>
+                    <div key={`${image}-${index}`}>
                       <Image
                         className={styles.productsTable__contentStyle}
                         src={`/api/images/${image.trim()}`}
@@ -46,7 +46,11 @@ export const columns: ColumnsType<Product> = [
                   );
                 }
                 return (
-                  <img src="/img_not_found.png" className={styles.image} />
+                  <img
+                    key={'not-found-key'}
+                    src="/img_not_found.png"
+                    className={styles.image}
+                  />
                 );
               })}
             </Carousel>

@@ -5,7 +5,7 @@ import {
   editProduct,
 } from 'redux/slicers/productsSlicer';
 import { AppDispatch } from 'redux/store';
-import { navigateTo } from '../../../common/helpers';
+import { navigateTo, openErrorNotification } from '../../../common/helpers';
 import { NextRouter } from 'next/router';
 import { Page, paths } from 'routes/constants';
 import { TableProps } from 'antd';
@@ -112,6 +112,14 @@ const handleFormSubmitProduct =
       variantsLength,
     );
 
+    if (convertedForm.productVariants.length == 0) {
+      openErrorNotification('Установить параметр продукта');
+      return;
+    }
+    if (convertedForm.productVariants[0].price == undefined) {
+      openErrorNotification('Установить цену продукта');
+      return;
+    }
     if (router.query.id) {
       const isSaved: any = await dispatch(
         editProduct({

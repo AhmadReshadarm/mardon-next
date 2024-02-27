@@ -32,6 +32,7 @@ const ProductVariant: React.FC<Props> = ({
     });
   };
   const [isOpen, setOpen] = useState(false);
+
   return (
     <div className={styles['product-variant']}>
       <h2 className={styles['product-variant__title']}>
@@ -50,6 +51,7 @@ const ProductVariant: React.FC<Props> = ({
       {/* ----------------------PRICE---------------------- */}
       <Form.Item name={`${ManageProductFields.Price}[${index}]`} required>
         <Input
+          min={1}
           required={true}
           type={'number'}
           placeholder="Введите стоимость продукта"
@@ -73,7 +75,7 @@ const ProductVariant: React.FC<Props> = ({
         label="В наличии"
         name={`${ManageProductFields.Available}[${index}]`}
         valuePropName="checked"
-        required
+        required={true}
       >
         <Switch />
       </Form.Item>
@@ -81,7 +83,7 @@ const ProductVariant: React.FC<Props> = ({
       <Form.Item
         label="Цвет"
         name={`${ManageProductFields.Color}[${index}]`}
-        required
+        required={true}
       >
         <Select
           allowClear
