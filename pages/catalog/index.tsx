@@ -132,7 +132,7 @@ const CatalogPage = () => {
       {!!products ? (
         <SEOstatic
           page={{
-            realName: `${selectedCategory?.name} | NBHOZ`,
+            realName: `${selectedCategory?.name ?? 'Каталог'} | NBHOZ`,
             name: `${products[randomProduct]?.name ?? 'Каталог'}`,
             url: `${router.asPath}`,
             desc: `${
