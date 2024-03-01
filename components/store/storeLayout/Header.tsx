@@ -57,33 +57,32 @@ const Header = () => {
   //     handleSearchclosed(dispatch);
   //   }
   // }, [isSearchActive]);
-  // ReactGA.initialize('G-LGRKY05W0C');
-  // const router = useRouter();
+  ReactGA.initialize('G-LPMTNCKRGT');
 
-  // useEffect(() => {
-  //   const handleRouteChange = (url, { shallow }) => {
-  //     // REACTGA
-  //     // Send pageview with a custom path
-  //     ReactGA.send({ hitType: 'pageview', page: url });
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      // REACTGA
+      // Send pageview with a custom path
+      ReactGA.send({ hitType: 'pageview', page: url });
 
-  //     console.log(
-  //       `App is changing to ${url} ${
-  //         shallow ? 'with' : 'without'
-  //       } shallow routing`,
-  //     );
-  //   };
+      console.log(
+        `App is changing to ${url} ${
+          shallow ? 'with' : 'without'
+        } shallow routing`,
+      );
+    };
 
-  //   router.events.on('routeChangeComplete', handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off('routeChangeComplete', handleRouteChange);
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   ReactGA.pageview(window.location.pathname + window.location.search);
-  // }, []);
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
   useEffect(() => overrideDefaultIOSZoom());
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -156,14 +155,14 @@ const Header = () => {
 
   return (
     <>
-      {/* <Head>
-        <link
+      <Head>
+        {/* <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css"
           rel="stylesheet"
-        />
+        /> */}
 
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head> */}
+      </Head>
       <Container
         variants={variants.fadInOut}
         key="header-global"
