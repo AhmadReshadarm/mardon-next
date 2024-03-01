@@ -193,8 +193,6 @@ const ProductsPage = () => {
                 }}
                 dataSource={dataSource}
                 onChange={(event) => {
-                  // setPageSize(event.pageSize as number);
-                  // setCurrentPage(event.current as number);
                   handlePageChange(
                     event.current as number,
                     event.pageSize as number,

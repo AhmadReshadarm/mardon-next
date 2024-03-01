@@ -34,7 +34,10 @@ const ProductGrid: React.FC<Props> = ({
 
               {products.map((product, index) => {
                 return (
-                  <ErrorBoundary fallbackRender={FallbackRender}>
+                  <ErrorBoundary
+                    key={`product-item-${index}`}
+                    fallbackRender={FallbackRender}
+                  >
                     <ProductItem
                       key={`product-item-${index}`}
                       product={product}

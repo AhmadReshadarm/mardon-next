@@ -37,21 +37,19 @@ const TagsModal: React.FC<Props> = ({ category, subCategory }) => {
     <TagsWrapper>
       {filteredTags.map((tag, index) => {
         return (
-          <>
-            <Link
-              key={index}
-              onClick={handleMenuStateRedux(
-                dispatch,
-                changeCatelogState,
-                changeCatelogDisplayState,
-                isCatalogOpen,
-                catelogDisplay,
-              )}
-              href={`/catalog?categories=${category}&subCategories=${subCategory}&tags=${tag.url}`}
-            >
-              <span>{tag.name}</span>
-            </Link>
-          </>
+          <Link
+            key={`${tags}-${index}`}
+            onClick={handleMenuStateRedux(
+              dispatch,
+              changeCatelogState,
+              changeCatelogDisplayState,
+              isCatalogOpen,
+              catelogDisplay,
+            )}
+            href={`/catalog?categories=${category}&subCategories=${subCategory}&tags=${tag.url}`}
+          >
+            <span>{tag.name}</span>
+          </Link>
         );
       })}
     </TagsWrapper>

@@ -1,10 +1,5 @@
+import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
 import {
-  getQueryParams,
-  pushQueryParams,
-} from 'common/helpers/manageQueryParams.helper';
-// import Pagination from 'ui-kit/Pagination';
-import {
-  convertQueryParams,
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
@@ -32,11 +27,11 @@ const CatalogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<
     Category | undefined
   >();
+
   const {
     products,
     categories,
     subCategories,
-    // brands,
     colors,
     tags,
     priceRange,
@@ -45,36 +40,16 @@ const CatalogPage = () => {
 
   const handleLocationChange = onLocationChange(dispatch);
 
-  const onCategoryChange = () => {
-    const queryParams = convertQueryParams(
-      getQueryParams(window.location.search),
-    );
-    // const categoryUrl =
-    //   queryParams.categories && queryParams.categories![0]
-    //     ? queryParams.categories![0]
-    //     : '';
-    // const category = categories.find(
-    //   (category) => category.url === categoryUrl,
-    // );
-    // setCategory(category);
-  };
-
-  const handlePageChange = (page: number) => {
-    pushQueryParams([{ name: 'page', value: page }]);
-  };
-
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
       handleLocationChange();
-      onCategoryChange();
     });
     setPriceRange(dispatch);
 
     (async () => {
       await dispatch(fetchParentCategories());
       await handleLocationChange();
-      onCategoryChange();
     })();
 
     return () => {
@@ -118,15 +93,27 @@ const CatalogPage = () => {
     (state) => state.catalog.productsLength,
   );
 
+  // ------------------------- pagination handlers ---------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  // const [recordsPerPage] = useState(12);
-  // const indexOfLastRecord = currentPage * recordsPerPage;
-  // const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  // const nPages = Math.ceil(paginationLength / recordsPerPage);
-
-  // useEffect(() => {
-  //   handlePageChange(currentPage);
-  // }, [currentPage]);
+  const [pageSize, setPageSize]: [number, any] = useState(12);
+  const handlePageChange = (
+    page: number,
+    pageSize: number,
+    current: number,
+  ) => {
+    setPageSize(pageSize);
+    setCurrentPage(current);
+    pushQueryParams([
+      { name: 'page', value: page },
+      { name: 'limit', value: pageSize },
+    ]);
+  };
+  // ---------------------------------------------------------------------------
+  // ------ reset the page number on UI when category is changed ---------------
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+  // ----------------------------------------------------------------------------
   return (
     <>
       {!!products ? (
@@ -171,13 +158,14 @@ const CatalogPage = () => {
               <TopFilterBar
                 categories={categories}
                 subCategories={subCategories}
-                // brands={brands}
                 colors={filteredColors}
                 priceRange={priceRange}
                 tags={filteredTags}
                 expanded={expanded}
                 handleExpantionChange={handleExpantionChange}
                 setSelectedCategory={setSelectedCategory}
+                setCurrentPage={setCurrentPage}
+                setPageSize={setPageSize}
               />
 
               <Content>
@@ -192,17 +180,16 @@ const CatalogPage = () => {
                         }
                       />
                     </Products>
-                    {/* <Pagination
-                      currentPage={currentPage}
-                      setCurrentPage={setCurrentPage}
-                      nPages={nPages}
-                    /> */}
                     <Pagination
                       style={{ marginTop: '20px' }}
                       defaultCurrent={currentPage}
+                      current={currentPage}
                       total={paginationLength}
-                      pageSize={12}
-                      onChange={handlePageChange}
+                      pageSize={pageSize}
+                      pageSizeOptions={[12, 24, 36, 50, 100]}
+                      onChange={(current, pageSize) => {
+                        handlePageChange(current, pageSize, current);
+                      }}
                     />
                   </>
                 ) : (
@@ -225,6 +212,17 @@ const Content = styled.div`
   align-items: flex-start;
   gap: 10px;
   padding: 20px 0;
+  .ant-pagination {
+    .ant-pagination-options {
+      .ant-pagination-options-size-changer {
+        .ant-select-selector {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
   @media ${devices.mobileL} {
     margin-left: 0;
     padding: 10px 15px;

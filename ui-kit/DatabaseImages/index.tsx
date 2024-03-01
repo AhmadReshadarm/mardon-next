@@ -5,10 +5,10 @@ import CloseSVG from '../../assets/close_black.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageDBList } from 'redux/slicers/imagesSlicer';
 import { Spin } from 'antd';
-import Pagination from 'ui-kit/Pagination';
+import { Pagination } from 'antd';
 import { fetchImages } from 'redux/slicers/imagesSlicer';
 import Files from './Files';
-import { Slide } from 'swagger/services';
+
 type Props = {
   setOpen: any;
   isOpen?: boolean;
@@ -32,31 +32,35 @@ const DatabaseImages = ({
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(9);
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const nPages = Math.ceil(paginationLength / recordsPerPage);
+  const [pageSize, setPageSize]: [number, any] = useState(9);
 
   useEffect(() => {
+    setCurrentPage(1);
     dispatch(
       fetchImages({
-        offset: `${indexOfFirstRecord}`,
-        limit: `${indexOfLastRecord}`,
+        offset: `0`,
+        limit: `${pageSize}`,
       }),
     );
     return () => {
       dispatch(clearImageDBList());
     };
-  }, [dispatch]);
+  }, []);
 
-  useEffect(() => {
+  const handlePageChange = (
+    page: number,
+    pageSize: number,
+    current: number,
+  ) => {
+    setPageSize(pageSize);
+    setCurrentPage(current);
     dispatch(
       fetchImages({
-        offset: `${indexOfFirstRecord}`,
-        limit: `${indexOfLastRecord}`,
+        offset: `${pageSize * (page - 1)}`,
+        limit: `${pageSize}`,
       }),
     );
-  }, [currentPage]);
+  };
 
   return (
     <Contaienr style={{ display: isOpen ? 'flex' : 'none' }}>
@@ -87,9 +91,14 @@ const DatabaseImages = ({
           )}
         </ImagesWrapper>
         <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          nPages={nPages}
+          style={{ marginTop: '20px' }}
+          defaultCurrent={currentPage}
+          total={paginationLength}
+          pageSize={pageSize}
+          pageSizeOptions={[9, 18, 27, 50, 100]}
+          onChange={(current, pageSize) => {
+            handlePageChange(current, pageSize, current);
+          }}
         />
       </Wrapper>
     </Contaienr>

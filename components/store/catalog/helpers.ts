@@ -1,4 +1,7 @@
-import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
+import {
+  getQueryParams,
+  pushQueryParams,
+} from 'common/helpers/manageQueryParams.helper';
 import {
   clearBrands,
   clearColors,
@@ -138,23 +141,29 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
 
   const rawPrevQueryParams = getQueryParams(curLocation);
   const prevQueryParams = convertQueryParams(rawPrevQueryParams);
+  setPriceRange(dispatch);
 
+  // ------------------------ reset tags on catelog change ---------------------
+  if (
+    JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories) ||
+    JSON.stringify(prevQueryParams.subCategories) !==
+      JSON.stringify(subCategories)
+  ) {
+    pushQueryParams([{ name: 'tags', value: '' }]);
+  }
+  // -----------------------------------------------------------------------------
   if (
     JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories)
   ) {
     const category = categories ? categories[0] : '';
-    // const subCategory = subCategories ? subCategories[0] : '';
 
     if (category) {
       await dispatch(fetchSubCategories(category));
-      // await dispatch(fetchBrands({ parent: category }));
       await dispatch(fetchColors({ parent: category }));
     } else {
       await dispatch(clearSubCategories());
-      // await dispatch(clearBrands());
       await dispatch(clearColors());
     }
-    setPriceRange(dispatch);
   }
 
   if (
@@ -163,7 +172,6 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
   ) {
     const subCategory = subCategories ? subCategories[0] : '';
     if (subCategories) {
-      // await dispatch(fetchBrands({ category: subCategories[0] }));
       await dispatch(fetchColors({ category: subCategories[0] }));
       await dispatch(fetchTags({ children: subCategory }));
     } else {

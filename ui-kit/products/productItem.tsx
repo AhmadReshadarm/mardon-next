@@ -52,7 +52,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             }}
             href={`/product/${product.url}`}
           >
-            <span>
+            <span title={product.name?.length! > 40 ? product.name : ''}>
               {product.name?.length! > 40
                 ? `${product.name?.slice(0, 40)}...`
                 : product.name}

@@ -16,12 +16,14 @@ type Props = {
   title: string;
   options?: FilterOption[];
   onChange: (selectedOption: FilterOption) => void;
+  setSelectedCategory: any;
 };
 
 const SingleSelectionFilter: React.FC<Props> = ({
   title,
   options,
   onChange,
+  setSelectedCategory,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
 
@@ -42,6 +44,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
 
     setStateOptions(options);
     onChange(curOption!);
+    setSelectedCategory(curOption);
   };
 
   // const [hoveredIndex, setHoverdIndex]: [number | null, any] = useState(null);

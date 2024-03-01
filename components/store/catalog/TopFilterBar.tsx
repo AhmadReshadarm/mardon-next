@@ -1,7 +1,6 @@
 import {
   clearQueryParams,
   getQueryParams,
-  pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/topFilters/ColorFilter';
@@ -11,7 +10,7 @@ import SingleSelectionFilter from 'components/store/catalog/topFilters/SingleSel
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
+import { Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
@@ -23,25 +22,27 @@ import { motion } from 'framer-motion';
 type Props = {
   categories: Category[];
   subCategories: Category[];
-  // brands: Brand[];
   colors: Color[];
   tags: Tag[];
   priceRange: PriceRange;
   expanded: any;
   handleExpantionChange: any;
   setSelectedCategory: any;
+  setCurrentPage: any;
+  setPageSize: any;
 };
 
 const TopFilterBar: React.FC<Props> = ({
   categories,
   subCategories,
-  // brands,
   colors,
   tags,
   priceRange,
   expanded,
   handleExpantionChange,
   setSelectedCategory,
+  setCurrentPage,
+  setPageSize,
 }) => {
   const router = useRouter();
   const filters = convertQueryParams(router.query);
@@ -49,7 +50,6 @@ const TopFilterBar: React.FC<Props> = ({
     getFiltersConfig({
       categories,
       subCategories,
-      // brands,
       colors,
       priceRange,
       filters,
@@ -64,6 +64,9 @@ const TopFilterBar: React.FC<Props> = ({
   };
 
   const hanldeResetBtnClick = () => {
+    setSelectedCategory(undefined);
+    setCurrentPage(1);
+    setPageSize(12);
     handleResetFilters();
   };
 
@@ -73,7 +76,6 @@ const TopFilterBar: React.FC<Props> = ({
       getFiltersConfig({
         categories,
         subCategories,
-        // brands,
         colors,
         priceRange,
         filters,
@@ -85,17 +87,6 @@ const TopFilterBar: React.FC<Props> = ({
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
-  // useEffect(() => handleExpantionChange(), []);
-
-  useEffect(() => {
-    const checkedCategory = localFilters[0].options?.find(
-      (checked) => checked.checked,
-    );
-    const selectedCategory = categories.find(
-      (category) => category.url === checkedCategory?.url,
-    );
-    setSelectedCategory(selectedCategory);
-  }, [categories, subCategories, colors, priceRange, tags]);
 
   const [isMoreFilters, setMoreFilters] = useState(false);
   return (
@@ -127,6 +118,7 @@ const TopFilterBar: React.FC<Props> = ({
                   key={`filter-${key}`}
                   title={filter.title}
                   options={filter.options}
+                  setSelectedCategory={setSelectedCategory}
                   onChange={
                     filter.onChange as (selectedOptions: FilterOption) => void
                   }
