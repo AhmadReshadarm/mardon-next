@@ -23,7 +23,7 @@ const Help = () => {
   return (
     <>
       <Head>
-        <title>Помощь | Fingarden</title>
+        <title>Помощь | NBHOZ</title>
       </Head>
       <Container
         variants={variants.fadInOut}

@@ -13,7 +13,7 @@ const NotFound = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>Страница не найдена | Fingarden 404</title>
+        <title>Страница не найдена | NBHOZ 404</title>
       </Head>
       <Container
         variants={variants.fadInOut}

@@ -55,7 +55,7 @@ const Footer = (): JSX.Element => {
                     );
                   })}
                 </div>
-                <div className="footer-columns-wrapper">
+                {/* <div className="footer-columns-wrapper">
                   <span className="columns-header">Услуги</span>
                   {content.services.map((service, index) => {
                     return (
@@ -67,7 +67,7 @@ const Footer = (): JSX.Element => {
                       </Link>
                     );
                   })}
-                </div>
+                </div> */}
                 <div className="footer-columns-wrapper">
                   <span className="columns-header">О нас</span>
                   {content.aboutUs.map((service, index) => {

@@ -11,17 +11,27 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from 'common/constant';
+import { useAppSelector } from 'redux/hooks';
+import { TGlobalState } from 'redux/types';
 const Copyrights = () => {
+  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   return (
     <>
       <SEOstatic
         page={{
-          name: 'Правила использования контента сайта',
-          url: '/copyright-terms',
-          desc: 'Интернет-магазин Fingarden',
-          keywords: 'Интернет-магазин Fingarden',
+          realName:
+            'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
+          name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
+          url: '/',
+          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categories.map(
+            (category) => `${category.name}, `,
+          )}`,
+          keywords:
+            'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         }}
-        image={`${baseUrl}/fingarden.svg`}
+        image={`${baseUrl}/static/favicon.png`}
       />
       <Container
         variants={variants.fadInOut}

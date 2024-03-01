@@ -10,18 +10,27 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
+import { useAppSelector } from 'redux/hooks';
+import { TGlobalState } from 'redux/types';
 const ReturnPolicy = () => {
+  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   return (
     <>
       <SEOstatic
         page={{
-          name: 'Политика возврата',
-          url: '/return-policy',
-          desc: 'Интернет-магазин fingarden',
+          realName:
+            'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
+          name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
+          url: '/',
+          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categories.map(
+            (category) => `${category.name}, `,
+          )}`,
           keywords:
-            'одноразовые, одноразовые сигареты, купить одноразовые, одноразовые электронные, одноразовые электронные сигареты, одноразовые сигареты купить',
+            'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         }}
-        image={`${baseUrl}/fingarden.svg`}
+        image={`${baseUrl}/static/favicon.png`}
       />
       <Container
         variants={variants.fadInOut}

@@ -57,7 +57,7 @@ const News = () => {
   return (
     <>
       <Head>
-        <title>Новости | Fingarden</title>
+        <title>Новости | NBHOZ</title>
       </Head>
       <Container
         variants={variants.fadInOut}
