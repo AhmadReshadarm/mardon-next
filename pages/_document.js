@@ -35,12 +35,12 @@ class MyDocument extends Document {
           {/* <script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script> */}
         </Head>
         <body>
-          {/* <div
+          <div
             dangerouslySetInnerHTML={{
               __html: GoogleAnalytics(),
             }}
           />
-          <div
+          {/* <div
             dangerouslySetInnerHTML={{
               __html: YandexMetrics(),
             }}
