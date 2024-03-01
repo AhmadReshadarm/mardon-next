@@ -24,8 +24,7 @@ import { devices } from '../lib/Devices';
 import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { useRouter } from 'next/router';
-import ReactGA from 'react-ga';
-import { handleSearchclosed } from './helpers';
+// import { handleSearchclosed } from './helpers';
 import {
   TWishlistState,
   TAuthState,
@@ -47,6 +46,7 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import HeaderWishlist from './utils/HeaderWishlist';
 import NavMobile from './utils/mobileNav';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -57,32 +57,32 @@ const Header = () => {
   //     handleSearchclosed(dispatch);
   //   }
   // }, [isSearchActive]);
-  ReactGA.initialize('G-LPMTNCKRGT');
+  // ReactGA.initialize('G-LPMTNCKRGT');
 
-  useEffect(() => {
-    const handleRouteChange = (url, { shallow }) => {
-      // REACTGA
-      // Send pageview with a custom path
-      ReactGA.send({ hitType: 'pageview', page: url });
+  // useEffect(() => {
+  //   const handleRouteChange = (url, { shallow }) => {
+  //     // REACTGA
+  //     // Send pageview with a custom path
+  //     ReactGA.send({ hitType: 'pageview', page: url });
 
-      console.log(
-        `App is changing to ${url} ${
-          shallow ? 'with' : 'without'
-        } shallow routing`,
-      );
-    };
+  //     console.log(
+  //       `App is changing to ${url} ${
+  //         shallow ? 'with' : 'without'
+  //       } shallow routing`,
+  //     );
+  //   };
 
-    router.events.on('routeChangeComplete', handleRouteChange);
+  //   router.events.on('routeChangeComplete', handleRouteChange);
 
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, []);
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, []);
+  //   // If the component is unmounted, unsubscribe
+  //   // from the event with the `off` method:
+  //   return () => {
+  //     router.events.off('routeChangeComplete', handleRouteChange);
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   ReactGA.pageview(window.location.pathname + window.location.search);
+  // }, []);
   useEffect(() => overrideDefaultIOSZoom());
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -163,6 +163,7 @@ const Header = () => {
 
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <GoogleAnalytics gaId="G-LPMTNCKRGT" />
       <Container
         variants={variants.fadInOut}
         key="header-global"
