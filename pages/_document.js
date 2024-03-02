@@ -27,7 +27,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
           ></link>
-          <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script>
+          {/* <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script> */}
           <script
             src="https://api-maps.yandex.ru/2.1/?apikey=92d38bbd-1ea5-438f-b3bc-6a74d7658532&lang=ru_RU"
             type="text/javascript"
@@ -40,11 +40,11 @@ class MyDocument extends Document {
               __html: GoogleAnalytics(),
             }}
           /> */}
-          {/* <div
+          <div
             dangerouslySetInnerHTML={{
               __html: YandexMetrics(),
             }}
-          /> */}
+          />
           <Main />
           <NextScript />
         </body>
