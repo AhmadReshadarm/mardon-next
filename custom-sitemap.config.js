@@ -62,40 +62,49 @@ module.exports = {
         disallow: '/after-payment/*',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/rekvizity-ep-d',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/help',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/return-policy',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/how-to-buy',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/discount',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/guarantee',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/delivery',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/offerta',
       },
       {
-        userAgen: '*',
+        userAgent: '*',
         disallow: '/info-refund',
+      },
+      ,
+      {
+        userAgent: '*',
+        disallow: '/user-agreement',
+      },
+      {
+        userAgent: '*',
+        disallow: '/privacy',
       },
       {
         userAgent: '*',
