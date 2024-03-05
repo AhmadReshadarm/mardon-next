@@ -1,0 +1,37 @@
+user-agent: *
+disallow: /admin
+
+disallow: /admin/*
+
+disallow: /checkout
+
+disallow: /checkout/*
+
+disallow: /cart
+
+disallow: /cart/*
+
+disallow: /profile
+
+disallow: /profile/*
+
+disallow: /orders
+
+disallow: /orders/*
+
+disallow: /wishlist
+
+disallow: /wishlist/*
+
+disallow: /help
+
+disallow: /return-policy
+
+disallow: /user-agreement
+
+disallow: /privacy
+
+allow: /*
+
+sitemap: https://nbhoz.ru/sitemap-0.xml
+sitemap: https://nbhoz.ru/server-sitemap.xml
