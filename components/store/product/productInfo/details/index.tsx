@@ -86,6 +86,7 @@ const Details: React.FC<Props> = ({
             exit={{ y: -20, opacity: 0, transition: { delay: 0.05 } }}
             variants={variants.fadInSlideUp}
             className="product-header-1"
+            itemProp="name"
           >
             {product?.name}
           </motion.h1>
@@ -93,7 +94,7 @@ const Details: React.FC<Props> = ({
 
         <div className="short-description-wrapper">
           <p>
-            <span>
+            <span itemProp="description">
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 150
                   ? product?.desc?.split('|')[0].slice(0, 150) + '...'

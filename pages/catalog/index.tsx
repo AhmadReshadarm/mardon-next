@@ -114,6 +114,7 @@ const CatalogPage = () => {
     setCurrentPage(1);
   }, [selectedCategory]);
   // ----------------------------------------------------------------------------
+
   return (
     <>
       {!!products ? (

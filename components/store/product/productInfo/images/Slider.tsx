@@ -5,16 +5,8 @@ import variants from 'components/store/lib/variants';
 import { SliderImage } from '../../common';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
-import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Product } from 'swagger/services';
-import { TWishlistState } from 'redux/types';
 import { ArrowBtns } from 'ui-kit/ArrowBtns';
-import { AddToWishlist } from 'ui-kit/ProductActionBtns';
-import { TrigerhandleWishBtnClick } from 'components/store/storeLayout/utils/SearchBar/helpers';
-import {
-  checkIfItemInWishlist,
-  handleWishBtnClick,
-} from 'ui-kit/products/helpers';
 import { Dispatch, SetStateAction } from 'react';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { handleMenuState } from 'components/store/storeLayout/helpers';
@@ -46,10 +38,6 @@ const Slider: React.FC<Props> = ({
   setDisplay,
   isOpened,
 }) => {
-  const { wishlist }: TWishlistState = useAppSelector(
-    (state) => state.wishlist,
-  );
-  const dispatch = useAppDispatch();
   return (
     <SliderWrapper
       key="slider-product-page"
@@ -88,6 +76,7 @@ const Slider: React.FC<Props> = ({
             currentTarget.src = '/img_not_found.png';
           }}
           style={{ objectFit: 'cover' }}
+          itemProp="contentUrl"
         />
       </AnimatePresence>
 

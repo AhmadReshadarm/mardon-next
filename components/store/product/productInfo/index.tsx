@@ -64,6 +64,8 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
       exit="end"
       variants={variants.fadInOut}
       transition={{ when: 'afterChildren' }}
+      itemScope
+      itemType="https://schema.org/ImageObject"
     >
       <Wrapper>
         <Content
