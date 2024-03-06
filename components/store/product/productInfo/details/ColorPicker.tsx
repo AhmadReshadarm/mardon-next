@@ -160,18 +160,21 @@ const ColorPicker: React.FC<Props> = ({
                     <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                   ) : (
                     <ColorPickerPriceWrapper>
-                      <ColorPickerSpan>{`${
+                      <ColorPickerSpan>{variant.price}</ColorPickerSpan>
+                      {/* <ColorPickerSpan>
+                      {`${
                         user?.role === Role.SuperUser
                           ? variant.wholeSalePrice
                           : variant.price
-                      }₽`}</ColorPickerSpan>
-                      {!variant.oldPrice ? (
+                      }₽`}
+                      </ColorPickerSpan> */}
+                      {/* {!variant.oldPrice ? (
                         ''
                       ) : (
                         <ColorPickerSpan>
                           {`${variant.oldPrice}₽`}
                         </ColorPickerSpan>
-                      )}
+                      )} */}
                     </ColorPickerPriceWrapper>
                   )}
                 </React.Fragment>

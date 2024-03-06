@@ -11,6 +11,7 @@ import {
 import { updateWishlist } from 'redux/slicers/store/wishlistSlicer';
 import { Dispatch, SetStateAction } from 'react';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { openErrorNotification } from 'common/helpers';
 const getAnimationDelay = (length: number) => {
   let delay = 0.8;
   const passDelay: number[] = [];
@@ -45,6 +46,14 @@ const handleCartBtnClick =
     // productSize?: string,
   ) =>
   async () => {
+    if (!variant.available) {
+      openErrorNotification('Товар нет в наличии');
+      return;
+    }
+    if (variant.price == 1) {
+      openErrorNotification('К сожалению, цена товара не указана.');
+      return;
+    }
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
