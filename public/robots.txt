@@ -33,5 +33,6 @@ disallow: /privacy
 
 allow: /*
 
+sitemap: https://nbhoz.ru/sitemap.xml
 sitemap: https://nbhoz.ru/sitemap-0.xml
 sitemap: https://nbhoz.ru/server-sitemap.xml
