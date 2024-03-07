@@ -49,23 +49,25 @@ const handleSearchFormSubmit =
 
     if (searchQuery == undefined || searchQuery == '') return;
 
+    dispatch(clearSearchQuery());
+    dispatch(clearSearchProducts());
+
     if (searchQuery !== undefined || searchQuery !== '') {
       const query: { name: string; categories?: string } = {
         name: searchQuery,
       };
-
-      dispatch(clearSearchQuery());
-      dispatch(clearSearchProducts());
 
       router.push({
         pathname: '/catalog',
         query,
       });
 
-      dispatch(changeSearchFormState(false));
       setTimeout(() => {
-        dispatch(changeSearchDisplayState(PopupDisplay.None));
-      }, 100);
+        dispatch(changeSearchFormState(false));
+        setTimeout(() => {
+          dispatch(changeSearchDisplayState(PopupDisplay.None));
+        }, 100);
+      }, 300);
     }
   };
 

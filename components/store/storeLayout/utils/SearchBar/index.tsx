@@ -8,6 +8,7 @@ import {
   changeSearchQuery,
   clearSearchQuery,
   clearSearchProducts,
+  searchProducts,
 } from 'redux/slicers/store/globalSlicer';
 import { TGlobalState, TGlobalUIState } from 'redux/types';
 import styled from 'styled-components';
@@ -25,6 +26,7 @@ import ProductItem from 'ui-kit/products/productItem';
 import { getAnimationDelay } from 'ui-kit/products/helpers';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
+import debounce from 'lodash/debounce';
 type Props = {
   searchButtonRef: HTMLDivElement | any;
   windowWidth: number;
@@ -69,6 +71,31 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
   const delay = getAnimationDelay(products.length);
   // --------------------- end of UI hooks -------------------------
 
+  const delayedChange = useCallback(
+    debounce((values) => handleSearchQueryWithdelay(values), 500),
+    [],
+  );
+
+  const handleSearchQueryWithdelay = (searchQuery) => {
+    const payload = {
+      name: searchQuery,
+      limit: 100,
+    };
+
+    dispatch(searchProducts(payload));
+  };
+
+  const handleChangeOnquary = (evt) => {
+    dispatch(changeSearchQuery(evt.target.value));
+
+    if (!evt.target.value || evt.target.value == '') {
+      dispatch(clearSearchProducts());
+
+      return;
+    }
+    delayedChange(evt.target.value);
+  };
+
   return (
     <SearchFormWrapper
       style={{ display: windowWidth < 1024 ? 'flex' : searchDisplay }}
@@ -100,7 +127,8 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
           <MenuActiveStateSVG fill={color.inactiveIcons} />
         </div>
         <SearchFieldInput
-          onChange={handleSearchQueryChange(undefined, dispatch)}
+          // handleSearchQueryChange(undefined, dispatch)
+          onChange={handleChangeOnquary}
           placeholder="Введите ключевые слова, артикул или символы"
           type="input"
           value={searchQuery}
