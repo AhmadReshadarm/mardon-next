@@ -31,6 +31,10 @@ disallow: /user-agreement
 
 disallow: /privacy
 
+disallow: /api
+
+disallow: /api/*
+
 allow: /*
 
 sitemap: https://nbhoz.ru/sitemap.xml
