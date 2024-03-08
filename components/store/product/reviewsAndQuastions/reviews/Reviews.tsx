@@ -198,7 +198,7 @@ const Review = ({ product }) => {
         setValue={handleSortChange}
       />
       <ReviewContainer>
-        {!product?.reviews?.length && <div>Отзывов пока нет.</div>}
+        {!product?.reviews?.length && <li>Отзывов пока нет.</li>}
         {product?.reviews?.map((review, key) => {
           const isReviewLiked = !!review.reactions?.find(
             (reaction) =>

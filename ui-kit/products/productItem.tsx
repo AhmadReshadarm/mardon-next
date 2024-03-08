@@ -51,6 +51,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
               dispatch(clearSearchProducts());
             }}
             href={`/product/${product.url}`}
+            aria-label={product.name}
           >
             <span title={product.name?.length! > 40 ? product.name : ''}>
               {product.name?.length! > 40

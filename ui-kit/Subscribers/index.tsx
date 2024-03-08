@@ -114,6 +114,7 @@ const Subscribers = (): JSX.Element => {
                       client.phone,
                       dispatch,
                     )}
+                    aria-label="ЗАКАЗАТЬ ЗВОНОК"
                   >
                     <span>ЗАКАЗАТЬ ЗВОНОК</span>
                   </ActionBtn>
@@ -157,6 +158,7 @@ const Subscribers = (): JSX.Element => {
                       subscriber.email,
                       dispatch,
                     )}
+                    aria-label="ПОДПИСАТЬСЯ"
                   >
                     <span>ПОДПИСАТЬСЯ</span>
                   </ActionBtn>
@@ -366,7 +368,7 @@ const AuthTabWrapper = styled.div<StyleProps>`
       font-family: ricordi;
       font-size: 1rem;
       cursor: pointer;
-      color: ${color.inactiveIcons};
+      color: ${color.textTertiary};
       text-wrap: nowrap;
       &:hover {
         color: ${color.activeIcons};

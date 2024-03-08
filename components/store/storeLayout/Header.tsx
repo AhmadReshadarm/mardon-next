@@ -193,6 +193,7 @@ const Header = () => {
                 isCatalogOpen,
                 catelogDisplay,
               )}
+              title="каталог"
             >
               {catelogDisplay == PopupDisplay.None ? (
                 <MenueNormalStateSVG
@@ -212,7 +213,7 @@ const Header = () => {
             </MenuButtonWrapper>
             {/* ---------------------- end of catelog ------------------------- */}
             <LogoWrapper>
-              <Link href="/">
+              <Link aria-label="Главная страница NBHOZ" href="/">
                 <LogoSVG />
               </Link>
             </LogoWrapper>
@@ -228,6 +229,7 @@ const Header = () => {
                   searchDisplay,
                 )}
                 className="icons-parent-wrapper"
+                title="Поиск товаров"
               >
                 <SearchSVG
                   fill={
@@ -252,6 +254,7 @@ const Header = () => {
                   wishlistDisplay,
                 )}
                 className="icons-parent-wrapper"
+                title="избранное"
               >
                 {!!wishlist?.items?.length && (
                   <Counter>{wishlist?.items?.length}</Counter>
@@ -279,6 +282,7 @@ const Header = () => {
                   cartDisplay,
                 )}
                 className="icons-parent-wrapper"
+                title="корзина"
               >
                 {!!cart?.orderProducts?.length && (
                   <Counter>{cart?.orderProducts?.length}</Counter>
@@ -317,6 +321,8 @@ const Header = () => {
                     initial="init"
                     animate={!!user ? 'exit' : 'animate'}
                     variants={variants.fadeInSlideIn}
+                    title="личный кабинет"
+                    aria-label="личный кабинет"
                   >
                     <ProfileSVG
                       fill={
@@ -335,6 +341,8 @@ const Header = () => {
                     initial="init"
                     animate={!!user ? 'animate' : 'exit'}
                     variants={variants.fadeInSlideIn}
+                    title="личный кабинет"
+                    aria-label="личный кабинет"
                   >
                     <img
                       style={{

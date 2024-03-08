@@ -23,14 +23,14 @@ const NavMobile = () => {
 
   return (
     <NavWrap>
-      <Link href="/">
+      <Link aria-label="главная страница" href="/">
         <span>
           <HomePageIconSVG
             colorState={router.pathname == '/' ? '#000000' : '#949494'}
           />
         </span>
       </Link>
-      <Link href="/catalog">
+      <Link aria-label="каталог" href="/catalog">
         <span>
           {
             <CatelogSVG
@@ -44,7 +44,7 @@ const NavMobile = () => {
         {!!cart?.orderProducts?.length && (
           <Counter>{cart?.orderProducts?.length}</Counter>
         )}
-        <Link href="/cart">
+        <Link aria-label="корзина" href="/cart">
           <span>
             {
               <BasketSVG
@@ -58,7 +58,7 @@ const NavMobile = () => {
         {!!wishlist?.items?.length && (
           <Counter>{wishlist?.items?.length}</Counter>
         )}
-        <Link href="/wishlist">
+        <Link aria-label="избранное" href="/wishlist">
           <span>
             <WishlistSVG
               fill={router.pathname == '/wishlist' ? '#000000' : '#949494'}

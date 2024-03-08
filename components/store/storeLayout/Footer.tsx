@@ -47,6 +47,7 @@ const Footer = (): JSX.Element => {
                   {categories.map((category, index) => {
                     return (
                       <Link
+                        aria-label={category.name}
                         key={`${category.url}-${index}`}
                         href={`/catalog?categories=${category.url}`}
                       >
@@ -73,6 +74,7 @@ const Footer = (): JSX.Element => {
                   {content.aboutUs.map((service, index) => {
                     return (
                       <Link
+                        aria-label={service.text}
                         key={`${service.url}-${index}`}
                         href={`${service.url}`}
                       >
@@ -86,15 +88,24 @@ const Footer = (): JSX.Element => {
                 <div className="right-column-content">
                   <PhoneSVG />
                   <div className="call-row-wrapper">
-                    <Link href="tel:89268999954">
+                    <Link
+                      aria-label="позвонить 89268999954"
+                      href="tel:89268999954"
+                    >
                       <span>8-926-899-99-54</span>
                     </Link>
                     <span className="call-saperator">|</span>
-                    <Link href="tel:89652287705">
+                    <Link
+                      aria-label="позвонить 89652287705"
+                      href="tel:89652287705"
+                    >
                       <span> 8-926-699-99-52</span>
                     </Link>
                     <span className="call-saperator">|</span>
-                    <Link href="tel:89652287705">
+                    <Link
+                      aria-label="позвонить 89652287705"
+                      href="tel:89652287705"
+                    >
                       <span> 8-925-486-54-44</span>
                     </Link>
                   </div>
@@ -102,31 +113,44 @@ const Footer = (): JSX.Element => {
                 <div className="right-column-content">
                   <MailSVG />
                   <div className="call-row-wrapper">
-                    <Link href="mailto:info@nbhoz.ru">
+                    <Link
+                      aria-label="отправьте письмо по адресу info@nbhoz.ru"
+                      href="mailto:info@nbhoz.ru"
+                    >
                       <span>info@nbhoz.ru</span>
                     </Link>
                     <span className="call-saperator">|</span>
-                    <Link href="mailto:exelon@hoz-mardon.ru">
+                    <Link
+                      aria-label="отправьте письмо по адресу exelon@hoz-mardon.ru"
+                      href="mailto:exelon@hoz-mardon.ru"
+                    >
                       <span>exelon@hoz-mardon.ru</span>
                     </Link>
                   </div>
                 </div>
                 <div className="right-column-content">
                   <WatchSVG />
-                  <span>Понедельник-Суббота с 9:00 до 21:00</span>
+                  <span title="график работы понедельник-суббота с 9:00 до 21:00">
+                    Понедельник-Суббота с 9:00 до 21:00
+                  </span>
                 </div>
                 <div className="right-column-content">
                   <LocationPointerSVG />
-                  <span>г. Москва, Каширское шоссе</span>
+                  <span title="адрес г. Москва, Каширское шоссе">
+                    г. Москва, Каширское шоссе
+                  </span>
                 </div>
               </FooterRightContentWrapper>
             </FooterTopContentWrapper>
             <FooterBottomContentWrapper>
               <div className="bottom-left-wrapper">
-                <Link href="/user-agreement">
+                <Link
+                  aria-label="Пользовательское соглашение"
+                  href="/user-agreement"
+                >
                   <span>Пользовательское соглашение</span>
                 </Link>
-                <Link href="/privacy">
+                <Link aria-label="Политика безопасности" href="/privacy">
                   <span>Политика безопасности</span>
                 </Link>
               </div>

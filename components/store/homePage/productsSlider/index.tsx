@@ -116,10 +116,10 @@ const ProductsSlider = () => {
                   </div>
                   <div className="cart-price-n-action-button-wrapper">
                     <div className="artical-Wrapper">
-                      <h3>Артикул: </h3>
-                      <h3>
+                      <span>Артикул: </span>
+                      <span>
                         {currentProduct?.productVariants[0].artical.toLocaleUpperCase()}
-                      </h3>
+                      </span>
                     </div>
                     <div className="price-wrapper">
                       {currentProduct?.productVariants![0].oldPrice ? (
@@ -195,10 +195,10 @@ const ProductsSlider = () => {
                 }`}</h1>
               </Link>
               <div className="artical-Wrapper">
-                <h3>Артикул: </h3>
-                <h3>
+                <span>Артикул: </span>
+                <span>
                   {currentProduct?.productVariants[0].artical.toLocaleUpperCase()}
-                </h3>
+                </span>
               </div>
               <span>
                 {currentProduct?.desc?.includes('|')
@@ -336,6 +336,9 @@ const Content = styled.div`
             justify-content: flex-end;
             align-items: center;
             gap: 5px;
+            span {
+              font-weight: 800;
+            }
           }
           .action-buttons-wrapper {
             width: 110%;
@@ -423,8 +426,8 @@ const Content = styled.div`
       justify-content: flex-start;
       align-items: center;
       gap: 5px;
-      h3 {
-        font-weight: 500;
+      span {
+        font-weight: 800;
       }
     }
     h1 {

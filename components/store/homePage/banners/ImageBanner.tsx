@@ -114,6 +114,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             setUserIntract(true);
             // setImageIndexForDots(imageIndex);
           }}
+          title="следующий слайд"
+          aria-label="следующий слайд"
         >
           <ArrowSpan rotate="0">
             <ArrowSVG />
@@ -135,6 +137,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             setUserIntract(true);
             // setImageIndexForDots(imageIndex);
           }}
+          title="предыдущий слайд"
+          aria-label="предыдущий слайд"
         >
           <ArrowSpan rotate="180">
             <ArrowSVG />
