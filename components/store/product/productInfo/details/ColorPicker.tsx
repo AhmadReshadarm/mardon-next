@@ -160,7 +160,7 @@ const ColorPicker: React.FC<Props> = ({
                     <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                   ) : (
                     <ColorPickerPriceWrapper>
-                      <ColorPickerSpan>{variant.price}</ColorPickerSpan>
+                      <ColorPickerSpan>{variant.price}₽</ColorPickerSpan>
                       {/* <ColorPickerSpan>
                       {`${
                         user?.role === Role.SuperUser
@@ -192,6 +192,13 @@ const ColorPicker: React.FC<Props> = ({
                 }}
                 variants={variants.fadInSlideUp}
                 onClick={handleImageChange(
+                  variant,
+                  colIndex,
+                  selectedIndex,
+                  setSelectedIndex,
+                  paginateImage,
+                )}
+                onTouchStart={handleImageChange(
                   variant,
                   colIndex,
                   selectedIndex,

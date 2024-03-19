@@ -173,7 +173,7 @@ const ItemWrapper = styled.div`
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        font-size: 1.3rem;
+        font-size: 1rem;
         font-family: ricordi;
         &:hover {
           color: ${color.textBase};
@@ -226,6 +226,9 @@ const ItemWrapper = styled.div`
       align-items: center;
       justify-content: flex-start;
       gap: 10px;
+      span {
+        font-size: 0.9rem;
+      }
     }
   }
   @media ${devices.laptopS} {

@@ -137,6 +137,11 @@
   font-family: 'ricordi';
   src: url('/fonts/tt-ricordi-marmo-trial-variable.woff') format('woff');
 }
+
+h1,
+h2 {
+  font-weight: 100;
+}
 * {
   margin: 0;
   padding: 0;

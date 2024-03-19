@@ -90,7 +90,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
 const Selection = styled.div<{
   selected: boolean;
 }>`
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: center;
