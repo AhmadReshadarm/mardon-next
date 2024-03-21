@@ -88,11 +88,14 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     dispatch(fetchAdvertisement());
     dispatch(fetchNewsPost());
     dispatch(fetchMainPageProducts({ tags: ['main_page'] }));
-    dispatch(
-      fetchBestProducts({
-        tags: ['best_product'],
-      }),
-    );
+    const payload = {
+      tags: ['best_product'],
+      limit: '1000',
+    };
+    dispatch(fetchBestProducts(payload));
+    // {
+    //   tags: ['best_product']
+    // }
   }, []);
 
   const [isClient, setClient] = useState(false);
