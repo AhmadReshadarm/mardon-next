@@ -90,7 +90,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
 const Selection = styled.div<{
   selected: boolean;
 }>`
-  width: fit-content;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -123,31 +123,37 @@ const Selection = styled.div<{
     text-align: center;
   }
   @media ${devices.laptopS} {
+    width: fit-content;
     span {
       white-space: nowrap;
     }
   }
   @media ${devices.tabletL} {
+    width: fit-content;
     span {
       white-space: nowrap;
     }
   }
   @media ${devices.tabletS} {
+    width: fit-content;
     span {
       white-space: nowrap;
     }
   }
   @media ${devices.mobileL} {
+    width: fit-content;
     span {
       white-space: nowrap;
     }
   }
   @media ${devices.mobileM} {
+    width: fit-content;
     span {
       white-space: nowrap;
     }
   }
   @media ${devices.mobileS} {
+    width: fit-content;
     span {
       white-space: nowrap;
     }
