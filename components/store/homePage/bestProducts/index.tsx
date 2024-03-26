@@ -31,7 +31,13 @@ const BestProduct: React.FC<Props> = () => {
             </div>
             <ul className="best-product-grid-wrapper">
               {bestProduct.map((product, index) => {
-                return <ProductItem product={product} custom={delay[index]} />;
+                return (
+                  <ProductItem
+                    key={index}
+                    product={product}
+                    custom={delay[index]}
+                  />
+                );
               })}
             </ul>
           </Wrapper>
