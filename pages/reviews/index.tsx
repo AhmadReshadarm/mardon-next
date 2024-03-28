@@ -7,9 +7,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { devices } from 'components/store/lib/Devices';
-import Pagination from 'ui-kit/Pagination';
+import { Pagination } from 'antd';
 import Loading from 'ui-kit/Loading';
 import { TReviewState } from 'redux/types';
 import ReviewsItems from 'components/store/reviews';
@@ -33,23 +32,25 @@ const Reviews = () => {
     return () => {};
   }, [dispatch, router.query]);
   // _____________________ paginition start ________________________
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(12);
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const nPages = Math.ceil(reviewsLenght / recordsPerPage);
 
-  const handlePaginition = (indexOfFirstRecord: number) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize]: [number, any] = useState(12);
+  const handlePageChange = (
+    page: number,
+    pageSize: number,
+    current: number,
+  ) => {
+    setPageSize(pageSize);
+    setCurrentPage(current);
+
+    const offset = Number(pageSize) * (Number(page ?? 1) - 1);
     dispatch(
       fetchReviews({
-        offset: `${indexOfFirstRecord}`,
-        limit: '12',
+        offset: `${offset}`,
+        limit: `${pageSize}`,
       }),
     );
   };
-  useEffect(() => {
-    handlePaginition(indexOfFirstRecord);
-  }, [currentPage]);
   // _____________________ paginition end ________________________
   const [title, setTitle] = useState('Отзывы');
   const [shortDesc, setShortDesc] = useState('Отзывы');
@@ -113,18 +114,6 @@ const Reviews = () => {
         padding="50px 0"
         bg_color={color.textPrimary}
       >
-        <BackToMain>
-          <Link className="back-to-main" href="/">
-            <img src="/icons/back_arrow.png" alt="back button" />
-            <span>Обратно на главную</span>
-          </Link>
-        </BackToMain>
-        <HeaderWrapper>
-          <div className="header-title-wrapper">
-            <span>Отзывы</span>
-          </div>
-          <div className="header-divder-wrapper"></div>
-        </HeaderWrapper>
         <Wrapper
           flex_direction="column"
           gap="40px"
@@ -143,14 +132,17 @@ const Reviews = () => {
           ) : (
             <Loading />
           )}
-
-          {!loading && !!reviews && (
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              nPages={nPages}
-            />
-          )}
+          <Pagination
+            style={{ marginTop: '20px' }}
+            defaultCurrent={currentPage}
+            current={currentPage}
+            total={reviewsLenght}
+            pageSize={pageSize}
+            pageSizeOptions={[12, 24, 36, 50, 100]}
+            onChange={(current, pageSize) => {
+              handlePageChange(current, pageSize, current);
+            }}
+          />
         </Wrapper>
         <Subscribers />
       </Container>

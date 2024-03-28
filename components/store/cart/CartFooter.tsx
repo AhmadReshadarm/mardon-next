@@ -81,7 +81,7 @@ const Wrapper = styled.div`
 
 const CartTotalPrice = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1500px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -139,7 +139,7 @@ const CartTotalPrice = styled.div`
 
 const CheckoutBtnWrapper = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1500px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

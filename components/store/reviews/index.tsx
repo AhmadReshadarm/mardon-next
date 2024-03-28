@@ -5,14 +5,16 @@ import { Rating } from '@mui/material';
 import Link from 'next/link';
 import { Review } from 'swagger/services';
 import { devices } from 'components/store/lib/Devices';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 type Props = {
   review: Review;
 };
 const ReviewsItems: React.FC<Props> = ({ review }) => {
-  const images = review.product?.productVariants?.map((variants) =>
-    variants.images?.split(', '),
-  );
+  // const images = review.product?.productVariants?.map((variants) =>
+  //   variants.images?.split(', '),
+  // );
+  const images = getProductVariantsImages(review.product?.productVariants);
 
   return (
     <ReviewsItem>
@@ -50,7 +52,7 @@ const ReviewsItems: React.FC<Props> = ({ review }) => {
 
       <div className="product-image-wrapper">
         <img
-          src={`/api/images/${images ? images[0] : ''}`}
+          src={`/api/images/${images[0]!}`}
           alt={review.product?.name}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;

@@ -9,10 +9,10 @@ const Cart: React.FC<Props> = ({}) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   return (
     <Wrapper>
-      <div className="header-spliter">
+      {/* <div className="header-spliter">
         <div className="border-header"></div>
         <div className="none-border-header"></div>
-      </div>
+      </div> */}
       <ItemWrapper>
         <BasketItems />
       </ItemWrapper>
@@ -41,7 +41,7 @@ const Wrapper = styled.div`
 
 const ItemWrapper = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1500px;
   display: flex;
   flex-direction: column;
   justify-content: center;

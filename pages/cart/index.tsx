@@ -14,7 +14,7 @@ const CardPage = () => {
       animate="middle"
       exit="end"
     >
-      <BasketHeader>
+      {/* <BasketHeader>
         <div className="basket-header-back-btn">
           <Link href="/">
             <img src="/icons/back_arrow.png" alt="back button" />
@@ -24,7 +24,7 @@ const CardPage = () => {
         <PageTitle>
           <h3>Корзина</h3>
         </PageTitle>
-      </BasketHeader>
+      </BasketHeader> */}
       <Cart />
     </Container>
   );

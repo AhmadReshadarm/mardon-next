@@ -26,7 +26,7 @@ const Orders = () => {
   return (
     <>
       <Head>
-        <title>Мои заказы | Fingarden</title>
+        <title>Мои заказы | NBHOZ</title>
       </Head>
       <Container
         variants={variants.fadInOut}
