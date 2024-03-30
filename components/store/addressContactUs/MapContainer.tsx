@@ -60,12 +60,12 @@ const MapContainer = (props: any) => {
                   }}
                   title="Нажмите, чтобы скопировать адрес"
                 >
-                  Москва, Малая Юшуньская улица, 1к1
+                  г. Москва, Каширское шоссе
                 </span>
               </div>
               <div className="first-column-content-wrapper">
                 <img src="/icons/available_time.png" alt="working hours" />
-                <span>Пн-Все 09.00-21.00</span>
+                <span>Пн-Все 10.00-21.00</span>
               </div>
               <div className="first-column-content-wrapper">
                 <img src="/icons/email.png" alt="mail to" />

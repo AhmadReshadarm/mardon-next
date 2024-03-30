@@ -57,8 +57,8 @@ const PrivacyNotic = () => {
             </Contents>
             <Contents>
               Это уведомление о конфиденциальности для{' '}
-              <Link href="https://fingarden.ru">
-                <Links>fingarden.ru</Links>
+              <Link href="https://nbhoz.ru">
+                <Links>nbhoz.ru</Links>
               </Link>{' '}
               («Компания», «мы», «нас» или «наш») описывает, как и почему мы
               можем собирать, хранить, использовать и/или делиться
@@ -70,8 +70,8 @@ const PrivacyNotic = () => {
               практикой, пожалуйста, не пользуйтесь нашими Услугами. Если у вас
               все еще есть какие-либо вопросы или проблемы, пожалуйста,
               свяжитесь с нами по адресу{' '}
-              <Link href="mailto:help@fingarden.ru">
-                <Links>help@fingarden.ru</Links>
+              <Link href="mailto:info@nbhoz.ru">
+                <Links>info@nbhoz.ru</Links>
               </Link>
               .
             </Contents>
@@ -94,8 +94,8 @@ const PrivacyNotic = () => {
               посещаете, используете или перемещаетесь по нашим Сервисам, мы
               можем обрабатывать личную информацию в зависимости от того, как вы
               взаимодействуете с{' '}
-              <Link href="https://fingarden.ru">
-                <Links>fingarden.ru</Links>
+              <Link href="https://nbhoz.ru">
+                <Links>nbhoz.ru</Links>
               </Link>{' '}
               и Сервисами, какой выбор вы делаете, а также какие продукты и
               функции используете. нажать{' '}
@@ -162,8 +162,8 @@ const PrivacyNotic = () => {
               субъекта данных, доступную здесь, или связаться с нами. Мы
               рассмотрим любой запрос и примем меры в соответствии с применимыми
               законами о защите данных. Хотите узнать больше о том, что{' '}
-              <Link href="https://fingarden.ru">
-                <Links>fingarden.ru</Links>
+              <Link href="https://nbhoz.ru">
+                <Links>nbhoz.ru</Links>
               </Link>{' '}
               делает с любой информацией, которую мы собираем? нажать{' '}
               <Link href="#toc">
@@ -469,8 +469,8 @@ const PrivacyNotic = () => {
               незамедлительного удаления таких данных из наших записей. Если вам
               станут известны какие-либо данные, которые мы могли получить от
               детей младше 18 лет, свяжитесь с нами по адресу{' '}
-              <Link href="mailto:help@fingarden.ru">
-                <Links>help@fingarden.ru</Links>
+              <Link href="mailto:info@nbhoz.ru">
+                <Links>info@nbhoz.ru</Links>
               </Link>
               .
             </Contents>
@@ -573,8 +573,8 @@ const PrivacyNotic = () => {
             <Contents>
               Если у вас есть вопросы или комментарии по этому уведомлению, вы
               можете написать нам по адресу:{' '}
-              <Link href="mailto:help@fingarden.ru">
-                <Links>help@fingarden.ru</Links>
+              <Link href="mailto:info@nbhoz.ru">
+                <Links>info@nbhoz.ru</Links>
               </Link>
             </Contents>
             <Headers id="request">
@@ -587,7 +587,7 @@ const PrivacyNotic = () => {
               мы получаем от вас, изменить эту информацию или удалить ее. Чтобы
               запросить просмотр, обновление или удаление вашей личной
               информации, отправьте форму запроса, нажав{' '}
-              <Link href="mailto:help@fingarden.ru">
+              <Link href="mailto:info@nbhoz.ru">
                 <Links>здесь</Links>
               </Link>
               .

@@ -67,7 +67,7 @@ const ContactsMainPage = (): JSX.Element => {
               <span className="icons-wrapper">
                 <WatchSVG />
               </span>
-              <span>Понедельник-Суббота с 9:00 до 21:00</span>
+              <span>Понедельник-Суббота с 10:00 до 21:00</span>
             </div>
           </div>
         </ContactContentWrapper>

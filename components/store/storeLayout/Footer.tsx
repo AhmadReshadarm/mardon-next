@@ -131,7 +131,7 @@ const Footer = (): JSX.Element => {
                 <div className="right-column-content">
                   <WatchSVG />
                   <span title="график работы понедельник-суббота с 9:00 до 21:00">
-                    Понедельник-Суббота с 9:00 до 21:00
+                    Понедельник-Суббота с 10:00 до 21:00
                   </span>
                 </div>
                 <div className="right-column-content">
