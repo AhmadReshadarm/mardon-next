@@ -84,8 +84,8 @@ const convertBasketData = (basketList: Product[], form) => {
   for (let index = 0; index < basketList.length; index++) {
     const productId: string = basketList[index].id!;
     const qty: number = form[`${ManageCheckoutFields.Qty}[${index}]`];
-    const productSize: string =
-      form[`${ManageCheckoutFields.ProductSize}[${index}]`];
+    // const productSize: string =
+    //   form[`${ManageCheckoutFields.ProductSize}[${index}]`];
     const productVariantId: string =
       form[`${ManageCheckoutFields.Variant}[${index}]`];
     const product: Product = basketList[index];
@@ -95,7 +95,7 @@ const convertBasketData = (basketList: Product[], form) => {
     const payload = {
       productId,
       qty,
-      productSize,
+      // productSize,
       productVariantId,
       product,
       productVariant,

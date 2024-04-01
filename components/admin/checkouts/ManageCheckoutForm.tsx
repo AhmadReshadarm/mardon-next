@@ -230,28 +230,28 @@ const ManageCheckoutFrom = ({ title }: Props) => {
               />
 
               {/* ----------------------ZIP-CODE---------------------- */}
-              <Form.Item label="индекс" name={ManageCheckoutFields.ZipCode}>
+              {/* <Form.Item label="индекс" name={ManageCheckoutFields.ZipCode}>
                 <Input placeholder="Введите почтовый индекс" />
-              </Form.Item>
+              </Form.Item> */}
               {/* ----------------------ZIP-DOOR---------------------- */}
-              <Form.Item label="Подъезд" name={ManageCheckoutFields.Door}>
+              {/* <Form.Item label="Подъезд" name={ManageCheckoutFields.Door}>
                 <Input placeholder="Введите Подъезд" />
-              </Form.Item>
+              </Form.Item> */}
               {/* ----------------------ZIP-ROOM-OR-OFFICE---------------------- */}
-              <Form.Item
+              {/* <Form.Item
                 label="Квартира/офис"
                 name={ManageCheckoutFields.RoomOrOffice}
               >
                 <Input placeholder="Введите Квартира/офис" />
-              </Form.Item>
+              </Form.Item> */}
               {/* ----------------------ZIP-FLOOR---------------------- */}
-              <Form.Item label="Этаж" name={ManageCheckoutFields.Floor}>
+              {/* <Form.Item label="Этаж" name={ManageCheckoutFields.Floor}>
                 <Input placeholder="Введите Этаж" />
-              </Form.Item>
+              </Form.Item> */}
               {/* ----------------------ZIP-RIGN-BELL---------------------- */}
-              <Form.Item label="Домофон" name={ManageCheckoutFields.RignBell}>
+              {/* <Form.Item label="Домофон" name={ManageCheckoutFields.RignBell}>
                 <Input placeholder="Введите Домофон" />
-              </Form.Item>
+            </Form.Item>*/}
             </UserAddressInfoWrapper>
             {/* ----------------------THE END OF INPUTS---------------------- */}
             <Form.Item className={styles.createProductForm__buttonsStack}>

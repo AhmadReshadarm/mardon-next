@@ -56,7 +56,7 @@ const BasketProductForm: React.FC<Props> = ({
         </Select>
       </Form.Item>
       {/* ----------------------SIZES---------------------- */}
-      <Form.Item
+      {/* <Form.Item
         label="Размер"
         name={`${ManageCheckoutFields.ProductSize}[${index}]`}
         required
@@ -73,7 +73,7 @@ const BasketProductForm: React.FC<Props> = ({
             >{`Размер: ${size.name}`}</Option>
           ))}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
       {/* ----------------------PRICE---------------------- */}
       <Form.Item
         label="Количество товар"

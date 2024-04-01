@@ -136,8 +136,8 @@ const TextAreaWrapper = styled.div`
     padding: 5px;
 
     .tool-tip {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 1px solid;
       display: flex;
@@ -145,6 +145,8 @@ const TextAreaWrapper = styled.div`
       justify-content: center;
       align-items: center;
       cursor: help;
+      text-align: center;
+      font-size: 12px;
     }
     .required {
       color: ${color.hover};

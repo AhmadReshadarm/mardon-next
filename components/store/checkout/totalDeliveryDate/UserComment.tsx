@@ -21,7 +21,7 @@ const UserCommment = (props: any) => {
           <Close />
         </span>
         <CommentContent>
-          <h2>Комментарий к заказу</h2>
+          <h2 style={{ fontWeight: 600 }}>Комментарий к заказу</h2>
           <div className="comment-info">
             <span>Укажите дополнительную информацию к заказу.</span>
             <span>Например, как добраться или позвонить вам.</span>

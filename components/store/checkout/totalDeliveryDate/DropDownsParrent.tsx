@@ -25,7 +25,7 @@ const InfoDropdown = ({ title, children, borderBottom }: Props) => {
           }, 200);
         }}
       >
-        <h2>{title}</h2>
+        <h2 style={{ fontWeight: 600 }}>{title}</h2>
         <motion.span
           animate={openInfo ? 'open' : 'close'}
           variants={variants.rotate}

@@ -40,7 +40,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   // });
 
   const [viewport, setViewPort] = useState({ ...initialStateAdress });
-
+  //
   // useEffect(() => {
   //   const { latitude, longitude } = viewport;
 
@@ -67,7 +67,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       return;
     }
     if (receiverName == '') {
-      openErrorNotification('Имя пусто emtpy');
+      openErrorNotification('Имя пусто');
       return;
     }
     if (receiverPhone == '') {
@@ -96,7 +96,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       return;
     }
     if (receiverName == '') {
-      openErrorNotification('Имя пусто emtpy');
+      openErrorNotification('Имя пусто');
       return;
     }
     if (receiverPhone == '') {
@@ -196,7 +196,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
             </span>
             <span>Определить местоположение</span>
           </button>
-          <AddressDetails
+          {/* <AddressDetails
             roomOrOffice={roomOrOffice}
             setRoomOrOffice={setRoomOrOffice}
             postCode={zipCode}
@@ -207,7 +207,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
             setFloor={setFloor}
             rignBell={rignBell}
             setRingBell={setRingBell}
-          />
+          /> */}
           <ReciverData
             fullName={receiverName}
             setFullname={setFullname}

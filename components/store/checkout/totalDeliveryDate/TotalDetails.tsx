@@ -163,9 +163,9 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                 {cart?.orderProducts?.length} товар(ов) •
               </span>
             </ItemRow>
-            {cart?.orderProducts?.map((product: any) => {
+            {cart?.orderProducts?.map((product: any, index) => {
               return (
-                <ItemRow>
+                <ItemRow key={index}>
                   <span>{product.product?.name?.slice(0, 20)}..</span>
                   <p className="product-price-mobile-wrapper">
                     <span>{product!.qty} шт</span> *{'  '}

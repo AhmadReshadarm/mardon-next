@@ -131,7 +131,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               <span className="key">Адрес доставки:</span>
               <span className="value">{`${checkout.address?.address}`}</span>
             </div>
-            <div className="order-key-value">
+            {/* <div className="order-key-value">
               <span className="key">подъезд:</span>
               <span className="value">
                 {checkout.address?.door ??
@@ -150,7 +150,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
                 {checkout.address?.rignBell ??
                   `${checkout.address?.rignBell} домофон, `}
               </span>
-            </div>
+            </div> */}
             <div className="order-key-value">
               <span className="key">Получатель:</span>
               <span className="value">
