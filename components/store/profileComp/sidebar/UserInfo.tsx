@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { devices } from 'components/store/lib/Devices';
 import { AppDispatch } from 'redux/store';
 import { clearSingleImage, createSigleImage } from 'redux/slicers/imagesSlicer';
+import { openErrorNotification } from 'common/helpers';
 const UserInfo = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [counter, setCoutner] = useState(30);
@@ -45,26 +46,18 @@ const UserInfo = () => {
     dispatch: AppDispatch,
   ) => {
     const fileObj = event.target.files;
-    if (!fileObj[0]) {
+    if (!fileObj[0] || fileObj[0].size > 1000000) {
+      openErrorNotification('Размер файла более 1 МБ не допускается.');
       return;
     }
+
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
     };
 
     await dispatch(createSigleImage({ config, file: fileObj[0] }));
     setSrc(URL.createObjectURL(fileObj[0]));
-
-    dispatch(clearSingleImage());
   };
-
-  useEffect(() => {
-    if (imageList.length > 1) {
-      dispatch(
-        updateUserById({ userId: user?.id!, user: { image: imageList } }),
-      );
-    }
-  }, [imageList]);
 
   const trigerImageUpload = (evt: any) => {
     evt.preventDefault();
@@ -76,18 +69,13 @@ const UserInfo = () => {
     <Wrapper>
       <div className="user-profile-image">
         <img
-          src={
-            src !== ''
-              ? src
-              : user?.image
-              ? `/api/images/${user.image}`
-              : `https://api.dicebear.com/7.x/micah/svg?radius=50&backgroundColor=ECEEE7&seed=${user?.firstName}`
-          }
+          src={src !== '' ? src : `/api/images/${user?.image}`}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
-            currentTarget.src = `https://api.dicebear.com/7.x/micah/svg?radius=50&backgroundColor=ECEEE7&seed=${user?.firstName}`;
+            currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
           }}
         />
+
         <input
           style={{ display: 'none' }}
           ref={inputRef}
@@ -140,6 +128,20 @@ const UserInfo = () => {
         </>
       ) : (
         ''
+      )}
+      {!imageList ? (
+        ''
+      ) : (
+        <ActionBtns
+          onClick={() => {
+            dispatch(
+              updateUserById({ userId: user?.id!, user: { image: imageList } }),
+            );
+            dispatch(clearSingleImage());
+          }}
+        >
+          Сохранить изображение
+        </ActionBtns>
       )}
       <ActionBtns onClick={() => dispatch(signout())}>Выйти</ActionBtns>
 

@@ -111,6 +111,9 @@ const AddReview: React.FC<Props> = ({ product }) => {
         />
 
         <span>Загрузите изображения товара</span>
+        <span style={{ textAlign: 'center' }}>
+          не более 4 изображений, размер файлов должен быть меньше 2 МБ
+        </span>
         <input
           ref={inputRef}
           type="file"

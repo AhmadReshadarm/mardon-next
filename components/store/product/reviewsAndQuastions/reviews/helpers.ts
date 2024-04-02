@@ -40,6 +40,12 @@ const handleFileChange = async (
   }
   const imagesUrl: any = [];
   for (let i = 0; i < fileObj.length; i++) {
+    if (fileObj[i].size > 2000000) {
+      openErrorNotification(
+        `Размер файла ${fileObj[i].name} более 2 МБ не допускается.`,
+      );
+      return;
+    }
     imagesUrl.push(URL.createObjectURL(fileObj[i]));
 
     const config = {

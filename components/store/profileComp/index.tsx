@@ -10,8 +10,8 @@ import Settings from './settings';
 import { devices } from '../lib/Devices';
 import { useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
-import Authorization from '../storeLayout/utils/HeaderAuth/authorize';
 import { UsePagination } from '../storeLayout/utils/HeaderAuth/authorize/helpers';
+import Authorization from '../storeLayout/utils/HeaderAuth/authorize';
 const ProfileComp = (props: any) => {
   const { setActive } = props;
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
@@ -25,19 +25,8 @@ const ProfileComp = (props: any) => {
   return (
     <>
       {!user ? (
-        <div
-          style={{
-            background: 'url(/auth_bg.png)',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: '350px',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <PopupWrapper>
+        <AuthContainer>
+          <AuthWrapper>
             <AuthContent>
               <Authorization
                 direction={direction}
@@ -45,8 +34,8 @@ const ProfileComp = (props: any) => {
                 paginate={paginate}
               />
             </AuthContent>
-          </PopupWrapper>
-        </div>
+          </AuthWrapper>
+        </AuthContainer>
       ) : (
         <Container>
           <SideBar
@@ -128,13 +117,27 @@ const Wrapper = styled.div`
   }
 `;
 
-const PopupWrapper = styled(motion.div)`
-  width: 400px;
-  height: 412px;
-  border-radius: 15px;
+const AuthContainer = styled(motion.div)`
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: url(/auth_bg.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 350px;
+`;
+
+const AuthWrapper = styled(motion.div)`
+  width: 100vw;
+  height: 100%;
+  position: relative;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   background-color: ${color.glassmorphismBg};
   backdrop-filter: blur(9px);
@@ -144,13 +147,15 @@ const PopupWrapper = styled(motion.div)`
 `;
 
 const AuthContent = styled(motion.div)`
-  width: 100%;
+  width: 85%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   align-items: center;
-  position: relative;
+  p {
+    text-align: center;
+  }
 `;
 
 export default ProfileComp;

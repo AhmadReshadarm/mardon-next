@@ -354,11 +354,11 @@ const Header = () => {
                       src={
                         user.image
                           ? `/api/images/${user.image}`
-                          : `https://api.dicebear.com/7.x/micah/svg?radius=50&backgroundColor=ECEEE7&seed=${user?.firstName}`
+                          : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
                       }
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null;
-                        currentTarget.src = `https://api.dicebear.com/7.x/micah/svg?radius=50&backgroundColor=ECEEE7&seed=${user?.firstName}`;
+                        currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
                       }}
                     />
                   </motion.button>

@@ -9,6 +9,7 @@ import { PopupContainer } from '../common';
 import { InputsTooltip } from './helpers';
 import CloseSVG from '../../../../assets/close_black.svg';
 import { handleDataChange } from './helpers';
+import { useAppDispatch } from 'redux/hooks';
 const UserData = (props: any) => {
   const { isOpen, setOpen, user } = props;
   const [firstName, setFirstName] = useState(user.firstName);
@@ -25,6 +26,7 @@ const UserData = (props: any) => {
     firstName,
     lastName,
   };
+  const dispatch = useAppDispatch();
   return (
     <PopupContainer style={{ display: isOpen ? 'flex' : 'none' }}>
       <UserDataContainer
@@ -149,7 +151,7 @@ const UserData = (props: any) => {
           }
           onClick={(e) => {
             e.preventDefault();
-            handleDataChange({ user, payload, setServerResponse });
+            handleDataChange({ user, payload, setServerResponse, dispatch });
             setOpen(false);
             setSuccess(serverResponse == 200 ? true : false);
             setTimeout(() => {

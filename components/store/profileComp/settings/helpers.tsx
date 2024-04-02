@@ -4,6 +4,7 @@ import color from 'components/store/lib/ui.colors';
 import { UserService } from 'swagger/services';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { openErrorNotification } from 'common/helpers';
+import { updateUserById } from 'redux/slicers/authSlicer';
 const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -60,16 +61,27 @@ const handleEmailChange = async ({ user, email }) => {
   }
 };
 
-const handleDataChange = async ({ user, payload, setServerResponse }) => {
+const handleDataChange = async ({
+  user,
+  payload,
+  setServerResponse,
+  dispatch,
+}) => {
   try {
     if (
-      user.firstName == payload.firstName ||
+      user.firstName == payload.firstName &&
       user.lastName == payload.lastName
     ) {
       openErrorNotification('Ничего не изменилось');
       return;
     }
-    await UserService.updateUser({ userId: user.id, body: payload });
+    // await UserService.updateUser({ userId: user.id, body: payload });
+    dispatch(
+      updateUserById({
+        userId: user?.id!,
+        user: { firstName: payload.firstName, lastName: payload.lastName },
+      }),
+    );
     setServerResponse(200);
     openSuccessNotification('Успешно изменено 🙌');
   } catch (error: any) {
