@@ -21,6 +21,7 @@ import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
+import CloseSVG from '../../../../assets/close.svg';
 type Props = {
   product?: Product;
   reviewRef: MutableRefObject<any>;
@@ -51,6 +52,8 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
     };
   });
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
+
+  const [isOrderNotify, setOrderNotify] = useState(false);
   return (
     <Container
       key="container-product-section-one"
@@ -67,7 +70,24 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
       itemScope
       itemType="https://schema.org/ImageObject"
     >
-      <Wrapper>
+      <Wrapper style={{ flexDirection: 'column' }}>
+        {!isOrderNotify ? (
+          <OrderNotifier>
+            <span className="notifier-text">
+              Оформление заказ можно без оплата и банковский карта не нужен
+            </span>
+            <span
+              onClick={() => {
+                setOrderNotify(true);
+              }}
+              className="close-btn-wrapper "
+            >
+              <CloseSVG />
+            </span>
+          </OrderNotifier>
+        ) : (
+          ''
+        )}
         <Content
           flex_direction="column"
           justify_content="space-between"
@@ -201,6 +221,40 @@ const ContentCotainer = styled.div`
       h1 {
         font-size: 2rem;
       }
+    }
+  }
+`;
+
+const OrderNotifier = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: cneter;
+  padding: 0 0 25px 0;
+  position: relative;
+  .notifier-text {
+    width: 100%;
+    color: ${color.textPrimary};
+    padding: 5px;
+    text-align: center;
+    background-color: ${color.activeIcons};
+    font-size: 1.1rem;
+  }
+  .close-btn-wrapper {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+  }
+  @media (min-width: 200px) and (max-width: 560px) {
+    .close-btn-wrapper {
+      right: 12px;
+      top: 20px;
+    }
+  }
+  @media (min-width: 200px) and (max-width: 640px) {
+    .notifier-text {
+      padding-right: 40px;
     }
   }
 `;

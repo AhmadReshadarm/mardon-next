@@ -14,7 +14,7 @@ const VerifyAcountByToken = () => {
       dispatch(verifyUserEmailByToken(token));
     }
   }, []);
-  const [counter, setCounter] = useState(10);
+  const [counter, setCounter] = useState(3);
   useEffect(() => {
     if (counter > 1) {
       setTimeout(() => setCounter(counter - 1), 1000);
