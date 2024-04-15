@@ -74,7 +74,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
         {!isOrderNotify ? (
           <OrderNotifier>
             <span className="notifier-text">
-              Оформление заказ можно без оплата и банковский карта не нужен
+              Оформить заказ можно без оплаты и без привязки банковской карты
             </span>
             <span
               onClick={() => {
