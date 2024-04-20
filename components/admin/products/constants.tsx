@@ -1,7 +1,7 @@
 import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
-import { Product, Tag } from 'swagger/services';
+import { Product, ProductVariant, Tag } from 'swagger/services';
 import { handleRedirectCategory } from '../categories/helpers';
 
 import ActionButtons from '../generalComponents/ActionButtons';
@@ -102,6 +102,33 @@ export const columns: ColumnsType<Product> = [
       );
     },
     width: '7.5%',
+  },
+  {
+    title: 'Артикул: Цена',
+    dataIndex: 'price',
+    render: (_, record) => {
+      return (
+        <ul>
+          {(record?.productVariants as ProductVariant[]).map((variant) => (
+            <li
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '5px',
+              }}
+              key={variant.id}
+            >
+              <span>{variant.artical}</span>
+              <span>:</span>
+              <span>{variant.price} ₽</span>
+            </li>
+          ))}
+        </ul>
+      );
+    },
+    width: '10%',
   },
 
   {
