@@ -3,15 +3,16 @@ import Loading from 'ui-kit/Loading';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
-import { handleItemRemove, handleRemoveClick } from './helpers';
-import { TWishlistState } from 'redux/types';
+import { handleRemoveClick } from './helpers';
 import color from '../lib/ui.colors';
+
+// -----------------------
+
+// -----------------------------------------
+
 type Props = {};
 const BasketItems: React.FC<Props> = ({}) => {
   const { cart, loading } = useAppSelector<TCartState>((state) => state.cart);
-  const { wishlist }: TWishlistState = useAppSelector(
-    (state) => state.wishlist,
-  );
   const dispatch = useAppDispatch();
 
   return (
@@ -25,14 +26,11 @@ const BasketItems: React.FC<Props> = ({}) => {
               </button>
             </div>
             <CartBody>
-              {cart?.orderProducts?.map((item, index) => {
+              {cart?.orderProducts?.map((orderProduct, index) => {
                 return (
                   <CartItem
                     key={`cart-item-page-${index}`}
-                    cart={cart}
-                    item={item}
-                    onRemove={handleItemRemove}
-                    wishlist={wishlist!}
+                    orderProduct={orderProduct}
                   />
                 );
               })}
@@ -66,15 +64,15 @@ const ItemsWrapper = styled.div`
     padding: 20px;
     button {
       width: 200px;
-      height: 40px;
-      background-color: ${color.btnSecondery};
+      height: 50px;
+      background: linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%);
+      border-radius: 30px;
       cursor: pointer;
       transition: 300ms;
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      border-radius: 3px;
       &:hover {
         background-color: ${color.searchBtnBg};
 
@@ -114,6 +112,7 @@ const NoCartItem = styled.div`
   h2 {
     font-size: 3rem;
     font-family: Anticva;
+    text-align: center;
   }
 `;
 

@@ -1,459 +1,265 @@
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import variants from 'components/store/lib/variants';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Basket, OrderProduct, Product, Wishlist } from 'swagger/services';
-import CloseSVG from '../../../assets/close_black.svg';
+import { OrderProduct, Product } from 'swagger/services';
 import { devices } from '../lib/Devices';
-import { Rating } from '@mui/material';
-import { useAppDispatch } from 'redux/hooks';
-import { AppDispatch } from 'redux/store';
 import color from '../lib/ui.colors';
-import { TrigerhandleWishBtnClick } from '../storeLayout/utils/SearchBar/helpers';
-import { ArrowBtns } from 'ui-kit/ArrowBtns';
-import { AddToWishlist } from 'ui-kit/ProductActionBtns';
-import {
-  checkIfItemInWishlist,
-  handleWishBtnClick,
-} from 'ui-kit/products/helpers';
-import { handleItemCountChange } from './helpers';
-import { useState } from 'react';
+import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 type Props = {
-  item: OrderProduct;
-  cart: Basket;
-  onRemove: (product: Product, dispatch: AppDispatch, cart: Basket) => void;
-  wishlist: Wishlist;
+  orderProduct: OrderProduct;
+  product?: Product;
 };
 
-const CartItem: React.FC<Props> = ({ item, cart, onRemove, wishlist }) => {
-  const dispatch = useAppDispatch();
+const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
+  const images = getProductVariantsImages(
+    orderProduct.product?.productVariants,
+  );
 
-  const { name, url } = item.product!;
-
-  const curVariant = item.productVariant
-    ? item.productVariant
-    : item.product?.productVariants![0]
-    ? item.product?.productVariants![0]
-    : ({} as any);
-
-  const images = getProductVariantsImages(item.product?.productVariants);
-
-  const handleRemoveClick = (product: Product) => () => {
-    onRemove(product, dispatch, cart);
-  };
-
-  const [itemCounter, setItemCounter] = useState(item.qty!);
   return (
-    <Item>
-      <div className="item-container">
-        <ImageWrapper>
-          <motion.img
-            whileHover="hover"
-            whileTap="tap"
-            custom={1.05}
-            variants={variants.grow}
-            src={`/api/images/${images[0]}`}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-            }}
-          />
-          <div className="wishlist-btn-container">
-            <ArrowBtns
-              style={{
-                background: color.glassmorphismSeconderBG,
-                backdropFilter: 'blur(9px)',
-                position: 'relative',
-              }}
-              onClick={TrigerhandleWishBtnClick(
-                item.product!,
-                handleWishBtnClick(item.product!, dispatch, wishlist),
-              )}
-            >
-              {/* <AddToWishlist
-                // checkIfItemInWishlist={checkIfItemInWishlist}
-                product={item.product!}
-                wishlist={wishlist}
-              /> */}
-            </ArrowBtns>
-          </div>
-        </ImageWrapper>
-        <ItemDetails>
-          <Link className="product-title" href={`/product/${url}`}>
-            <h4>{name}</h4>
+    <ProductItemWrapper>
+      <a href={`/product/${orderProduct!.product?.url}`}>
+        <img
+          src={`/api/images/${images[0]}`}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = '/img_not_found.png';
+          }}
+        />
+      </a>
+      <div className="product-details-wrapper">
+        <div className="product-title-description-wrapper">
+          <Link href={`/product/${orderProduct!.product?.url}`}>
+            <h1>
+              {orderProduct!?.product!?.name?.length! > 18
+                ? orderProduct!?.product!?.name?.slice(0, 18) + ' ...'
+                : orderProduct!?.product!?.name}
+            </h1>
           </Link>
-          <div className="product-price-wrapper">
-            <span>Цена: </span>
-            <h3>{curVariant.price} ₽</h3>
+
+          <span>
+            {orderProduct!?.product?.desc?.includes('|')
+              ? orderProduct!?.product?.desc?.split('|')[0]?.length! > 60
+                ? orderProduct!?.product?.desc?.split('|')[0].slice(0, 60) +
+                  '...'
+                : orderProduct!?.product?.desc?.split('|')[0]
+              : orderProduct!?.product?.desc?.length! > 60
+              ? orderProduct!?.product?.desc?.slice(0, 60) + '...'
+              : orderProduct!?.product?.desc?.slice(0, 60)}
+          </span>
+        </div>
+
+        <div className="price-sperator-wrapper">
+          <div className="old-new-price-wrapper">
+            {orderProduct!.productVariant?.oldPrice ? (
+              <span className="old-price">
+                {orderProduct!?.productVariant?.oldPrice} ₽
+              </span>
+            ) : (
+              ''
+            )}
+            <span>{orderProduct!?.productVariant?.price} ₽</span>
           </div>
-          <div className="review-and-rating-Wrapper">
-            <Rating value={item.product?.rating?.avg} size="small" readOnly />
-            <span className="reviews">
-              {item.product?.reviews?.length} отзывов
-            </span>
-          </div>
-
-          <div className="item-action-btns-wrapper">
-            <div className="in-cart-sign">
-              <span>УЖЕ В КОРЗИНЕ</span>
-              <img src="/icons/vector.png" alt="in cart sign" />
-            </div>
-            <ItemCounterWrapper onClick={(e) => e.preventDefault()}>
-              <motion.button
-                className="left-btn"
-                whileHover="hover"
-                whileTap="tap"
-                variants={variants.boxShadow}
-                onClick={
-                  () =>
-                    handleItemCountChange(
-                      item.qty! > 1 ? item.qty! - 1 : item.qty!,
-                      item.product!,
-                      dispatch,
-                      cart,
-                    )
-
-                  // setItemCounter((prev) => {
-                  //   if (prev == 1) return prev;
-                  //   const itemCounter = prev - 1;
-                  //   handleItemCountChange(
-                  //     itemCounter,
-                  //     item.product!,
-                  //     dispatch,
-                  //     cart,
-                  //   );
-
-                  //   return itemCounter;
-                  // })
-                }
-              >
-                <span>-</span>
-              </motion.button>
-              <span>{item.qty} шт</span>
-              <motion.button
-                className="right-btn"
-                whileHover="hover"
-                whileTap="tap"
-                variants={variants.boxShadow}
-                onClick={
-                  () =>
-                    handleItemCountChange(
-                      item.qty! + 1,
-                      item.product!,
-                      dispatch,
-                      cart,
-                    )
-                  // setItemCounter((prev) => {
-                  //   const itemCounter = prev + 1;
-                  //   handleItemCountChange(
-                  //     item.qty! + 1,
-                  //     item.product!,
-                  //     dispatch,
-                  //     cart,
-                  //   );
-
-                  //   return itemCounter;
-                  // })
-                }
-              >
-                <span>+</span>
-              </motion.button>
-            </ItemCounterWrapper>
-          </div>
-        </ItemDetails>
-        <motion.button
-          className="remove-btn"
-          custom={1.2}
-          whileTap="tap"
-          whileHover="hover"
-          variants={variants.grow}
-          onClick={handleRemoveClick(item.product!)}
-        >
-          <CloseSVG />
-        </motion.button>
+          <span className="total-price-wrapper">
+            {orderProduct!?.qty! * orderProduct!?.productVariant?.price!} ₽
+          </span>
+        </div>
       </div>
-    </Item>
+      <div className="action-buttons-wrapper">
+        <AddToWishlist product={orderProduct!?.product!} />
+        <AddToCart
+          product={orderProduct!?.product!}
+          qty={orderProduct!?.qty!}
+          variant={product?.productVariants![0]}
+        />
+      </div>
+    </ProductItemWrapper>
   );
 };
 
-const Item = styled.li`
-  padding: 10px 0;
-  .item-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    position: relative;
-    background-color: ${color.bgProduct};
-    box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-    border-radius: 10px;
-    gap: 50px;
-    .remove-btn {
-      width: 30px;
-      height: 30px;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      cursor: pointer;
-    }
-  }
-  @media ${devices.laptopS} {
-    .item-container {
-      flex-direction: column;
-    }
-  }
-  @media ${devices.tabletL} {
-    .item-container {
-      flex-direction: column;
-    }
-  }
-  @media ${devices.tabletS} {
-    .item-container {
-      flex-direction: column;
-    }
-  }
-
-  @media ${devices.mobileL} {
-    .item-container {
-      flex-direction: column;
-    }
-  }
-  @media ${devices.mobileM} {
-    .item-container {
-      flex-direction: column;
-    }
-  }
-  @media ${devices.mobileS} {
-    .item-container {
-      flex-direction: column;
-    }
-  }
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  cursor: pointer;
-  img {
-    width: 220px;
-    height: 220px;
-    border-radius: 5px;
-    object-fit: cover;
-  }
-  .wishlist-btn-container {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-  }
-`;
-
-const ItemDetails = styled.div`
+const ProductItemWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  .product-title {
-    width: 100%;
-    h4 {
-      text-align: left;
-      font-family: 'Anticva';
-      font-size: 1.8rem;
-      font-weight: 400;
-      &:hover {
-        text-decoration: underline 1px;
-        color: ${color.hoverBtnBg};
-      }
-    }
-  }
-  .product-price-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-left;
-    align-items: center;
-    gap: 20px;
-    h3 {
-      font-family: 'Jost';
-      font-size: 2rem;
-      font-weight: 400;
-    }
-    span {
-      font-family: 'Jost';
-      font-size: 2rem;
-      font-weight: 300;
-    }
-  }
-  .review-and-rating-Wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-left;
-    align-items: center;
-    gap: 5px;
-    span {
-      font-family: 'Jost';
-      font-size: 14px;
-    }
-    .reviews {
-      color: ${color.hoverBtnBg};
-    }
-  }
-  .item-action-btns-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-left;
-    align-items: center;
-    gap: 20px;
-    .in-cart-sign {
-      width: 200px;
-      height: 40px;
-      border: 1px solid;
-      border-radius: 4px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-  }
-
-  @media ${devices.laptopS} {
-    .product-title {
-      h4 {
-        text-align: center;
-      }
-    }
-    .item-action-btns-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      .in-cart-sign {
-        width: 100%;
-      }
-    }
-  }
-  @media ${devices.tabletL} {
-    .product-title {
-      h4 {
-        text-align: center;
-      }
-    }
-    .item-action-btns-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      .in-cart-sign {
-        width: 100%;
-      }
-    }
-  }
-  @media ${devices.tabletS} {
-    .product-title {
-      h4 {
-        text-align: center;
-      }
-    }
-    .item-action-btns-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      .in-cart-sign {
-        width: 100%;
-      }
-    }
-  }
-  @media ${devices.mobileL} {
-    .product-title {
-      h4 {
-        text-align: center;
-      }
-    }
-    .item-action-btns-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      .in-cart-sign {
-        width: 100%;
-      }
-    }
-  }
-  @media ${devices.mobileM} {
-    .product-title {
-      h4 {
-        text-align: center;
-      }
-    }
-    .item-action-btns-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      .in-cart-sign {
-        width: 100%;
-      }
-    }
-  }
-  @media ${devices.mobileS} {
-    .product-title {
-      h4 {
-        text-align: center;
-      }
-    }
-    .item-action-btns-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      .in-cart-sign {
-        width: 100%;
-      }
-    }
-  }
-`;
-
-const ItemCounterWrapper = styled.div`
+  height: 200px;
+  max-hight: 200px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-  font-family: 'Jost';
-  font-size: 1rem;
-  border-radius: 4px;
-  .left-btn {
-    border-radius: 4px 0 0 4px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 10px;
+  background-color: ${color.backgroundPrimary};
+  border: 1px solid #e5e2d9;
+
+  img {
+    min-width: 180px;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
   }
-  .right-btn {
-    border-radius: 0 4px 4px 0;
-  }
-  button {
-    width: 40px;
-    height: 40px;
+
+  .product-details-wrapper {
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: ${color.btnSecondery};
-    span {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    .product-title-description-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 15px;
+
+      a {
+        padding: 0;
+        h1 {
+          font-family: ricordi;
+          font-size: 1.3rem;
+        }
+      }
+    }
+
+    .price-sperator-wrapper {
       width: 100%;
-      height: 100%;
-      font-family: 'Jost';
-      font-size: 2rem;
-      font-weight: 200;
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
+      gap: 40px;
+      .old-new-price-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        span {
+          color: ${color.textBase};
+        }
+        .old-price {
+          text-decoration: line-through;
+          font-size: 0.8rem;
+        }
+      }
+      .old-new-price-wishlist-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+        span {
+          color: ${color.textSecondary};
+          font-size: 1.5rem;
+        }
+        .old-price {
+          text-decoration: line-through;
+          font-size: 0.8rem;
+          color: ${color.textBase};
+        }
+      }
+      .total-price-wrapper {
+        font-size: 1.5rem;
+      }
     }
   }
 
-  span {
-    width: 50px;
-    background-color: transparent;
-    user-select: none;
+  .action-buttons-wrapper {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Jost';
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 10px 10px 0;
+    gap: 20px;
+  }
+
+  @media ${devices.laptopS} {
+    flex-direction: column;
+    height: unset;
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      min-height: unset;
+    }
+    .action-buttons-wrapper {
+      justify-content: flex-start;
+    }
+  }
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    height: unset;
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      min-height: unset;
+    }
+    .action-buttons-wrapper {
+      justify-content: flex-start;
+    }
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+    height: unset;
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      min-height: unset;
+    }
+    .action-buttons-wrapper {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  @media ${devices.mobileL} {
+    flex-direction: column;
+    height: unset;
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      min-height: unset;
+    }
+    .action-buttons-wrapper {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  @media ${devices.mobileM} {
+    flex-direction: column;
+    height: unset;
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      min-height: unset;
+    }
+    .action-buttons-wrapper {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  @media ${devices.mobileS} {
+    flex-direction: column;
+    height: unset;
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      min-height: unset;
+    }
+    .action-buttons-wrapper {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
   }
 `;
 

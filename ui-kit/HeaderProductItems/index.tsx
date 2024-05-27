@@ -52,11 +52,6 @@ const HeaderProductItmes: React.FC<Props> = ({
                 </h1>
               </Link>
               <span>
-                {/* {`${
-                  orderProduct!?.product?.shortDesc?.length! > 80
-                    ? orderProduct!?.product?.shortDesc?.slice(0, 80) + ' ...'
-                    : orderProduct!?.product?.shortDesc
-                }`} */}
                 {orderProduct!?.product?.desc?.includes('|')
                   ? orderProduct!?.product?.desc?.split('|')[0]?.length! > 60
                     ? orderProduct!?.product?.desc?.split('|')[0].slice(0, 60) +
