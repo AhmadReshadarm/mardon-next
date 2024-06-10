@@ -89,24 +89,30 @@ const Footer = (): JSX.Element => {
                   <PhoneSVG />
                   <div className="call-row-wrapper">
                     <Link
+                      aria-label="позвонить 89254865444"
+                      href="tel:+79254865444"
+                    >
+                      <span title="позвонить 8-925-486-54-44">
+                        8-925-486-54-44
+                      </span>
+                    </Link>
+                    <span className="call-saperator">|</span>
+                    <Link
+                      aria-label="позвонить 89266999952"
+                      href="tel:89266999952"
+                    >
+                      <span title="позвонить 8-926-699-99-52">
+                        8-926-699-99-52
+                      </span>
+                    </Link>
+                    <span className="call-saperator">|</span>
+                    <Link
                       aria-label="позвонить 89268999954"
                       href="tel:89268999954"
                     >
-                      <span>8-926-899-99-54</span>
-                    </Link>
-                    <span className="call-saperator">|</span>
-                    <Link
-                      aria-label="позвонить 89652287705"
-                      href="tel:89652287705"
-                    >
-                      <span> 8-926-699-99-52</span>
-                    </Link>
-                    <span className="call-saperator">|</span>
-                    <Link
-                      aria-label="позвонить 89652287705"
-                      href="tel:89652287705"
-                    >
-                      <span> 8-925-486-54-44</span>
+                      <span title="позвонить 8-926-899-99-54">
+                        8-926-899-99-54
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -117,20 +123,24 @@ const Footer = (): JSX.Element => {
                       aria-label="отправьте письмо по адресу info@nbhoz.ru"
                       href="mailto:info@nbhoz.ru"
                     >
-                      <span>info@nbhoz.ru</span>
+                      <span title="отправьте письмо по адресу info@nbhoz.ru">
+                        info@nbhoz.ru
+                      </span>
                     </Link>
                     <span className="call-saperator">|</span>
                     <Link
                       aria-label="отправьте письмо по адресу exelon@hoz-mardon.ru"
                       href="mailto:exelon@hoz-mardon.ru"
                     >
-                      <span>exelon@hoz-mardon.ru</span>
+                      <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
+                        exelon@hoz-mardon.ru
+                      </span>
                     </Link>
                   </div>
                 </div>
                 <div className="right-column-content">
                   <WatchSVG />
-                  <span title="график работы понедельник-суббота с 9:00 до 21:00">
+                  <span title="график работы понедельник-суббота с 10:00 до 21:00">
                     Понедельник-Суббота с 10:00 до 21:00
                   </span>
                 </div>
@@ -189,6 +199,7 @@ const Footer = (): JSX.Element => {
         <button
           className="accept-cookies"
           onClick={() => handleCookiesClick(setOpen)}
+          title="Принять все файлы cookie"
         >
           Принять все файлы cookie
         </button>

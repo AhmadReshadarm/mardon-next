@@ -30,16 +30,16 @@ const ContactsMainPage = (): JSX.Element => {
                 <PhoneSVG />
               </span>
               <div className="call-wrapper">
+                <Link href="tel:+79254865444">
+                  <span title="позвонить 8-925-486-54-44">8-925-486-54-44</span>
+                </Link>
+                <span className="call-saperator">|</span>
+                <Link href="tel:89266999952">
+                  <span title="позвонить 8-926-699-99-52">8-926-699-99-52</span>
+                </Link>
+                <span className="call-saperator">|</span>
                 <Link href="tel:89268999954">
-                  <span>8-926-899-99-54</span>
-                </Link>
-                <span className="call-saperator">|</span>
-                <Link href="tel:89652287705">
-                  <span> 8-926-699-99-52</span>
-                </Link>
-                <span className="call-saperator">|</span>
-                <Link href="tel:89652287705">
-                  <span> 8-925-486-54-44</span>
+                  <span title="позвонить 8-926-899-99-54">8-926-899-99-54</span>
                 </Link>
               </div>
             </div>
@@ -49,11 +49,15 @@ const ContactsMainPage = (): JSX.Element => {
               </span>
               <div className="call-wrapper">
                 <Link href="mailto:info@nbhoz.ru">
-                  <span>info@nbhoz.ru</span>
+                  <span title="отправьте письмо по адресу info@nbhoz.ru">
+                    info@nbhoz.ru
+                  </span>
                 </Link>
                 <span className="call-saperator">|</span>
                 <Link href="mailto:exelon@hoz-mardon.ru">
-                  <span>exelon@hoz-mardon.ru</span>
+                  <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
+                    exelon@hoz-mardon.ru
+                  </span>
                 </Link>
               </div>
             </div>
@@ -61,13 +65,17 @@ const ContactsMainPage = (): JSX.Element => {
               <span className="icons-wrapper">
                 <LocationPointerSVG />
               </span>
-              <span>г. Москва, Каширское шоссе</span>
+              <span title="адрес г. Москва, Каширское шоссе">
+                г. Москва, Каширское шоссе
+              </span>
             </div>
             <div className="contents-rows">
               <span className="icons-wrapper">
                 <WatchSVG />
               </span>
-              <span>Понедельник-Суббота с 10:00 до 21:00</span>
+              <span title="график работы понедельник-суббота с 10:00 до 21:00">
+                Понедельник-Суббота с 10:00 до 21:00
+              </span>
             </div>
           </div>
         </ContactContentWrapper>

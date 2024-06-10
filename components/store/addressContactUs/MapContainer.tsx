@@ -70,7 +70,11 @@ const MapContainer = (props: any) => {
               <div className="first-column-content-wrapper">
                 <img src="/icons/email.png" alt="mail to" />
                 <span>
-                  <Link target="_blank" href="mailto:info@nbhoz.ru">
+                  <Link
+                    target="_blank"
+                    href="mailto:info@nbhoz.ru"
+                    title="отправьте письмо по адресу info@nbhoz.ru"
+                  >
                     info@nbhoz.ru
                   </Link>
                 </span>
@@ -81,14 +85,20 @@ const MapContainer = (props: any) => {
                 <img src="/icons/phone_call.png" alt="call NBHOZ via phone" />
 
                 <div className="phone-number-wrapper">
+                  <Link href="tel:+79254865444">
+                    <span title="позвонить 8-925-486-54-44">
+                      8-925-486-54-44
+                    </span>
+                  </Link>
                   <Link href="tel:89268999954">
-                    <span>8-926-899-99-54</span>
+                    <span title="позвонить 8-926-899-99-54">
+                      8-926-899-99-54
+                    </span>
                   </Link>
-                  <Link href="tel:89652287705">
-                    <span> 8-926-699-99-52</span>
-                  </Link>
-                  <Link href="tel:89652287705">
-                    <span> 8-925-486-54-44</span>
+                  <Link href="tel:89266999952">
+                    <span title="позвонить 8-926-699-99-52">
+                      8-926-699-99-52
+                    </span>
                   </Link>
                 </div>
               </div>
