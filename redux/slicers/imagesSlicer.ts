@@ -29,6 +29,8 @@ export const fetchImages = createAsyncThunk<
       return await ImageService.getImages({
         limit: payload?.limit,
         offset: payload?.offset,
+        originalName: payload?.originalName,
+        filename: payload.filename,
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));

@@ -61,6 +61,20 @@ const DatabaseImages = ({
       offset,
     };
   }) as unknown as DataType[];
+  const [byFileName, setByFileName] = useState(false);
+  const fetchImagesWithSearch = (evt) => {
+    dispatch(
+      fetchImages({
+        offset: String(0),
+        limit: '20',
+        originalName: !byFileName ? evt.target.value : '',
+        filename: byFileName ? evt.target.value : '',
+      }),
+    );
+    return () => {
+      dispatch(clearImageDBList());
+    };
+  };
 
   return (
     <Contaienr style={{ display: isOpen ? 'flex' : 'none' }}>
@@ -68,6 +82,7 @@ const DatabaseImages = ({
         <CloseBtn onClick={() => setOpen(false)}>
           <CloseSVG />
         </CloseBtn>
+
         {isLoadingImageDB ? (
           <Spin className={styles.spinner} size="large" />
         ) : (
@@ -103,6 +118,21 @@ const DatabaseImages = ({
             />
           </TableWrapper>
         )}
+        <input
+          className="image-search-input"
+          type="text"
+          placeholder={byFileName ? 'Имя файла' : 'Имя изображения'}
+          onChange={fetchImagesWithSearch}
+        />
+        <label className="image-seach-check-by-file-name">
+          <input
+            onChange={() => setByFileName(!byFileName)}
+            type="checkbox"
+            name="check by file name"
+            id=""
+          />
+          <span>Поиск по имени файла</span>
+        </label>
       </Wrapper>
     </Contaienr>
   );
@@ -129,13 +159,33 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 40px;
   background-color: ${color.textPrimary};
   border-radius: 25px;
   box-shadow: 0px 0px 10px -2px #000;
   padding: 20px;
   position: relative;
+  .image-search-input {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    width: 300px;
+    height: 50px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 1px solid #00000042;
+  }
+  .image-seach-check-by-file-name {
+    position: absolute;
+    left: 35px;
+    bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+  }
 `;
 
 const TableWrapper = styled.div`

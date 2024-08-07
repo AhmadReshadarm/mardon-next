@@ -269,6 +269,8 @@ type TBannerState = {
 interface FetchPayload {
   limit: string;
   offset: string;
+  originalName?: string;
+  filename?: string;
   available?: boolean;
   showOnMain?: boolean;
 }
