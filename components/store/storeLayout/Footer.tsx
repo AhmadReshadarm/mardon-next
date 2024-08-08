@@ -162,6 +162,7 @@ const Footer = (): JSX.Element => {
                     <span className="call-saperator">|</span>
                     <Link
                       href="https://t.me/nbhoz"
+                      target="__blank"
                       style={{
                         display: 'flex',
                         flexDirection: 'row',
