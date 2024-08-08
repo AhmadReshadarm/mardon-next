@@ -139,6 +139,48 @@ const Footer = (): JSX.Element => {
                   </div>
                 </div>
                 <div className="right-column-content">
+                  <div className="call-row-wrapper">
+                    <Link
+                      href="https://vk.com/nbhoz"
+                      target="__blank"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                        gap: '5px',
+                      }}
+                      title="Подпишитесь на нас в ВКонтакте"
+                    >
+                      <img
+                        src="/icons/vk.png"
+                        style={{ width: '25px' }}
+                        alt="nbhoz vk"
+                      />
+                      <span>/nbhoz</span>
+                    </Link>
+                    <span className="call-saperator">|</span>
+                    <Link
+                      href="https://t.me/nbhoz"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                        gap: '5px',
+                      }}
+                      title="Подпишитесь на нас в Telegram"
+                    >
+                      <img
+                        src="/icons/telegram.png"
+                        style={{ width: '25px' }}
+                        alt="nbhoz telegram"
+                      />
+                      <span>/nbhoz</span>
+                    </Link>
+                  </div>
+                </div>
+                <div className="right-column-content">
                   <WatchSVG />
                   <span title="график работы понедельник-суббота с 10:00 до 21:00">
                     Понедельник-Суббота с 10:00 до 21:00
