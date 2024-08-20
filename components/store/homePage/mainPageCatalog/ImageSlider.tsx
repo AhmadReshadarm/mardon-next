@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { CategoryInTree } from 'swagger/services';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   categories: CategoryInTree[];
@@ -53,8 +54,26 @@ const ImageSliderWrapper = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
-  min-height: 270px;
-  max-height: 270px;
+  min-height: 650px;
+  max-height: 650px;
+  @media ${devices.laptopS} {
+    display: none;
+  }
+  @media ${devices.tabletL} {
+    display: none;
+  }
+  @media ${devices.tabletS} {
+    display: none;
+  }
+  @media ${devices.mobileL} {
+    display: none;
+  }
+  @media ${devices.mobileM} {
+    display: none;
+  }
+  @media ${devices.mobileS} {
+    display: none;
+  }
 `;
 
 const Slider = styled(motion.img)`

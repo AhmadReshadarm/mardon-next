@@ -78,11 +78,11 @@ const Grid = styled.ul`
   }
   @media ${devices.laptopS} {
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 5px;
+    column-gap: 20px;
   }
   @media ${devices.tabletL} {
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 10px;
+    column-gap: 15px;
   }
   @media ${devices.tabletS} {
     grid-template-columns: repeat(2, 1fr);

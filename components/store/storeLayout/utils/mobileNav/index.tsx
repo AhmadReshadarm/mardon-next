@@ -24,19 +24,29 @@ const NavMobile = () => {
   return (
     <NavWrap>
       <Link aria-label="главная страница" href="/">
-        <span>
+        <span className="icons-wrapper-mobile">
           <HomePageIconSVG
             colorState={router.pathname == '/' ? '#000000' : '#949494'}
           />
+          <span
+            style={{ color: router.pathname == '/' ? '#000000' : '#949494' }}
+          >
+            Главная
+          </span>
         </span>
       </Link>
       <Link aria-label="каталог" href="/catalog">
-        <span>
-          {
-            <CatelogSVG
-              colorState={router.pathname == '/catalog' ? '#000000' : '#949494'}
-            />
-          }
+        <span className="icons-wrapper-mobile">
+          <CatelogSVG
+            colorState={router.pathname == '/catalog' ? '#000000' : '#949494'}
+          />
+          <span
+            style={{
+              color: router.pathname == '/catalog' ? '#000000' : '#949494',
+            }}
+          >
+            Каталог
+          </span>
         </span>
       </Link>
 
@@ -45,12 +55,17 @@ const NavMobile = () => {
           <Counter>{cart?.orderProducts?.length}</Counter>
         )}
         <Link aria-label="корзина" href="/cart">
-          <span>
-            {
-              <BasketSVG
-                fill={router.pathname == '/cart' ? '#000000' : '#949494'}
-              />
-            }
+          <span className="icons-wrapper-mobile">
+            <BasketSVG
+              fill={router.pathname == '/cart' ? '#000000' : '#949494'}
+            />
+            <span
+              style={{
+                color: router.pathname == '/cart' ? '#000000' : '#949494',
+              }}
+            >
+              Корзина
+            </span>
           </span>
         </Link>
       </ParentWrapper>
@@ -59,10 +74,17 @@ const NavMobile = () => {
           <Counter>{wishlist?.items?.length}</Counter>
         )}
         <Link aria-label="избранное" href="/wishlist">
-          <span>
+          <span className="icons-wrapper-mobile">
             <WishlistSVG
               fill={router.pathname == '/wishlist' ? '#000000' : '#949494'}
             />
+            <span
+              style={{
+                color: router.pathname == '/wishlist' ? '#000000' : '#949494',
+              }}
+            >
+              Избранное
+            </span>
           </span>
         </Link>
       </ParentWrapper>
@@ -87,6 +109,17 @@ const NavWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+
+  .icons-wrapper-mobile {
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    gap: 5px;
+  }
   @media ${devices.laptopS} {
     display: flex;
   }

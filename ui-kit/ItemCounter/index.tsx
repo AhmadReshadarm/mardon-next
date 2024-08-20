@@ -18,6 +18,9 @@ type Props = {
   qty: number;
   product: Product;
 };
+type StyleProps = {
+  cardWidth: number;
+};
 const ItemCounter: React.FC<Props> = ({ qty, product }) => {
   const dispatch = useAppDispatch();
   const { cart, loading } = useAppSelector<TCartState>((state) => state.cart);
@@ -51,6 +54,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
       initial={{ width: '0px' }}
       animate={{ width: windowWidth > 1240 ? '150px' : '140px' }}
       onClick={(e) => e.preventDefault()}
+      cardWidth={windowWidth}
     >
       <motion.div
         initial={{ width: '0px', opacity: 0 }}
@@ -203,6 +207,9 @@ const ItemCounterWrapper = styled(motion.div)`
   }
   @media ${devices.laptopM} {
     width: 140px;
+  }
+  @media ${devices.tabletS} {
+    width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px) !important;
   }
 `;
 

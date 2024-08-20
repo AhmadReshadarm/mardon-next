@@ -56,6 +56,30 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 80px 0;
+  @media ${devices.laptopL} {
+    padding: 70px 0;
+  }
+  @media ${devices.laptopM} {
+    padding: 60px 0;
+  }
+  @media ${devices.laptopS} {
+    padding: 50px 0;
+  }
+  @media ${devices.tabletL} {
+    padding: 40px 0;
+  }
+  @media ${devices.tabletS} {
+    padding: 30px 0;
+  }
+  @media ${devices.mobileL} {
+    padding: 20px 0;
+  }
+  @media ${devices.mobileM} {
+    padding: 10px 0;
+  }
+  @media ${devices.mobileS} {
+    padding: 0;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -106,12 +130,22 @@ const Wrapper = styled.div`
       grid-template-columns: repeat(2, 1fr);
       column-gap: 5px;
     }
+    .section-title-wrapper {
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
   }
   @media ${devices.tabletL} {
     max-width: unset;
     .best-product-grid-wrapper {
       grid-template-columns: repeat(2, 1fr);
       column-gap: 10px;
+    }
+    .section-title-wrapper {
+      h1 {
+        font-size: 2rem;
+      }
     }
   }
   @media ${devices.tabletS} {
@@ -120,6 +154,11 @@ const Wrapper = styled.div`
       grid-template-columns: repeat(2, 1fr);
       column-gap: 10px;
     }
+    .section-title-wrapper {
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
   }
   @media ${devices.mobileL} {
     max-width: unset;
@@ -127,17 +166,32 @@ const Wrapper = styled.div`
       grid-template-columns: repeat(1, 1fr);
       column-gap: 10px;
     }
+    .section-title-wrapper {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
   }
   @media ${devices.mobileM} {
     max-width: unset;
     .best-product-grid-wrapper {
       grid-template-columns: repeat(1, 1fr);
     }
+    .section-title-wrapper {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
   }
   @media ${devices.mobileS} {
     max-width: unset;
     .best-product-grid-wrapper {
       grid-template-columns: repeat(1, 1fr);
+    }
+    .section-title-wrapper {
+      h1 {
+        font-size: 1.5rem;
+      }
     }
   }
 `;

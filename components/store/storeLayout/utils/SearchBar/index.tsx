@@ -79,6 +79,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
   const handleSearchQueryWithdelay = (searchQuery) => {
     const payload = {
       name: searchQuery,
+      artical: searchQuery,
       limit: 100,
     };
 
@@ -98,7 +99,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
 
   return (
     <SearchFormWrapper
-      style={{ display: windowWidth < 1024 ? 'flex' : searchDisplay }}
+      style={{ display: windowWidth < 1024 ? 'none' : searchDisplay }}
       ref={searchWrapperNode}
       animate={
         windowWidth < 1024 ? 'open' : isSearchFormActive ? 'open' : 'close'
@@ -203,22 +204,28 @@ const SearchFormWrapper = styled(motion.div)`
   }
   @media ${devices.laptopS} {
     position: unset;
+    display: none;
   }
   @media ${devices.tabletL} {
     position: unset;
+    display: none;
   }
   @media ${devices.tabletS} {
     position: unset;
+    display: none;
   }
 
   @media ${devices.mobileL} {
     position: unset;
+    display: none;
   }
   @media ${devices.mobileM} {
     position: unset;
+    display: none;
   }
   @media ${devices.mobileS} {
     position: unset;
+    display: none;
   }
 `;
 

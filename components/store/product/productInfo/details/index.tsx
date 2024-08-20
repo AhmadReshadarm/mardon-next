@@ -203,7 +203,7 @@ const DetailsContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
-  padding: 0 40px 130px 50px;
+  padding: 0 40px 0 50px;
   @media ${devices.tabletS} {
     padding: 0;
   }
@@ -328,11 +328,6 @@ const SizePickerWrapper = styled.div`
       color: ${color.textSecondary};
     }
   }
-`;
-
-const SizeItemsParent = styled.div`
-  width: 100%;
-  position: relative;
 `;
 
 export default Details;

@@ -10,6 +10,7 @@ import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
+import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
 const IndexPage = (): JSX.Element => {
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
 
@@ -35,6 +36,7 @@ const IndexPage = (): JSX.Element => {
       <Suspense fallback={<Loading />}>
         <Banners />
         <ProductsSlider />
+        <MainPageCatalog />
         <BestProduct />
         <Subscribers />
         <ContactsMainPage />

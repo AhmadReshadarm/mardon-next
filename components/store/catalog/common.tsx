@@ -56,7 +56,28 @@ const FilterTitle = styled(motion.div)`
   font-size: 1.5rem;
 `;
 const TopFilterTitle = styled(motion.div)`
-  font-size: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  @media ${devices.tabletL} {
+    font-weight: unset;
+  }
+  @media ${devices.tabletS} {
+    font-size: 1.2rem;
+    font-weight: unset;
+  }
+  @media ${devices.mobileL} {
+    font-size: 1rem;
+    font-weight: unset;
+  }
+  @media ${devices.mobileM} {
+    font-size: 0.8rem;
+    font-weight: unset;
+  }
+  @media ${devices.mobileS} {
+    font-size: 0.8rem;
+    font-weight: unset;
+  }
 `;
 
 const TopFilterBody = styled(motion.div)`
@@ -67,6 +88,7 @@ const TopFilterBody = styled(motion.div)`
   row-gap: 10px;
   padding: 10px;
   justify-items: center;
+
   .check-box {
     label {
       align-items: flex-start !important;

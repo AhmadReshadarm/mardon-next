@@ -17,12 +17,12 @@ import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import CloseSVG from '../../../assets/close_black.svg';
-import { AppDispatch } from 'redux/store';
-import {
-  changeSearchQuery,
-  clearSearchProducts,
-} from 'redux/slicers/store/globalSlicer';
-import { useAppDispatch } from 'redux/hooks';
+// import { AppDispatch } from 'redux/store';
+// import {
+//   changeSearchQuery,
+//   clearSearchProducts,
+// } from 'redux/slicers/store/globalSlicer';
+// import { useAppDispatch } from 'redux/hooks';
 
 type Props = {
   categories: Category[];
@@ -149,6 +149,7 @@ const FilterBar: React.FC<Props> = ({
             border: `1px solid ${color.activeIcons}`,
           }}
         />
+
         {localFilters.map(
           (filter, key) =>
             (filter.type === FilterType.SINGLE_SELECTION &&

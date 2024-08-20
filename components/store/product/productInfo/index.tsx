@@ -92,7 +92,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
           flex_direction="column"
           justify_content="space-between"
           align_items="center"
-          gap="80px"
+          gap="40px"
         >
           <NavWrapper width={`calc(${windowWidth}px - 100px)`}>
             <div className="nav-rightWrapper">

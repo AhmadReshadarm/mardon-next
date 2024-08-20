@@ -1,4 +1,4 @@
-import { Container, Wrapper } from 'components/store/storeLayout/common';
+import { Container } from 'components/store/storeLayout/common';
 import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
 import { TGlobalState } from 'redux/types';
@@ -21,16 +21,18 @@ const MainPageCatalog = (): JSX.Element => {
     <Container
       flex_direction="column"
       justify_content="center"
-      padding="130px 0"
+      // padding="130px 0"
+      align_items="center"
       bg_color={color.bgPrimary}
     >
-      <HeaderWrapper>
-        <div className="header-title-wrapper">
-          <h2>Ассортимент</h2>
-        </div>
-        <div className="header-divder-wrapper"></div>
-      </HeaderWrapper>
       <Wrapper>
+        <HeaderWrapper>
+          <div className="header-title-wrapper">
+            <h2>Ассортимент</h2>
+          </div>
+          <div className="header-divder-wrapper"></div>
+        </HeaderWrapper>
+
         <CatalogContentWrapper>
           {!loading ? (
             <>
@@ -55,6 +57,40 @@ const MainPageCatalog = (): JSX.Element => {
     </Container>
   );
 };
+
+const Wrapper = styled.div`
+  max-width: 1500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  @media ${devices.laptopL} {
+    max-width: 1230px;
+  }
+  @media ${devices.laptopM} {
+    max-width: 1230px;
+  }
+  @media ${devices.laptopS} {
+    max-width: unset;
+  }
+  @media ${devices.tabletL} {
+    max-width: unset;
+  }
+  @media ${devices.tabletS} {
+    max-width: unset;
+  }
+  @media ${devices.mobileL} {
+    max-width: unset;
+  }
+  @media ${devices.mobileM} {
+    max-width: unset;
+  }
+  @media ${devices.mobileS} {
+    max-width: unset;
+  }
+`;
 const HeaderWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -65,7 +101,7 @@ const HeaderWrapper = styled.div`
   border-bottom: 1px solid ${color.textSecondary};
   position: relative;
   .header-title-wrapper {
-    max-width: 1230px;
+    max-width: 1500px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -77,7 +113,7 @@ const HeaderWrapper = styled.div`
     margin-bottom: -1px;
     h2 {
       font-family: Baskerville;
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
   }
   .header-divder-wrapper {
@@ -96,14 +132,21 @@ const CatalogContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  padding: 50px 0;
+  align-items: flex-start;
+  padding: 30px 0;
   gap: 100px;
   @media ${devices.laptopS} {
     flex-direction: column;
     gap: 30px;
   }
-
+  @media ${devices.tabletL} {
+    flex-direction: column;
+    gap: 30px;
+  }
+  @media ${devices.tabletS} {
+    flex-direction: column;
+    gap: 30px;
+  }
   @media ${devices.mobileL} {
     flex-direction: column;
     gap: 30px;

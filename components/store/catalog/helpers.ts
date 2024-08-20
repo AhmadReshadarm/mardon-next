@@ -143,14 +143,14 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
   const prevQueryParams = convertQueryParams(rawPrevQueryParams);
   setPriceRange(dispatch);
 
-  // ------------------------ reset tags on catelog change ---------------------
-  if (
-    JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories) ||
-    JSON.stringify(prevQueryParams.subCategories) !==
-      JSON.stringify(subCategories)
-  ) {
-    pushQueryParams([{ name: 'tags', value: '' }]);
-  }
+  // ------------------------ reset tags on catelog change / do not use this code it's not working properly you stupid dip shit  ---------------------
+  // if (
+  //   JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories) ||
+  //   JSON.stringify(prevQueryParams.subCategories) !==
+  //     JSON.stringify(subCategories)
+  // ) {
+  //   pushQueryParams([{ name: 'tags', value: '' }]);
+  // }
   // -----------------------------------------------------------------------------
   if (
     JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories)

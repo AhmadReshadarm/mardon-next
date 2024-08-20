@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled, { css, CSSProp } from 'styled-components';
 
 type Props = {
@@ -30,6 +30,10 @@ const ColorCheckbox: React.FC<Props> = ({
 
     setStateChecked(e.target.checked);
   };
+
+  useEffect(() => {
+    setStateChecked(checked);
+  }, [checked]);
 
   return (
     <CheckboxWrapper style={style} onClick={handleClick}>

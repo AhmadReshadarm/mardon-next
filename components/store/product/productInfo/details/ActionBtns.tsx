@@ -100,7 +100,7 @@ const ActionBtnContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 50px 0;
+  padding: 20px 0;
 `;
 
 const ActionBtnsWrapper = styled(motion.div)`

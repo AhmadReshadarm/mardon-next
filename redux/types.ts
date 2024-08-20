@@ -230,6 +230,7 @@ type TCatalogState = {
   loading: boolean;
   filters: TFilters;
   page: number;
+  uiPriceRang: PriceRange;
 };
 
 type TCheckoutState = {

@@ -179,6 +179,10 @@ const initialState: TCatalogState = {
   filters: {},
   loading: false,
   page: 1,
+  uiPriceRang: {
+    minPrice: 0,
+    maxPrice: 0,
+  },
 };
 
 const cartSlicer = createSlice({
@@ -202,6 +206,9 @@ const cartSlicer = createSlice({
     },
     setPage(state, action) {
       state.page = action.payload;
+    },
+    setUIPriceRange(state, action) {
+      state.uiPriceRang = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -281,6 +288,7 @@ export const {
   clearTags,
   clearSizes,
   setPage,
+  setUIPriceRange,
 } = cartSlicer.actions;
 
 export default cartSlicer.reducer;

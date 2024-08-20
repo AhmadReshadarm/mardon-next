@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import Vector from '../../../../assets/vector_upside_black.svg';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   title: string;
@@ -106,6 +107,46 @@ const InfoBtnWrappers = styled.div`
       transition: 300ms;
       &:hover {
         transform: scale(1.1);
+      }
+    }
+  }
+  @media ${devices.tabletL} {
+    .dropdown-btn-wrapper {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 300 !important;
+      }
+    }
+  }
+  @media ${devices.tabletS} {
+    .dropdown-btn-wrapper {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 300 !important;
+      }
+    }
+  }
+  @media ${devices.mobileL} {
+    .dropdown-btn-wrapper {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 300 !important;
+      }
+    }
+  }
+  @media ${devices.mobileM} {
+    .dropdown-btn-wrapper {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 300 !important;
+      }
+    }
+  }
+  @media ${devices.mobileS} {
+    .dropdown-btn-wrapper {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 300 !important;
       }
     }
   }

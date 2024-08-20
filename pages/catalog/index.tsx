@@ -83,7 +83,7 @@ const CatalogPage = () => {
     return color;
   });
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const handleExpantionChange = () => {
     setExpanded((prev) => !prev);
@@ -110,10 +110,11 @@ const CatalogPage = () => {
   };
   // ---------------------------------------------------------------------------
   // ------ reset the page number on UI when category is changed ---------------
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [selectedCategory]);
   // ----------------------------------------------------------------------------
+  // const [hasActiveFilters, setHasActiveFilters] = useState(false);
 
   return (
     <>
@@ -151,7 +152,7 @@ const CatalogPage = () => {
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="80px 0"
+        padding="10px 0"
       >
         <Wrapper flex_direction="column">
           <Suspense fallback={<Loading />}>
@@ -167,6 +168,7 @@ const CatalogPage = () => {
                 setSelectedCategory={setSelectedCategory}
                 setCurrentPage={setCurrentPage}
                 setPageSize={setPageSize}
+                // setHasActiveFilters={setHasActiveFilters}
               />
 
               <Content>
@@ -212,7 +214,6 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  padding: 20px 0;
   .ant-pagination {
     .ant-pagination-options {
       .ant-pagination-options-size-changer {
@@ -236,7 +237,7 @@ const CatelogContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 40px;
+  gap: 10px;
 
   @media ${devices.mobileM} {
     flex-direction: column;

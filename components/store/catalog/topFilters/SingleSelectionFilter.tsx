@@ -12,11 +12,13 @@ import {
 } from '../common';
 import color from 'components/store/lib/ui.colors';
 import { devices } from 'components/store/lib/Devices';
+import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
 type Props = {
   title: string;
   options?: FilterOption[];
   onChange: (selectedOption: FilterOption) => void;
   setSelectedCategory: any;
+  setSliderChanged: any;
 };
 
 const SingleSelectionFilter: React.FC<Props> = ({
@@ -24,6 +26,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
   options,
   onChange,
   setSelectedCategory,
+  setSliderChanged,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
 
@@ -45,9 +48,9 @@ const SingleSelectionFilter: React.FC<Props> = ({
     setStateOptions(options);
     onChange(curOption!);
     setSelectedCategory(curOption);
+    setSliderChanged(false);
   };
 
-  // const [hoveredIndex, setHoverdIndex]: [number | null, any] = useState(null);
   return (
     <TopFilter>
       <TopFilterTitle
@@ -98,7 +101,6 @@ const Selection = styled.div<{
   padding: 2px;
   border-radius: 30px;
   cursor: pointer;
-  transition: 200ms;
   border: 1px solid #949494;
   box-shadow: 3px 13px 25px 0px #00000012;
   transition: 250ms;

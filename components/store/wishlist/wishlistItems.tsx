@@ -29,6 +29,7 @@ const WishlistItems = () => {
               {wishlist.products!.map((product, index) => {
                 return (
                   <ItemWishlist
+                    key={index}
                     wishlist={wishlist}
                     index={index}
                     product={product}
@@ -42,7 +43,7 @@ const WishlistItems = () => {
         <Loading />
       ) : (
         <NoCartItem>
-          <h2>Список избранного пуст</h2>
+          <h2>Список избранного пуста</h2>
         </NoCartItem>
       )}
     </>
@@ -108,6 +109,7 @@ const NoCartItem = styled.div`
   h2 {
     font-size: 3rem;
     font-family: 'Anticva';
+    text-align: center;
   }
 `;
 

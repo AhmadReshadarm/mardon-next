@@ -5,6 +5,8 @@ import variants from 'components/store/lib/variants';
 import InfoDropdown from './DropDownsParrent';
 import { CategoryInTree } from 'swagger/services';
 import Link from 'next/link';
+import { devices } from 'components/store/lib/Devices';
+import TagsModal from 'components/store/storeLayout/utils/HeaderCatalog/Tagsmodal';
 
 type Props = {
   categories: CategoryInTree[];
@@ -39,10 +41,42 @@ const CatalogModal: React.FC<Props> = ({
             title={category.name!}
           >
             <div className="dropdown-content">
-              <span className="dropdown-text">{category.desc}</span>
+              <div className="dropdown-text">
+                <SubCategoriesWrapper>
+                  {category.children?.map((subCategory, index) => {
+                    return (
+                      <SubCategoriesContainer key={index}>
+                        <Link
+                          // onClick={handleMenuStateRedux(
+                          //   dispatch,
+                          //   changeCatelogState,
+                          //   changeCatelogDisplayState,
+                          //   isCatalogOpen,
+                          //   catelogDisplay,
+                          // )}
+                          href={`/catalog?categories=${category.url}&subCategories=${subCategory.url}`}
+                          // onMouseOver={() =>
+                          //   setHoveredCategory(`/api/images/${subCategory.image}`)
+                          // }
+                        >
+                          <span className="sub-category">
+                            {subCategory.name}
+                          </span>
+                        </Link>
+                        <TagsModal
+                          category={category.url!}
+                          subCategory={subCategory.url!}
+                        />
+                      </SubCategoriesContainer>
+                    );
+                  })}
+                </SubCategoriesWrapper>
+              </div>
               <div className="button-wrapper">
                 <Link href={`/catalog?categories=${category.url!}`}>
-                  <span>ПЕРЕЙТИ К ТОВАРАМ</span>
+                  <button>
+                    <span>ПЕРЕЙТИ К {category.name?.toLocaleUpperCase()}</span>
+                  </button>
                 </Link>
               </div>
             </div>
@@ -82,32 +116,151 @@ const InfoContainer = styled(motion.div)`
       align-items: center;
 
       a {
-        width: 200px;
-        height: 40px;
-        background-color: ${color.btnSecondery};
+        padding: 15px 20px;
+        border-radius: 60px;
+        background-color: #000000;
+        transition: 150ms;
         cursor: pointer;
-        transition: 300ms;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        border-radius: 3px;
         &:hover {
-          background-color: ${color.searchBtnBg};
-
+          background-color: ${color.backgroundPrimary};
           transform: scale(1.02);
+          border: 1px solid #000;
+          button {
+            span {
+              color: #000;
+            }
+          }
         }
         &:active {
           transform: scale(1);
-          background-color: ${color.btnPrimary};
-          color: ${color.textPrimary};
         }
-        span {
-          font-family: 'Jost';
-          font-size: 1rem;
+        button {
+          cursor: pointer;
+          span {
+            font-family: 'Jost';
+            font-size: 1rem;
+            color: #fff;
+            cursor: pointer;
+          }
         }
       }
     }
+  }
+  @media ${devices.tabletS} {
+    .dropdown-content {
+      .dropdown-text {
+        padding: 0;
+      }
+      .button-wrapper {
+        a {
+          button {
+            span {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media ${devices.mobileL} {
+    .dropdown-content {
+      .dropdown-text {
+        padding: 0;
+      }
+      .button-wrapper {
+        a {
+          button {
+            span {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media ${devices.mobileM} {
+    .dropdown-content {
+      .dropdown-text {
+        padding: 0;
+      }
+      .button-wrapper {
+        a {
+          button {
+            span {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media ${devices.mobileS} {
+    .dropdown-content {
+      .dropdown-text {
+        padding: 0;
+      }
+      .button-wrapper {
+        a {
+          button {
+            span {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const SubCategoriesWrapper = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  padding: 0 0 15px 15px;
+  @media ${devices.desktop} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.laptopL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.laptopM} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.laptopS} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.tabletL} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media ${devices.tabletS} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media ${devices.mobileL} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media ${devices.mobileM} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media ${devices.mobileS} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
+const SubCategoriesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  .sub-category {
+    transition: 200ms;
+    font-size: 1rem;
+    font-weight: 600;
   }
 `;
 

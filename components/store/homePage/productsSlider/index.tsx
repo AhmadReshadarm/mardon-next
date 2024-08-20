@@ -81,6 +81,21 @@ const ProductsSlider = () => {
         break;
     }
   };
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
   // ------------------- end of UI hooks ------------------------
   return (
     <Container
@@ -92,7 +107,7 @@ const ProductsSlider = () => {
       flex_direction="column"
       justify_content="center"
       align_items="center"
-      padding="80px 0"
+      padding="60px 0"
       bg_color={color.backgroundPrimary}
     >
       <Wrapper onMouseOver={() => setISMouseHover(true)}>
@@ -134,11 +149,15 @@ const ProductsSlider = () => {
                       </span>
                     </div>
                     <div className="action-buttons-wrapper">
-                      <AddToWishlist product={currentProduct!} />
+                      <AddToWishlist
+                        product={currentProduct!}
+                        windowWidth={windowWidth}
+                      />
                       <AddToCart
                         product={currentProduct!}
                         qty={findCartQTY(currentProduct, cart!)}
                         variant={currentProduct?.productVariants![0]}
+                        windowWidth={windowWidth}
                       />
                     </div>
                   </div>
@@ -447,6 +466,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
   @media ${devices.laptopS} {
@@ -479,6 +500,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
   @media ${devices.tabletL} {
@@ -515,6 +538,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
   @media ${devices.tabletS} {
@@ -551,6 +576,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
 
@@ -588,6 +615,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
   @media ${devices.mobileM} {
@@ -624,6 +653,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
 
@@ -661,6 +692,8 @@ const Content = styled.div`
     .product-description-wrapper {
       width: 100%;
       padding: 0;
+      min-height: unset;
+      height: unset;
     }
   }
 `;

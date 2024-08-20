@@ -6,41 +6,89 @@ import debounce from 'lodash/debounce';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import { devices } from 'components/store/lib/Devices';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TCatalogState } from 'redux/types';
+import { setUIPriceRange } from 'redux/slicers/store/catalogSlicer';
 
 type Props = {
   title: string;
   min: number;
   max: number;
   onChange: (values: [number, number]) => void;
+  setActivateResetBtn: any;
+  setResetSlider: any;
+  resetSlider: boolean;
+  sliderChanged: boolean;
+  setSliderChanged: any;
 };
 
-const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
-  const [[minVal, maxVal], setValues] = useState([min, max]);
+const RangeFilter: React.FC<Props> = ({
+  title,
+  min,
+  max,
+  onChange,
+  setActivateResetBtn,
+  setResetSlider,
+  resetSlider,
+  sliderChanged,
+  setSliderChanged,
+}) => {
+  const dispatch = useAppDispatch();
+  const { uiPriceRang } = useAppSelector<TCatalogState>(
+    (state) => state.catalog,
+  );
+
   const Slider = SliderInit as any;
 
   useEffect(() => {
-    setValues([min, max]);
+    if (!sliderChanged) {
+      dispatch(setUIPriceRange({ minPrice: min, maxPrice: max }));
+    }
   }, [min, max]);
 
   const handleSliderChange = (values: [number, number]) => {
-    setValues(values);
+    setActivateResetBtn(true);
+    setResetSlider(false);
     delayedChange(values);
+    dispatch(setUIPriceRange({ minPrice: values[0], maxPrice: values[1] }));
+    setSliderChanged(true);
   };
 
   const handleMinValChange = (e) => {
-    setValues([e.target.value, maxVal]);
-    delayedChange([e.target.value, maxVal]);
+    setActivateResetBtn(true);
+    setResetSlider(false);
+    delayedChange([e.target.value, uiPriceRang.maxPrice]);
+    dispatch(
+      setUIPriceRange({
+        minPrice: e.target.value,
+        maxPrice: uiPriceRang.maxPrice,
+      }),
+    );
+    setSliderChanged(true);
   };
 
   const handleMaxValChange = (e) => {
-    setValues([minVal, e.target.value]);
-    delayedChange([minVal, e.target.value]);
+    setActivateResetBtn(true);
+    setResetSlider(false);
+    delayedChange([uiPriceRang.minPrice, e.target.value]);
+    dispatch(
+      setUIPriceRange({
+        minPrice: uiPriceRang.minPrice,
+        maxPrice: e.target.value,
+      }),
+    );
+    setSliderChanged(true);
   };
 
   const delayedChange = useCallback(
     debounce((values) => onChange(values), 500),
     [],
   );
+  useEffect(() => {
+    if (resetSlider) {
+      dispatch(setUIPriceRange({ minPrice: min, maxPrice: max }));
+    }
+  }, [resetSlider]);
 
   return (
     <TopFilter>
@@ -67,7 +115,8 @@ const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
             <Input
               min={min}
               max={max}
-              value={minVal}
+              // value={minVal}
+              value={uiPriceRang.minPrice}
               suffix={<Suffix>₽</Suffix>}
               style={{
                 maxWidth: '95px',
@@ -82,7 +131,8 @@ const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
             <Input
               min={min}
               max={max}
-              value={maxVal}
+              // value={maxVal}
+              value={uiPriceRang.maxPrice}
               suffix={<Suffix>₽</Suffix>}
               style={{
                 maxWidth: '95px',
@@ -114,7 +164,8 @@ const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
             }}
             defaultValue={[min, max]}
             onChange={handleSliderChange}
-            value={[minVal, maxVal]}
+            // value={[minVal, maxVal]}
+            value={[uiPriceRang.minPrice, uiPriceRang.maxPrice]}
           />
         </SliderWrapper>
       </TopFilterBody>
@@ -135,6 +186,12 @@ const SliderWrapper = styled.div`
         box-shadow: 0 0 0 4px ${color.backgroundSecondery};
       }
     }
+  }
+  @media ${devices.mobileM} {
+    max-width: 60vw;
+  }
+  @media ${devices.mobileS} {
+    max-width: 60vw;
   }
 `;
 
@@ -184,9 +241,17 @@ const FieldsWrapper = styled.div`
   }
   @media ${devices.mobileM} {
     justify-content: flex-start;
+    flex-direction: column;
+    .fields-wrapper {
+      max-width: 60vw;
+    }
   }
   @media ${devices.mobileS} {
     justify-content: flex-start;
+    flex-direction: column;
+    .fields-wrapper {
+      max-width: 60vw;
+    }
   }
 `;
 

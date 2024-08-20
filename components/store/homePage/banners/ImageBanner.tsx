@@ -28,17 +28,17 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   const imageIndex = wrap(0, Number(slides?.length), page);
   const [userIntract, setUserIntract] = useState(false);
   let timer;
-  useEffect(() => {
-    if (!userIntract) {
-      timer = setTimeout(() => {
-        paginateImage(1);
-        // setImageIndexForDots(imageIndex);
-      }, 10000);
-    }
-    return () => {
-      if (userIntract) window.clearTimeout(timer);
-    };
-  });
+  // useEffect(() => {
+  //   if (!userIntract) {
+  //     timer = setTimeout(() => {
+  //       paginateImage(1);
+  //       // setImageIndexForDots(imageIndex);
+  //     }, 10000);
+  //   }
+  //   return () => {
+  //     if (userIntract) window.clearTimeout(timer);
+  //   };
+  // });
   // const [imageIndexForDots, setImageIndexForDots] = useState(0);
   const {
     isCatalogOpen,
@@ -72,6 +72,13 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             }}
             key={page}
             src={slides ? `/api/images/${slides[imageIndex]?.image}` : ''}
+            // style={{
+            //   background: `url(${
+            //     slides
+            //       ? `/api/images/${slides[imageIndex]?.image}`
+            //       : '/img_not_found.png'
+            //   }) no-repeat`,
+            // }}
             custom={direction}
             variants={variants.slider}
             initial="enter"
@@ -157,7 +164,7 @@ const SliderWrapper = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  over-flow: hidden;
+  overflow: hidden;
   .error_img {
     object-fit: cover;
     height: 400px;

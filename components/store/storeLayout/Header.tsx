@@ -316,25 +316,28 @@ const Header = () => {
                 className="profile-icon-wrapper"
               >
                 {!!!user ? (
-                  <motion.button
-                    key="profile-global-indecator-loged-out"
-                    initial="init"
-                    animate={!!user ? 'exit' : 'animate'}
-                    variants={variants.fadeInSlideIn}
-                    title="личный кабинет"
-                    aria-label="личный кабинет"
-                  >
-                    <ProfileSVG
-                      fill={
-                        isBasketOpen ||
-                        isSearchFormActive ||
-                        isWishlistOpen ||
-                        isCatalogOpen
-                          ? color.inactiveIcons
-                          : color.activeIcons
-                      }
-                    />
-                  </motion.button>
+                  <>
+                    <motion.button
+                      key="profile-global-indecator-loged-out"
+                      initial="init"
+                      animate={!!user ? 'exit' : 'animate'}
+                      variants={variants.fadeInSlideIn}
+                      title="личный кабинет"
+                      aria-label="личный кабинет"
+                    >
+                      <ProfileSVG
+                        fill={
+                          isBasketOpen ||
+                          isSearchFormActive ||
+                          isWishlistOpen ||
+                          isCatalogOpen
+                            ? color.inactiveIcons
+                            : color.activeIcons
+                        }
+                      />
+                    </motion.button>
+                    <span className="profile-tag-mobile">Л.K.</span>
+                  </>
                 ) : (
                   <motion.button
                     key="profile-global-indecator-loged-in"
@@ -389,15 +392,6 @@ const Header = () => {
 
 const LogoWrapper = styled.div`
   z-index: 100;
-  // @media ${devices.laptopS} {
-  // }
-
-  // @media ${devices.mobileL} {
-  // }
-  // @media ${devices.mobileM} {
-  // }
-  // @media ${devices.mobileS} {
-  // }
 `;
 
 const IconsWrapper = styled.div`
@@ -414,39 +408,76 @@ const IconsWrapper = styled.div`
   }
   .profile-icon-wrapper {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     z-index: 100;
     button {
       cursor: pointer;
+    }
+    .profile-tag-mobile {
+      display: none;
+      font-size: 12px;
+      font-weight: 500;
     }
   }
   @media ${devices.laptopS} {
     .icons-parent-wrapper {
       display: none;
     }
+    .profile-icon-wrapper {
+      .profile-tag-mobile {
+        display: block;
+      }
+    }
   }
   @media ${devices.tabletL} {
     .icons-parent-wrapper {
       display: none;
+    }
+    .profile-icon-wrapper {
+      .profile-tag-mobile {
+        display: block;
+      }
     }
   }
   @media ${devices.tabletS} {
     .icons-parent-wrapper {
       display: none;
     }
+    .profile-icon-wrapper {
+      .profile-tag-mobile {
+        display: block;
+      }
+    }
   }
   @media ${devices.mobileL} {
     .icons-parent-wrapper {
       display: none;
+    }
+    .profile-icon-wrapper {
+      .profile-tag-mobile {
+        display: block;
+      }
     }
   }
   @media ${devices.mobileM} {
     .icons-parent-wrapper {
       display: none;
     }
+    .profile-icon-wrapper {
+      .profile-tag-mobile {
+        display: block;
+      }
+    }
   }
   @media ${devices.mobileS} {
     .icons-parent-wrapper {
       display: none;
+    }
+    .profile-icon-wrapper {
+      .profile-tag-mobile {
+        display: block;
+      }
     }
   }
 `;

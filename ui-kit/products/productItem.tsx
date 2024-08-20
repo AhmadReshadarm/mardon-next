@@ -18,10 +18,15 @@ import {
   clearSearchProducts,
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
+import { useEffect, useState } from 'react';
 type Props = {
   product: Product;
   custom: number;
   // name: string;
+};
+
+type StyleProps = {
+  cardWidth: number;
 };
 
 const ProductItem: React.FC<Props> = ({ product, custom }) => {
@@ -29,8 +34,20 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
 
-  // dispatch(clearSearchQuery());
-  // dispatch(clearSearchProducts());
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
 
   return (
     <ItemContainer
@@ -39,9 +56,15 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
       whileInView="animate"
       viewport={{ once: true }}
       variants={variants.fadInSlideUp}
+      cardWidth={windowWidth}
     >
       <ItemWrapper>
-        <Slider product={product} images={images} url={product.url} />
+        <Slider
+          product={product}
+          images={images}
+          url={product.url}
+          windowWidth={windowWidth}
+        />
         <div className="product-title-add-to-card-wrapper">
           <Link
             className="product-title"
@@ -89,11 +112,12 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             <span>{product.productVariants![0]?.price} ₽</span>
           </div>
           <div className="action-buttons-wrapper">
-            <AddToWishlist product={product} />
+            <AddToWishlist product={product} windowWidth={windowWidth} />
             <AddToCart
               product={product}
               qty={findCartQTY(product, cart)}
               variant={product?.productVariants![0]}
+              windowWidth={windowWidth}
             />
           </div>
         </div>
@@ -112,39 +136,35 @@ const ItemContainer = styled(motion.li)`
   border: 1px solid #e5e2d9;
 
   @media ${devices.laptopM} {
-    max-width: 310px;
-    min-width: 310px;
+    min-width: calc(${(p: StyleProps) => p.cardWidth / 3}px - 50px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth / 3}px - 50px);
   }
 
   @media ${devices.laptopS} {
-    max-width: 375px;
-    min-width: 375px;
+    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
   }
 
   @media ${devices.tabletL} {
-    min-width: 220px;
-    max-width: 220px;
+    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
   }
   @media ${devices.tabletS} {
-    min-width: 160px;
-    max-width: 160px;
-  }
-  @media ${devices.tabletS} {
-    min-width: 170px;
-    max-width: 170px;
+    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
   }
   @media ${devices.mobileL} {
-    min-width: 95vw;
-    max-width: 95vw;
+    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
   }
   @media ${devices.mobileM} {
-    min-width: 95vw;
-    max-width: 95vw;
+    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
   }
 
   @media ${devices.mobileS} {
-    min-width: 95vw;
-    max-width: 95vw;
+    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
   }
 `;
 

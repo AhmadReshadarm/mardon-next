@@ -29,17 +29,18 @@ const getFilters = ({
 }): Filter[] => {
   return [
     {
-      title: 'Категории',
+      title: 'Выберите категории',
       options: cloneDeep(sectionOptions),
       type: FilterType.SINGLE_SELECTION,
       onChange: (selectedOption: FilterOption | undefined) => {
-        const categories = [selectedOption?.url!];
+        const categories = selectedOption?.url!;
 
         pushQueryParams([
-          { name: 'categories', value: categories },
+          { name: 'categories', value: categories == '' ? '' : categories },
           { name: 'subCategories', value: [] },
           // { name: 'brands', value: [] },
           { name: 'colors', value: [] },
+          { name: 'tags', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
           { name: 'page', value: 1 },
@@ -47,16 +48,20 @@ const getFilters = ({
       },
     },
     {
-      title: 'Подкатегории',
+      title: 'Выберите подкатегорию',
       options: cloneDeep(subSectionOptions),
       type: FilterType.SINGLE_SELECTION,
       onChange: (selectedOption: FilterOption | undefined) => {
-        const subCategories = [selectedOption?.url!];
+        const subCategories = selectedOption?.url!;
 
         pushQueryParams([
-          { name: 'subCategories', value: subCategories },
+          {
+            name: 'subCategories',
+            value: subCategories == '' ? '' : subCategories,
+          },
           // { name: 'brands', value: [] },
           { name: 'colors', value: [] },
+          { name: 'tags', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
           { name: 'page', value: 1 },
@@ -77,7 +82,7 @@ const getFilters = ({
     //   },
     // },
     {
-      title: 'Коллекция',
+      title: 'Выберите тип товара',
       options: cloneDeep(tagOptions),
       type: FilterType.MULTIPLE_SELECTION,
       onChange: (selectedOptions: FilterOption[] | undefined) => {
@@ -90,7 +95,7 @@ const getFilters = ({
       },
     },
     {
-      title: 'Цвет',
+      title: 'Выберите цвет',
       options: cloneDeep(colorOptions),
       type: FilterType.COLOR,
       onChange: (selectedOptions: FilterOption[] | undefined) => {
@@ -103,7 +108,7 @@ const getFilters = ({
       },
     },
     {
-      title: 'Ценовой диапазон',
+      title: 'Установить ценовой диапозон',
       type: FilterType.RANGE,
       min: minPrice,
       max: maxPrice,

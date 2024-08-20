@@ -17,8 +17,19 @@ type PropsCart = {
   product: Product;
   qty: number;
   variant: ProductVariant | undefined;
+  windowWidth: number;
 };
-export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
+
+type StyleProps = {
+  cardWidth: number;
+};
+
+export const AddToCart: React.FC<PropsCart> = ({
+  product,
+  qty,
+  variant,
+  windowWidth,
+}) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const dispatch = useAppDispatch();
   return (
@@ -29,6 +40,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
           animate={{ height: '50px' }}
           transition={{ duration: 0.004 }}
           onClick={handleCartBtnClick(product, dispatch, variant!, cart!)}
+          cardWidth={windowWidth}
         >
           <motion.span
             initial={{ opacity: 0 }}
@@ -47,9 +59,13 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
 
 type PropsWishlist = {
   product: Product;
+  windowWidth: number;
 };
 
-export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
+export const AddToWishlist: React.FC<PropsWishlist> = ({
+  product,
+  windowWidth,
+}) => {
   const dispatch = useAppDispatch();
   const { wishlist }: TWishlistState = useAppSelector(
     (state) => state.wishlist,
@@ -57,11 +73,13 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
   return (
     <WishlistButtonWrapper
       onClick={handleWishBtnClick(product, dispatch, wishlist!)}
+      cardWidth={windowWidth}
     >
       <InWishlistButtonContent
         key={'in-wishlist'}
         animate={checkIfItemInWishlist(product, wishlist!) ? 'animate' : 'exit'}
         variants={variants.fadeOutSlideOut}
+        cardWidth={windowWidth}
       >
         <motion.span
           initial={{ opacity: 0 }}
@@ -76,6 +94,7 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
         key={'not-in-wishlist'}
         animate={checkIfItemInWishlist(product, wishlist!) ? 'exit' : 'animate'}
         variants={variants.fadeOutSlideOut}
+        cardWidth={windowWidth}
       >
         <motion.span
           initial={{ opacity: 0 }}
@@ -111,6 +130,9 @@ const CartButtonWrapper = styled(motion.button)`
   @media ${devices.laptopM} {
     width: 140px;
   }
+  @media ${devices.tabletS} {
+    width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
+  }
 `;
 
 const NotWishlistButtonContent = styled(motion.button)`
@@ -132,6 +154,9 @@ const NotWishlistButtonContent = styled(motion.button)`
   }
   @media ${devices.laptopM} {
     width: 140px;
+  }
+  @media ${devices.tabletS} {
+    width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
   }
 `;
 
@@ -169,6 +194,9 @@ const InWishlistButtonContent = styled(motion.div)`
   @media ${devices.laptopM} {
     width: 140px;
   }
+  @media ${devices.tabletS} {
+    width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
+  }
 `;
 
 const WishlistButtonWrapper = styled.div`
@@ -179,5 +207,8 @@ const WishlistButtonWrapper = styled.div`
   overflow: hidden;
   @media ${devices.laptopM} {
     width: 140px;
+  }
+  @media ${devices.tabletS} {
+    width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
   }
 `;

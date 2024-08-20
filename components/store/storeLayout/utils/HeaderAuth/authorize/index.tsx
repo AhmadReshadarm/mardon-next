@@ -10,6 +10,8 @@ import { Loading } from './common';
 import SignIn from './signin';
 import SignUp from './signup';
 import { devices } from 'components/store/lib/Devices';
+import CloseSVGWhite from '../../../../../../assets/close.svg';
+import { useState } from 'react';
 type Props = {
   direction: number;
   authType: string;
@@ -22,7 +24,7 @@ type StyleProps = {
 };
 const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
   const { loading } = useAppSelector<TAuthState>((state) => state.auth);
-
+  const [isHelperActive, setIshelperActive] = useState(true);
   return (
     <>
       <AuthorizationWrapper>
@@ -45,7 +47,27 @@ const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
                 variants={{ init: { x: 0 }, animate: { x: 100 } }}
                 className="auth-page-indecator"
               ></motion.div>
+
               <div className="auth-buttons-row">
+                {authType !== 'signup' && isHelperActive ? (
+                  <div className="helper-box-wrapper">
+                    <div className="box arrow-top">
+                      <span
+                        className="helper-close-btn"
+                        onClick={() => setIshelperActive(false)}
+                      >
+                        <CloseSVGWhite />
+                      </span>
+                      <span>
+                        Если у вас нет аккаунт, нажмите здесь чтобы создать
+                        новую аккаунт
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  ''
+                )}
+
                 <h2
                   className="sign-in-tab"
                   onClick={() => paginate(paginateTo.forward, 'selection')}
@@ -203,6 +225,46 @@ const AuthTabWrapper = styled.div<StyleProps>`
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    position: relative;
+    .helper-box-wrapper {
+      position: absolute;
+      top: 35px;
+      left: 100px;
+      width: 150px;
+      background-color: #000;
+      border-radius: 10px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+      .box {
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        padding: 20px;
+        position: relative;
+        float: left;
+        .helper-close-btn {
+          position: absolute;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
+      }
+
+      .box.arrow-top:after {
+        content: ' ';
+        position: absolute;
+        right: 60px;
+        top: -10px;
+        border-top: none;
+        border-right: 15px solid transparent;
+        border-left: 15px solid transparent;
+        border-bottom: 15px solid black;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+      }
+    }
+
     h2 {
       font-family: ricordi;
       font-size: 1.5rem;

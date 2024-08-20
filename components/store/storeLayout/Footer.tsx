@@ -342,12 +342,12 @@ const FooterLeftContentWrapper = styled.div`
   @media ${devices.mobileM} {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
   @media ${devices.mobileS} {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 `;
 

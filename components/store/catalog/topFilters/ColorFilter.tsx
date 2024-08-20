@@ -9,6 +9,9 @@ import {
   TopFilterBody,
   TopFilterTitle,
 } from '../common';
+import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
+import { convertQueryParams } from '../helpers';
+import { useEffect, useState } from 'react';
 
 type Props = {
   title: string;
@@ -20,6 +23,7 @@ const ColorFilter: React.FC<Props> = ({ title, options, onChange }) => {
   const handleChange = (id: string) => (value: boolean) => {
     const curOption = options?.find((option) => option.id === id);
     curOption!.checked = value;
+
     const selectedOptions = options?.filter((option) => option.checked);
 
     onChange(selectedOptions);
