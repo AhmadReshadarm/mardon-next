@@ -23,6 +23,7 @@ import {
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
 import ItemCounter from 'ui-kit/ItemCounter';
+import { useEffect, useState } from 'react';
 
 type Props = {
   product: Product;
@@ -37,6 +38,20 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
   const { wishlist }: TWishlistState = useAppSelector(
     (state) => state.wishlist,
   );
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
   return (
     <>
       <Link key={index} href={`/product/${product.url}`}>
@@ -101,11 +116,12 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
         </ItemTitelWrapper> */}
         </CardItemContainer>
       </Link>
-      <AddToWishlist product={product} />
+      <AddToWishlist product={product} windowWidth={windowWidth} />
       <AddToCart
         product={product}
         qty={1}
         variant={product?.productVariants![0]}
+        windowWidth={windowWidth}
       />
       {/* {cart.orderProducts?.map((orders, index) => {
         return <ItemCounter key={index} qty={orders.qty!} product={product} />;

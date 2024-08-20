@@ -6,7 +6,7 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { Basket, OrderProduct, Product } from 'swagger/services';
 import ItemCounter from 'ui-kit/ItemCounter';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { devices } from 'components/store/lib/Devices';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -52,6 +52,21 @@ const ActionBtns: React.FC<Props> = ({
   //   }
   // };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+
   const handleGoToCart = () => {
     clearVariant();
     clearproductSize();
@@ -67,11 +82,12 @@ const ActionBtns: React.FC<Props> = ({
         exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
         variants={variants.fadInSlideUp}
       >
-        <AddToWishlist product={product!} />
+        <AddToWishlist product={product!} windowWidth={windowWidth} />
         <AddToCart
           product={product!}
           qty={findCartQTY(product, cart!)}
           variant={variant ?? product?.productVariants![0]}
+          windowWidth={windowWidth}
         />
       </ActionBtnsWrapper>
       {checkIfItemInCart(product, cart!) && (

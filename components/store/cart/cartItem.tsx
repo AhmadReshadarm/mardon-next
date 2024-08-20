@@ -5,6 +5,7 @@ import { OrderProduct, Product } from 'swagger/services';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
+import { useEffect, useState } from 'react';
 type Props = {
   orderProduct: OrderProduct;
   product?: Product;
@@ -14,6 +15,21 @@ const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
   const images = getProductVariantsImages(
     orderProduct.product?.productVariants,
   );
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
 
   return (
     <ProductItemWrapper>
@@ -65,11 +81,15 @@ const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
         </div>
       </div>
       <div className="action-buttons-wrapper">
-        <AddToWishlist product={orderProduct!?.product!} />
+        <AddToWishlist
+          product={orderProduct!?.product!}
+          windowWidth={windowWidth}
+        />
         <AddToCart
           product={orderProduct!?.product!}
           qty={orderProduct!?.qty!}
           variant={product?.productVariants![0]}
+          windowWidth={windowWidth}
         />
       </div>
     </ProductItemWrapper>
