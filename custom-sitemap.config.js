@@ -108,6 +108,14 @@ module.exports = {
       },
       {
         userAgent: '*',
+        disallow: '/api',
+      },
+      {
+        userAgent: '*',
+        disallow: '/api/*',
+      },
+      {
+        userAgent: '*',
         allow: '/',
       },
       {

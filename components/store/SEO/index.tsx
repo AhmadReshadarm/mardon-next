@@ -82,32 +82,58 @@ const SEO = ({ product, images }) => {
       }).map(({ name, content }) => {
         return <meta key={name} name={name} content={content} />;
       })}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'http://schema.org',
-            '@type': 'Product',
-            name: product?.name,
-            description: product?.shortDesc,
-            image: image[0],
-            sku: product?.productVariants[0]?.article,
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: product?.rating?.avg ?? 0,
-              reviewCount: product?.reviews?.length ?? 0,
-            },
-            offers: {
-              '@type': 'Offer',
-              url: url,
-              priceCurrency: 'RUB',
-              price: product?.productVariants[0]?.price,
-              itemCondition: 'https://schema.org/NewCondition',
-              availability: 'https://schema.org/InStock',
-            },
-          }),
-        }}
-      />
+      {product?.reviews?.length != 0 ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org',
+              '@type': 'Product',
+              name: product?.name,
+              description: product?.shortDesc,
+              // image: image[0],
+              image: image,
+              sku: product?.productVariants[0]?.article,
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: product?.rating?.avg ?? 0,
+                reviewCount: product?.reviews?.length ?? 0,
+              },
+              offers: {
+                '@type': 'Offer',
+                url: url,
+                priceCurrency: 'RUB',
+                price: product?.productVariants[0]?.price,
+                itemCondition: 'https://schema.org/NewCondition',
+                availability: 'https://schema.org/InStock',
+              },
+            }),
+          }}
+        />
+      ) : (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org',
+              '@type': 'Product',
+              name: product?.name,
+              description: product?.shortDesc,
+              // image: image[0],
+              image: image,
+              sku: product?.productVariants[0]?.article,
+              offers: {
+                '@type': 'Offer',
+                url: url,
+                priceCurrency: 'RUB',
+                price: product?.productVariants[0]?.price,
+                itemCondition: 'https://schema.org/NewCondition',
+                availability: 'https://schema.org/InStock',
+              },
+            }),
+          }}
+        />
+      )}
     </Head>
   );
 };
