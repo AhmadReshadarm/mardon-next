@@ -71,8 +71,9 @@ const SEO = ({ product, images }) => {
       <meta name="description" content={product?.shortDesc} />
       <meta name="image" content={image[0]} />
       <meta name="keywords" content={product?.keywords} />
+      {/* <link rel="canonical" href={url} key="canonical" /> */}
       {socialTags({
-        openGraphType: 'product',
+        openGraphType: 'website',
         url: url,
         title: product?.name,
         description: product?.shortDesc,
