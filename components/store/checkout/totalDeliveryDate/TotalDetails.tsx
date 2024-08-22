@@ -16,9 +16,11 @@ import { openErrorNotification } from 'common/helpers';
 import { TAuthState } from 'redux/types';
 import { Role } from 'common/enums/roles.enum';
 import DropDowns from './DropDowns';
+import { useMetrica } from 'next-yandex-metrica';
 const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { reachGoal } = useMetrica();
   const { cart, isOneClickBuy } = useAppSelector<TCartState>(
     (state) => state.cart,
   );
@@ -30,6 +32,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   const [totalUI, setTotalUI] = useState(getTotalPrice(cart, withDelivery));
   const handleCheckoutWithoutRegister = (router: NextRouter) => async () => {
     setLoading(true);
+
     const payload = {
       receiverName: deliveryInfo?.receiverName,
       receiverPhone: deliveryInfo?.receiverPhone,
@@ -73,6 +76,8 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   };
   const handlePayClick = (router: NextRouter) => async () => {
     setLoading(true);
+    reachGoal('cta-click-order');
+
     const payload = {
       comment,
       leaveNearDoor,
@@ -127,6 +132,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   useEffect(() => {
     setTotalUI(getTotalPrice(cart, withDelivery));
   });
+
   return (
     <Container>
       <h3 className="total-header">Ваша сумма</h3>
