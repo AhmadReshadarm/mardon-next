@@ -45,16 +45,18 @@ const ReviewsItems: React.FC<Props> = ({ review }) => {
               Редактировать
             </motion.button>
           </div>
-          <div className="product-image-wrapper">
-            <img
-              src={`/api/images/${images ? images[0] : ''}`}
-              alt={review.product?.name}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null;
-                currentTarget.src = '/img_not_found.png';
-              }}
-            />
-          </div>
+          <Link href={`/product/${review.product?.url}`}>
+            <div className="product-image-wrapper">
+              <img
+                src={`/api/images/${images![0]![0]}`}
+                alt={review.product?.name}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = '/img_not_found.png';
+                }}
+              />
+            </div>
+          </Link>
         </>
       )}
     </ReviewsItem>
