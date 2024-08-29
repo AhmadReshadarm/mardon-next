@@ -150,8 +150,10 @@ const ItemContainer = styled(motion.li)`
     max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
   }
   @media ${devices.tabletS} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
+    // min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
+    // max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
+    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
+    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
   }
   @media ${devices.mobileL} {
     min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);

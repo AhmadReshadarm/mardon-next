@@ -85,7 +85,7 @@ const Grid = styled.ul`
     column-gap: 15px;
   }
   @media ${devices.tabletS} {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     column-gap: 10px;
   }
   @media ${devices.mobileL} {

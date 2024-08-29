@@ -151,7 +151,7 @@ const Wrapper = styled.div`
   @media ${devices.tabletS} {
     max-width: unset;
     .best-product-grid-wrapper {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       column-gap: 10px;
     }
     .section-title-wrapper {
