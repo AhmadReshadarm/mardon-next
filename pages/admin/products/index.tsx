@@ -144,6 +144,8 @@ const ProductsPage = () => {
   ) as unknown as DataType[];
   const [loadingProgress, seLoadingProgress] = useState(0);
   const [loadingData, setLoadingData] = useState(false);
+
+  // ------------------------------------------------- generate excel file from all goods -----------------------------------
   const handleProductDownloadInExcel = () => {
     setLoadingData(true);
     dispatch(fetchProductsInExcelFile())
@@ -235,6 +237,9 @@ const ProductsPage = () => {
         console.log(error);
       });
   };
+
+  // -------------------------------------------- END OF FUNCTION --------------------------------------------
+
   return (
     <>
       <div className={styles.productsHeader}>

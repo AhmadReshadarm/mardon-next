@@ -75,8 +75,17 @@ const FilterBar: React.FC<Props> = ({
     setCurrentPage(1);
     setPageSize(12);
   };
-
+  // -------------------- temp filters please remove this once you find a better slution ------------
+  const [isResetBtn, setIsresetBtn] = useState(false);
+  const [sortBy, setSortBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('DESC');
+  const [isSortByBtn, setIsSortBy] = useState(false);
+  const [isOrderByBtn, setIsOrderBy] = useState(false);
+  // ----------------------------------------------------------------------------
   const hanldeResetBtnClick = () => {
+    setIsresetBtn(true);
+    setSortBy('name');
+    setOrderBy('DESC');
     handleResetFilters();
   };
 
@@ -125,12 +134,98 @@ const FilterBar: React.FC<Props> = ({
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 
+  // -------------------- temp filters please remove this once you find a better slution ------------
+
+  useEffect(() => {
+    if (!isResetBtn) {
+      pushQueryParams([{ name: 'sortBy', value: sortBy }]);
+    }
+  }, [sortBy]);
+  useEffect(() => {
+    if (!isResetBtn) {
+      pushQueryParams([{ name: 'orderBy', value: orderBy }]);
+    }
+  }, [orderBy]);
+  // ----------------------------------------------------------------------------------------------
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
         <ResetButton onClick={hanldeResetBtnClick}>
           <span>Сбросить фильтры</span>
         </ResetButton>
+        {/* -------------------- temp filters please remove this once you find a better slution ------------ */}
+        <OrderBtnsWrapper>
+          <button
+            className="sort-by-btn"
+            onClick={() => {
+              setIsSortBy(!isSortByBtn);
+              setIsOrderBy(false);
+              setIsresetBtn(false);
+            }}
+          >
+            Сортировать по {sortBy == 'name' ? 'имени' : 'ID'}
+          </button>
+          <button
+            className="sort-by-btn"
+            onClick={() => {
+              setIsOrderBy(!isOrderByBtn);
+              setIsSortBy(false);
+              setIsresetBtn(false);
+            }}
+          >
+            Сортировать по{' '}
+            {orderBy == 'ASC' ? 'возрастанию (ASC)' : 'убыванию (DESC)'}
+          </button>
+          {isSortByBtn ? (
+            <div className="order-btn-content sort-by-content-wrapper">
+              <button
+                onClick={() => {
+                  setSortBy('id');
+                  setIsOrderBy(false);
+                  setIsSortBy(false);
+                }}
+              >
+                Сортировать по ID
+              </button>
+              <button
+                onClick={() => {
+                  setSortBy('name');
+                  setIsOrderBy(false);
+                  setIsSortBy(false);
+                }}
+              >
+                Сортировать по имени
+              </button>
+            </div>
+          ) : (
+            ''
+          )}
+          {isOrderByBtn ? (
+            <div className="order-btn-content order-by-contet-wrapper">
+              <button
+                onClick={() => {
+                  setOrderBy('ASC');
+                  setIsOrderBy(false);
+                  setIsSortBy(false);
+                }}
+              >
+                Сортировать по возрастанию (ASC)
+              </button>
+              <button
+                onClick={() => {
+                  setOrderBy('DESC');
+                  setIsOrderBy(false);
+                  setIsSortBy(false);
+                }}
+              >
+                Сортировать по убыванию (DESC)
+              </button>
+            </div>
+          ) : (
+            ''
+          )}
+        </OrderBtnsWrapper>
+        {/* --------------------------------------------------------------------------------------------- */}
         <input
           autoFocus
           autoComplete="on"
@@ -149,7 +244,6 @@ const FilterBar: React.FC<Props> = ({
             border: `1px solid ${color.activeIcons}`,
           }}
         />
-
         {localFilters.map(
           (filter, key) =>
             (filter.type === FilterType.SINGLE_SELECTION &&
@@ -365,6 +459,76 @@ const CloseBtn = styled.button`
   }
   @media ${devices.mobileS} {
     display: flex;
+  }
+`;
+
+const OrderBtnsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  position: relative;
+  .sort-by-btn {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    background-color: ${color.btnSecondery};
+    cursor: pointer;
+    transition: 300ms;
+    &:hover {
+      background-color: ${color.searchBtnBg};
+
+      transform: scale(1.02);
+    }
+    &:active {
+      transform: scale(1);
+      background-color: ${color.btnPrimary};
+      color: ${color.textPrimary};
+    }
+    span {
+      font-family: 'Jost';
+      font-size: 1rem;
+    }
+  }
+  .order-btn-content {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: absolute;
+    left: 0;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+    button {
+      width: 100%;
+      height: 50px;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #00000026;
+      &:hover {
+        border: none;
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+      }
+    }
+  }
+  .sort-by-content-wrapper {
+    top: 50px;
+  }
+  .order-by-contet-wrapper {
+    top: 100px;
   }
 `;
 
