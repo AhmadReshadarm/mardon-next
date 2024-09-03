@@ -516,13 +516,9 @@ const FilterBarContent = styled.div<any>`
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-  padding: 10px 20px 0px 20px;
+  padding: 10px 20px 10px 20px;
   background-color: #f3f2f0;
   border-radius: 30px;
-  // position: fixed;
-  // top: 90px;
-  // background: #ffff;
-  // z-index: 99;
   @media ${devices.laptopS} {
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block;')};
@@ -717,6 +713,7 @@ const SelectedFiltersButtons = styled.button`
     font-size: 1rem;
     text-align: center;
     white-space: nowrap;
+    color: #000;
   }
   .selected-color-warpper {
     display: flex;
