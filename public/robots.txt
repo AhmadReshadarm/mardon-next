@@ -1,38 +1,122 @@
-user-agent: *
-disallow: /admin
+# *
+User-agent: *
+Disallow: /admin
 
-disallow: /admin/*
+# *
+User-agent: *
+Disallow: /admin/*
 
-disallow: /checkout
+# *
+User-agent: *
+Disallow: /checkout
 
-disallow: /checkout/*
+# *
+User-agent: *
+Disallow: /checkout/*
 
-disallow: /cart
+# *
+User-agent: *
+Disallow: /cart
 
-disallow: /cart/*
+# *
+User-agent: *
+Disallow: /cart/*
 
-disallow: /profile
+# *
+User-agent: *
+Disallow: /profile
 
-disallow: /profile/*
+# *
+User-agent: *
+Disallow: /profile/*
 
-disallow: /orders
+# *
+User-agent: *
+Disallow: /orders
 
-disallow: /orders/*
+# *
+User-agent: *
+Disallow: /orders/*
 
-disallow: /wishlist
+# *
+User-agent: *
+Disallow: /wishlist
 
-disallow: /wishlist/*
+# *
+User-agent: *
+Disallow: /wishlist/*
 
-disallow: /help
+# *
+User-agent: *
+Disallow: /after-payment
 
-disallow: /return-policy
+# *
+User-agent: *
+Disallow: /after-payment/*
 
-disallow: /user-agreement
+# *
+User-agent: *
+Disallow: /rekvizity-ep-d
 
-disallow: /privacy
+# *
+User-agent: *
+Disallow: /help
 
-allow: /*
+# *
+User-agent: *
+Disallow: /return-policy
 
-sitemap: https://nbhoz.ru/sitemap.xml
-sitemap: https://nbhoz.ru/sitemap-0.xml
-sitemap: https://nbhoz.ru/server-sitemap.xml
+# *
+User-agent: *
+Disallow: /how-to-buy
+
+# *
+User-agent: *
+Disallow: /discount
+
+# *
+User-agent: *
+Disallow: /guarantee
+
+# *
+User-agent: *
+Disallow: /delivery
+
+# *
+User-agent: *
+Disallow: /offerta
+
+# *
+User-agent: *
+Disallow: /info-refund
+
+# *
+User-agent: *
+Disallow: /user-agreement
+
+# *
+User-agent: *
+Disallow: /privacy
+
+# *
+User-agent: *
+Disallow: /api
+
+# *
+User-agent: *
+Disallow: /api/*
+
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Allow: /*
+
+# Host
+Host: https://nbhoz.ru
+
+# Sitemaps
+Sitemap: https://nbhoz.ru/sitemap.xml
+Sitemap: https://nbhoz.ru/server-sitemap.xml

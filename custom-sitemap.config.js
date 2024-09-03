@@ -2,7 +2,7 @@ const siteUrl = 'https://nbhoz.ru';
 
 module.exports = {
   siteUrl,
-  generateRobotsTxt: false,
+  generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
       {
@@ -145,5 +145,7 @@ module.exports = {
     '/after-payment/*',
     '/rekvizity-ep-d',
     '/help',
+    '/api',
+    '/api/*',
   ],
 };
