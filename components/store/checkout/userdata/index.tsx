@@ -74,6 +74,10 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       openErrorNotification('Телефон пуст');
       return;
     }
+    if (emailWithoutRegister == '') {
+      openErrorNotification('Адрес электронной почты пуст');
+      return;
+    }
     const payload = {
       address,
       receiverName,
@@ -101,6 +105,10 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
     }
     if (receiverPhone == '') {
       openErrorNotification('Телефон пуст');
+      return;
+    }
+    if (emailWithoutRegister == '') {
+      openErrorNotification('Адрес электронной почты пуст');
       return;
     }
     const payload = {
@@ -344,7 +352,7 @@ const ActionBtns = styled.button`
   cursor: pointer;
   transition: 150ms;
   color: ${color.textPrimary};
-
+  font-size: 1.2rem;
   &:active {
     background-color: ${color.textPrimary};
     color: ${color.textSecondary};

@@ -289,11 +289,18 @@ const ItemColumn = styled(motion.div)`
       cursor: pointer;
       transition: 150ms;
       color: ${color.textPrimary};
-
+      font-size: 1.2rem;
       &:active {
         background-color: ${color.textPrimary};
         color: ${color.textSecondary};
         border: 1px solid ${color.textSecondary};
+      }
+      &:hover {
+        scale: 1.01;
+        background-color: ${color.textPrimary};
+        color: ${color.textSecondary};
+        border: 1px solid ${color.textSecondary};
+        box-shadow: 0px 4px 10px 5px rgb(0 0 0 / 12%);
       }
       span {
         font-size: 1rem;

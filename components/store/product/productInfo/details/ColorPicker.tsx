@@ -55,7 +55,7 @@ const ColorPicker: React.FC<Props> = ({
 
   const variantImages = getFlatVariantImages(productVariants);
 
-  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  // const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 

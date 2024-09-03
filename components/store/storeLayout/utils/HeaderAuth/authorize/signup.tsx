@@ -9,9 +9,11 @@ import {
   AuthorizationFormWrapper,
 } from './common';
 import variants from 'components/store/lib/variants';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { handleSignUp } from './helpers';
 import color from 'components/store/lib/ui.colors';
+import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
+import { TGlobalUIState } from 'redux/types';
 
 type Props = {
   direction: number;
@@ -22,7 +24,9 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [isSubscribed, setSbuscribed] = useState(true);
-
+  const { isAuthFormOpen } = useAppSelector<TGlobalUIState>(
+    (state) => state.globalUI,
+  );
   return (
     <Content
       dragConstraints={{ left: 0, right: 0 }}
@@ -52,6 +56,20 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
                 Подписаться на новостную рассылку
               </label>
             </div>
+            {isAuthFormOpen ? (
+              ''
+            ) : (
+              <span
+                style={{
+                  fontSize: '1rem',
+                  color: '#476CA9',
+                  cursor: 'pointer',
+                }}
+                onClick={() => dispatch(setOneClickBy(true))}
+              >
+                Оформить заказ как гость
+              </span>
+            )}
           </AuthInputsWrapper>
           <div className="action-buttons-wrapper ">
             <button

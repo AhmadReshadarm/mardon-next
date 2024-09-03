@@ -14,6 +14,8 @@ import { session } from 'redux/slicers/authSlicer';
 import { useAppDispatch } from 'redux/hooks';
 import { YMaps } from 'react-yandex-maps';
 import { fetchCart } from 'redux/slicers/store/cartSlicer';
+import Image from 'next/image';
+import styled from 'styled-components';
 const Checkout = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -57,6 +59,14 @@ const Checkout = () => {
               justify_content="space-between"
               align_items="center"
             >
+              <Header>
+                <Image
+                  src="/static/secure-badge.png"
+                  alt=""
+                  width={80}
+                  height={80}
+                />
+              </Header>
               <CheckoutContent />
             </Content>
           </Wrapper>
@@ -66,6 +76,14 @@ const Checkout = () => {
     </>
   );
 };
+
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 Checkout.PageLayout = StoreLayout;
 export default Checkout;

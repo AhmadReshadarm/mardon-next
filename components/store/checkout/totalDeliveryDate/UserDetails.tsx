@@ -12,6 +12,7 @@ import UserCommment from './UserComment';
 import { useAppSelector } from 'redux/hooks';
 import { TStoreCheckoutState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
+import Image from 'next/image';
 const UserDetails = (props: any) => {
   const { setStep, setHasAddress, setBacktoFinal } = props;
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
@@ -44,7 +45,13 @@ const UserDetails = (props: any) => {
             <span>{`${deliveryInfo?.address!}`}</span>
           </div>
           <span>
-            <ArrowGray />
+            <Image
+              src="/icons/edit.png"
+              width={20}
+              height={20}
+              alt="edit address"
+            />
+            {/* <ArrowGray /> */}
           </span>
         </div>
       </Wrapper>
@@ -64,7 +71,13 @@ const UserDetails = (props: any) => {
             <span>{deliveryInfo?.receiverPhone}</span>
           </div>
           <span>
-            <ArrowGray />
+            <Image
+              src="/icons/edit.png"
+              width={20}
+              height={20}
+              alt="edit reciver name and phone"
+            />
+            {/* <ArrowGray /> */}
           </span>
         </div>
       </Wrapper>
@@ -80,10 +93,16 @@ const UserDetails = (props: any) => {
         </span>
         <div className="edit-button-wrapper">
           <div className="user-comment-wrapper">
-            <span>Комментарий курьеру</span>
+            <span>Комментарий</span>
           </div>
           <span>
-            <ArrowGray />
+            <Image
+              src="/icons/edit.png"
+              width={20}
+              height={20}
+              alt="edit comment"
+            />
+            {/* <ArrowGray /> */}
           </span>
         </div>
       </Wrapper>
@@ -134,9 +153,11 @@ const Wrapper = styled(motion.div)`
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  padding: 20px 0;
+  padding: 20px 5px;
   user-select: none;
   cursor: pointer;
+  border-bottom: 1px solid #00000026;
+
   span {
     display: flex;
     flex-direction: row;

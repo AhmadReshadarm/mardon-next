@@ -12,8 +12,8 @@ type Props = {
 };
 
 const InfoDropdown = ({ title, children, borderBottom }: Props) => {
-  const [openInfo, setOpenInfo] = useState(false);
-  const [displayInfo, setDisplayInfo] = useState('none');
+  const [openInfo, setOpenInfo] = useState(true);
+  const [displayInfo, setDisplayInfo] = useState('flex');
 
   return (
     <InfoWrappers style={{ border: borderBottom }}>

@@ -124,7 +124,6 @@ const Product = styled.div`
 const ProductImageWrapper = styled.div`
   display: flex;
   width: 100%;
-  max-height: 130px;
   align-items: center;
 `;
 

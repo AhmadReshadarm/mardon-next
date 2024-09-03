@@ -50,7 +50,7 @@ const FormWrapper = styled.form`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 25px;
+  gap: 20px;
   .form-inputs-wrapper {
     width: 100%;
     display: flex;
@@ -66,7 +66,8 @@ const FormWrapper = styled.form`
     justify-content: flex-end;
     align-items: center;
     button {
-      padding: 10px 15px;
+      width: 100%;
+      height: 50px;
       border-radius: 30px;
       background-color: ${color.buttonPrimary};
       color: ${color.textPrimary};

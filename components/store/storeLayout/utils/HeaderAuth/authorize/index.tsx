@@ -25,6 +25,7 @@ type StyleProps = {
 const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
   const { loading } = useAppSelector<TAuthState>((state) => state.auth);
   const [isHelperActive, setIshelperActive] = useState(true);
+
   return (
     <>
       <AuthorizationWrapper>

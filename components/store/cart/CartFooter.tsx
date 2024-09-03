@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import { devices } from '../lib/Devices';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
+import ArrowSVG from '../../../assets/arrow_white.svg';
 type Props = {
   cart: Basket | null;
 };
@@ -43,14 +44,16 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
             variants={variants.boxShadow}
             onClick={handleGoToCart}
           >
-            сохранить изменения и продолжить
+            <span>Перейти к оформлению заказа</span>
+            <ArrowSVG />
           </CheckoutBtn>
         </Link>
-        <Link href="/catalog?page=1">
+        <Link href="/catalog">
           <CheckoutBtn
             whileHover="hover"
             whileTap="tap"
             variants={variants.boxShadow}
+            style={{ backgroundColor: '#e2dad0', color: '#000000e3' }}
           >
             Продолжить покупки
           </CheckoutBtn>
@@ -96,43 +99,65 @@ const CartTotalPrice = styled.div`
     font-weight: 300;
   }
   @media ${devices.tabletL} {
+    padding: 10px 20px;
+    gap: 10px;
+    justify-content: space-between;
     .total-text {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
   }
   @media ${devices.tabletS} {
+    padding: 10px 20px;
+    gap: 10px;
+    justify-content: space-between;
+
     .total-text {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
   }
   @media ${devices.mobileL} {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    align-items: flex-start;
+    padding: 0 0 0 20px;
     .total-text {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
   }
   @media ${devices.mobileM} {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    align-items: flex-start;
+    padding: 0 0 0 20px;
     .total-text {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
   }
   @media ${devices.mobileS} {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    align-items: flex-start;
+    padding: 0 0 0 20px;
     .total-text {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
   }
 `;
@@ -184,21 +209,28 @@ const CheckoutBtnWrapper = styled.div`
 `;
 
 const CheckoutBtn = styled(motion.button)`
+  height: 50px;
   background: ${color.btnPrimary};
   color: ${color.textPrimary};
-  font-size: 18px;
-  padding: 12px 81px;
-  border-radius: 5px;
+  font-size: 1.2rem;
+  padding: 0px 20px;
+  border-radius: 30px;
   cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   @media ${devices.tabletL} {
     width: 100%;
     padding: 10px;
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
   @media ${devices.tabletS} {
     width: 100%;
     padding: 10px;
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
   @media ${devices.mobileL} {
     width: 100%;

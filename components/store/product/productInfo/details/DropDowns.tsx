@@ -9,7 +9,6 @@ import { ParameterProduct } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 type Props = {
   parameterProducts?: ParameterProduct[];
@@ -49,7 +48,6 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   //     };
   //   }
   // }
-  console.log(product?.desc?.split('|')[1]);
 
   return (
     <InfoContainer
@@ -101,13 +99,13 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
         <h3>КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?</h3>
 
         <Contents>
-          Минимальная сумма заказа - от 70.000 рублей. Доставка в любую
-          транспортную компанию и по Москве бесплатная.
+          Минимальная сумма заказа для доставка - от 70.000 рублей. Доставка в
+          любую транспортную компанию и по Москве бесплатная.
         </Contents>
         <Contents>
           По дополнительным вопросам обращаться по номеру телефона:{' '}
-          <Link href="tel:89268999954">
-            <span>8-926-899-99-54</span>
+          <Link style={{ color: color.ok }} href="tel:89254865444">
+            <span>8-925-486-54-44</span>
           </Link>{' '}
           . Дополнительная скидка рассчитывается индивидуально и зависит от
           количества заказанного товара.

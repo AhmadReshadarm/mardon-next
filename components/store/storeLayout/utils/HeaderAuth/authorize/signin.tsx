@@ -20,6 +20,7 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState } from 'redux/types';
+import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
 type Props = {
   direction: number;
   authType: string;
@@ -83,6 +84,20 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               >
                 <span>Забыли пароль?</span>
               </Link>
+              {isAuthFormOpen ? (
+                ''
+              ) : (
+                <span
+                  style={{
+                    fontSize: '1rem',
+                    color: '#476CA9',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => dispatch(setOneClickBy(true))}
+                >
+                  Оформить заказ как гость
+                </span>
+              )}
             </AuthInputsWrapper>
           </div>
           <div className="action-buttons-wrapper">
