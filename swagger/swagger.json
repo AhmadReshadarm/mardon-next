@@ -387,6 +387,14 @@
             "required": false,
             "default": 4,
             "description": "qty rows to take for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 4,
+            "description": "qty rows to skip for pagination"
           }
         ],
         "responses": {

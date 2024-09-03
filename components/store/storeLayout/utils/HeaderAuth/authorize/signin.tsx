@@ -21,6 +21,7 @@ import {
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState } from 'redux/types';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
+import { useRouter } from 'next/router';
 type Props = {
   direction: number;
   authType: string;
@@ -35,6 +36,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
   const { isAuthFormOpen, authDisplay } = useAppSelector<TGlobalUIState>(
     (state) => state.globalUI,
   );
+  const router = useRouter();
   return (
     <Content
       dragConstraints={{ left: 0, right: 0 }}
@@ -84,7 +86,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               >
                 <span>Забыли пароль?</span>
               </Link>
-              {isAuthFormOpen ? (
+              {isAuthFormOpen || router.pathname == '/profile' ? (
                 ''
               ) : (
                 <span

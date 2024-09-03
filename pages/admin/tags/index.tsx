@@ -5,7 +5,7 @@ import { navigateTo } from 'common/helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/tags/constants';
-import { handleTableChange } from 'components/admin/tags/helpers';
+// import { handleTableChange } from 'components/admin/tags/helpers';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -43,7 +43,6 @@ const TagsPage = () => {
       setOffset(0);
     };
   }, []);
-
   return (
     <>
       <div className={styles.tagsHeader}>

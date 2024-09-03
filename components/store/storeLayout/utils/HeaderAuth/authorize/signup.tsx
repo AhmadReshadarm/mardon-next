@@ -14,6 +14,7 @@ import { handleSignUp } from './helpers';
 import color from 'components/store/lib/ui.colors';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
 import { TGlobalUIState } from 'redux/types';
+import { useRouter } from 'next/router';
 
 type Props = {
   direction: number;
@@ -27,6 +28,7 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
   const { isAuthFormOpen } = useAppSelector<TGlobalUIState>(
     (state) => state.globalUI,
   );
+  const router = useRouter();
   return (
     <Content
       dragConstraints={{ left: 0, right: 0 }}
@@ -47,6 +49,7 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
               value={email}
               onChange={(evt) => setEmail(evt.target.value)}
             />
+
             <div
               onClick={() => setSbuscribed((prev) => !prev)}
               className="newsletter-wrapper"
@@ -56,7 +59,7 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
                 Подписаться на новостную рассылку
               </label>
             </div>
-            {isAuthFormOpen ? (
+            {isAuthFormOpen || router.pathname == '/profile' ? (
               ''
             ) : (
               <span

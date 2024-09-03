@@ -37,6 +37,7 @@ const AnalyticsUsers = () => {
       fetchUsers({
         offset: String(offset),
         limit: '20',
+        sortBy: 'id',
       }),
     );
 
@@ -83,6 +84,7 @@ const AnalyticsUsers = () => {
               fetchUsers({
                 offset: String(newOffset),
                 limit: '20',
+                sortBy: 'id',
               }),
             );
             setCurrentPage(event.current as number);

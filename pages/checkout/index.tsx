@@ -8,7 +8,6 @@ import CheckoutContent from 'components/store/checkout';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
-import Footer from 'components/store/checkout/Footer';
 import { useEffect } from 'react';
 import { session } from 'redux/slicers/authSlicer';
 import { useAppDispatch } from 'redux/hooks';
