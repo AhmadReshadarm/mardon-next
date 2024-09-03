@@ -55,7 +55,7 @@ const AfterCheckout = () => {
                 </span>
               </div>
               <Link href="/catalog">
-                <button>СНОВА К ПОКУПКАМ</button>
+                <button>{`Продолжить покупки`.toUpperCase()}</button>
               </Link>
             </div>
           </ContentWarpper>
@@ -131,30 +131,94 @@ const ContentWarpper = styled.div`
       color: #606060;
     }
     button {
-      width: 200px;
-      height: 40px;
-      background-color: ${color.btnSecondery};
+      height: 50px;
+      background-color: ${color.textSecondary};
+      color: ${color.textPrimary};
       cursor: pointer;
       transition: 300ms;
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      border-radius: 3px;
+      border-radius: 30px;
+      padding: 0 15px;
       &:hover {
-        background-color: ${color.searchBtnBg};
-
+        background-color: ${color.textPrimary};
+        color: ${color.textSecondary};
+        border: 1px solid ${color.textSecondary};
         transform: scale(1.02);
       }
       &:active {
         transform: scale(1);
-        background-color: ${color.btnPrimary};
-        color: ${color.textPrimary};
+        background-color: ${color.textPrimary};
+        color: ${color.textSecondary};
+        border: 1px solid ${color.textSecondary};
       }
       span {
         font-family: 'Jost';
         font-size: 1rem;
       }
+    }
+  }
+  @media ${devices.laptopS} {
+    h1 {
+      font-size: 1.5rem;
+    }
+    .order-complet-text {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletL} {
+    padding: 20px 15px 20px 15px;
+    h1 {
+      font-size: 1.2rem;
+    }
+    .order-complet-text {
+      width: 100%;
+    }
+  }
+  @media ${devices.tabletS} {
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    h1 {
+      font-size: 1rem;
+    }
+    .order-complet-text {
+      width: 100%;
+    }
+  }
+  @media ${devices.mobileL} {
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    h1 {
+      font-size: 1rem;
+    }
+    .order-complet-text {
+      width: 100%;
+    }
+  }
+  @media ${devices.mobileM} {
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    h1 {
+      font-size: 1rem;
+    }
+    .order-complet-text {
+      width: 100%;
+    }
+  }
+  @media ${devices.mobileS} {
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    h1 {
+      font-size: 1.5rem;
+    }
+    .order-complet-text {
+      width: 100%;
     }
   }
 `;

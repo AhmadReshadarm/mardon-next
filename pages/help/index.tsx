@@ -15,6 +15,7 @@ import isEmail from 'validator/lib/isEmail';
 import { useState } from 'react';
 import { userHelpDisk } from 'redux/slicers/authSlicer';
 import { useRouter } from 'next/router';
+import { openErrorNotification } from 'common/helpers';
 const Help = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
@@ -73,12 +74,24 @@ const Help = () => {
                 />
               </div>
               <button
-                disabled={
-                  isEmpty(text) || isEmpty(email) || !isEmail(email)
-                    ? true
-                    : false
-                }
+                // disabled={
+                //   isEmpty(text) || isEmpty(email) || !isEmail(email)
+                //     ? true
+                //     : false
+                // }
                 onClick={() => {
+                  if (isEmpty(email) || !isEmail(email)) {
+                    openErrorNotification(
+                      'Пожалуйста, укажите адрес электронной почты',
+                    );
+                    return;
+                  }
+                  if (isEmpty(text)) {
+                    openErrorNotification(
+                      'Пожалуйста, расскажите нам, что пошло не так.',
+                    );
+                    return;
+                  }
                   dispatch(userHelpDisk({ email, text }));
                   router.push('/profile');
                 }}
@@ -106,13 +119,15 @@ const InputWrapper = styled.div`
     .inputs-wrapper {
       width: 100%;
       height: 50px;
-      border-radius: 3px;
+      border-radius: 5px;
       padding: 0 10px;
       font-size: 1rem;
-      box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-      border: none;
       resize: none;
       padding: 5px;
+      border: 1px solid ${color.textBase};
+      &:focus {
+        outline: none;
+      }
       &:focus-visible {
         outline: none;
       }
@@ -124,16 +139,17 @@ const InputWrapper = styled.div`
 
   .action-button {
     width: 100%;
-    height: 40px;
+    height: 50px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-radius: 3px;
-    background-color: ${color.btnSecondery};
+    border-radius: 30px;
+    background-color: ${color.textSecondary};
     color: ${color.textPrimary};
     cursor: pointer;
-    transition: 300ms;
+    transition: 200ms;
+    font-size: 1.2rem;
     &:hover {
       background-color: ${color.btnPrimary};
       color: ${color.textPrimary};
