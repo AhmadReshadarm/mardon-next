@@ -56,9 +56,9 @@ const ProductInfoPage = ({
 
   return (
     <>
-      <SEO images={images} product={repo} />
-      {!loading && product ? (
+      {!loading && product && repo ? (
         <>
+          <SEO images={images} product={repo} />
           <ProductInfo
             reviewRef={reviewBtnRef}
             questionRef={questionBtnRef}
