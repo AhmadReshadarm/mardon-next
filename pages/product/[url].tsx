@@ -11,12 +11,27 @@ import { TProductInfoState } from 'redux/types';
 import Loading from 'ui-kit/Loading';
 import styled from 'styled-components';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import React, { Suspense } from 'react';
+import React from 'react';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import { Product } from 'swagger/services';
 
-const ProductInfoPage = () => {
+export const getServerSideProps = (async (context) => {
+  const { url } = context.query;
+  // Fetch data from external API
+  const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
+  const repo: Product = await res.json();
+  // Pass data to the page via props
+  return { props: { repo } };
+}) as GetServerSideProps<{ repo: Product }>;
+
+// -----------------------------------------------------------
+
+const ProductInfoPage = ({
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
   const { product, loading }: TProductInfoState = useAppSelector(
     (state) => state.productInfo,
@@ -30,7 +45,6 @@ const ProductInfoPage = () => {
     if (router.query.url) {
       dispatch(fetchProduct(router.query.url as string));
     }
-
     return () => {};
   }, [dispatch, router.query]);
 
@@ -38,31 +52,35 @@ const ProductInfoPage = () => {
     dispatch(fetchCheckouts());
   }, []);
 
-  const images = getProductVariantsImages(product?.productVariants);
+  const images = getProductVariantsImages(repo?.productVariants);
 
-  return !loading && product ? (
+  return (
     <>
-      <SEO images={images} product={product} />
-      <ProductInfo
-        reviewRef={reviewBtnRef}
-        questionRef={questionBtnRef}
-        product={product}
-      />
-      <ErrorBoundary fallbackRender={FallbackRender}>
-        <Recomendation product={product} />
-      </ErrorBoundary>
-      <ErrorBoundary fallbackRender={FallbackRender}>
-        <ReveiwsAndQuastions
-          product={product}
-          reviewRef={reviewBtnRef}
-          questionRef={questionBtnRef}
-        />
-      </ErrorBoundary>
+      <SEO images={images} product={repo} />
+      {!loading && product ? (
+        <>
+          <ProductInfo
+            reviewRef={reviewBtnRef}
+            questionRef={questionBtnRef}
+            product={product}
+          />
+          <ErrorBoundary fallbackRender={FallbackRender}>
+            <Recomendation product={product} />
+          </ErrorBoundary>
+          <ErrorBoundary fallbackRender={FallbackRender}>
+            <ReveiwsAndQuastions
+              product={product}
+              reviewRef={reviewBtnRef}
+              questionRef={questionBtnRef}
+            />
+          </ErrorBoundary>
+        </>
+      ) : (
+        <LoadingWrapper>
+          <Loading />
+        </LoadingWrapper>
+      )}
     </>
-  ) : (
-    <LoadingWrapper>
-      <Loading />
-    </LoadingWrapper>
   );
 };
 

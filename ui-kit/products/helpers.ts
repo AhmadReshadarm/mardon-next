@@ -152,7 +152,6 @@ const handleHistory = (productId: any) => {
         newHistory.push(historyDestringefied[i]);
       }
     }
-    console.log(newHistory);
 
     localStorage.setItem('history', JSON.stringify([...newHistory]));
   }
