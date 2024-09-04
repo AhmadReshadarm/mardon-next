@@ -115,6 +115,10 @@ module.exports = {
         disallow: '/api/*',
       },
       {
+        userAgent: 'Yandex',
+        disallow: '\nClean-param: ref /catalog',
+      },
+      {
         userAgent: '*',
         allow: '/',
       },
