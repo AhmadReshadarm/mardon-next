@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import SEO from 'components/store/SEO';
+// import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import ProductInfo from 'components/store/product/productInfo';
 import Recomendation from 'components/store/product/recomendation';
@@ -17,20 +17,35 @@ import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
+import { baseUrl } from 'common/constant';
+
+import dynamic from 'next/dynamic';
+
+const DynamicComponentWithSSR = dynamic(() => import('components/store/SEO'), {
+  ssr: true,
+});
 
 export const getServerSideProps = (async (context) => {
   const { url } = context.query;
   // Fetch data from external API
   const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
   const repo: Product = await res.json();
+
+  const images = getProductVariantsImages(repo?.productVariants);
+  const imagesWithUrl: string[] = [];
+  for (let i = 0; i < images?.length; i++) {
+    imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
+  }
+
   // Pass data to the page via props
-  return { props: { repo } };
-}) as GetServerSideProps<{ repo: Product }>;
+  return { props: { repo, imagesWithUrl } };
+}) as GetServerSideProps<{ repo: Product; imagesWithUrl: string[] }>;
 
 // -----------------------------------------------------------
 
 const ProductInfoPage = ({
   repo,
+  imagesWithUrl,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
   const { product, loading }: TProductInfoState = useAppSelector(
@@ -52,13 +67,16 @@ const ProductInfoPage = ({
     dispatch(fetchCheckouts());
   }, []);
 
-  const images = getProductVariantsImages(repo?.productVariants);
-
+  // const images = getProductVariantsImages(repo?.productVariants);
+  // const imagesWithUrl: any = [];
+  // for (let i = 0; i < images?.length; i++) {
+  //   imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
+  // }
   return (
     <>
+      <DynamicComponentWithSSR images={imagesWithUrl} product={repo} />
       {!loading && product && repo ? (
         <>
-          <SEO images={images} product={repo} />
           <ProductInfo
             reviewRef={reviewBtnRef}
             questionRef={questionBtnRef}

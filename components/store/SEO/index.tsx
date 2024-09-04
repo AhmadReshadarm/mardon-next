@@ -60,10 +60,10 @@ const socialTags = ({
 
 const SEO = ({ product, images }) => {
   const url = `${baseUrl}/product/${product?.url}`;
-  const image: any = [];
-  for (let i = 0; i < images?.length; i++) {
-    image.push(`${baseUrl}/api/images/${images[i]}`);
-  }
+  // const image: any = [];
+  // for (let i = 0; i < images?.length; i++) {
+  //   image.push(`${baseUrl}/api/images/${images[i]}`);
+  // }
 
   return (
     <Head>
@@ -71,7 +71,7 @@ const SEO = ({ product, images }) => {
       <meta name="robots" content="index, follow" />
       <meta name="title" content={product?.name} />
       <meta name="description" content={product?.shortDesc} />
-      <meta name="image" content={image[0]} />
+      <meta name="image" content={images[0]} />
       <meta name="keywords" content={product?.keywords} />
       <link rel="canonical" href={url} key="canonical" />
       {socialTags({
@@ -79,7 +79,7 @@ const SEO = ({ product, images }) => {
         url: url,
         title: product?.name,
         description: product?.shortDesc,
-        image: image[0],
+        image: images[0],
         createdAt: product?.createdAt,
         updatedAt: product?.updatedAt,
       }).map(({ name, content }) => {
@@ -97,7 +97,7 @@ const SEO = ({ product, images }) => {
               name: product?.name,
               description: product?.shortDesc,
               // image: image[0],
-              image: image,
+              image: images,
               sku: product?.productVariants[0]?.article,
               aggregateRating: {
                 '@type': 'AggregateRating',
@@ -125,7 +125,7 @@ const SEO = ({ product, images }) => {
               name: product?.name,
               description: product?.shortDesc,
               // image: image[0],
-              image: image,
+              image: images,
               sku: product?.productVariants[0]?.article,
               offers: {
                 '@type': 'Offer',
