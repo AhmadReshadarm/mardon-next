@@ -161,7 +161,11 @@ const Header = () => {
           rel="stylesheet"
         /> */}
 
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          property="viewport"
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+        />
       </Head>
       <GoogleAnalytics gaId="G-LPMTNCKRGT" />
       <Container

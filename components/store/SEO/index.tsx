@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import { settings } from './helpers';
 import { baseUrl } from 'common/constant';
-
 const socialTags = ({
   openGraphType,
   url,
@@ -84,7 +83,9 @@ const SEO = ({ product, images }) => {
         createdAt: product?.createdAt,
         updatedAt: product?.updatedAt,
       }).map(({ name, content }) => {
-        return <meta key={name} name={name} content={content} />;
+        return (
+          <meta key={name} property={name} name={name} content={content} />
+        );
       })}
       {product?.reviews?.length != 0 ? (
         <script

@@ -189,7 +189,7 @@ const ShareToSocial: React.FC<Props> = ({
                 }}
                 url={`${baseUrl}${router.asPath}`}
                 title={title}
-                separator=":: "
+                separator=":"
               >
                 <span>
                   <Whatsapp />
