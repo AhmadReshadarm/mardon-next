@@ -98,7 +98,7 @@ const SEO = ({ product, images }) => {
               description: product?.shortDesc,
               // image: image[0],
               image: images,
-              sku: product?.productVariants[0]?.article,
+              sku: product?.productVariants[0]?.artical,
               aggregateRating: {
                 '@type': 'AggregateRating',
                 ratingValue: product?.rating?.avg ?? 0,

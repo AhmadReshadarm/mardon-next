@@ -20,6 +20,7 @@ import { Product } from 'swagger/services';
 import { baseUrl } from 'common/constant';
 
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 const DynamicComponentWithSSR = dynamic(() => import('components/store/SEO'), {
   ssr: true,
@@ -74,7 +75,151 @@ const ProductInfoPage = ({
   // }
   return (
     <>
-      <DynamicComponentWithSSR images={imagesWithUrl} product={repo} />
+      {/* <DynamicComponentWithSSR images={imagesWithUrl} product={repo} /> */}
+      <Head>
+        <title>{repo?.name} | NBHOZ</title>
+        <meta name="robots" content="index, follow" />
+        <meta name="title" content={repo?.name} />
+        <meta name="description" content={repo?.shortDesc} />
+        <meta name="image" content={imagesWithUrl[0]} />
+        <meta name="keywords" content={repo?.keywords} />
+        <link
+          rel="canonical"
+          href={`https://nbhoz.ru/product/${repo?.url}`}
+          key="canonical"
+        />
+        {/* ------ OG ------- */}
+        <meta
+          property="twitter:site"
+          name="twitter:site"
+          content="@nbhoz"
+        ></meta>
+        <meta
+          property="twitter:title"
+          name="twitter:title"
+          content={repo?.name}
+        ></meta>
+        <meta
+          property="twitter:description"
+          name="twitter:description"
+          content={repo?.shortDesc}
+        ></meta>
+        <meta
+          property="twitter:creator"
+          name="twitter:creator"
+          content="@nbhoz"
+        ></meta>
+        <meta
+          property="twitter:image:src"
+          name="twitter:image:src"
+          content={imagesWithUrl[0]}
+        ></meta>
+        <meta
+          property="twitter:card"
+          name="twitter:card"
+          content="summary_large_image"
+        ></meta>
+        <meta property="og:title" name="og:title" content={repo?.name}></meta>
+        <meta property="og:type" name="og:type" content="website"></meta>
+        <meta
+          property="og:url"
+          name="og:url"
+          content={`https://nbhoz.ru/product/${repo?.url}`}
+        ></meta>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={imagesWithUrl[0]}
+        ></meta>
+        <meta
+          property="og:image:type"
+          name="og:image:type"
+          content="image/webp"
+        ></meta>
+        <meta
+          property="og:image:width"
+          name="og:image:width"
+          content="1080"
+        ></meta>
+        <meta
+          property="og:image:height"
+          name="og:image:height"
+          content="1080"
+        ></meta>
+        <meta
+          property="og:description"
+          name="og:description"
+          content={repo?.shortDesc}
+        ></meta>
+        <meta
+          property="og:site_name"
+          name="og:site_name"
+          content="NBHOZ"
+        ></meta>
+        <meta
+          property="og:published_time"
+          name="og:published_time"
+          content={repo?.createdAt}
+        ></meta>
+        <meta
+          property="og:modified_time"
+          name="og:modified_time"
+          content={repo?.updatedAt}
+        ></meta>
+        {/* ------ OG end ------ */}
+        {repo?.reviews?.length != 0 ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'http://schema.org',
+                '@type': 'Product',
+                name: repo?.name,
+                description: repo?.shortDesc,
+                // image: image[0],
+                image: imagesWithUrl,
+                sku: repo?.productVariants![0]?.artical,
+                aggregateRating: {
+                  '@type': 'AggregateRating',
+                  ratingValue: product?.rating?.avg ?? 0,
+                  reviewCount: product?.reviews?.length ?? 0,
+                },
+                offers: {
+                  '@type': 'Offer',
+                  url: `https://nbhoz.ru/product/${repo?.url}`,
+                  priceCurrency: 'RUB',
+                  price: repo?.productVariants![0]?.price,
+                  itemCondition: 'https://schema.org/NewCondition',
+                  availability: 'https://schema.org/InStock',
+                },
+              }),
+            }}
+          />
+        ) : (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'http://schema.org',
+                '@type': 'Product',
+                name: repo?.name,
+                description: repo?.shortDesc,
+                // image: image[0],
+                image: imagesWithUrl,
+                sku: repo?.productVariants![0]?.artical,
+                offers: {
+                  '@type': 'Offer',
+                  url: `https://nbhoz.ru/product/${repo?.url}`,
+                  priceCurrency: 'RUB',
+                  price: repo?.productVariants![0]?.price,
+                  itemCondition: 'https://schema.org/NewCondition',
+                  availability: 'https://schema.org/InStock',
+                },
+              }),
+            }}
+          />
+        )}
+      </Head>
       {!loading && product && repo ? (
         <>
           <ProductInfo
