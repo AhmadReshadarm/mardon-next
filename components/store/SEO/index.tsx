@@ -60,7 +60,7 @@ const socialTags = ({
 };
 
 const SEO = ({ product, images }) => {
-  const url = `${baseUrl}/prodcut/${product?.url}`;
+  const url = `${baseUrl}/product/${product?.url}`;
   const image: any = [];
   for (let i = 0; i < images?.length; i++) {
     image.push(`${baseUrl}/api/images/${images[i]}`);
@@ -74,7 +74,7 @@ const SEO = ({ product, images }) => {
       <meta name="description" content={product?.shortDesc} />
       <meta name="image" content={image[0]} />
       <meta name="keywords" content={product?.keywords} />
-      {/* <link rel="canonical" href={url} key="canonical" /> */}
+      <link rel="canonical" href={url} key="canonical" />
       {socialTags({
         openGraphType: 'website',
         url: url,
