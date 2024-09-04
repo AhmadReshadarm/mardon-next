@@ -20,6 +20,7 @@ import { baseUrl } from 'common/constant';
 import Loading from 'ui-kit/Loading';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
 import { Pagination } from 'antd';
+import Head from 'next/head';
 
 const CatalogPage = () => {
   const dispatch = useAppDispatch();
@@ -143,6 +144,9 @@ const CatalogPage = () => {
       ) : (
         ''
       )}
+      <Head>
+        <link rel="canonical" href="https://nbhoz.ru/catalog" />
+      </Head>
       <Container
         variants={variants.fadInOut}
         key="header"
