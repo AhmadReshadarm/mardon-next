@@ -74,8 +74,12 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       openErrorNotification('Телефон пуст');
       return;
     }
-    if (emailWithoutRegister == '') {
+    if (emailWithoutRegister == '' && isOneClickBuy) {
       openErrorNotification('Адрес электронной почты пуст');
+      return;
+    }
+    if (!isEmail(emailWithoutRegister) && isOneClickBuy) {
+      openErrorNotification('Неправильный адрес электронной почты');
       return;
     }
     const payload = {
