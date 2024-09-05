@@ -7,125 +7,42 @@ module.exports = {
     policies: [
       {
         userAgent: '*',
-        disallow: '/admin',
+        disallow: [
+          '/admin',
+          '/admin/*',
+          '/checkout',
+          '/checkout/*',
+          '/cart',
+          '/cart/*',
+          '/profile',
+          '/profile/*',
+          '/orders',
+          '/orders/*',
+          '/wishlist',
+          '/wishlist/*',
+          '/after-payment',
+          '/after-payment/*',
+          '/rekvizity-ep-d',
+          '/help',
+          '/return-policy',
+          '/how-to-buy',
+          '/discount',
+          '/guarantee',
+          '/delivery',
+          '/offerta',
+          '/info-refund',
+          '/user-agreement',
+          '/privacy',
+          '/api',
+          '/api/*',
+          '\nClean-param: ref /catalog',
+        ],
+        allow: ['/', '/*'],
       },
-      {
-        userAgent: '*',
-        disallow: '/admin/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/checkout',
-      },
-      {
-        userAgent: '*',
-        disallow: '/checkout/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/cart',
-      },
-      {
-        userAgent: '*',
-        disallow: '/cart/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/profile',
-      },
-      {
-        userAgent: '*',
-        disallow: '/profile/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/orders',
-      },
-      {
-        userAgent: '*',
-        disallow: '/orders/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/wishlist',
-      },
-      {
-        userAgent: '*',
-        disallow: '/wishlist/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/after-payment',
-      },
-      {
-        userAgent: '*',
-        disallow: '/after-payment/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/rekvizity-ep-d',
-      },
-      {
-        userAgent: '*',
-        disallow: '/help',
-      },
-      {
-        userAgent: '*',
-        disallow: '/return-policy',
-      },
-      {
-        userAgent: '*',
-        disallow: '/how-to-buy',
-      },
-      {
-        userAgent: '*',
-        disallow: '/discount',
-      },
-      {
-        userAgent: '*',
-        disallow: '/guarantee',
-      },
-      {
-        userAgent: '*',
-        disallow: '/delivery',
-      },
-      {
-        userAgent: '*',
-        disallow: '/offerta',
-      },
-      {
-        userAgent: '*',
-        disallow: '/info-refund',
-      },
-      ,
-      {
-        userAgent: '*',
-        disallow: '/user-agreement',
-      },
-      {
-        userAgent: '*',
-        disallow: '/privacy',
-      },
-      {
-        userAgent: '*',
-        disallow: '/api',
-      },
-      {
-        userAgent: '*',
-        disallow: '/api/*',
-      },
-      {
-        userAgent: 'Yandex',
-        disallow: '\nClean-param: ref /catalog',
-      },
-      {
-        userAgent: '*',
-        allow: '/',
-      },
-      {
-        userAgent: '*',
-        allow: '/*',
-      },
+      // {
+      //   userAgent: 'Yandex',
+      //   disallow: '\nClean-param: ref /catalog',
+      // },
     ],
     additionalSitemaps: [
       `${siteUrl}/server-sitemap.xml`,
