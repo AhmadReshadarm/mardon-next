@@ -231,9 +231,9 @@ const Footer = (): JSX.Element => {
         </div>
         <div className="notification-cookies">
           <span>
-            При нажимая «Принять все файлы cookie», вы соглашаетесь, что
-            Fingarden может сохранять файлы cookie на вашем устройстве и
-            раскрывать информацию в соответствии с нашей{' '}
+            При нажимая «Принять все файлы cookie», вы соглашаетесь, что NBHOZ
+            может сохранять файлы cookie на вашем устройстве и раскрывать
+            информацию в соответствии с нашей{' '}
             <Link style={{ color: color.hoverBtnBg }} href="/privacy#cookies">
               <span>Политикой использования файлов cookie.</span>
             </Link>
