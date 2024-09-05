@@ -136,7 +136,7 @@ const Header = () => {
     authDisplay,
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth]: [any, any] = useState(null);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -166,8 +166,9 @@ const Header = () => {
           name="viewport"
           content="initial-scale=1.0, width=device-width"
         />
+        <GoogleAnalytics gaId="G-LPMTNCKRGT" />
       </Head>
-      <GoogleAnalytics gaId="G-LPMTNCKRGT" />
+
       <Container
         variants={variants.fadInOut}
         key="header-global"

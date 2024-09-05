@@ -8,7 +8,7 @@ import CheckoutContent from 'components/store/checkout';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { session } from 'redux/slicers/authSlicer';
 import { useAppDispatch } from 'redux/hooks';
 import { YMaps } from 'react-yandex-maps';
@@ -17,13 +17,17 @@ import Image from 'next/image';
 import styled from 'styled-components';
 const Checkout = () => {
   const dispatch = useAppDispatch();
+  const [isClient, setClient] = useState(false);
+  let createdCardId = '';
   useEffect(() => {
     dispatch(session());
+    localStorage.getItem('basketId');
+    if (createdCardId) {
+      dispatch(fetchCart(createdCardId));
+    }
+    setClient(true);
   }, []);
-  const createdCardId = localStorage.getItem('basketId');
-  if (createdCardId) {
-    dispatch(fetchCart(createdCardId));
-  }
+
   return (
     <>
       <YMaps
@@ -40,36 +44,40 @@ const Checkout = () => {
           />
         </Head>
 
-        <Container
-          key="container-checkout"
-          flex_direction="row"
-          justify_content="center"
-          align_items="center"
-          padding="20px 0"
-          bg_color={color.bgProduct}
-          initial="start"
-          animate="middle"
-          exit="exit"
-          variants={variants.fadInOut}
-        >
-          <Wrapper gap={'20px'}>
-            <Content
-              flex_direction="column"
-              justify_content="space-between"
-              align_items="center"
-            >
-              <Header>
-                <Image
-                  src="/static/secure-badge.png"
-                  alt=""
-                  width={80}
-                  height={80}
-                />
-              </Header>
-              <CheckoutContent />
-            </Content>
-          </Wrapper>
-        </Container>
+        {isClient ? (
+          <Container
+            key="container-checkout"
+            flex_direction="row"
+            justify_content="center"
+            align_items="center"
+            padding="20px 0"
+            bg_color={color.bgProduct}
+            initial="start"
+            animate="middle"
+            exit="exit"
+            variants={variants.fadInOut}
+          >
+            <Wrapper gap={'20px'}>
+              <Content
+                flex_direction="column"
+                justify_content="space-between"
+                align_items="center"
+              >
+                <Header>
+                  <Image
+                    src="/static/secure-badge.png"
+                    alt=""
+                    width={80}
+                    height={80}
+                  />
+                </Header>
+                <CheckoutContent />
+              </Content>
+            </Wrapper>
+          </Container>
+        ) : (
+          ''
+        )}
         {/* <Footer /> */}
       </YMaps>
     </>

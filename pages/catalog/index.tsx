@@ -117,6 +117,11 @@ const CatalogPage = () => {
   // ----------------------------------------------------------------------------
   // const [hasActiveFilters, setHasActiveFilters] = useState(false);
 
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
   return (
     <>
       {!!products ? (
@@ -147,66 +152,71 @@ const CatalogPage = () => {
       <Head>
         <link rel="canonical" href="https://nbhoz.ru/catalog" />
       </Head>
-      <Container
-        variants={variants.fadInOut}
-        key="header"
-        initial="start"
-        animate="middle"
-        exit="end"
-        flex_direction="column"
-        justify_content="center"
-        align_items="center"
-        padding="10px 0"
-      >
-        <Wrapper flex_direction="column">
-          <Suspense fallback={<Loading />}>
-            <CatelogContentWrapper>
-              <TopFilterBar
-                categories={categories}
-                subCategories={subCategories}
-                colors={filteredColors}
-                priceRange={priceRange}
-                tags={filteredTags}
-                expanded={expanded}
-                handleExpantionChange={handleExpantionChange}
-                setSelectedCategory={setSelectedCategory}
-                setCurrentPage={setCurrentPage}
-                setPageSize={setPageSize}
-                // setHasActiveFilters={setHasActiveFilters}
-              />
 
-              <Content>
-                {!!products ? (
-                  <>
-                    <Products>
-                      <ProductGrid
-                        products={products}
-                        loading={loading}
-                        emptyProductsTitle={
-                          'По вашему запросу ничего не найдено.'
-                        }
+      {isClient ? (
+        <Container
+          variants={variants.fadInOut}
+          key="header"
+          initial="start"
+          animate="middle"
+          exit="end"
+          flex_direction="column"
+          justify_content="center"
+          align_items="center"
+          padding="10px 0"
+        >
+          <Wrapper flex_direction="column">
+            <Suspense fallback={<Loading />}>
+              <CatelogContentWrapper>
+                <TopFilterBar
+                  categories={categories}
+                  subCategories={subCategories}
+                  colors={filteredColors}
+                  priceRange={priceRange}
+                  tags={filteredTags}
+                  expanded={expanded}
+                  handleExpantionChange={handleExpantionChange}
+                  setSelectedCategory={setSelectedCategory}
+                  setCurrentPage={setCurrentPage}
+                  setPageSize={setPageSize}
+                  // setHasActiveFilters={setHasActiveFilters}
+                />
+
+                <Content>
+                  {!!products ? (
+                    <>
+                      <Products>
+                        <ProductGrid
+                          products={products}
+                          loading={loading}
+                          emptyProductsTitle={
+                            'По вашему запросу ничего не найдено.'
+                          }
+                        />
+                      </Products>
+                      <Pagination
+                        style={{ marginTop: '20px' }}
+                        defaultCurrent={currentPage}
+                        current={currentPage}
+                        total={paginationLength}
+                        pageSize={pageSize}
+                        pageSizeOptions={[12, 24, 36, 50, 100]}
+                        onChange={(current, pageSize) => {
+                          handlePageChange(current, pageSize, current);
+                        }}
                       />
-                    </Products>
-                    <Pagination
-                      style={{ marginTop: '20px' }}
-                      defaultCurrent={currentPage}
-                      current={currentPage}
-                      total={paginationLength}
-                      pageSize={pageSize}
-                      pageSizeOptions={[12, 24, 36, 50, 100]}
-                      onChange={(current, pageSize) => {
-                        handlePageChange(current, pageSize, current);
-                      }}
-                    />
-                  </>
-                ) : (
-                  ''
-                )}
-              </Content>
-            </CatelogContentWrapper>
-          </Suspense>
-        </Wrapper>
-      </Container>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </Content>
+              </CatelogContentWrapper>
+            </Suspense>
+          </Wrapper>
+        </Container>
+      ) : (
+        ''
+      )}
     </>
   );
 };

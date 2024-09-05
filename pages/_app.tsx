@@ -98,10 +98,10 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     // }
   }, []);
 
-  const [isClient, setClient] = useState(false);
-  useEffect(() => {
-    setClient(true);
-  }, []);
+  // const [isClient, setClient] = useState(false);
+  // useEffect(() => {
+  //   setClient(true);
+  // }, []);
   useEffect(() => {
     if (!router.pathname.includes('/admin')) {
       dispatch(session());
@@ -109,21 +109,21 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
   }, [router]);
   return (
     <>
-      {isClient ? (
-        <ContextProvider>
-          {Component.PageLayout ? (
-            <Component.PageLayout>
-              <AnimatePresence mode="wait">
-                <Component {...pageProps} key={router.asPath} />
-              </AnimatePresence>
-            </Component.PageLayout>
-          ) : (
-            <Component {...pageProps} />
-          )}
-        </ContextProvider>
-      ) : (
-        ''
-      )}
+      {/* {isClient ? ( */}
+      <ContextProvider>
+        {Component.PageLayout ? (
+          <Component.PageLayout>
+            <AnimatePresence mode="wait">
+              <Component {...pageProps} key={router.asPath} />
+            </AnimatePresence>
+          </Component.PageLayout>
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </ContextProvider>
+      {/* ) : ( */}
+      {/* '' */}
+      {/*  )} */}
     </>
   );
   // return router.pathname !== paths[Page.LOGIN] &&

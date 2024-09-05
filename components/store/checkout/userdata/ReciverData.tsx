@@ -88,6 +88,7 @@ const ReciverData = (props: any) => {
                   label="Телефон"
                   rows={1}
                   defaultValue=""
+                  placeholder="+7 (999) 999 99 99"
                 />
               </PhoneField>
             )}
@@ -119,6 +120,7 @@ const ReciverData = (props: any) => {
               id="address-reciver-email"
               fullWidth
               label="Адрес электронной почты"
+              placeholder="email@example.com"
               multiline
               rows={1}
               value={emailWithoutRegister}

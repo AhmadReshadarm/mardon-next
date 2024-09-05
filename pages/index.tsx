@@ -14,6 +14,11 @@ import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
 const IndexPage = (): JSX.Element => {
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
 
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
   return (
     <>
       <SEOstatic
@@ -33,14 +38,18 @@ const IndexPage = (): JSX.Element => {
         image={`${baseUrl}/static/favicon.png`}
       />
 
-      <Suspense fallback={<Loading />}>
-        <Banners />
-        <ProductsSlider />
-        <MainPageCatalog />
-        <BestProduct />
-        <Subscribers />
-        <ContactsMainPage />
-      </Suspense>
+      {isClient ? (
+        <Suspense fallback={<Loading />}>
+          <Banners />
+          <ProductsSlider />
+          <MainPageCatalog />
+          <BestProduct />
+          <Subscribers />
+          <ContactsMainPage />
+        </Suspense>
+      ) : (
+        ''
+      )}
     </>
   );
 };
