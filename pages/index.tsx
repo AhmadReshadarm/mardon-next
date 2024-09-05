@@ -8,12 +8,28 @@ import Loading from 'ui-kit/Loading';
 import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
-import { useAppSelector } from 'redux/hooks';
-import { TGlobalState } from 'redux/types';
 import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
-const IndexPage = (): JSX.Element => {
-  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
+import { Product } from 'swagger/services';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+import { GetServerSideProps } from 'next';
 
+export const getServerSideProps = (async (context) => {
+  const { url } = context.query;
+  // Fetch data from external API
+  const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
+  const repo: Product = await res.json();
+
+  const images = getProductVariantsImages(repo?.productVariants);
+  const imagesWithUrl: string[] = [];
+  for (let i = 0; i < images?.length; i++) {
+    imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
+  }
+
+  // Pass data to the page via props
+  return { props: { repo, imagesWithUrl } };
+}) as GetServerSideProps<{ repo: Product; imagesWithUrl: string[] }>;
+
+const IndexPage = (): JSX.Element => {
   const [isClient, setClient] = useState(false);
   useEffect(() => {
     setClient(true);
@@ -23,19 +39,16 @@ const IndexPage = (): JSX.Element => {
     <>
       <SEOstatic
         page={{
-          realName:
-            'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
-          name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
+          realName: 'NBHOZ - Опт Товаров для Дома и Бизнеса',
+          name: 'NBHOZ - Опт Товаров для Дома и Бизнеса',
           url: '/',
-          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, ${categories.map(
-            (category) => ` ${category.name}`,
-          )}`,
+          desc: 'Оптовый поставщик товаров для дома и бизнеса. У нас вы найдете широкий ассортимент хозяйственных товаров, включая уборочный инвентарь, товары для ремонта, и многое другое. Закажите оптом и получите выгодные цены!',
           keywords:
-            'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
+            'оптом, товары для дома, хозяйственные товары, мелкая оптовая торговля, купить оптом, продажа оптом, оптовый склад, оптовый поставщик, швабры, губки, столовые приборы, инструменты, коврики, спортивный инвентарь',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }}
-        image={`${baseUrl}/static/favicon.png`}
+        image={`${baseUrl}/static/logo_800x800.png`}
       />
 
       {isClient ? (

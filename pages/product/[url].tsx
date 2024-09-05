@@ -66,11 +66,6 @@ const ProductInfoPage = ({
     setClient(true);
   }, []);
 
-  // const images = getProductVariantsImages(repo?.productVariants);
-  // const imagesWithUrl: any = [];
-  // for (let i = 0; i < images?.length; i++) {
-  //   imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
-  // }
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />

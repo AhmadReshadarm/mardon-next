@@ -1,5 +1,5 @@
-import { GoogleAnalytics } from 'components/metrics/google-analytics';
-import { YandexMetrics } from 'components/metrics/yandex-metrics';
+// import { GoogleAnalytics } from 'components/metrics/google-analytics';
+// import { YandexMetrics } from 'components/metrics/yandex-metrics';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
@@ -19,10 +19,10 @@ class MyDocument extends Document {
             href="https://fonts.gstatic.com"
             crossOrigin=""
           />
-          <link
+          {/* <link
             href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css"
             rel="stylesheet"
-          />
+          /> */}
           <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"

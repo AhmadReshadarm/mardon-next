@@ -60,10 +60,6 @@ const socialTags = ({
 
 const SEO = ({ product, images }) => {
   const url = `${baseUrl}/product/${product?.url}`;
-  // const image: any = [];
-  // for (let i = 0; i < images?.length; i++) {
-  //   image.push(`${baseUrl}/api/images/${images[i]}`);
-  // }
 
   return (
     <Head>
