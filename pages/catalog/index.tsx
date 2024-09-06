@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, Product } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from 'common/constant';
@@ -21,8 +21,53 @@ import Loading from 'ui-kit/Loading';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
 import { Pagination } from 'antd';
 import Head from 'next/head';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-const CatalogPage = () => {
+const queryStringToObject = (url) =>
+  Object.fromEntries([...new URLSearchParams(url.split('?')[1])]);
+
+export const getServerSideProps = (async (context) => {
+  const query = context.resolvedUrl;
+
+  const queryObj = {
+    categories:
+      queryStringToObject(query).categories == undefined
+        ? null
+        : queryStringToObject(query).categories,
+    subCategories:
+      queryStringToObject(query).subCategories == undefined
+        ? null
+        : queryStringToObject(query).subCategories,
+  };
+
+  const url = `https://nbhoz.ru/api/products?${
+    queryObj.categories ? 'parent=' + queryObj.categories : ''
+  }${
+    queryObj.subCategories
+      ? queryObj.categories
+        ? '&categories[]=' + queryObj.subCategories
+        : 'categories[]=' + queryObj.subCategories
+      : ''
+  }`;
+
+  // Fetch data from external API
+  const res = await fetch(url);
+  const repo = await res.json();
+  const randomProduct = Math.floor(Math.random() * repo.rows?.length);
+  // Pass data to the page via props
+  return {
+    props: {
+      repo: repo.rows,
+      randomProduct,
+    },
+  };
+}) as GetServerSideProps<{ repo: Product[]; randomProduct: number }>;
+
+const CatalogPage = ({
+  repo,
+  randomProduct,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<
@@ -58,7 +103,7 @@ const CatalogPage = () => {
     };
   }, []);
 
-  const randomProduct = Math.floor(Math.random() * products?.length - 1);
+  // const randomProduct = Math.floor(Math.random() * products?.length - 1);
 
   const filteredTags: any = tags.filter((tag) => {
     if (
@@ -124,27 +169,28 @@ const CatalogPage = () => {
 
   return (
     <>
-      {!!products ? (
+      {repo.length !== 0 ? (
         <SEOstatic
           page={{
             realName: `${selectedCategory?.name ?? 'Каталог'} | NBHOZ`,
-            name: `${products[randomProduct]?.name ?? 'Каталог'}`,
+            name: `${
+              repo[randomProduct].category?.parent?.name +
+              ' > ' +
+              repo[randomProduct].category?.name
+            }`,
             url: `${router.asPath}`,
             desc: `${
-              selectedCategory?.name ?? 'Каталог'
-            } - покупайте на NBHOZ по выгодным ценам! оптом ${
-              products[randomProduct]?.shortDesc ?? selectedCategory?.desc
+              repo[0].category?.name ?? 'Каталог'
+            } - покупайте Опт на NBHOZ по выгодным ценам! оптом ${
+              repo[randomProduct]?.shortDesc ?? selectedCategory?.desc
             }`,
-            keywords: `${products[randomProduct]?.keywords}`,
+            keywords: `${repo[randomProduct]?.keywords}`,
             createdAt:
-              products[randomProduct]?.createdAt ?? selectedCategory?.createdAt,
+              repo[randomProduct]?.createdAt ?? selectedCategory?.createdAt,
             updatedAt:
-              products[randomProduct]?.updatedAt ?? selectedCategory?.updatedAt,
+              repo[randomProduct]?.updatedAt ?? selectedCategory?.updatedAt,
           }}
-          image={
-            `${baseUrl}/api/images/${products[0]?.category?.parent?.image}` ??
-            '/img_not_found.png'
-          }
+          image={`${baseUrl}/api/images/${repo[0]?.category?.parent?.image}`}
         />
       ) : (
         ''

@@ -9,25 +9,6 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
 import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
-import { Product } from 'swagger/services';
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import { GetServerSideProps } from 'next';
-
-export const getServerSideProps = (async (context) => {
-  const { url } = context.query;
-  // Fetch data from external API
-  const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
-  const repo: Product = await res.json();
-
-  const images = getProductVariantsImages(repo?.productVariants);
-  const imagesWithUrl: string[] = [];
-  for (let i = 0; i < images?.length; i++) {
-    imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
-  }
-
-  // Pass data to the page via props
-  return { props: { repo, imagesWithUrl } };
-}) as GetServerSideProps<{ repo: Product; imagesWithUrl: string[] }>;
 
 const IndexPage = (): JSX.Element => {
   const [isClient, setClient] = useState(false);

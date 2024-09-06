@@ -21,7 +21,7 @@ import CloseSVGWhite from '../../../assets/close.svg';
 import { LoadMoreIconSVG } from '../../../assets/icons/UI-icons';
 import { motion } from 'framer-motion';
 import NameFilter from './topFilters/NameFilter';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
 
 type Props = {
@@ -91,6 +91,7 @@ const TopFilterBar: React.FC<Props> = ({
 
   useEffect(() => {
     const filters = convertQueryParams(getQueryParams(window.location.search));
+
     setFiltersConfig(
       getFiltersConfig({
         categories,
@@ -149,6 +150,7 @@ const TopFilterBar: React.FC<Props> = ({
   //   }
   //   isInPage(child) ? setHasActiveFilters(true) : setActivateResetBtn(false);
   // });
+
   return (
     <FilterBarContent expanded={expanded}>
       <div className="mobile-background"></div>
@@ -413,6 +415,7 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(curOption);
                                 setResetSlider(true);
                                 setSliderChanged(false);
+                                setSelectedCategory(undefined);
                               }}
                             >
                               <CloseSVG />
@@ -450,6 +453,16 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(curOption);
                                 setResetSlider(true);
                                 setSliderChanged(false);
+                                // set header to parent category on filter close
+                                localFilters.map((filter) => {
+                                  if (filter.title == 'Выберите категории') {
+                                    const curOptionChecked =
+                                      filter.options?.find(
+                                        (option) => option.checked,
+                                      );
+                                    setSelectedCategory(curOptionChecked);
+                                  }
+                                });
                               }}
                             >
                               <CloseSVG />

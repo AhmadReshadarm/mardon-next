@@ -51,6 +51,13 @@ const SingleSelectionFilter: React.FC<Props> = ({
     setSliderChanged(false);
   };
 
+  useEffect(() => {
+    const curOption = options?.find((option) => option.checked);
+    if (curOption !== undefined) {
+      setSelectedCategory(curOption);
+    }
+  }, []);
+
   return (
     <TopFilter>
       <TopFilterTitle
