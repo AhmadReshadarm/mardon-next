@@ -235,16 +235,16 @@ const Footer = (): JSX.Element => {
             может сохранять файлы cookie на вашем устройстве и раскрывать
             информацию в соответствии с нашей{' '}
             <Link style={{ color: color.hoverBtnBg }} href="/privacy#cookies">
-              <span>Политикой использования файлов cookie.</span>
+              <span>Политикой использования файлов cookies.</span>
             </Link>
           </span>
         </div>
         <button
           className="accept-cookies"
           onClick={() => handleCookiesClick(setOpen)}
-          title="Принять все файлы cookie"
+          title="Принять все файлы cookies"
         >
-          Принять все файлы cookie
+          Принять все файлы cookies
         </button>
       </CookiesNotification>
     </>

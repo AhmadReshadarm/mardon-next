@@ -9,6 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
 import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
+import Head from 'next/head';
 
 const IndexPage = (): JSX.Element => {
   const [isClient, setClient] = useState(false);
