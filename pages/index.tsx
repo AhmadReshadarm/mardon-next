@@ -9,6 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
 import BestProduct from 'components/store/homePage/bestProducts';
 import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
+import Head from 'next/head';
 
 const IndexPage = (): JSX.Element => {
   const [isClient, setClient] = useState(false);
@@ -22,7 +23,7 @@ const IndexPage = (): JSX.Element => {
         page={{
           realName: 'NBHOZ - Опт Товаров для Дома и Бизнеса',
           name: 'NBHOZ - Опт Товаров для Дома и Бизнеса',
-          url: '/',
+          url: '',
           desc: 'Оптовый поставщик товаров для дома и бизнеса. У нас вы найдете широкий ассортимент хозяйственных товаров, включая уборочный инвентарь, товары для ремонта, и многое другое. Закажите оптом и получите выгодные цены!',
           keywords:
             'оптом, товары для дома, хозяйственные товары, мелкая оптовая торговля, купить оптом, продажа оптом, оптовый склад, оптовый поставщик, швабры, губки, столовые приборы, инструменты, коврики, спортивный инвентарь',
@@ -31,7 +32,9 @@ const IndexPage = (): JSX.Element => {
         }}
         image={`${baseUrl}/static/logo_800x800.png`}
       />
-
+      <Head>
+        <link rel="canonical" href="https://nbhoz.ru" />
+      </Head>
       {isClient ? (
         <Suspense fallback={<Loading />}>
           <Banners />

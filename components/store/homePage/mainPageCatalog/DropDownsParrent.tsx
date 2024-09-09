@@ -28,6 +28,7 @@ const InfoDropdown = ({
   return (
     <InfoWrappers>
       <InfoBtnWrappers
+        title={title}
         onClick={() => {
           if (!openInfo && index !== stateIndex) {
             setIndex(index);
@@ -42,10 +43,10 @@ const InfoDropdown = ({
         <div className="dropdown-btn-wrapper">
           <h2 style={{ fontWeight: openInfo ? '500' : '200' }}>{title}</h2>
           <motion.span
-            style={{ display: displayInfo }}
             animate={{
-              opacity: openInfo ? 1 : 0,
+              rotate: openInfo ? 0 : 180,
             }}
+            transition={{ duration: 0.001 }}
           >
             <Vector />
           </motion.span>
