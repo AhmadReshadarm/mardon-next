@@ -107,7 +107,7 @@ const ProductsSlider = () => {
       flex_direction="column"
       justify_content="center"
       align_items="center"
-      padding="60px 0"
+      padding="0"
       bg_color={color.backgroundPrimary}
     >
       <Wrapper onMouseOver={() => setISMouseHover(true)}>
@@ -413,7 +413,12 @@ const Content = styled.div`
       img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+      }
+      .error_img {
+        object-fit: contain;
+        width: 90%;
+        height: 100%;
       }
     }
   }

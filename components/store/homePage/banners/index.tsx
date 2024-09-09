@@ -1,14 +1,9 @@
 import { devices } from 'components/store/lib/Devices';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import {
-  Container,
-  Content,
-  Wrapper,
-} from 'components/store/storeLayout/common';
+import { Container } from 'components/store/storeLayout/common';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchBanner, fetchBrands } from 'redux/slicers/store/homePageSlicer';
+import { fetchBanner } from 'redux/slicers/store/homePageSlicer';
 import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
 import Loading from 'ui-kit/Loading';
@@ -55,29 +50,11 @@ const Banners = () => {
 
 const SliderContainer = styled.div`
   width: 100%;
-  height: 800px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media ${devices.laptopS} {
-    height: 300px;
-  }
-  @media ${devices.tabletL} {
-    height: 300px;
-  }
-  @media ${devices.tabletS} {
-    height: 300px;
-  }
-  @media ${devices.mobileL} {
-    height: 300px;
-  }
-  @media ${devices.mobileM} {
-    height: 300px;
-  }
-  @media ${devices.mobileS} {
-    height: 300px;
-  }
 `;
 
 export default Banners;

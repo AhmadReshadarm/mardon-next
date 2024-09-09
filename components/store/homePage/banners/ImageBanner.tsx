@@ -2,7 +2,7 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { wrap } from 'popmotion';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import ArrowSVG from '../../../../assets/arrow_white.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
@@ -21,25 +21,43 @@ type Props = {
   slides: Slide[] | undefined;
 };
 interface StyleProps {
-  isDisplay: boolean;
+  isDisplay?: boolean;
+  imgHeight?: string;
 }
 const ImageBanner: React.FC<Props> = ({ slides }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, Number(slides?.length), page);
-  const [userIntract, setUserIntract] = useState(false);
-  let timer;
+  // const [userIntract, setUserIntract] = useState(false);
+  const imgRef = useRef<HTMLDivElement | any>(null);
+
+  // let timer;
   // useEffect(() => {
   //   if (!userIntract) {
   //     timer = setTimeout(() => {
   //       paginateImage(1);
-  //       // setImageIndexForDots(imageIndex);
   //     }, 10000);
   //   }
+
   //   return () => {
   //     if (userIntract) window.clearTimeout(timer);
   //   };
   // });
-  // const [imageIndexForDots, setImageIndexForDots] = useState(0);
+
+  const [imgHeight, setImgHeight] = useState();
+
+  useEffect(() => {
+    setImgHeight(imgRef.current.clientHeight);
+    const handleWindowResize = () => {
+      setImgHeight(imgRef.current.clientHeight);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+
   const {
     isCatalogOpen,
     isSearchFormActive,
@@ -56,14 +74,27 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
       animate="animate"
       exit={{ y: -80, opacity: 0, transition: { delay: 0.02 } }}
       variants={variants.fadInSlideUp}
+      imgHeight={`${imgHeight}`}
     >
       <Link
         href={
           slides && slides[imageIndex]?.link ? slides[imageIndex]?.link! : ''
         }
+        className="banner-image-link-wrapper"
+        onClick={(evt) => {
+          isCatalogOpen ||
+          isSearchFormActive ||
+          isWishlistOpen ||
+          isBasketOpen ||
+          isAuthFormOpen ||
+          !!searchQuery
+            ? evt.preventDefault()
+            : '';
+        }}
       >
-        <AnimatePresence initial={false} custom={direction}>
+        <AnimatePresence mode="wait" initial={false} custom={direction}>
           <Slider
+            ref={imgRef}
             alt={slides![imageIndex]?.link}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
@@ -71,14 +102,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               currentTarget.className = 'error_img';
             }}
             key={page}
-            src={slides ? `/api/images/${slides[imageIndex]?.image}` : ''}
-            // style={{
-            //   background: `url(${
-            //     slides
-            //       ? `/api/images/${slides[imageIndex]?.image}`
-            //       : '/img_not_found.png'
-            //   }) no-repeat`,
-            // }}
+            src={`/api/images/${slides![imageIndex]?.image}`}
             custom={direction}
             variants={variants.slider}
             initial="enter"
@@ -92,7 +116,12 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
-            onDrag={() => setUserIntract(true)}
+            // onDrag={() => {
+            //   setUserIntract(true);
+            //   setTimeout(() => {
+            //     setUserIntract(false);
+            //   }, 10000);
+            // }}
             isDisplay={
               isCatalogOpen ||
               isSearchFormActive ||
@@ -103,123 +132,209 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             }
           />
         </AnimatePresence>
+        <div className="banner-arrows-wrapper">
+          <ArrowBtns
+            whileHover="hover"
+            whileTap="tap"
+            custom={1.1}
+            variants={variants.grow}
+            // right="0"
+            // top="50%"
+            // position="absolute"
+            boxshadow="transparent"
+            bgcolor={color.glassmorphismSeconderBG}
+            filterdropback="blur"
+            onClick={(e) => {
+              e.preventDefault();
+              paginateImage(1);
+              // setUserIntract(true);
+              // setTimeout(() => {
+              //   setUserIntract(false);
+              // }, 10000);
+              // setImageIndexForDots(imageIndex);
+            }}
+            title="следующий слайд"
+            aria-label="следующий слайд"
+          >
+            <ArrowSpan rotate="0">
+              <ArrowSVG />
+            </ArrowSpan>
+          </ArrowBtns>
+          <ArrowBtns
+            whileHover="hover"
+            whileTap="tap"
+            custom={1.1}
+            variants={variants.grow}
+            // left="0"
+            // top="50%"
+            // position="absolute"
+            boxshadow="transparent"
+            bgcolor={color.glassmorphismSeconderBG}
+            filterdropback="blur"
+            onClick={(e) => {
+              e.preventDefault();
+              paginateImage(-1);
+              // setUserIntract(true);
+              // setTimeout(() => {
+              //   setUserIntract(false);
+              // }, 10000);
+              // setImageIndexForDots(imageIndex);
+            }}
+            title="предыдущий слайд"
+            aria-label="предыдущий слайд"
+          >
+            <ArrowSpan rotate="180">
+              <ArrowSVG />
+            </ArrowSpan>
+          </ArrowBtns>
+        </div>
       </Link>
-      <div className="banner-arrows-wrapper">
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.1}
-          variants={variants.grow}
-          right="0"
-          top="50%"
-          position="absolute"
-          boxshadow="transparent"
-          bgcolor={color.glassmorphismSeconderBG}
-          filterdropback="blur"
-          onClick={() => {
-            paginateImage(1);
-            setUserIntract(true);
-            // setImageIndexForDots(imageIndex);
-          }}
-          title="следующий слайд"
-          aria-label="следующий слайд"
-        >
-          <ArrowSpan rotate="0">
-            <ArrowSVG />
-          </ArrowSpan>
-        </ArrowBtns>
-        <ArrowBtns
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.1}
-          variants={variants.grow}
-          left="0"
-          top="50%"
-          position="absolute"
-          boxshadow="transparent"
-          bgcolor={color.glassmorphismSeconderBG}
-          filterdropback="blur"
-          onClick={() => {
-            paginateImage(-1);
-            setUserIntract(true);
-            // setImageIndexForDots(imageIndex);
-          }}
-          title="предыдущий слайд"
-          aria-label="предыдущий слайд"
-        >
-          <ArrowSpan rotate="180">
-            <ArrowSVG />
-          </ArrowSpan>
-        </ArrowBtns>
+      <div className="dots-indecator-wrapper">
+        {slides!.map((slideImg, index) => {
+          return (
+            <span
+              className={`dots-indecator ${
+                imageIndex == index ? 'active' : ''
+              }`}
+            ></span>
+          );
+        })}
       </div>
     </SliderWrapper>
   );
 };
 
-const SliderWrapper = styled(motion.div)`
+const SliderWrapper = styled(motion.div)<StyleProps>`
   width: 100%;
   height: 100%;
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  .error_img {
-    object-fit: cover;
-    height: 400px;
-  }
-  .banner-arrows-wrapper {
+
+  .banner-image-link-wrapper {
     width: 100%;
     height: 100%;
-    max-width: 1500px;
+    ${(props) => {
+      return `
+      min-height:${props.imgHeight}px;
+      `;
+    }}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     position: relative;
-  }
-  @media ${devices.laptopL} {
+    .error_img {
+      object-fit: contain;
+      width: 90%;
+      height: 100%;
+    }
+
     .banner-arrows-wrapper {
-      max-width: 1230px;
+      width: 100%;
+      height: 100%;
+      max-width: 1500px;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: space-between;
+      position: absolute;
+    }
+  }
+
+  .dots-indecator-wrapper {
+    width: 100%;
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    .dots-indecator {
+      width: 6px;
+      height: 6px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
+    .active {
+      background-color: ${color.activeIcons};
+    }
+  }
+
+  @media ${devices.laptopL} {
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        max-width: 1230px;
+      }
     }
   }
   @media ${devices.laptopM} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        width: 95%;
+        max-width: unset;
+      }
     }
   }
   @media ${devices.laptopS} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        width: 95%;
+        max-width: unset;
+      }
     }
   }
   @media ${devices.tabletL} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        display: none;
+      }
+    }
+    .dots-indecator-wrapper {
+      display: flex;
     }
   }
   @media ${devices.tabletS} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        display: none;
+      }
+    }
+    .dots-indecator-wrapper {
+      display: flex;
     }
   }
   @media ${devices.mobileL} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        display: none;
+      }
+    }
+    .dots-indecator-wrapper {
+      display: flex;
     }
   }
   @media ${devices.mobileM} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        display: none;
+      }
+    }
+    .dots-indecator-wrapper {
+      display: flex;
     }
   }
   @media ${devices.mobileS} {
-    .banner-arrows-wrapper {
-      width: 95%;
-      max-width: unset;
+    .banner-image-link-wrapper {
+      .banner-arrows-wrapper {
+        display: none;
+      }
+    }
+    .dots-indecator-wrapper {
+      display: flex;
     }
   }
 `;
@@ -227,10 +342,8 @@ const SliderWrapper = styled(motion.div)`
 const Slider = styled(motion.img)<StyleProps>`
   width: 100%;
   height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
   object-fit: cover;
+
   ${(props) => {
     if (props.isDisplay) {
       return `

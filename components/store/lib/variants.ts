@@ -86,7 +86,7 @@ const variants = {
     enter: (direction: number) => {
       return {
         x: direction > 0 ? 200 : -200,
-        opacity: 0,
+        opacity: 0.01,
         zIndex: 0,
       };
     },
@@ -99,7 +99,7 @@ const variants = {
       return {
         zIndex: 0,
         x: direction < 0 ? 200 : -200,
-        opacity: 0,
+        opacity: 0.01,
       };
     },
   },

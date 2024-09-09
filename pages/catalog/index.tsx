@@ -21,7 +21,6 @@ import Loading from 'ui-kit/Loading';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
 import { Pagination } from 'antd';
 import Head from 'next/head';
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 const queryStringToObject = (url) =>
