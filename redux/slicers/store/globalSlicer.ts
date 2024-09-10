@@ -202,6 +202,7 @@ const initialState: TGlobalState = {
   caroselProducts: [],
   bestProduct: [],
   loading: false,
+  loadingAddRemoveWishlist: false,
   loadingCarosel: false,
   productsLoading: false,
 };
@@ -227,7 +228,6 @@ const globalSlicer = createSlice({
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.wishlist = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchWishlist.rejected, handleError)
       // createWishlist
@@ -236,16 +236,19 @@ const globalSlicer = createSlice({
         state.wishlist = action.payload;
         localStorage.setItem('wishlistId', action.payload.id!);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(createWishlist.rejected, handleError)
       //updateWishlist
-      .addCase(updateWishlist.pending, handlePending)
+      .addCase(
+        updateWishlist.pending,
+        (state: { loadingAddRemoveWishlist: boolean }) => {
+          state.loadingAddRemoveWishlist = true;
+        },
+      )
       .addCase(updateWishlist.fulfilled, (state, action) => {
         state.wishlist = action.payload;
         localStorage.setItem('wishlistId', action.payload.id!);
-        state.loading = false;
-        console.log('fulfilled');
+        state.loadingAddRemoveWishlist = false;
       })
       .addCase(updateWishlist.rejected, handleError)
       //fetchCategories
@@ -253,29 +256,24 @@ const globalSlicer = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCategories.rejected, handleError)
       //fetchMainPageProducts
       .addCase(fetchMainPageProducts.pending, (state, action) => {
         state.loading = true;
-        console.log('fetching caresol');
       })
       .addCase(fetchMainPageProducts.fulfilled, (state, action) => {
         state.caroselProducts = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchMainPageProducts.rejected, handleError)
       //fetchBestProducts
       .addCase(fetchBestProducts.pending, (state, action) => {
         state.loading = true;
-        console.log('fetching caresol');
       })
       .addCase(fetchBestProducts.fulfilled, (state, action) => {
         state.bestProduct = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchBestProducts.rejected, handleError)
       //fetchTags
@@ -283,7 +281,6 @@ const globalSlicer = createSlice({
       .addCase(fetchTags.fulfilled, (state, action) => {
         state.tags = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchTags.rejected, handleError)
       //fetchNewsPost
@@ -291,7 +288,6 @@ const globalSlicer = createSlice({
       .addCase(fetchNewsPost.fulfilled, (state, action) => {
         state.newsPosts = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchNewsPost.rejected, handleError)
       //searchProducts
@@ -299,7 +295,6 @@ const globalSlicer = createSlice({
       .addCase(searchProducts.fulfilled, (state, action) => {
         state.products = action.payload;
         state.productsLoading = false;
-        console.log('fulfilled');
       })
       .addCase(searchProducts.rejected, handleProductsError);
   },

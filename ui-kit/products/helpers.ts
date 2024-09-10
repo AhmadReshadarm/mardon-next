@@ -1,13 +1,6 @@
 import { setOneClickBy, updateCart } from 'redux/slicers/store/cartSlicer';
-// import { updateWishlist } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
-import {
-  Basket,
-  OrderProduct,
-  Product,
-  ProductVariant,
-  Wishlist,
-} from 'swagger/services';
+import { Basket, Product, ProductVariant, Wishlist } from 'swagger/services';
 import { updateWishlist } from 'redux/slicers/store/wishlistSlicer';
 import { Dispatch, SetStateAction } from 'react';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';

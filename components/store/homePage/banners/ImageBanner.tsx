@@ -109,7 +109,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             animate="center"
             exit="exit"
             transition={{
-              x: { type: 'spring', stiffness: 300, damping: 30 },
+              x: { type: 'spring', stiffness: 300, damping: 30, duration: 0.1 },
               opacity: { duration: 0.4 },
             }}
             drag="x"

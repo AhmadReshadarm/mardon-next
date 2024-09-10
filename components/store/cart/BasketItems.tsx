@@ -6,10 +6,6 @@ import { TCartState } from 'redux/types';
 import { handleRemoveClick } from './helpers';
 import color from '../lib/ui.colors';
 
-// -----------------------
-
-// -----------------------------------------
-
 type Props = {};
 const BasketItems: React.FC<Props> = ({}) => {
   const { cart, loading } = useAppSelector<TCartState>((state) => state.cart);
@@ -73,6 +69,9 @@ const ItemsWrapper = styled.div`
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      span {
+        color: #000;
+      }
       &:hover {
         background-color: ${color.searchBtnBg};
 

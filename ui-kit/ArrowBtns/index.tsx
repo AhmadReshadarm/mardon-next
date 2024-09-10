@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { styleProps } from 'components/store/lib/types';
-import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 const ArrowBtns = styled(motion.button)`
   width: 35px;
   height: 35px;
-  border-radius: 5px;
+  border-radius: 50%;
   position: ${(p: styleProps) => p.position};
   right: ${(p: styleProps) => p.right};
   left: ${(p: styleProps) => p.left};

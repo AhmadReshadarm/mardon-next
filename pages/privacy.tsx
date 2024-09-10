@@ -8,7 +8,6 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
-import Link from 'next/link';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
 import { useAppSelector } from 'redux/hooks';

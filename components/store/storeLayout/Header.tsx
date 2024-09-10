@@ -1,4 +1,4 @@
-import Head from 'next/head';
+// import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Content, Wrapper } from './common';
@@ -155,20 +155,12 @@ const Header = () => {
 
   return (
     <>
-      <Head>
-        {/* <link
-          href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css"
-          rel="stylesheet"
-        /> */}
+      {/* <Head>
+      
 
-        <meta
-          property="viewport"
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-        />
-        <GoogleAnalytics gaId="G-LPMTNCKRGT" />
-      </Head>
-
+       
+      </Head> */}
+      <GoogleAnalytics gaId="G-LPMTNCKRGT" />
       <Container
         variants={variants.fadInOut}
         key="header-global"

@@ -23,28 +23,30 @@ const BestProduct: React.FC<Props> = () => {
 
   return (
     <>
-      {!loading ? (
-        <Container>
-          <Wrapper>
-            <div className="section-title-wrapper">
-              <h1>{`лучшие товары`.toUpperCase()}</h1>
-            </div>
-            <ul className="best-product-grid-wrapper">
-              {bestProduct.map((product, index) => {
-                return (
-                  <ProductItem
-                    key={index}
-                    product={product}
-                    custom={delay[index]}
-                  />
-                );
-              })}
-            </ul>
-          </Wrapper>
-        </Container>
-      ) : (
-        <Loading />
-      )}
+      <Container>
+        <Wrapper>
+          {!loading ? (
+            <>
+              <div className="section-title-wrapper">
+                <h1>{`лучшие товары`.toUpperCase()}</h1>
+              </div>
+              <ul className="best-product-grid-wrapper">
+                {bestProduct.map((product, index) => {
+                  return (
+                    <ProductItem
+                      key={index}
+                      product={product}
+                      custom={delay[index]}
+                    />
+                  );
+                })}
+              </ul>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </Wrapper>
+      </Container>
     </>
   );
 };

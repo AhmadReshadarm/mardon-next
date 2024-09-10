@@ -38,7 +38,7 @@ const variants = {
   },
   fadeInSlideIn: {
     init: {
-      y: 25,
+      y: 60,
       opacity: 0,
     },
     animate: {
@@ -46,13 +46,13 @@ const variants = {
       opacity: 1,
     },
     exit: {
-      y: 25,
+      y: 60,
       opacity: 0,
     },
   },
   fadeOutSlideOut: {
     init: {
-      y: -30,
+      y: -60,
       opacity: 0,
     },
     animate: {
@@ -60,7 +60,7 @@ const variants = {
       opacity: 1,
     },
     exit: {
-      y: -30,
+      y: -60,
       opacity: 0,
     },
   },

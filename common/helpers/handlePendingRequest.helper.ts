@@ -1,11 +1,9 @@
 const handlePending = (state: { loading: boolean }) => {
-    state.loading = true;
-    console.log('pending')
-}
+  state.loading = true;
+};
 
 const handleChangePending = (state: { saveLoading: boolean }) => {
-    state.saveLoading = true;
-    console.log('pending')
-}
+  state.saveLoading = true;
+};
 
-export { handleChangePending, handlePending }
+export { handleChangePending, handlePending };

@@ -5,7 +5,6 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { Container, Header } from '../common';
-import { styleProps } from 'components/store/lib/types';
 import { InputsTooltip, handleChangePsw } from './helpers';
 import PswShow from '../../../../assets/pswshow.svg';
 import PswHide from '../../../../assets/pswhide.svg';
@@ -13,7 +12,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 const Changepsw = (props: any) => {
   const { changePswRef, setActive, user } = props;
-  const [serverResponse, setServerResponse] = useState(undefined);
   const [isCap, setCap] = useState(false);
   const [psw, setPsw] = useState('');
   const [oldPsw, setOldPsw] = useState('');
@@ -29,8 +27,8 @@ const Changepsw = (props: any) => {
   const payload = {
     user,
     psw,
+    repeatPsw,
     oldPassword: oldPsw,
-    setServerResponse,
   };
 
   const observer = useMemo(
@@ -53,27 +51,7 @@ const Changepsw = (props: any) => {
     <Container id="changepsw" ref={changePswRef}>
       <Header>Изменить пароль</Header>
       <Wrapper>
-        <span className="errors">
-          {repeatPsw !== psw ? 'Новый пароль не подходит' : ''}
-          {serverResponse == 404 ? 'Пользователь не найден' : ''}
-          {serverResponse == 409
-            ? 'Нельзя использовать тот же пароль, что и предыдущий'
-            : ''}
-          {serverResponse == 403 ? 'Доступ ограничен: войдите снова' : ''}
-
-          {serverResponse == 401 ? 'Старый пароль не подходит' : ''}
-          {serverResponse == 429
-            ? 'Слишком много запросов, вернитесь через 24 часа'
-            : ''}
-          {serverResponse! >= 500
-            ? 'Нам очень жаль 😔, что-то пошло не так с нашими серверами'
-            : ''}
-        </span>
-        <span className="success">
-          {serverResponse == 200 ? 'Пароль изменен' : ''}
-        </span>
         <span className="errors">{isCap ? 'Капслок включен' : ''}</span>
-
         <FormWrapper>
           <AuthInputsWrapper>
             <label htmlFor="old-psw">
@@ -118,7 +96,6 @@ const Changepsw = (props: any) => {
                 }`,
               }}
               onChange={(e) => {
-                setServerResponse(undefined);
                 setOldPsw(e.target.value);
                 setInputsErr([
                   true,
@@ -201,7 +178,6 @@ const Changepsw = (props: any) => {
                 }`,
               }}
               onChange={(e) => {
-                setServerResponse(undefined);
                 setPsw(e.target.value);
                 setInputsErr([
                   oldPswInput ? true : false,
@@ -282,7 +258,6 @@ const Changepsw = (props: any) => {
                 }`,
               }}
               onChange={(e) => {
-                setServerResponse(undefined);
                 setRepeatPsw(e.target.value);
                 setInputsErr([
                   oldPswInput ? true : false,
@@ -325,12 +300,7 @@ const Changepsw = (props: any) => {
 
         <AuthBtns
           disabled={
-            isEmpty(oldPsw) ||
-            isEmpty(psw) ||
-            isEmpty(repeatPsw) ||
-            repeatPsw !== psw
-              ? true
-              : false
+            isEmpty(oldPsw) || isEmpty(psw) || isEmpty(repeatPsw) ? true : false
           }
           onClick={(e) => {
             e.preventDefault();

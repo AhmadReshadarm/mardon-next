@@ -82,21 +82,6 @@ const ProductsSlider = () => {
     }
   };
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
-  // ------------------- end of UI hooks ------------------------
   return (
     <Container
       variants={variants.fadInOut}
@@ -122,7 +107,7 @@ const ProductsSlider = () => {
                       className="index-indecator-top"
                     ></motion.div>
                     <Link href={`/product/${currentProduct?.url}`}>
-                      <h1>{`${
+                      <h1 title={currentProduct?.name}>{`${
                         currentProduct?.name?.length! > 40
                           ? currentProduct?.name?.slice(0, 40) + '...'
                           : currentProduct?.name
@@ -149,15 +134,11 @@ const ProductsSlider = () => {
                       </span>
                     </div>
                     <div className="action-buttons-wrapper">
-                      <AddToWishlist
-                        product={currentProduct!}
-                        windowWidth={windowWidth}
-                      />
+                      <AddToWishlist product={currentProduct!} />
                       <AddToCart
                         product={currentProduct!}
                         qty={findCartQTY(currentProduct, cart!)}
                         variant={currentProduct?.productVariants![0]}
-                        windowWidth={windowWidth}
                       />
                     </div>
                   </div>
@@ -207,7 +188,7 @@ const ProductsSlider = () => {
                 ></motion.div>
               </div>
               <Link href={`/product/${currentProduct?.url}`}>
-                <h1>{`${
+                <h1 title={currentProduct?.name}>{`${
                   currentProduct?.name?.length! > 40
                     ? currentProduct?.name?.slice(0, 40) + '...'
                     : currentProduct?.name

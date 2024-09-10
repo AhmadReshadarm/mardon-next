@@ -1,5 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import { openErrorNotification } from 'common/helpers';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import color from 'components/store/lib/ui.colors';
 import { ChangeUserPswService } from 'swagger/services';
 
@@ -24,22 +26,49 @@ const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const handleChangePsw = async ({
-  user,
-  psw,
-  oldPassword,
-  setServerResponse,
-}) => {
+const handleChangePsw = async ({ user, psw, repeatPsw, oldPassword }) => {
+  if (psw != repeatPsw) {
+    openErrorNotification('Новый пароль не подходит');
+    return;
+  }
   try {
     await ChangeUserPswService.changePassword({
       userId: user.id,
       body: { password: psw, oldPassword },
     });
-    setServerResponse(200);
-    setTimeout(() => setServerResponse(undefined), 2000);
+    openSuccessNotification('Пароль изменен');
   } catch (error: any) {
-    setServerResponse(error.response.status);
-    setTimeout(() => setServerResponse(undefined), 2000);
+    switch (error.response.status) {
+      case 500 || error.response.status > 500:
+        openErrorNotification(
+          'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
+        );
+        break;
+      case 429:
+        openErrorNotification(
+          'Слишком много запросов, вернитесь через 24 часа',
+        );
+        break;
+      case 401:
+        openErrorNotification('Старый пароль не подходит');
+        break;
+      case 403:
+        openErrorNotification('Доступ ограничен: войдите снова');
+        break;
+      case 409:
+        openErrorNotification(
+          'Нельзя использовать тот же пароль, что и предыдущий',
+        );
+        break;
+      case 404:
+        openErrorNotification('Пользователь не найден');
+        break;
+      default:
+        openErrorNotification(
+          'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
+        );
+        break;
+    }
   }
 };
 

@@ -1,13 +1,12 @@
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useEffect } from 'react';
+import { useAppDispatch } from 'redux/hooks';
 import { AnimatePresence } from 'framer-motion';
 import { session } from 'redux/slicers/authSlicer';
 import 'styles.css';
 import { wrapper } from '../redux/store';
 import {
-  createWishlist,
   fetchCategories,
   fetchTags,
   fetchNewsPost,
@@ -20,6 +19,8 @@ import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { fetchAdvertisement } from 'redux/slicers/bannersSlicer';
 import { axiosInstance } from 'common/axios.instance';
+import Head from 'next/head';
+import { fetchBanner } from 'redux/slicers/store/homePageSlicer';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -85,6 +86,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     dispatch(session());
     dispatch(fetchCategories());
     dispatch(fetchTags());
+    dispatch(fetchBanner());
     dispatch(fetchAdvertisement());
     dispatch(fetchNewsPost());
     dispatch(fetchMainPageProducts({ tags: ['main_page'] }));
@@ -93,15 +95,8 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
       limit: '1000',
     };
     dispatch(fetchBestProducts(payload));
-    // {
-    //   tags: ['best_product']
-    // }
   }, []);
 
-  // const [isClient, setClient] = useState(false);
-  // useEffect(() => {
-  //   setClient(true);
-  // }, []);
   useEffect(() => {
     if (!router.pathname.includes('/admin')) {
       dispatch(session());
@@ -109,7 +104,13 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
   }, [router]);
   return (
     <>
-      {/* {isClient ? ( */}
+      <Head>
+        <meta
+          property="viewport"
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+        />
+      </Head>
       <ContextProvider>
         {Component.PageLayout ? (
           <Component.PageLayout>
@@ -121,9 +122,6 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
           <Component {...pageProps} />
         )}
       </ContextProvider>
-      {/* ) : ( */}
-      {/* '' */}
-      {/*  )} */}
     </>
   );
   // return router.pathname !== paths[Page.LOGIN] &&

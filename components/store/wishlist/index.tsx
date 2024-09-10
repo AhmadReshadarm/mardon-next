@@ -4,10 +4,6 @@ import WishlistItems from './wishlistItems';
 const Wishlist = () => {
   return (
     <Wrapper>
-      {/* <div className="header-spliter">
-        <div className="border-header"></div>
-        <div className="none-border-header"></div>
-      </div> */}
       <ItemWrapper>
         <WishlistItems />
       </ItemWrapper>

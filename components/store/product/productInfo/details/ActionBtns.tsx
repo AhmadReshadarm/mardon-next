@@ -1,22 +1,14 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-// import { UserSelectWrapper } from './common';
-
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { Basket, OrderProduct, Product } from 'swagger/services';
-import ItemCounter from 'ui-kit/ItemCounter';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { devices } from 'components/store/lib/Devices';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
-import { openErrorNotification } from 'common/helpers';
-import {
-  clearVariant,
-  clearproductSize,
-  setOneClickBy,
-} from 'redux/slicers/store/cartSlicer';
+import { clearVariant, clearproductSize } from 'redux/slicers/store/cartSlicer';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
@@ -24,48 +16,12 @@ type Props = {
   orderProduct?: OrderProduct;
   cart: Basket;
   product: Product;
-  // onCartBtnClick: () => void;
-  // onCountChange: (counter: number, product: Product) => void;
 };
 
-const ActionBtns: React.FC<Props> = ({
-  orderProduct,
-  cart,
-  product,
-  // onCartBtnClick,
-  // onCountChange,
-}) => {
-  const dispatch = useAppDispatch();
+const ActionBtns: React.FC<Props> = ({ orderProduct, cart, product }) => {
   const { variant, productSize } = useAppSelector<TCartState>(
     (state) => state.cart,
   );
-
-  // const handleOneClickBuy = (evt) => {
-  //   dispatch(setOneClickBy(true));
-  //   if (variant == null || productSize == '') {
-  //     evt.preventDefault();
-  //   }
-  //   if (variant == null) openErrorNotification('Выберите цвет');
-  //   // if (productSize == '') openErrorNotification('Выберите размер'); && productSize !== ''
-  //   if (variant !== null && !isInCart) {
-  //     onCartBtnClick();
-  //   }
-  // };
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
 
   const handleGoToCart = () => {
     clearVariant();
@@ -82,12 +38,11 @@ const ActionBtns: React.FC<Props> = ({
         exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
         variants={variants.fadInSlideUp}
       >
-        <AddToWishlist product={product!} windowWidth={windowWidth} />
+        <AddToWishlist product={product!} />
         <AddToCart
           product={product!}
           qty={findCartQTY(product, cart!)}
           variant={variant ?? product?.productVariants![0]}
-          windowWidth={windowWidth}
         />
       </ActionBtnsWrapper>
       {checkIfItemInCart(product, cart!) && (

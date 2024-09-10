@@ -126,7 +126,7 @@ const cartSlicer = createSlice({
       .addCase(updateCart.fulfilled, (state, action) => {
         state.cart = action.payload;
         localStorage.setItem('basketId', action.payload.id!);
-        state.loading = false;
+        state.countLoading = false;
         console.log('fulfilled');
       }) // clearCart
       .addCase(clearCart.pending, handlePending)

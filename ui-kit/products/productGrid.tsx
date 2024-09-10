@@ -54,7 +54,9 @@ const ProductGrid: React.FC<Props> = ({
           )}
         </>
       ) : (
-        <Loading />
+        <LoaderWrapper>
+          <Loading />
+        </LoaderWrapper>
       )}
     </>
   );
@@ -111,7 +113,42 @@ const EmptyProductsTitle = styled.div`
   h3 {
     font-size: 2rem;
     font-family: ricordi;
+    text-align: center;
   }
+  @media ${devices.tabletL} {
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    h3 {
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.mobileL} {
+    h3 {
+      font-size: 1rem;
+    }
+  }
+  @media ${devices.mobileM} {
+    h3 {
+      font-size: 1rem;
+    }
+  }
+  @media ${devices.mobileS} {
+    h3 {
+      font-size: 1rem;
+    }
+  }
+`;
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: coloumn;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ProductGrid;

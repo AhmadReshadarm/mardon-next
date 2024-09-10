@@ -1,25 +1,15 @@
-import { devices } from 'components/store/lib/Devices';
 import variants from 'components/store/lib/variants';
 import { Container } from 'components/store/storeLayout/common';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchBanner } from 'redux/slicers/store/homePageSlicer';
+import { useAppSelector } from 'redux/hooks';
 import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
 import Loading from 'ui-kit/Loading';
 import ImageBanner from './ImageBanner';
 
 const Banners = () => {
-  const dispatch = useAppDispatch();
-  const { banner } = useAppSelector<THomePageState>((state) => state.homePage);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchBanner());
-      setLoading(false);
-    })();
-  }, []);
+  const { banner, loading } = useAppSelector<THomePageState>(
+    (state) => state.homePage,
+  );
 
   return (
     <Container

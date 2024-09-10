@@ -10,20 +10,15 @@ import {
   TrigerhandleCartBtnClick,
 } from './helpers';
 import { devices } from 'components/store/lib/Devices';
-import presets from 'components/store/lib/presets';
 import color from 'components/store/lib/ui.colors';
 import { ArrowBtns } from 'ui-kit/ArrowBtns';
-import { Basket, Product, Wishlist } from 'swagger/services';
+import { Basket, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { TWishlistState } from 'redux/types';
 import {
-  checkIfItemInCart,
-  checkIfItemInWishlist,
   handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
-import ItemCounter from 'ui-kit/ItemCounter';
-import { useEffect, useState } from 'react';
 
 type Props = {
   product: Product;
@@ -34,24 +29,10 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
   const dispatch = useAppDispatch();
   const images = getProductVariantsImages(product?.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
-  // const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
   const { wishlist }: TWishlistState = useAppSelector(
     (state) => state.wishlist,
   );
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
   return (
     <>
       <Link key={index} href={`/product/${product.url}`}>
@@ -79,13 +60,7 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
                     cart,
                   ),
                 )}
-              >
-                {/* <AddToCart
-                  product={product}
-                  cart={cart}
-                  // checkIfItemInCart={checkIfItemInCart}
-                /> */}
-              </ArrowBtns>
+              ></ArrowBtns>
               <ArrowBtns
                 bgcolor={color.glassmorphismSeconderBG}
                 filterdropback="blur(9px);"
@@ -94,11 +69,7 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
                   product,
                   handleWishBtnClick(product, dispatch, wishlist!),
                 )}
-              >
-                {/* <AddToWishlist
-                  product={product}
-                /> */}
-              </ArrowBtns>
+              ></ArrowBtns>
             </ItemActionBtnsWrapper>
             <img
               onClick={handleSearchItemClick(dispatch)}
@@ -111,21 +82,14 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
               alt={product.name}
             />
           </ItemImageAndBtnWrapper>
-          {/* <ItemTitelWrapper onClick={handleSearchItemClick(dispatch)}>
-          {product.name}
-        </ItemTitelWrapper> */}
         </CardItemContainer>
       </Link>
-      <AddToWishlist product={product} windowWidth={windowWidth} />
+      <AddToWishlist product={product} />
       <AddToCart
         product={product}
         qty={1}
         variant={product?.productVariants![0]}
-        windowWidth={windowWidth}
       />
-      {/* {cart.orderProducts?.map((orders, index) => {
-        return <ItemCounter key={index} qty={orders.qty!} product={product} />;
-      })} */}
     </>
   );
 };

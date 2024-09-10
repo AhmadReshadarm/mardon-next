@@ -21,21 +21,19 @@ const MainPageCatalog = (): JSX.Element => {
     <Container
       flex_direction="column"
       justify_content="center"
-      // padding="130px 0"
       align_items="center"
       bg_color={color.bgPrimary}
     >
       <Wrapper>
-        <HeaderWrapper>
-          <div className="header-title-wrapper">
-            <h2>Ассортимент</h2>
-          </div>
-          <div className="header-divder-wrapper"></div>
-        </HeaderWrapper>
+        {!loading ? (
+          <>
+            <HeaderWrapper>
+              <div className="header-title-wrapper">
+                <h2>Ассортимент</h2>
+              </div>
+            </HeaderWrapper>
 
-        <CatalogContentWrapper>
-          {!loading ? (
-            <>
+            <CatalogContentWrapper>
               <ImageSlider
                 categories={categories}
                 page={page}
@@ -48,11 +46,11 @@ const MainPageCatalog = (): JSX.Element => {
                 setIndex={setIndex}
                 categories={categories}
               />
-            </>
-          ) : (
-            <Loading />
-          )}
-        </CatalogContentWrapper>
+            </CatalogContentWrapper>
+          </>
+        ) : (
+          <Loading />
+        )}
       </Wrapper>
     </Container>
   );
@@ -132,7 +130,7 @@ const CatalogContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 30px 0;
   gap: 100px;
   @media ${devices.laptopS} {

@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import Head from 'next/head';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TStoreCheckoutState } from 'redux/types';
-import Loading from 'ui-kit/Loading';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { devices } from 'components/store/lib/Devices';
 import { motion } from 'framer-motion';
@@ -15,7 +14,7 @@ import color from 'components/store/lib/ui.colors';
 
 const Orders = () => {
   const dispatch = useAppDispatch();
-  const { checkouts, loading } = useAppSelector<TStoreCheckoutState>(
+  const { checkouts } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
   );
 

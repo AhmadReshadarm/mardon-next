@@ -3,25 +3,38 @@ import { Checkout } from 'swagger/services';
 import { devices } from '../lib/Devices';
 import Order from './Order';
 import color from '../lib/ui.colors';
-
+import Loading from 'ui-kit/Loading';
+import { useAppSelector } from 'redux/hooks';
+import { TStoreCheckoutState } from 'redux/types';
 type Props = {
   checkouts: Checkout[];
 };
 const MyOrders: React.FC<Props> = ({ checkouts }) => {
+  const { loading } = useAppSelector<TStoreCheckoutState>(
+    (state) => state.storeCheckout,
+  );
   return (
     <>
-      {Number(checkouts.length) > 0 ? (
-        <Wrapper>
-          <Content>
-            {checkouts.map((checkout, index) => (
-              <Order key={`order-${index}`} checkout={checkout} index={index} />
-            ))}
-          </Content>
-        </Wrapper>
+      {!loading ? (
+        Number(checkouts.length) > 0 ? (
+          <Wrapper>
+            <Content>
+              {checkouts.map((checkout, index) => (
+                <Order
+                  key={`order-${index}`}
+                  checkout={checkout}
+                  index={index}
+                />
+              ))}
+            </Content>
+          </Wrapper>
+        ) : (
+          <div className="no-orders">
+            <h2 className="empty-orders">У вас пока нет заказов</h2>
+          </div>
+        )
       ) : (
-        <div className="no-orders">
-          <h2 className="empty-orders">У вас пока нет заказов</h2>
-        </div>
+        <Loading />
       )}
     </>
   );

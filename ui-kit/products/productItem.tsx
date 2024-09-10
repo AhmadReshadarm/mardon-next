@@ -10,8 +10,6 @@ import Slider from './slider';
 import { handleHistory } from './helpers';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Basket } from 'swagger/services';
-import { checkIfItemInCart, handleCartBtnClick } from 'ui-kit/products/helpers';
-import { TrigerhandleCartBtnClick } from 'components/store/storeLayout/utils/SearchBar/helpers';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import {
@@ -19,10 +17,10 @@ import {
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { useEffect, useState } from 'react';
+import { TWishlistState } from 'redux/types';
 type Props = {
   product: Product;
   custom: number;
-  // name: string;
 };
 
 type StyleProps = {
@@ -112,12 +110,11 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             <span>{product.productVariants![0]?.price} ₽</span>
           </div>
           <div className="action-buttons-wrapper">
-            <AddToWishlist product={product} windowWidth={windowWidth} />
+            <AddToWishlist product={product} />
             <AddToCart
               product={product}
               qty={findCartQTY(product, cart)}
               variant={product?.productVariants![0]}
-              windowWidth={windowWidth}
             />
           </div>
         </div>
@@ -150,8 +147,6 @@ const ItemContainer = styled(motion.li)`
     max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
   }
   @media ${devices.tabletS} {
-    // min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
-    // max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 40px);
     min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
     max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
   }
@@ -177,7 +172,6 @@ const ItemWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  // padding: 0 0 20px 0;
 
   .product-title-add-to-card-wrapper {
     width: 100%;
@@ -240,6 +234,7 @@ const ItemWrapper = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 20px 0;
+      flex-basis: 100%;
     }
     .artical-wrapper {
       width: 100%;

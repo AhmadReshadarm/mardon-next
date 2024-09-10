@@ -2,12 +2,11 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import color from 'components/store/lib/ui.colors';
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
-import { TCartState } from 'redux/types';
+import { TCartState, TWishlistState } from 'redux/types';
 import styled from 'styled-components';
 import { OrderProduct, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from './helpers';
-import { useEffect, useState } from 'react';
 
 type Props = {
   orderProduct?: OrderProduct;
@@ -28,21 +27,6 @@ const HeaderProductItmes: React.FC<Props> = ({
       ? orderProduct!?.product!?.productVariants
       : product?.productVariants,
   );
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
 
   return (
     <ProductItemWrapper>
@@ -96,15 +80,11 @@ const HeaderProductItmes: React.FC<Props> = ({
             </div>
           </div>
           <div className="action-buttons-wrapper">
-            <AddToWishlist
-              product={orderProduct!?.product!}
-              windowWidth={windowWidth}
-            />
+            <AddToWishlist product={orderProduct!?.product!} />
             <AddToCart
               product={orderProduct!?.product!}
               qty={orderProduct!?.qty!}
               variant={product?.productVariants![0]}
-              windowWidth={windowWidth}
             />
           </div>
         </>
@@ -152,12 +132,11 @@ const HeaderProductItmes: React.FC<Props> = ({
             </div>
           </div>
           <div className="action-buttons-wrapper">
-            <AddToWishlist product={product!} windowWidth={windowWidth} />
+            <AddToWishlist product={product!} />
             <AddToCart
               product={product!}
               qty={findCartQTY(product, cart!)}
               variant={product?.productVariants![0]}
-              windowWidth={windowWidth}
             />
           </div>
         </>

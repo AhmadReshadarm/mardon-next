@@ -11,10 +11,9 @@ import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import color from '../lib/ui.colors';
 import { TrigerhandleWishBtnClick } from '../storeLayout/utils/SearchBar/helpers';
 import { handleWishBtnClick } from 'ui-kit/products/helpers';
-import { checkIfItemInCart } from 'ui-kit/products/helpers';
 import { TCartState } from 'redux/types';
-import { TrigerhandleCartBtnClick } from '../storeLayout/utils/SearchBar/helpers';
-import { handleCartBtnClick } from 'ui-kit/products/helpers';
+import { AddToCart } from 'ui-kit/ProductActionBtns';
+import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 type Props = {
   product: Product;
   index: number;
@@ -59,36 +58,11 @@ const ItemWishlist: React.FC<Props> = ({ product, index, wishlist }) => {
           </div>
 
           <div className="item-action-btns-wrapper">
-            <div
-              className="in-cart-sign"
-              onClick={TrigerhandleCartBtnClick(
-                product,
-                handleCartBtnClick(
-                  product,
-                  dispatch,
-                  product.productVariants![0],
-                  cart!,
-                ),
-              )}
-            >
-              <motion.button
-                key={'basket-pressed'}
-                animate={checkIfItemInCart(product, cart!) ? 'animate' : 'exit'}
-                variants={variants.fadeOutSlideOut}
-                className="in-cart"
-              >
-                <span>УЖЕ В КОРЗИНЕ</span>
-                <img src="/icons/vector.png" alt="in cart sign" />
-              </motion.button>
-              <motion.button
-                key={'basket-normal'}
-                animate={checkIfItemInCart(product, cart!) ? 'exit' : 'animate'}
-                variants={variants.fadeOutSlideOut}
-                className="not-in-cart"
-              >
-                <span>В КОРЗИНУ</span>
-              </motion.button>
-            </div>
+            <AddToCart
+              product={product!}
+              qty={findCartQTY(product, cart!)}
+              variant={product?.productVariants![0]}
+            />
           </div>
         </ItemDetails>
         <motion.button
@@ -191,8 +165,8 @@ const ItemDetails = styled.div`
     width: 100%;
     h4 {
       text-align: left;
-      font-family: 'Anticva';
-      font-size: 1.8rem;
+      // font-family: 'Anticva';
+      // font-size: 1.8rem;
       font-weight: 400;
       &:hover {
         text-decoration: underline 1px;

@@ -312,6 +312,7 @@ const Products = styled.div`
   height: 100vh;
   overflow-y: scroll;
   overflow-x: hidden;
+
   &::-webkit-scrollbar {
     width: 5px;
   }

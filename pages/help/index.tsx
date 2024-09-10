@@ -74,11 +74,6 @@ const Help = () => {
                 />
               </div>
               <button
-                // disabled={
-                //   isEmpty(text) || isEmpty(email) || !isEmail(email)
-                //     ? true
-                //     : false
-                // }
                 onClick={() => {
                   if (isEmpty(email) || !isEmail(email)) {
                     openErrorNotification(
