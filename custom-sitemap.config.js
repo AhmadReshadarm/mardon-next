@@ -35,7 +35,7 @@ module.exports = {
           '/privacy',
           '/api',
           '/api/*',
-          '\nClean-param: categories&subCategories&tags&colors&minPrice&maxPrice /catalog',
+          '\nClean-param: categories&subCategories&tags&colors&minPrice&maxPrice&page&limit /catalog',
         ],
         allow: ['/', '/*'],
       },
