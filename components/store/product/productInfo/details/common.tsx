@@ -1,6 +1,9 @@
 import { devices } from 'components/store/lib/Devices';
 import styled from 'styled-components';
-const UserSelectWrapper = styled.div`
+type StyleProps = {
+  textWidth?: number;
+};
+const UserSelectWrapper = styled.div<StyleProps>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -20,7 +23,6 @@ const UserSelectWrapper = styled.div`
   }
   .product-header-1 {
     font-family: ricordi;
-    font-size: 2.3rem;
   }
 
   .product-title-wrapper {
@@ -36,7 +38,44 @@ const UserSelectWrapper = styled.div`
       background-color: #000000;
     }
   }
-  @media ${devices.tabletL} {
+
+  ${(props) => {
+    return props.textWidth! > 45
+      ? `
+    .product-header-1{
+    font-size: 1.5rem;
+    }
+     @media ${devices.tabletL} {
+    .product-header-1 {
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    .product-header-1 {
+      font-size: 1.2rem;
+    }
+  }
+  @media ${devices.mobileL} {
+    .product-header-1 {
+      font-size: 1rem;
+    }
+  }
+  @media ${devices.mobileM} {
+    .product-header-1 {
+      font-size: 1rem;
+    }
+  }
+  @media ${devices.mobileS} {
+    .product-header-1 {
+      font-size: 0.8rem;
+    }
+  }
+    `
+      : `
+    .product-header-1{
+    font-size: 2.3rem;
+    }
+     @media ${devices.tabletL} {
     .product-header-1 {
       font-size: 1.5rem;
     }
@@ -61,6 +100,8 @@ const UserSelectWrapper = styled.div`
       font-size: 1rem;
     }
   }
+    `;
+  }};
 `;
 
 export { UserSelectWrapper };

@@ -75,7 +75,7 @@ const Details: React.FC<Props> = ({
   // }, [product]);
   return (
     <DetailsContainer>
-      <UserSelectWrapper>
+      <UserSelectWrapper textWidth={product?.name?.length!}>
         <div className="product-title-wrapper">
           <div className="title-top-bar"></div>
           <motion.h1
