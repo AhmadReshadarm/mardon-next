@@ -11,9 +11,9 @@ type Props = {
   children: JSX.Element | JSX.Element[] | string | string[];
 };
 
-const InfoDropdown = ({ title, children, borderBottom }: Props) => {
-  const [openInfo, setOpenInfo] = useState(true);
-  const [displayInfo, setDisplayInfo] = useState('flex');
+const InfoDropdownReturn = ({ title, children, borderBottom }: Props) => {
+  const [openInfo, setOpenInfo] = useState(false);
+  const [displayInfo, setDisplayInfo] = useState('none');
 
   return (
     <InfoWrappers style={{ border: borderBottom }}>
@@ -106,4 +106,4 @@ const InfoContentWrappers = styled(motion.div)`
   }
 `;
 
-export default InfoDropdown;
+export default InfoDropdownReturn;
