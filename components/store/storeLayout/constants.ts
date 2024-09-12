@@ -5,7 +5,7 @@ export enum PopupDisplay {
 
 const content = {
   aboutUs: [
-    // { text: 'Новости', url: '/news' },
+    { text: 'Возврат товара', url: '/return-policy' },
     { text: 'Отзывы', url: '/reviews' },
     { text: 'Контакты', url: '/contacts' },
   ],
