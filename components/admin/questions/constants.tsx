@@ -1,28 +1,28 @@
 import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
-import { Product, Tag } from 'swagger/services';
+import { Question } from 'swagger/services';
 // import { handleRedirectBrands } from '../brands/helpers';
-import { handleRedirectCategory } from '../categories/helpers';
+import { handleRedirectProduct } from '../categories/helpers';
 
 import TableLink from '../products/TableLink';
-import { handleRedirectTags } from '../tags/helpers';
 import styles from './products.module.scss';
 import { EditRedirectBtn } from './EditRedirectBtn';
+import { Role } from 'common/enums/roles.enum';
 
-export const columns: ColumnsType<Product> = [
+export const columns: ColumnsType<Question> = [
   {
-    title: 'Id',
+    title: 'Вопрос ID',
     dataIndex: 'id',
-    width: '3.5%',
+    width: '2.5%',
   },
   {
     title: 'Изображения',
     dataIndex: 'images',
     render: (_, record) => {
-      if (record.productVariants) {
-        const imagesString = record.productVariants[0]
-          ? record.productVariants[0].images
+      if (record.product) {
+        const imagesString = record.product.productVariants![0]
+          ? record.product.productVariants![0].images
           : '';
         const images = imagesString?.split(', ');
         return (
@@ -57,64 +57,40 @@ export const columns: ColumnsType<Product> = [
     width: '10%',
   },
   {
-    title: 'Имя',
-    dataIndex: 'name',
+    title: 'Вопрос о товаре',
+    dataIndex: 'text',
     width: '7.5%',
   },
   {
-    title: 'Категория',
+    title: 'Пользователь',
+    dataIndex: 'user',
+    render: (_, record) => {
+      return (
+        <span>
+          {record.user?.role == Role.Admin ? 'Admin' : record.user?.email}
+        </span>
+      );
+    },
+    width: '7.5%',
+  },
+  {
+    title: 'URL-адрес товара',
     render: (_, record) => {
       return (
         <TableLink
-          id={record.category!.id as string}
-          name={record.category!.name as string}
-          handleRedirect={handleRedirectCategory}
+          id={record.product?.url as string}
+          name={record.product?.url as string}
+          handleRedirect={handleRedirectProduct}
         />
       );
     },
     width: '7.5%',
   },
-  // {
-  //   title: 'Бренд',
-  //   render: (_, record) => {
-  //     return (
-  //       <TableLink
-  //         id={record.brand!.id as string}
-  //         name={record.brand!.name as string}
-  //         handleRedirect={handleRedirectBrands}
-  //       />
-  //     );
-  //   },
-  //   width: '7.5%',
-  // },
-  // {
-  //   title: 'URL',
-  //   dataIndex: 'url',
-  // },
-  {
-    title: 'Теги',
-    dataIndex: 'tags',
-    render: (_, record) => {
-      return (
-        <ul>
-          {(record?.tags as Tag[]).map((tag) => (
-            <li key={tag.id}>
-              <TableLink
-                id={tag!.id as string}
-                name={tag!.name as string}
-                handleRedirect={handleRedirectTags}
-              />
-            </li>
-          ))}
-        </ul>
-      );
-    },
-    width: '7.5%',
-  },
+
   {
     title: 'Действия',
     render: (_, record) => {
-      return <EditRedirectBtn id={record.url} />;
+      return <EditRedirectBtn id={record.id} />;
     },
     width: '7.5%',
   },

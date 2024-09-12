@@ -34,10 +34,11 @@ import {
 import styled from 'styled-components';
 import { Role } from 'common/enums/roles.enum';
 import { TAuthState } from 'redux/types';
+import { useRouter } from 'next/router';
 
 const Quastion = ({ product }) => {
   const dispatch = useAppDispatch();
-  const [filterValue, setFilterValue] = useState('Сначала полезные');
+  const [filterValue, setFilterValue] = useState('Сначала новые');
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [isQuestionModalVisible, setIsQuestionModalVisible] = useState(false);
   const [questionId, setQuestion] = useState('');
@@ -157,13 +158,20 @@ const Quastion = ({ product }) => {
     setFilterValue(option);
     dispatch(sortQuestions(option));
   };
+
+  const router = useRouter();
+
   return (
     <>
-      <Filters
-        options={quastionsDropdownOption}
-        value={filterValue}
-        setValue={handleSortChange}
-      />
+      {router.pathname.includes('/admin') ? (
+        ''
+      ) : (
+        <Filters
+          options={quastionsDropdownOption}
+          value={filterValue}
+          setValue={handleSortChange}
+        />
+      )}
       <ReviewContainer>
         {product?.questions?.map((question) => {
           const isReviewLiked = !!question.reactions?.find(
@@ -183,7 +191,7 @@ const Quastion = ({ product }) => {
           );
 
           return (
-            <>
+            <div className="comment-map-func-wrapper" key={question.id}>
               <ReviewReplyWrapper
                 initial="init"
                 whileInView="animate"
@@ -287,6 +295,7 @@ const Quastion = ({ product }) => {
                     viewport={{ once: true }}
                     custom={0.3}
                     variants={variants.fadInSlideUp}
+                    key={comment.id}
                   >
                     {/* ______ edite mode start  _______ */}
                     {isCommentEditeSendVisibleMap[comment?.id!] ? (
@@ -423,7 +432,7 @@ const Quastion = ({ product }) => {
                   </div>
                 </UserCommentWrapper>
               )}
-            </>
+            </div>
           );
         })}
       </ReviewContainer>

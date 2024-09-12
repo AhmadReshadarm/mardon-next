@@ -15,20 +15,28 @@ const AuthorizeReviewBtn = (props: any) => {
     <>
       <AddReviewBtn
         onClick={() => {
-          setSignInAlert(user ? false : true);
+          // setSignInAlert(user ? false : true);
+
+          if (!user) {
+            openErrorNotification('Войдите, чтобы написать отзыв');
+            return;
+          }
+
           if (user) {
             if (!isInUserCheckout(productId, checkouts)) {
               openErrorNotification('Этого товара нет в списке ваших заказов');
+              return;
             }
             if (!user.isVerified) {
               openErrorNotification(
                 'Адрес эл. почты не подтвержден, Зайти в личный кабинет для подтверждения',
               );
+              return;
             }
           }
-          setTimeout(() => {
-            setSignInAlert(false);
-          }, 3000);
+          // setTimeout(() => {
+          //   setSignInAlert(false);
+          // }, 3000);
         }}
       >
         <span>{text}</span>
@@ -52,27 +60,26 @@ const AuthorizeReviewBtn = (props: any) => {
 
 const AddReviewBtn = styled.button`
   width: 100%;
-  height: 40px;
+  height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: ${color.btnSecondery};
+  background-color: ${color.buttonPrimary};
   cursor: pointer;
   transition: 300ms;
-  border-radius: 3px;
+  border-radius: 30px;
+
   &:hover {
-    background-color: ${color.searchBtnBg};
     transform: scale(1.02);
   }
   &:active {
     transform: scale(1);
-    background-color: ${color.btnPrimary};
-    color: ${color.textPrimary};
   }
   span {
     font-family: 'Jost';
     font-size: 1rem;
+    color: ${color.textPrimary};
   }
 `;
 

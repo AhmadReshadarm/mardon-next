@@ -72,6 +72,10 @@ const handleRedirectCategory = (id: string, router: NextRouter) => () => {
   router.push(`${paths[Page.ADMIN_CATEGORIES]}/${id}`);
 };
 
+const handleRedirectProduct = (url: string, router: NextRouter) => () => {
+  router.push(`/product/${url}`);
+};
+
 const handleParameterChange =
   (index: number, setParameters: Dispatch<SetStateAction<Parameter[]>>) =>
   (e) => {
@@ -118,6 +122,7 @@ export {
   handleFormSubmit,
   handleDeleteCategory,
   handleRedirectCategory,
+  handleRedirectProduct,
   handleParameterChange,
   handleRemoveParameter,
   handleAddParameter,

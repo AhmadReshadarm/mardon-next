@@ -15,6 +15,7 @@ import imagesReducer from './slicers/imagesSlicer';
 import multipleImagesSlicer from './slicers/mutipleImagesSlicer';
 import tagsReducer from './slicers/tagsSlicer';
 import sizesReducer from './slicers/sizesSlicer';
+import questionReducer from './slicers/questionSlicer';
 import reviewsReducer from './slicers/reviewsSlicer';
 import globalSlicer from './slicers/store/globalSlicer';
 import globalUISlicer from './slicers/store/globalUISlicer';
@@ -41,6 +42,7 @@ const combinedReducer = combineReducers({
   multipleImages: multipleImagesSlicer,
   tags: tagsReducer,
   sizes: sizesReducer,
+  questions: questionReducer,
   reviews: reviewsReducer,
   checkouts: checkoutsReducer,
   // analytics: analyticsReducer,

@@ -31,6 +31,7 @@ import {
   CategoryResponse,
   SubscribersResponse,
   Rating,
+  Question,
 } from 'swagger/services';
 
 type TCategoryState = {
@@ -156,6 +157,14 @@ type TReviewState = {
   loading: boolean;
   saveLoading: boolean;
   reviewsLenght: number;
+};
+
+type TQuestionState = {
+  questions?: Question[];
+  question: Question | undefined;
+  loading: boolean;
+  saveLoading: boolean;
+  questionsLenght?: number;
 };
 
 type TGlobalState = {
@@ -369,6 +378,7 @@ export type {
   TTagState,
   TSizeState,
   TReviewState,
+  TQuestionState,
   TGlobalState,
   TGlobalUIState,
   TCartState,

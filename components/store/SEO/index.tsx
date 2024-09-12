@@ -59,6 +59,13 @@ const socialTags = ({
 };
 
 const SEO = ({ product, images }) => {
+  if (product.statusCode == 404) {
+    return (
+      <Head>
+        <title>Страница не найдена | NBHOZ 404</title>
+      </Head>
+    );
+  }
   const url = `${baseUrl}/product/${product?.url}`;
 
   return (

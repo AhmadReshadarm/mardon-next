@@ -1,14 +1,10 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import QuastionList from './Quastions';
-import AuthorizeQuastionBtn from '../AuthorizeBtn';
 import AskQuastion from './askQuastion';
 import { useAppSelector } from 'redux/hooks';
 import { TProductInfoState, TAuthState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-import { motion } from 'framer-motion';
 import { openErrorNotification } from 'common/helpers';
 
 const Quastions = ({ productId, userId }) => {
@@ -104,27 +100,25 @@ const ContentWrapper = styled.div`
 
 const AddReviewBtn = styled.button`
   width: 100%;
-  height: 40px;
+  height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: ${color.btnSecondery};
+  background-color: ${color.buttonPrimary};
   cursor: pointer;
   transition: 300ms;
-  border-radius: 3px;
+  border-radius: 30px;
   &:hover {
-    background-color: ${color.searchBtnBg};
     transform: scale(1.02);
   }
   &:active {
     transform: scale(1);
-    background-color: ${color.btnPrimary};
-    color: ${color.textPrimary};
   }
   span {
     font-family: 'Jost';
     font-size: 1rem;
+    color: ${color.textPrimary};
   }
 `;
 

@@ -6,13 +6,11 @@ import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/questions/constants';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  clearProductsWithQuestions,
-  fetchProductsWithQuestions,
-} from 'redux/slicers/store/productInfoSlicer';
-import { TProductInfoState } from 'redux/types';
+import { clearProductsWithQuestions } from 'redux/slicers/store/productInfoSlicer';
+import { TQuestionState } from 'redux/types';
 
 import styles from './index.module.scss';
+import { fetchQuestions } from 'redux/slicers/questionSlicer';
 
 const PAGE_ITEMS_LIMIT = 20;
 
@@ -21,48 +19,24 @@ const QuestionsPage = () => {
   const { offset, setOffset } = useContext(AppContext);
 
   const dispatch = useAppDispatch();
-  const { products, loading, productsLength } =
-    useAppSelector<TProductInfoState>((state) => state.productInfo);
+  const { questions, loading, questionsLenght } =
+    useAppSelector<TQuestionState>((state) => state.questions);
 
-  const dataSource = (products as any)?.map(
-    ({
-      id,
-      name,
-      price,
-      oldPrice,
-      desc,
-      available,
-      colors,
-      category,
-      images,
-      brand,
-      tags,
-      url,
-      productVariants,
-      ...rest
-    }) => ({
+  const dataSource = (questions as any)?.map(
+    ({ id, text, user, product, ...rest }) => ({
       key: id,
       id,
-      name,
-      oldPrice,
-      price,
-      desc,
-      available: available ? 'Да' : 'Нет',
-      colors,
-      category,
-      images: (images as string)?.split(','),
-      brand,
-      tags,
-      url,
-      productVariants,
+      text,
+      user,
+      product,
     }),
   ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(
-      fetchProductsWithQuestions({
+      fetchQuestions({
         offset: String(offset),
-        limit: PAGE_ITEMS_LIMIT,
+        limit: String(PAGE_ITEMS_LIMIT),
       }),
     );
 
@@ -92,15 +66,15 @@ const QuestionsPage = () => {
           <Pagination
             style={{ marginTop: '20px' }}
             defaultCurrent={currentPage}
-            total={productsLength}
+            total={questionsLenght}
             pageSize={PAGE_ITEMS_LIMIT}
             onChange={(current) => {
               const newOffset = ((current as number) - 1) * PAGE_ITEMS_LIMIT;
               setOffset(newOffset);
               dispatch(
-                fetchProductsWithQuestions({
+                fetchQuestions({
                   offset: String(newOffset),
-                  limit: PAGE_ITEMS_LIMIT,
+                  limit: String(PAGE_ITEMS_LIMIT),
                 }),
               );
               setCurrentPage(current as number);

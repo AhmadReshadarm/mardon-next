@@ -49,7 +49,6 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   //     };
   //   }
   // }
-  console.log(product?.desc?.split(`\n`));
 
   return (
     <InfoContainer

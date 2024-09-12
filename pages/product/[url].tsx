@@ -18,6 +18,7 @@ import FallbackRender from 'ui-kit/FallbackRenderer';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
 import { baseUrl } from 'common/constant';
+import NotFound from 'pages/404';
 
 export const getServerSideProps = (async (context) => {
   const { url } = context.query;
@@ -89,6 +90,8 @@ const ProductInfoPage = ({
                 />
               </ErrorBoundary>
             </>
+          ) : !!!product && !loading ? (
+            <NotFound />
           ) : (
             <LoadingWrapper>
               <Loading />
