@@ -2,14 +2,16 @@ import styled from 'styled-components';
 import color from '../../lib/ui.colors';
 // import Map, { Marker, GeolocateControl, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { coordToAddress } from './helpers';
-import { MAPBOX_TOKEN } from './constant';
+// import { coordToAddress } from './helpers';
+// import { MAPBOX_TOKEN } from './constant';
 import { devices } from 'components/store/lib/Devices';
 import {
   GeolocationControl,
   Map,
+  SearchControl,
   ZoomControl,
-  Placemark,
+
+  // Placemark,
 } from 'react-yandex-maps';
 import { useState, useRef, useEffect } from 'react';
 import { initialStateAdress } from './constant';
@@ -26,7 +28,7 @@ const geolocationOptions = {
   defaultOptions: {
     maxWidth: 300,
   },
-  defaultData: { content: 'Определить ваше местоположение' },
+  defaultData: { content: 'Определить местоположение' },
 };
 
 const MapContainer = (props: any) => {
@@ -106,6 +108,12 @@ const MapContainer = (props: any) => {
 
         <GeolocationControl {...geolocationOptions} />
         <ZoomControl />
+        <SearchControl
+          options={{
+            float: 'left',
+            noSuggestPanel: 'true',
+          }}
+        />
       </Map>
       {/* <Map
         {...viewport}

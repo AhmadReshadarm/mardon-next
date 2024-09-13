@@ -36,26 +36,40 @@ const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
             <h1>{orderProduct!?.product!?.name}</h1>
           </Link>
 
-          <span>
+          <span
+            title={
+              orderProduct!?.product?.desc?.includes('|')
+                ? orderProduct!?.product?.desc?.split('|')[1]
+                : orderProduct!?.product?.desc?.slice(0, 60)
+            }
+          >
             {orderProduct!?.product?.desc?.includes('|')
-              ? orderProduct!?.product?.desc?.split('|')[1]
-              : orderProduct!?.product?.desc?.slice(0, 60)}
+              ? orderProduct!?.product?.desc?.split('|')[1].slice(0, 200) +
+                '...'
+              : orderProduct!?.product?.desc?.slice(0, 60).slice(0, 200) +
+                '...'}
           </span>
         </div>
 
         <div className="price-sperator-wrapper">
           <div className="old-new-price-wrapper">
-            {orderProduct!.productVariant?.oldPrice ? (
-              <span className="old-price">
-                {orderProduct!?.productVariant?.oldPrice} ₽
-              </span>
-            ) : (
-              ''
-            )}
-            <span>{orderProduct!?.productVariant?.price} ₽</span>
+            <span
+              style={{
+                display: !orderProduct!.productVariant?.oldPrice
+                  ? 'none'
+                  : 'flex',
+              }}
+              className="old-price"
+            >
+              {orderProduct!?.productVariant?.oldPrice} ₽
+            </span>
+            <span>
+              {orderProduct!?.qty!}шт x {orderProduct!?.productVariant?.price} ₽
+            </span>
           </div>
           <span className="total-price-wrapper">
-            {orderProduct!?.qty! * orderProduct!?.productVariant?.price!} ₽
+            Итого:{orderProduct!?.qty! * orderProduct!?.productVariant?.price!}{' '}
+            ₽
           </span>
         </div>
       </div>
@@ -128,31 +142,32 @@ const ProductItemWrapper = styled.div`
         justify-content: flex-start;
         align-items: center;
         gap: 10px;
-        span {
-          color: ${color.textBase};
-        }
-        .old-price {
-          text-decoration: line-through;
-          font-size: 0.8rem;
-        }
-      }
-      .old-new-price-wishlist-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 20px;
-        span {
-          color: ${color.textSecondary};
-          font-size: 1.5rem;
-        }
+        // span {
+        //   color: ${color.textBase};
+        // }
         .old-price {
           text-decoration: line-through;
           font-size: 0.8rem;
           color: ${color.textBase};
         }
       }
+      // .old-new-price-wishlist-wrapper {
+      //   width: 100%;
+      //   display: flex;
+      //   flex-direction: row;
+      //   justify-content: flex-end;
+      //   align-items: center;
+      //   gap: 20px;
+      //   span {
+      //     color: ${color.textSecondary};
+      //     font-size: 1.5rem;
+      //   }
+      //   .old-price {
+      //     text-decoration: line-through;
+      //     font-size: 0.8rem;
+      //     color: ${color.textBase};
+      //   }
+      // }
       .total-price-wrapper {
         font-size: 1.5rem;
       }

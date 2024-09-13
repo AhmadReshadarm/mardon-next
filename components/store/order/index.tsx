@@ -83,7 +83,7 @@ const Content = styled.ul`
   align-items: center;
   gap: 40px;
   border-radius: 10px;
-  box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
+  // box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
 `;
 
 export default MyOrders;

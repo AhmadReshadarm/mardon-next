@@ -70,19 +70,19 @@ const Wrapper = styled.div`
   padding: 20px 0;
   gap: 30px;
   @media ${devices.tabletL} {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   @media ${devices.tabletS} {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   @media ${devices.mobileL} {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   @media ${devices.mobileM} {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   @media ${devices.mobileS} {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 `;
 

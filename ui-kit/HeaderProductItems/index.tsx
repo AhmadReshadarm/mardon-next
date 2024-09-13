@@ -2,7 +2,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import color from 'components/store/lib/ui.colors';
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
-import { TCartState, TWishlistState } from 'redux/types';
+import { TCartState } from 'redux/types';
 import styled from 'styled-components';
 import { OrderProduct, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
@@ -32,13 +32,18 @@ const HeaderProductItmes: React.FC<Props> = ({
     <ProductItemWrapper>
       {dataType == 'cart' ? (
         <>
-          <img
-            src={`/api/images/${images[0]}`}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-            }}
-          />
+          <Link
+            onClick={() => handleMenuState()}
+            href={`/product/${orderProduct!.product?.url}`}
+          >
+            <img
+              src={`/api/images/${images[0]}`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/img_not_found.png';
+              }}
+            />
+          </Link>
           <div className="product-details-wrapper">
             <div className="product-title-description-wrapper">
               <Link
@@ -59,22 +64,29 @@ const HeaderProductItmes: React.FC<Props> = ({
                     : orderProduct!?.product?.desc?.split('|')[0]
                   : orderProduct!?.product?.desc?.length! > 60
                   ? orderProduct!?.product?.desc?.slice(0, 60) + '...'
-                  : orderProduct!?.product?.desc?.slice(0, 60)}
+                  : orderProduct!?.product?.desc?.slice(0, 60) + '...'}
               </span>
             </div>
 
             <div className="price-sperator-wrapper">
               <div className="old-new-price-wrapper">
-                {orderProduct!.productVariant?.oldPrice ? (
-                  <span className="old-price">
-                    {orderProduct!?.productVariant?.oldPrice} ₽
-                  </span>
-                ) : (
-                  ''
-                )}
-                <span>{orderProduct!?.productVariant?.price} ₽</span>
+                <span
+                  style={{
+                    display: !orderProduct!.productVariant?.oldPrice
+                      ? 'none'
+                      : 'flex',
+                  }}
+                  className="old-price"
+                >
+                  {orderProduct!?.productVariant?.oldPrice} ₽
+                </span>
+                <span>
+                  {orderProduct!?.qty!}шт x{' '}
+                  {orderProduct!?.productVariant?.price} ₽
+                </span>
               </div>
               <span className="total-price-wrapper">
+                Итого:
                 {orderProduct!?.qty! * orderProduct!?.productVariant?.price!} ₽
               </span>
             </div>
@@ -90,13 +102,18 @@ const HeaderProductItmes: React.FC<Props> = ({
         </>
       ) : (
         <>
-          <img
-            src={`/api/images/${images[0]}`}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-            }}
-          />
+          <Link
+            onClick={() => handleMenuState()}
+            href={`/product/${product?.url}`}
+          >
+            <img
+              src={`/api/images/${images[0]}`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/img_not_found.png';
+              }}
+            />
+          </Link>
           <div className="product-details-wrapper">
             <div className="product-title-description-wrapper">
               <Link
@@ -117,7 +134,6 @@ const HeaderProductItmes: React.FC<Props> = ({
                 }`}
               </span>
             </div>
-
             <div className="price-sperator-wrapper">
               <div className="old-new-price-wishlist-wrapper">
                 {product?.productVariants![0]?.oldPrice ? (
@@ -200,31 +216,14 @@ const ProductItemWrapper = styled.div`
         justify-content: flex-start;
         align-items: center;
         gap: 10px;
-        span {
-          color: ${color.textBase};
-        }
-        .old-price {
-          text-decoration: line-through;
-          font-size: 0.8rem;
-        }
-      }
-      .old-new-price-wishlist-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 20px;
-        span {
-          color: ${color.textSecondary};
-          font-size: 1.5rem;
-        }
+
         .old-price {
           text-decoration: line-through;
           font-size: 0.8rem;
           color: ${color.textBase};
         }
       }
+
       .total-price-wrapper {
         font-size: 1.5rem;
       }

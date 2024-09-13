@@ -213,7 +213,7 @@ const Items = styled(motion.li)`
   justify-content: flex-start;
   align-items: flex-start;
   border-radius: 20px;
-
+  box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
   .order-status-wrapper {
     width: 100%;
     display: flex;
@@ -261,7 +261,7 @@ const Items = styled(motion.li)`
       display: grid;
       gap: 20px;
       grid-template-columns: repeat(2, 1fr);
-      height: 100vh;
+      height: 75vh;
       align-items: flex-start;
       overflow-y: scroll;
       padding: 30px;
@@ -271,7 +271,7 @@ const Items = styled(motion.li)`
       .product {
         display: flex;
         width: 260px;
-        height: 380px;
+        height: 450px;
         flex-direction: column;
         -webkit-box-pack: start;
         justify-content: flex-start;
@@ -291,7 +291,7 @@ const Items = styled(motion.li)`
           justify-content: flex-start;
           img {
             width: 100%;
-            height: 180px;
+            height: 260px;
             border-radius: 10px 10px 0 0;
             object-fit: cover;
           }

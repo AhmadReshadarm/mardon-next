@@ -469,12 +469,15 @@ const Review = ({ product }) => {
                             <span className="date-stars">
                               <span className="post-date">
                                 {moment(comment.createdAt).format('DD.MM.YYYY')}
-                                {comment.user?.id == user?.id && (
+                                {user?.role === Role.Admin ||
+                                (comment.user?.id == user?.id && user) ? (
                                   <button
                                     onClick={onCommentRemoveClick(comment.id!)}
                                   >
                                     Удалить
                                   </button>
+                                ) : (
+                                  ''
                                 )}
                                 {user?.role === Role.Admin &&
                                 comment.user?.id == user?.id ? (

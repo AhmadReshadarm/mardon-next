@@ -25,7 +25,10 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         href={`/product/${orderProduct.product?.url}`}
         className="image-wrapper"
       >
-        <img src={`/api/images/${images ? images[0] : ''}`} alt="" />
+        <img
+          src={`/api/images/${images ? images[0] : ''}`}
+          alt={orderProduct.product?.name}
+        />
       </Link>
       <div className="product-info-wrapper">
         <Link
@@ -34,7 +37,7 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         >
           <span>
             {orderProduct.product?.name?.length! > 50
-              ? `${orderProduct.product?.name?.slice(0, 50)}...`
+              ? `${orderProduct.product?.name?.slice(0, 40)}...`
               : orderProduct.product?.name}
           </span>
         </Link>

@@ -22,7 +22,9 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
   };
   return (
     <Wrapper>
-      <CartTotalPrice>
+      <CartTotalPrice
+        style={{ display: cart?.totalAmount == 0 ? 'none' : 'flex' }}
+      >
         <span className="total-text">Ваша корзина</span>
         <span>Итого: {getTotalPrice(cart?.orderProducts!, user)} ₽</span>
       </CartTotalPrice>
@@ -30,14 +32,11 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
         <div className="footer-no-border"></div>
         <div className="footer-border"></div>
       </div>
-      {/* <StoreLocationWrapper>
-        <img src="/icons/location-basket.png" alt="fingarden location" />
-        <span>
-          Санкт-Петербург, <br /> ул. Заозерного д.10{' '}
-        </span>
-      </StoreLocationWrapper> */}
       <CheckoutBtnWrapper>
-        <Link href={cart?.totalAmount == 0 ? '/cart' : '/checkout'}>
+        <Link
+          style={{ display: cart?.totalAmount == 0 ? 'none' : 'flex' }}
+          href={cart?.totalAmount == 0 ? '/cart' : '/checkout'}
+        >
           <CheckoutBtn
             whileHover="hover"
             whileTap="tap"

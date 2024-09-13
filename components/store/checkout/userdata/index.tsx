@@ -10,7 +10,7 @@ import { styleProps } from 'components/store/lib/types';
 import { geoLocatClick } from './helpers';
 import AutoFill from './Autofill';
 import Locate from '../../../../assets/geolocate.svg';
-import AddressDetails from './AddressDetails';
+// import AddressDetails from './AddressDetails';
 import ReciverData from './ReciverData';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -40,6 +40,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   // });
 
   const [viewport, setViewPort] = useState({ ...initialStateAdress });
+
   //
   // useEffect(() => {
   //   const { latitude, longitude } = viewport;

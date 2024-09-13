@@ -233,18 +233,23 @@ const Container = styled.div`
   }
   @media ${devices.tabletL} {
     width: 100%;
+    position: unset;
   }
   @media ${devices.tabletS} {
     width: 100%;
+    position: unset;
   }
   @media ${devices.mobileL} {
     width: 100%;
+    position: unset;
   }
   @media ${devices.mobileM} {
     width: 100%;
+    position: unset;
   }
   @media ${devices.mobileS} {
     width: 100%;
+    position: unset;
   }
 `;
 

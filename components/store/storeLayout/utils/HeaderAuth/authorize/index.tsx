@@ -50,25 +50,26 @@ const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
               ></motion.div>
 
               <div className="auth-buttons-row">
-                {authType !== 'signup' && isHelperActive ? (
-                  <div className="helper-box-wrapper">
-                    <div className="box arrow-top">
-                      <span
-                        className="helper-close-btn"
-                        onClick={() => setIshelperActive(false)}
-                      >
-                        <CloseSVGWhite />
-                      </span>
-                      <span>
-                        Если у вас нет аккаунт, нажмите здесь чтобы создать
-                        новую аккаунт
-                      </span>
-                    </div>
+                <div
+                  style={{
+                    display:
+                      authType !== 'signup' && isHelperActive ? 'flex' : 'none',
+                  }}
+                  className="helper-box-wrapper"
+                >
+                  <div className="box arrow-top">
+                    <span
+                      className="helper-close-btn"
+                      onClick={() => setIshelperActive(false)}
+                    >
+                      <CloseSVGWhite />
+                    </span>
+                    <span>
+                      Если у вас нет аккаунт, нажмите здесь чтобы создать новую
+                      аккаунт
+                    </span>
                   </div>
-                ) : (
-                  ''
-                )}
-
+                </div>
                 <h2
                   className="sign-in-tab"
                   onClick={() => paginate(paginateTo.forward, 'selection')}

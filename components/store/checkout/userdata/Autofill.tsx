@@ -3,12 +3,12 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import color from '../../lib/ui.colors';
 import {
-  AddressAutofill,
-  addressToCoord,
+  // AddressAutofill,
+  // addressToCoord,
   handleHiddenInputChange,
 } from './helpers';
 import { InputsTooltip } from '../helpers';
-import { MAPBOX_TOKEN } from './constant';
+// import { MAPBOX_TOKEN } from './constant';
 import Locate from '../../../../assets/geolocate.svg';
 import Close from '../../../../assets/close_black.svg';
 import { initialStateAdress } from './constant';
@@ -55,9 +55,9 @@ const AutoFill = (props: any) => {
           <span
             className="address-clear-btn"
             onClick={
-              () => handleReset()
+              () => handleReset() // setAddress('')
               //   {
-              //   setAddress('');
+              //    handleReset()
               //   // setPostCode('');
               // }
             }
