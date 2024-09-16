@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 /.next
+/out
+/android
+/resources
 /.env.local
 package-lock.json
 **/package-lock.json

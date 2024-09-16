@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "build:gen": "node ./swagger/codegen.js",
-    "postbuild": "next-sitemap --config custom-sitemap.config.js"
+    "postbuild": "next-sitemap --config custom-sitemap.config.js",
+    "static": "next build && next export",
+    "resources": "capacitor-resources -p android"
   },
   "dependencies": {
     "@brainhubeu/react-carousel": "^2.0.4",
@@ -42,7 +44,7 @@
     "json-server": "^0.17.3",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^2.9.2",
+    "mapbox-gl": "^3.6.0",
     "moment": "^2.29.4",
     "next": "^13.4.19",
     "next-redux-wrapper": "^8.1.0",

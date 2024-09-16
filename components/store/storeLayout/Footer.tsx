@@ -4,7 +4,7 @@ import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import { Container } from './common';
 import { devices } from '../lib/Devices';
-import CloseSVg from '../../../assets/close_black.svg';
+import { CloseSVGBlack } from '../../../assets/icons/UI-icons';
 import { handleCookiesClick, acceptedCookies } from './helpers';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
@@ -226,7 +226,7 @@ const Footer = (): JSX.Element => {
             }}
             className="close-btn-wrapper"
           >
-            <CloseSVg />
+            <CloseSVGBlack />
           </span>
         </div>
         <div className="notification-cookies">
