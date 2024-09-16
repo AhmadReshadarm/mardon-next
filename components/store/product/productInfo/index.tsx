@@ -106,7 +106,8 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   href={`/catalog?categories=${product?.category?.parent.url}`}
                 >
                   <span title={product?.category?.parent?.name}>
-                    {product?.category?.parent?.name?.length! > 16
+                    {product?.category?.parent?.name?.length! > 16 &&
+                    windowWidth > 1024
                       ? `${product?.category?.parent?.name?.slice(0, 16)}..`
                       : product?.category?.parent?.name}
                   </span>
@@ -120,11 +121,28 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}`}
                 >
                   <span title={product?.category?.name}>
-                    {product?.category?.name?.length! > 20
-                      ? `${product?.category?.name?.slice(0, 20)}..`
+                    {product?.category?.name?.length! > 16 && windowWidth > 1024
+                      ? `${product?.category?.name?.slice(0, 16)}..`
                       : product?.category?.name}
                   </span>
                 </Link>
+              )}
+              {!!product?.tags![0] && (
+                <>
+                  <span>
+                    <ArrowGray />
+                  </span>
+                  <Link
+                    href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}
+                  >
+                    <span title={product?.tags[0].name}>
+                      {product?.tags[0]?.name?.length! > 16 &&
+                      windowWidth > 1024
+                        ? `${product?.tags[0]?.name?.slice(0, 16)}..`
+                        : product?.tags[0]?.name}
+                    </span>
+                  </Link>
+                </>
               )}
             </div>
             <ShareToSocial
@@ -327,6 +345,15 @@ const NavWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 30px;
+    .nav-rightWrapper {
+      width: ${(p: StyleProps) => p.width};
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 8px 0;
+      &::-webkit-scrollbar {
+        height: 2px;
+      }
+    }
   }
   @media ${devices.tabletL} {
     flex-direction: column;

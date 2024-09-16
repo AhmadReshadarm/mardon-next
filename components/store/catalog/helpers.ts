@@ -5,6 +5,7 @@ import {
 import {
   clearBrands,
   clearColors,
+  clearProducts,
   clearSubCategories,
   clearTags,
   // fetchBrands,
@@ -179,8 +180,10 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
       await dispatch(fetchTags({ children: subCategory }));
     } else {
       await dispatch(clearTags());
+      await dispatch(clearColors());
     }
   }
+  return () => clearProducts();
 };
 
 export {

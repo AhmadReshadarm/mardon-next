@@ -228,6 +228,10 @@ const cartSlicer = createSlice({
     setUIPriceRange(state, action) {
       state.uiPriceRang = action.payload;
     },
+    clearProducts(state) {
+      state.products = initialState.products;
+      state.productsLength = initialState.productsLength;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -318,6 +322,7 @@ export const {
   clearColors,
   clearTags,
   clearSizes,
+  clearProducts,
   setPage,
   setUIPriceRange,
 } = cartSlicer.actions;
