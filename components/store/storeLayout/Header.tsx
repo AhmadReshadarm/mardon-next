@@ -1,4 +1,3 @@
-// import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Content, Wrapper } from './common';
@@ -153,236 +152,245 @@ const Header = () => {
 
   // --------------------- end of UI hooks --------------------------
 
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
   return (
     <>
-      {/* <Head>
-      
-
-       
-      </Head> */}
-      <GoogleAnalytics gaId="G-LPMTNCKRGT" />
-      <Container
-        variants={variants.fadInOut}
-        key="header-global"
-        initial="start"
-        animate="middle"
-        exit="end"
-        flex_direction="column"
-        justify_content="center"
-        align_items="center"
-        position="relative"
-        bg_color={color.backgroundSecondery}
-      >
-        <Wrapper flex_direction="column" position="relative">
-          <Content
-            height="90px"
-            flex_direction="row"
-            justify_content="space-between"
+      {isClient ? (
+        <>
+          <GoogleAnalytics gaId="G-LPMTNCKRGT" />
+          <Container
+            variants={variants.fadInOut}
+            key="header-global"
+            initial="start"
+            animate="middle"
+            exit="end"
+            flex_direction="column"
+            justify_content="center"
             align_items="center"
+            position="relative"
+            bg_color={color.backgroundSecondery}
           >
-            {/* ---------------------- catelog ------------------------- */}
-            <MenuButtonWrapper
-              ref={catelogButtonNode}
-              onClick={handleMenuStateRedux(
-                dispatch,
-                changeCatelogState,
-                changeCatelogDisplayState,
-                isCatalogOpen,
-                catelogDisplay,
-              )}
-              title="каталог"
-            >
-              {catelogDisplay == PopupDisplay.None ? (
-                <MenueNormalStateSVG
-                  fill={
-                    isAuthFormOpen ||
-                    isBasketOpen ||
-                    isWishlistOpen ||
-                    isSearchFormActive
-                      ? color.inactiveIcons
-                      : color.activeIcons
-                  }
-                  animate={true}
-                />
-              ) : (
-                <MenuActiveStateSVG fill={color.activeIcons} animate={true} />
-              )}
-            </MenuButtonWrapper>
-            {/* ---------------------- end of catelog ------------------------- */}
-            <LogoWrapper>
-              <Link aria-label="Главная страница NBHOZ" href="/">
-                <LogoSVG />
-              </Link>
-            </LogoWrapper>
-            <IconsWrapper>
-              {/* ---------------------- search ------------------------- */}
-              <div
-                ref={searchButtonNode}
-                onClick={handleMenuStateRedux(
-                  dispatch,
-                  changeSearchFormState,
-                  changeSearchDisplayState,
-                  isSearchFormActive,
-                  searchDisplay,
-                )}
-                className="icons-parent-wrapper"
-                title="Поиск товаров"
+            <Wrapper flex_direction="column" position="relative">
+              <Content
+                height="90px"
+                flex_direction="row"
+                justify_content="space-between"
+                align_items="center"
               >
-                <SearchSVG
-                  fill={
-                    isAuthFormOpen ||
-                    isBasketOpen ||
-                    isWishlistOpen ||
-                    isCatalogOpen
-                      ? color.inactiveIcons
-                      : color.activeIcons
-                  }
-                />
-              </div>
-              {/* ---------------------- end of search ------------------------- */}
-              {/* ---------------------- wishlist ------------------------- */}
-              <div
-                ref={wishlistButtonNode}
-                onClick={handleMenuStateRedux(
-                  dispatch,
-                  changeWishlistState,
-                  changeWishlistDisplayState,
-                  isWishlistOpen,
-                  wishlistDisplay,
-                )}
-                className="icons-parent-wrapper"
-                title="избранное"
-              >
-                {!!wishlist?.items?.length && (
-                  <Counter>{wishlist?.items?.length}</Counter>
-                )}
-                <WishlistSVG
-                  fill={
-                    isAuthFormOpen ||
-                    isSearchFormActive ||
-                    isBasketOpen ||
-                    isCatalogOpen
-                      ? color.inactiveIcons
-                      : color.activeIcons
-                  }
-                />
-              </div>
-              {/* ---------------------- end of wishlist ------------------------- */}
-              {/* ---------------------- basket ------------------------- */}
-              <div
-                ref={cartButtonNode}
-                onClick={handleMenuStateRedux(
-                  dispatch,
-                  changeBasketState,
-                  changeCartDisplayState,
-                  isBasketOpen,
-                  cartDisplay,
-                )}
-                className="icons-parent-wrapper"
-                title="корзина"
-              >
-                {!!cart?.orderProducts?.length && (
-                  <Counter>{cart?.orderProducts?.length}</Counter>
-                )}
-                <BasketSVG
-                  fill={
-                    isAuthFormOpen ||
-                    isSearchFormActive ||
-                    isWishlistOpen ||
-                    isCatalogOpen
-                      ? color.inactiveIcons
-                      : color.activeIcons
-                  }
-                />
-              </div>
-              {/* ---------------------- end of basket ------------------------- */}
-              {/* ---------------------- Authorization ------------------------- */}
-              <div
-                ref={authButtonNode}
-                onClick={() => {
-                  windowWidth < 1024
-                    ? router.push('/profile')
-                    : handleMenuStateRedux(
-                        dispatch,
-                        changeAuthFormState,
-                        changeAuthFormDisplayState,
-                        isAuthFormOpen,
-                        authDisplay,
-                      )();
-                }}
-                className="profile-icon-wrapper"
-              >
-                {!!!user ? (
-                  <>
-                    <motion.button
-                      key="profile-global-indecator-loged-out"
-                      initial="init"
-                      animate={!!user ? 'exit' : 'animate'}
-                      variants={variants.fadeInSlideIn}
-                      title="личный кабинет"
-                      aria-label="личный кабинет"
-                    >
-                      <ProfileSVG
-                        fill={
-                          isBasketOpen ||
-                          isSearchFormActive ||
-                          isWishlistOpen ||
-                          isCatalogOpen
-                            ? color.inactiveIcons
-                            : color.activeIcons
-                        }
-                      />
-                    </motion.button>
-                    <span className="profile-tag-mobile">Л.K.</span>
-                  </>
-                ) : (
-                  <motion.button
-                    key="profile-global-indecator-loged-in"
-                    initial="init"
-                    animate={!!user ? 'animate' : 'exit'}
-                    variants={variants.fadeInSlideIn}
-                    title="личный кабинет"
-                    aria-label="личный кабинет"
-                  >
-                    <img
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                      }}
-                      src={
-                        user.image
-                          ? `/api/images/${user.image}`
-                          : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
+                {/* ---------------------- catelog ------------------------- */}
+                <MenuButtonWrapper
+                  ref={catelogButtonNode}
+                  onClick={handleMenuStateRedux(
+                    dispatch,
+                    changeCatelogState,
+                    changeCatelogDisplayState,
+                    isCatalogOpen,
+                    catelogDisplay,
+                  )}
+                  title="каталог"
+                >
+                  {catelogDisplay == PopupDisplay.None ? (
+                    <MenueNormalStateSVG
+                      fill={
+                        isAuthFormOpen ||
+                        isBasketOpen ||
+                        isWishlistOpen ||
+                        isSearchFormActive
+                          ? color.inactiveIcons
+                          : color.activeIcons
                       }
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null;
-                        currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
-                      }}
+                      animate={true}
                     />
-                  </motion.button>
-                )}
-              </div>
+                  ) : (
+                    <MenuActiveStateSVG
+                      fill={color.activeIcons}
+                      animate={true}
+                    />
+                  )}
+                </MenuButtonWrapper>
+                {/* ---------------------- end of catelog ------------------------- */}
+                <LogoWrapper>
+                  <Link aria-label="Главная страница NBHOZ" href="/">
+                    <LogoSVG />
+                  </Link>
+                </LogoWrapper>
+                <IconsWrapper>
+                  {/* ---------------------- search ------------------------- */}
+                  <div
+                    ref={searchButtonNode}
+                    onClick={handleMenuStateRedux(
+                      dispatch,
+                      changeSearchFormState,
+                      changeSearchDisplayState,
+                      isSearchFormActive,
+                      searchDisplay,
+                    )}
+                    className="icons-parent-wrapper"
+                    title="Поиск товаров"
+                  >
+                    <SearchSVG
+                      fill={
+                        isAuthFormOpen ||
+                        isBasketOpen ||
+                        isWishlistOpen ||
+                        isCatalogOpen
+                          ? color.inactiveIcons
+                          : color.activeIcons
+                      }
+                    />
+                  </div>
+                  {/* ---------------------- end of search ------------------------- */}
+                  {/* ---------------------- wishlist ------------------------- */}
+                  <div
+                    ref={wishlistButtonNode}
+                    onClick={handleMenuStateRedux(
+                      dispatch,
+                      changeWishlistState,
+                      changeWishlistDisplayState,
+                      isWishlistOpen,
+                      wishlistDisplay,
+                    )}
+                    className="icons-parent-wrapper"
+                    title="избранное"
+                  >
+                    {!!wishlist?.items?.length && (
+                      <Counter>{wishlist?.items?.length}</Counter>
+                    )}
+                    <WishlistSVG
+                      fill={
+                        isAuthFormOpen ||
+                        isSearchFormActive ||
+                        isBasketOpen ||
+                        isCatalogOpen
+                          ? color.inactiveIcons
+                          : color.activeIcons
+                      }
+                    />
+                  </div>
+                  {/* ---------------------- end of wishlist ------------------------- */}
+                  {/* ---------------------- basket ------------------------- */}
+                  <div
+                    ref={cartButtonNode}
+                    onClick={handleMenuStateRedux(
+                      dispatch,
+                      changeBasketState,
+                      changeCartDisplayState,
+                      isBasketOpen,
+                      cartDisplay,
+                    )}
+                    className="icons-parent-wrapper"
+                    title="корзина"
+                  >
+                    {!!cart?.orderProducts?.length && (
+                      <Counter>{cart?.orderProducts?.length}</Counter>
+                    )}
+                    <BasketSVG
+                      fill={
+                        isAuthFormOpen ||
+                        isSearchFormActive ||
+                        isWishlistOpen ||
+                        isCatalogOpen
+                          ? color.inactiveIcons
+                          : color.activeIcons
+                      }
+                    />
+                  </div>
+                  {/* ---------------------- end of basket ------------------------- */}
+                  {/* ---------------------- Authorization ------------------------- */}
+                  <div
+                    ref={authButtonNode}
+                    onClick={() => {
+                      windowWidth < 1024
+                        ? router.push('/profile')
+                        : handleMenuStateRedux(
+                            dispatch,
+                            changeAuthFormState,
+                            changeAuthFormDisplayState,
+                            isAuthFormOpen,
+                            authDisplay,
+                          )();
+                    }}
+                    className="profile-icon-wrapper"
+                  >
+                    {!!!user ? (
+                      <>
+                        <motion.button
+                          key="profile-global-indecator-loged-out"
+                          initial="init"
+                          animate={!!user ? 'exit' : 'animate'}
+                          variants={variants.fadeInSlideIn}
+                          title="личный кабинет"
+                          aria-label="личный кабинет"
+                        >
+                          <ProfileSVG
+                            fill={
+                              isBasketOpen ||
+                              isSearchFormActive ||
+                              isWishlistOpen ||
+                              isCatalogOpen
+                                ? color.inactiveIcons
+                                : color.activeIcons
+                            }
+                          />
+                        </motion.button>
+                        <span className="profile-tag-mobile">Л.K.</span>
+                      </>
+                    ) : (
+                      <motion.button
+                        key="profile-global-indecator-loged-in"
+                        initial="init"
+                        animate={!!user ? 'animate' : 'exit'}
+                        variants={variants.fadeInSlideIn}
+                        title="личный кабинет"
+                        aria-label="личный кабинет"
+                      >
+                        <img
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                          src={
+                            user.image
+                              ? `/api/images/${user.image}`
+                              : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
+                          }
+                          onError={({ currentTarget }) => {
+                            currentTarget.onerror = null;
+                            currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
+                          }}
+                        />
+                      </motion.button>
+                    )}
+                  </div>
 
-              {/* ---------------------- end of Authorization ------------------------- */}
-            </IconsWrapper>
-          </Content>
-          {/* <SearchBarMobile /> */}
-          <HeaderCatalog catelogButtonRef={catelogButtonRef} />
-          <SearchBar
-            searchButtonRef={searchButtonRef}
-            windowWidth={windowWidth}
-          />
-          <HeaderWishlist wishlistButtonRef={wishlistButtonRef} />
-          <HeaderCart cartButtonRef={cartButtonRef} />
-          <AuthorizationModel
-            authButtonRef={authButtonRef}
-            windowWidth={windowWidth}
-          />
-        </Wrapper>
-      </Container>
-      <NavMobile />
+                  {/* ---------------------- end of Authorization ------------------------- */}
+                </IconsWrapper>
+              </Content>
+              {/* <SearchBarMobile /> */}
+              <HeaderCatalog catelogButtonRef={catelogButtonRef} />
+              <SearchBar
+                searchButtonRef={searchButtonRef}
+                windowWidth={windowWidth}
+              />
+              <HeaderWishlist wishlistButtonRef={wishlistButtonRef} />
+              <HeaderCart cartButtonRef={cartButtonRef} />
+              <AuthorizationModel
+                authButtonRef={authButtonRef}
+                windowWidth={windowWidth}
+              />
+            </Wrapper>
+          </Container>
+          <NavMobile />
+        </>
+      ) : (
+        ''
+      )}
     </>
   );
 };

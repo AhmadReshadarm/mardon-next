@@ -25,38 +25,45 @@ const Footer = (): JSX.Element => {
     acceptedCookies(setOpen);
   }, []);
 
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
   return (
     <>
-      <Container
-        variants={variants.fadInOut}
-        key="header"
-        initial="start"
-        animate="middle"
-        exit="end"
-        flex_direction="row"
-        justify_content="space-evenly"
-        padding="100px 0"
-        bg_color={color.backgroundSecondery}
-      >
-        <Wrapper>
-          <FooterContentWrapper>
-            <FooterTopContentWrapper>
-              <FooterLeftContentWrapper>
-                <div className="footer-columns-wrapper">
-                  <span className="columns-header">Каталог </span>
-                  {categories.map((category, index) => {
-                    return (
-                      <Link
-                        aria-label={category.name}
-                        key={`${category.url}-${index}`}
-                        href={`/catalog?categories=${category.url}`}
-                      >
-                        <span>{category.name}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-                {/* <div className="footer-columns-wrapper">
+      {isClient ? (
+        <>
+          <Container
+            variants={variants.fadInOut}
+            key="header"
+            initial="start"
+            animate="middle"
+            exit="end"
+            flex_direction="row"
+            justify_content="space-evenly"
+            padding="100px 0"
+            bg_color={color.backgroundSecondery}
+          >
+            <Wrapper>
+              <FooterContentWrapper>
+                <FooterTopContentWrapper>
+                  <FooterLeftContentWrapper>
+                    <div className="footer-columns-wrapper">
+                      <span className="columns-header">Каталог </span>
+                      {categories.map((category, index) => {
+                        return (
+                          <Link
+                            aria-label={category.name}
+                            key={`${category.url}-${index}`}
+                            href={`/catalog?categories=${category.url}`}
+                          >
+                            <span>{category.name}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                    {/* <div className="footer-columns-wrapper">
                   <span className="columns-header">Услуги</span>
                   {content.services.map((service, index) => {
                     return (
@@ -69,184 +76,191 @@ const Footer = (): JSX.Element => {
                     );
                   })}
                 </div> */}
-                <div className="footer-columns-wrapper">
-                  <span className="columns-header">О нас</span>
-                  {content.aboutUs.map((service, index) => {
-                    return (
-                      <Link
-                        aria-label={service.text}
-                        key={`${service.url}-${index}`}
-                        href={`${service.url}`}
-                      >
-                        <span>{service.text}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </FooterLeftContentWrapper>
-              <FooterRightContentWrapper>
-                <div className="right-column-content">
-                  <PhoneSVG />
-                  <div className="call-row-wrapper">
-                    <Link
-                      aria-label="позвонить 89254865444"
-                      href="tel:+79254865444"
-                    >
-                      <span title="позвонить 8-925-486-54-44">
-                        8-925-486-54-44
+                    <div className="footer-columns-wrapper">
+                      <span className="columns-header">О нас</span>
+                      {content.aboutUs.map((service, index) => {
+                        return (
+                          <Link
+                            aria-label={service.text}
+                            key={`${service.url}-${index}`}
+                            href={`${service.url}`}
+                          >
+                            <span>{service.text}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </FooterLeftContentWrapper>
+                  <FooterRightContentWrapper>
+                    <div className="right-column-content">
+                      <PhoneSVG />
+                      <div className="call-row-wrapper">
+                        <Link
+                          aria-label="позвонить 89254865444"
+                          href="tel:+79254865444"
+                        >
+                          <span title="позвонить 8-925-486-54-44">
+                            8-925-486-54-44
+                          </span>
+                        </Link>
+                        <span className="call-saperator">|</span>
+                        <Link
+                          aria-label="позвонить 89266999952"
+                          href="tel:89266999952"
+                        >
+                          <span title="позвонить 8-926-699-99-52">
+                            8-926-699-99-52
+                          </span>
+                        </Link>
+                        <span className="call-saperator">|</span>
+                        <Link
+                          aria-label="позвонить 89268999954"
+                          href="tel:89268999954"
+                        >
+                          <span title="позвонить 8-926-899-99-54">
+                            8-926-899-99-54
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="right-column-content">
+                      <MailSVG />
+                      <div className="call-row-wrapper">
+                        <Link
+                          aria-label="отправьте письмо по адресу info@nbhoz.ru"
+                          href="mailto:info@nbhoz.ru"
+                        >
+                          <span title="отправьте письмо по адресу info@nbhoz.ru">
+                            info@nbhoz.ru
+                          </span>
+                        </Link>
+                        <span className="call-saperator">|</span>
+                        <Link
+                          aria-label="отправьте письмо по адресу exelon@hoz-mardon.ru"
+                          href="mailto:exelon@hoz-mardon.ru"
+                        >
+                          <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
+                            exelon@hoz-mardon.ru
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="right-column-content">
+                      <div className="call-row-wrapper">
+                        <Link
+                          href="https://vk.com/nbhoz"
+                          target="__blank"
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'flex-start',
+                            justifyContent: 'flex-start',
+                            gap: '5px',
+                          }}
+                          title="Подпишитесь на нас в ВКонтакте"
+                        >
+                          <img
+                            src="/icons/vk.png"
+                            style={{ width: '25px' }}
+                            alt="nbhoz vk"
+                          />
+                          <span>/nbhoz</span>
+                        </Link>
+                        <span className="call-saperator">|</span>
+                        <Link
+                          href="https://t.me/nbhoz"
+                          target="__blank"
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'flex-start',
+                            justifyContent: 'flex-start',
+                            gap: '5px',
+                          }}
+                          title="Подпишитесь на нас в Telegram"
+                        >
+                          <img
+                            src="/icons/telegram.png"
+                            style={{ width: '25px' }}
+                            alt="nbhoz telegram"
+                          />
+                          <span>/nbhoz</span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="right-column-content">
+                      <WatchSVG />
+                      <span title="график работы понедельник-суббота с 10:00 до 21:00">
+                        Понедельник-Суббота с 10:00 до 21:00
                       </span>
+                    </div>
+                    <div className="right-column-content">
+                      <LocationPointerSVG />
+                      <span title="адрес г. Москва, Каширское шоссе">
+                        г. Москва, Каширское шоссе
+                      </span>
+                    </div>
+                  </FooterRightContentWrapper>
+                </FooterTopContentWrapper>
+                <FooterBottomContentWrapper>
+                  <div className="bottom-left-wrapper">
+                    <Link
+                      aria-label="Пользовательское соглашение"
+                      href="/user-agreement"
+                    >
+                      <span>Пользовательское соглашение</span>
                     </Link>
-                    <span className="call-saperator">|</span>
-                    <Link
-                      aria-label="позвонить 89266999952"
-                      href="tel:89266999952"
-                    >
-                      <span title="позвонить 8-926-699-99-52">
-                        8-926-699-99-52
-                      </span>
-                    </Link>
-                    <span className="call-saperator">|</span>
-                    <Link
-                      aria-label="позвонить 89268999954"
-                      href="tel:89268999954"
-                    >
-                      <span title="позвонить 8-926-899-99-54">
-                        8-926-899-99-54
-                      </span>
+                    <Link aria-label="Политика безопасности" href="/privacy">
+                      <span>Политика безопасности</span>
                     </Link>
                   </div>
-                </div>
-                <div className="right-column-content">
-                  <MailSVG />
-                  <div className="call-row-wrapper">
-                    <Link
-                      aria-label="отправьте письмо по адресу info@nbhoz.ru"
-                      href="mailto:info@nbhoz.ru"
-                    >
-                      <span title="отправьте письмо по адресу info@nbhoz.ru">
-                        info@nbhoz.ru
-                      </span>
-                    </Link>
-                    <span className="call-saperator">|</span>
-                    <Link
-                      aria-label="отправьте письмо по адресу exelon@hoz-mardon.ru"
-                      href="mailto:exelon@hoz-mardon.ru"
-                    >
-                      <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
-                        exelon@hoz-mardon.ru
-                      </span>
-                    </Link>
+                  <div className="bottom-right-wrapper">
+                    <span>
+                      Nbhoz. All rights reserved. Все права защищены ©{' '}
+                      {copyRighYear}
+                    </span>
                   </div>
-                </div>
-                <div className="right-column-content">
-                  <div className="call-row-wrapper">
-                    <Link
-                      href="https://vk.com/nbhoz"
-                      target="__blank"
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'flex-start',
-                        justifyContent: 'flex-start',
-                        gap: '5px',
-                      }}
-                      title="Подпишитесь на нас в ВКонтакте"
-                    >
-                      <img
-                        src="/icons/vk.png"
-                        style={{ width: '25px' }}
-                        alt="nbhoz vk"
-                      />
-                      <span>/nbhoz</span>
-                    </Link>
-                    <span className="call-saperator">|</span>
-                    <Link
-                      href="https://t.me/nbhoz"
-                      target="__blank"
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'flex-start',
-                        justifyContent: 'flex-start',
-                        gap: '5px',
-                      }}
-                      title="Подпишитесь на нас в Telegram"
-                    >
-                      <img
-                        src="/icons/telegram.png"
-                        style={{ width: '25px' }}
-                        alt="nbhoz telegram"
-                      />
-                      <span>/nbhoz</span>
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-column-content">
-                  <WatchSVG />
-                  <span title="график работы понедельник-суббота с 10:00 до 21:00">
-                    Понедельник-Суббота с 10:00 до 21:00
-                  </span>
-                </div>
-                <div className="right-column-content">
-                  <LocationPointerSVG />
-                  <span title="адрес г. Москва, Каширское шоссе">
-                    г. Москва, Каширское шоссе
-                  </span>
-                </div>
-              </FooterRightContentWrapper>
-            </FooterTopContentWrapper>
-            <FooterBottomContentWrapper>
-              <div className="bottom-left-wrapper">
+                </FooterBottomContentWrapper>
+              </FooterContentWrapper>
+            </Wrapper>
+          </Container>
+          <CookiesNotification style={{ display: isOpen ? 'flex' : 'none' }}>
+            <div className="close-cookies">
+              <span
+                onClick={() => {
+                  setOpen(false);
+                  localStorage.setItem('agree-cookies', '0');
+                }}
+                className="close-btn-wrapper"
+              >
+                <CloseSVGBlack />
+              </span>
+            </div>
+            <div className="notification-cookies">
+              <span>
+                При нажимая «Принять все файлы cookie», вы соглашаетесь, что
+                NBHOZ может сохранять файлы cookie на вашем устройстве и
+                раскрывать информацию в соответствии с нашей{' '}
                 <Link
-                  aria-label="Пользовательское соглашение"
-                  href="/user-agreement"
+                  style={{ color: color.hoverBtnBg }}
+                  href="/privacy#cookies"
                 >
-                  <span>Пользовательское соглашение</span>
+                  <span>Политикой использования файлов cookies.</span>
                 </Link>
-                <Link aria-label="Политика безопасности" href="/privacy">
-                  <span>Политика безопасности</span>
-                </Link>
-              </div>
-              <div className="bottom-right-wrapper">
-                <span>
-                  Nbhoz. All rights reserved. Все права защищены ©{' '}
-                  {copyRighYear}
-                </span>
-              </div>
-            </FooterBottomContentWrapper>
-          </FooterContentWrapper>
-        </Wrapper>
-      </Container>
-      <CookiesNotification style={{ display: isOpen ? 'flex' : 'none' }}>
-        <div className="close-cookies">
-          <span
-            onClick={() => {
-              setOpen(false);
-              localStorage.setItem('agree-cookies', '0');
-            }}
-            className="close-btn-wrapper"
-          >
-            <CloseSVGBlack />
-          </span>
-        </div>
-        <div className="notification-cookies">
-          <span>
-            При нажимая «Принять все файлы cookie», вы соглашаетесь, что NBHOZ
-            может сохранять файлы cookie на вашем устройстве и раскрывать
-            информацию в соответствии с нашей{' '}
-            <Link style={{ color: color.hoverBtnBg }} href="/privacy#cookies">
-              <span>Политикой использования файлов cookies.</span>
-            </Link>
-          </span>
-        </div>
-        <button
-          className="accept-cookies"
-          onClick={() => handleCookiesClick(setOpen)}
-          title="Принять все файлы cookies"
-        >
-          Принять все файлы cookies
-        </button>
-      </CookiesNotification>
+              </span>
+            </div>
+            <button
+              className="accept-cookies"
+              onClick={() => handleCookiesClick(setOpen)}
+              title="Принять все файлы cookies"
+            >
+              Принять все файлы cookies
+            </button>
+          </CookiesNotification>
+        </>
+      ) : (
+        ''
+      )}
     </>
   );
 };
