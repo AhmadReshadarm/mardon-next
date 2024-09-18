@@ -108,9 +108,11 @@ const getFiltersConfig = ({
 const setPriceRange = (dispatch: AppDispatch) => {
   const queryParams = getQueryParams(window.location.search);
   const { categories, subCategories } = convertQueryParams(queryParams);
+  const { name } = queryParams;
   const payload = {
     parent: categories ? categories[0] : undefined,
     categories: subCategories,
+    name: name,
   };
 
   dispatch(fetchPriceRange(payload));

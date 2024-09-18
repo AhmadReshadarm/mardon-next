@@ -1,4 +1,3 @@
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -12,18 +11,25 @@ import {
 } from 'components/store/storeLayout/helpers';
 import { devices } from 'components/store/lib/Devices';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import {
   clearSearchProducts,
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
+import { Image } from 'antd';
+import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 type Props = {
   url?: string;
   images: string[];
   product: Product;
   windowWidth: number;
+  zoom?: boolean;
+  setZoom?: any;
+  imageIndex?: any;
+  setZoomImgSrc?: any;
+  zoomImgSrc?: string;
 };
 
 type StyleProps = {
@@ -35,6 +41,9 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
   const imageIndex = wrap(0, images.length, page);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const dispatch = useAppDispatch();
+  const [zoomImgSrc, setZoomImgSrc] = useState(images[imageIndex]);
+  const [zoom, setZoom] = useState(false);
+
   return (
     <>
       <ImageSliderWrapper cardWidth={windowWidth}>
@@ -75,6 +84,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
               }}
             />
           </AnimatePresence>
+
           {windowWidth > 1024 ? (
             <ul className="image-scroll-wrapper">
               {images.map((images, index) => {
@@ -111,6 +121,15 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
             </ul>
           )}
         </Link>
+        <ZoomFullScreen
+          images={images}
+          imageIndex={imageIndex}
+          zoom={zoom}
+          setZoom={setZoom}
+          zoomImgSrc={zoomImgSrc}
+          setZoomImgSrc={setZoomImgSrc}
+          zoomStyles="bottom: 0; right: 0; justify-content: flex-end; align-items: center; padding: 0 5px 5px 0;"
+        />
       </ImageSliderWrapper>
     </>
   );
@@ -140,6 +159,7 @@ const ImageSliderWrapper = styled(motion.div)`
       background: transparent;
     }
   }
+
   .image-indecator-mobile {
     width: 100%;
     position: absolute;

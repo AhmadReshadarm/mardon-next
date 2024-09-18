@@ -17,7 +17,6 @@ import {
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { useEffect, useState } from 'react';
-import { TWishlistState } from 'redux/types';
 type Props = {
   product: Product;
   custom: number;

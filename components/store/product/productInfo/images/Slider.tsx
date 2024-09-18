@@ -7,10 +7,11 @@ import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { Product } from 'swagger/services';
 import { ArrowBtns } from 'ui-kit/ArrowBtns';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { handleMenuState } from 'components/store/storeLayout/helpers';
 import { devices } from 'components/store/lib/Devices';
+import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 type Props = {
   images: string[];
   selectedIndex: number;
@@ -38,6 +39,8 @@ const Slider: React.FC<Props> = ({
   setDisplay,
   isOpened,
 }) => {
+  const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
+  const [zoom, setZoom] = useState(false);
   return (
     <SliderWrapper
       key="slider-product-page"
@@ -80,7 +83,7 @@ const Slider: React.FC<Props> = ({
         />
       </AnimatePresence>
 
-      <div
+      {/* <div
         style={{ display: isOpened ? 'none' : '' }}
         className="fullscreen-btn-parrent"
       >
@@ -98,7 +101,30 @@ const Slider: React.FC<Props> = ({
             alt="fullscreen mode"
           />
         </ArrowBtns>
-      </div>
+      </div> */}
+      <ul className="image-indecator-mobile">
+        {images.map((image, index) => {
+          return (
+            <li
+              key={index}
+              className="indecator"
+              style={{
+                backgroundColor:
+                  selectedIndex == index ? '#000000' : 'transparent',
+              }}
+            ></li>
+          );
+        })}
+      </ul>
+      <ZoomFullScreen
+        images={images}
+        imageIndex={selectedIndex}
+        zoom={zoom}
+        setZoom={setZoom}
+        zoomImgSrc={zoomImgSrc}
+        setZoomImgSrc={setZoomImgSrc}
+        zoomStyles="bottom: 30px; left: 30px; justify-content: flex-start; align-items: center;"
+      />
     </SliderWrapper>
   );
 };
@@ -112,9 +138,25 @@ const SliderWrapper = styled(motion.div)`
   align-items: center;
   position: relative;
   overflow: hidden;
-  .wishlist-btn-parrent {
+
+  .image-indecator-mobile {
+    width: 100%;
     position: absolute;
-    bottom: 30px;
+    bottom: 5px;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    gap: 5px;
+    z-index: 2;
+    .indecator {
+      width: 6px;
+      height: 6px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
   }
   .fullscreen-btn-parrent {
     position: absolute;

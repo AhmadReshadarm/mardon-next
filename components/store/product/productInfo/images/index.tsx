@@ -50,7 +50,7 @@ const Images: React.FC<Props> = ({
       />
 
       {/* fullscreen mode  start */}
-      <ProductImagesFullScreenWrapper
+      {/* <ProductImagesFullScreenWrapper
         style={{ display }}
         animate={isOpened ? 'open' : 'close'}
         variants={variants.fadeInReveal}
@@ -81,7 +81,7 @@ const Images: React.FC<Props> = ({
             isOpened={isOpened}
           />
         </div>
-      </ProductImagesFullScreenWrapper>
+      </ProductImagesFullScreenWrapper> */}
       {/* fullscreen mode  end */}
     </ImagesContainer>
   );
