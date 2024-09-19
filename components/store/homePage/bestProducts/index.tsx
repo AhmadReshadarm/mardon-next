@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { getAnimationDelay } from 'ui-kit/products/helpers';
 import ProductItem from 'ui-kit/products/productItem';
 import Loading from 'ui-kit/Loading';
+import { useInViewport } from 'components/store/storeLayout/useInViewport';
 type Props = {};
 
 const BestProduct: React.FC<Props> = () => {
@@ -14,7 +15,7 @@ const BestProduct: React.FC<Props> = () => {
   const { bestProduct, loading } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
-
+  const { isInViewport, ref } = useInViewport();
   useEffect(() => {
     if (bestProduct) {
       delay = getAnimationDelay(bestProduct.length);
@@ -23,29 +24,31 @@ const BestProduct: React.FC<Props> = () => {
 
   return (
     <>
-      <Container>
-        <Wrapper>
-          {!loading ? (
-            <>
-              <div className="section-title-wrapper">
-                <h1>{`лучшие товары`.toUpperCase()}</h1>
-              </div>
-              <ul className="best-product-grid-wrapper">
-                {bestProduct.map((product, index) => {
-                  return (
-                    <ProductItem
-                      key={index}
-                      product={product}
-                      custom={delay[index]}
-                    />
-                  );
-                })}
-              </ul>
-            </>
-          ) : (
-            <Loading />
-          )}
-        </Wrapper>
+      <Container ref={ref}>
+        {isInViewport && (
+          <Wrapper>
+            {!loading ? (
+              <>
+                <div className="section-title-wrapper">
+                  <h1>{`лучшие товары`.toUpperCase()}</h1>
+                </div>
+                <ul className="best-product-grid-wrapper">
+                  {bestProduct.map((product, index) => {
+                    return (
+                      <ProductItem
+                        key={index}
+                        product={product}
+                        custom={delay[index]}
+                      />
+                    );
+                  })}
+                </ul>
+              </>
+            ) : (
+              <Loading />
+            )}
+          </Wrapper>
+        )}
       </Container>
     </>
   );

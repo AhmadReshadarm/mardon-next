@@ -59,48 +59,52 @@ const HeaderWishlist: React.FC<Props> = ({ wishlistButtonRef }) => {
         animate={isWishlistOpen ? 'open' : 'close'}
         variants={variants.fadeInReveal}
       >
-        <div className="header-wishlist-form-background"></div>
-        <div className="header-spacer"></div>
-        {wishlist?.products?.length! <= 0 ? (
-          <div className="empty-wrapper">
-            <h1>{`Список ИЗБРАННОЕ пуст`.toLocaleUpperCase()}</h1>
-          </div>
-        ) : (
-          <PopupDivider>
-            <PopupContent>
-              {wishlist?.products?.map((product, index: any) => {
-                return (
-                  <HeaderProductItmes
-                    key={`cart-item-${index}`}
-                    product={product}
-                    dataType="wishlist"
-                    handleMenuState={handleMenuStateRedux(
-                      dispatch,
-                      changeWishlistState,
-                      changeWishlistDisplayState,
-                      isWishlistOpen,
-                      wishlistDisplay,
-                    )}
-                  />
-                );
-              })}
-            </PopupContent>
-            <PopupBtnsDivider>
-              <Link href="/wishlist">
-                <ActionBtns
-                  onClick={handleMenuStateRedux(
-                    dispatch,
-                    changeWishlistState,
-                    changeWishlistDisplayState,
-                    isWishlistOpen,
-                    wishlistDisplay,
-                  )}
-                >
-                  {`ИЗБРАННОЕ`.toLocaleUpperCase()}
-                </ActionBtns>
-              </Link>
-            </PopupBtnsDivider>
-          </PopupDivider>
+        {isWishlistOpen && (
+          <>
+            <div className="header-wishlist-form-background"></div>
+            <div className="header-spacer"></div>
+            {wishlist?.products?.length! <= 0 ? (
+              <div className="empty-wrapper">
+                <h1>{`Список ИЗБРАННОЕ пуст`.toLocaleUpperCase()}</h1>
+              </div>
+            ) : (
+              <PopupDivider>
+                <PopupContent>
+                  {wishlist?.products?.map((product, index: any) => {
+                    return (
+                      <HeaderProductItmes
+                        key={`cart-item-${index}`}
+                        product={product}
+                        dataType="wishlist"
+                        handleMenuState={handleMenuStateRedux(
+                          dispatch,
+                          changeWishlistState,
+                          changeWishlistDisplayState,
+                          isWishlistOpen,
+                          wishlistDisplay,
+                        )}
+                      />
+                    );
+                  })}
+                </PopupContent>
+                <PopupBtnsDivider>
+                  <Link href="/wishlist">
+                    <ActionBtns
+                      onClick={handleMenuStateRedux(
+                        dispatch,
+                        changeWishlistState,
+                        changeWishlistDisplayState,
+                        isWishlistOpen,
+                        wishlistDisplay,
+                      )}
+                    >
+                      {`ИЗБРАННОЕ`.toLocaleUpperCase()}
+                    </ActionBtns>
+                  </Link>
+                </PopupBtnsDivider>
+              </PopupDivider>
+            )}
+          </>
         )}
       </PopupWrapper>
     </>

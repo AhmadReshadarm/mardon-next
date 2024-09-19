@@ -72,6 +72,7 @@
     "react-yandex-maps": "^4.6.0",
     "sass": "^1.53.0",
     "serviceworker-storage": "^0.1.0",
+    "sharp": "^0.33.5",
     "styled-components": "^5.3.5",
     "swagger-axios-codegen": "^0.15.12",
     "typescript": "^5.2.2",

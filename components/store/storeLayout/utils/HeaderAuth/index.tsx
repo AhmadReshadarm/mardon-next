@@ -68,18 +68,22 @@ const Authorize: React.FC<Props> = ({ authButtonRef, windowWidth }) => {
         animate={isAuthFormOpen ? 'open' : 'close'}
         variants={variants.fadeInReveal}
       >
-        <div className="header-authorization-form-background"></div>
-        <AuthContent>
-          {user ? (
-            <Profile user={user} direction={direction} />
-          ) : (
-            <Authorization
-              direction={direction}
-              authType={authType}
-              paginate={paginate}
-            />
-          )}
-        </AuthContent>
+        {isAuthFormOpen && (
+          <>
+            <div className="header-authorization-form-background"></div>
+            <AuthContent>
+              {user ? (
+                <Profile user={user} direction={direction} />
+              ) : (
+                <Authorization
+                  direction={direction}
+                  authType={authType}
+                  paginate={paginate}
+                />
+              )}
+            </AuthContent>
+          </>
+        )}
       </PopupWrapper>
     </>
   );

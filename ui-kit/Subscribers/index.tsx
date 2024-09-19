@@ -10,6 +10,8 @@ import { paginateTo } from 'components/store/checkout/constant';
 import InputMask from 'react-input-mask';
 import { changeOrderCallFormState } from 'redux/slicers/store/globalUISlicer';
 import { TGlobalUIState } from 'redux/types';
+import { useInViewport } from 'components/store/storeLayout/useInViewport';
+import Image from 'next/image';
 
 type StyleProps = {
   isLoginActive: boolean;
@@ -25,6 +27,7 @@ const Subscribers = (): JSX.Element => {
   const { isOrderCallFormActive } = useAppSelector<TGlobalUIState>(
     (state) => state.globalUI,
   );
+  const { isInViewport, ref } = useInViewport();
 
   return (
     <Container
@@ -33,141 +36,151 @@ const Subscribers = (): JSX.Element => {
           ? '#595959'
           : color.backgroundSecondery,
       }}
+      ref={ref}
     >
-      <FormContainer
-        onFocus={() => dispatch(changeOrderCallFormState(true))}
-        onBlur={() => dispatch(changeOrderCallFormState(false))}
-      >
-        <FormContent>
-          <div className="news-letter-image-wrapper">
-            <img src="/static/news-letter-static.jpg" alt="Запросить звонок" />
-          </div>
-          <div className="news-letter-form-wrapper">
-            <div className="news-letter-content-parent">
-              <AuthTabWrapper
-                isLoginActive={authType == 'call'}
-                isSingUpActive={authType == 'subscribe'}
-              >
-                <motion.div
-                  animate={authType == 'call' ? 'init' : 'animate'}
-                  variants={{ init: { x: 0 }, animate: { x: 200 } }}
-                  className="auth-page-indecator"
-                ></motion.div>
-                <div className="auth-buttons-row">
-                  <h2
-                    className="sign-in-tab"
-                    onClick={() => paginate(paginateTo.forward, 'call')}
-                  >
-                    {`Заказать звонок`.toUpperCase()}
-                  </h2>
-                  <span>/</span>
-                  <h2
-                    className="sign-up-tab"
-                    onClick={() => paginate(paginateTo.back, 'subscribe')}
-                  >
-                    {`Подпишитесь`.toUpperCase()}
-                  </h2>
-                </div>
-              </AuthTabWrapper>
-              <div className="content-row-wrapper">
-                <Content
-                  dragConstraints={{ left: 0, right: 0 }}
-                  custom={direction}
-                  variants={variants.authorizeSlideX}
-                  animate={authType == 'call' ? 'center' : 'enter'}
+      {isInViewport && (
+        <FormContainer
+          onFocus={() => dispatch(changeOrderCallFormState(true))}
+          onBlur={() => dispatch(changeOrderCallFormState(false))}
+        >
+          <FormContent>
+            <div className="news-letter-image-wrapper">
+              <Image
+                src="/static/news-letter-static.jpg"
+                alt="Запросить звонок"
+                width={0}
+                height={0}
+                sizes="100vw"
+                loading="lazy"
+              />
+            </div>
+            <div className="news-letter-form-wrapper">
+              <div className="news-letter-content-parent">
+                <AuthTabWrapper
+                  isLoginActive={authType == 'call'}
+                  isSingUpActive={authType == 'subscribe'}
                 >
-                  <span className="feild-lable-text">
-                    Оставьте заявку на нашем сайте и мы обязательно Вам
-                    перезвоним в ближайшее время
-                  </span>
-                  <div className="inputs-wrapper">
-                    <input
-                      value={client.clientName}
-                      placeholder="Введите Ваше Имя"
-                      type="text"
-                      onChange={(evt) =>
-                        setClient({ ...client, clientName: evt.target.value })
-                      }
-                    />
-
-                    <InputMask
-                      mask="+7 (999) 999 99 99"
-                      value={client.phone}
-                      disabled={false}
-                      maskChar=" "
-                      onChange={(evt) =>
-                        setClient({ ...client, phone: evt.target.value })
-                      }
-                      style={{ padding: '16.5px 14px' }}
+                  <motion.div
+                    animate={authType == 'call' ? 'init' : 'animate'}
+                    variants={{ init: { x: 0 }, animate: { x: 200 } }}
+                    className="auth-page-indecator"
+                  ></motion.div>
+                  <div className="auth-buttons-row">
+                    <h2
+                      className="sign-in-tab"
+                      onClick={() => paginate(paginateTo.forward, 'call')}
                     >
-                      {() => (
-                        <input
-                          placeholder="Введите Ваш номер телефона"
-                          type="text"
-                        />
+                      {`Заказать звонок`.toUpperCase()}
+                    </h2>
+                    <span>/</span>
+                    <h2
+                      className="sign-up-tab"
+                      onClick={() => paginate(paginateTo.back, 'subscribe')}
+                    >
+                      {`Подпишитесь`.toUpperCase()}
+                    </h2>
+                  </div>
+                </AuthTabWrapper>
+                <div className="content-row-wrapper">
+                  <Content
+                    dragConstraints={{ left: 0, right: 0 }}
+                    custom={direction}
+                    variants={variants.authorizeSlideX}
+                    animate={authType == 'call' ? 'center' : 'enter'}
+                  >
+                    <span className="feild-lable-text">
+                      Оставьте заявку на нашем сайте и мы обязательно Вам
+                      перезвоним в ближайшее время
+                    </span>
+                    <div className="inputs-wrapper">
+                      <input
+                        value={client.clientName}
+                        placeholder="Введите Ваше Имя"
+                        type="text"
+                        onChange={(evt) =>
+                          setClient({ ...client, clientName: evt.target.value })
+                        }
+                      />
+
+                      <InputMask
+                        mask="+7 (999) 999 99 99"
+                        value={client.phone}
+                        disabled={false}
+                        maskChar=" "
+                        onChange={(evt) =>
+                          setClient({ ...client, phone: evt.target.value })
+                        }
+                        style={{ padding: '16.5px 14px' }}
+                      >
+                        {() => (
+                          <input
+                            placeholder="Введите Ваш номер телефона"
+                            type="text"
+                          />
+                        )}
+                      </InputMask>
+                    </div>
+                    <ActionBtn
+                      onClick={handleAdminCall(
+                        client.clientName,
+                        client.phone,
+                        dispatch,
                       )}
-                    </InputMask>
-                  </div>
-                  <ActionBtn
-                    onClick={handleAdminCall(
-                      client.clientName,
-                      client.phone,
-                      dispatch,
-                    )}
-                    aria-label="ЗАКАЗАТЬ ЗВОНОК"
+                      aria-label="ЗАКАЗАТЬ ЗВОНОК"
+                    >
+                      <span>ЗАКАЗАТЬ ЗВОНОК</span>
+                    </ActionBtn>
+                  </Content>
+                  <Content
+                    dragConstraints={{ left: 0, right: 0 }}
+                    custom={direction}
+                    variants={variants.authorizeSlideX}
+                    animate={authType == 'subscribe' ? 'center' : 'enter'}
                   >
-                    <span>ЗАКАЗАТЬ ЗВОНОК</span>
-                  </ActionBtn>
-                </Content>
-                <Content
-                  dragConstraints={{ left: 0, right: 0 }}
-                  custom={direction}
-                  variants={variants.authorizeSlideX}
-                  animate={authType == 'subscribe' ? 'center' : 'enter'}
-                >
-                  <span className="feild-lable-text">
-                    Подпишитесь на рассылку новостей
-                  </span>
-                  <div className="inputs-wrapper">
-                    <input
-                      value={subscriber.name}
-                      placeholder="Введите Ваше Имя"
-                      type="text"
-                      onChange={(evt) =>
-                        setSubscriber({
-                          ...subscriber,
-                          name: evt.target.value,
-                        })
-                      }
-                    />
-                    <input
-                      value={subscriber.email}
-                      placeholder="Введите Ваш почтовый адрес"
-                      type="email"
-                      onChange={(evt) =>
-                        setSubscriber({
-                          ...subscriber,
-                          email: evt.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <ActionBtn
-                    onClick={handleSubscriber(
-                      subscriber.name,
-                      subscriber.email,
-                      dispatch,
-                    )}
-                    aria-label="ПОДПИСАТЬСЯ"
-                  >
-                    <span>ПОДПИСАТЬСЯ</span>
-                  </ActionBtn>
-                </Content>
+                    <span className="feild-lable-text">
+                      Подпишитесь на рассылку новостей
+                    </span>
+                    <div className="inputs-wrapper">
+                      <input
+                        value={subscriber.name}
+                        placeholder="Введите Ваше Имя"
+                        type="text"
+                        onChange={(evt) =>
+                          setSubscriber({
+                            ...subscriber,
+                            name: evt.target.value,
+                          })
+                        }
+                      />
+                      <input
+                        value={subscriber.email}
+                        placeholder="Введите Ваш почтовый адрес"
+                        type="email"
+                        onChange={(evt) =>
+                          setSubscriber({
+                            ...subscriber,
+                            email: evt.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <ActionBtn
+                      onClick={handleSubscriber(
+                        subscriber.name,
+                        subscriber.email,
+                        dispatch,
+                      )}
+                      aria-label="ПОДПИСАТЬСЯ"
+                    >
+                      <span>ПОДПИСАТЬСЯ</span>
+                    </ActionBtn>
+                  </Content>
+                </div>
               </div>
             </div>
-          </div>
-        </FormContent>
-      </FormContainer>
+          </FormContent>
+        </FormContainer>
+      )}
     </Container>
   );
 };

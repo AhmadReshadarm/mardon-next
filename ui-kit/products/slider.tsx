@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -11,15 +12,15 @@ import {
 } from 'components/store/storeLayout/helpers';
 import { devices } from 'components/store/lib/Devices';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import {
   clearSearchProducts,
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
-import { Image } from 'antd';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
+
 type Props = {
   url?: string;
   images: string[];
@@ -57,7 +58,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
           aria-label={product.name}
         >
           <AnimatePresence initial={false} custom={direction}>
-            <ImageSlider
+            <ImageSliderSlide
               key={`slider-image${imageIndex}`}
               custom={direction}
               variants={variants.slider}
@@ -75,14 +76,21 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                 paginateImage,
                 SWIPE_CONFIDENCE_THRESHOLD,
               )}
-              alt={product.shortDesc}
-              src={`/api/images/${images[imageIndex]}`}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null;
-                currentTarget.src = '/img_not_found.png';
-                currentTarget.className = 'not-found';
-              }}
-            />
+            >
+              <ImageSlider
+                alt={`${product.name}`}
+                src={`/api/images/${images[imageIndex]}`}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = '/img_not_found.png';
+                  currentTarget.className = 'not-found';
+                }}
+                width={0}
+                height={0}
+                sizes="100vw"
+                loading="lazy"
+              />
+            </ImageSliderSlide>
           </AnimatePresence>
 
           {windowWidth > 1024 ? (
@@ -219,10 +227,6 @@ const ImageSliderWrapper = styled(motion.div)`
     max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
   }
   @media ${devices.tabletS} {
-    // min-height: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
-    // max-height: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
-    // min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
-    // max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
     min-height: unset;
     max-height: unset;
     min-width: unset;
@@ -254,16 +258,21 @@ const ImageSliderWrapper = styled(motion.div)`
   }
 `;
 
-const ImageSlider = styled(motion.img)`
+const ImageSliderSlide = styled(motion.div)`
   width: 100%;
   height: 100%;
   position: absolute;
-  object-fit: cover;
   left: 0;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ImageSlider = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export default Slider;

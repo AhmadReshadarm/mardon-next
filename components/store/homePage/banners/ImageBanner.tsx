@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { wrap } from 'popmotion';
 import { memo, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ArrowSVG from '../../../../assets/arrow_white.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import Link from 'next/link';
@@ -16,6 +15,8 @@ import { Slide } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState, TGlobalState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
+import Image from 'next/image';
+import { ArrowSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   slides: Slide[] | undefined;
@@ -93,44 +94,50 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         }}
       >
         <AnimatePresence mode="wait" initial={false} custom={direction}>
-          <Slider
-            ref={imgRef}
-            alt={slides![imageIndex]?.link}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-              currentTarget.className = 'error_img';
-            }}
+          <SliderSlide
             key={page}
-            src={`/api/images/${slides![imageIndex]?.image}`}
             custom={direction}
             variants={variants.slider}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{
-              x: { type: 'spring', stiffness: 300, damping: 30, duration: 0.1 },
+              x: {
+                type: 'spring',
+                stiffness: 300,
+                damping: 30,
+                duration: 0.1,
+              },
               opacity: { duration: 0.4 },
             }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
-            // onDrag={() => {
-            //   setUserIntract(true);
-            //   setTimeout(() => {
-            //     setUserIntract(false);
-            //   }, 10000);
-            // }}
-            isDisplay={
-              isCatalogOpen ||
-              isSearchFormActive ||
-              isWishlistOpen ||
-              isBasketOpen ||
-              isAuthFormOpen ||
-              !!searchQuery
-            }
-          />
+          >
+            <Slider
+              ref={imgRef}
+              alt={`${slides![imageIndex]?.link}`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/img_not_found.png';
+                currentTarget.className = 'error_img';
+              }}
+              src={`/api/images/${slides![imageIndex]?.image}`}
+              isDisplay={
+                isCatalogOpen ||
+                isSearchFormActive ||
+                isWishlistOpen ||
+                isBasketOpen ||
+                isAuthFormOpen ||
+                !!searchQuery
+              }
+              width={0}
+              height={0}
+              sizes="100vw"
+              priority
+            />
+          </SliderSlide>
         </AnimatePresence>
         <div className="banner-arrows-wrapper">
           <ArrowBtns
@@ -138,20 +145,12 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             whileTap="tap"
             custom={1.1}
             variants={variants.grow}
-            // right="0"
-            // top="50%"
-            // position="absolute"
             boxshadow="transparent"
             bgcolor={color.glassmorphismSeconderBG}
             filterdropback="blur"
             onClick={(e) => {
               e.preventDefault();
               paginateImage(1);
-              // setUserIntract(true);
-              // setTimeout(() => {
-              //   setUserIntract(false);
-              // }, 10000);
-              // setImageIndexForDots(imageIndex);
             }}
             title="следующий слайд"
             aria-label="следующий слайд"
@@ -165,20 +164,12 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             whileTap="tap"
             custom={1.1}
             variants={variants.grow}
-            // left="0"
-            // top="50%"
-            // position="absolute"
             boxshadow="transparent"
             bgcolor={color.glassmorphismSeconderBG}
             filterdropback="blur"
             onClick={(e) => {
               e.preventDefault();
               paginateImage(-1);
-              // setUserIntract(true);
-              // setTimeout(() => {
-              //   setUserIntract(false);
-              // }, 10000);
-              // setImageIndexForDots(imageIndex);
             }}
             title="предыдущий слайд"
             aria-label="предыдущий слайд"
@@ -338,8 +329,12 @@ const SliderWrapper = styled(motion.div)<StyleProps>`
     }
   }
 `;
-
-const Slider = styled(motion.img)<StyleProps>`
+// const img = styled(motion(Image));
+const SliderSlide = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+`;
+const Slider = styled(Image)<StyleProps>`
   width: 100%;
   height: 100%;
   object-fit: cover;

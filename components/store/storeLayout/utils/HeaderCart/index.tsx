@@ -58,85 +58,87 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
   );
   // ---------------------- end of UI hooks ---------------------
   return (
-    <>
-      <PopupWrapper
-        ref={cartWrapperNode}
-        style={{ display: cartDisplay }}
-        animate={isBasketOpen ? 'open' : 'close'}
-        variants={variants.fadeInReveal}
-      >
-        <div className="header-basket-form-background"></div>
-        <div className="header-spacer"></div>
-        {!cart?.orderProducts?.length ? (
-          <div className="empty-wrapper">
-            <h1>{`Корзина пуста`.toLocaleUpperCase()}</h1>
-          </div>
-        ) : (
-          <PopupDivider>
-            <PopupContent>
-              {cart?.orderProducts?.map((orderProduct, index: any) => {
-                return (
-                  <HeaderProductItmes
-                    key={`cart-item-${index}`}
-                    orderProduct={orderProduct}
-                    dataType="cart"
-                    handleMenuState={handleMenuStateRedux(
+    <PopupWrapper
+      ref={cartWrapperNode}
+      style={{ display: cartDisplay }}
+      animate={isBasketOpen ? 'open' : 'close'}
+      variants={variants.fadeInReveal}
+    >
+      {isBasketOpen && (
+        <>
+          <div className="header-basket-form-background"></div>
+          <div className="header-spacer"></div>
+          {!cart?.orderProducts?.length ? (
+            <div className="empty-wrapper">
+              <h1>{`Корзина пуста`.toLocaleUpperCase()}</h1>
+            </div>
+          ) : (
+            <PopupDivider>
+              <PopupContent>
+                {cart?.orderProducts?.map((orderProduct, index: any) => {
+                  return (
+                    <HeaderProductItmes
+                      key={`cart-item-${index}`}
+                      orderProduct={orderProduct}
+                      dataType="cart"
+                      handleMenuState={handleMenuStateRedux(
+                        dispatch,
+                        changeBasketState,
+                        changeCartDisplayState,
+                        isBasketOpen,
+                        cartDisplay,
+                      )}
+                    />
+                  );
+                })}
+              </PopupContent>
+
+              <PopupBtnsDivider>
+                <Link href="/cart">
+                  <ActionBtns
+                    onClick={handleMenuStateRedux(
                       dispatch,
                       changeBasketState,
                       changeCartDisplayState,
                       isBasketOpen,
                       cartDisplay,
                     )}
-                  />
-                );
-              })}
-            </PopupContent>
-
-            <PopupBtnsDivider>
-              <Link href="/cart">
-                <ActionBtns
-                  onClick={handleMenuStateRedux(
-                    dispatch,
-                    changeBasketState,
-                    changeCartDisplayState,
-                    isBasketOpen,
-                    cartDisplay,
-                  )}
+                  >
+                    {`корзина`.toLocaleUpperCase()}
+                  </ActionBtns>
+                </Link>
+                <Link href="/checkout">
+                  <ActionBtns
+                    onClick={() => {
+                      handleGoToCart();
+                      handleMenuStateRedux(
+                        dispatch,
+                        changeBasketState,
+                        changeCartDisplayState,
+                        isBasketOpen,
+                        cartDisplay,
+                      )();
+                    }}
+                  >
+                    {`Оформить заказ`.toLocaleUpperCase()}
+                  </ActionBtns>
+                </Link>
+                <TotalPriceWrapper
+                  isLargeTotal={
+                    getTotalPrice(cart.orderProducts, user!)! > 100000
+                  }
                 >
-                  {`корзина`.toLocaleUpperCase()}
-                </ActionBtns>
-              </Link>
-              <Link href="/checkout">
-                <ActionBtns
-                  onClick={() => {
-                    handleGoToCart();
-                    handleMenuStateRedux(
-                      dispatch,
-                      changeBasketState,
-                      changeCartDisplayState,
-                      isBasketOpen,
-                      cartDisplay,
-                    )();
-                  }}
-                >
-                  {`Оформить заказ`.toLocaleUpperCase()}
-                </ActionBtns>
-              </Link>
-              <TotalPriceWrapper
-                isLargeTotal={
-                  getTotalPrice(cart.orderProducts, user!)! > 100000
-                }
-              >
-                <h1>ОБЩИЙ СЧЕТ</h1>
-                <h1 className="total-price-wrapper">
-                  {getTotalPrice(cart.orderProducts, user!)}₽
-                </h1>
-              </TotalPriceWrapper>
-            </PopupBtnsDivider>
-          </PopupDivider>
-        )}
-      </PopupWrapper>
-    </>
+                  <h1>ОБЩИЙ СЧЕТ</h1>
+                  <h1 className="total-price-wrapper">
+                    {getTotalPrice(cart.orderProducts, user!)}₽
+                  </h1>
+                </TotalPriceWrapper>
+              </PopupBtnsDivider>
+            </PopupDivider>
+          )}
+        </>
+      )}
+    </PopupWrapper>
   );
 };
 

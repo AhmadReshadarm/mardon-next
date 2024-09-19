@@ -9,8 +9,10 @@ import {
   PhoneSVG,
   WatchSVG,
 } from 'assets/icons/UI-icons';
+import { useInViewport } from 'components/store/storeLayout/useInViewport';
 
 const ContactsMainPage = (): JSX.Element => {
+  const { isInViewport, ref } = useInViewport();
   return (
     <Container
       flex_direction="column"
@@ -18,68 +20,77 @@ const ContactsMainPage = (): JSX.Element => {
       align_items="center"
       padding="80px 0"
       bg_color={color.backgroundPrimary}
+      ref={ref}
     >
-      <Wrapper>
-        <ContactContentWrapper>
-          <div className="header-wrapper">
-            <h1>НАШИ КОНТАКТЫ</h1>
-          </div>
-          <div className="contact-info-wrapper">
-            <div className="contents-rows">
-              <span className="icons-wrapper">
-                <PhoneSVG />
-              </span>
-              <div className="call-wrapper">
-                <Link href="tel:+79254865444">
-                  <span title="позвонить 8-925-486-54-44">8-925-486-54-44</span>
-                </Link>
-                <span className="call-saperator">|</span>
-                <Link href="tel:89266999952">
-                  <span title="позвонить 8-926-699-99-52">8-926-699-99-52</span>
-                </Link>
-                <span className="call-saperator">|</span>
-                <Link href="tel:89268999954">
-                  <span title="позвонить 8-926-899-99-54">8-926-899-99-54</span>
-                </Link>
+      {isInViewport && (
+        <Wrapper>
+          <ContactContentWrapper>
+            <div className="header-wrapper">
+              <h1>НАШИ КОНТАКТЫ</h1>
+            </div>
+            <div className="contact-info-wrapper">
+              <div className="contents-rows">
+                <span className="icons-wrapper">
+                  <PhoneSVG />
+                </span>
+                <div className="call-wrapper">
+                  <Link href="tel:+79254865444">
+                    <span title="позвонить 8-925-486-54-44">
+                      8-925-486-54-44
+                    </span>
+                  </Link>
+                  <span className="call-saperator">|</span>
+                  <Link href="tel:89266999952">
+                    <span title="позвонить 8-926-699-99-52">
+                      8-926-699-99-52
+                    </span>
+                  </Link>
+                  <span className="call-saperator">|</span>
+                  <Link href="tel:89268999954">
+                    <span title="позвонить 8-926-899-99-54">
+                      8-926-899-99-54
+                    </span>
+                  </Link>
+                </div>
+              </div>
+              <div className="contents-rows">
+                <span className="icons-wrapper">
+                  <MailSVG />
+                </span>
+                <div className="call-wrapper">
+                  <Link href="mailto:info@nbhoz.ru">
+                    <span title="отправьте письмо по адресу info@nbhoz.ru">
+                      info@nbhoz.ru
+                    </span>
+                  </Link>
+                  <span className="call-saperator">|</span>
+                  <Link href="mailto:exelon@hoz-mardon.ru">
+                    <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
+                      exelon@hoz-mardon.ru
+                    </span>
+                  </Link>
+                </div>
+              </div>
+              <div className="contents-rows">
+                <span className="icons-wrapper">
+                  <LocationPointerSVG />
+                </span>
+                <span title="адрес г. Москва, Каширское шоссе">
+                  г. Москва, Каширское шоссе
+                </span>
+              </div>
+              <div className="contents-rows">
+                <span className="icons-wrapper">
+                  <WatchSVG />
+                </span>
+                <span title="график работы понедельник-суббота с 10:00 до 21:00">
+                  Понедельник-Суббота с 10:00 до 21:00
+                </span>
               </div>
             </div>
-            <div className="contents-rows">
-              <span className="icons-wrapper">
-                <MailSVG />
-              </span>
-              <div className="call-wrapper">
-                <Link href="mailto:info@nbhoz.ru">
-                  <span title="отправьте письмо по адресу info@nbhoz.ru">
-                    info@nbhoz.ru
-                  </span>
-                </Link>
-                <span className="call-saperator">|</span>
-                <Link href="mailto:exelon@hoz-mardon.ru">
-                  <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
-                    exelon@hoz-mardon.ru
-                  </span>
-                </Link>
-              </div>
-            </div>
-            <div className="contents-rows">
-              <span className="icons-wrapper">
-                <LocationPointerSVG />
-              </span>
-              <span title="адрес г. Москва, Каширское шоссе">
-                г. Москва, Каширское шоссе
-              </span>
-            </div>
-            <div className="contents-rows">
-              <span className="icons-wrapper">
-                <WatchSVG />
-              </span>
-              <span title="график работы понедельник-суббота с 10:00 до 21:00">
-                Понедельник-Суббота с 10:00 до 21:00
-              </span>
-            </div>
-          </div>
-        </ContactContentWrapper>
-      </Wrapper>
+          </ContactContentWrapper>
+        </Wrapper>
+      )}
     </Container>
   );
 };

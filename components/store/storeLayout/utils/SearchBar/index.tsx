@@ -12,8 +12,7 @@ import {
 } from 'redux/slicers/store/globalSlicer';
 import { TGlobalState, TGlobalUIState } from 'redux/types';
 import styled from 'styled-components';
-import { handleSearchQueryChange, handleSearchFormSubmit } from './helpers';
-import SearchItem from './SearchItem';
+import { handleSearchFormSubmit } from './helpers';
 import { useRouter } from 'next/router';
 import Loading from 'ui-kit/Loading';
 import {
@@ -106,77 +105,81 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
       }
       variants={variants.fadeInReveal}
     >
-      <div className="header-Search-background"></div>
-      <SearchForm
-        name="search"
-        onSubmit={handleSearchFormSubmit(
-          searchQuery,
-          router,
-          changeSearchFormState,
-          changeSearchDisplayState,
-          dispatch,
-        )}
-      >
-        <div
-          onClick={() => {
-            dispatch(clearSearchQuery());
-            dispatch(clearSearchProducts());
-          }}
-          className="search-header-clear-button"
-          style={{ display: searchQuery ? 'flex' : 'none' }}
-        >
-          <MenuActiveStateSVG fill={color.inactiveIcons} />
-        </div>
-        <SearchFieldInput
-          // handleSearchQueryChange(undefined, dispatch)
-          onChange={handleChangeOnquary}
-          placeholder="Введите ключевые слова, артикул или символы"
-          type="input"
-          value={searchQuery}
-        />
-
-        <SearchBtn type={'submit'}>
-          <span>ПОИСК</span>
-        </SearchBtn>
-      </SearchForm>
-      <ResultsWrapper
-        animate={searchQuery ? 'open' : 'close'}
-        variants={variants.fadeInReveal}
-        style={{ display: searchQuery ? 'flex' : 'none' }}
-      >
+      {isSearchFormActive && (
         <>
-          {products.length > 0 ? (
-            <ResultsContent
-              style={{
-                overflowY: products.length > 2 ? 'scroll' : 'unset',
+          <div className="header-Search-background"></div>
+          <SearchForm
+            name="search"
+            onSubmit={handleSearchFormSubmit(
+              searchQuery,
+              router,
+              changeSearchFormState,
+              changeSearchDisplayState,
+              dispatch,
+            )}
+          >
+            <div
+              onClick={() => {
+                dispatch(clearSearchQuery());
+                dispatch(clearSearchProducts());
               }}
+              className="search-header-clear-button"
+              style={{ display: searchQuery ? 'flex' : 'none' }}
             >
-              {products.map((product, index: number) => {
-                return (
-                  <ErrorBoundary fallbackRender={FallbackRender}>
-                    <ProductItem
-                      key={`search-bar-item-${index}`}
-                      product={product}
-                      custom={delay[index]}
-                    />
-                  </ErrorBoundary>
-                );
-              })}
-            </ResultsContent>
-          ) : productsLoading ? (
-            <EmptyResultAndLoaderWrapper>
-              <Loading />
-            </EmptyResultAndLoaderWrapper>
-          ) : (
-            <EmptyResultAndLoaderWrapper>
-              <span>
-                Такого товара нет в нашем интернет-магазине. Пожалуйста,
-                проверьте внимательнее написание товара.
-              </span>
-            </EmptyResultAndLoaderWrapper>
-          )}
+              <MenuActiveStateSVG fill={color.inactiveIcons} />
+            </div>
+            <SearchFieldInput
+              // handleSearchQueryChange(undefined, dispatch)
+              onChange={handleChangeOnquary}
+              placeholder="Введите ключевые слова, артикул или символы"
+              type="input"
+              value={searchQuery}
+            />
+
+            <SearchBtn type={'submit'}>
+              <span>ПОИСК</span>
+            </SearchBtn>
+          </SearchForm>
+          <ResultsWrapper
+            animate={searchQuery ? 'open' : 'close'}
+            variants={variants.fadeInReveal}
+            style={{ display: searchQuery ? 'flex' : 'none' }}
+          >
+            <>
+              {products.length > 0 ? (
+                <ResultsContent
+                  style={{
+                    overflowY: products.length > 2 ? 'scroll' : 'unset',
+                  }}
+                >
+                  {products.map((product, index: number) => {
+                    return (
+                      <ErrorBoundary fallbackRender={FallbackRender}>
+                        <ProductItem
+                          key={`search-bar-item-${index}`}
+                          product={product}
+                          custom={delay[index]}
+                        />
+                      </ErrorBoundary>
+                    );
+                  })}
+                </ResultsContent>
+              ) : productsLoading ? (
+                <EmptyResultAndLoaderWrapper>
+                  <Loading />
+                </EmptyResultAndLoaderWrapper>
+              ) : (
+                <EmptyResultAndLoaderWrapper>
+                  <span>
+                    Такого товара нет в нашем интернет-магазине. Пожалуйста,
+                    проверьте внимательнее написание товара.
+                  </span>
+                </EmptyResultAndLoaderWrapper>
+              )}
+            </>
+          </ResultsWrapper>
         </>
-      </ResultsWrapper>
+      )}
     </SearchFormWrapper>
   );
 };

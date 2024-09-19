@@ -1,18 +1,44 @@
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import React, { Suspense, useEffect, useState } from 'react';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import Banners from 'components/store/homePage/banners';
-import ProductsSlider from 'components/store/homePage/productsSlider';
-import ContactsMainPage from 'components/store/homePage/contactsMainPage';
-import Subscribers from 'ui-kit/Subscribers';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import Loading from 'ui-kit/Loading';
-import React, { Suspense, useEffect, useState } from 'react';
 import { baseUrl } from '../common/constant';
-import BestProduct from 'components/store/homePage/bestProducts';
-import MainPageCatalog from 'components/store/homePage/mainPageCatalog';
-import Head from 'next/head';
+const Banners = dynamic(() => import('components/store/homePage/banners'), {
+  ssr: false,
+});
+const ProductsSlider = dynamic(
+  () => import('components/store/homePage/productsSlider'),
+  {
+    ssr: false,
+  },
+);
+const MainPageCatalog = dynamic(
+  () => import('components/store/homePage/mainPageCatalog'),
+  {
+    ssr: false,
+  },
+);
+const BestProduct = dynamic(
+  () => import('components/store/homePage/bestProducts'),
+  {
+    ssr: false,
+  },
+);
+const Subscribers = dynamic(() => import('ui-kit/Subscribers'), {
+  ssr: false,
+});
+const ContactsMainPage = dynamic(
+  () => import('components/store/homePage/contactsMainPage'),
+  {
+    ssr: false,
+  },
+);
 
 const IndexPage = (): JSX.Element => {
   const [isClient, setClient] = useState(false);
+
   useEffect(() => {
     setClient(true);
   }, []);

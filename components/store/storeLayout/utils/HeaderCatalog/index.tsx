@@ -11,6 +11,7 @@ import {
   changeCatelogDisplayState,
   changeCatelogState,
 } from 'redux/slicers/store/globalUISlicer';
+import Image from 'next/image';
 
 type Props = {
   catelogButtonRef: HTMLDivElement | any;
@@ -64,17 +65,28 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
       animate={isCatalogOpen ? 'open' : 'close'}
       variants={variants.fadeInReveal}
     >
-      <div className="header-menu-background"></div>
-      <div className="catelog-content-wrapper">
-        <div className="category-menu-wrapper">
-          <div className="header-spacer"></div>
-          <CatalogModal setHoveredCategory={setHoveredCategory} />
-        </div>
-        <div className="category-image-wrapper">
-          <div className="header-spacer"></div>
-          <img src={hoveredCategory} alt={hoveredCategory} />
-        </div>
-      </div>
+      {isCatalogOpen && (
+        <>
+          <div className="header-menu-background"></div>
+          <div className="catelog-content-wrapper">
+            <div className="category-menu-wrapper">
+              <div className="header-spacer"></div>
+              <CatalogModal setHoveredCategory={setHoveredCategory} />
+            </div>
+            <div className="category-image-wrapper">
+              <div className="header-spacer"></div>
+              <Image
+                src={hoveredCategory}
+                alt={hoveredCategory}
+                width={0}
+                height={0}
+                sizes="100vw"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </CatalogWrapper>
   );
 };

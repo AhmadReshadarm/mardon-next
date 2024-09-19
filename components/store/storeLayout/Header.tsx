@@ -2,10 +2,9 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Content, Wrapper } from './common';
 import { handleMenuStateRedux, overrideDefaultIOSZoom } from './helpers';
-import AuthorizationModel from './utils/HeaderAuth/index';
-import HeaderCart from './utils/HeaderCart';
-import SearchBar from './utils/SearchBar';
-import HeaderCatalog from './utils/HeaderCatalog/index';
+// import AuthorizationModel from './utils/HeaderAuth/index';
+// import HeaderCart from './utils/HeaderCart';
+// import SearchBar from './utils/SearchBar';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import {
@@ -43,45 +42,34 @@ import {
   changeWishlistState,
   changeWishlistDisplayState,
 } from 'redux/slicers/store/globalUISlicer';
-import HeaderWishlist from './utils/HeaderWishlist';
+// import HeaderWishlist from './utils/HeaderWishlist';
 import NavMobile from './utils/mobileNav';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import dynamic from 'next/dynamic';
+const GoogleAnalytics = dynamic(
+  () => import('@next/third-parties/google').then((mod) => mod.GoogleAnalytics),
+  {
+    ssr: false,
+  },
+);
+const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
+  ssr: false,
+});
+const SearchBar = dynamic(() => import('./utils/SearchBar'), {
+  ssr: false,
+});
+const HeaderWishlist = dynamic(() => import('./utils/HeaderWishlist'), {
+  ssr: false,
+});
+const HeaderCart = dynamic(() => import('./utils/HeaderCart'), {
+  ssr: false,
+});
+const AuthorizationModel = dynamic(() => import('./utils/HeaderAuth/index'), {
+  ssr: false,
+});
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!isSearchActive) {
-  //     handleSearchclosed(dispatch);
-  //   }
-  // }, [isSearchActive]);
-  // ReactGA.initialize('G-LPMTNCKRGT');
-
-  // useEffect(() => {
-  //   const handleRouteChange = (url, { shallow }) => {
-  //     // REACTGA
-  //     // Send pageview with a custom path
-  //     ReactGA.send({ hitType: 'pageview', page: url });
-
-  //     console.log(
-  //       `App is changing to ${url} ${
-  //         shallow ? 'with' : 'without'
-  //       } shallow routing`,
-  //     );
-  //   };
-
-  //   router.events.on('routeChangeComplete', handleRouteChange);
-
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off('routeChangeComplete', handleRouteChange);
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   ReactGA.pageview(window.location.pathname + window.location.search);
-  // }, []);
   useEffect(() => overrideDefaultIOSZoom());
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -373,6 +361,9 @@ const Header = () => {
                 </IconsWrapper>
               </Content>
               {/* <SearchBarMobile /> */}
+              {/* {isCatalogOpen && (
+                <HeaderCatalog catelogButtonRef={catelogButtonRef} />
+              )} */}
               <HeaderCatalog catelogButtonRef={catelogButtonRef} />
               <SearchBar
                 searchButtonRef={searchButtonRef}

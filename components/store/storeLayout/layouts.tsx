@@ -1,6 +1,15 @@
-import Footer from './Footer';
-import Header from './Header';
-import { YandexMetricaProvider } from 'next-yandex-metrica';
+import dynamic from 'next/dynamic';
+const Header = dynamic(() => import('./Header'));
+const Footer = dynamic(() => import('./Footer'));
+// import Footer from './Footer';
+// import Header from './Header';
+// import { YandexMetricaProvider } from 'next-yandex-metrica';
+const YandexMetricaProvider = dynamic(
+  () => import('next-yandex-metrica').then((mod) => mod.YandexMetricaProvider),
+  {
+    ssr: false,
+  },
+);
 
 const StoreLayout = ({ children }: { children: React.ReactNode }) => {
   return (

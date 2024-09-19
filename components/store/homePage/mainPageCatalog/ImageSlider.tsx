@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { CategoryInTree } from 'swagger/services';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
+import Image from 'next/image';
 
 type Props = {
   categories: CategoryInTree[];
@@ -20,19 +21,8 @@ const ImageSlider: React.FC<Props> = ({
 }) => {
   return (
     <ImageSliderWrapper>
-      {/* <Link
-        href={
-          categories && categories[index]?.url ? categories[index]?.url! : ''
-        }
-      > */}
       <AnimatePresence initial={false} custom={direction}>
-        <Slider
-          key={page}
-          src={categories ? `/api/images/${categories[index]?.image}` : ''}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/img_not_found.png';
-          }}
+        <SliderSlide
           custom={direction}
           variants={variants.slider}
           initial="enter"
@@ -42,9 +32,22 @@ const ImageSlider: React.FC<Props> = ({
             x: { type: 'spring', stiffness: 300, damping: 30 },
             opacity: { duration: 0.4 },
           }}
-        />
+          key={page}
+        >
+          <Slider
+            alt={`${categories[index]?.name!}`}
+            src={`/api/images/${categories[index]?.image}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/img_not_found.png';
+            }}
+            width={0}
+            height={0}
+            sizes="100vw"
+            loading="lazy"
+          />
+        </SliderSlide>
       </AnimatePresence>
-      {/* </Link> */}
     </ImageSliderWrapper>
   );
 };
@@ -76,13 +79,18 @@ const ImageSliderWrapper = styled.div`
   }
 `;
 
-const Slider = styled(motion.img)`
+const Slider = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const SliderSlide = styled(motion.div)`
   width: 80%;
   height: 100%;
   position: absolute;
   right: 50px;
   top: 0;
-  object-fit: cover;
 `;
 
 export default ImageSlider;

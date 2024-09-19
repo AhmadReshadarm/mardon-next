@@ -9,6 +9,7 @@ import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { useState } from 'react';
 import ImageSlider from './ImageSlider';
 import { devices } from 'components/store/lib/Devices';
+import { useInViewport } from 'components/store/storeLayout/useInViewport';
 
 const MainPageCatalog = (): JSX.Element => {
   const { categories, loading } = useAppSelector<TGlobalState>(
@@ -16,6 +17,7 @@ const MainPageCatalog = (): JSX.Element => {
   );
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const [index, setIndex] = useState(0);
+  const { isInViewport, ref } = useInViewport();
 
   return (
     <Container
@@ -23,35 +25,38 @@ const MainPageCatalog = (): JSX.Element => {
       justify_content="center"
       align_items="center"
       bg_color={color.bgPrimary}
+      ref={ref}
     >
-      <Wrapper>
-        {!loading ? (
-          <>
-            <HeaderWrapper>
-              <div className="header-title-wrapper">
-                <h2>Ассортимент</h2>
-              </div>
-            </HeaderWrapper>
+      {isInViewport && (
+        <Wrapper>
+          {!loading && categories.length !== 0 ? (
+            <>
+              <HeaderWrapper>
+                <div className="header-title-wrapper">
+                  <h2>Ассортимент</h2>
+                </div>
+              </HeaderWrapper>
 
-            <CatalogContentWrapper>
-              <ImageSlider
-                categories={categories}
-                page={page}
-                index={index}
-                direction={direction}
-              />
-              <CatalogModal
-                paginateImage={paginateImage}
-                stateIndex={index}
-                setIndex={setIndex}
-                categories={categories}
-              />
-            </CatalogContentWrapper>
-          </>
-        ) : (
-          <Loading />
-        )}
-      </Wrapper>
+              <CatalogContentWrapper>
+                <ImageSlider
+                  categories={categories}
+                  page={page}
+                  index={index}
+                  direction={direction}
+                />
+                <CatalogModal
+                  paginateImage={paginateImage}
+                  stateIndex={index}
+                  setIndex={setIndex}
+                  categories={categories}
+                />
+              </CatalogContentWrapper>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </Wrapper>
+      )}
     </Container>
   );
 };
