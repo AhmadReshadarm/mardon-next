@@ -258,7 +258,6 @@ const ReviewReplyItem = styled.div`
     align-items: center;
     h3 {
       font-size: 1rem;
-      font-family: Anticva;
     }
     .replied-to-wrapper {
       display: flex;
@@ -269,7 +268,6 @@ const ReviewReplyItem = styled.div`
 
       h3 {
         font-size: 1rem;
-        font-family: Anticva;
       }
 
       span {
@@ -332,8 +330,6 @@ const ReviewReplyItem = styled.div`
     align-items: felx-start;
     gap: 10px;
     h3 {
-      font-family: Anticva;
-
       font-size: 1rem;
     }
   }

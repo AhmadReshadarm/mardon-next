@@ -165,8 +165,6 @@ const ItemDetails = styled.div`
     width: 100%;
     h4 {
       text-align: left;
-      // font-family: 'Anticva';
-      // font-size: 1.8rem;
       font-weight: 400;
       &:hover {
         text-decoration: underline 1px;

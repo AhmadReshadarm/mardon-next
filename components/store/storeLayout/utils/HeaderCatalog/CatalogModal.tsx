@@ -9,69 +9,129 @@ import {
   changeCatelogState,
 } from 'redux/slicers/store/globalUISlicer';
 import { devices } from 'components/store/lib/Devices';
+import { emptyLoading } from 'common/constants';
+import { useEffect } from 'react';
+import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
 type Props = {
   setHoveredCategory;
 };
 const CatalogModal: React.FC<Props> = ({ setHoveredCategory }) => {
-  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
+  const { categories, loading } = useAppSelector<TGlobalState>(
+    (state) => state.global,
+  );
   const dispatch = useAppDispatch();
-  const { isCatalogOpen, catelogDisplay, isDropDownOpen } =
-    useAppSelector<TGlobalUIState>((state) => state.globalUI);
+  const { isCatalogOpen, catelogDisplay } = useAppSelector<TGlobalUIState>(
+    (state) => state.globalUI,
+  );
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchTags());
+  }, []);
+
   return (
     <CatalogContentWrapper>
-      {categories.map((category, indexmain) => {
-        return (
-          <MainCatalogWrapper key={indexmain}>
-            <div className="main-catagory">
-              <Link
-                onClick={handleMenuStateRedux(
-                  dispatch,
-                  changeCatelogState,
-                  changeCatelogDisplayState,
-                  isCatalogOpen,
-                  catelogDisplay,
-                )}
-                href={`/catalog?categories=${category.url}`}
-                onMouseOver={() =>
-                  setHoveredCategory(`/api/images/${category.image}`)
-                }
-              >
-                <span>{category.name}</span>
-              </Link>
-            </div>
-            <SubCategoriesWrapper>
-              {category.children?.map((subCategory, index) => {
-                return (
-                  <SubCategoriesContainer key={index}>
-                    <Link
-                      onClick={handleMenuStateRedux(
-                        dispatch,
-                        changeCatelogState,
-                        changeCatelogDisplayState,
-                        isCatalogOpen,
-                        catelogDisplay,
-                      )}
-                      href={`/catalog?categories=${category.url}&subCategories=${subCategory.url}`}
-                      onMouseOver={() =>
-                        setHoveredCategory(`/api/images/${subCategory.image}`)
-                      }
-                    >
-                      <span className="sub-category">{subCategory.name}</span>
-                    </Link>
-                    <TagsModal
-                      category={category.url!}
-                      subCategory={subCategory.url!}
-                    />
+      {!loading && categories.length !== 0
+        ? categories.map((category, indexmain) => {
+            return (
+              <MainCatalogWrapper key={indexmain}>
+                <div className="main-catagory">
+                  <Link
+                    onClick={handleMenuStateRedux(
+                      dispatch,
+                      changeCatelogState,
+                      changeCatelogDisplayState,
+                      isCatalogOpen,
+                      catelogDisplay,
+                    )}
+                    href={`/catalog?categories=${category.url}`}
+                    onMouseOver={() =>
+                      setHoveredCategory(`/api/images/${category.image}`)
+                    }
+                  >
+                    <span>{category.name}</span>
+                  </Link>
+                </div>
+                <SubCategoriesWrapper>
+                  {category.children?.map((subCategory, index) => {
+                    return (
+                      <SubCategoriesContainer key={index}>
+                        <Link
+                          onClick={handleMenuStateRedux(
+                            dispatch,
+                            changeCatelogState,
+                            changeCatelogDisplayState,
+                            isCatalogOpen,
+                            catelogDisplay,
+                          )}
+                          href={`/catalog?categories=${category.url}&subCategories=${subCategory.url}`}
+                          onMouseOver={() =>
+                            setHoveredCategory(
+                              `/api/images/${subCategory.image}`,
+                            )
+                          }
+                        >
+                          <span className="sub-category">
+                            {subCategory.name}
+                          </span>
+                        </Link>
+                        <TagsModal
+                          category={category.url!}
+                          subCategory={subCategory.url!}
+                        />
+                      </SubCategoriesContainer>
+                    );
+                  })}
+                </SubCategoriesWrapper>
+              </MainCatalogWrapper>
+            );
+          })
+        : emptyLoading.map((item, index) => (
+            <MainCatalogWrapper key={index}>
+              <div className="main-catagory">
+                <CatelogLoader style={{ width: '120px', height: '20px' }} />
+              </div>
+              <SubCategoriesWrapper>
+                {emptyLoading.map((item, subIndex) => (
+                  <SubCategoriesContainer key={subIndex}>
+                    <CatelogLoader style={{ width: '120px', height: '15px' }} />
                   </SubCategoriesContainer>
-                );
-              })}
-            </SubCategoriesWrapper>
-          </MainCatalogWrapper>
-        );
-      })}
+                ))}
+              </SubCategoriesWrapper>
+            </MainCatalogWrapper>
+          ))}
     </CatalogContentWrapper>
   );
 };
+
+const CatelogLoader = styled.div`
+  border-radius: 3px;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 const CatalogContentWrapper = styled.div`
   width: 95%;

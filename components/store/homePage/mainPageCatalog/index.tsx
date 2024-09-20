@@ -2,22 +2,32 @@ import { Container } from 'components/store/storeLayout/common';
 import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
 import { TGlobalState } from 'redux/types';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import CatalogModal from './CatalogModal';
 import Loading from 'ui-kit/Loading';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ImageSlider from './ImageSlider';
 import { devices } from 'components/store/lib/Devices';
 import { useInViewport } from 'components/store/storeLayout/useInViewport';
+import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
+import Loader from './Loader';
 
 const MainPageCatalog = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const { categories, loading } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const [index, setIndex] = useState(0);
   const { isInViewport, ref } = useInViewport();
+
+  useEffect(() => {
+    if (isInViewport) {
+      dispatch(fetchCategories());
+      dispatch(fetchTags());
+    }
+  }, [isInViewport]);
 
   return (
     <Container
@@ -27,36 +37,40 @@ const MainPageCatalog = (): JSX.Element => {
       bg_color={color.bgPrimary}
       ref={ref}
     >
-      {isInViewport && (
-        <Wrapper>
-          {!loading && categories.length !== 0 ? (
-            <>
-              <HeaderWrapper>
-                <div className="header-title-wrapper">
-                  <h2>Ассортимент</h2>
-                </div>
-              </HeaderWrapper>
+      <Wrapper>
+        {isInViewport ? (
+          <>
+            {!loading && categories.length !== 0 ? (
+              <>
+                <HeaderWrapper>
+                  <div className="header-title-wrapper">
+                    <h2>Ассортимент</h2>
+                  </div>
+                </HeaderWrapper>
 
-              <CatalogContentWrapper>
-                <ImageSlider
-                  categories={categories}
-                  page={page}
-                  index={index}
-                  direction={direction}
-                />
-                <CatalogModal
-                  paginateImage={paginateImage}
-                  stateIndex={index}
-                  setIndex={setIndex}
-                  categories={categories}
-                />
-              </CatalogContentWrapper>
-            </>
-          ) : (
-            <Loading />
-          )}
-        </Wrapper>
-      )}
+                <CatalogContentWrapper>
+                  <ImageSlider
+                    categories={categories}
+                    page={page}
+                    index={index}
+                    direction={direction}
+                  />
+                  <CatalogModal
+                    paginateImage={paginateImage}
+                    stateIndex={index}
+                    setIndex={setIndex}
+                    categories={categories}
+                  />
+                </CatalogContentWrapper>
+              </>
+            ) : (
+              <Loader />
+            )}
+          </>
+        ) : (
+          <Loader />
+        )}
+      </Wrapper>
     </Container>
   );
 };
@@ -115,8 +129,8 @@ const HeaderWrapper = styled.div`
     z-index: 2;
     margin-bottom: -1px;
     h2 {
-      font-family: Baskerville;
       font-size: 2rem;
+      font-weight: 400;
     }
   }
   .header-divder-wrapper {

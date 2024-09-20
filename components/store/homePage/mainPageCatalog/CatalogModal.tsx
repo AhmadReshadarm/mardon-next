@@ -87,7 +87,7 @@ const CatalogModal: React.FC<Props> = ({
   );
 };
 
-const InfoContainer = styled(motion.div)`
+export const InfoContainer = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: column;

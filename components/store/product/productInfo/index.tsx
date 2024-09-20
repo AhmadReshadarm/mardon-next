@@ -199,7 +199,6 @@ const ContentCotainer = styled.div`
     z-index: 2;
     width: 78%;
     h1 {
-      font-family: Anticva;
       font-weight: 100;
       font-size: 2.25rem;
     }

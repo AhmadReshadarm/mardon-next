@@ -122,7 +122,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
   );
 };
 
-const ItemContainer = styled(motion.li)`
+export const ItemContainer = styled(motion.li)`
   width: 100%;
   min-width: 330px;
   max-width: 330px;
@@ -164,7 +164,7 @@ const ItemContainer = styled(motion.li)`
   }
 `;
 
-const ItemWrapper = styled.div`
+export const ItemWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;

@@ -218,7 +218,6 @@ const Policy = () => {
 const Headers = styled.h1`
   width: 100%;
   text-align: start;
-  font-family: 'Anticva';
   font-size: 1.5rem;
   @media ${devices.mobileL} {
     max-width: 95vw;

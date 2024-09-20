@@ -10,7 +10,6 @@ const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
     color: color.btnPrimary,
     maxWidth: 200,
     fontSize: theme.typography.pxToRem(14),
-    fontFamily: 'intro',
     boxShadow: `0px 2px 6px ${color.boxShadowBtn}`,
     display: 'flex',
     flexDirection: 'column',

@@ -109,9 +109,7 @@ const ContentWarpper = styled.div`
   padding: 50px;
   box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
   border-radius: 15px;
-  h1 {
-    font-family: Anticva;
-  }
+
   .order-complet-text {
     width: 50%;
     color: #5a6445;

@@ -1,21 +1,31 @@
 import { devices } from 'components/store/lib/Devices';
 import { useEffect } from 'react';
-import { useAppSelector } from 'redux/hooks';
-
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
 import { getAnimationDelay } from 'ui-kit/products/helpers';
 import ProductItem from 'ui-kit/products/productItem';
-import Loading from 'ui-kit/Loading';
 import { useInViewport } from 'components/store/storeLayout/useInViewport';
+import { fetchBestProducts } from 'redux/slicers/store/globalSlicer';
+import Loader from 'ui-kit/products/Loader';
+
 type Props = {};
 
 const BestProduct: React.FC<Props> = () => {
+  const dispatch = useAppDispatch();
+  const { isInViewport, ref } = useInViewport();
+  useEffect(() => {
+    const payload = {
+      tags: ['best_product'],
+      limit: '1000',
+    };
+    isInViewport && dispatch(fetchBestProducts(payload));
+  }, [isInViewport]);
   let delay: number[] = [];
   const { bestProduct, loading } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
-  const { isInViewport, ref } = useInViewport();
+
   useEffect(() => {
     if (bestProduct) {
       delay = getAnimationDelay(bestProduct.length);
@@ -25,34 +35,68 @@ const BestProduct: React.FC<Props> = () => {
   return (
     <>
       <Container ref={ref}>
-        {isInViewport && (
-          <Wrapper>
-            {!loading ? (
-              <>
-                <div className="section-title-wrapper">
-                  <h1>{`лучшие товары`.toUpperCase()}</h1>
-                </div>
-                <ul className="best-product-grid-wrapper">
-                  {bestProduct.map((product, index) => {
-                    return (
-                      <ProductItem
-                        key={index}
-                        product={product}
-                        custom={delay[index]}
-                      />
-                    );
-                  })}
-                </ul>
-              </>
-            ) : (
-              <Loading />
-            )}
-          </Wrapper>
-        )}
+        <Wrapper>
+          {isInViewport ? (
+            <>
+              {!loading && bestProduct ? (
+                <>
+                  <div className="section-title-wrapper">
+                    <h1>{`лучшие товары`.toUpperCase()}</h1>
+                  </div>
+                  <ul className="best-product-grid-wrapper">
+                    {bestProduct.map((product, index) => {
+                      return (
+                        <ProductItem
+                          key={index}
+                          product={product}
+                          custom={delay[index]}
+                        />
+                      );
+                    })}
+                  </ul>
+                </>
+              ) : (
+                <Loader />
+              )}
+            </>
+          ) : (
+            <Loader />
+          )}
+        </Wrapper>
       </Container>
     </>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 const Container = styled.div`
   width: 100%;

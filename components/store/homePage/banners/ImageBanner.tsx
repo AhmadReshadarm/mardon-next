@@ -17,6 +17,8 @@ import { TGlobalUIState, TGlobalState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import Image from 'next/image';
 import { ArrowSVG } from 'assets/icons/UI-icons';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallbackRender from 'ui-kit/FallbackRenderer';
 
 type Props = {
   slides: Slide[] | undefined;
@@ -115,28 +117,34 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
           >
-            <Slider
-              ref={imgRef}
-              alt={`${slides![imageIndex]?.link}`}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null;
-                currentTarget.src = '/img_not_found.png';
-                currentTarget.className = 'error_img';
-              }}
-              src={`/api/images/${slides![imageIndex]?.image}`}
-              isDisplay={
-                isCatalogOpen ||
-                isSearchFormActive ||
-                isWishlistOpen ||
-                isBasketOpen ||
-                isAuthFormOpen ||
-                !!searchQuery
-              }
-              width={0}
-              height={0}
-              sizes="100vw"
-              priority
-            />
+            <ErrorBoundary fallbackRender={FallbackRender}>
+              <Slider
+                ref={imgRef}
+                alt={`${
+                  slides && slides[imageIndex] ? slides[imageIndex]?.link : ''
+                }`}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = '/img_not_found.png';
+                  currentTarget.className = 'error_img';
+                }}
+                src={`/api/images/${
+                  slides && slides[imageIndex] ? slides![imageIndex]?.image : ''
+                }`}
+                isDisplay={
+                  isCatalogOpen ||
+                  isSearchFormActive ||
+                  isWishlistOpen ||
+                  isBasketOpen ||
+                  isAuthFormOpen ||
+                  !!searchQuery
+                }
+                width={0}
+                height={0}
+                sizes="100vw"
+                priority
+              />
+            </ErrorBoundary>
           </SliderSlide>
         </AnimatePresence>
         <div className="banner-arrows-wrapper">
@@ -181,15 +189,17 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         </div>
       </Link>
       <div className="dots-indecator-wrapper">
-        {slides!.map((slideImg, index) => {
-          return (
-            <span
-              className={`dots-indecator ${
-                imageIndex == index ? 'active' : ''
-              }`}
-            ></span>
-          );
-        })}
+        {slides
+          ? slides!.map((slideImg, index) => {
+              return (
+                <span
+                  className={`dots-indecator ${
+                    imageIndex == index ? 'active' : ''
+                  }`}
+                ></span>
+              );
+            })
+          : ''}
       </div>
     </SliderWrapper>
   );

@@ -171,7 +171,6 @@ const ContactsHeaderWrapper = styled.div`
   padding: 20px 0;
   h2 {
     width: 55%;
-    font-family: Anticva;
     font-weight: 100;
     line-height: 2rem;
   }

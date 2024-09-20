@@ -51,16 +51,26 @@ export const getServerSideProps = (async (context) => {
   }`;
 
   // Fetch data from external API
-  const res = await fetch(url);
-  const repo = await res.json();
-  const randomProduct = Math.floor(Math.random() * repo.rows?.length);
-  // Pass data to the page via props
-  return {
-    props: {
-      repo: repo.rows,
-      randomProduct,
-    },
-  };
+  try {
+    const res = await fetch(url);
+    const repo = await res.json();
+    const randomProduct = Math.floor(Math.random() * repo.rows?.length);
+    // Pass data to the page via props
+    return {
+      props: {
+        repo: repo.rows,
+        randomProduct,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        repo: [],
+        randomProduct: 0,
+      },
+    };
+  }
 }) as GetServerSideProps<{ repo: Product[]; randomProduct: number }>;
 
 const CatalogPage = ({

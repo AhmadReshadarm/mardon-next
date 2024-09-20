@@ -63,7 +63,6 @@ const Wrapper = styled.div`
       h1 {
         width: 100%;
         text-align: left;
-        font-family: Anticva;
       }
     }
     .description-wrapper {

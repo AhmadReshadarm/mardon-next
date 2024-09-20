@@ -190,7 +190,6 @@ const Copyrights = () => {
 const Headers = styled.h1`
 width:100%:
 text-align:start;
-font-family:'intro';
 `;
 
 const Contents = styled.span`

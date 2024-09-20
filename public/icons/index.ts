@@ -1,1 +1,0 @@
-export { BottomArrowIcon } from './test-icon';

@@ -60,7 +60,6 @@ const LikeDisLikeWrapper = styled(motion.div)`
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  font-family: 'intro';
   transition: 300ms;
   button {
     display: flex;

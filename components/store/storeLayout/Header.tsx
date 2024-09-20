@@ -2,9 +2,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Content, Wrapper } from './common';
 import { handleMenuStateRedux, overrideDefaultIOSZoom } from './helpers';
-// import AuthorizationModel from './utils/HeaderAuth/index';
-// import HeaderCart from './utils/HeaderCart';
-// import SearchBar from './utils/SearchBar';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import {
@@ -22,7 +19,6 @@ import { devices } from '../lib/Devices';
 import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { useRouter } from 'next/router';
-// import { handleSearchclosed } from './helpers';
 import {
   TWishlistState,
   TAuthState,
@@ -42,9 +38,11 @@ import {
   changeWishlistState,
   changeWishlistDisplayState,
 } from 'redux/slicers/store/globalUISlicer';
-// import HeaderWishlist from './utils/HeaderWishlist';
 import NavMobile from './utils/mobileNav';
 import dynamic from 'next/dynamic';
+import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
+import { axiosInstance } from 'common/axios.instance';
+import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
 const GoogleAnalytics = dynamic(
   () => import('@next/third-parties/google').then((mod) => mod.GoogleAnalytics),
   {
@@ -143,6 +141,55 @@ const Header = () => {
   const [isClient, setClient] = useState(false);
   useEffect(() => {
     setClient(true);
+    const basketId = localStorage.getItem('basketId');
+    const wishlistId = localStorage.getItem('wishlistId')!;
+
+    if (!basketId) {
+      dispatch(createCart());
+    }
+    if (!wishlistId) {
+      const createWishlistId = async () => {
+        try {
+          const wishlist = await axiosInstance.post('/wishlists');
+          localStorage.setItem('wishlistId', wishlist.data.id);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      createWishlistId();
+    }
+
+    const fetchDataCartProducts = async () => {
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+      await sleep(500);
+      const createdCardId = localStorage.getItem('basketId');
+      if (createdCardId) {
+        dispatch(fetchCart(createdCardId));
+      }
+      if (!createdCardId) {
+        fetchDataCartProducts();
+      }
+    };
+    fetchDataCartProducts();
+
+    const fetchDataWishlistProducts = async () => {
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      // waits for 500ms
+      await sleep(500);
+      const createdWishlistId = localStorage.getItem('wishlistId');
+      if (createdWishlistId) {
+        dispatch(fetchWishlistProducts(createdWishlistId));
+      }
+      if (!createdWishlistId) {
+        fetchDataWishlistProducts();
+      }
+    };
+    fetchDataWishlistProducts();
   }, []);
 
   return (

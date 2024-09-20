@@ -1,9 +1,11 @@
 import dynamic from 'next/dynamic';
-const Header = dynamic(() => import('./Header'));
-const Footer = dynamic(() => import('./Footer'));
-// import Footer from './Footer';
-// import Header from './Header';
-// import { YandexMetricaProvider } from 'next-yandex-metrica';
+const Header = dynamic(() => import('./Header'), {
+  ssr: false,
+});
+const Footer = dynamic(() => import('./Footer'), {
+  ssr: false,
+});
+
 const YandexMetricaProvider = dynamic(
   () => import('next-yandex-metrica').then((mod) => mod.YandexMetricaProvider),
   {

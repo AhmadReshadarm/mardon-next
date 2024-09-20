@@ -38,7 +38,7 @@ const Subscribers = (): JSX.Element => {
       }}
       ref={ref}
     >
-      {isInViewport && (
+      {isInViewport ? (
         <FormContainer
           onFocus={() => dispatch(changeOrderCallFormState(true))}
           onBlur={() => dispatch(changeOrderCallFormState(false))}
@@ -180,10 +180,22 @@ const Subscribers = (): JSX.Element => {
             </div>
           </FormContent>
         </FormContainer>
+      ) : (
+        <LoaderMask></LoaderMask>
       )}
     </Container>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+`;
 
 const Container = styled.div`
   width: 100%;

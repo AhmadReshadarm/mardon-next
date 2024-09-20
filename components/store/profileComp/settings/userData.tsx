@@ -228,9 +228,7 @@ const InputsWrapper = styled(motion.div)`
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
-    span {
-      font-family: 'intro';
-    }
+
     .tool-tip {
       width: 18px;
       height: 18px;

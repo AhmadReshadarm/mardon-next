@@ -58,13 +58,14 @@ export const fetchBanner = createAsyncThunk<
   'homePage/fetchBanner',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      const [advertisement, slides] = await Promise.all([
-        AdvertisementService.getAdvertisements(),
+      // advertisement,
+      const [slides] = await Promise.all([
+        // AdvertisementService.getAdvertisements(),
         SlideService.getSlides(),
       ]);
 
       return {
-        advertisement: advertisement[0],
+        // advertisement: advertisement[0],
         slides,
       };
     } catch (error: any) {

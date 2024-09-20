@@ -142,7 +142,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
     </>
   );
 };
-const ImageSliderWrapper = styled(motion.div)`
+export const ImageSliderWrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   min-height: 300px;
@@ -258,7 +258,7 @@ const ImageSliderWrapper = styled(motion.div)`
   }
 `;
 
-const ImageSliderSlide = styled(motion.div)`
+export const ImageSliderSlide = styled(motion.div)`
   width: 100%;
   height: 100%;
   position: absolute;

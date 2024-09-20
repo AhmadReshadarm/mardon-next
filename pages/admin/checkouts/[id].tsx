@@ -148,7 +148,6 @@ const StatusOptionsWappper = styled.ul`
     cursor: pointer;
     width: 100%;
     text-align: center;
-    font-family: 'intro';
     padding: 15px;
     color: ${color.btnPrimary};
     &:hover {

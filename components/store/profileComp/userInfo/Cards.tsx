@@ -73,7 +73,6 @@ const CardWrapper = styled(motion.li)`
     padding: 30px;
     border-radius: 15px;
     span {
-      font-family: 'intro';
       font-size: 1rem;
     }
     .card-number {

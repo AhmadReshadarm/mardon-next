@@ -57,7 +57,7 @@ const FilterModal: React.FC<Props> = ({
           >
             <CloseSVG />
           </motion.button>
-          <h3 style={{ fontFamily: 'Anticva' }}>Искать в категории</h3>
+          <h3>Искать в категории</h3>
           <ContentInner>
             {categories.map((category, index: any) => {
               return (

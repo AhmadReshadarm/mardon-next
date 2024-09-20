@@ -13,10 +13,6 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="/favicon.svg" />
-          <script
-            src="https://api-maps.yandex.ru/2.1/?apikey=92d38bbd-1ea5-438f-b3bc-6a74d7658532&lang=ru_RU"
-            type="text/javascript"
-          ></script>
         </Head>
         <body>
           {/* <div

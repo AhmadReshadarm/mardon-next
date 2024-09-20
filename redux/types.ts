@@ -180,6 +180,7 @@ type TGlobalState = {
   loadingAddRemoveWishlist: boolean;
   loadingCarosel: boolean;
   productsLoading: boolean;
+  bestProductLoading: boolean;
 };
 
 type TGlobalUIState = {

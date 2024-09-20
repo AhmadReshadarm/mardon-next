@@ -22,7 +22,7 @@ const ContactsMainPage = (): JSX.Element => {
       bg_color={color.backgroundPrimary}
       ref={ref}
     >
-      {isInViewport && (
+      {isInViewport ? (
         <Wrapper>
           <ContactContentWrapper>
             <div className="header-wrapper">
@@ -90,10 +90,22 @@ const ContactsMainPage = (): JSX.Element => {
             </div>
           </ContactContentWrapper>
         </Wrapper>
+      ) : (
+        <LoaderMask></LoaderMask>
       )}
     </Container>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+`;
 
 const Wrapper = styled.div`
   width: 100%;

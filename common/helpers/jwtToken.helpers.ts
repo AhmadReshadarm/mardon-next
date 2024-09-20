@@ -14,11 +14,11 @@ export const getUserInfo = async () => {
   // const accessToken = localStorage.getItem('accessToken');
 
   // return jwt.decode<User>(accessToken ?? '', NEXT_PUBLIC_ACCESS_SECRET_TOKEN ?? '');
-
+  if (!window.navigator.onLine) return { message: 'rejected', user: {} };
   let accessToken = getAccessToken();
   let refreshToken = getRefreshToken();
   let response: any;
-
+  if (!accessToken || !refreshToken) return { message: 'rejected', user: {} };
   try {
     // check for access token session if ended prolong it
     response = await axios.post('/api/auth/session', {

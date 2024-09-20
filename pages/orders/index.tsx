@@ -69,7 +69,6 @@ const Container = styled(motion.div)`
     align-items: center;
     .empty-orders {
       font-size: 2rem;
-      font-family: Anticva;
       text-align: center;
     }
   }
@@ -144,7 +143,6 @@ const HeaderWrapper = styled.div`
     z-index: 2;
     margin-bottom: -1px;
     span {
-      font-family: Anticva;
       font-size: 1.5rem;
     }
   }

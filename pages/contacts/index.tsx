@@ -138,7 +138,6 @@ const HeaderWrapper = styled.div`
     z-index: 2;
     margin-bottom: -1px;
     span {
-      font-family: Baskerville;
       font-size: 1.5rem;
     }
   }

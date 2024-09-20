@@ -1,11 +1,14 @@
 import { devices } from 'components/store/lib/Devices';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
-import Loading from 'ui-kit/Loading';
+// import Loading from 'ui-kit/Loading';
 import { getAnimationDelay } from './helpers';
 import ProductItem from './productItem';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
+import Loader, { LoaderItem } from './Loader';
+import { emptyLoading } from 'common/constants';
+import { useEffect, useState } from 'react';
 
 type Props = {
   products: Product[];
@@ -23,40 +26,51 @@ const ProductGrid: React.FC<Props> = ({
   loading,
 }) => {
   const delay = getAnimationDelay(products.length);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
   return (
     <>
-      {!loading ? (
-        <>
-          {!!products.length ? (
-            <Grid>
-              {children}
+      {products.length !== 0 ? (
+        <Grid>
+          <>
+            {children}
 
-              {products.map((product, index) => {
-                return (
-                  <ErrorBoundary
-                    key={`product-item-${index}`}
-                    fallbackRender={FallbackRender}
-                  >
-                    <ProductItem
+            {!loading
+              ? products.map((product, index) => {
+                  return (
+                    <ErrorBoundary
                       key={`product-item-${index}`}
-                      product={product}
-                      custom={delay[index]}
-                    />
-                  </ErrorBoundary>
-                );
-              })}
-            </Grid>
-          ) : (
-            <EmptyProductsTitle>
-              <h3>{emptyProductsTitle ?? 'Список продуктов пуст'}</h3>
-            </EmptyProductsTitle>
-          )}
-        </>
+                      fallbackRender={FallbackRender}
+                    >
+                      <ProductItem
+                        key={`product-item-${index}`}
+                        product={product}
+                        custom={delay[index]}
+                      />
+                    </ErrorBoundary>
+                  );
+                })
+              : emptyLoading.map((item, index) => {
+                  return <LoaderItem index={index} windowWidth={windowWidth} />;
+                })}
+          </>
+        </Grid>
       ) : (
-        <LoaderWrapper>
-          <Loading />
-        </LoaderWrapper>
+        <EmptyProductsTitle>
+          <h3>{emptyProductsTitle ?? 'Список продуктов пуст'}</h3>
+        </EmptyProductsTitle>
       )}
     </>
   );
@@ -142,13 +156,13 @@ const EmptyProductsTitle = styled.div`
   }
 `;
 
-const LoaderWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: coloumn;
-  justify-content: center;
-  align-items: center;
-`;
+// const LoaderWrapper = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   flex-direction: coloumn;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 export default ProductGrid;

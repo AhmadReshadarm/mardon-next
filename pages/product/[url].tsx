@@ -23,17 +23,22 @@ import NotFound from 'pages/404';
 export const getServerSideProps = (async (context) => {
   const { url } = context.query;
   // Fetch data from external API
-  const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
-  const repo: Product = await res.json();
+  try {
+    const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
+    const repo: Product = await res.json();
 
-  const images = getProductVariantsImages(repo?.productVariants);
-  const imagesWithUrl: string[] = [];
-  for (let i = 0; i < images?.length; i++) {
-    imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
+    const images = getProductVariantsImages(repo?.productVariants);
+    const imagesWithUrl: string[] = [];
+    for (let i = 0; i < images?.length; i++) {
+      imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
+    }
+
+    // Pass data to the page via props
+    return { props: { repo, imagesWithUrl } };
+  } catch (error) {
+    console.log(error);
+    return { props: { repo: {}, imagesWithUrl: [] } };
   }
-
-  // Pass data to the page via props
-  return { props: { repo, imagesWithUrl } };
 }) as GetServerSideProps<{ repo: Product; imagesWithUrl: string[] }>;
 
 // -----------------------------------------------------------

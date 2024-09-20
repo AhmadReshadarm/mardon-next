@@ -3,36 +3,41 @@ import Head from 'next/head';
 import React, { Suspense, useEffect, useState } from 'react';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-import Loading from 'ui-kit/Loading';
 import { baseUrl } from '../common/constant';
+import styled from 'styled-components';
+
 const Banners = dynamic(() => import('components/store/homePage/banners'), {
   ssr: false,
+  loading: () => <LoaderMask />,
 });
 const ProductsSlider = dynamic(
   () => import('components/store/homePage/productsSlider'),
   {
     ssr: false,
+    loading: () => <LoaderMask />,
   },
 );
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
   {
     ssr: false,
+    loading: () => <LoaderMask />,
   },
 );
 const BestProduct = dynamic(
   () => import('components/store/homePage/bestProducts'),
   {
     ssr: false,
+    loading: () => <LoaderMask />,
   },
 );
 const Subscribers = dynamic(() => import('ui-kit/Subscribers'), {
-  ssr: false,
+  loading: () => <LoaderMask />,
 });
 const ContactsMainPage = dynamic(
   () => import('components/store/homePage/contactsMainPage'),
   {
-    ssr: false,
+    loading: () => <LoaderMask />,
   },
 );
 
@@ -62,7 +67,7 @@ const IndexPage = (): JSX.Element => {
         <link rel="canonical" href="https://nbhoz.ru" />
       </Head>
       {isClient ? (
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<LoaderMask />}>
           <Banners />
           <ProductsSlider />
           <MainPageCatalog />
@@ -71,11 +76,41 @@ const IndexPage = (): JSX.Element => {
           <ContactsMainPage />
         </Suspense>
       ) : (
-        ''
+        <LoaderMask />
       )}
     </>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 IndexPage.PageLayout = StoreLayout;
 export default IndexPage;

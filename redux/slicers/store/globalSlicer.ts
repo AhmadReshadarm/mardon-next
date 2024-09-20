@@ -205,6 +205,7 @@ const initialState: TGlobalState = {
   loadingAddRemoveWishlist: false,
   loadingCarosel: false,
   productsLoading: false,
+  bestProductLoading: false,
 };
 
 const globalSlicer = createSlice({
@@ -260,20 +261,20 @@ const globalSlicer = createSlice({
       .addCase(fetchCategories.rejected, handleError)
       //fetchMainPageProducts
       .addCase(fetchMainPageProducts.pending, (state, action) => {
-        state.loading = true;
+        state.loadingCarosel = true;
       })
       .addCase(fetchMainPageProducts.fulfilled, (state, action) => {
         state.caroselProducts = action.payload;
-        state.loading = false;
+        state.loadingCarosel = false;
       })
       .addCase(fetchMainPageProducts.rejected, handleError)
       //fetchBestProducts
       .addCase(fetchBestProducts.pending, (state, action) => {
-        state.loading = true;
+        state.bestProductLoading = true;
       })
       .addCase(fetchBestProducts.fulfilled, (state, action) => {
         state.bestProduct = action.payload;
-        state.loading = false;
+        state.bestProductLoading = false;
       })
       .addCase(fetchBestProducts.rejected, handleError)
       //fetchTags

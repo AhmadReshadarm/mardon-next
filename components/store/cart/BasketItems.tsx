@@ -110,7 +110,6 @@ const NoCartItem = styled.div`
   align-items: center;
   h2 {
     font-size: 3rem;
-    font-family: Anticva;
     text-align: center;
   }
 `;

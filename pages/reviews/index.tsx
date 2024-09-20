@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { devices } from 'components/store/lib/Devices';
 import { Pagination } from 'antd';
 import Loading from 'ui-kit/Loading';
 import { TReviewState } from 'redux/types';
@@ -163,115 +162,6 @@ const ReviewsList = styled.ul`
   gap: 50px;
   &::-webkit-scrollbar {
     width: 5px;
-  }
-`;
-
-const BackToMain = styled.div`
-  width: 100%;
-  max-width: 1230px;
-  padding: 0 0 50px 0;
-  .back-to-main {
-    display: flex;
-    felx-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    img {
-      width: 40px;
-    }
-  }
-  @media ${devices.laptopS} {
-    width: 95%;
-    max-width: unset;
-  }
-  @media ${devices.tabletL} {
-    width: 95%;
-    max-width: unset;
-  }
-  @media ${devices.tabletS} {
-    width: 95%;
-    max-width: unset;
-  }
-  @media ${devices.mobileL} {
-    width: 95%;
-    max-width: unset;
-  }
-  @media ${devices.mobileM} {
-    width: 95%;
-    max-width: unset;
-  }
-
-  @media ${devices.mobileS} {
-    width: 95%;
-    max-width: unset;
-  }
-`;
-const HeaderWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  border-bottom: 1px solid ${color.textSecondary};
-  position: relative;
-
-  .header-title-wrapper {
-    max-width: 1230px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0 0 20px 30px;
-    border-bottom: 1px solid ${color.textSecondary};
-    z-index: 2;
-    margin-bottom: -1px;
-    span {
-      font-family: Baskerville;
-      font-size: 1.5rem;
-    }
-  }
-  .header-divder-wrapper {
-    width: 50%;
-    align-self: flex-start;
-    border-bottom: 20px solid ${color.textPrimary};
-    z-index: 1;
-    position: absolute;
-    top: 40px;
-    left: 0;
-  }
-  @media ${devices.laptopS} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-
-  @media ${devices.tabletL} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-  @media ${devices.tabletS} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-  @media ${devices.mobileL} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-  @media ${devices.mobileM} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
-  }
-
-  @media ${devices.mobileS} {
-    .header-title-wrapper {
-      max-width: unset;
-    }
   }
 `;
 

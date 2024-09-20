@@ -11,9 +11,6 @@ type Props = {
   review: Review;
 };
 const ReviewsItems: React.FC<Props> = ({ review }) => {
-  // const images = review.product?.productVariants?.map((variants) =>
-  //   variants.images?.split(', '),
-  // );
   const images = getProductVariantsImages(review.product?.productVariants);
 
   return (
@@ -84,10 +81,9 @@ const ReviewsItem = styled(motion.li)`
     align-items: flex-start;
     gap: 20px;
     .product-title {
-      font-family: Anticva;
       font-size: 1.5rem;
       line-height: 2rem;
-      font-weight: 100;
+      font-weight: 400;
       &:hover {
         color: ${color.hoverBtnBg};
         text-decoration: underline;

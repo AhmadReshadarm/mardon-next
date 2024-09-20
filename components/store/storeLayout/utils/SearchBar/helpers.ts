@@ -1,5 +1,4 @@
 import { NextRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
 import {
   changeSearchQuery,
   clearSearchProducts,

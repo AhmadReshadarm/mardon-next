@@ -6,21 +6,10 @@ import { AnimatePresence } from 'framer-motion';
 import { session } from 'redux/slicers/authSlicer';
 import 'styles.css';
 import { wrapper } from '../redux/store';
-import {
-  fetchCategories,
-  fetchTags,
-  fetchNewsPost,
-  fetchMainPageProducts,
-  fetchBestProducts,
-} from 'redux/slicers/store/globalSlicer';
-import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
+// import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
 import { ContextProvider } from 'common/context/AppContext';
-import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { fetchAdvertisement } from 'redux/slicers/bannersSlicer';
-import { axiosInstance } from 'common/axios.instance';
+
 import Head from 'next/head';
-import { fetchBanner } from 'redux/slicers/store/homePageSlicer';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -33,68 +22,9 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const basketId = localStorage.getItem('basketId');
-    const wishlistId = localStorage.getItem('wishlistId')!;
-
-    if (!basketId) {
-      dispatch(createCart());
-    }
-    if (!wishlistId) {
-      // dispatch(createWishlist());
-      const createWishlistId = async () => {
-        try {
-          const wishlist = await axiosInstance.post('/wishlists');
-          localStorage.setItem('wishlistId', wishlist.data.id);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      createWishlistId();
-    }
-
-    const fetchDataCartProducts = async () => {
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-      await sleep(500);
-      const createdCardId = localStorage.getItem('basketId');
-      if (createdCardId) {
-        dispatch(fetchCart(createdCardId));
-      }
-      if (!createdCardId) {
-        fetchDataCartProducts();
-      }
-    };
-    fetchDataCartProducts();
-
-    const fetchDataWishlistProducts = async () => {
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-
-      // waits for 500ms
-      await sleep(500);
-      const createdWishlistId = localStorage.getItem('wishlistId');
-      if (createdWishlistId) {
-        dispatch(fetchWishlistProducts(createdWishlistId));
-      }
-      if (!createdWishlistId) {
-        fetchDataWishlistProducts();
-      }
-    };
-    fetchDataWishlistProducts();
     dispatch(session());
-    dispatch(fetchCategories());
-    dispatch(fetchTags());
-    dispatch(fetchBanner());
-    dispatch(fetchAdvertisement());
-    dispatch(fetchNewsPost());
-    dispatch(fetchMainPageProducts({ tags: ['main_page'] }));
-    const payload = {
-      tags: ['best_product'],
-      limit: '1000',
-    };
-    dispatch(fetchBestProducts(payload));
+    // dispatch(fetchCategories());
+    // dispatch(fetchTags());
   }, []);
 
   useEffect(() => {

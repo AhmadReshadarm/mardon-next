@@ -208,7 +208,6 @@ const Wrapper = styled.div`
     }
   }
   h1 {
-    font-family: 'Anticva';
     font-size: 1.5rem;
   }
 `;

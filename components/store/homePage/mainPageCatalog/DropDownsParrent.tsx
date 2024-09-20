@@ -73,7 +73,7 @@ const InfoDropdown = ({
   );
 };
 
-const InfoWrappers = styled.div`
+export const InfoWrappers = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ const InfoWrappers = styled.div`
   align-items: center;
 `;
 
-const InfoBtnWrappers = styled.div`
+export const InfoBtnWrappers = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;

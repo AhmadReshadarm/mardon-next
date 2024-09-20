@@ -98,7 +98,6 @@ const ImagesContainer = styled.div`
     width: 100%;
     padding: 0 0 30px 40px;
     h1 {
-      font-family: Anticva;
       font-weight: 100;
       font-size: 2rem;
     }

@@ -14,7 +14,6 @@ const UserSelectWrapper = styled.div<StyleProps>`
   user-select: none;
   h3 {
     font-size: 1.2rem;
-    font-family: Anticva;
     font-weight: 100;
   }
   .short-description-wrapper {

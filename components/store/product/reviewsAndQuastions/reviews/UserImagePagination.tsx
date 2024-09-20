@@ -105,7 +105,6 @@ const UserImageItems = styled(motion.li)`
   cursor: pointer;
   border-radius: 10px;
   span {
-    font-family: 'intro';
     padding: 20px;
   }
   img {

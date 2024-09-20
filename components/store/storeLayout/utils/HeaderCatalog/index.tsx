@@ -12,6 +12,8 @@ import {
   changeCatelogState,
 } from 'redux/slicers/store/globalUISlicer';
 import Image from 'next/image';
+// import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
+import { useInViewportNoDelay } from '../../useInViewport';
 
 type Props = {
   catelogButtonRef: HTMLDivElement | any;
@@ -35,6 +37,11 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
     }
   }, [categories]);
 
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  //   dispatch(fetchTags());
+  // }, []);
+
   // ------------------------ UI hooks ------------------------
   const { isCatalogOpen, catelogDisplay } = useAppSelector<TGlobalUIState>(
     (state) => state.globalUI,
@@ -56,6 +63,7 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
       changeCatelogDisplayState,
     ),
   );
+  const { isInViewport, ref } = useInViewportNoDelay();
   // --------------------- end of UI hooks --------------------
 
   return (
@@ -69,20 +77,26 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
         <>
           <div className="header-menu-background"></div>
           <div className="catelog-content-wrapper">
-            <div className="category-menu-wrapper">
+            <div ref={ref} className="category-menu-wrapper">
               <div className="header-spacer"></div>
-              <CatalogModal setHoveredCategory={setHoveredCategory} />
+              {isInViewport && (
+                <CatalogModal setHoveredCategory={setHoveredCategory} />
+              )}
             </div>
             <div className="category-image-wrapper">
               <div className="header-spacer"></div>
-              <Image
-                src={hoveredCategory}
-                alt={hoveredCategory}
-                width={0}
-                height={0}
-                sizes="100vw"
-                loading="lazy"
-              />
+              {hoveredCategory !== '' ? (
+                <Image
+                  src={hoveredCategory}
+                  alt={hoveredCategory}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  loading="lazy"
+                />
+              ) : (
+                <ImageLoader />
+              )}
             </div>
           </div>
         </>
@@ -90,6 +104,37 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
     </CatalogWrapper>
   );
 };
+
+const ImageLoader = styled.div`
+  width: 100%;
+  height: 85%;
+  border-radius: 3px;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 const CatalogWrapper = styled(motion.div)`
   width: 80%;

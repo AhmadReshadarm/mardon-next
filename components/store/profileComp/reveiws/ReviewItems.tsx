@@ -81,7 +81,6 @@ const ReviewsItem = styled(motion.li)`
     align-items: flex-start;
     gap: 20px;
     .product-title {
-      font-family: Anticva;
       font-size: 1.5rem;
       line-height: 2rem;
       font-weight: 100;
