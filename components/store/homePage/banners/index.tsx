@@ -1,24 +1,9 @@
 import variants from 'components/store/lib/variants';
 import { Container } from 'components/store/storeLayout/common';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
 import ImageBanner from './ImageBanner';
-import { ErrorBoundary } from 'react-error-boundary';
-import FallbackRender from 'ui-kit/FallbackRenderer';
-import { useEffect } from 'react';
-import { fetchBanner } from 'redux/slicers/store/homePageSlicer';
 
-const Banners = () => {
-  const dispatch = useAppDispatch();
-  const { banner, loading } = useAppSelector<THomePageState>(
-    (state) => state.homePage,
-  );
-
-  useEffect(() => {
-    dispatch(fetchBanner());
-  }, []);
-
+const Banners = ({ slides }) => {
   return (
     <Container
       variants={variants.fadInOut}
@@ -34,15 +19,7 @@ const Banners = () => {
       }}
     >
       <SliderContainer>
-        {!loading ? (
-          <>
-            <ErrorBoundary fallbackRender={FallbackRender}>
-              <ImageBanner slides={banner?.slides} />
-            </ErrorBoundary>
-          </>
-        ) : (
-          <ImageLoader />
-        )}
+        <ImageBanner slides={slides} />
       </SliderContainer>
     </Container>
   );

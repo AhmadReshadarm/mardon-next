@@ -407,10 +407,7 @@ const Header = () => {
                   {/* ---------------------- end of Authorization ------------------------- */}
                 </IconsWrapper>
               </Content>
-              {/* <SearchBarMobile /> */}
-              {/* {isCatalogOpen && (
-                <HeaderCatalog catelogButtonRef={catelogButtonRef} />
-              )} */}
+
               <HeaderCatalog catelogButtonRef={catelogButtonRef} />
               <SearchBar
                 searchButtonRef={searchButtonRef}
@@ -454,6 +451,7 @@ const IconsWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     z-index: 100;
+    overflow: hidden;
     button {
       cursor: pointer;
     }

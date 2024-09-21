@@ -5,6 +5,8 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
 import styled from 'styled-components';
+import { Product, Slide } from 'swagger/services';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 const Banners = dynamic(() => import('components/store/homePage/banners'), {
   ssr: false,
@@ -41,7 +43,26 @@ const ContactsMainPage = dynamic(
   },
 );
 
-const IndexPage = (): JSX.Element => {
+export const getServerSideProps = (async () => {
+  try {
+    const res = await fetch(`https://nbhoz.ru/api/slides`);
+    const resCarosel = await fetch(
+      `https://nbhoz.ru/api/products?tags[]=main_page`,
+    );
+    const slides: Slide[] = await res.json();
+    const caroselProducts: { rows: Product[]; lenght: number } =
+      await resCarosel.json();
+    return { props: { slides, caroselProducts: caroselProducts.rows } };
+  } catch (error) {
+    console.log(error);
+    return { props: { slides: [], caroselProducts: [] } };
+  }
+}) as GetServerSideProps<{ slides: Slide[]; caroselProducts: Product[] }>;
+
+const IndexPage = ({
+  slides,
+  caroselProducts,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isClient, setClient] = useState(false);
 
   useEffect(() => {
@@ -68,8 +89,8 @@ const IndexPage = (): JSX.Element => {
       </Head>
       {isClient ? (
         <Suspense fallback={<LoaderMask />}>
-          <Banners />
-          <ProductsSlider />
+          <Banners slides={slides} />
+          <ProductsSlider caroselProducts={caroselProducts} />
           <MainPageCatalog />
           <BestProduct />
           <Subscribers />

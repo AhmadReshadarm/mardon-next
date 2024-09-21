@@ -25,3 +25,16 @@ export const devices = {
   // laptopL: `(min-width: ${sizes.laptopL})`,
   desktop: `(min-width: ${sizes.laptopL}) and (max-width: ${sizes.desktop})`,
 };
+
+export const sizesNum = {
+  mobileES: 100,
+  mobileS: 200,
+  mobileM: 285,
+  mobileL: 350,
+  tabletS: 440,
+  tabletL: 768,
+  laptopS: 1024,
+  laptopM: 1240,
+  laptopL: 1550,
+  desktop: 2560,
+};

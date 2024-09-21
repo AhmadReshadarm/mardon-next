@@ -52,6 +52,7 @@ const Subscribers = (): JSX.Element => {
                 height={0}
                 sizes="100vw"
                 loading="lazy"
+                priority={false}
               />
             </div>
             <div className="news-letter-form-wrapper">

@@ -1,6 +1,6 @@
 import color from 'components/store/lib/ui.colors';
 import { Container } from 'components/store/storeLayout/common';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { devices } from 'components/store/lib/Devices';
@@ -8,63 +8,53 @@ import variants from 'components/store/lib/variants';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { useEffect, useState } from 'react';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
-import { TCartState, TGlobalState } from 'redux/types';
+import { TCartState } from 'redux/types';
 import Link from 'next/link';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import { useInViewport } from 'components/store/storeLayout/useInViewport';
+import { useInViewportNoDelay } from 'components/store/storeLayout/useInViewport';
 import Image from 'next/image';
-import { fetchMainPageProducts } from 'redux/slicers/store/globalSlicer';
 import Loader from './Loader';
+import { Product } from 'swagger/services';
+type Props = {
+  caroselProducts: Product[];
+};
+const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
+  const { isInViewport, ref } = useInViewportNoDelay();
 
-const ProductsSlider = () => {
-  const dispatch = useAppDispatch();
-  const { isInViewport, ref } = useInViewport();
-  useEffect(() => {
-    isInViewport && dispatch(fetchMainPageProducts({ tags: ['main_page'] }));
-  }, [isInViewport]);
-
-  const { caroselProducts, loadingCarosel } = useAppSelector<TGlobalState>(
-    (state) => state.global,
-  );
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
 
   // ------------------- UI hooks --------------------------------
 
   const [caroselIndex, setCaroselIndex] = useState<number>(0);
   const [currentProduct, setCurrentProduct] = useState<any>(null);
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [images, setImages] = useState<string[]>([]);
+  const [imageSrc, setImageSrc] = useState('');
 
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
   const [indecatorIndex, setIndexIndecator] = useState<number>(0);
   useEffect(() => {
-    if (caroselProducts) {
-      setCurrentProduct(caroselProducts[caroselIndex]);
-      setImages(getProductVariantsImages(currentProduct?.productVariants));
-    }
-  }, [caroselProducts]);
+    setCurrentProduct(caroselProducts[caroselIndex]);
+    setImages(getProductVariantsImages(currentProduct?.productVariants));
+  }, []);
   // caroselProducts
   useEffect(() => {
-    if (caroselProducts) {
-      const timer = setTimeout(() => {
-        if (caroselProducts.length - 1 > caroselIndex) {
-          setCaroselIndex(caroselIndex + 1);
-        }
-        if (caroselProducts.length - 1 <= caroselIndex) {
-          setCaroselIndex(0);
-        }
-      }, 5000);
-      return () => {
-        if (isMouseHover) clearTimeout(timer);
-      };
-    }
+    const timer = setTimeout(() => {
+      if (caroselProducts.length - 1 > caroselIndex) {
+        setCaroselIndex(caroselIndex + 1);
+      }
+      if (caroselProducts.length - 1 <= caroselIndex) {
+        setCaroselIndex(0);
+      }
+    }, 5000);
+    return () => {
+      if (isMouseHover) clearTimeout(timer);
+    };
   });
   useEffect(() => {
-    if (caroselProducts) {
-      setCurrentProduct(caroselProducts[caroselIndex]);
-      handleIndexIndecator(caroselIndex);
-    }
+    setCurrentProduct(caroselProducts[caroselIndex]);
+    handleIndexIndecator(caroselIndex);
   }, [caroselIndex]);
   useEffect(() => {
     setImages(getProductVariantsImages(currentProduct?.productVariants));
@@ -92,6 +82,10 @@ const ProductsSlider = () => {
     }
   };
 
+  useEffect(() => {
+    setImageSrc(`/api/images/${images[imageIndex]}`);
+  }, [images, imageIndex]);
+
   return (
     <Container
       variants={variants.fadInOut}
@@ -109,7 +103,7 @@ const ProductsSlider = () => {
       <Wrapper onMouseOver={() => setISMouseHover(true)}>
         {isInViewport ? (
           <>
-            {!loadingCarosel && currentProduct && images.length !== 0 ? (
+            {currentProduct && images.length !== 0 ? (
               <Content>
                 <div className="product-cart-wrapper">
                   <div className="cart-title-n-action-buttons-wrapper">
@@ -183,19 +177,27 @@ const ProductsSlider = () => {
                           );
                         })}
                       </ul>
-
-                      <Image
-                        onError={({ currentTarget }) => {
-                          currentTarget.onerror = null;
-                          currentTarget.src = '/img_not_found.png';
-                          currentTarget.className = 'error_img';
+                      <ImageLoader
+                        style={{
+                          display: imageLoaded ? 'none' : 'flex',
                         }}
-                        src={`/api/images/${images[imageIndex]}`}
+                      />
+                      <Image
+                        style={{ display: imageLoaded ? 'block' : 'none' }}
+                        onError={() => setImageSrc('/img_not_found.png')}
+                        src={imageSrc}
                         alt={currentProduct?.name}
                         width={0}
                         height={0}
                         sizes="100vw"
-                        loading="lazy"
+                        priority={true}
+                        placeholder="blur"
+                        blurDataURL="/static/logo_800x800.png"
+                        onLoadingComplete={(img) =>
+                          img.naturalWidth
+                            ? setImageLoaded(true)
+                            : setImageLoaded(false)
+                        }
                       />
                     </div>
                   </Link>
@@ -244,8 +246,9 @@ const ProductsSlider = () => {
   );
 };
 
-const LoaderMask = styled.div`
-  border-radius: 5px;
+const ImageLoader = styled.div`
+  width: 100%;
+  heigth: 100%;
   background: #cccccca3;
   position: relative;
   overflow: hidden;

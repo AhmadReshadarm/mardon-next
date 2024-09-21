@@ -17,11 +17,9 @@ import { TGlobalUIState, TGlobalState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import Image from 'next/image';
 import { ArrowSVG } from 'assets/icons/UI-icons';
-import { ErrorBoundary } from 'react-error-boundary';
-import FallbackRender from 'ui-kit/FallbackRenderer';
 
 type Props = {
-  slides: Slide[] | undefined;
+  slides: Slide[];
 };
 interface StyleProps {
   isDisplay?: boolean;
@@ -47,7 +45,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   // });
 
   const [imgHeight, setImgHeight] = useState();
-
   useEffect(() => {
     setImgHeight(imgRef.current.clientHeight);
     const handleWindowResize = () => {
@@ -69,20 +66,11 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     isAuthFormOpen,
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
+  const [imageLoaded, setImageLoaded] = useState(false);
   return (
-    <SliderWrapper
-      key="slider-home-banners"
-      custom={0.3}
-      initial="init"
-      animate="animate"
-      exit={{ y: -80, opacity: 0, transition: { delay: 0.02 } }}
-      variants={variants.fadInSlideUp}
-      imgHeight={`${imgHeight}`}
-    >
+    <SliderWrapper key="slider-home-banners" imgHeight={`${imgHeight}`}>
       <Link
-        href={
-          slides && slides[imageIndex]?.link ? slides[imageIndex]?.link! : ''
-        }
+        href={slides![imageIndex]?.link!}
         className="banner-image-link-wrapper"
         onClick={(evt) => {
           isCatalogOpen ||
@@ -110,41 +98,44 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
                 damping: 30,
                 duration: 0.1,
               },
-              opacity: { duration: 0.4 },
+              opacity: { duration: 0.3 },
             }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
           >
-            <ErrorBoundary fallbackRender={FallbackRender}>
-              <Slider
-                ref={imgRef}
-                alt={`${
-                  slides && slides[imageIndex] ? slides[imageIndex]?.link : ''
-                }`}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = '/img_not_found.png';
-                  currentTarget.className = 'error_img';
-                }}
-                src={`/api/images/${
-                  slides && slides[imageIndex] ? slides![imageIndex]?.image : ''
-                }`}
-                isDisplay={
-                  isCatalogOpen ||
-                  isSearchFormActive ||
-                  isWishlistOpen ||
-                  isBasketOpen ||
-                  isAuthFormOpen ||
-                  !!searchQuery
-                }
-                width={0}
-                height={0}
-                sizes="100vw"
-                priority
-              />
-            </ErrorBoundary>
+            <ImageLoader
+              style={{
+                display: imageLoaded ? 'none' : 'flex',
+              }}
+            />
+            <Slider
+              style={{ display: imageLoaded ? 'block' : 'none' }}
+              ref={imgRef}
+              alt={`${slides[imageIndex]?.link}`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/img_not_found.png';
+                currentTarget.className = 'error_img';
+              }}
+              src={`/api/images/${slides[imageIndex]?.image}`}
+              isDisplay={
+                isCatalogOpen ||
+                isSearchFormActive ||
+                isWishlistOpen ||
+                isBasketOpen ||
+                isAuthFormOpen ||
+                !!searchQuery
+              }
+              width={0}
+              height={0}
+              sizes="100vw"
+              onLoadingComplete={(img) =>
+                img.naturalWidth ? setImageLoaded(true) : setImageLoaded(false)
+              }
+              priority={true}
+            />
           </SliderSlide>
         </AnimatePresence>
         <div className="banner-arrows-wrapper">
@@ -205,7 +196,61 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   );
 };
 
-const SliderWrapper = styled(motion.div)<StyleProps>`
+const ImageLoader = styled.div`
+  width: 100vw;
+  height: 80vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  @media ${devices.laptopL} {
+    height: 50vh;
+  }
+  @media ${devices.laptopM} {
+    height: 50vh;
+  }
+  @media ${devices.laptopS} {
+    height: 50vh;
+  }
+  @media ${devices.tabletL} {
+    height: 50vh;
+  }
+  @media ${devices.tabletS} {
+    height: 50vh;
+  }
+  @media ${devices.mobileL} {
+    height: 50vh;
+  }
+  @media ${devices.mobileM} {
+    height: 50vh;
+  }
+  @media ${devices.mobileS} {
+    height: 50vh;
+  }
+`;
+
+const SliderWrapper = styled.div<StyleProps>`
   width: 100%;
   height: 100%;
   display: flex;

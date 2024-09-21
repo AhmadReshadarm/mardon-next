@@ -5,11 +5,7 @@ import {
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
-import {
-  changeCatelogDisplayState,
-  changeCatelogState,
-  changeDropDownState,
-} from 'redux/slicers/store/globalUISlicer';
+
 const paginateHandler = () => {
   const widthOrHeightRef = useRef<any>();
 

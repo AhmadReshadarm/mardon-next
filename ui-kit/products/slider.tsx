@@ -10,9 +10,9 @@ import {
   UseImagePaginat,
   handleDragEnd,
 } from 'components/store/storeLayout/helpers';
-import { devices } from 'components/store/lib/Devices';
+import { devices, sizesNum } from 'components/store/lib/Devices';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import {
   clearSearchProducts,
@@ -33,10 +33,6 @@ type Props = {
   zoomImgSrc?: string;
 };
 
-type StyleProps = {
-  cardWidth: number;
-};
-
 const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, images.length, page);
@@ -44,10 +40,69 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
   const dispatch = useAppDispatch();
   const [zoomImgSrc, setZoomImgSrc] = useState(images[imageIndex]);
   const [zoom, setZoom] = useState(false);
+  const calculateImageSize = (windowWidth: number) => {
+    switch (true) {
+      // laptopM
+      case sizesNum.laptopS < windowWidth && windowWidth < sizesNum.laptopM:
+        return {
+          minMaxheight: windowWidth / 3 - 90,
+          minMaxWidth: windowWidth / 3 - 70,
+          width: 100,
+        };
+      // laptopS
+      case sizesNum.tabletL < windowWidth && windowWidth < sizesNum.laptopS:
+        return {
+          minMaxheight: windowWidth / 2 - 90,
+          minMaxWidth: windowWidth / 2 - 70,
+          width: 100,
+        };
+      // tabletL
+      case sizesNum.tabletS < windowWidth && windowWidth < sizesNum.tabletL:
+        return {
+          minMaxheight: windowWidth / 2 - 90,
+          minMaxWidth: windowWidth / 2 - 70,
+          width: 100,
+        };
+      // tabletS, mobileL, mobileM, mobileS, mobileES
+      case sizesNum.mobileES < windowWidth && windowWidth < sizesNum.tabletS:
+        return {
+          minMaxheight: windowWidth - 100,
+          minMaxWidth: windowWidth - 100,
+          width: 100,
+        };
+      default:
+        return {
+          minMaxWidth: 300,
+          minMaxheight: 300,
+          width: 100,
+        };
+    }
+  };
+
+  const [wrapperSizes, setWrapperSizes] = useState({
+    minMaxWidth: calculateImageSize(windowWidth).minMaxWidth,
+    minMaxheight: calculateImageSize(windowWidth).minMaxheight,
+    width: calculateImageSize(windowWidth).width,
+  });
+  useEffect(() => {
+    setWrapperSizes({
+      minMaxWidth: calculateImageSize(windowWidth).minMaxWidth,
+      minMaxheight: calculateImageSize(windowWidth).minMaxheight,
+      width: calculateImageSize(windowWidth).width,
+    });
+  }, [windowWidth]);
 
   return (
     <>
-      <ImageSliderWrapper cardWidth={windowWidth}>
+      <ImageSliderWrapper
+        style={{
+          minWidth: `${wrapperSizes.minMaxWidth}px`,
+          maxWidth: `${wrapperSizes.minMaxWidth}px`,
+          minHeight: `${wrapperSizes.minMaxheight}px`,
+          maxHeight: `${wrapperSizes.minMaxheight}px`,
+          width: `${wrapperSizes.width}%`,
+        }}
+      >
         <Link
           onClick={() => {
             handleHistory(product.id);
@@ -89,6 +144,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                 height={0}
                 sizes="100vw"
                 loading="lazy"
+                priority={false}
               />
             </ImageSliderSlide>
           </AnimatePresence>
@@ -142,11 +198,9 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
     </>
   );
 };
+
 export const ImageSliderWrapper = styled(motion.div)`
-  width: 100%;
   height: 100%;
-  min-height: 300px;
-  min-width: 300px;
   position: relative;
   overflow: hidden;
   .image-scroll-wrapper {
@@ -204,57 +258,6 @@ export const ImageSliderWrapper = styled(motion.div)`
     justify-content: center;
     align-items: center;
     padding: 10px;
-  }
-
-  @media ${devices.laptopM} {
-    min-height: calc(${(p: StyleProps) => p.cardWidth / 3}px - 90px);
-    max-height: calc(${(p: StyleProps) => p.cardWidth / 3}px - 90px);
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 3}px - 70px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 3}px - 70px);
-  }
-
-  @media ${devices.laptopS} {
-    min-height: calc(${(p: StyleProps) => p.cardWidth / 2}px - 90px);
-    max-height: calc(${(p: StyleProps) => p.cardWidth / 2}px - 90px);
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
-  }
-
-  @media ${devices.tabletL} {
-    min-height: calc(${(p: StyleProps) => p.cardWidth / 2}px - 90px);
-    max-height: calc(${(p: StyleProps) => p.cardWidth / 2}px - 90px);
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 70px);
-  }
-  @media ${devices.tabletS} {
-    min-height: unset;
-    max-height: unset;
-    min-width: unset;
-    max-width: unset;
-    width: 95%;
-  }
-
-  @media ${devices.mobileL} {
-    min-height: unset;
-    max-height: unset;
-    min-width: unset;
-    max-width: unset;
-    width: 95%;
-  }
-  @media ${devices.mobileM} {
-    min-height: unset;
-    max-height: unset;
-    min-width: unset;
-    max-width: unset;
-    width: 95%;
-  }
-
-  @media ${devices.mobileS} {
-    min-height: unset;
-    max-height: unset;
-    min-width: unset;
-    max-width: unset;
-    width: 95%;
   }
 `;
 

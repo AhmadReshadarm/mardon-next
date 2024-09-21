@@ -1,4 +1,5 @@
 import { emptyLoading } from 'common/constants';
+import { sizesNum } from 'components/store/lib/Devices';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ItemContainer, ItemWrapper } from 'ui-kit/products/productItem';
@@ -34,10 +35,112 @@ const Loader = () => {
 };
 
 export const LoaderItem = ({ index, windowWidth }) => {
+  const calculateImageSize = (windowWidth: number) => {
+    switch (true) {
+      // laptopM
+      case sizesNum.laptopS < windowWidth && windowWidth < sizesNum.laptopM:
+        return {
+          minMaxheight: windowWidth / 3 - 90,
+          minMaxWidth: windowWidth / 3 - 70,
+          width: 100,
+        };
+      // laptopS
+      case sizesNum.tabletL < windowWidth && windowWidth < sizesNum.laptopS:
+        return {
+          minMaxheight: windowWidth / 2 - 90,
+          minMaxWidth: windowWidth / 2 - 70,
+          width: 100,
+        };
+      // tabletL
+      case sizesNum.tabletS < windowWidth && windowWidth < sizesNum.tabletL:
+        return {
+          minMaxheight: windowWidth / 2 - 90,
+          minMaxWidth: windowWidth / 2 - 70,
+          width: 100,
+        };
+      // tabletS, mobileL, mobileM, mobileS, mobileES
+      case sizesNum.mobileES < windowWidth && windowWidth < sizesNum.tabletS:
+        return {
+          minMaxheight: '',
+          minMaxWidth: '',
+          width: 95,
+        };
+      default:
+        return {
+          minMaxWidth: 300,
+          minMaxheight: 300,
+          width: 100,
+        };
+    }
+  };
+
+  const [wrapperSizes, setWrapperSizes] = useState({
+    minMaxWidth: calculateImageSize(windowWidth).minMaxWidth,
+    minMaxheight: calculateImageSize(windowWidth).minMaxheight,
+    width: calculateImageSize(windowWidth).width,
+  });
+
+  const calculateImageSizeContainer = (windowWidth: number) => {
+    switch (true) {
+      // laptopM
+      case sizesNum.laptopS < windowWidth && windowWidth < sizesNum.laptopM:
+        return {
+          minMaxWidth: windowWidth / 3 - 50,
+        };
+      // laptopS
+      case sizesNum.tabletL < windowWidth && windowWidth < sizesNum.laptopS:
+        return {
+          minMaxWidth: windowWidth / 2 - 50,
+        };
+      // tabletL
+      case sizesNum.tabletS < windowWidth && windowWidth < sizesNum.tabletL:
+        return {
+          minMaxWidth: windowWidth / 2 - 50,
+        };
+      // tabletS, mobileL, mobileM, mobileS, mobileES
+      case sizesNum.mobileES < windowWidth && windowWidth < sizesNum.tabletS:
+        return {
+          minMaxWidth: windowWidth - 80,
+        };
+      default:
+        return {
+          minMaxWidth: 330,
+        };
+    }
+  };
+
+  const [wrapperSizesContainer, setWrapperSizesContainer] = useState({
+    minMaxWidth: calculateImageSizeContainer(windowWidth).minMaxWidth,
+  });
+  useEffect(() => {
+    setWrapperSizes({
+      minMaxWidth: calculateImageSize(windowWidth).minMaxWidth,
+      minMaxheight: calculateImageSize(windowWidth).minMaxheight,
+      width: calculateImageSize(windowWidth).width,
+    });
+    setWrapperSizesContainer({
+      minMaxWidth: calculateImageSizeContainer(windowWidth).minMaxWidth,
+    });
+  }, [windowWidth]);
+
   return (
-    <ItemContainer key={index} cardWidth={windowWidth}>
+    <ItemContainer
+      key={index}
+      style={{
+        minWidth: `${wrapperSizesContainer.minMaxWidth}px`,
+        maxWidth: `${wrapperSizesContainer.minMaxWidth}px`,
+      }}
+    >
       <ItemWrapper>
-        <ImageSliderWrapper cardWidth={windowWidth}>
+        <ImageSliderWrapper
+          style={{
+            minWidth: `${wrapperSizes.minMaxWidth}px`,
+            maxWidth: `${wrapperSizes.minMaxWidth}px`,
+            minHeight: `${wrapperSizes.minMaxheight}px`,
+            maxHeight: `${wrapperSizes.minMaxheight}px`,
+            width: `${wrapperSizes.width}%`,
+          }}
+        >
           <ImageSliderSlide>
             <LoaderMask style={{ width: '100%', height: '100%' }} />
           </ImageSliderSlide>
@@ -85,7 +188,7 @@ export const LoaderItem = ({ index, windowWidth }) => {
   );
 };
 
-const LoaderMask = styled.div`
+export const LoaderMask = styled.div`
   border-radius: 5px;
   background: #cccccca3;
   position: relative;

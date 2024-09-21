@@ -1,5 +1,5 @@
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import { devices } from 'components/store/lib/Devices';
+import { devices, sizesNum } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -22,10 +22,6 @@ type Props = {
   custom: number;
 };
 
-type StyleProps = {
-  cardWidth: number;
-};
-
 const ProductItem: React.FC<Props> = ({ product, custom }) => {
   const images = getProductVariantsImages(product.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
@@ -46,6 +42,44 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
     };
   });
 
+  const calculateImageSizeContainer = (windowWidth: number) => {
+    switch (true) {
+      // laptopM
+      case sizesNum.laptopS < windowWidth && windowWidth < sizesNum.laptopM:
+        return {
+          minMaxWidth: windowWidth / 3 - 50,
+        };
+      // laptopS
+      case sizesNum.tabletL < windowWidth && windowWidth < sizesNum.laptopS:
+        return {
+          minMaxWidth: windowWidth / 2 - 50,
+        };
+      // tabletL
+      case sizesNum.tabletS < windowWidth && windowWidth < sizesNum.tabletL:
+        return {
+          minMaxWidth: windowWidth / 2 - 50,
+        };
+      // tabletS, mobileL, mobileM, mobileS, mobileES
+      case sizesNum.mobileES < windowWidth && windowWidth < sizesNum.tabletS:
+        return {
+          minMaxWidth: windowWidth - 80,
+        };
+      default:
+        return {
+          minMaxWidth: 330,
+        };
+    }
+  };
+
+  const [wrapperSizes, setWrapperSizes] = useState({
+    minMaxWidth: calculateImageSizeContainer(windowWidth).minMaxWidth,
+  });
+  useEffect(() => {
+    setWrapperSizes({
+      minMaxWidth: calculateImageSizeContainer(windowWidth).minMaxWidth,
+    });
+  }, [windowWidth]);
+
   return (
     <ItemContainer
       custom={custom}
@@ -53,7 +87,10 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
       whileInView="animate"
       viewport={{ once: true }}
       variants={variants.fadInSlideUp}
-      cardWidth={windowWidth}
+      style={{
+        minWidth: `${wrapperSizes.minMaxWidth}px`,
+        maxWidth: `${wrapperSizes.minMaxWidth}px`,
+      }}
     >
       <ItemWrapper>
         <Slider
@@ -124,44 +161,10 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
 
 export const ItemContainer = styled(motion.li)`
   width: 100%;
-  min-width: 330px;
-  max-width: 330px;
   height: 700px;
   background-color: ${color.productCart};
   padding: 10px;
   border: 1px solid #e5e2d9;
-
-  @media ${devices.laptopM} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 3}px - 50px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 3}px - 50px);
-  }
-
-  @media ${devices.laptopS} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
-  }
-
-  @media ${devices.tabletL} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px);
-  }
-  @media ${devices.tabletS} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-  }
-  @media ${devices.mobileL} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-  }
-  @media ${devices.mobileM} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-  }
-
-  @media ${devices.mobileS} {
-    min-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-    max-width: calc(${(p: StyleProps) => p.cardWidth}px - 80px);
-  }
 `;
 
 export const ItemWrapper = styled.div`
@@ -270,6 +273,9 @@ export const ItemWrapper = styled.div`
     .product-title-add-to-card-wrapper {
       .product-title {
         line-break: anywhere;
+        span {
+          font-size: 0.9rem;
+        }
       }
       .product-description-wrapper {
         padding: 5px 0;
@@ -289,6 +295,9 @@ export const ItemWrapper = styled.div`
     .product-title-add-to-card-wrapper {
       .product-title {
         line-break: anywhere;
+        span {
+          font-size: 0.9rem;
+        }
       }
       .product-description-wrapper {
         padding: 5px 0;
@@ -304,6 +313,9 @@ export const ItemWrapper = styled.div`
     .product-title-add-to-card-wrapper {
       .product-title {
         line-break: anywhere;
+        span {
+          font-size: 0.9rem;
+        }
       }
       .product-description-wrapper {
         padding: 5px 0;
@@ -320,6 +332,9 @@ export const ItemWrapper = styled.div`
     .product-title-add-to-card-wrapper {
       .product-title {
         line-break: anywhere;
+        span {
+          font-size: 0.9rem;
+        }
       }
       .product-description-wrapper {
         padding: 5px 0;
