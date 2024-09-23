@@ -9,10 +9,14 @@ export const YandexMetrics = () => {
    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
    ym(96632717, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
+        clickmap: true,
+        trackLinks: true,
+        ecommerce: true,
+        webvisor: true,
+        accurateTrackBounce: true,
+        childIframe: true,
+        trackHash: true,
+        triggerEvent: true,
    });
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/96632717" style="position:absolute; left:-9999px;" alt="" /></div></noscript>

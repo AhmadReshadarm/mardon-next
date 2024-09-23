@@ -13,6 +13,18 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="/favicon.svg" />
+          <link
+            rel="preload"
+            href="/fonts/circe/circe-regular.woff"
+            as="Circe"
+            type="font/woff"
+          />
+          <link
+            rel="preload"
+            href="/fonts/tt-ricordi-marmo-trial-variable.woff"
+            as="ricordi"
+            type="font/woff"
+          />
         </Head>
         <body>
           {/* <div

@@ -1,4 +1,6 @@
+import { YandexMetrics } from 'components/metrics/yandex-metrics';
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 const Header = dynamic(() => import('./Header'), {
   ssr: false,
 });
@@ -6,33 +8,39 @@ const Footer = dynamic(() => import('./Footer'), {
   ssr: false,
 });
 
-const YandexMetricaProvider = dynamic(
-  () => import('next-yandex-metrica').then((mod) => mod.YandexMetricaProvider),
+const GoogleAnalytics = dynamic(
+  () => import('@next/third-parties/google').then((mod) => mod.GoogleAnalytics),
   {
     ssr: false,
   },
 );
 
 const StoreLayout = ({ children }: { children: React.ReactNode }) => {
+  const [isMetrics, setIsMetrics] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsMetrics(true);
+    }, 15000);
+  }, []);
   return (
     <>
-      <YandexMetricaProvider
-        tagID={96632717}
-        initParameters={{
-          clickmap: true,
-          trackLinks: true,
-          ecommerce: true,
-          webvisor: true,
-          accurateTrackBounce: true,
-          childIframe: true,
-          trackHash: true,
-          triggerEvent: true,
-        }}
-      >
-        <Header />
-        {children}
-        <Footer />
-      </YandexMetricaProvider>
+      {isMetrics ? (
+        <>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: YandexMetrics(),
+            }}
+          />
+
+          <GoogleAnalytics gaId="G-LPMTNCKRGT" />
+        </>
+      ) : (
+        ''
+      )}
+
+      <Header />
+      {children}
+      <Footer />
     </>
   );
 };

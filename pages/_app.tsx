@@ -6,9 +6,7 @@ import { AnimatePresence } from 'framer-motion';
 import { session } from 'redux/slicers/authSlicer';
 import 'styles.css';
 import { wrapper } from '../redux/store';
-// import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
 import { ContextProvider } from 'common/context/AppContext';
-
 import Head from 'next/head';
 
 export type ComponentWithPageLayout = AppProps & {
@@ -23,8 +21,6 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
 
   useEffect(() => {
     dispatch(session());
-    // dispatch(fetchCategories());
-    // dispatch(fetchTags());
   }, []);
 
   useEffect(() => {

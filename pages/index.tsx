@@ -9,13 +9,11 @@ import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 const Banners = dynamic(() => import('components/store/homePage/banners'), {
-  ssr: false,
   loading: () => <LoaderMask />,
 });
 const ProductsSlider = dynamic(
   () => import('components/store/homePage/productsSlider'),
   {
-    ssr: false,
     loading: () => <LoaderMask />,
   },
 );

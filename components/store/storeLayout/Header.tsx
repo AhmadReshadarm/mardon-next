@@ -43,12 +43,7 @@ import dynamic from 'next/dynamic';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { axiosInstance } from 'common/axios.instance';
 import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
-const GoogleAnalytics = dynamic(
-  () => import('@next/third-parties/google').then((mod) => mod.GoogleAnalytics),
-  {
-    ssr: false,
-  },
-);
+
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
   ssr: false,
 });
@@ -196,7 +191,6 @@ const Header = () => {
     <>
       {isClient ? (
         <>
-          <GoogleAnalytics gaId="G-LPMTNCKRGT" />
           <Container
             variants={variants.fadInOut}
             key="header-global"

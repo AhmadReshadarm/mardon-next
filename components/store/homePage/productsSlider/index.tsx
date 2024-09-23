@@ -47,7 +47,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
       if (caroselProducts.length - 1 <= caroselIndex) {
         setCaroselIndex(0);
       }
-    }, 5000);
+    }, 15000);
     return () => {
       if (isMouseHover) clearTimeout(timer);
     };
@@ -55,6 +55,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
   useEffect(() => {
     setCurrentProduct(caroselProducts[caroselIndex]);
     handleIndexIndecator(caroselIndex);
+    setImageLoaded(false);
   }, [caroselIndex]);
   useEffect(() => {
     setImages(getProductVariantsImages(currentProduct?.productVariants));
@@ -179,7 +180,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                       </ul>
                       <ImageLoader
                         style={{
-                          display: imageLoaded ? 'none' : 'flex',
+                          display: !imageLoaded ? 'flex' : 'none',
                         }}
                       />
                       <Image
@@ -394,7 +395,7 @@ const Content = styled.div`
             align-items: center;
             gap: 5px;
             span {
-              font-weight: 800;
+              font-weight: 600;
             }
           }
           .action-buttons-wrapper {
