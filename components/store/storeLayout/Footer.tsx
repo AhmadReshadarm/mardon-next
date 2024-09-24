@@ -7,7 +7,7 @@ import { devices } from '../lib/Devices';
 import { CloseSVGBlack } from '../../../assets/icons/UI-icons';
 import { handleCookiesClick, acceptedCookies } from './helpers';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
 import {
   LocationPointerSVG,
@@ -18,7 +18,9 @@ import {
 import { content } from './constants';
 import { useInViewport } from './useInViewport';
 import Image from 'next/image';
+import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
 const Footer = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   const copyRighYear = new Date().getFullYear();
   const [isOpen, setOpen] = useState(true);
@@ -35,6 +37,13 @@ const Footer = (): JSX.Element => {
       setShowCookiesNotifi(true);
     }, 10000);
   }, []);
+
+  useEffect(() => {
+    if (isInViewport) {
+      dispatch(fetchCategories());
+      dispatch(fetchTags());
+    }
+  }, [isInViewport]);
 
   return (
     <>

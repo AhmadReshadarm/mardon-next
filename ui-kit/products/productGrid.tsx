@@ -1,51 +1,41 @@
 import { devices } from 'components/store/lib/Devices';
 import styled from 'styled-components';
-import { Product } from 'swagger/services';
-// import Loading from 'ui-kit/Loading';
+// import { Product } from 'swagger/services';
 import { getAnimationDelay } from './helpers';
 import ProductItem from './productItem';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
-import Loader, { LoaderItem } from './Loader';
+import { LoaderItem } from './Loader';
 import { emptyLoading } from 'common/constants';
-import { useEffect, useState } from 'react';
+import { useAppSelector } from 'redux/hooks';
+import { TCatalogState } from 'redux/types';
 
 type Props = {
-  products: Product[];
-  loading?: boolean;
-  gridStyle?: any;
+  // products: Product[];
+  // loading?: boolean;
+  // gridStyle?: any;
   emptyProductsTitle?: string;
-  children?: JSX.Element;
+  // children?: JSX.Element;
 };
 
 const ProductGrid: React.FC<Props> = ({
-  products,
+  // products,
   emptyProductsTitle,
-  gridStyle,
-  children,
-  loading,
+  // gridStyle,
+  // children,
+  // loading,
 }) => {
+  const { products, loading } = useAppSelector<TCatalogState>(
+    (state) => state.catalog,
+  );
   const delay = getAnimationDelay(products.length);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
   return (
     <>
-      {products.length !== 0 ? (
+      {products.length !== 0 && !loading ? (
         <Grid>
           <>
-            {children}
+            {/* {children} */}
 
             {!loading
               ? products.map((product, index) => {
@@ -63,20 +53,26 @@ const ProductGrid: React.FC<Props> = ({
                   );
                 })
               : emptyLoading.map((item, index) => {
-                  return <LoaderItem index={index} windowWidth={windowWidth} />;
+                  return <LoaderItem index={index} />;
                 })}
           </>
         </Grid>
-      ) : (
+      ) : products.length === 0 && !loading ? (
         <EmptyProductsTitle>
           <h3>{emptyProductsTitle ?? 'Список продуктов пуст'}</h3>
         </EmptyProductsTitle>
+      ) : (
+        <Grid>
+          {emptyLoading.map((item, index) => {
+            return <LoaderItem index={index} />;
+          })}
+        </Grid>
       )}
     </>
   );
 };
 
-const Grid = styled.ul`
+export const Grid = styled.ul`
   width: 100%;
   display: inline-grid;
   grid-template-columns: repeat(4, 1fr);

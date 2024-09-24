@@ -8,15 +8,16 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Color, ProductVariant } from 'swagger/services';
 import { useAppDispatch } from 'redux/hooks';
 import { setVariant } from 'redux/slicers/store/cartSlicer';
-import { useAppSelector } from 'redux/hooks';
-import { TAuthState } from 'redux/types';
-import { Role } from 'common/enums/roles.enum';
+// import { useAppSelector } from 'redux/hooks';
+// import { TAuthState } from 'redux/types';
+// import { Role } from 'common/enums/roles.enum';
+import Image from 'next/image';
 
 type StyleProps = {
   backgroundColor?: string;
   width?: string;
 };
-let variant = null;
+// let variant = null;
 type Props = {
   variantColor: Color | undefined;
   productVariants: ProductVariant[] | undefined;
@@ -57,20 +58,20 @@ const ColorPicker: React.FC<Props> = ({
 
   // const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  // useEffect(() => {
+  //   setWindowWidth(window.innerWidth);
+  //   const handleWindowResize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //   };
 
-    window.addEventListener('resize', handleWindowResize);
+  //   window.addEventListener('resize', handleWindowResize);
 
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
+  //   return () => {
+  //     window.removeEventListener('resize', handleWindowResize);
+  //   };
+  // });
   const [initialVariant, setInitialVariant] = useState(productVariants![0]);
   useEffect(() => {
     dispatch(setVariant(initialVariant));
@@ -104,7 +105,7 @@ const ColorPicker: React.FC<Props> = ({
               key={`image-item-${colIndex}`}
               title={
                 <React.Fragment>
-                  <img
+                  <Image
                     style={{
                       width: '100px',
                       height: '100px',
@@ -116,6 +117,11 @@ const ColorPicker: React.FC<Props> = ({
                       currentTarget.onerror = null;
                       currentTarget.src = '/img_not_found.png';
                     }}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    loading="lazy"
+                    priority={false}
                   />
                   <hr
                     style={{
@@ -206,7 +212,7 @@ const ColorPicker: React.FC<Props> = ({
                   paginateImage,
                 )}
               >
-                <img
+                <Image
                   style={{
                     width: selectedIndex == colIndex ? '95%' : '100%',
                     height: selectedIndex == colIndex ? '95%' : '100%',
@@ -217,6 +223,11 @@ const ColorPicker: React.FC<Props> = ({
                     currentTarget.onerror = null;
                     currentTarget.src = '/img_not_found.png';
                   }}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  loading="lazy"
+                  priority={false}
                 />
                 {!variant.available ? <div></div> : ''}
               </ColorPickerItems>
@@ -228,7 +239,7 @@ const ColorPicker: React.FC<Props> = ({
   );
 };
 
-const ColorPickerContainer = styled.div`
+export const ColorPickerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -246,7 +257,7 @@ const ArticalWrapper = styled.div`
     font-size: 0.8rem;
   }
 `;
-const ColorPickerList = styled.ul`
+export const ColorPickerList = styled.ul`
   width: ${(p: StyleProps) => p.width};
   display: inline-grid;
   grid-template-columns: repeat(5, 1fr);
@@ -275,7 +286,7 @@ const ColorPickerList = styled.ul`
   }
 `;
 
-const ColorPickerItems = styled(motion.li)`
+export const ColorPickerItems = styled(motion.li)`
   max-width: 50px;
   min-width: 50px;
   height: 50px;

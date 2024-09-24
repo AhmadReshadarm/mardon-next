@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-import React, { useEffect, useState } from 'react';
+// import variants from 'components/store/lib/variants';
+import React, { useState } from 'react';
 import { Size } from 'swagger/services';
 import { devices } from 'components/store/lib/Devices';
 import {

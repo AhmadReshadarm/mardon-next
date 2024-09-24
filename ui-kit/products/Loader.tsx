@@ -6,6 +6,21 @@ import { ItemContainer, ItemWrapper } from 'ui-kit/products/productItem';
 import { ImageSliderSlide, ImageSliderWrapper } from 'ui-kit/products/slider';
 
 const Loader = () => {
+  return (
+    <>
+      <div className="section-title-wrapper">
+        <LoaderMask style={{ width: '150px', height: '50px' }} />
+        <ul className="best-product-grid-wrapper">
+          {emptyLoading.map((item, index) => {
+            return <LoaderItem index={index} />;
+          })}
+        </ul>
+      </div>
+    </>
+  );
+};
+
+export const LoaderItem = ({ index }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -20,21 +35,7 @@ const Loader = () => {
       window.removeEventListener('resize', handleWindowResize);
     };
   });
-  return (
-    <>
-      <div className="section-title-wrapper">
-        <LoaderMask style={{ width: '150px', height: '50px' }} />
-        <ul className="best-product-grid-wrapper">
-          {emptyLoading.map((item, index) => {
-            return <LoaderItem index={index} windowWidth={windowWidth} />;
-          })}
-        </ul>
-      </div>
-    </>
-  );
-};
 
-export const LoaderItem = ({ index, windowWidth }) => {
   const calculateImageSize = (windowWidth: number) => {
     switch (true) {
       // laptopM

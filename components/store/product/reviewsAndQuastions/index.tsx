@@ -14,10 +14,10 @@ import TabPanel from './TabPanel';
 import { a11yProps } from './helpers';
 import Reviews from './reviews';
 import Quastions from './quastions';
-import { HeaderWrapper } from '../common';
 import { useAppSelector } from 'redux/hooks';
 import { Product } from 'swagger/services';
 import { TAuthState } from 'redux/types';
+import { useInViewport } from 'components/store/storeLayout/useInViewport';
 type Props = {
   reviewRef: MutableRefObject<null>;
   questionRef: MutableRefObject<null>;
@@ -33,6 +33,7 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
     setTab(newValue);
   };
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const { isInViewport, ref } = useInViewport();
   return (
     <Container
       id="reveiws-quastions"
@@ -57,6 +58,7 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
             sx={{
               width: '100%',
             }}
+            ref={ref}
           >
             <Box>
               <Tabs
@@ -76,12 +78,18 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
                 />
               </Tabs>
             </Box>
-            <TabPanel value={tab} index={0}>
-              <Reviews />
-            </TabPanel>
-            <TabPanel value={tab} index={1}>
-              <Quastions productId={product?.id} userId={user?.id!} />
-            </TabPanel>
+            {isInViewport ? (
+              <>
+                <TabPanel value={tab} index={0}>
+                  <Reviews />
+                </TabPanel>
+                <TabPanel value={tab} index={1}>
+                  <Quastions productId={product?.id} userId={user?.id!} />
+                </TabPanel>
+              </>
+            ) : (
+              ''
+            )}
           </Box>
         </Content>
       </Wrapper>

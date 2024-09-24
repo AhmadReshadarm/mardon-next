@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
-import { paginateHandler } from 'components/store/storeLayout/helpers';
-import { ProductFlex, ContentWrapper, BtnsWrapper } from './common';
+import { ProductFlex, ContentWrapper, ProductFlexEmpty } from './common';
 import { HeaderWrapper } from '../common';
 import { Product, ProductService } from 'swagger/services';
-import ArrowWhite from '../../../../assets/arrow_white.svg';
+import { useInViewportNoDelay } from 'components/store/storeLayout/useInViewport';
 
 type Props = {
   product: Product;
@@ -35,10 +32,12 @@ const BuyTogether: React.FC<Props> = ({ product }) => {
     })();
   }, []);
 
+  const { isInViewport, ref } = useInViewportNoDelay();
+
   return (
     <>
       {products.length !== 0 ? (
-        <ContentWrapper>
+        <ContentWrapper ref={ref}>
           <HeaderWrapper
             custom={0.2}
             initial="init"
@@ -48,7 +47,11 @@ const BuyTogether: React.FC<Props> = ({ product }) => {
           >
             <h3>Покупают вместе</h3>
           </HeaderWrapper>
-          <ProductFlex products={products} loading={loading} />
+          {isInViewport ? (
+            <ProductFlex products={products} loading={loading} />
+          ) : (
+            <ProductFlexEmpty />
+          )}
         </ContentWrapper>
       ) : (
         ''

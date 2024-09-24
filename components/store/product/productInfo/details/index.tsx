@@ -196,7 +196,7 @@ const Details: React.FC<Props> = ({
   );
 };
 
-const DetailsContainer = styled.div`
+export const DetailsContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -218,7 +218,7 @@ const DetailsContainer = styled.div`
   }
 `;
 
-const ConvoContainer = styled.div`
+export const ConvoContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -251,7 +251,7 @@ const ConvoContainer = styled.div`
   }
 `;
 
-const ConvoWrappers = styled(motion.div)`
+export const ConvoWrappers = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -273,7 +273,7 @@ const ConvoWrappers = styled(motion.div)`
   }
 `;
 
-const PriceWrapper = styled(motion.div)`
+export const PriceWrapper = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -310,7 +310,7 @@ const PriceItem = styled.span`
   }
 `;
 
-const SizePickerWrapper = styled.div`
+export const SizePickerWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

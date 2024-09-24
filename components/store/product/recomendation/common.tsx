@@ -4,6 +4,9 @@ import { Product } from 'swagger/services';
 import ProductItem from 'ui-kit/products/productItem';
 import Loading from 'ui-kit/Loading';
 import { devices } from 'components/store/lib/Devices';
+import { LoaderItem } from 'ui-kit/products/Loader';
+import { useEffect, useState } from 'react';
+import { emptyLoading } from 'common/constants';
 type Props = {
   products: Product[];
   loading: boolean;
@@ -12,19 +15,42 @@ const ProductFlex: React.FC<Props> = ({ products, loading }) => {
   return (
     <FlexWrapper>
       <SliderWrapper>
-        {!loading ? (
-          products?.map((product, index) => {
-            return (
-              <ProductItem
-                key={`product-item-${index}`}
-                product={product}
-                custom={index * 0.05}
-              />
-            );
-          })
-        ) : (
-          <Loading />
-        )}
+        {!loading
+          ? products?.map((product, index) => {
+              return (
+                <ProductItem
+                  key={`product-item-${index}`}
+                  product={product}
+                  custom={index * 0.05}
+                />
+              );
+            })
+          : emptyLoading.map((item, index) => {
+              return <Loader index={index} />;
+            })}
+      </SliderWrapper>
+    </FlexWrapper>
+  );
+};
+
+const ProductFlexEmpty = () => {
+  emptyLoading.pop();
+  return (
+    <FlexWrapper>
+      <SliderWrapper>
+        {emptyLoading.map((item, index) => {
+          return <Loader index={index} />;
+        })}
+      </SliderWrapper>
+    </FlexWrapper>
+  );
+};
+
+const Loader = ({ index }) => {
+  return (
+    <FlexWrapper key={index}>
+      <SliderWrapper>
+        <LoaderItem index={index} />
       </SliderWrapper>
     </FlexWrapper>
   );
@@ -211,4 +237,10 @@ const BtnsWrapper = styled.div`
   gap: 30px;
 `;
 
-export { ProductFlex, ContentWrapper, HeaderWrapper, BtnsWrapper };
+export {
+  ProductFlex,
+  ProductFlexEmpty,
+  ContentWrapper,
+  HeaderWrapper,
+  BtnsWrapper,
+};

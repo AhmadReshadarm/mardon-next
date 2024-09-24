@@ -64,7 +64,7 @@ const ActionBtns: React.FC<Props> = ({ orderProduct, cart, product }) => {
   );
 };
 
-const ActionBtnContainer = styled.div`
+export const ActionBtnContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -74,7 +74,7 @@ const ActionBtnContainer = styled.div`
   padding: 20px 0;
 `;
 
-const ActionBtnsWrapper = styled(motion.div)`
+export const ActionBtnsWrapper = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: row;

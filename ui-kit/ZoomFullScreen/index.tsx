@@ -96,14 +96,10 @@ const ImageZoomButtonWrapper = styled.div<StyleProps>`
   width: 100%;
   height: 40px;
   position: absolute;
-  //   bottom: 0;
-  //   right: 0;
   z-index: 3;
   display: flex;
   flex-direction: row;
-  //   justify-content: flex-end;
-  //   align-items: center;
-  //   padding: 0 5px 5px 0;
+
   ${(props) => {
     return `${props.zoomStyles}`;
   }};
@@ -117,6 +113,7 @@ const ImageZoomButton = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export default ZoomFullScreen;

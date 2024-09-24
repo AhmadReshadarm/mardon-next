@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
-import { paginateHandler } from 'components/store/storeLayout/helpers';
-import { ProductFlex, ContentWrapper, BtnsWrapper } from './common';
+import { ProductFlex, ContentWrapper, ProductFlexEmpty } from './common';
 import { HeaderWrapper } from '../common';
-import ArrowWhite from '../../../../assets/arrow_white.svg';
 import { Product, ProductService } from 'swagger/services';
+import { useInViewportNoDelay } from 'components/store/storeLayout/useInViewport';
 const WeRecomend = ({ product }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,10 +24,12 @@ const WeRecomend = ({ product }) => {
     })();
   }, []);
 
+  const { isInViewport, ref } = useInViewportNoDelay();
+
   return (
     <>
       {products.length !== 0 ? (
-        <ContentWrapper>
+        <ContentWrapper ref={ref}>
           <HeaderWrapper
             custom={0.2}
             initial="init"
@@ -41,7 +40,11 @@ const WeRecomend = ({ product }) => {
             <h3>Рекомендуем также</h3>
           </HeaderWrapper>
 
-          <ProductFlex products={products} loading={loading} />
+          {isInViewport ? (
+            <ProductFlex products={products} loading={loading} />
+          ) : (
+            <ProductFlexEmpty />
+          )}
         </ContentWrapper>
       ) : (
         ''

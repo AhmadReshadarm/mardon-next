@@ -2,15 +2,15 @@ import styled from 'styled-components';
 import Slider from './Slider';
 import color from 'components/store/lib/ui.colors';
 import { Product } from 'swagger/services';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import { motion } from 'framer-motion';
-import { PopupDisplay } from 'components/store/storeLayout/constants';
-import variants from 'components/store/lib/variants';
-import Pagination from './Pagination';
-import { handleMenuState } from 'components/store/storeLayout/helpers';
-import CloseSVG from '../../../../../assets/close_black.svg';
-import SliderFullScreen from './SliderFullScreen';
+// import { PopupDisplay } from 'components/store/storeLayout/constants';
+// import variants from 'components/store/lib/variants';
+// import Pagination from './Pagination';
+// import { handleMenuState } from 'components/store/storeLayout/helpers';
+// import CloseSVG from '../../../../../assets/close_black.svg';
+// import SliderFullScreen from './SliderFullScreen';
 type Props = {
   product?: Product;
   images: string[];
@@ -32,8 +32,8 @@ const Images: React.FC<Props> = ({
   paginateImage,
   setPage,
 }) => {
-  const [isOpened, setIsOpened] = useState(false);
-  const [display, setDisplay] = useState(PopupDisplay.None);
+  // const [isOpened, setIsOpened] = useState(false);
+  // const [display, setDisplay] = useState(PopupDisplay.None);
   return (
     <ImagesContainer>
       <Slider
@@ -44,9 +44,9 @@ const Images: React.FC<Props> = ({
         page={page}
         paginateImage={paginateImage}
         alt={product?.name}
-        product={product}
-        setIsOpened={setIsOpened}
-        setDisplay={setDisplay}
+        // product={product}
+        // setIsOpened={setIsOpened}
+        // setDisplay={setDisplay}
       />
 
       {/* fullscreen mode  start */}
@@ -87,7 +87,7 @@ const Images: React.FC<Props> = ({
   );
 };
 
-const ImagesContainer = styled.div`
+export const ImagesContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

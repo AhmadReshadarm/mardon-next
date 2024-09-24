@@ -87,6 +87,10 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
     setImageSrc(`/api/images/${images[imageIndex]}`);
   }, [images, imageIndex]);
 
+  useEffect(() => {
+    setImageSrc(`/api/images/${images[imageIndex]}`);
+  }, []);
+
   return (
     <Container
       variants={variants.fadInOut}

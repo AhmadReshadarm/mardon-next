@@ -8,16 +8,15 @@ import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { useRouter } from 'next/router';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import { Category, Product } from 'swagger/services';
-import ProductGrid from 'ui-kit/products/productGrid';
+import ProductGrid, { Grid } from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from 'common/constant';
-import Loading from 'ui-kit/Loading';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
 import { Pagination } from 'antd';
 import Head from 'next/head';
@@ -84,13 +83,13 @@ const CatalogPage = ({
   >();
 
   const {
-    products,
+    // products,
     categories,
     subCategories,
     colors,
     tags,
     priceRange,
-    loading,
+    // loading,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
 
   const handleLocationChange = onLocationChange(dispatch);
@@ -221,52 +220,42 @@ const CatalogPage = ({
           padding="10px 0"
         >
           <Wrapper flex_direction="column">
-            <Suspense fallback={<Loading />}>
-              <CatelogContentWrapper>
-                <TopFilterBar
-                  categories={categories}
-                  subCategories={subCategories}
-                  colors={filteredColors}
-                  priceRange={priceRange}
-                  tags={filteredTags}
-                  expanded={expanded}
-                  handleExpantionChange={handleExpantionChange}
-                  setSelectedCategory={setSelectedCategory}
-                  setCurrentPage={setCurrentPage}
-                  setPageSize={setPageSize}
-                  // setHasActiveFilters={setHasActiveFilters}
-                />
+            <CatelogContentWrapper>
+              <TopFilterBar
+                categories={categories}
+                subCategories={subCategories}
+                colors={filteredColors}
+                priceRange={priceRange}
+                tags={filteredTags}
+                expanded={expanded}
+                handleExpantionChange={handleExpantionChange}
+                setSelectedCategory={setSelectedCategory}
+                setCurrentPage={setCurrentPage}
+                setPageSize={setPageSize}
+                // setHasActiveFilters={setHasActiveFilters}
+              />
 
-                <Content>
-                  {!!products ? (
-                    <>
-                      <Products>
-                        <ProductGrid
-                          products={products}
-                          loading={loading}
-                          emptyProductsTitle={
-                            'По вашему запросу ничего не найдено.'
-                          }
-                        />
-                      </Products>
-                      <Pagination
-                        style={{ marginTop: '20px' }}
-                        defaultCurrent={currentPage}
-                        current={currentPage}
-                        total={paginationLength}
-                        pageSize={pageSize}
-                        pageSizeOptions={[12, 24, 36, 50, 100]}
-                        onChange={(current, pageSize) => {
-                          handlePageChange(current, pageSize, current);
-                        }}
-                      />
-                    </>
-                  ) : (
-                    ''
-                  )}
-                </Content>
-              </CatelogContentWrapper>
-            </Suspense>
+              <Content>
+                <Products>
+                  <ProductGrid
+                    // products={products}
+                    // loading={loading}
+                    emptyProductsTitle={'По вашему запросу ничего не найдено.'}
+                  />
+                </Products>
+                <Pagination
+                  style={{ marginTop: '20px' }}
+                  defaultCurrent={currentPage}
+                  current={currentPage}
+                  total={paginationLength}
+                  pageSize={pageSize}
+                  pageSizeOptions={[12, 24, 36, 50, 100]}
+                  onChange={(current, pageSize) => {
+                    handlePageChange(current, pageSize, current);
+                  }}
+                />
+              </Content>
+            </CatelogContentWrapper>
           </Wrapper>
         </Container>
       ) : (

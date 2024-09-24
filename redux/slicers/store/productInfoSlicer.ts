@@ -473,6 +473,9 @@ const productInfoSlicer = createSlice({
     clearProductsWithQuestions(state) {
       state.products = [];
     },
+    setProductStateFromServer(state, action) {
+      state.product = action.payload;
+    },
     sortReviews(state, action) {
       if (
         action.payload === reviewDropdownOption[0] &&
@@ -909,6 +912,7 @@ const productInfoSlicer = createSlice({
 
 export const {
   clearProductInfo,
+  setProductStateFromServer,
   clearProductsWithQuestions,
   sortReviews,
   sortQuestions,

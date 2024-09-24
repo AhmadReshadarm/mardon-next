@@ -1,11 +1,14 @@
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import ProductInfo from 'components/store/product/productInfo';
-import Recomendation from 'components/store/product/recomendation';
-import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
+// import ProductInfo from 'components/store/product/productInfo';
+// import Recomendation from 'components/store/product/recomendation';
+// import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
 import { useEffect, useRef, useState } from 'react';
-import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
+import {
+  // fetchProduct,
+  setProductStateFromServer,
+} from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
 import Loading from 'ui-kit/Loading';
@@ -19,6 +22,32 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
 import { baseUrl } from 'common/constant';
 import NotFound from 'pages/404';
+import { getAccessToken } from 'common/helpers/jwtToken.helpers';
+import dynamic from 'next/dynamic';
+import LoaderProduct from 'components/store/product/productInfo/Loader';
+
+const ProductInfo = dynamic(
+  () => import('components/store/product/productInfo'),
+  {
+    loading: () => <LoaderMask />,
+  },
+);
+
+const Recomendation = dynamic(
+  () => import('components/store/product/recomendation'),
+  {
+    ssr: false,
+    loading: () => <LoaderMask />,
+  },
+);
+
+const ReveiwsAndQuastions = dynamic(
+  () => import('components/store/product/reviewsAndQuastions'),
+  {
+    ssr: false,
+    loading: () => <LoaderMask />,
+  },
+);
 
 export const getServerSideProps = (async (context) => {
   const { url } = context.query;
@@ -43,6 +72,13 @@ export const getServerSideProps = (async (context) => {
 
 // -----------------------------------------------------------
 
+function isNotFound(obj) {
+  if (obj.statusCode == 404 || obj.statusCode >= 500) {
+    return true;
+  }
+  return false;
+}
+
 const ProductInfoPage = ({
   repo,
   imagesWithUrl,
@@ -52,19 +88,20 @@ const ProductInfoPage = ({
     (state) => state.productInfo,
   );
 
-  const router = useRouter();
+  // const router = useRouter();
   const reviewBtnRef = useRef(null);
   const questionBtnRef = useRef(null);
 
-  useEffect(() => {
-    if (router.query.url) {
-      dispatch(fetchProduct(router.query.url as string));
-    }
-    return () => {};
-  }, [dispatch, router.query]);
+  // useEffect(() => {
+  //   if (router.query.url) {
+  //     dispatch(fetchProduct(router.query.url as string));
+  //   }
+  //   return () => {};
+  // }, [dispatch, router.query]);
 
   useEffect(() => {
-    dispatch(fetchCheckouts());
+    dispatch(setProductStateFromServer(repo));
+    if (getAccessToken()) dispatch(fetchCheckouts());
   }, []);
 
   const [isClient, setClient] = useState(false);
@@ -77,7 +114,7 @@ const ProductInfoPage = ({
       <SEO images={imagesWithUrl} product={repo} />
       <>
         {isClient ? (
-          !loading && product ? (
+          !isNotFound(repo) ? (
             <>
               <ProductInfo
                 reviewRef={reviewBtnRef}
@@ -95,15 +132,13 @@ const ProductInfoPage = ({
                 />
               </ErrorBoundary>
             </>
-          ) : !!!product && !loading ? (
+          ) : isNotFound(repo) ? (
             <NotFound />
           ) : (
-            <LoadingWrapper>
-              <Loading />
-            </LoadingWrapper>
+            <LoaderProduct />
           )
         ) : (
-          ''
+          <LoaderProduct />
         )}
       </>
     </>
@@ -115,6 +150,36 @@ const LoadingWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 500px;
+`;
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
 `;
 
 ProductInfoPage.PageLayout = StoreLayout;

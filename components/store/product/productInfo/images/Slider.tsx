@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import color from 'components/store/lib/ui.colors';
+// import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { SliderImage } from '../../common';
+// import { SliderImage } from '../../common';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { Product } from 'swagger/services';
-import { ArrowBtns } from 'ui-kit/ArrowBtns';
+// import { ArrowBtns } from 'ui-kit/ArrowBtns';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
-import { handleMenuState } from 'components/store/storeLayout/helpers';
+// import { handleMenuState } from 'components/store/storeLayout/helpers';
 import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
+import Image from 'next/image';
 type Props = {
   images: string[];
   selectedIndex: number;
@@ -20,10 +21,10 @@ type Props = {
   page: number;
   paginateImage: any;
   alt: any;
-  product?: Product;
-  setIsOpened: Dispatch<SetStateAction<boolean>>;
-  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
-  isOpened?: boolean;
+  // product?: Product;
+  // setIsOpened: Dispatch<SetStateAction<boolean>>;
+  // setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
+  // isOpened?: boolean;
 };
 
 const Slider: React.FC<Props> = ({
@@ -34,13 +35,14 @@ const Slider: React.FC<Props> = ({
   page,
   paginateImage,
   alt,
-  product,
-  setIsOpened,
-  setDisplay,
-  isOpened,
+  // product,
+  // setIsOpened,
+  // setDisplay,
+  // isOpened,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   return (
     <SliderWrapper
       key="slider-product-page"
@@ -50,11 +52,9 @@ const Slider: React.FC<Props> = ({
       exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
       variants={variants.fadInSlideUp}
     >
-      <AnimatePresence initial={false} custom={direction}>
-        <SliderImage
+      <AnimatePresence mode="wait" initial={false} custom={direction}>
+        <SliderSlide
           key={page}
-          src={`/api/images/${images[selectedIndex]}`}
-          alt={alt}
           custom={direction}
           variants={variants.slider}
           initial="enter"
@@ -74,13 +74,30 @@ const Slider: React.FC<Props> = ({
             setSelectedIndex,
             selectedIndex,
           )}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/img_not_found.png';
-          }}
-          style={{ objectFit: 'cover' }}
-          itemProp="contentUrl"
-        />
+        >
+          <ImageLoader
+            style={{
+              display: imageLoaded ? 'none' : 'flex',
+            }}
+          />
+          <SliderImage
+            style={{ display: imageLoaded ? 'block' : 'none' }}
+            src={`/api/images/${images[selectedIndex]}`}
+            alt={alt}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/img_not_found.png';
+            }}
+            itemProp="contentUrl"
+            width={0}
+            height={0}
+            sizes="100vw"
+            onLoadingComplete={(img) =>
+              img.naturalWidth ? setImageLoaded(true) : setImageLoaded(false)
+            }
+            priority={true}
+          />
+        </SliderSlide>
       </AnimatePresence>
 
       {/* <div
@@ -129,7 +146,51 @@ const Slider: React.FC<Props> = ({
   );
 };
 
-const SliderWrapper = styled(motion.div)`
+const ImageLoader = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
+
+const SliderSlide = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: auto;
+  top: auto;
+`;
+
+const SliderImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`;
+
+export const SliderWrapper = styled(motion.div)`
   width: 600px;
   height: 600px;
   display: flex;

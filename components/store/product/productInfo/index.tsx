@@ -22,6 +22,7 @@ import { TCartState } from 'redux/types';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import CloseSVG from '../../../../assets/close.svg';
+import Image from 'next/image';
 type Props = {
   product?: Product;
   reviewRef: MutableRefObject<any>;
@@ -97,13 +98,21 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
           <NavWrapper width={`calc(${windowWidth}px - 100px)`}>
             <div className="nav-rightWrapper">
               <Link href="/">
-                <img src="/icons/back_arrow.png" alt="back button" />
+                <Image
+                  width={35}
+                  height={15}
+                  priority={false}
+                  loading="lazy"
+                  src="/icons/back_arrow.png"
+                  alt="back button"
+                />
                 <span>Обратно на главную</span>
               </Link>
               <span>/</span>
+              {/* /catalog?categories=kukhnnaya-otvar&page=1&subCategories=kuhonnye-prinadlezhnosti&tags=tolkoshka */}
               {!!product?.category?.parent && (
                 <Link
-                  href={`/catalog?categories=${product?.category?.parent.url}`}
+                  href={`/catalog?categories=${product?.category?.parent.url}&page=1`}
                 >
                   <span title={product?.category?.parent?.name}>
                     {product?.category?.parent?.name?.length! > 16 &&
@@ -118,7 +127,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               </span>
               {!!product?.category && (
                 <Link
-                  href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}`}
+                  href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}`}
                 >
                   <span title={product?.category?.name}>
                     {product?.category?.name?.length! > 16 && windowWidth > 1024
@@ -133,7 +142,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                     <ArrowGray />
                   </span>
                   <Link
-                    href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}
+                    href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}
                   >
                     <span title={product?.tags[0].name}>
                       {product?.tags[0]?.name?.length! > 16 &&
@@ -185,7 +194,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
   );
 };
 
-const ContentCotainer = styled.div`
+export const ContentCotainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -242,7 +251,7 @@ const ContentCotainer = styled.div`
   }
 `;
 
-const OrderNotifier = styled.div`
+export const OrderNotifier = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -276,7 +285,7 @@ const OrderNotifier = styled.div`
   }
 `;
 
-const Grid = styled.div`
+export const Grid = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -305,7 +314,7 @@ const Grid = styled.div`
   }
 `;
 
-const NavWrapper = styled.div`
+export const NavWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -329,9 +338,7 @@ const NavWrapper = styled.div`
     align-items: center;
     gap: 20px;
     color: ${color.textSecondary};
-    img {
-      width: 40px;
-    }
+
     span {
       font-family: 'Jost';
       white-space: nowrap;
