@@ -1,17 +1,10 @@
-// import { useRouter } from 'next/router';
 import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
-// import ProductInfo from 'components/store/product/productInfo';
-// import Recomendation from 'components/store/product/recomendation';
-// import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
+import StoreLayoutProductMobile from 'components/store/storeLayout/layoutsProductMobile';
 import { useEffect, useRef, useState } from 'react';
-import {
-  // fetchProduct,
-  setProductStateFromServer,
-} from 'redux/slicers/store/productInfoSlicer';
+import { setProductStateFromServer } from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
-import Loading from 'ui-kit/Loading';
 import styled from 'styled-components';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import React from 'react';
@@ -25,6 +18,7 @@ import NotFound from 'pages/404';
 import { getAccessToken } from 'common/helpers/jwtToken.helpers';
 import dynamic from 'next/dynamic';
 import LoaderProduct from 'components/store/product/productInfo/Loader';
+import Head from 'next/head';
 
 const ProductInfo = dynamic(
   () => import('components/store/product/productInfo'),
@@ -84,7 +78,7 @@ const ProductInfoPage = ({
   imagesWithUrl,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
-  const { product, loading }: TProductInfoState = useAppSelector(
+  const { product }: TProductInfoState = useAppSelector(
     (state) => state.productInfo,
   );
 
@@ -112,6 +106,21 @@ const ProductInfoPage = ({
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />
+      <Head>
+        {/* <link
+          rel="preload"
+          href="/fonts/circe/circe-regular.woff"
+          as="Circe"
+          type="font/woff"
+        />
+        <link
+          rel="preload"
+          href="/fonts/tt-ricordi-marmo-trial-variable.woff"
+          as="ricordi"
+          type="font/woff"
+        /> */}
+        <link rel="preload" as="image" href={imagesWithUrl[0]} />
+      </Head>
       <>
         {isClient ? (
           !isNotFound(repo) ? (
@@ -145,13 +154,6 @@ const ProductInfoPage = ({
   );
 };
 
-const LoadingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 500px;
-`;
-
 const LoaderMask = styled.div`
   width: 100vw;
   height: 100vh;
@@ -182,5 +184,5 @@ const LoaderMask = styled.div`
   }
 `;
 
-ProductInfoPage.PageLayout = StoreLayout;
+ProductInfoPage.PageLayout = StoreLayoutProductMobile;
 export default ProductInfoPage;

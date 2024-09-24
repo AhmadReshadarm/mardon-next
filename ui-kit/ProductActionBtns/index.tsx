@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Product, ProductVariant } from 'swagger/services';
-import variants from 'components/store/lib/variants';
+// import variants from 'components/store/lib/variants';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import ItemCounter from 'ui-kit/ItemCounter';
 import color from 'components/store/lib/ui.colors';
@@ -191,7 +191,8 @@ const CartButtonWrapper = styled(motion.button)`
     width: 140px;
   }
   @media ${devices.tabletS} {
-    width: calc(${(p: StyleProps) => p.cardWidth! / 2}px - 50px);
+    // width: calc(${(p: StyleProps) => p.cardWidth! / 2}px - 50px);
+    width: 125px;
   }
 `;
 
@@ -243,12 +244,12 @@ const InWishlistButtonContent = styled.div<StyleProps>`
     width: 140px;
   }
   @media ${devices.tabletS} {
-    ${(props) => {
-      return `width: calc(${props.cardWidth! / 2}px - 50px);`;
-    }}
+    width: 125px;
   }
 `;
-
+// ${(props) => {
+//     return `width: calc(${props.cardWidth! / 2}px - 50px);`;
+//   }}
 const WishlistButtonWrapper = styled.button`
   display: flex;
   flex-direction: row;
@@ -263,6 +264,7 @@ const WishlistButtonWrapper = styled.button`
     width: 140px;
   }
   @media ${devices.tabletS} {
-    width: calc(${(p: StyleProps) => p.cardWidth! / 2}px - 50px);
+    // width: calc(${(p: StyleProps) => p.cardWidth! / 2}px - 50px);
+    width: 125px;
   }
 `;

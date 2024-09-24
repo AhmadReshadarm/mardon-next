@@ -72,23 +72,19 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
       itemType="https://schema.org/ImageObject"
     >
       <Wrapper style={{ flexDirection: 'column' }}>
-        {!isOrderNotify ? (
-          <OrderNotifier>
-            <span className="notifier-text">
-              Оформить заказ можно без оплаты и без привязки банковской карты
-            </span>
-            <span
-              onClick={() => {
-                setOrderNotify(true);
-              }}
-              className="close-btn-wrapper "
-            >
-              <CloseSVG />
-            </span>
-          </OrderNotifier>
-        ) : (
-          ''
-        )}
+        <OrderNotifier style={{ display: !isOrderNotify ? 'flex' : 'none' }}>
+          <span className="notifier-text">
+            Оформить заказ можно без оплаты и без привязки банковской карты
+          </span>
+          <span
+            onClick={() => {
+              setOrderNotify(true);
+            }}
+            className="close-btn-wrapper "
+          >
+            <CloseSVG />
+          </span>
+        </OrderNotifier>
         <Content
           flex_direction="column"
           justify_content="space-between"
@@ -253,7 +249,6 @@ export const ContentCotainer = styled.div`
 
 export const OrderNotifier = styled.div`
   width: 100%;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: cneter;

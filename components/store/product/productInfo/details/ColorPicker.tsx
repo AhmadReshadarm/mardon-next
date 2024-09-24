@@ -214,8 +214,8 @@ const ColorPicker: React.FC<Props> = ({
               >
                 <Image
                   style={{
-                    width: selectedIndex == colIndex ? '95%' : '100%',
-                    height: selectedIndex == colIndex ? '95%' : '100%',
+                    width: selectedIndex == colIndex ? '45px' : '50px',
+                    height: selectedIndex == colIndex ? '45px' : '50px',
                   }}
                   src={`/api/images/${variant.image}`}
                   alt={variant.image}
@@ -223,9 +223,8 @@ const ColorPicker: React.FC<Props> = ({
                     currentTarget.onerror = null;
                     currentTarget.src = '/img_not_found.png';
                   }}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                  width={50}
+                  height={50}
                   loading="lazy"
                   priority={false}
                 />

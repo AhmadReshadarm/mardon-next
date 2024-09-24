@@ -1,15 +1,9 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-// import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-// import { SliderImage } from '../../common';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
-import { Product } from 'swagger/services';
-// import { ArrowBtns } from 'ui-kit/ArrowBtns';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { PopupDisplay } from 'components/store/storeLayout/constants';
-// import { handleMenuState } from 'components/store/storeLayout/helpers';
+import { useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
@@ -21,10 +15,6 @@ type Props = {
   page: number;
   paginateImage: any;
   alt: any;
-  // product?: Product;
-  // setIsOpened: Dispatch<SetStateAction<boolean>>;
-  // setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
-  // isOpened?: boolean;
 };
 
 const Slider: React.FC<Props> = ({
@@ -35,10 +25,6 @@ const Slider: React.FC<Props> = ({
   page,
   paginateImage,
   alt,
-  // product,
-  // setIsOpened,
-  // setDisplay,
-  // isOpened,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
@@ -89,9 +75,9 @@ const Slider: React.FC<Props> = ({
               currentTarget.src = '/img_not_found.png';
             }}
             itemProp="contentUrl"
-            width={0}
-            height={0}
-            sizes="100vw"
+            width={600}
+            height={600}
+            // sizes="100vw"
             onLoadingComplete={(img) =>
               img.naturalWidth ? setImageLoaded(true) : setImageLoaded(false)
             }
@@ -100,25 +86,6 @@ const Slider: React.FC<Props> = ({
         </SliderSlide>
       </AnimatePresence>
 
-      {/* <div
-        style={{ display: isOpened ? 'none' : '' }}
-        className="fullscreen-btn-parrent"
-      >
-        <ArrowBtns
-          style={{
-            background: color.glassmorphismSeconderBG,
-            backdropFilter: 'blur(9px)',
-            position: 'relative',
-          }}
-          onClick={handleMenuState(setIsOpened, setDisplay)}
-        >
-          <img
-            style={{ width: '50%' }}
-            src="/icons/full_screen.png"
-            alt="fullscreen mode"
-          />
-        </ArrowBtns>
-      </div> */}
       <ul className="image-indecator-mobile">
         {images.map((image, index) => {
           return (
