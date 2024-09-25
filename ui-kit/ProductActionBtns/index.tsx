@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Product, ProductVariant } from 'swagger/services';
-// import variants from 'components/store/lib/variants';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import ItemCounter from 'ui-kit/ItemCounter';
 import color from 'components/store/lib/ui.colors';
@@ -12,8 +11,7 @@ import {
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
 import { devices } from 'components/store/lib/Devices';
-import { useEffect, useRef, useState } from 'react';
-import Loading from 'ui-kit/Loading';
+import { useState } from 'react';
 
 type PropsCart = {
   product: Product;
@@ -36,50 +34,38 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   // -------------------- UI Hooks ---------------------
   const [productId, setProductId] = useState('');
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
-
   // ------------------- end of UI Hooks --------------------
 
   return (
     <>
       {!checkIfItemInCart(product, cart!) ? (
         <CartButtonWrapper
-          initial={{ height: '0px' }}
-          animate={{ height: '50px' }}
-          transition={{ duration: 0.004 }}
           onClick={() => {
             handleCartBtnClick(product, dispatch, variant!, cart!)();
             setProductId('');
             setProductId(product.id!);
             setTimeout(() => setProductId(''), 1200);
           }}
-          cardWidth={windowWidth}
           disabled={countLoading ? true : false}
         >
-          {countLoading && productId === product.id ? (
-            <Loading />
-          ) : (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              В КОРЗИНУ
-            </motion.span>
-          )}
+          <motion.div
+            initial={{ height: '0%', width: '0%' }}
+            animate={{ height: '100%', width: '100%' }}
+            transition={{ duration: 0.15 }}
+            className="content-wrapper"
+          >
+            {countLoading && productId === product.id ? (
+              <Loader />
+            ) : (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                В КОРЗИНУ
+              </motion.span>
+            )}
+          </motion.div>
           <div className="content-indecator"></div>
         </CartButtonWrapper>
       ) : (
@@ -100,20 +86,7 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
   );
 
   // -------------------- UI Hooks ---------------------
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
   const [productId, setProductId] = useState('');
 
   // ------------------- end of UI Hooks --------------------
@@ -126,15 +99,13 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
         setProductId(product.id!);
         setTimeout(() => setProductId(''), 1000);
       }}
-      cardWidth={windowWidth}
       disabled={loading ? true : false}
     >
       <InWishlistButtonContent
-        cardWidth={windowWidth}
         isInwishList={checkIfItemInWishlist(product, wishlist!)}
       >
         {loading && productId === product.id ? (
-          <Loading />
+          <Loader />
         ) : (
           <motion.span
             initial={{ opacity: 0 }}
@@ -158,17 +129,60 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
   );
 };
 
+const Loader = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
+
 const CartButtonWrapper = styled(motion.button)`
   width: 150px;
   height: 50px;
   border-radius: 30px;
-  background-color: ${color.buttonPrimary};
-  transition: 150ms;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   span {
     color: ${color.textPrimary};
-    font-family: ricordi;
+  }
+
+  .content-wrapper {
+    background-color: ${color.buttonPrimary};
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 
   .content-indecator {
@@ -191,7 +205,6 @@ const CartButtonWrapper = styled(motion.button)`
     width: 140px;
   }
   @media ${devices.tabletS} {
-    // width: calc(${(p: StyleProps) => p.cardWidth! / 2}px - 50px);
     width: 125px;
   }
 `;
@@ -206,26 +219,32 @@ const InWishlistButtonContent = styled.div<StyleProps>`
   align-items: center;
   gap: 5px;
   cursor: pointer;
-  transition: 300ms;
+  transition: 200ms;
   position: relative;
-  ${(props) => {
+  overflow: hidden;
+  background: ${(props) => {
     return props.isInwishList
-      ? `background:linear-gradient(
+      ? `linear-gradient(
       90deg,
       #cda172 -6.8%,
       #fef5ca 34.14%,
       #fff8d7 38.26%,
       #fdf3c8 66.52%,
       #cda172 107.04%
-    );`
-      : `background:linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%)`;
+    )`
+      : `linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%)`;
   }};
   ${(props) => {
     return props.isInwishList ? `border:1px solid #00000017` : `none`;
   }};
   span {
     color: ${color.textSecondary};
-    font-family: ricordi;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 
   .content-indecator {
@@ -247,9 +266,7 @@ const InWishlistButtonContent = styled.div<StyleProps>`
     width: 125px;
   }
 `;
-// ${(props) => {
-//     return `width: calc(${props.cardWidth! / 2}px - 50px);`;
-//   }}
+
 const WishlistButtonWrapper = styled.button`
   display: flex;
   flex-direction: row;
@@ -264,7 +281,6 @@ const WishlistButtonWrapper = styled.button`
     width: 140px;
   }
   @media ${devices.tabletS} {
-    // width: calc(${(p: StyleProps) => p.cardWidth! / 2}px - 50px);
     width: 125px;
   }
 `;

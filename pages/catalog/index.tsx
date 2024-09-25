@@ -14,7 +14,7 @@ import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import { Category, Product } from 'swagger/services';
-import ProductGrid, { Grid } from 'ui-kit/products/productGrid';
+import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from 'common/constant';
 import TopFilterBar from 'components/store/catalog/TopFilterBar';

@@ -27,6 +27,7 @@ const NameFilter: React.FC<Props> = ({
               setSliderChanged(false);
             }}
             placeholder="Введите ключевые слова"
+            type="input"
           />
           {searchTerm !== '' ? (
             <span

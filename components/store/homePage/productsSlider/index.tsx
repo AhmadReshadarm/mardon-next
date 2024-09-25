@@ -40,14 +40,17 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
   }, []);
   // caroselProducts
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (caroselProducts.length - 1 > caroselIndex) {
-        setCaroselIndex(caroselIndex + 1);
-      }
-      if (caroselProducts.length - 1 <= caroselIndex) {
-        setCaroselIndex(0);
-      }
-    }, 15000);
+    let timer;
+    if (!isMouseHover) {
+      timer = setTimeout(() => {
+        if (caroselProducts.length - 1 > caroselIndex) {
+          setCaroselIndex(caroselIndex + 1);
+        }
+        if (caroselProducts.length - 1 <= caroselIndex) {
+          setCaroselIndex(0);
+        }
+      }, 15000);
+    }
     return () => {
       if (isMouseHover) clearTimeout(timer);
     };
@@ -105,10 +108,13 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
       bg_color={color.backgroundPrimary}
       ref={ref}
     >
-      <Wrapper onMouseOver={() => setISMouseHover(true)}>
+      <Wrapper
+        onMouseOver={() => setISMouseHover(true)}
+        onMouseLeave={() => setISMouseHover(false)}
+      >
         {isInViewport ? (
           <>
-            {currentProduct && images.length !== 0 ? (
+            {currentProduct ? (
               <Content>
                 <div className="product-cart-wrapper">
                   <div className="cart-title-n-action-buttons-wrapper">
@@ -253,7 +259,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
 
 const ImageLoader = styled.div`
   width: 100%;
-  heigth: 100%;
+  height: 100%;
   background: #cccccca3;
   position: relative;
   overflow: hidden;

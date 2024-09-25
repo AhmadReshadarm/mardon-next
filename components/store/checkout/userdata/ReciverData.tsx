@@ -121,6 +121,7 @@ const ReciverData = (props: any) => {
               fullWidth
               label="Адрес электронной почты"
               placeholder="email@example.com"
+              type="email"
               multiline
               rows={1}
               value={emailWithoutRegister}

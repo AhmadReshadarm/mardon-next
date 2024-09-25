@@ -1,13 +1,14 @@
 import { YandexMetrics } from 'components/metrics/yandex-metrics';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-const Header = dynamic(() => import('./Header'), {
-  ssr: false,
-});
-const Footer = dynamic(() => import('./Footer'), {
-  ssr: false,
-});
-
+// const Header = dynamic(() => import('./Header'), {
+//   ssr: false,
+// });
+// const Footer = dynamic(() => import('./Footer'), {
+//   ssr: false,
+// });
+import Header from './Header';
+import Footer from './Footer';
 const GoogleAnalytics = dynamic(
   () => import('@next/third-parties/google').then((mod) => mod.GoogleAnalytics),
   {
@@ -24,14 +25,13 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: YandexMetrics(),
+        }}
+      />
       {isMetrics ? (
         <>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: YandexMetrics(),
-            }}
-          />
-
           <GoogleAnalytics gaId="G-LPMTNCKRGT" />
         </>
       ) : (

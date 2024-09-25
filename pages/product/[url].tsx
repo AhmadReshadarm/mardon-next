@@ -1,6 +1,5 @@
 import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import StoreLayoutProductMobile from 'components/store/storeLayout/layoutsProductMobile';
 import { useEffect, useRef, useState } from 'react';
 import { setProductStateFromServer } from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -107,18 +106,6 @@ const ProductInfoPage = ({
     <>
       <SEO images={imagesWithUrl} product={repo} />
       <Head>
-        {/* <link
-          rel="preload"
-          href="/fonts/circe/circe-regular.woff"
-          as="Circe"
-          type="font/woff"
-        />
-        <link
-          rel="preload"
-          href="/fonts/tt-ricordi-marmo-trial-variable.woff"
-          as="ricordi"
-          type="font/woff"
-        /> */}
         <link rel="preload" as="image" href={imagesWithUrl[0]} />
       </Head>
       <>
@@ -184,5 +171,5 @@ const LoaderMask = styled.div`
   }
 `;
 
-ProductInfoPage.PageLayout = StoreLayoutProductMobile;
+ProductInfoPage.PageLayout = StoreLayout;
 export default ProductInfoPage;

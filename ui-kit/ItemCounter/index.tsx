@@ -18,9 +18,7 @@ type Props = {
   qty: number;
   product: Product;
 };
-type StyleProps = {
-  cardWidth: number;
-};
+
 const ItemCounter: React.FC<Props> = ({ qty, product }) => {
   const dispatch = useAppDispatch();
   const { cart, loading } = useAppSelector<TCartState>((state) => state.cart);
@@ -34,28 +32,9 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
     setInputValue(qty);
   }, [qty]);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
   // -----------------------------------------------
   return (
-    <ItemCounterWrapper
-      initial={{ width: '0px' }}
-      animate={{ width: windowWidth > 1240 ? '150px' : '140px' }}
-      onClick={(e) => e.preventDefault()}
-      cardWidth={windowWidth}
-    >
+    <ItemCounterWrapper onClick={(e) => e.preventDefault()}>
       <motion.div
         initial={{ width: '0px', opacity: 0 }}
         animate={{ width: '130px', opacity: 1 }}
@@ -74,7 +53,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
               cart!,
             );
           }}
-          disabled={loading}
+          disabled={loading ? true : false}
           initial={{ opacity: 0, x: 45 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ x: { delay: 0.4 }, delay: 0.3 }}
@@ -126,7 +105,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
               cart!,
             );
           }}
-          disabled={loading}
+          disabled={loading ? true : false}
           initial={{ opacity: 0, x: -45 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{
@@ -209,7 +188,7 @@ const ItemCounterWrapper = styled(motion.div)`
     width: 140px;
   }
   @media ${devices.tabletS} {
-    width: calc(${(p: StyleProps) => p.cardWidth / 2}px - 50px) !important;
+    width: 140px;
   }
 `;
 

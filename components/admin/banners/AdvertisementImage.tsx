@@ -1,7 +1,6 @@
 import { Image } from 'antd';
 import { imageFallback } from 'common/constants';
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import styles from './index.module.scss';
 
 const AdvertisementImage = () => {
