@@ -33,8 +33,9 @@ const Contacts = () => {
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }}
-        image={`${baseUrl}/static/favicon.png`}
+        image={`${baseUrl}/static/logo_800x800.png`}
       />
+
       <Container
         variants={variants.fadInOut}
         key="profile-page"

@@ -7,7 +7,8 @@ import { baseUrl } from '../common/constant';
 import styled from 'styled-components';
 import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-
+import fs from 'fs';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 const Banners = dynamic(() => import('components/store/homePage/banners'), {
   loading: () => <LoaderMask />,
 });
@@ -42,14 +43,56 @@ const ContactsMainPage = dynamic(
 );
 
 export const getServerSideProps = (async () => {
+  let slides: Slide[];
+  let caroselImages: string[];
+  // wait for clinet side to render image then delete it from server
+  setTimeout(() => {
+    fs.unlink(`./public/temp/${slides[0].image}`, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    fs.unlink(`./public/temp/${caroselImages[0]}`, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }, 20000);
   try {
-    const res = await fetch(`https://nbhoz.ru/api/slides`);
+    const res = await fetch(`http://5.35.93.60:4010/slides`);
     const resCarosel = await fetch(
-      `https://nbhoz.ru/api/products?tags[]=main_page`,
+      `http://5.35.93.60:4010/products?tags[]=main_page`,
     );
-    const slides: Slide[] = await res.json();
+    slides = await res.json();
     const caroselProducts: { rows: Product[]; lenght: number } =
       await resCarosel.json();
+
+    caroselImages = getProductVariantsImages(
+      caroselProducts.rows[0].productVariants,
+    );
+
+    const respSlides = await fetch(
+      `http://5.35.93.60:4010/images/${slides[0].image}`,
+    );
+    const imgBlob = await respSlides.blob();
+    const buffer = Buffer.from(await imgBlob.arrayBuffer());
+
+    fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () =>
+      console.log('image saved'),
+    );
+
+    // --------------------------
+
+    const respCarosel = await fetch(
+      `http://5.35.93.60:4010/images/${caroselImages[0]}`,
+    );
+    const imgCaroselBlob = await respCarosel.blob();
+    const bufferCarosel = Buffer.from(await imgCaroselBlob.arrayBuffer());
+
+    fs.writeFile(`./public/temp/${caroselImages[0]}`, bufferCarosel, () =>
+      console.log('image saved'),
+    );
+
     return { props: { slides, caroselProducts: caroselProducts.rows } };
   } catch (error) {
     console.log(error);

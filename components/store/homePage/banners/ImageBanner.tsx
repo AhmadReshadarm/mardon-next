@@ -66,7 +66,11 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     isAuthFormOpen,
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [userIntract, setUserIntract] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  useEffect(() => {
+    setUserIntract(true);
+  }, [imageIndex]);
   return (
     <SliderWrapper key="slider-home-banners" imgHeight={`${imgHeight}`}>
       <Link
@@ -105,21 +109,15 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
           >
-            <ImageLoader
-              style={{
-                display: imageLoaded ? 'none' : 'flex',
-              }}
-            />
             <Slider
-              style={{ display: imageLoaded ? 'block' : 'none' }}
               ref={imgRef}
-              alt={`${slides[imageIndex]?.link}`}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null;
-                currentTarget.src = '/img_not_found.png';
-                currentTarget.className = 'error_img';
-              }}
-              src={`/api/images/${slides[imageIndex]?.image}`}
+              alt={
+                !imgError ? `${slides[imageIndex]?.link}` : '/img_not_found.png'
+              }
+              onError={() => setImgError(true)}
+              src={`${userIntract ? '/api/images/' : '/temp/'}${
+                slides[imageIndex]?.image
+              }`}
               isDisplay={
                 isCatalogOpen ||
                 isSearchFormActive ||
@@ -128,12 +126,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
                 isAuthFormOpen ||
                 !!searchQuery
               }
-              width={0}
-              height={0}
-              sizes="100vw"
-              onLoadingComplete={(img) =>
-                img.naturalWidth ? setImageLoaded(true) : setImageLoaded(false)
-              }
+              width={1920}
+              height={800}
               priority={true}
             />
           </SliderSlide>

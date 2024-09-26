@@ -94,7 +94,10 @@ const Reviews = () => {
             createdAt: createdAt,
             updatedAt: updatedAt,
           }}
-          image={`${baseUrl}/api/images/${image}` ?? '/img_not_found.png'}
+          image={
+            `${baseUrl}/api/images/${image}` ??
+            `${baseUrl}/static/logo_800x800.png`
+          }
         />
       ) : (
         <Head>

@@ -6,6 +6,7 @@ import color from '../lib/ui.colors';
 import { useEffect } from 'react';
 import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
 import ItemWishlist from './ItemWishlist';
+import { devices } from '../lib/Devices';
 
 const WishlistItems = () => {
   const dispatch = useAppDispatch();
@@ -100,7 +101,7 @@ const CartBody = styled.ul`
 `;
 
 const NoCartItem = styled.div`
-  width: 100%;
+  width: 90%;
   height: 70vh;
   display: flex;
   flex-direction: row;
@@ -109,6 +110,37 @@ const NoCartItem = styled.div`
   h2 {
     font-size: 3rem;
     text-align: center;
+    font-weight: 400;
+  }
+  @media ${devices.laptopS} {
+    h2 {
+      font-size: 2.8rem;
+    }
+  }
+  @media ${devices.tabletL} {
+    h2 {
+      font-size: 2rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    h2 {
+      font-size: 2rem;
+    }
+  }
+  @media ${devices.mobileL} {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.mobileM} {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.mobileS} {
+    h2 {
+      font-size: 1.5rem;
+    }
   }
 `;
 

@@ -12,12 +12,11 @@ import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
-import { baseUrl } from 'common/constant';
 import NotFound from 'pages/404';
 import { getAccessToken } from 'common/helpers/jwtToken.helpers';
 import dynamic from 'next/dynamic';
 import LoaderProduct from 'components/store/product/productInfo/Loader';
-import Head from 'next/head';
+import fs from 'fs';
 
 const ProductInfo = dynamic(
   () => import('components/store/product/productInfo'),
@@ -44,24 +43,43 @@ const ReveiwsAndQuastions = dynamic(
 
 export const getServerSideProps = (async (context) => {
   const { url } = context.query;
+  let images: string[] = [];
+  // wait for clinet side to render image then delete it from server
+  setTimeout(() => {
+    fs.unlink(`./public/temp/${images[0]}`, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }, 20000);
   // Fetch data from external API
   try {
-    const res = await fetch(`https://nbhoz.ru/api/products/by-url/${url}`);
+    const res = await fetch(`http://5.35.93.60:4010/products/by-url/${url}`);
     const repo: Product = await res.json();
 
-    const images = getProductVariantsImages(repo?.productVariants);
+    images = getProductVariantsImages(repo?.productVariants);
     const imagesWithUrl: string[] = [];
     for (let i = 0; i < images?.length; i++) {
-      imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
+      imagesWithUrl.push(`http://5.35.93.60:4010/images/${images[i]}`);
     }
 
+    const resp = await fetch(imagesWithUrl[0]);
+    const imgBlob = await resp.blob();
+    const buffer = Buffer.from(await imgBlob.arrayBuffer());
+
+    fs.writeFile(`./public/temp/${images[0]}`, buffer, () =>
+      console.log('image saved'),
+    );
     // Pass data to the page via props
     return { props: { repo, imagesWithUrl } };
   } catch (error) {
     console.log(error);
     return { props: { repo: {}, imagesWithUrl: [] } };
   }
-}) as GetServerSideProps<{ repo: Product; imagesWithUrl: string[] }>;
+}) as GetServerSideProps<{
+  repo: Product;
+  imagesWithUrl: string[];
+}>;
 
 // -----------------------------------------------------------
 
@@ -81,16 +99,8 @@ const ProductInfoPage = ({
     (state) => state.productInfo,
   );
 
-  // const router = useRouter();
   const reviewBtnRef = useRef(null);
   const questionBtnRef = useRef(null);
-
-  // useEffect(() => {
-  //   if (router.query.url) {
-  //     dispatch(fetchProduct(router.query.url as string));
-  //   }
-  //   return () => {};
-  // }, [dispatch, router.query]);
 
   useEffect(() => {
     dispatch(setProductStateFromServer(repo));
@@ -105,9 +115,6 @@ const ProductInfoPage = ({
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />
-      <Head>
-        <link rel="preload" as="image" href={imagesWithUrl[0]} />
-      </Head>
       <>
         {isClient ? (
           !isNotFound(repo) ? (

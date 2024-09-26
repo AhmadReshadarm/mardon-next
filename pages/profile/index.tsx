@@ -9,6 +9,7 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
 import ProfileComp from 'components/store/profileComp';
 import { useState } from 'react';
+import { baseUrl } from 'common/constant';
 
 const Profile = () => {
   const [isActive, setActive] = useState('profile');
@@ -17,6 +18,11 @@ const Profile = () => {
     <>
       <Head>
         <title>Личные кабинет | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}

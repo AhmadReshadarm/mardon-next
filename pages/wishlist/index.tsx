@@ -4,11 +4,17 @@ import Wishlist from 'components/store/wishlist';
 import { motion } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
+import { baseUrl } from 'common/constant';
 const WishlistPage = () => {
   return (
     <>
       <Head>
         <title>Избранное | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}

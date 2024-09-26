@@ -6,7 +6,6 @@ const IndexPage = (): JSX.Element => {
     <>
       <Head>
         <title>NBHOZ | Admin</title>
-        <meta name="description" content="description" />
       </Head>
       Main page
     </>

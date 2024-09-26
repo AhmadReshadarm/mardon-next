@@ -3,18 +3,29 @@ import styled from 'styled-components';
 import Cart from 'components/store/cart';
 import { motion } from 'framer-motion';
 import variants from 'components/store/lib/variants';
-import { devices } from 'components/store/lib/Devices';
+import Head from 'next/head';
+import { baseUrl } from 'common/constant';
 const CardPage = () => {
   return (
-    <Container
-      variants={variants.fadInOut}
-      key="container-home-banners"
-      initial="start"
-      animate="middle"
-      exit="end"
-    >
-      <Cart />
-    </Container>
+    <>
+      <Head>
+        <title>Корзина | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
+      </Head>
+      <Container
+        variants={variants.fadInOut}
+        key="container-home-banners"
+        initial="start"
+        animate="middle"
+        exit="end"
+      >
+        <Cart />
+      </Container>
+    </>
   );
 };
 const Container = styled(motion.div)`

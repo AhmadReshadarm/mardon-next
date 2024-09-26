@@ -63,11 +63,11 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
       align_items="center"
       padding="30px 0"
       bg_color={color.textPrimary}
-      initial="start"
-      animate="middle"
-      exit="end"
-      variants={variants.fadInOut}
-      transition={{ when: 'afterChildren' }}
+      // initial="start"
+      // animate="middle"
+      // exit="end"
+      // variants={variants.fadInOut}
+      // transition={{ when: 'afterChildren' }}
       itemScope
       itemType="https://schema.org/ImageObject"
     >
@@ -105,7 +105,6 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                 <span>Обратно на главную</span>
               </Link>
               <span>/</span>
-              {/* /catalog?categories=kukhnnaya-otvar&page=1&subCategories=kuhonnye-prinadlezhnosti&tags=tolkoshka */}
               {!!product?.category?.parent && (
                 <Link
                   href={`/catalog?categories=${product?.category?.parent.url}&page=1`}

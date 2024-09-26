@@ -11,6 +11,7 @@ import { devices } from 'components/store/lib/Devices';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import color from 'components/store/lib/ui.colors';
+import { baseUrl } from 'common/constant';
 
 const Orders = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,11 @@ const Orders = () => {
     <>
       <Head>
         <title>Мои заказы | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}

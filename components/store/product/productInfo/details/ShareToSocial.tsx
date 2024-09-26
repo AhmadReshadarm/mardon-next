@@ -84,12 +84,12 @@ const ShareToSocial: React.FC<Props> = ({
 
   return (
     <SocialParent
-      key="social-product-page"
-      custom={0.2}
-      initial="init"
-      animate="animate"
-      exit={{ y: -30, opacity: 0, transition: { delay: 0.2 } }}
-      variants={variants.fadInSlideUp}
+    // key="social-product-page"
+    // custom={0.2}
+    // initial="init"
+    // animate="animate"
+    // exit={{ y: -30, opacity: 0, transition: { delay: 0.2 } }}
+    // variants={variants.fadInSlideUp}
     >
       <div className="product-artical-wrapper">
         <span className="product-code">{`Артикул товара: ${artical?.toLocaleUpperCase()}`}</span>

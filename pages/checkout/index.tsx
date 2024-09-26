@@ -15,6 +15,7 @@ import { YMaps } from 'react-yandex-maps';
 import { fetchCart } from 'redux/slicers/store/cartSlicer';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { baseUrl } from 'common/constant';
 const Checkout = () => {
   const dispatch = useAppDispatch();
   const [isClient, setClient] = useState(false);
@@ -39,8 +40,9 @@ const Checkout = () => {
         <Head>
           <title>Оформить заказ | Nbhoz</title>
           <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
+            property="og:image"
+            name="og:image"
+            content={`${baseUrl}/static/logo_800x800.png`}
           />
         </Head>
 

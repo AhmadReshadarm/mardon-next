@@ -64,7 +64,7 @@ const SEOnews: React.FC<Props> = ({ newsPost }) => {
 
   return (
     <Head>
-      <title>{newsPost?.title} | NBHOZ</title>
+      <title>{`${newsPost?.title} | NBHOZ`}</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={newsPost?.title} />
       <meta name="description" content={newsPost?.description} />

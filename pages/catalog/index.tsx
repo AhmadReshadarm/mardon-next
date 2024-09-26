@@ -39,7 +39,7 @@ export const getServerSideProps = (async (context) => {
         : queryStringToObject(query).subCategories,
   };
 
-  const url = `https://nbhoz.ru/api/products?${
+  const url = `http://5.35.93.60:4010/products?${
     queryObj.categories ? 'parent=' + queryObj.categories : ''
   }${
     queryObj.subCategories
@@ -198,7 +198,7 @@ const CatalogPage = ({
             updatedAt:
               repo[randomProduct]?.updatedAt ?? selectedCategory?.updatedAt,
           }}
-          image={`${baseUrl}/api/images/${repo[0]?.category?.parent?.image}`}
+          image={`http://5.35.93.60:4010/images/${repo[0]?.category?.parent?.image}`}
         />
       ) : (
         ''

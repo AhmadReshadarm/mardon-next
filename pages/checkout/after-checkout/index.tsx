@@ -6,12 +6,18 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { baseUrl } from 'common/constant';
 
 const AfterCheckout = () => {
   return (
     <>
       <Head>
-        <title>Заказ выполнен успешно | nbhoz</title>
+        <title>Заказ выполнен успешно | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
@@ -28,15 +28,19 @@ const Slider: React.FC<Props> = ({
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [userIntract, setUserIntract] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  useEffect(() => {
+    setUserIntract(true);
+  }, [selectedIndex]);
   return (
     <SliderWrapper
-      key="slider-product-page"
-      custom={0.3}
-      initial="init"
-      animate="animate"
-      exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
-      variants={variants.fadInSlideUp}
+    // key="slider-product-page"
+    // custom={0.3}
+    // initial="init"
+    // animate="animate"
+    // exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+    // variants={variants.fadInSlideUp}
     >
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <SliderSlide
@@ -61,26 +65,19 @@ const Slider: React.FC<Props> = ({
             selectedIndex,
           )}
         >
-          <ImageLoader
-            style={{
-              display: imageLoaded ? 'none' : 'flex',
-            }}
-          />
           <SliderImage
-            style={{ display: imageLoaded ? 'block' : 'none' }}
-            src={`/api/images/${images[selectedIndex]}`}
+            src={
+              !imgError
+                ? `${userIntract ? '/api/images/' : '/temp/'}${
+                    images[selectedIndex]
+                  }`
+                : '/img_not_found.png'
+            }
             alt={alt}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-            }}
+            onError={() => setImgError(true)}
             itemProp="contentUrl"
             width={600}
             height={600}
-            // sizes="100vw"
-            onLoadingComplete={(img) =>
-              img.naturalWidth ? setImageLoaded(true) : setImageLoaded(false)
-            }
             priority={true}
           />
         </SliderSlide>
@@ -112,36 +109,6 @@ const Slider: React.FC<Props> = ({
     </SliderWrapper>
   );
 };
-
-const ImageLoader = styled.div`
-  width: 100%;
-  height: 100%;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
 
 const SliderSlide = styled(motion.div)`
   width: 100%;

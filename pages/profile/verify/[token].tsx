@@ -8,12 +8,18 @@ import {
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
 import VerifyAcountByToken from 'components/store/profileComp/verifyaccount';
+import { baseUrl } from 'common/constant';
 
 const VerifyAcount = () => {
   return (
     <>
       <Head>
         <title>Личные кабинет | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}

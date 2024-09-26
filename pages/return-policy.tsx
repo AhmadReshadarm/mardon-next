@@ -10,11 +10,8 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
-import { useAppSelector } from 'redux/hooks';
-import { TGlobalState } from 'redux/types';
 import Link from 'next/link';
 const ReturnPolicy = () => {
-  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   return (
     <>
       <SEOstatic

@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { userHelpDisk } from 'redux/slicers/authSlicer';
 import { useRouter } from 'next/router';
 import { openErrorNotification } from 'common/helpers';
+import { baseUrl } from 'common/constant';
 const Help = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
@@ -25,6 +26,11 @@ const Help = () => {
     <>
       <Head>
         <title>Помощь | NBHOZ</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}

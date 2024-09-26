@@ -145,6 +145,8 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                 sizes="100vw"
                 loading="lazy"
                 priority={false}
+                placeholder="blur"
+                blurDataURL="/img_not_found.png"
               />
             </ImageSliderSlide>
           </AnimatePresence>

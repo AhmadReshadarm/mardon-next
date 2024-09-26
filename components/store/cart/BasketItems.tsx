@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { handleRemoveClick } from './helpers';
 import color from '../lib/ui.colors';
+import { devices } from '../lib/Devices';
 
 type Props = {};
 const BasketItems: React.FC<Props> = ({}) => {
@@ -111,6 +112,37 @@ const NoCartItem = styled.div`
   h2 {
     font-size: 3rem;
     text-align: center;
+    font-weight: 400;
+  }
+  @media ${devices.laptopS} {
+    h2 {
+      font-size: 2.8rem;
+    }
+  }
+  @media ${devices.tabletL} {
+    h2 {
+      font-size: 2rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    h2 {
+      font-size: 2rem;
+    }
+  }
+  @media ${devices.mobileL} {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.mobileM} {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  @media ${devices.mobileS} {
+    h2 {
+      font-size: 1.5rem;
+    }
   }
 `;
 

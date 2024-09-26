@@ -8,12 +8,18 @@ import {
 } from 'components/store/storeLayout/common';
 import Head from 'next/head';
 import styled from 'styled-components';
+import { baseUrl } from 'common/constant';
 
 const ServerError = (): JSX.Element => {
   return (
     <>
       <Head>
         <title>Ошибка Сервиса | NBHOZ 500</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
       </Head>
       <Container
         variants={variants.fadInOut}
