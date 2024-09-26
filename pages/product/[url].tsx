@@ -60,10 +60,10 @@ export const getServerSideProps = (async (context) => {
     images = getProductVariantsImages(repo?.productVariants);
     const imagesWithUrl: string[] = [];
     for (let i = 0; i < images?.length; i++) {
-      imagesWithUrl.push(`http://5.35.93.60:4010/images/${images[i]}`);
+      imagesWithUrl.push(`https://nbhoz.ru/api/images/${images[i]}`);
     }
 
-    const resp = await fetch(imagesWithUrl[0]);
+    const resp = await fetch(`http://5.35.93.60:4010/images/${images[0]}`);
     const imgBlob = await resp.blob();
     const buffer = Buffer.from(await imgBlob.arrayBuffer());
 

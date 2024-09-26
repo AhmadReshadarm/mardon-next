@@ -59,13 +59,6 @@ const socialTags = ({
 };
 
 const SEO = ({ product, images }) => {
-  if (product.length == 0 || images.length == 0) {
-    return (
-      <Head>
-        <title>Страница не найдена | NBHOZ 404</title>
-      </Head>
-    );
-  }
   const url = `${baseUrl}/product/${product?.url}`;
 
   return (
