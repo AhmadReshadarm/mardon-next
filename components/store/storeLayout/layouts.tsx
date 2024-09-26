@@ -25,7 +25,7 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <>
-      {/* <div
+      <div
         dangerouslySetInnerHTML={{
           __html: YandexMetrics(),
         }}
@@ -36,7 +36,7 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
         </>
       ) : (
         ''
-      )} */}
+      )}
 
       <Header />
       {children}
