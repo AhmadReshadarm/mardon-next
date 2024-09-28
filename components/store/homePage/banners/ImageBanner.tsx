@@ -112,9 +112,10 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             <Slider
               ref={imgRef}
               alt={
-                !imgError ? `${slides[imageIndex]?.link}` : '/img_not_found.png'
+                `${slides[imageIndex]?.link}`
+                // !imgError ? `${slides[imageIndex]?.link}` : '/img_not_found.png'
               }
-              onError={() => setImgError(true)}
+              // onError={() => setImgError(true)}
               src={`${userIntract ? '/api/images/' : '/temp/'}${
                 slides[imageIndex]?.image
               }`}
