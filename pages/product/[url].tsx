@@ -67,12 +67,9 @@ export const getServerSideProps = (async (context) => {
     const imgBlob = await resp.blob();
     const buffer = Buffer.from(await imgBlob.arrayBuffer());
 
-    fs.writeFile(
-      `./public/temp/${images[0]}`,
-      buffer,
-      () => {},
-      // console.log('image saved'),
-    );
+    fs.writeFile(`./public/temp/${images[0]}`, buffer, () => {
+      console.log('image saved');
+    });
     // Pass data to the page via props
     return { props: { repo, imagesWithUrl } };
   } catch (error) {

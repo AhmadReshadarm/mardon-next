@@ -76,7 +76,7 @@ export const getServerSideProps = (async () => {
     const buffer = Buffer.from(await imgBlob.arrayBuffer());
 
     fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () => {
-      //  console.log('image saved')
+      console.log('image saved');
     });
 
     // --------------------------
@@ -87,12 +87,9 @@ export const getServerSideProps = (async () => {
     const imgCaroselBlob = await respCarosel.blob();
     const bufferCarosel = Buffer.from(await imgCaroselBlob.arrayBuffer());
 
-    fs.writeFile(
-      `./public/temp/${caroselImages[0]}`,
-      bufferCarosel,
-      () => {},
-      // console.log('image saved'),
-    );
+    fs.writeFile(`./public/temp/${caroselImages[0]}`, bufferCarosel, () => {
+      console.log('image saved');
+    });
 
     return { props: { slides, caroselProducts: caroselProducts.rows } };
   } catch (error) {

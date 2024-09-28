@@ -67,11 +67,12 @@ const Slider: React.FC<Props> = ({
         >
           <SliderImage
             src={
-              !imgError
-                ? `${userIntract ? '/api/images/' : '/temp/'}${
-                    images[selectedIndex]
-                  }`
-                : '/img_not_found.png'
+              // !imgError
+              // ?
+              `${userIntract ? '/api/images/' : '/temp/'}${
+                images[selectedIndex]
+              }`
+              // : '/img_not_found.png'
             }
             alt={alt}
             onError={() => setImgError(true)}
