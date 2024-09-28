@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
 import { fetchCategories } from '../../../../redux/slicers/categoriesSlicer';
+import Head from 'next/head';
 
 const CreateCategory = () => {
   const title = 'Создание категории';
@@ -23,13 +24,20 @@ const CreateCategory = () => {
   }, [dispatch]);
 
   return (
-    <ManageCategoryForm
-      title={title}
-      editMode={false}
-      categories={filteredCategories}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Категории {`>`} Создание категории | NBHOZ
+        </title>
+      </Head>
+      <ManageCategoryForm
+        title={title}
+        editMode={false}
+        categories={filteredCategories}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

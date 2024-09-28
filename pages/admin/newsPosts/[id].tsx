@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
 import { useRouter } from 'next/router';
 import { clearNews, fetchNewsById } from 'redux/slicers/newsSlicer';
+import Head from 'next/head';
 
 const CreateNewsPost = () => {
   const router = useRouter();
@@ -32,14 +33,21 @@ const CreateNewsPost = () => {
   }, [dispatch, router.query]);
 
   return (
-    <ManageNewsPostForm
-      title={title}
-      editMode={true}
-      newsPosts={filteredNewsPosts}
-      newsPost={news}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Новости {`>`} Редактирование Новости | NBHOZ
+        </title>
+      </Head>
+      <ManageNewsPostForm
+        title={title}
+        editMode={true}
+        newsPosts={filteredNewsPosts}
+        newsPost={news}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

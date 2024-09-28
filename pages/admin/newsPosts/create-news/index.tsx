@@ -1,5 +1,6 @@
 import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageNewsPostForm from 'components/admin/newsPosts/ManageNewsPostForm';
+import Head from 'next/head';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
@@ -18,13 +19,20 @@ const CreateNewsPost = () => {
   }, [dispatch]);
 
   return (
-    <ManageNewsPostForm
-      title={title}
-      editMode={false}
-      newsPosts={news}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Новости {`>`} Создание Новости | NBHOZ
+        </title>
+      </Head>
+      <ManageNewsPostForm
+        title={title}
+        editMode={false}
+        newsPosts={news}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

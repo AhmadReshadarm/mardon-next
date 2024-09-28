@@ -12,6 +12,7 @@ import { clearColors, fetchColors } from 'redux/slicers/colorsSlicer';
 import { Page } from 'routes/constants';
 
 import styles from './index.module.scss';
+import Head from 'next/head';
 
 const Colors = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -46,6 +47,9 @@ const Colors = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Цвета | NBHOZ</title>
+      </Head>
       <div className={styles.colorsHeader}>
         <h1 className={styles.colorsHeader__title}>Цвета</h1>
         <Button

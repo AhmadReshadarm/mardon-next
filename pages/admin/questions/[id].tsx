@@ -14,6 +14,7 @@ import {
 import Loading from 'ui-kit/Loading';
 import Filters from 'components/store/product/reviewsAndQuastions/Filters';
 import { quastionsDropdownOption } from 'components/store/product/constants';
+import Head from 'next/head';
 
 const ProductQuestionsPage = () => {
   const { question, loading } = useAppSelector<TQuestionState>(
@@ -38,22 +39,29 @@ const ProductQuestionsPage = () => {
   };
 
   return (
-    <ContentContainer>
-      <ContentWrapper style={{ alignItems: 'flex-start' }}>
-        {!loading && question ? (
-          <>
-            <Filters
-              options={quastionsDropdownOption}
-              value={filterValue}
-              setValue={handleSortChange}
-            />
-            <QuastionList product={question!.product} />
-          </>
-        ) : (
-          <Loading />
-        )}
-      </ContentWrapper>
-    </ContentContainer>
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Вопросы {`>`} Редактирование Вопрос | NBHOZ
+        </title>
+      </Head>
+      <ContentContainer>
+        <ContentWrapper style={{ alignItems: 'flex-start' }}>
+          {!loading && question ? (
+            <>
+              <Filters
+                options={quastionsDropdownOption}
+                value={filterValue}
+                setValue={handleSortChange}
+              />
+              <QuastionList product={question!.product} />
+            </>
+          ) : (
+            <Loading />
+          )}
+        </ContentWrapper>
+      </ContentContainer>
+    </>
   );
 };
 

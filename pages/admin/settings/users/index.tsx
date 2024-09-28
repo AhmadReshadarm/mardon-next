@@ -12,6 +12,7 @@ import { navigateTo } from 'common/helpers';
 import { Page } from 'routes/constants';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { columns } from 'components/admin/settings/users/constants';
+import Head from 'next/head';
 
 const AnalyticsUsers = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -49,6 +50,11 @@ const AnalyticsUsers = () => {
 
   return (
     <>
+      <Head>
+        <title>
+          Администрирование {`>`} Настройки {`>`} Пользователи | NBHOZ
+        </title>
+      </Head>
       <div className={styles.newsPostsHeader}>
         <h1 className={styles.newsPostsHeader__title}>Пользователи</h1>
         <Button

@@ -17,7 +17,7 @@ import {
 } from './helpers';
 import styles from './layout.module.scss';
 import { TAuthState } from 'redux/types';
-import { getUserInfo } from 'common/helpers/jwtToken.helpers';
+import styled from 'styled-components';
 const { Header, Content, Footer, Sider } = Layout;
 
 type Props = {
@@ -52,63 +52,105 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
     };
     fetchData();
   }, [router]);
+  const [isClient, setClient] = useState(false);
+
+  useEffect(() => {
+    setClient(true);
+  }, []);
+  console.log(menueItems);
+
   return (
     <>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => {
-            setCollapsed(!collapsed);
-          }}
-        >
-          <div className={styles['logo']}>
-            {collapsed ? 'Fin' : 'Fingarden'}
-          </div>
-          <Menu
-            onSelect={handleSelect(router)}
-            theme="dark"
-            defaultSelectedKeys={getSelectedKeys(router.pathname)}
-            mode="inline"
-            items={menueItems}
-          />
-        </Sider>
-        <Layout className="site-layout">
-          <Header id="page-top" className={styles['site-layout__header']}>
-            {
-              <div>
-                <span>{user?.email}</span>
-                <Button onClick={handleLogout(router, dispatch)} type="link">
-                  Выйти
-                </Button>
-              </div>
-            }
-          </Header>
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>
-                <Link legacyBehavior href="/admin">
-                  <a>Администрирование</a>
-                </Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link legacyBehavior href={backRef}>
-                  <a>{currentPath(router, 1)}</a>
-                </Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <a>{currentPath(router, 2)}</a>
-              </Breadcrumb.Item>
-            </Breadcrumb>
-            <div className={styles['site-layout__content']}>{children}</div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Fingarden ©{date} Created by The Best Studio
-          </Footer>
+      {isClient ? (
+        <Layout style={{ minHeight: '100vh' }}>
+          <Sider
+            collapsible
+            collapsed={collapsed}
+            onCollapse={(value) => {
+              setCollapsed(!collapsed);
+            }}
+          >
+            <div className={styles['logo']}>{collapsed ? 'NB' : 'NBHOZ'}</div>
+            <Menu
+              onSelect={handleSelect(router)}
+              theme="dark"
+              defaultSelectedKeys={getSelectedKeys(router.pathname)}
+              mode="inline"
+              items={menueItems}
+            />
+          </Sider>
+          <Layout className="site-layout">
+            <Header id="page-top" className={styles['site-layout__header']}>
+              {
+                <div>
+                  <span>{user?.email}</span>
+                  <Button onClick={handleLogout(router, dispatch)} type="link">
+                    Выйти
+                  </Button>
+                </div>
+              }
+            </Header>
+            <Content style={{ margin: '0 16px' }}>
+              <Breadcrumb style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item>
+                  <Link legacyBehavior href="/admin">
+                    <a>Администрирование</a>
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link legacyBehavior href={backRef}>
+                    <a>{currentPath(router, 1)}</a>
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <a>{currentPath(router, 2)}</a>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <a>{currentPath(router, 3)}</a>
+                </Breadcrumb.Item>
+              </Breadcrumb>
+              <div className={styles['site-layout__content']}>{children}</div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+              NBHOZ ©{date} Created by ARM
+            </Footer>
+          </Layout>
         </Layout>
-      </Layout>
+      ) : (
+        <LoaderMask />
+      )}
     </>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 export default AdminLayout;

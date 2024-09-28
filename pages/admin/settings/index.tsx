@@ -3,22 +3,28 @@ import styled from 'styled-components';
 import { UserOutlined, IdcardOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import color from 'components/store/lib/ui.colors';
+import Head from 'next/head';
 const Users = () => {
   return (
-    <Wrapper>
-      <Link href="/admin/settings/users" className="content">
-        <span>Пользователи</span>
-        <span>
-          <UserOutlined />
-        </span>
-      </Link>
-      <Link href="/admin/settings/subscribers" className="content">
-        <span>Подписчики</span>
-        <span>
-          <IdcardOutlined />
-        </span>
-      </Link>
-    </Wrapper>
+    <>
+      <Head>
+        <title>Администрирование {`>`} Настройки | NBHOZ</title>
+      </Head>
+      <Wrapper>
+        <Link href="/admin/settings/users" className="content">
+          <span>Пользователи</span>
+          <span>
+            <UserOutlined />
+          </span>
+        </Link>
+        <Link href="/admin/settings/subscribers" className="content">
+          <span>Подписчики</span>
+          <span>
+            <IdcardOutlined />
+          </span>
+        </Link>
+      </Wrapper>
+    </>
   );
 };
 

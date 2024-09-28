@@ -15,6 +15,7 @@ import {
   fetchCheckoutById,
   updateCheckout,
 } from '../../../redux/slicers/checkoutsSlicer';
+import Head from 'next/head';
 const Constants = [
   'Изменить на (Новый заказ)',
   'Изменить на (В пути)',
@@ -63,6 +64,11 @@ const CheckoutsPage = () => {
 
   return (
     <>
+      <Head>
+        <title>
+          Администрирование {`>`} Заказы {`>`} Редактирование Заказа | NBHOZ
+        </title>
+      </Head>
       {loading || saveLoading ? (
         <Spin className={styles.spinner} size="large" />
       ) : (

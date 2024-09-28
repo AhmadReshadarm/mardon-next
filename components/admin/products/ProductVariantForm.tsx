@@ -7,8 +7,8 @@ import MultipleImageUpload from '../generalComponents/MultipleImageUpload';
 import { InsertRowLeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useState } from 'react';
-import DatabaseImages from './databaseImages';
-// ui-kit/DatabaseImages
+import DatabaseImages from 'ui-kit/DatabaseImages';
+
 const { Option } = Select;
 
 type Props = {
@@ -110,12 +110,16 @@ const ProductVariant: React.FC<Props> = ({
           </Button>
         </ButtonDevider>
 
-        <DatabaseImages
-          isProducts={true}
-          setOpen={setOpen}
-          isOpen={isOpen}
-          prodcutVariantIndex={index}
-        />
+        {isOpen ? (
+          <DatabaseImages
+            isProducts={true}
+            setOpen={setOpen}
+            isOpen={isOpen}
+            prodcutVariantIndex={index}
+          />
+        ) : (
+          ''
+        )}
       </Form.Item>
     </div>
   );

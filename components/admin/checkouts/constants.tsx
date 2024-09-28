@@ -5,7 +5,7 @@ import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
 
 interface CheckoutsTableData {
   id: string;
-  user: { email: string };
+  user: { id: string; firstName: string; email: string };
   basket: { orderProducts: OrderProduct[] };
   address: { address: string; receiverPhone: string };
 }
@@ -20,7 +20,11 @@ const columns: ColumnsType<CheckoutsTableData> = [
     title: 'Пользователь',
     dataIndex: 'user',
     render: (_, record) => {
-      return <p>{record.user.email}</p>;
+      return (
+        <p>
+          ID:{record.user.id} - Имя:{record.user.firstName}
+        </p>
+      );
     },
     width: '10%',
   },

@@ -15,6 +15,7 @@ import styles from './index.module.scss';
 import { navigateTo } from 'common/helpers';
 import { useRouter } from 'next/router';
 import { Page } from 'routes/constants';
+import Head from 'next/head';
 const CheckoutsPage = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -50,6 +51,9 @@ const CheckoutsPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Заказы | NBHOZ</title>
+      </Head>
       <div className={styles.checkoutsHeader}>
         <h1 className={styles.checkoutsHeader__title}>Заказы</h1>
         <Button

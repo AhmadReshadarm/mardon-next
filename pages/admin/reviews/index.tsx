@@ -12,6 +12,7 @@ import {
   fetchReviews,
 } from '../../../redux/slicers/reviewsSlicer';
 import styles from './index.module.scss';
+import Head from 'next/head';
 
 const ReviewsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -48,6 +49,9 @@ const ReviewsPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Отзывы | NBHOZ</title>
+      </Head>
       <div className={styles.reviewsHeader}>
         <h1 className={styles.reviewsHeader__title}>Отзывы</h1>
       </div>

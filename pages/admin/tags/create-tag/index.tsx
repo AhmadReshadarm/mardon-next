@@ -3,6 +3,7 @@ import ManageTagForm from 'components/admin/tags/ManageTagForm';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchTags } from '../../../../redux/slicers/tagsSlicer';
+import Head from 'next/head';
 
 const CreateTag = () => {
   const title = 'Создание Коллекция';
@@ -10,12 +11,17 @@ const CreateTag = () => {
   const isSaveLoading = useAppSelector((state) => state.tags.saveLoading);
 
   return (
-    <ManageTagForm
-      title={title}
-      editMode={false}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>Администрирование {`>`} Создание Коллекция | NBHOZ</title>
+      </Head>
+      <ManageTagForm
+        title={title}
+        editMode={false}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

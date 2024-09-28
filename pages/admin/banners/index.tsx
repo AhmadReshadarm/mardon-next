@@ -6,12 +6,16 @@ import { useRouter } from 'next/router';
 import { Page } from 'routes/constants';
 
 import styles from './index.module.scss';
+import Head from 'next/head';
 
 const BannersPage = () => {
   const router = useRouter();
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Баннеры | NBHOZ</title>
+      </Head>
       <div className={styles.bannersHeader}>
         <h1 className={styles.bannersHeader__title}>Баннеры</h1>
         <Button

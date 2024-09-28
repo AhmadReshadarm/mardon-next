@@ -11,6 +11,7 @@ import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { NewsDataType } from 'common/interfaces/data-type.interface';
 import styles from './index.module.scss';
 import { navigateTo } from 'common/helpers';
+import Head from 'next/head';
 const NewsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { offset, setOffset } = useContext(AppContext);
@@ -48,6 +49,9 @@ const NewsPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Новости | NBHOZ</title>
+      </Head>
       <div className={styles.newsPostsHeader}>
         <h1 className={styles.newsPostsHeader__title}>Новости</h1>
         <Button

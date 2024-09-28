@@ -35,7 +35,7 @@ export const menueItems: TMenuItem[] = [
     paths[Page.ADMIN_BANNERS],
     <FundProjectionScreenOutlined />,
   ),
-  getItem('Настройки', '', <SettingOutlined />, [
+  getItem('Настройки', paths[Page.ADMIN_SETTINGS], <SettingOutlined />, [
     getItem('Пользователи', paths[Page.ADMIN_SETTINGS_USERS], <UserOutlined />),
     getItem(
       'Подписчики',
@@ -72,6 +72,8 @@ export const pathWords: PathWords = {
   'news/[id]': 'Редактирование Новости',
   settings: 'Настройки',
   'settings/users': 'Пользователи',
+  'settings/users/create-user': 'Создание пользователь',
+  'settings/subscribers': 'Подписчики',
   banners: 'Баннеры',
   'banners/update-banner': 'Обновление баннеров',
 };

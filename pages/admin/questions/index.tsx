@@ -11,6 +11,7 @@ import { TQuestionState } from 'redux/types';
 
 import styles from './index.module.scss';
 import { fetchQuestions } from 'redux/slicers/questionSlicer';
+import Head from 'next/head';
 
 const PAGE_ITEMS_LIMIT = 20;
 
@@ -48,6 +49,9 @@ const QuestionsPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Вопросы | NBHOZ</title>
+      </Head>
       {loading ? (
         <Spin className={styles.spinner} size="large" />
       ) : (

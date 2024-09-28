@@ -6,17 +6,17 @@ import {
   PayloadCreateImage,
   TImageState,
   FetchPayload,
-  RequestResponse,
+  // RequestResponse,
 } from 'redux/types';
 import { Image, ImageService, ImageResponse } from 'swagger/services';
 import {
   getErrorMassage,
   handleError,
   handlePending,
-  handleChangePending,
+  // handleChangePending,
   openErrorNotification,
 } from '../../common/helpers';
-import { handlePaginationDataFormatter } from 'redux/helpers';
+// import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchImages = createAsyncThunk<
   ImageResponse,

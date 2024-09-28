@@ -32,6 +32,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 import ExcelJs from 'exceljs';
+import Head from 'next/head';
 // _____________________________________________
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -242,6 +243,9 @@ const ProductsPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Продукты | NBHOZ</title>
+      </Head>
       <div className={styles.productsHeader}>
         <h1 className={styles.productsHeader__title}>Продукты</h1>
         <HeaderActionBtnWrapper>

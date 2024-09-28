@@ -2,14 +2,14 @@ import { Button, Image as ImageComp } from 'antd';
 import { CopyOutlined, EditOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
-import ActionButtons from '../generalComponents/ActionButtons';
 import { handleImageDelete, handleSelectedImage } from './helpers';
 import styles from './products.module.scss';
 import { AppDispatch } from 'redux/store';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { openErrorNotification } from 'common/helpers';
+import ActionButtons from 'components/admin/generalComponents/ActionButtons';
 
-export interface Image {
+export interface ImageProp {
   /**  */
   id?: string;
 
@@ -24,6 +24,7 @@ export interface Image {
 
   /**  */
   size?: number;
+  slideNum?: number;
   dispatch: AppDispatch;
   isProducts: boolean;
   setOpen: any;
@@ -31,7 +32,7 @@ export interface Image {
   offset: number;
 }
 
-export const columnsImages: ColumnsType<Image> = [
+export const columnsImages: ColumnsType<ImageProp> = [
   {
     title: 'Изображения',
     dataIndex: 'images',
@@ -82,7 +83,7 @@ export const columnsImages: ColumnsType<Image> = [
             onClick={() => {
               if (!navigator?.clipboard) {
                 console.warn('Clipboard not supported');
-                openErrorNotification('Нажмите, чтобы скопировать URL');
+                openErrorNotification('Буфер обмена не поддерживается');
                 return false;
               }
               navigator.clipboard.writeText(`/api/images/${record.filename}`);
@@ -97,10 +98,11 @@ export const columnsImages: ColumnsType<Image> = [
             onClick={() =>
               handleSelectedImage(
                 record.filename!,
-                record.dispatch,
                 record.isProducts,
-                record.setOpen,
+                record.dispatch,
                 record.prodcutVariantIndex,
+                record.setOpen,
+                record.slideNum,
               )
             }
           />

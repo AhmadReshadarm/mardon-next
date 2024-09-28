@@ -17,6 +17,7 @@ import {
   clearChosenProduct,
   fetchChosenProduct,
 } from '../../../redux/slicers/productsSlicer';
+import Head from 'next/head';
 
 const ManageProduct = () => {
   const title = 'Редактирование продукта';
@@ -62,18 +63,25 @@ const ManageProduct = () => {
   }, [dispatch, router.query]);
 
   return (
-    <ManageProductForm
-      tags={tags}
-      // sizes={sizes}
-      categories={filteredCategories}
-      colors={colors}
-      title={title}
-      editMode={true}
-      products={filteredProducts}
-      product={product}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Продукты {`>`} Редактирование продукта | NBHOZ
+        </title>
+      </Head>
+      <ManageProductForm
+        tags={tags}
+        // sizes={sizes}
+        categories={filteredCategories}
+        colors={colors}
+        title={title}
+        editMode={true}
+        products={filteredProducts}
+        product={product}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
 import { TProductInfoState } from 'redux/types';
 import styled from 'styled-components';
 import Review from 'components/store/product/reviewsAndQuastions/reviews/Reviews';
+import Head from 'next/head';
 
 const ProductReviewsPage = () => {
   const { product } = useAppSelector<TProductInfoState>(
@@ -22,11 +23,18 @@ const ProductReviewsPage = () => {
   }, [router.query]);
 
   return (
-    <ContentContainer>
-      <ContentWrapper style={{ alignItems: 'flex-start' }}>
-        <Review product={product} />
-      </ContentWrapper>
-    </ContentContainer>
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Отзывы {`>`} редактирование обзора | NBHOZ
+        </title>
+      </Head>
+      <ContentContainer>
+        <ContentWrapper style={{ alignItems: 'flex-start' }}>
+          <Review product={product} />
+        </ContentWrapper>
+      </ContentContainer>
+    </>
   );
 };
 

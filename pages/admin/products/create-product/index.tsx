@@ -1,6 +1,7 @@
 import { basicRequestParams } from 'common/constants';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageProductForm from 'components/admin/products/ManageProductsForm';
+import Head from 'next/head';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearBrands, fetchBrands } from 'redux/slicers/brandsSlicer';
@@ -42,17 +43,25 @@ const CreateProduct = () => {
   }, [dispatch]);
 
   return (
-    <ManageProductForm
-      tags={tags}
-      // sizes={sizes}
-      categories={filteredCategories}
-      colors={colors}
-      title={title}
-      editMode={false}
-      products={products}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Продукты {`>`} Создание продукта | NBHOZ
+        </title>
+      </Head>
+
+      <ManageProductForm
+        tags={tags}
+        // sizes={sizes}
+        categories={filteredCategories}
+        colors={colors}
+        title={title}
+        editMode={false}
+        products={products}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

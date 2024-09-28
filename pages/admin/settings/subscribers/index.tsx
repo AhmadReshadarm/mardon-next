@@ -15,6 +15,7 @@ import {
 import { TSubscribers } from 'redux/types';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Head from 'next/head';
 const Subscribers = () => {
   const dispatch = useAppDispatch();
   const { Subscribers, loading } = useAppSelector<TSubscribers>(
@@ -38,6 +39,11 @@ const Subscribers = () => {
 
   return (
     <>
+      <Head>
+        <title>
+          Администрирование {`>`} Настройки {`>`} Подписчики | NBHOZ
+        </title>
+      </Head>
       <DownloadBtnsWrapper>
         <div className="action-button-intiator-wrapper">
           <button

@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import CloseSVG from '../../assets/close_black.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageDBList } from 'redux/slicers/imagesSlicer';
-import { Spin } from 'antd';
-import { Pagination } from 'antd';
 import { fetchImages } from 'redux/slicers/imagesSlicer';
-import Files from './Files';
+import { Pagination, Table } from 'antd';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { DataType } from 'common/interfaces/data-type.interface';
+import { columnsImages } from './constantsImages';
+import { emptyLoading } from 'common/constants';
+import { dumyDataLoader } from './dumyDataLoader';
 
 type Props = {
   setOpen: any;
@@ -25,21 +28,18 @@ const DatabaseImages = ({
   slideNum,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const imageDBs = useAppSelector((state) => state.images.imageListInDB);
-  const isLoadingImageDB = useAppSelector((state) => state.images.loading);
-  const paginationLength = useAppSelector(
-    (state) => state.images.paginationLength,
+  const { imageListInDB, loading, paginationLength } = useAppSelector(
+    (state) => state.images,
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize]: [number, any] = useState(9);
+  const [pageSize, setPageSize]: [number, any] = useState(20);
 
   useEffect(() => {
-    setCurrentPage(1);
     dispatch(
       fetchImages({
-        offset: `0`,
-        limit: `${pageSize}`,
+        offset: String(0),
+        limit: '20',
       }),
     );
     return () => {
@@ -47,20 +47,41 @@ const DatabaseImages = ({
     };
   }, []);
 
-  const handlePageChange = (
-    page: number,
-    pageSize: number,
-    current: number,
-  ) => {
-    setPageSize(pageSize);
-    setCurrentPage(current);
+  const dataSource = imageListInDB?.map(({ id, filename, originalName }) => {
+    return {
+      key: id,
+      filename,
+      originalName,
+      url: `/api/images/${filename}`,
+      isProducts,
+      setOpen,
+      slideNum,
+      prodcutVariantIndex,
+      dispatch,
+      offset: pageSize,
+    };
+  }) as unknown as DataType[];
+  const [byFileName, setByFileName] = useState(false);
+  const fetchImagesWithSearch = (evt) => {
     dispatch(
       fetchImages({
-        offset: `${pageSize * (page - 1)}`,
-        limit: `${pageSize}`,
+        offset: String(0),
+        limit: '20',
+        originalName: !byFileName ? evt.target.value : '',
+        filename: byFileName ? evt.target.value : '',
       }),
     );
+    return () => {
+      dispatch(clearImageDBList());
+    };
   };
+
+  const dumyDataSource = emptyLoading.map((item, index) => {
+    return {
+      key: index,
+      index: String(index),
+    };
+  });
 
   return (
     <Contaienr style={{ display: isOpen ? 'flex' : 'none' }}>
@@ -68,38 +89,77 @@ const DatabaseImages = ({
         <CloseBtn onClick={() => setOpen(false)}>
           <CloseSVG />
         </CloseBtn>
-        <ImagesWrapper>
-          {!isLoadingImageDB ? (
-            imageDBs.map((image: any, index) => {
-              return (
-                <Files
-                  key={index}
-                  prodcutVariantIndex={prodcutVariantIndex}
-                  image={image}
-                  index={index}
-                  isProducts={isProducts}
-                  setOpen={setOpen}
-                  slideNum={slideNum}
-                />
-              );
-            })
-          ) : (
-            <Spin
-              style={{ display: 'block', marginTop: '100px' }}
-              size="large"
+
+        {loading ? (
+          <TableWrapper>
+            <Table
+              scroll={{
+                y: 768,
+              }}
+              columns={
+                dumyDataLoader as (
+                  | ColumnGroupType<{ index: string }>
+                  | ColumnType<{ index: string }>
+                )[]
+              }
+              pagination={false}
+              dataSource={dumyDataSource}
             />
-          )}
-        </ImagesWrapper>
-        <Pagination
-          style={{ marginTop: '20px' }}
-          defaultCurrent={currentPage}
-          total={paginationLength}
-          pageSize={pageSize}
-          pageSizeOptions={[9, 18, 27, 50, 100]}
-          onChange={(current, pageSize) => {
-            handlePageChange(current, pageSize, current);
-          }}
-        />
+          </TableWrapper>
+        ) : (
+          <TableWrapper>
+            <Table
+              scroll={{
+                y: 768,
+              }}
+              columns={
+                columnsImages as (
+                  | ColumnGroupType<DataType>
+                  | ColumnType<DataType>
+                )[]
+              }
+              pagination={false}
+              dataSource={dataSource}
+            />
+          </TableWrapper>
+        )}
+        <FooterWrapper>
+          <div className="input-wrapper">
+            <input
+              className="image-search-input"
+              type="text"
+              placeholder={byFileName ? 'Имя файла' : 'Имя изображения'}
+              onChange={fetchImagesWithSearch}
+            />
+            <label className="image-seach-check-by-file-name">
+              <input
+                onChange={() => setByFileName(!byFileName)}
+                type="checkbox"
+              />
+              <span>Поиск по имени файла</span>
+            </label>
+          </div>
+
+          <Pagination
+            current={currentPage}
+            total={paginationLength}
+            pageSize={pageSize}
+            pageSizeOptions={[12, 24, 36, 50, 100]}
+            onChange={(current, pageSize) => {
+              setPageSize(pageSize);
+              setCurrentPage(current);
+              dispatch(
+                fetchImages({
+                  offset: String((current - 1) * pageSize),
+                  limit: String(pageSize),
+                }),
+              );
+              return () => {
+                dispatch(clearImageDBList());
+              };
+            }}
+          />
+        </FooterWrapper>
       </Wrapper>
     </Contaienr>
   );
@@ -121,12 +181,12 @@ const Contaienr = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 40px;
   background-color: ${color.textPrimary};
   border-radius: 25px;
@@ -135,88 +195,46 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const ImagesWrapper = styled.ul`
+const FooterWrapper = styled.div`
   width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  grid-gap: 50px;
-  li {
-    width: 200px;
-    height: 250px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .input-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-
-    .image-container {
-      width: 100%;
-      height: 100%;
-      transition: 150ms;
-      &:hover {
-        transform: scale(1.05);
-      }
-      img {
-        width: 100%;
-        height: 100%;
-        max-height: 200px;
-        object-fit: cover;
-        border-radius: 5px;
-        cursor: pointer;
-        background: no-repeat url('/not_found.jpg');
-        background-size: cover;
-        font-size: 0;
-      }
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    .image-search-input {
+      width: 300px;
+      height: 50px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      border: 1px solid #00000042;
     }
-    .title-wrapper {
-      width: 100%;
+    .image-seach-check-by-file-name {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: flex-start;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
-      position: relative;
-      .file-name {
-        cursor: pointer;
-      }
-      .notification-copy {
-        width: 80%;
-        position: absolute;
-        top: 30px;
-        right: 15px;
-        border-radius: 3px;
-        padding: 5px;
-        box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-        background-color: ${color.bgProduct};
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        transition: 300ms;
-      }
-      span {
-        text-align: center;
-      }
-      .delete-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        transition: 150ms;
-        &:hover {
-          transform: scale(1.05);
-        }
-        span {
-          color: ${color.hover};
-        }
-      }
     }
+  }
+`;
+
+const TableWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  min-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  .ant-table-body {
+    max-height: 700px !important;
   }
 `;
 
@@ -231,8 +249,9 @@ const CloseBtn = styled.span`
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: -30px;
-  top: -30px;
+  right: 0px;
+  top: 0px;
+  z-index: 9;
 `;
 
 export default DatabaseImages;

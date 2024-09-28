@@ -8,6 +8,7 @@ import {
   fetchTag,
   fetchTags,
 } from '../../../redux/slicers/tagsSlicer';
+import Head from 'next/head';
 
 const EditTag = () => {
   const title = 'Редактирование Коллекция';
@@ -27,13 +28,18 @@ const EditTag = () => {
   }, [dispatch, router.query]);
 
   return (
-    <ManageTagForm
-      title={title}
-      editMode={true}
-      tag={tag}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>Администрирование {`>`} Редактирование Коллекция | NBHOZ</title>
+      </Head>
+      <ManageTagForm
+        title={title}
+        editMode={true}
+        tag={tag}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

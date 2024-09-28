@@ -24,7 +24,7 @@ import {
 import { ManageCategoryFields } from './ManageCategoryFields.enum';
 import DatabaseImages from 'ui-kit/DatabaseImages';
 import styled from 'styled-components';
-import { handleFalsyValuesCheck } from 'common/helpers/handleFalsyValuesCheck.helper';
+// import { handleFalsyValuesCheck } from 'common/helpers/handleFalsyValuesCheck.helper';
 
 const { Option } = Select;
 
@@ -94,6 +94,7 @@ const ManageCategoryForm = ({
   //   imageList,
   // );
   const [isOpen, setOpen] = useState(false);
+
   return (
     <>
       <div className={styles.createCategoryHeader}>
@@ -137,6 +138,7 @@ const ManageCategoryForm = ({
               <Input
                 required={true}
                 placeholder="Введите URL категории"
+                disabled={editMode}
                 // onChange={(e) => setUrl(e.target.value)}
               />
             }
@@ -157,11 +159,15 @@ const ManageCategoryForm = ({
                   )}
                 </ButtonDevider>
 
-                <DatabaseImages
-                  isProducts={false}
-                  setOpen={setOpen}
-                  isOpen={isOpen}
-                />
+                {isOpen ? (
+                  <DatabaseImages
+                    isProducts={false}
+                    setOpen={setOpen}
+                    isOpen={isOpen}
+                  />
+                ) : (
+                  ''
+                )}
               </>
             }
           />
@@ -172,6 +178,7 @@ const ManageCategoryForm = ({
             <Select
               onChange={handleChangeParent(setHasParent)}
               defaultValue="Не выбрано"
+              disabled={editMode}
             >
               <Option value="">Не выбрано</Option>
               {categories?.map((category) => (

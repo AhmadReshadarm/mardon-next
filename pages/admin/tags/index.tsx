@@ -13,6 +13,7 @@ import { Page } from 'routes/constants';
 
 import { clearTags, fetchTags } from '../../../redux/slicers/tagsSlicer';
 import styles from './index.module.scss';
+import Head from 'next/head';
 
 const TagsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -45,6 +46,9 @@ const TagsPage = () => {
   }, []);
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Коллекция | NBHOZ</title>
+      </Head>
       <div className={styles.tagsHeader}>
         <h1 className={styles.tagsHeader__title}>Коллекция</h1>
         <Button

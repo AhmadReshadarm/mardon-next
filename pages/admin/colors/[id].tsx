@@ -9,6 +9,7 @@ import {
   fetchChosenColor,
   clearChosenColor,
 } from '../../../redux/slicers/colorsSlicer';
+import Head from 'next/head';
 
 const ManageColor = () => {
   const title = 'Редактирование цвета';
@@ -34,14 +35,21 @@ const ManageColor = () => {
   }, [dispatch, router.query]);
 
   return (
-    <ManageColorForm
-      title={title}
-      editMode={true}
-      colors={filteredColors}
-      color={color}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Цвета {`>`} Редактирование Цвета | NBHOZ
+        </title>
+      </Head>
+      <ManageColorForm
+        title={title}
+        editMode={true}
+        colors={filteredColors}
+        color={color}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

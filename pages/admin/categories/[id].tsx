@@ -11,6 +11,7 @@ import {
   fetchCategories,
   fetchCategory,
 } from '../../../redux/slicers/categoriesSlicer';
+import Head from 'next/head';
 
 const EditCategory = () => {
   const title = 'Редактирование категории';
@@ -42,14 +43,22 @@ const EditCategory = () => {
   }, [dispatch, router.query]);
 
   return (
-    <ManageCategoryForm
-      title={title}
-      editMode={true}
-      categories={filteredCategories}
-      category={category}
-      isLoading={isLoading}
-      isSaveLoading={isSaveLoading}
-    />
+    <>
+      <Head>
+        <title>
+          Администрирование {`>`} Категории {`>`} Редактирование категории |
+          NBHOZ
+        </title>
+      </Head>
+      <ManageCategoryForm
+        title={title}
+        editMode={true}
+        categories={filteredCategories}
+        category={category}
+        isLoading={isLoading}
+        isSaveLoading={isSaveLoading}
+      />
+    </>
   );
 };
 

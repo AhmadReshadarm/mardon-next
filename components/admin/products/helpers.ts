@@ -10,18 +10,12 @@ import { NextRouter } from 'next/router';
 import { Page, paths } from 'routes/constants';
 import { TableProps } from 'antd';
 import { DataType } from 'common/interfaces/data-type.interface';
-import { Category, Image, ParameterProduct, Product } from 'swagger/services';
+import { Category, ParameterProduct, Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { ManageProductFields } from './ManageProductsFields.enum';
-import {
-  createImage,
-  deleteImage,
-  fetchImages,
-  setDefaultSingleImageList,
-} from 'redux/slicers/imagesSlicer';
+import { createImage } from 'redux/slicers/imagesSlicer';
 import { onLocationChange } from 'components/store/catalog/helpers';
-import { setDefaultImageList } from 'redux/slicers/mutipleImagesSlicer';
 const handleDeleteProduct =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
   async () => {
@@ -249,45 +243,6 @@ async function uploadImage(file, dispatch) {
   });
 }
 
-const handleImageDelete =
-  (fileName: string, dispatch: AppDispatch, offset: number) => async () => {
-    const isSaved: any = await dispatch(deleteImage({ fileName }));
-    if (!isSaved.error) {
-      dispatch(
-        fetchImages({
-          offset: String(offset),
-          limit: '20',
-        }),
-      );
-    }
-  };
-
-const handleSelectedImage = (
-  fileName: string,
-  dispatch: AppDispatch,
-  isProducts,
-  setOpen,
-  prodcutVariantIndex,
-) => {
-  if (isProducts) {
-    dispatch(
-      setDefaultImageList({
-        file: { name: fileName, url: `/api/images/${fileName}` },
-        index: prodcutVariantIndex,
-      }),
-    );
-  } else {
-    dispatch(
-      setDefaultSingleImageList({
-        name: fileName,
-        url: `/api/images/${fileName}`,
-      }),
-    );
-  }
-
-  setOpen(false);
-};
-
 export {
   handleDeleteProduct,
   handleFormSubmitProduct,
@@ -297,6 +252,4 @@ export {
   handleParameterChange,
   handleCategoryChange,
   uploadImage,
-  handleImageDelete,
-  handleSelectedImage,
 };

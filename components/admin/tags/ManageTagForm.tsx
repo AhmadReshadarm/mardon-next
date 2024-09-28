@@ -82,6 +82,7 @@ const ManageTagForm = ({
                 required={true}
                 placeholder="Введите URL Коллекция"
                 onChange={(e) => setUrl(e.target.value)}
+                disabled={editMode}
               />
             }
           />

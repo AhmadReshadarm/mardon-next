@@ -16,6 +16,7 @@ import {
   fetchCategories,
 } from '../../../redux/slicers/categoriesSlicer';
 import styles from './index.module.scss';
+import Head from 'next/head';
 
 const CategoriesPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -57,6 +58,9 @@ const CategoriesPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Администрирование {`>`} Категории | NBHOZ</title>
+      </Head>
       <div className={styles.categoriesHeader}>
         <h1 className={styles.categoriesHeader__title}>Категории</h1>
         <Button

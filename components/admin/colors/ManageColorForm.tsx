@@ -102,6 +102,7 @@ const ManageColorForm = ({
                 required={true}
                 placeholder="Введите URL цвета"
                 onChange={(e) => setUrl(e.target.value)}
+                disabled={editMode}
               />
             }
           />
