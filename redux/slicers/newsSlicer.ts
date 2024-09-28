@@ -140,7 +140,6 @@ const newsSlicer = createSlice({
         state.newsLenght = action.payload.length;
         // handlePaginationDataFormatter(action);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchNewsposts.rejected, handleError)
       //fetchNews by ID
@@ -148,7 +147,6 @@ const newsSlicer = createSlice({
       .addCase(fetchNewsById.fulfilled, (state, action) => {
         state.news = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchNewsById.rejected, handleError)
       //fetchNews by URL
@@ -156,7 +154,6 @@ const newsSlicer = createSlice({
       .addCase(fetchNewsByUrl.fulfilled, (state, action) => {
         state.news = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchNewsByUrl.rejected, handleError)
       //createNews
@@ -164,7 +161,6 @@ const newsSlicer = createSlice({
       .addCase(createNews.fulfilled, (state) => {
         state.saveLoading = false;
         openSuccessNotification('Новости успешно создан');
-        console.log('fulfilled');
       })
       .addCase(createNews.rejected, handleChangeError)
       //editNews
@@ -179,7 +175,6 @@ const newsSlicer = createSlice({
         };
         openSuccessNotification('Новости успешно обновлен');
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(editNews.rejected, handleChangeError)
       //deleteNews
@@ -190,7 +185,6 @@ const newsSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Новости успешно удален');
-        console.log('fulfilled');
       })
       .addCase(deleteNews.rejected, handleChangeError);
   },

@@ -228,14 +228,14 @@ const ProductsPage = () => {
               setLoadingData(false);
               seLoadingProgress(0);
             } catch (error) {
-              console.log(error);
+              // console.log(error);
             }
           }
         };
         productIteration();
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
 

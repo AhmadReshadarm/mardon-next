@@ -133,7 +133,6 @@ const productsSlicer = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.products = handlePaginationDataFormatter(action);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchProducts.rejected, handleError)
       //fetchChosenProduct
@@ -141,7 +140,6 @@ const productsSlicer = createSlice({
       .addCase(fetchChosenProduct.fulfilled, (state, action) => {
         state.chosenProduct = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchChosenProduct.rejected, handleError)
       //createProduct
@@ -149,7 +147,6 @@ const productsSlicer = createSlice({
       .addCase(createProduct.fulfilled, (state) => {
         state.saveLoading = false;
         openSuccessNotification('Продукт успешно создан');
-        console.log('fulfilled');
       })
       .addCase(createProduct.rejected, handleChangeError)
       //editProduct
@@ -164,7 +161,6 @@ const productsSlicer = createSlice({
         };
         openSuccessNotification('Продукт успешно обновлен');
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(editProduct.rejected, handleChangeError)
       //deleteProduct
@@ -175,7 +171,6 @@ const productsSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Продукт успешно удален');
-        console.log('fulfilled');
       })
       .addCase(deleteProduct.rejected, handleChangeError);
   },

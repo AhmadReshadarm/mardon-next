@@ -180,7 +180,6 @@ export const searchProducts = createAsyncThunk<
 
 const handleProductsPending = (state: { productsLoading: boolean }) => {
   state.productsLoading = true;
-  console.log('pending');
 };
 
 const handleProductsError = (
@@ -189,7 +188,6 @@ const handleProductsError = (
 ) => {
   state.productsLoading = false;
   openErrorNotification(action.payload);
-  console.log('rejected');
 };
 
 const initialState: TGlobalState = {

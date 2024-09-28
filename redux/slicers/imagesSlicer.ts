@@ -164,7 +164,6 @@ const imageSlicer = createSlice({
         state.imageListInDB = action.payload.rows;
         state.paginationLength = action.payload.length;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchImages.rejected, handleError)
       //createImage
@@ -181,7 +180,6 @@ const imageSlicer = createSlice({
           state.imageList.push(action.payload as any);
         }
         openSuccessNotification('Изображение успешно загружено');
-        console.log('fulfilled');
       })
       .addCase(createImage.rejected, handleError)
       //createSigleImage
@@ -190,7 +188,6 @@ const imageSlicer = createSlice({
         state.loading = false;
         state.singleImage = action.payload;
         openSuccessNotification('Изображение успешно загружено');
-        console.log('fulfilled');
       })
       .addCase(createSigleImage.rejected, handleError)
       //deleteImage
@@ -201,7 +198,6 @@ const imageSlicer = createSlice({
         );
         openSuccessNotification('Изображение успешно удален');
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteImage.rejected, (state, action) => {
         state.loading = false;

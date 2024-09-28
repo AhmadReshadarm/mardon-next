@@ -180,21 +180,18 @@ const subscriberSlicer = createSlice({
         state.Subscribers = action.payload;
         state.SubscriberLenght = action.payload.length;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchSubscribers.rejected, handleError)
       //fetchSubscribersInExcelFile
       .addCase(fetchSubscribersInExcelFile.pending, handlePending)
       .addCase(fetchSubscribersInExcelFile.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchSubscribersInExcelFile.rejected, handleError)
       //fetchSubscribersInJsonFile
       .addCase(fetchSubscribersInJsonFile.pending, handlePending)
       .addCase(fetchSubscribersInJsonFile.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchSubscribersInJsonFile.rejected, handleError)
       //fetchSubscriberByEmail
@@ -202,12 +199,10 @@ const subscriberSlicer = createSlice({
       .addCase(fetchSubscriberByEmail.fulfilled, (state, action) => {
         state.Subscriber = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchSubscriberByEmail.rejected, (state, action) => {
         state.Subscriber = null;
         state.loading = false;
-        console.log('rejected');
       })
       //createSubscriber
       .addCase(createSubscriber.pending, handlePending)
@@ -215,7 +210,6 @@ const subscriberSlicer = createSlice({
         state.Subscriber = action.payload;
         openSuccessNotification('Вы успешно подписаны');
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(createSubscriber.rejected, handleError)
       //sendAdminCallEmail
@@ -225,7 +219,6 @@ const subscriberSlicer = createSlice({
           'Мы получили вашу контактную информацию и свяжемся с вами как можно скоро',
         );
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(sendAdminCallEmail.rejected, handleError)
       //deleteSubscriber
@@ -234,7 +227,6 @@ const subscriberSlicer = createSlice({
         state.Subscriber = null;
         state.saveLoading = false;
         openSuccessNotification('Вы отписались от нашей рассылки');
-        console.log('fulfilled');
       })
       .addCase(deleteSubscriber.rejected, handleChangeError);
   },

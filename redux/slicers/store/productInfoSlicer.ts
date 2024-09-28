@@ -627,7 +627,6 @@ const productInfoSlicer = createSlice({
       .addCase(fetchProduct.fulfilled, (state, action) => {
         state.product = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchProduct.rejected, handleError)
       //createReviewReaction
@@ -638,7 +637,6 @@ const productInfoSlicer = createSlice({
         );
         review?.reactions?.push(action.payload);
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(createReviewReaction.rejected, handleError)
       //deleteReviewReaction
@@ -653,7 +651,6 @@ const productInfoSlicer = createSlice({
           );
         }
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteReviewReaction.rejected, handleError)
       //createCommentReaction
@@ -671,7 +668,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(createCommentReaction.rejected, handleError)
       //deleteCommentReaction
@@ -691,7 +687,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteCommentReaction.rejected, handleError)
       //deleteReview
@@ -704,7 +699,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteReview.rejected, handleError)
       //deleteComment
@@ -720,7 +714,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteComment.rejected, handleError)
       //createReview
@@ -813,7 +806,6 @@ const productInfoSlicer = createSlice({
         );
         question?.reactions?.push(action.payload);
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(createQuestionReaction.rejected, handleError)
       //deleteQuestionReaction
@@ -828,7 +820,6 @@ const productInfoSlicer = createSlice({
           );
         }
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteQuestionReaction.rejected, handleError)
       //createQuestionComment
@@ -856,7 +847,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteQuestionComment.rejected, handleError)
       //createQuestionCommentReaction
@@ -874,7 +864,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(createQuestionCommentReaction.rejected, handleError)
       //deleteCommentReaction
@@ -894,7 +883,6 @@ const productInfoSlicer = createSlice({
         }
 
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteQuestionCommentReaction.rejected, handleError)
       //fetchProductsWithQuestions
@@ -904,7 +892,6 @@ const productInfoSlicer = createSlice({
         state.productsLength = action.payload.length!;
 
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchProductsWithQuestions.rejected, handleError);
   },

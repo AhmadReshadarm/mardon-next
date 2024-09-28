@@ -131,7 +131,6 @@ const checkoutsSlicer = createSlice({
       .addCase(fetchCheckouts.fulfilled, (state, action) => {
         state.checkouts = handlePaginationDataFormatter(action);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCheckouts.rejected, handleError)
       //fetchCheckoutById
@@ -139,7 +138,6 @@ const checkoutsSlicer = createSlice({
       .addCase(fetchCheckoutById.fulfilled, (state, action) => {
         state.checkout = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCheckoutById.rejected, handleError)
       //updateCheckout
@@ -147,7 +145,6 @@ const checkoutsSlicer = createSlice({
       .addCase(updateCheckout.fulfilled, (state, action) => {
         state.checkout = action.payload;
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(updateCheckout.rejected, handleError)
       //deleteCheckout
@@ -158,7 +155,6 @@ const checkoutsSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Заказ успешно удален');
-        console.log('fulfilled');
       })
       .addCase(deleteCheckout.rejected, handleChangeError);
   },

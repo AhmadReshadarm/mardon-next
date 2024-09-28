@@ -93,7 +93,6 @@ const reviewsSlicer = createSlice({
         state.reviews = handlePaginationDataFormatter(action);
         state.reviewsLenght = action.payload.length;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchReviews.rejected, handleError)
       //deleteReview
@@ -104,7 +103,6 @@ const reviewsSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Комментарий успешно удален');
-        console.log('fulfilled');
       })
       .addCase(deleteReview.rejected, handleChangeError);
   },

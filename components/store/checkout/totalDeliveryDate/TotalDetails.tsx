@@ -68,7 +68,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
         router.push('/checkout/after-checkout');
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
         openErrorNotification('Ваш Заказ не прошел, Попробуйте еще раз');
       }
@@ -119,8 +118,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
         router.push('/orders');
         setLoading(false);
       } catch (error) {
-        console.log(error);
-
         setLoading(false);
         openErrorNotification('Ваш Заказ не прошел');
       }

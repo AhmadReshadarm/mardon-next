@@ -63,7 +63,6 @@ const profileSlicer = createSlice({
       .addCase(fetchUserReviews.fulfilled, (state, action) => {
         state.reviews = action.payload.rows;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchUserReviews.rejected, handleError)
       //updateReview

@@ -147,9 +147,7 @@ const Header = () => {
         try {
           const wishlist = await axiosInstance.post('/wishlists');
           localStorage.setItem('wishlistId', wishlist.data.id);
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       };
       createWishlistId();
     }

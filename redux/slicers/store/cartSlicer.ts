@@ -103,7 +103,6 @@ const cartSlicer = createSlice({
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.cart = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCart.rejected, handleError)
       //createCart
@@ -115,25 +114,21 @@ const cartSlicer = createSlice({
         };
         localStorage.setItem('basketId', action.payload.id!);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(createCart.rejected, handleError)
       //updateCart
       .addCase(updateCart.pending, (state: { countLoading: boolean }) => {
         state.countLoading = true;
-        console.log('pending');
       })
       .addCase(updateCart.fulfilled, (state, action) => {
         state.cart = action.payload;
         localStorage.setItem('basketId', action.payload.id!);
         state.countLoading = false;
-        console.log('fulfilled');
       }) // clearCart
       .addCase(clearCart.pending, handlePending)
       .addCase(clearCart.fulfilled, (state, action) => {
         state.cart = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(updateCart.rejected, handleError);
   },

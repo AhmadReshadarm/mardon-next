@@ -92,7 +92,6 @@ const homePageSlicer = createSlice({
       .addCase(fetchReviews.fulfilled, (state, action) => {
         state.reviews = action.payload.rows!;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchReviews.rejected, handleError)
       //fetchBrands
@@ -100,7 +99,6 @@ const homePageSlicer = createSlice({
       .addCase(fetchBrands.fulfilled, (state, action) => {
         state.brands = action.payload.rows!;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchBrands.rejected, handleError)
       //fetchBrands
@@ -108,7 +106,6 @@ const homePageSlicer = createSlice({
       .addCase(fetchBanner.fulfilled, (state, action) => {
         state.banner = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchBanner.rejected, handleError);
   },

@@ -49,12 +49,10 @@ export const getServerSideProps = (async () => {
   setTimeout(() => {
     fs.unlink(`./public/temp/${slides[0].image}`, (err) => {
       if (err) {
-        console.log(err);
       }
     });
     fs.unlink(`./public/temp/${caroselImages[0]}`, (err) => {
       if (err) {
-        console.log(err);
       }
     });
   }, 20000);
@@ -77,9 +75,9 @@ export const getServerSideProps = (async () => {
     const imgBlob = await respSlides.blob();
     const buffer = Buffer.from(await imgBlob.arrayBuffer());
 
-    fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () =>
-      console.log('image saved'),
-    );
+    fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () => {
+      //  console.log('image saved')
+    });
 
     // --------------------------
 
@@ -89,13 +87,15 @@ export const getServerSideProps = (async () => {
     const imgCaroselBlob = await respCarosel.blob();
     const bufferCarosel = Buffer.from(await imgCaroselBlob.arrayBuffer());
 
-    fs.writeFile(`./public/temp/${caroselImages[0]}`, bufferCarosel, () =>
-      console.log('image saved'),
+    fs.writeFile(
+      `./public/temp/${caroselImages[0]}`,
+      bufferCarosel,
+      () => {},
+      // console.log('image saved'),
     );
 
     return { props: { slides, caroselProducts: caroselProducts.rows } };
   } catch (error) {
-    console.log(error);
     return { props: { slides: [], caroselProducts: [] } };
   }
 }) as GetServerSideProps<{ slides: Slide[]; caroselProducts: Product[] }>;

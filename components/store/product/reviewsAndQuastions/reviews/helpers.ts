@@ -59,9 +59,7 @@ const handleFileChange = async (
           file: fileObj[i],
         }),
       );
-    } catch (error: any) {
-      console.log(error);
-    }
+    } catch (error: any) {}
   }
   setSrc(imagesUrl);
 };

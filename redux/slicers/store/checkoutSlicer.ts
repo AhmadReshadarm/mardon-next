@@ -82,24 +82,19 @@ const storeCheckoutSlicer = createSlice({
       .addCase(fetchCheckouts.fulfilled, (state, action) => {
         state.checkouts = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCheckouts.rejected, (state, action) => {
         state.checkouts = initialState.checkouts;
         state.loading = false;
-
-        console.log('rejected');
       })
       // fetchAddress
       .addCase(fetchAddress.pending, handlePending)
       .addCase(fetchAddress.fulfilled, (state, action) => {
         state.deliveryInfo = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchAddress.rejected, (state, action) => {
         state.loading = false;
-        console.log('rejected');
       });
   },
 });

@@ -57,7 +57,6 @@ export const handleFormSubmitBanner =
 // let counter = 0;
 // const handleSlideDataUpload = async (slidesData, dispatch) => {
 //   if (slidesData.length > counter) {
-//     console.log(slidesData.length, counter);
 
 //     await dispatch(updateSlides(slidesData[counter]));
 //     handleSlideDataUpload(slidesData, dispatch);

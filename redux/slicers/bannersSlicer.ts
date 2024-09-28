@@ -122,7 +122,6 @@ const bannersSlicer = createSlice({
     clearBanners(state) {
       state.advertisement = [];
       state.slides = [];
-      console.log('Banners cleared!');
     },
   },
   extraReducers: (builder) => {
@@ -134,7 +133,6 @@ const bannersSlicer = createSlice({
       .addCase(fetchAdvertisement.fulfilled, (state, action) => {
         state.advertisement = action.payload as unknown as Advertisement[];
         state.advertisementLoading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchAdvertisement.rejected, handleError)
       //updateAdvertisement
@@ -143,7 +141,6 @@ const bannersSlicer = createSlice({
         state.advertisement = action.payload as unknown as Advertisement[];
         state.saveLoading = false;
         openSuccessNotification('Баннер успешно обновлен');
-        console.log('fulfilled');
       })
       .addCase(updateAdvertisement.rejected, handleChangeError)
       //fetchSlides
@@ -151,7 +148,6 @@ const bannersSlicer = createSlice({
       .addCase(fetchSlides.fulfilled, (state, action) => {
         state.slides = action.payload as unknown as Slide[];
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchSlides.rejected, handleError)
       //createSlides
@@ -159,7 +155,6 @@ const bannersSlicer = createSlice({
       .addCase(createSlide.fulfilled, (state, action) => {
         state.saveLoading = false;
         openSuccessNotification('Баннер успешно создан');
-        console.log('fulfilled');
       })
       .addCase(createSlide.rejected, handleChangeError)
       //updateSlides
@@ -168,7 +163,6 @@ const bannersSlicer = createSlice({
         state.slides = action.payload as unknown as Slide[];
         state.saveLoading = false;
         openSuccessNotification('Баннер успешно обновлен');
-        console.log('fulfilled');
       })
       .addCase(updateSlides.rejected, handleChangeError);
   },

@@ -118,7 +118,6 @@ const categoriesSlicer = createSlice({
   initialState,
   reducers: {
     clearCategories(state) {
-      console.log('Categories cleared!');
       state.categories = [];
     },
     clearCategory(state) {
@@ -132,7 +131,6 @@ const categoriesSlicer = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = handlePaginationDataFormatter(action);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCategories.rejected, handleError)
       //fetchCategory
@@ -140,7 +138,6 @@ const categoriesSlicer = createSlice({
       .addCase(fetchCategory.fulfilled, (state, action) => {
         state.category = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchCategory.rejected, handleError)
       //createCategory
@@ -148,7 +145,6 @@ const categoriesSlicer = createSlice({
       .addCase(createCategory.fulfilled, (state) => {
         state.saveLoading = false;
         openSuccessNotification('Категория успешно создана');
-        console.log('fulfilled');
       })
       .addCase(createCategory.rejected, handleChangeError)
       //editCategory
@@ -163,7 +159,6 @@ const categoriesSlicer = createSlice({
         };
         openSuccessNotification('Категория успешно обновлена');
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(editCategory.rejected, handleChangeError)
       //deleteCategory
@@ -174,7 +169,6 @@ const categoriesSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Категория успешно удалена');
-        console.log('fulfilled');
       })
       .addCase(deleteCategory.rejected, () => {
         openErrorNotification(

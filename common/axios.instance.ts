@@ -36,7 +36,6 @@ axiosInstance.interceptors.request.use(async function (config) {
     //       localStorage.setItem('accessToken', response.data.accessToken);
     //       accessToken = response.data.accessToken;
     //     } catch (error: any) {
-    //       console.log(error);
     //       localStorage.removeItem('accessToken');
     //       localStorage.removeItem('refreshToken');
     //       return config;

@@ -57,7 +57,6 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     setClient(true);
   }, []);
-  console.log(menueItems);
 
   return (
     <>

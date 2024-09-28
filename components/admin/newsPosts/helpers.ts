@@ -68,5 +68,5 @@ export const handleTableChange: TableProps<DataType>['onChange'] = (
   sorter,
   extra,
 ) => {
-  console.log('params', pagination, filters, sorter, extra);
+  // console.log('params', pagination, filters, sorter, extra);
 };

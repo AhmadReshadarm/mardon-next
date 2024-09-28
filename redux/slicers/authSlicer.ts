@@ -303,7 +303,6 @@ const authSlicer = createSlice({
         localStorage.setItem('accessToken', action.payload.accessToken);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         openSuccessNotification('Вы успешно авторизованы!');
-        console.log('fulfilled');
       })
       .addCase(signin.rejected, handleError)
       //userSignin
@@ -315,14 +314,12 @@ const authSlicer = createSlice({
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(userSignin.rejected, handleError)
       //  userSignin.rejected,
       //   (state, action: PayloadAction<any, any, any, any>) => {
       //     state.loading = false;
       //     state.serverErr = action.payload;
-      //     console.log('rejected');
       //   },
       //signup
       .addCase(signup.pending, handlePending)
@@ -334,14 +331,12 @@ const authSlicer = createSlice({
         openSuccessNotification('Мы отправили вам письмо с логином и паролем');
         openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(
         signup.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
           state.loading = false;
           // state.serverErr = action.payload;
-          console.log('rejected');
         },
       )
       //authorize user
@@ -353,7 +348,6 @@ const authSlicer = createSlice({
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(verifyUserEmailByToken.rejected, handleError)
       //send reset verification token
@@ -364,7 +358,6 @@ const authSlicer = createSlice({
           'Мы отправили вам электронное письмо. Пожалуйста, нажмите ссылку «Подтвердить Email»',
         );
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(sendVerificationToken.rejected, handleError)
       //reset password by token
@@ -376,7 +369,6 @@ const authSlicer = createSlice({
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         openSuccessNotification('Ваш пароль был сброшен!');
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(resetPswByToken.rejected, handleError)
       //send reset password token to email
@@ -387,7 +379,6 @@ const authSlicer = createSlice({
           'Мы отправили вам электронное письмо. Пожалуйста, нажмите ссылку «сбросить пароль», чтобы сбросить пароль.',
         );
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(sendResetPasswordToken.rejected, handleError)
       //get user by id
@@ -396,7 +387,6 @@ const authSlicer = createSlice({
         state.user = action.payload.user;
         state.loading = false;
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(
         fetchUserById.rejected,
@@ -405,7 +395,6 @@ const authSlicer = createSlice({
           state.serverErr = action.payload;
           state.user = null;
           state.loading = false;
-          console.log('rejected');
         },
       )
       //get updateUserById
@@ -415,14 +404,12 @@ const authSlicer = createSlice({
         state.user = action.payload;
         state.loading = false;
         state.serverErr = undefined;
-        console.log('fulfilled');
       })
       .addCase(
         updateUserById.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
           openErrorNotification(getErrorMassage(action.payload));
           state.loading = false;
-          console.log('rejected');
         },
       )
       //check for token session
@@ -431,18 +418,15 @@ const authSlicer = createSlice({
         if (action.payload.message == 'fulfilled') {
           state.user = action.payload.user;
           state.loading = false;
-          console.log('fulfilled');
           return;
         }
         if (action.payload.message == 'retrying') {
           state.loading = false;
-          console.log('fulfilled');
           return;
         }
         if (action.payload.message == 'rejected') {
           state.user = null;
           state.loading = false;
-          console.log('fulfilled');
         }
       })
       .addCase(session.rejected, handleError)
@@ -453,7 +437,6 @@ const authSlicer = createSlice({
           'Мы получили ваше сообщение и свяжемся с вами как можно скорее',
         );
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(userHelpDisk.rejected, handleError)
       //fetchUsers
@@ -461,27 +444,23 @@ const authSlicer = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.users = handlePaginationDataFormatter(action);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchUsers.rejected, handleError)
       //createUser
       .addCase(createUser.pending, handlePending)
       .addCase(createUser.fulfilled, (state, action) => {
         // state.users = handlePaginationDataFormatter(action);
-        console.log(action.payload);
         openSuccessNotification('Пользователь успешно создан');
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(createUser.rejected, handleError)
       //deleteUser
       .addCase(deleteUser.pending, handlePending)
       .addCase(deleteUser.fulfilled, (state, action) => {
         // state.users = handlePaginationDataFormatter(action);
-        console.log(action.payload);
+
         openSuccessNotification('Пользователь успешно удален');
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(deleteUser.rejected, handleError);
   },

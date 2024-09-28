@@ -48,9 +48,6 @@ export function useUploadImage(slideNum: number | undefined): any {
 
     try {
       if (slideNum) {
-        console.log(file);
-
-        console.log(slideNum);
         await dispatch(setDefaultSingleImageList({ file, slideNum }));
       } else {
         await dispatch(setDefaultSingleImageList(file));
@@ -70,7 +67,6 @@ export function useUploadImage(slideNum: number | undefined): any {
   }
 
   const handleRemoveImage = (options) => {
-    // console.log(options)
     dispatch(removeImageFromList(options.name));
   };
 

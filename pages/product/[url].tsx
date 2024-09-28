@@ -48,7 +48,7 @@ export const getServerSideProps = (async (context) => {
   setTimeout(() => {
     fs.unlink(`./public/temp/${images[0]}`, (err) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
       }
     });
   }, 20000);
@@ -67,13 +67,15 @@ export const getServerSideProps = (async (context) => {
     const imgBlob = await resp.blob();
     const buffer = Buffer.from(await imgBlob.arrayBuffer());
 
-    fs.writeFile(`./public/temp/${images[0]}`, buffer, () =>
-      console.log('image saved'),
+    fs.writeFile(
+      `./public/temp/${images[0]}`,
+      buffer,
+      () => {},
+      // console.log('image saved'),
     );
     // Pass data to the page via props
     return { props: { repo, imagesWithUrl } };
   } catch (error) {
-    console.log(error);
     return { props: { repo: {}, imagesWithUrl: [] } };
   }
 }) as GetServerSideProps<{

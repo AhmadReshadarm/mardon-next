@@ -1,7 +1,11 @@
-import { createImage } from "redux/slicers/imagesSlicer";
-import { AppDispatch } from "redux/store";
+import { createImage } from 'redux/slicers/imagesSlicer';
+import { AppDispatch } from 'redux/store';
 
-const handleFileChange = async (event: any, setSrc: any, dispatch: AppDispatch) => {
+const handleFileChange = async (
+  event: any,
+  setSrc: any,
+  dispatch: AppDispatch,
+) => {
   const fileObj = event.target.files;
   if (!fileObj[0]) {
     return;
@@ -11,17 +15,17 @@ const handleFileChange = async (event: any, setSrc: any, dispatch: AppDispatch) 
     imagesUrl.push(URL.createObjectURL(fileObj[i]));
 
     const config = {
-      headers: { "content-type": "multipart/form-data" },
+      headers: { 'content-type': 'multipart/form-data' },
     };
 
     try {
-      await dispatch(createImage({
-        config,
-        file: fileObj[i]
-      }))
-    } catch (error: any) {
-      console.log(error);
-    }
+      await dispatch(
+        createImage({
+          config,
+          file: fileObj[i],
+        }),
+      );
+    } catch (error: any) {}
   }
   setSrc(imagesUrl);
 };

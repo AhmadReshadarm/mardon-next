@@ -61,7 +61,6 @@ const wishlistSlicer = createSlice({
       .addCase(fetchWishlistProducts.fulfilled, (state, action) => {
         state.wishlist = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchWishlistProducts.rejected, handleError)
       //updateWishlist
@@ -70,7 +69,6 @@ const wishlistSlicer = createSlice({
         state.wishlist = action.payload;
         localStorage.setItem('wishlistId', action.payload.id!);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(updateWishlist.rejected, handleError);
   },

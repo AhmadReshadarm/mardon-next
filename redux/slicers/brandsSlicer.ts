@@ -131,7 +131,6 @@ const brandsSlicer = createSlice({
       .addCase(fetchBrands.fulfilled, (state, action) => {
         state.brands = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchBrands.rejected, handleError)
       //fetchBrand
@@ -139,7 +138,6 @@ const brandsSlicer = createSlice({
       .addCase(fetchChosenBrand.fulfilled, (state, action) => {
         state.chosenBrand = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchChosenBrand.rejected, handleError)
       //createBrand
@@ -147,7 +145,6 @@ const brandsSlicer = createSlice({
       .addCase(createBrand.fulfilled, (state) => {
         state.saveLoading = false;
         openSuccessNotification('Бренд успешно создан');
-        console.log('fulfilled');
       })
       .addCase(createBrand.rejected, handleChangeError)
       //editBrand
@@ -162,7 +159,6 @@ const brandsSlicer = createSlice({
         };
         openSuccessNotification('Бренд успешно обновлен');
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(editBrand.rejected, handleChangeError)
       //deleteColor
@@ -173,7 +169,6 @@ const brandsSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Бренд успешно удален');
-        console.log('fulfilled');
       })
       .addCase(deleteBrand.rejected, () => {
         openErrorNotification(

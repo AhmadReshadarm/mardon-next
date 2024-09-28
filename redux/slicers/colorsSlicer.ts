@@ -126,7 +126,6 @@ const colorsSlicer = createSlice({
       .addCase(fetchColors.fulfilled, (state, action) => {
         state.colors = handlePaginationDataFormatter(action);
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchColors.rejected, handleError)
       //fetchColor
@@ -134,7 +133,6 @@ const colorsSlicer = createSlice({
       .addCase(fetchChosenColor.fulfilled, (state, action) => {
         state.chosenColor = action.payload;
         state.loading = false;
-        console.log('fulfilled');
       })
       .addCase(fetchChosenColor.rejected, handleError)
       //createColor
@@ -142,7 +140,6 @@ const colorsSlicer = createSlice({
       .addCase(createColor.fulfilled, (state) => {
         state.saveLoading = false;
         openSuccessNotification('Цвет успешно создан');
-        console.log('fulfilled');
       })
       .addCase(createColor.rejected, handleChangeError)
       //editColor
@@ -157,7 +154,6 @@ const colorsSlicer = createSlice({
         };
         openSuccessNotification('Цвет успешно обновлен');
         state.saveLoading = false;
-        console.log('fulfilled');
       })
       .addCase(editColor.rejected, handleChangeError)
       //deleteColor
@@ -168,7 +164,6 @@ const colorsSlicer = createSlice({
         );
         state.saveLoading = false;
         openSuccessNotification('Цвет успешно удален');
-        console.log('fulfilled');
       })
       .addCase(deleteColor.rejected, () => {
         openErrorNotification(

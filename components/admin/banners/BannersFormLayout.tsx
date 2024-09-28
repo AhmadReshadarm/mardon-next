@@ -26,7 +26,6 @@ const BannersFormLayout = () => {
   }, []);
 
   const handleChangeTab = (e) => {
-    console.log(e);
     switch (e) {
       case '1':
         dispatch(clearImageList());
