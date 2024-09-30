@@ -9,23 +9,36 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { session } from 'redux/slicers/authSlicer';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { YMaps } from 'react-yandex-maps';
-import { fetchCart } from 'redux/slicers/store/cartSlicer';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { baseUrl } from 'common/constant';
+import { TCartState } from 'redux/types';
+import { useRouter } from 'next/router';
+import { fetchCart } from 'redux/slicers/store/cartSlicer';
+import { openErrorNotification } from 'common/helpers';
 const Checkout = () => {
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [isClient, setClient] = useState(false);
-  let createdCardId = '';
+  const [oneTimeNotification, setOneTimeNotification] = useState(false);
+  const getBasketId = () => {
+    return localStorage.getItem('basketId');
+  };
   useEffect(() => {
-    dispatch(session());
-    localStorage.getItem('basketId');
-    if (createdCardId) {
-      dispatch(fetchCart(createdCardId));
+    if (cart?.orderProducts?.length == 0 && !oneTimeNotification) {
+      setOneTimeNotification(true);
+      openErrorNotification('Ваша корзина пуста');
+      router.push('/catalog');
     }
+  }, [cart]);
+  useEffect(() => {
+    const baksetId: any = getBasketId();
+    dispatch(fetchCart(baksetId));
+  }, [isClient]);
+  useEffect(() => {
     setClient(true);
   }, []);
 
@@ -78,7 +91,7 @@ const Checkout = () => {
             </Wrapper>
           </Container>
         ) : (
-          ''
+          <LoaderMask />
         )}
         {/* <Footer /> */}
       </YMaps>
@@ -92,6 +105,36 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
 `;
 
 Checkout.PageLayout = StoreLayout;

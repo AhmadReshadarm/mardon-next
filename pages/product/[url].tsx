@@ -12,7 +12,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
-import NotFound from 'pages/404';
 import { getAccessToken } from 'common/helpers/jwtToken.helpers';
 import dynamic from 'next/dynamic';
 import LoaderProduct from 'components/store/product/productInfo/Loader';
@@ -48,7 +47,7 @@ export const getServerSideProps = (async (context) => {
   setTimeout(() => {
     fs.unlink(`./public/temp/${images[0]}`, (err) => {
       if (err) {
-        // console.log(err);
+        console.log(err);
       }
     });
   }, 20000);
@@ -110,7 +109,6 @@ const ProductInfoPage = ({
   useEffect(() => {
     setClient(true);
   }, []);
-
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />
@@ -134,8 +132,6 @@ const ProductInfoPage = ({
                 />
               </ErrorBoundary>
             </>
-          ) : isNotFound(repo) ? (
-            <NotFound />
           ) : (
             <LoaderProduct />
           )

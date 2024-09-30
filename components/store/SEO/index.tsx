@@ -58,8 +58,18 @@ const socialTags = ({
   return metaTags;
 };
 
+function isNotFound(obj) {
+  if (obj.statusCode == 404 || obj.statusCode >= 500) {
+    return true;
+  }
+  return false;
+}
+
 const SEO = ({ product, images }) => {
   const url = `${baseUrl}/product/${product?.url}`;
+  if (isNotFound(product)) {
+    return <></>;
+  }
 
   return (
     <Head>
