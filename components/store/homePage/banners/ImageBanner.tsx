@@ -128,9 +128,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               ref={imgRef}
               alt={`${slides[imageIndex]?.link}`}
               // onError={() => setImgError(true)}
-              src={`${changeImgSrc ? '/api/images/' : '/temp/'}${
-                slides[imageIndex]?.image
-              }`}
+              // ${changeImgSrc ? '/api/images/' : '/temp/'}
+              src={`/api/images/${slides[imageIndex]?.image}`}
               isDisplay={
                 isCatalogOpen ||
                 isSearchFormActive ||

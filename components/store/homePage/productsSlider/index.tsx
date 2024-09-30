@@ -156,8 +156,10 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                             <Image
                               // onError={() => setImageSrc('/img_not_found.png')}
                               // imageSrc
-                              // ${userIntract ? '/api/images/' : '/temp/'}
-                              src={`/api/images/${images[imageIndex]}`}
+                              //
+                              src={`${userIntract ? '/api/images/' : '/temp/'}${
+                                images[imageIndex]
+                              }`}
                               alt={product?.name!}
                               width={1080}
                               height={1080}
