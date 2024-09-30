@@ -78,122 +78,128 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
             {caroselProducts.map((product, index) => {
               const images = getProductVariantsImages(product?.productVariants);
               return (
-                <Content
-                  style={{ display: caroselIndex === index ? 'flex' : 'none' }}
-                >
-                  <div className="product-cart-wrapper">
-                    <div className="cart-title-n-action-buttons-wrapper">
-                      <div className="cart-title-n-action-buttons-content">
-                        <div className="title-n-index-indecator-top-wrapper">
-                          <div className="index-indecator-top"></div>
-                          <Link href={`/product/${product?.url}`}>
-                            <h1 title={product?.name}>{`${
-                              product?.name?.length! > 40
-                                ? product?.name?.slice(0, 40) + '...'
-                                : product?.name
-                            }`}</h1>
-                          </Link>
+                <>
+                  {caroselIndex === index ? (
+                    <Content>
+                      <div className="product-cart-wrapper">
+                        <div className="cart-title-n-action-buttons-wrapper">
+                          <div className="cart-title-n-action-buttons-content">
+                            <div className="title-n-index-indecator-top-wrapper">
+                              <div className="index-indecator-top"></div>
+                              <Link href={`/product/${product?.url}`}>
+                                <h1 title={product?.name}>{`${
+                                  product?.name?.length! > 40
+                                    ? product?.name?.slice(0, 40) + '...'
+                                    : product?.name
+                                }`}</h1>
+                              </Link>
+                            </div>
+                            <div className="cart-price-n-action-button-wrapper">
+                              <div className="artical-Wrapper">
+                                <span>Артикул: </span>
+                                <span>
+                                  {product?.productVariants![0].artical!.toLocaleUpperCase()}
+                                </span>
+                              </div>
+                              <div className="price-wrapper">
+                                {product?.productVariants![0].oldPrice ? (
+                                  <span className="old-price">
+                                    {`${product?.productVariants![0].oldPrice}`}{' '}
+                                    ₽
+                                  </span>
+                                ) : (
+                                  ''
+                                )}
+                                <span>
+                                  {`${product?.productVariants![0].price}`} ₽
+                                </span>
+                              </div>
+                              <div className="action-buttons-wrapper">
+                                <AddToWishlist product={product!} />
+                                <AddToCart
+                                  product={product!}
+                                  qty={findCartQTY(product, cart!)}
+                                  variant={product?.productVariants![0]}
+                                />
+                              </div>
+                            </div>
+                            <div className="dots-indecator-wrapper">
+                              {caroselProducts.map((product, index) => {
+                                return (
+                                  <span
+                                    className={`dots-indecator ${
+                                      caroselIndex == index ? 'active' : ''
+                                    }`}
+                                    onClick={() => {
+                                      setCaroselIndex(index);
+                                      setISMouseHover(true);
+                                    }}
+                                  ></span>
+                                );
+                              })}
+                            </div>
+                          </div>
                         </div>
-                        <div className="cart-price-n-action-button-wrapper">
-                          <div className="artical-Wrapper">
-                            <span>Артикул: </span>
-                            <span>
-                              {product?.productVariants![0].artical!.toLocaleUpperCase()}
-                            </span>
-                          </div>
-                          <div className="price-wrapper">
-                            {product?.productVariants![0].oldPrice ? (
-                              <span className="old-price">
-                                {`${product?.productVariants![0].oldPrice}`} ₽
-                              </span>
-                            ) : (
-                              ''
-                            )}
-                            <span>
-                              {`${product?.productVariants![0].price}`} ₽
-                            </span>
-                          </div>
-                          <div className="action-buttons-wrapper">
-                            <AddToWishlist product={product!} />
-                            <AddToCart
-                              product={product!}
-                              qty={findCartQTY(product, cart!)}
-                              variant={product?.productVariants![0]}
+                        <Link href={`/product/${product?.url}`}>
+                          <div className="cart-image-wrapper">
+                            <ul className="images-scroll-wrapper">
+                              {images.map((image, index) => {
+                                return (
+                                  <li
+                                    onMouseOver={() => setImageIndex(index)}
+                                    className="image-index"
+                                  ></li>
+                                );
+                              })}
+                            </ul>
+
+                            <Image
+                              // onError={() => setImageSrc('/img_not_found.png')}
+                              // imageSrc
+                              src={`${userIntract ? '/api/images/' : '/temp/'}${
+                                images[imageIndex]
+                              }`}
+                              alt={product?.name!}
+                              width={1080}
+                              height={1080}
+                              priority={caroselIndex === index ? true : false}
                             />
                           </div>
-                        </div>
-                        <div className="dots-indecator-wrapper">
-                          {caroselProducts.map((product, index) => {
-                            return (
-                              <span
-                                className={`dots-indecator ${
-                                  caroselIndex == index ? 'active' : ''
-                                }`}
-                                onClick={() => {
-                                  setCaroselIndex(index);
-                                  setISMouseHover(true);
-                                }}
-                              ></span>
-                            );
-                          })}
-                        </div>
+                        </Link>
                       </div>
-                    </div>
-                    <Link href={`/product/${product?.url}`}>
-                      <div className="cart-image-wrapper">
-                        <ul className="images-scroll-wrapper">
-                          {images.map((image, index) => {
-                            return (
-                              <li
-                                onMouseOver={() => setImageIndex(index)}
-                                className="image-index"
-                              ></li>
-                            );
-                          })}
-                        </ul>
-
-                        <Image
-                          // onError={() => setImageSrc('/img_not_found.png')}
-                          // imageSrc
-                          src={`${userIntract ? '/api/images/' : '/temp/'}${
-                            images[imageIndex]
-                          }`}
-                          alt={product?.name!}
-                          width={1080}
-                          height={1080}
-                          priority={true}
-                        />
+                      <div className="product-description-wrapper">
+                        <div className="indecator-wrapper">
+                          <div className="index-indecator-top"></div>
+                        </div>
+                        <Link href={`/product/${product?.url}`}>
+                          <h1 title={product?.name}>{`${
+                            product?.name?.length! > 40
+                              ? product?.name?.slice(0, 40) + '...'
+                              : product?.name
+                          }`}</h1>
+                        </Link>
+                        <div className="artical-Wrapper">
+                          <span>Артикул: </span>
+                          <span>
+                            {product?.productVariants![0].artical!.toLocaleUpperCase()}
+                          </span>
+                        </div>
+                        <span>
+                          {product?.desc?.includes('|')
+                            ? product?.desc?.split('|')[0]?.length! > 150
+                              ? product?.desc?.split('|')[0].slice(0, 150) +
+                                '...'
+                              : product?.desc?.split('|')[0]
+                            : product?.desc?.length! > 150
+                            ? product?.desc?.slice(0, 150) + '...'
+                            : product?.desc?.slice(0, 150)}
+                        </span>
                       </div>
-                    </Link>
-                  </div>
-                  <div className="product-description-wrapper">
-                    <div className="indecator-wrapper">
-                      <div className="index-indecator-top"></div>
-                    </div>
-                    <Link href={`/product/${product?.url}`}>
-                      <h1 title={product?.name}>{`${
-                        product?.name?.length! > 40
-                          ? product?.name?.slice(0, 40) + '...'
-                          : product?.name
-                      }`}</h1>
-                    </Link>
-                    <div className="artical-Wrapper">
-                      <span>Артикул: </span>
-                      <span>
-                        {product?.productVariants![0].artical!.toLocaleUpperCase()}
-                      </span>
-                    </div>
-                    <span>
-                      {product?.desc?.includes('|')
-                        ? product?.desc?.split('|')[0]?.length! > 150
-                          ? product?.desc?.split('|')[0].slice(0, 150) + '...'
-                          : product?.desc?.split('|')[0]
-                        : product?.desc?.length! > 150
-                        ? product?.desc?.slice(0, 150) + '...'
-                        : product?.desc?.slice(0, 150)}
-                    </span>
-                  </div>
-                </Content>
+                    </Content>
+                  ) : (
+                    ''
+                  )}
+                </>
               );
             })}
           </>

@@ -38,7 +38,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         paginateImage(1);
         setChangeImgSrc(true);
       }
-    }, 10000);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, [imageIndex, isMouseHover]);
