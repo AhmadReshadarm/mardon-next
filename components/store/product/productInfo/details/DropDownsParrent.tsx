@@ -99,6 +99,9 @@ const InfoContentWrappers = styled(motion.div)`
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
+    .dilevery-title {
+      font-weight: 600;
+    }
     .fr-view {
       width: 100%;
       padding: 5px 20px;

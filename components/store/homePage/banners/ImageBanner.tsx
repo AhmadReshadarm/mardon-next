@@ -28,21 +28,20 @@ interface StyleProps {
 const ImageBanner: React.FC<Props> = ({ slides }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, Number(slides?.length), page);
-  // const [userIntract, setUserIntract] = useState(false);
   const imgRef = useRef<HTMLDivElement | any>(null);
 
-  // let timer;
-  // useEffect(() => {
-  //   if (!userIntract) {
-  //     timer = setTimeout(() => {
-  //       paginateImage(1);
-  //     }, 10000);
-  //   }
+  const [isMouseHover, setISMouseHover] = useState<boolean>(false);
+  const [changeImgSrc, setChangeImgSrc] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isMouseHover) {
+        paginateImage(1);
+        setChangeImgSrc(true);
+      }
+    }, 10000);
 
-  //   return () => {
-  //     if (userIntract) window.clearTimeout(timer);
-  //   };
-  // });
+    return () => clearTimeout(timer);
+  }, [imageIndex, isMouseHover]);
 
   const [imgHeight, setImgHeight] = useState();
   useEffect(() => {
@@ -66,13 +65,29 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     isAuthFormOpen,
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
-  const [userIntract, setUserIntract] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  useEffect(() => {
-    setUserIntract(true);
-  }, [imageIndex]);
+
   return (
-    <SliderWrapper key="slider-home-banners" imgHeight={`${imgHeight}`}>
+    <SliderWrapper
+      onMouseEnter={() => {
+        setISMouseHover(true);
+        setChangeImgSrc(true);
+      }}
+      onMouseLeave={() => {
+        setISMouseHover(false);
+      }}
+      onTouchStart={() => {
+        setISMouseHover(true);
+        setChangeImgSrc(true);
+      }}
+      onTouchEnd={() => {
+        const id = setTimeout(() => {
+          setISMouseHover(false);
+        }, 5000);
+        return () => clearTimeout(id);
+      }}
+      key="slider-home-banners"
+      imgHeight={`${imgHeight}`}
+    >
       <Link
         href={slides![imageIndex]?.link!}
         className="banner-image-link-wrapper"
@@ -111,12 +126,9 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
           >
             <Slider
               ref={imgRef}
-              alt={
-                `${slides[imageIndex]?.link}`
-                // !imgError ? `${slides[imageIndex]?.link}` : '/img_not_found.png'
-              }
+              alt={`${slides[imageIndex]?.link}`}
               // onError={() => setImgError(true)}
-              src={`${userIntract ? '/api/images/' : '/temp/'}${
+              src={`${changeImgSrc ? '/api/images/' : '/temp/'}${
                 slides[imageIndex]?.image
               }`}
               isDisplay={

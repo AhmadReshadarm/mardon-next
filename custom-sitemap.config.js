@@ -25,6 +25,7 @@ module.exports = {
           '/rekvizity-ep-d',
           '/help',
           '/return-policy',
+          '/dilevery',
           '/how-to-buy',
           '/discount',
           '/guarantee',
