@@ -29,7 +29,6 @@ module.exports = {
           '/how-to-buy',
           '/discount',
           '/guarantee',
-          '/delivery',
           '/offerta',
           '/info-refund',
           '/user-agreement',
