@@ -156,13 +156,19 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                             <Image
                               // onError={() => setImageSrc('/img_not_found.png')}
                               // imageSrc
-                              //
-                              src={`${userIntract ? '/api/images/' : '/temp/'}${
-                                images[imageIndex]
-                              }`}
+                              // ${userIntract ? '/api/images/' : '/temp/'}${images[imageIndex]}
+                              // /temp/${images[imageIndex]}
+                              src={`/api/images/${images[imageIndex]}`}
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src = '/img_not_found.png';
+                                currentTarget.className = 'not-found';
+                              }}
                               alt={product?.name!}
                               width={1080}
                               height={1080}
+                              placeholder="blur"
+                              blurDataURL={`/temp/${images[imageIndex]}`}
                               priority={caroselIndex === index ? true : false}
                             />
                           </div>
@@ -262,6 +268,20 @@ const Content = styled.div`
     padding: 40px;
     background-color: ${color.productCart};
     border: 1px #e5e2d9;
+
+    .not-found {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      object-fit: contain;
+      left: 0;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+
     .cart-title-n-action-buttons-wrapper {
       width: 100%;
       height: 100%;

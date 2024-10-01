@@ -128,7 +128,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               ref={imgRef}
               alt={`${slides[imageIndex]?.link}`}
               // onError={() => setImgError(true)}
-              // ${changeImgSrc ? '/api/images/' : '/temp/'}
+              // /api/images/${slides[imageIndex]?.image}
+              // ${changeImgSrc ? '/api/images/' : '/temp/'}${slides[imageIndex]?.image}
               src={`/api/images/${slides[imageIndex]?.image}`}
               isDisplay={
                 isCatalogOpen ||
@@ -141,6 +142,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               width={1920}
               height={800}
               priority={true}
+              placeholder="blur"
+              blurDataURL={`/temp/${slides[imageIndex]?.image}`}
             />
           </SliderSlide>
         </AnimatePresence>
@@ -202,59 +205,59 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   );
 };
 
-const ImageLoader = styled.div`
-  width: 100vw;
-  height: 80vh;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
+// const ImageLoader = styled.div`
+//   width: 100vw;
+//   height: 80vh;
+//   background: #cccccca3;
+//   position: relative;
+//   overflow: hidden;
+//   &:after {
+//     content: '';
+//     display: block;
+//     position: absolute;
+//     top: 0;
+//     width: 100%;
+//     height: 100%;
+//     transform: translateX(-100px);
+//     background: linear-gradient(
+//       90deg,
+//       transparent,
+//       rgba(255, 255, 255, 0.2),
+//       transparent
+//     );
+//     animation: loading 0.8s infinite;
+//   }
 
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-  @media ${devices.laptopL} {
-    height: 50vh;
-  }
-  @media ${devices.laptopM} {
-    height: 50vh;
-  }
-  @media ${devices.laptopS} {
-    height: 50vh;
-  }
-  @media ${devices.tabletL} {
-    height: 50vh;
-  }
-  @media ${devices.tabletS} {
-    height: 50vh;
-  }
-  @media ${devices.mobileL} {
-    height: 50vh;
-  }
-  @media ${devices.mobileM} {
-    height: 50vh;
-  }
-  @media ${devices.mobileS} {
-    height: 50vh;
-  }
-`;
+//   @keyframes loading {
+//     100% {
+//       transform: translateX(100%);
+//     }
+//   }
+//   @media ${devices.laptopL} {
+//     height: 50vh;
+//   }
+//   @media ${devices.laptopM} {
+//     height: 50vh;
+//   }
+//   @media ${devices.laptopS} {
+//     height: 50vh;
+//   }
+//   @media ${devices.tabletL} {
+//     height: 50vh;
+//   }
+//   @media ${devices.tabletS} {
+//     height: 50vh;
+//   }
+//   @media ${devices.mobileL} {
+//     height: 50vh;
+//   }
+//   @media ${devices.mobileM} {
+//     height: 50vh;
+//   }
+//   @media ${devices.mobileS} {
+//     height: 50vh;
+//   }
+// `;
 
 const SliderWrapper = styled.div<StyleProps>`
   width: 100%;

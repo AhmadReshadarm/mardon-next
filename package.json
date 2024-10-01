@@ -46,7 +46,7 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.6.0",
     "moment": "^2.29.4",
-    "next": "^13.4.19",
+    "next": "^14.2.13",
     "next-redux-wrapper": "^8.1.0",
     "next-share": "^0.25.0",
     "next-sitemap": "^4.2.2",

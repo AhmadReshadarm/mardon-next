@@ -47,10 +47,10 @@ export const getServerSideProps = (async () => {
   let caroselImages: string[];
   // wait for clinet side to render image then delete it from server
   setTimeout(() => {
-    // fs.unlink(`./public/temp/${slides[0].image}`, (err) => {
-    //   if (err) {
-    //   }
-    // });
+    fs.unlink(`./public/temp/${slides[0].image}`, (err) => {
+      if (err) {
+      }
+    });
     fs.unlink(`./public/temp/${caroselImages[0]}`, (err) => {
       if (err) {
       }
@@ -69,15 +69,15 @@ export const getServerSideProps = (async () => {
       caroselProducts.rows[0].productVariants,
     );
 
-    // const respSlides = await fetch(
-    //   `http://5.35.93.60:4010/images/${slides[0].image}`,
-    // );
-    // const imgBlob = await respSlides.blob();
-    // const buffer = Buffer.from(await imgBlob.arrayBuffer());
+    const respSlides = await fetch(
+      `http://5.35.93.60:4010/images/${slides[0].image}`,
+    );
+    const imgBlob = await respSlides.blob();
+    const buffer = Buffer.from(await imgBlob.arrayBuffer());
 
-    // fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () => {
-    //   console.log('image saved');
-    // });
+    fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () => {
+      console.log('image saved');
+    });
 
     // --------------------------
 
