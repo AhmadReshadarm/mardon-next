@@ -123,6 +123,14 @@ const TopFilterBar: React.FC<Props> = ({
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 
+  useEffect(() => {
+    const queryParams = getQueryParams(window.location.search);
+    const { name } = queryParams;
+    if (!ActivateResetBtn && name !== undefined) {
+      setSearchTerm(name);
+    }
+  }, []);
+
   // ---------------------- UI hooks ------------------------
 
   const [isHoverMobile, setIsHoverMobile] = useState(false);
