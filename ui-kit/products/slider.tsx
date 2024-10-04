@@ -40,6 +40,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
   const dispatch = useAppDispatch();
   const [zoomImgSrc, setZoomImgSrc] = useState(images[imageIndex]);
   const [zoom, setZoom] = useState(false);
+  const [loadingComplet, setLoadingComplet] = useState(false);
   const calculateImageSize = (windowWidth: number) => {
     switch (true) {
       // laptopM
@@ -132,21 +133,23 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                 SWIPE_CONFIDENCE_THRESHOLD,
               )}
             >
+              <LoaderMask
+                style={{ display: loadingComplet ? 'none' : 'flex' }}
+              />
               <ImageSlider
+                style={{
+                  opacity: loadingComplet ? 1 : 0,
+                  position: loadingComplet ? 'inherit' : 'absolute',
+                  zIndex: loadingComplet ? 1 : -1,
+                }}
                 alt={`${product.name}`}
                 src={`/api/images/${images[imageIndex]}`}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = '/img_not_found.png';
-                  currentTarget.className = 'not-found';
-                }}
                 width={0}
                 height={0}
                 sizes="100vw"
                 loading="lazy"
                 priority={false}
-                placeholder="blur"
-                blurDataURL="/img_not_found.png"
+                onLoadingComplete={() => setLoadingComplet(true)}
               />
             </ImageSliderSlide>
           </AnimatePresence>
@@ -200,6 +203,36 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
     </>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 export const ImageSliderWrapper = styled(motion.div)`
   height: 100%;

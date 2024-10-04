@@ -37,29 +37,29 @@ const handleChangePsw = async ({ user, psw, repeatPsw, oldPassword }) => {
     });
     openSuccessNotification('Пароль изменен');
   } catch (error: any) {
-    switch (error.response.status) {
-      case 500 || error.response.status > 500:
+    switch (true) {
+      case 500 == error.response.status || error.response.status > 500:
         openErrorNotification(
           'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
         );
         break;
-      case 429:
+      case 429 == error.response.status:
         openErrorNotification(
           'Слишком много запросов, вернитесь через 24 часа',
         );
         break;
-      case 401:
+      case 401 == error.response.status:
         openErrorNotification('Старый пароль не подходит');
         break;
-      case 403:
+      case 403 == error.response.status:
         openErrorNotification('Доступ ограничен: войдите снова');
         break;
-      case 409:
+      case 409 == error.response.status:
         openErrorNotification(
           'Нельзя использовать тот же пароль, что и предыдущий',
         );
         break;
-      case 404:
+      case 404 == error.response.status:
         openErrorNotification('Пользователь не найден');
         break;
       default:

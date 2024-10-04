@@ -24,14 +24,30 @@ class MyDocument extends Document {
           <link
             rel="preload"
             href="/fonts/circe/circe-regular.woff"
-            as="Circe"
-            type="font/woff"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/circe/circe-extra-bold.woff"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
           />
           <link
             rel="preload"
             href="/fonts/tt-ricordi-marmo-trial-variable.woff"
-            as="ricordi"
-            type="font/woff"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/Jost/Jost-Regular.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
           />
         </Head>
         <body>

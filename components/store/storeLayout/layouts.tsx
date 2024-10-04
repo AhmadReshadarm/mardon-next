@@ -1,6 +1,7 @@
-import { YandexMetrics } from 'components/metrics/yandex-metrics';
+// import { YandexMetrics } from 'components/metrics/yandex-metrics';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import Script from 'next/script';
 // const Header = dynamic(() => import('./Header'), {
 //   ssr: false,
 // });
@@ -21,22 +22,44 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     setTimeout(() => {
       setIsMetrics(true);
-    }, 15000);
+    }, 10000);
   }, []);
   return (
     <>
-      <div
+      {/* <div
         dangerouslySetInnerHTML={{
           __html: YandexMetrics(),
         }}
-      />
-      {isMetrics ? (
+      /> */}
+
+      {/* {isMetrics ? (
         <>
           <GoogleAnalytics gaId="G-LPMTNCKRGT" />
+          <Script
+            id="yandex-tag"
+            src="/yandex.js"
+            onError={(err) => {
+              console.error('Error', err);
+            }}
+            defer={true}
+            // onLoad={() => {
+            //   console.log('now loaded');
+            // }}
+          />
+
+          <noscript>
+            <div>
+              <img
+                src="https://mc.yandex.ru/watch/96632717"
+                style={{ position: 'absolute', left: '-9999px' }}
+                alt=""
+              />
+            </div>
+          </noscript>
         </>
       ) : (
         ''
-      )}
+      )} */}
 
       <Header />
       {children}

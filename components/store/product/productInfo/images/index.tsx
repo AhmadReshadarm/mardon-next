@@ -5,12 +5,7 @@ import { Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import { motion } from 'framer-motion';
-// import { PopupDisplay } from 'components/store/storeLayout/constants';
-// import variants from 'components/store/lib/variants';
-// import Pagination from './Pagination';
-// import { handleMenuState } from 'components/store/storeLayout/helpers';
-// import CloseSVG from '../../../../../assets/close_black.svg';
-// import SliderFullScreen from './SliderFullScreen';
+
 type Props = {
   product?: Product;
   images: string[];
@@ -30,10 +25,7 @@ const Images: React.FC<Props> = ({
   page,
   setSelectedIndex,
   paginateImage,
-  setPage,
 }) => {
-  // const [isOpened, setIsOpened] = useState(false);
-  // const [display, setDisplay] = useState(PopupDisplay.None);
   return (
     <ImagesContainer>
       <Slider
@@ -44,45 +36,7 @@ const Images: React.FC<Props> = ({
         page={page}
         paginateImage={paginateImage}
         alt={product?.name}
-        // product={product}
-        // setIsOpened={setIsOpened}
-        // setDisplay={setDisplay}
       />
-
-      {/* fullscreen mode  start */}
-      {/* <ProductImagesFullScreenWrapper
-        style={{ display }}
-        animate={isOpened ? 'open' : 'close'}
-        variants={variants.fadeInReveal}
-      >
-        <div className="pagination-and-slider-wrapper">
-          <span
-            onClick={handleMenuState(setIsOpened, setDisplay)}
-            className="close-btn-wrapper"
-          >
-            <CloseSVG />
-          </span>
-
-          <SliderFullScreen
-            images={images}
-            selectedIndex={selectedIndex}
-            setSelectedIndex={setSelectedIndex}
-            direction={direction}
-            page={page}
-            paginateImage={paginateImage}
-            alt={product?.name}
-          />
-          <Pagination
-            images={images}
-            selectedIndex={selectedIndex}
-            setSelectedIndex={setSelectedIndex}
-            paginateImage={paginateImage}
-            alt={product?.shortDesc}
-            isOpened={isOpened}
-          />
-        </div>
-      </ProductImagesFullScreenWrapper> */}
-      {/* fullscreen mode  end */}
     </ImagesContainer>
   );
 };

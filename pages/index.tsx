@@ -1,23 +1,17 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
 import styled from 'styled-components';
 import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import fs from 'fs';
+
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-const Banners = dynamic(() => import('components/store/homePage/banners'), {
-  loading: () => <LoaderMask />,
-});
-const ProductsSlider = dynamic(
-  () => import('components/store/homePage/productsSlider'),
-  {
-    loading: () => <LoaderMask />,
-  },
-);
+import Banners from 'components/store/homePage/banners';
+import ProductsSlider from 'components/store/homePage/productsSlider';
+
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
   {
@@ -45,23 +39,13 @@ const ContactsMainPage = dynamic(
 export const getServerSideProps = (async () => {
   let slides: Slide[];
   let caroselImages: string[];
-  // wait for clinet side to render image then delete it from server
-  setTimeout(() => {
-    fs.unlink(`./public/temp/${slides[0].image}`, (err) => {
-      if (err) {
-      }
-    });
-    fs.unlink(`./public/temp/${caroselImages[0]}`, (err) => {
-      if (err) {
-      }
-    });
-  }, 20000);
+
   try {
-    const res = await fetch(`http://5.35.93.60:4010/slides`);
+    const resSlides = await fetch(`http://5.35.93.60:4010/slides`);
     const resCarosel = await fetch(
       `http://5.35.93.60:4010/products?tags[]=main_page`,
     );
-    slides = await res.json();
+    slides = await resSlides.json();
     const caroselProducts: { rows: Product[]; lenght: number } =
       await resCarosel.json();
 
@@ -69,33 +53,19 @@ export const getServerSideProps = (async () => {
       caroselProducts.rows[0].productVariants,
     );
 
-    const respSlides = await fetch(
-      `http://5.35.93.60:4010/images/${slides[0].image}`,
-    );
-    const imgBlob = await respSlides.blob();
-    const buffer = Buffer.from(await imgBlob.arrayBuffer());
-
-    fs.writeFile(`./public/temp/${slides[0].image}`, buffer, () => {
-      console.log('image saved');
-    });
-
-    // --------------------------
-
-    const respCarosel = await fetch(
-      `http://5.35.93.60:4010/images/${caroselImages[0]}`,
-    );
-    const imgCaroselBlob = await respCarosel.blob();
-    const bufferCarosel = Buffer.from(await imgCaroselBlob.arrayBuffer());
-
-    fs.writeFile(`./public/temp/${caroselImages[0]}`, bufferCarosel, () => {
-      console.log('image saved');
-    });
-
-    return { props: { slides, caroselProducts: caroselProducts.rows } };
+    return {
+      props: {
+        slides,
+        caroselProducts: caroselProducts.rows,
+      },
+    };
   } catch (error) {
     return { props: { slides: [], caroselProducts: [] } };
   }
-}) as GetServerSideProps<{ slides: Slide[]; caroselProducts: Product[] }>;
+}) as GetServerSideProps<{
+  slides: Slide[];
+  caroselProducts: Product[];
+}>;
 
 const IndexPage = ({
   slides,
@@ -126,14 +96,14 @@ const IndexPage = ({
         <link rel="canonical" href="https://nbhoz.ru" />
       </Head>
       {isClient ? (
-        <Suspense fallback={<LoaderMask />}>
+        <>
           <Banners slides={slides} />
           <ProductsSlider caroselProducts={caroselProducts} />
           <MainPageCatalog />
           <BestProduct />
           <Subscribers />
           <ContactsMainPage />
-        </Suspense>
+        </>
       ) : (
         <LoaderMask />
       )}

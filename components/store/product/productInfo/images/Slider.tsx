@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
@@ -28,20 +28,11 @@ const Slider: React.FC<Props> = ({
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
-  const [userIntract, setUserIntract] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  useEffect(() => {
-    setUserIntract(true);
-  }, [selectedIndex]);
+
+  const [loadingComplet, setLoadingComplet] = useState(false);
+
   return (
-    <SliderWrapper
-    // key="slider-product-page"
-    // custom={0.3}
-    // initial="init"
-    // animate="animate"
-    // exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
-    // variants={variants.fadInSlideUp}
-    >
+    <SliderWrapper>
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <SliderSlide
           key={page}
@@ -65,20 +56,15 @@ const Slider: React.FC<Props> = ({
             selectedIndex,
           )}
         >
+          <LoaderMask style={{ display: loadingComplet ? 'none' : 'flex' }} />
           <SliderImage
-            src={
-              // !imgError
-              // ?
-              `${userIntract ? '/api/images/' : '/temp/'}${
-                images[selectedIndex]
-              }`
-              // : '/img_not_found.png'
-            }
+            style={{ opacity: loadingComplet ? 1 : 0 }}
+            src={`/api/images/${images[selectedIndex]}`}
             alt={alt}
-            onError={() => setImgError(true)}
             itemProp="contentUrl"
-            width={600}
-            height={600}
+            width={1080}
+            height={1080}
+            onLoadingComplete={() => setLoadingComplet(true)}
             priority={true}
           />
         </SliderSlide>
@@ -111,6 +97,36 @@ const Slider: React.FC<Props> = ({
   );
 };
 
+const LoaderMask = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
+
 const SliderSlide = styled(motion.div)`
   width: 100%;
   height: 100%;
@@ -125,7 +141,7 @@ const SliderImage = styled(Image)`
   object-fit: contain;
 `;
 
-export const SliderWrapper = styled(motion.div)`
+export const SliderWrapper = styled.div`
   width: 600px;
   height: 600px;
   display: flex;

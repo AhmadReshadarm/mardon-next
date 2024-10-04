@@ -135,7 +135,7 @@ const CatalogPage = ({
     return color;
   });
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpantionChange = () => {
     setExpanded((prev) => !prev);

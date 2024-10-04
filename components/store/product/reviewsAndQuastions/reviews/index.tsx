@@ -22,7 +22,6 @@ import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import { Role } from 'common/enums/roles.enum';
 import { Checkout } from 'swagger/services';
-import { openErrorNotification } from 'common/helpers';
 
 const Reviews = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);

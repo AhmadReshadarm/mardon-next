@@ -119,10 +119,10 @@
   font-display: swap; /* important for google speed insight*/
 }
 
-h1,
+/* h1,
 h2 {
   font-weight: 100;
-}
+} */
 * {
   margin: 0;
   padding: 0;

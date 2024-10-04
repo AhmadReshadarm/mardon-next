@@ -56,7 +56,7 @@ const Reviews = () => {
   const [keywords, setKeyword] = useState('');
   const [createdAt, setCreatedAt] = useState('');
   const [updatedAt, setUpdatedAt] = useState('');
-  const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
   useEffect(() => {
     const getHeaders = async () => {
       function sleep(ms) {
@@ -72,11 +72,11 @@ const Reviews = () => {
         setCreatedAt(reviews[randomRview].createdAt as string);
         setUpdatedAt(reviews[randomRview].updatedAt as string);
 
-        const images = getProductVariantsImages(
-          reviews[randomRview].product?.productVariants,
-        );
+        // const images = getProductVariantsImages(
+        //   reviews[randomRview].product?.productVariants,
+        // );
 
-        setImage(images[0]);
+        // setImage(images[0]);
       }
     };
     getHeaders();
@@ -94,10 +94,7 @@ const Reviews = () => {
             createdAt: createdAt,
             updatedAt: updatedAt,
           }}
-          image={
-            `${baseUrl}/api/images/${image}` ??
-            `${baseUrl}/static/logo_800x800.png`
-          }
+          image={`${baseUrl}/static/logo_800x800.png`}
         />
       ) : (
         <Head>

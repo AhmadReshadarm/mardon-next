@@ -6,7 +6,6 @@ import {
   Content,
 } from 'components/store/storeLayout/common';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import Images from './images';
 import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
@@ -16,13 +15,14 @@ import ShareToSocial from './details/ShareToSocial';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import ArrowGray from '../../../../assets/arrowGray.svg';
 import Link from 'next/link';
-import DropDowns from './details/DropDowns';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import CloseSVG from '../../../../assets/close.svg';
 import Image from 'next/image';
+import DropDowns from './details/DropDowns';
+
 type Props = {
   product?: Product;
   reviewRef: MutableRefObject<any>;
@@ -55,6 +55,8 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
   const [isOrderNotify, setOrderNotify] = useState(false);
+  const [loadingComplet, setLoadingComplet] = useState(false);
+
   return (
     <Container
       key="container-product-section-one"
@@ -63,11 +65,6 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
       align_items="center"
       padding="30px 0"
       bg_color={color.textPrimary}
-      // initial="start"
-      // animate="middle"
-      // exit="end"
-      // variants={variants.fadInOut}
-      // transition={{ when: 'afterChildren' }}
       itemScope
       itemType="https://schema.org/ImageObject"
     >
@@ -94,13 +91,26 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
           <NavWrapper width={`calc(${windowWidth}px - 100px)`}>
             <div className="nav-rightWrapper">
               <Link href="/">
+                <LoaderMask
+                  style={{
+                    width: '35px',
+                    height: '15px',
+                    display: loadingComplet ? 'none' : 'flex',
+                  }}
+                />
                 <Image
+                  style={{
+                    opacity: loadingComplet ? 1 : 0,
+                    position: loadingComplet ? 'inherit' : 'absolute',
+                    zIndex: loadingComplet ? 1 : -1,
+                  }}
                   width={35}
                   height={15}
                   priority={false}
                   loading="lazy"
                   src="/icons/back_arrow.png"
-                  alt="back button"
+                  alt="Обратно на главную"
+                  onLoadingComplete={() => setLoadingComplet(true)}
                 />
                 <span>Обратно на главную</span>
               </Link>
@@ -188,6 +198,36 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
     </Container>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 export const ContentCotainer = styled.div`
   width: 100%;

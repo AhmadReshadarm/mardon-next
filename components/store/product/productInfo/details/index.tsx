@@ -9,14 +9,9 @@ import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
 import { Basket, Product, ProductVariant } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
-// import { checkIfItemInCart, handleCartBtnClick } from 'ui-kit/products/helpers';
 import { useAppSelector } from 'redux/hooks';
-// import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { devices } from 'components/store/lib/Devices';
 import { TCartState } from 'redux/types';
-// import SizePicker from './SizePicker';
-// import { setproductSize } from 'redux/slicers/store/cartSlicer';
-import { useState } from 'react';
 
 type Props = {
   product?: Product;
@@ -35,7 +30,6 @@ const Details: React.FC<Props> = ({
   setSelectedIndex,
   paginateImage,
 }) => {
-  // const dispatch = useAppDispatch();
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
   const cart: Basket = useAppSelector((state) => state.cart.cart);
@@ -47,47 +41,13 @@ const Details: React.FC<Props> = ({
     if (productVariant?.oldPrice) return true;
     return false;
   };
-  // const onCountChange = (counter: number, product: Product) => {
-  //   dispatch(
-  //     updateCart({
-  //       orderProducts: cart?.orderProducts
-  //         ?.filter((orderProduct) => orderProduct.product?.id != product.id)
-  //         ?.concat({
-  //           product: { id: product.id },
-  //           qty: counter,
-  //           productVariantId: variant?.id!,
-  //           productSize: productSize,
-  //         } as any)
-  //         .map((orderProduct) => ({
-  //           productId: orderProduct.product?.id,
-  //           qty: orderProduct.qty,
-  //           productVariantId: orderProduct?.productVariant?.id,
-  //           productSize: productSize,
-  //         })),
-  //     }),
-  //   );
-  // };
 
-  // useEffect(() => {
-  //   if (!product?.sizes) {
-  //     dispatch(setproductSize('_'));
-  //   }
-  // }, [product]);
   return (
     <DetailsContainer>
       <UserSelectWrapper textWidth={product?.name?.length!}>
         <div className="product-title-wrapper">
           <div className="title-top-bar"></div>
-          <motion.h1
-            key="title-product-page"
-            custom={0.1}
-            initial="init"
-            animate="animate"
-            exit={{ y: -20, opacity: 0, transition: { delay: 0.05 } }}
-            variants={variants.fadInSlideUp}
-            className="product-header-1"
-            itemProp="name"
-          >
+          <motion.h1 className="product-header-1" itemProp="name">
             {product?.name}
           </motion.h1>
         </div>

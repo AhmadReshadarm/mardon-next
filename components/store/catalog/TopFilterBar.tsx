@@ -68,7 +68,7 @@ const TopFilterBar: React.FC<Props> = ({
     }),
   );
 
-  const [isMoreFilters, setMoreFilters] = useState(true);
+  const [isMoreFilters, setMoreFilters] = useState(false);
   const [ActivateResetBtn, setActivateResetBtn] = useState(false);
   const [resetSlider, setResetSlider] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');

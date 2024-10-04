@@ -8,16 +8,12 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Color, ProductVariant } from 'swagger/services';
 import { useAppDispatch } from 'redux/hooks';
 import { setVariant } from 'redux/slicers/store/cartSlicer';
-// import { useAppSelector } from 'redux/hooks';
-// import { TAuthState } from 'redux/types';
-// import { Role } from 'common/enums/roles.enum';
 import Image from 'next/image';
 
 type StyleProps = {
   backgroundColor?: string;
   width?: string;
 };
-// let variant = null;
 type Props = {
   variantColor: Color | undefined;
   productVariants: ProductVariant[] | undefined;
@@ -44,8 +40,6 @@ const ColorPicker: React.FC<Props> = ({
       paginateImage: (index: number) => void,
     ) =>
     () => {
-      // localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
-
       dispatch(setVariant(variant));
       setSelectedIndex(index);
 
@@ -56,45 +50,14 @@ const ColorPicker: React.FC<Props> = ({
 
   const variantImages = getFlatVariantImages(productVariants);
 
-  // const { user } = useAppSelector<TAuthState>((state) => state.auth);
-
-  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // useEffect(() => {
-  //   setWindowWidth(window.innerWidth);
-  //   const handleWindowResize = () => {
-  //     setWindowWidth(window.innerWidth);
-  //   };
-
-  //   window.addEventListener('resize', handleWindowResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleWindowResize);
-  //   };
-  // });
   const [initialVariant, setInitialVariant] = useState(productVariants![0]);
   useEffect(() => {
     dispatch(setVariant(initialVariant));
   }, []);
+  const [loadingComplet, setLoadingComplet] = useState(false);
+
   return (
     <ColorPickerContainer>
-      {/* <ColorPickerNameWrapper
-        key="prices-product-page"
-        custom={0.38}
-        initial="init"
-        animate="animate"
-        exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
-        variants={variants.fadInSlideUp}
-      >
-        {variantColor?.url != '_' ? (
-          <ColorWrapper>
-            <span>Цвет:</span>
-            <ColorItem backgroundColor={variantColor?.code!} />
-          </ColorWrapper>
-        ) : (
-          ''
-        )}
-      </ColorPickerNameWrapper> */}
       <ColorPickerList>
         {variantImages?.map((variant, colIndex) => {
           if (!initialVariant) setInitialVariant(variant);
@@ -113,10 +76,6 @@ const ColorPicker: React.FC<Props> = ({
                     }}
                     src={`/api/images/${variant.image}`}
                     alt={`${variant.image}`}
-                    onError={({ currentTarget }) => {
-                      currentTarget.onerror = null;
-                      currentTarget.src = '/img_not_found.png';
-                    }}
                     width={0}
                     height={0}
                     sizes="100vw"
@@ -167,20 +126,6 @@ const ColorPicker: React.FC<Props> = ({
                   ) : (
                     <ColorPickerPriceWrapper>
                       <ColorPickerSpan>{variant.price}₽</ColorPickerSpan>
-                      {/* <ColorPickerSpan>
-                      {`${
-                        user?.role === Role.SuperUser
-                          ? variant.wholeSalePrice
-                          : variant.price
-                      }₽`}
-                      </ColorPickerSpan> */}
-                      {/* {!variant.oldPrice ? (
-                        ''
-                      ) : (
-                        <ColorPickerSpan>
-                          {`${variant.oldPrice}₽`}
-                        </ColorPickerSpan>
-                      )} */}
                     </ColorPickerPriceWrapper>
                   )}
                 </React.Fragment>
@@ -212,21 +157,24 @@ const ColorPicker: React.FC<Props> = ({
                   paginateImage,
                 )}
               >
+                <LoaderMask
+                  style={{ display: loadingComplet ? 'none' : 'flex' }}
+                />
                 <Image
                   style={{
                     width: selectedIndex == colIndex ? '45px' : '50px',
                     height: selectedIndex == colIndex ? '45px' : '50px',
+                    opacity: loadingComplet ? 1 : 0,
+                    position: loadingComplet ? 'inherit' : 'absolute',
+                    zIndex: loadingComplet ? 1 : -1,
                   }}
                   src={`/api/images/${variant.image}`}
                   alt={variant.image}
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null;
-                    currentTarget.src = '/img_not_found.png';
-                  }}
                   width={50}
                   height={50}
                   loading="lazy"
                   priority={false}
+                  onLoadingComplete={() => setLoadingComplet(true)}
                 />
                 {!variant.available ? <div></div> : ''}
               </ColorPickerItems>
@@ -237,6 +185,36 @@ const ColorPicker: React.FC<Props> = ({
     </ColorPickerContainer>
   );
 };
+
+const LoaderMask = styled.div`
+  width: 50px;
+  height: 50px;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
 
 export const ColorPickerContainer = styled.div`
   width: 100%;

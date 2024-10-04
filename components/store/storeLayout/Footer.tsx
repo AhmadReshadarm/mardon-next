@@ -35,7 +35,7 @@ const Footer = (): JSX.Element => {
     setClient(true);
     setTimeout(() => {
       setShowCookiesNotifi(true);
-    }, 10000);
+    }, 15000);
   }, []);
 
   useEffect(() => {

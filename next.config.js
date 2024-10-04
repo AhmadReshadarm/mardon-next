@@ -4,6 +4,13 @@ module.exports = {
     defaultLocale: 'ru',
   },
   images: {
-    domains: ['avatars.dicebear.com'],
+    // domains: ['avatars.dicebear.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.dicebear.com',
+        pathname: '**',
+      },
+    ],
   },
 };

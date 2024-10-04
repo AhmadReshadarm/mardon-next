@@ -24,6 +24,8 @@ type Props = {
 interface StyleProps {
   isDisplay?: boolean;
   imgHeight?: string;
+  windowWidth?: number;
+  url?: string;
 }
 const ImageBanner: React.FC<Props> = ({ slides }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
@@ -31,31 +33,33 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   const imgRef = useRef<HTMLDivElement | any>(null);
 
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
-  const [changeImgSrc, setChangeImgSrc] = useState(false);
+  // const [changeImgSrc, setChangeImgSrc] = useState(false);
+  const [loadingComplet, setLoadingComplet] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isMouseHover) {
         paginateImage(1);
-        setChangeImgSrc(true);
+        // setChangeImgSrc(true);
       }
     }, 15000);
 
     return () => clearTimeout(timer);
   }, [imageIndex, isMouseHover]);
 
-  const [imgHeight, setImgHeight] = useState();
-  useEffect(() => {
-    setImgHeight(imgRef.current.clientHeight);
-    const handleWindowResize = () => {
-      setImgHeight(imgRef.current.clientHeight);
-    };
+  // const [imgHeight, setImgHeight] = useState();
+  // useEffect(() => {
+  //   setImgHeight(imgRef.current.clientHeight);
+  //   const handleWindowResize = () => {
+  //     setImgHeight(imgRef.current.clientHeight);
+  //   };
 
-    window.addEventListener('resize', handleWindowResize);
+  //   window.addEventListener('resize', handleWindowResize);
 
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
+  //   return () => {
+  //     window.removeEventListener('resize', handleWindowResize);
+  //   };
+  // });
 
   const {
     isCatalogOpen,
@@ -70,14 +74,14 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     <SliderWrapper
       onMouseEnter={() => {
         setISMouseHover(true);
-        setChangeImgSrc(true);
+        // setChangeImgSrc(true);
       }}
       onMouseLeave={() => {
         setISMouseHover(false);
       }}
       onTouchStart={() => {
         setISMouseHover(true);
-        setChangeImgSrc(true);
+        // setChangeImgSrc(true);
       }}
       onTouchEnd={() => {
         const id = setTimeout(() => {
@@ -86,7 +90,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         return () => clearTimeout(id);
       }}
       key="slider-home-banners"
-      imgHeight={`${imgHeight}`}
+      // imgHeight={`${imgHeight}`}
     >
       <Link
         href={slides![imageIndex]?.link!}
@@ -124,12 +128,20 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
           >
+            <LoaderMask
+              style={{
+                display: loadingComplet ? 'none' : 'flex',
+              }}
+            />
             <Slider
+              style={{
+                opacity: loadingComplet ? 1 : 0,
+                position: loadingComplet ? 'inherit' : 'absolute',
+                zIndex: loadingComplet ? 1 : -1,
+              }}
               ref={imgRef}
               alt={`${slides[imageIndex]?.link}`}
-              // onError={() => setImgError(true)}
-              // /api/images/${slides[imageIndex]?.image}
-              // ${changeImgSrc ? '/api/images/' : '/temp/'}${slides[imageIndex]?.image}
+              // ${changeImgSrc ? '/api/images/' : '/temp/'}
               src={`/api/images/${slides[imageIndex]?.image}`}
               isDisplay={
                 isCatalogOpen ||
@@ -142,8 +154,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               width={1920}
               height={800}
               priority={true}
-              placeholder="blur"
-              blurDataURL={`/temp/${slides[imageIndex]?.image}`}
+              onLoadingComplete={() => setLoadingComplet(true)}
             />
           </SliderSlide>
         </AnimatePresence>
@@ -205,60 +216,64 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   );
 };
 
-// const ImageLoader = styled.div`
-//   width: 100vw;
-//   height: 80vh;
-//   background: #cccccca3;
-//   position: relative;
-//   overflow: hidden;
-//   &:after {
-//     content: '';
-//     display: block;
-//     position: absolute;
-//     top: 0;
-//     width: 100%;
-//     height: 100%;
-//     transform: translateX(-100px);
-//     background: linear-gradient(
-//       90deg,
-//       transparent,
-//       rgba(255, 255, 255, 0.2),
-//       transparent
-//     );
-//     animation: loading 0.8s infinite;
-//   }
+const LoaderMask = styled.div`
+  width: 100%;
+  height: 800px;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
 
-//   @keyframes loading {
-//     100% {
-//       transform: translateX(100%);
-//     }
-//   }
-//   @media ${devices.laptopL} {
-//     height: 50vh;
-//   }
-//   @media ${devices.laptopM} {
-//     height: 50vh;
-//   }
-//   @media ${devices.laptopS} {
-//     height: 50vh;
-//   }
-//   @media ${devices.tabletL} {
-//     height: 50vh;
-//   }
-//   @media ${devices.tabletS} {
-//     height: 50vh;
-//   }
-//   @media ${devices.mobileL} {
-//     height: 50vh;
-//   }
-//   @media ${devices.mobileM} {
-//     height: 50vh;
-//   }
-//   @media ${devices.mobileS} {
-//     height: 50vh;
-//   }
-// `;
-
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  @media ${devices.laptopL} {
+    height: 515px;
+  }
+  @media ${devices.laptopM} {
+    height: 430px;
+  }
+  @media ${devices.laptopS} {
+    height: 320px;
+  }
+  @media ${devices.tabletL} {
+    height: 180px;
+  }
+  @media ${devices.tabletS} {
+    height: 165px;
+  }
+  @media ${devices.mobileL} {
+    height: 120px;
+  }
+  @media ${devices.mobileM} {
+    height: 80px;
+  }
+  @media ${devices.mobileS} {
+    height: 80px;
+  }
+`;
+// ${(props) => {
+//     return `
+//     min-height:${props.imgHeight}px;
+//     `;
+//   }}
 const SliderWrapper = styled.div<StyleProps>`
   width: 100%;
   height: 100%;
@@ -270,12 +285,8 @@ const SliderWrapper = styled.div<StyleProps>`
 
   .banner-image-link-wrapper {
     width: 100%;
-    height: 100%;
-    ${(props) => {
-      return `
-      min-height:${props.imgHeight}px;
-      `;
-    }}
+    height: 800px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -321,6 +332,7 @@ const SliderWrapper = styled.div<StyleProps>`
 
   @media ${devices.laptopL} {
     .banner-image-link-wrapper {
+      height: 515px;
       .banner-arrows-wrapper {
         max-width: 1230px;
       }
@@ -328,6 +340,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.laptopM} {
     .banner-image-link-wrapper {
+      height: 430px;
       .banner-arrows-wrapper {
         width: 95%;
         max-width: unset;
@@ -336,6 +349,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.laptopS} {
     .banner-image-link-wrapper {
+      height: 320px;
       .banner-arrows-wrapper {
         width: 95%;
         max-width: unset;
@@ -344,6 +358,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.tabletL} {
     .banner-image-link-wrapper {
+      height: 180px;
       .banner-arrows-wrapper {
         display: none;
       }
@@ -354,6 +369,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.tabletS} {
     .banner-image-link-wrapper {
+      height: 165px;
       .banner-arrows-wrapper {
         display: none;
       }
@@ -364,6 +380,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.mobileL} {
     .banner-image-link-wrapper {
+      height: 120px;
       .banner-arrows-wrapper {
         display: none;
       }
@@ -374,6 +391,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.mobileM} {
     .banner-image-link-wrapper {
+      height: 80px;
       .banner-arrows-wrapper {
         display: none;
       }
@@ -384,6 +402,7 @@ const SliderWrapper = styled.div<StyleProps>`
   }
   @media ${devices.mobileS} {
     .banner-image-link-wrapper {
+      height: 80px;
       .banner-arrows-wrapper {
         display: none;
       }
@@ -398,6 +417,7 @@ const SliderSlide = styled(motion.div)`
   width: 100%;
   height: 100%;
 `;
+// Image;
 const Slider = styled(Image)<StyleProps>`
   width: 100%;
   height: 100%;
@@ -411,6 +431,7 @@ const Slider = styled(Image)<StyleProps>`
       `;
     }
   }}
+
   @media ${devices.laptopL} {
     object-fit: contain;
   }

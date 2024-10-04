@@ -7,6 +7,7 @@
 /android
 /resources
 /.env.local
+/public/temp/*
 package-lock.json
 **/package-lock.json
 # testing

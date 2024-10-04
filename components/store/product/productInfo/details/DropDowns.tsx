@@ -1,7 +1,5 @@
-import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
 import InfoDropdown from './DropDownsParrent';
 import { devices } from 'components/store/lib/Devices';
@@ -19,47 +17,9 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   const { product, loading }: TProductInfoState = useAppSelector(
     (state) => state.productInfo,
   );
-  // const [editorState, setEditorState] = useState(() =>
-  //   EditorState.createEmpty(),
-  // );
-
-  // useEffect(() => {
-  //   if (!loading && product?.desc!.length !== 0) {
-  //     setEditorState(
-  //       EditorState.createWithContent(
-  //         convertFromRaw(JSON.parse(product?.desc!)),
-  //       ),
-  //     );
-  //   }
-  // }, [description]);
-
-  // _________________________ preview converter _______________________
-  // const [convertedContent, setConvertedContent] = useState(null);
-  // useEffect(() => {
-  //   const rawContentState = convertToRaw(editorState.getCurrentContent());
-  //   const htmlOutput = draftToHtml(rawContentState);
-  //   setConvertedContent(htmlOutput);
-  // }, [editorState]);
-
-  // function createMarkup(html) {
-  //   if (typeof window !== 'undefined') {
-  //     const domPurify = DOMPurify(window);
-  //     return {
-  //       __html: domPurify.sanitize(html),
-  //     };
-  //   }
-  // }
 
   return (
-    <InfoContainer
-      key="info-product-page"
-      custom={0.3}
-      initial="init"
-      whileInView="animate"
-      exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
-      viewport={{ once: true }}
-      variants={variants.fadInSlideUp}
-    >
+    <InfoContainer>
       <InfoDropdown title="Описание">
         <p>
           {!loading
@@ -274,7 +234,7 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   );
 };
 
-const InfoContainer = styled(motion.div)`
+const InfoContainer = styled.div`
   width: 95%;
   display: flex;
   flex-direction: column;
