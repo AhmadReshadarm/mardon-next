@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from './Header';
 import UserData from './userdata';
 import TotalDeleveryDate from './totalDeliveryDate';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TAuthState, TCartState } from 'redux/types';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -10,8 +10,8 @@ import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import Authorization from '../storeLayout/utils/HeaderAuth/authorize';
 import { UsePagination } from '../storeLayout/utils/HeaderAuth/authorize/helpers';
-import { devices } from '../lib/Devices';
 import Loading from 'ui-kit/Loading';
+import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
 const CheckoutContent = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { isOneClickBuy } = useAppSelector<TCartState>((state) => state.cart);
@@ -20,9 +20,14 @@ const CheckoutContent = () => {
   const [direction, authType, paginate] = UsePagination();
   const [step, setStep] = useState(0);
   const [isLoading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (user) {
       setStep(1);
+      dispatch(setOneClickBy(false));
+    }
+    if (!user) {
+      setStep(0);
     }
   }, [user]);
   useEffect(() => {

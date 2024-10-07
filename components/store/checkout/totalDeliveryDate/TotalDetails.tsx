@@ -51,18 +51,18 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
 
     if (deliveryInfo && payload && cart) {
       try {
-        await CheckoutService.createCheckoutWithoutRegister({
-          body: {
-            to: payload.receiverEmail,
-            subject: `Заказ ${payload.receiverName}`,
-            html: `${generatedHtml}`,
-          },
-        });
-        await dispatch(createCart());
+        // await CheckoutService.createCheckoutWithoutRegister({
+        //   body: {
+        //     to: payload.receiverEmail,
+        //     subject: `Заказ ${payload.receiverName}`,
+        //     html: `${generatedHtml}`,
+        //   },
+        // });
+        // await dispatch(createCart());
 
-        const basketId = localStorage.getItem('basketId') ?? '';
+        // const basketId = localStorage.getItem('basketId') ?? '';
 
-        dispatch(fetchCart(basketId));
+        // dispatch(fetchCart(basketId));
         openSuccessNotification('Ваш Заказ успешно');
 
         router.push('/checkout/after-checkout');

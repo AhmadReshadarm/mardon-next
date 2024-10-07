@@ -7,8 +7,21 @@ import variants from 'components/store/lib/variants';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { baseUrl } from 'common/constant';
+import { useEffect } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 
 const AfterCheckout = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const clearCart = async () => {
+      await dispatch(createCart());
+      const basketId = localStorage.getItem('basketId') ?? '';
+      dispatch(fetchCart(basketId));
+    };
+    clearCart();
+  }, []);
   return (
     <>
       <Head>
@@ -32,9 +45,9 @@ const AfterCheckout = () => {
         bg_color={color.textPrimary}
       >
         <BackToMain>
-          <Link className="back-to-main" href="/">
+          <Link className="back-to-main" href="/catalog">
             <img src="/icons/back_arrow.png" alt="back button" />
-            <span>Обратно на главную</span>
+            <span>Продолжить покупки</span>
           </Link>
         </BackToMain>
 
