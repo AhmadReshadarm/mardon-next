@@ -14,13 +14,13 @@ const VerifyAcountByToken = () => {
       dispatch(verifyUserEmailByToken(token));
     }
   }, []);
-  const [counter, setCounter] = useState(3);
+  const [counter, setCounter] = useState(2);
   useEffect(() => {
-    if (counter > 1) {
+    if (counter >= 1) {
       setTimeout(() => setCounter(counter - 1), 1000);
     }
-    if (counter < 2) {
-      router.push('/profile');
+    if (counter < 1) {
+      router.push('/checkout');
     }
   }, [counter]);
 
