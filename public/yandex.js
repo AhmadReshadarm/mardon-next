@@ -22,10 +22,10 @@
 ym(96632717, 'init', {
   clickmap: true,
   trackLinks: true,
-  ecommerce: true,
   webvisor: true,
   accurateTrackBounce: true,
   childIframe: true,
   trackHash: true,
   triggerEvent: true,
+  ecommerce: 'dataLayer',
 });
