@@ -1,5 +1,9 @@
 import { TableProps } from 'antd';
-import { navigateTo } from 'common/helpers';
+import {
+  hasWhiteSpace,
+  navigateTo,
+  openErrorNotification,
+} from 'common/helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
 import { NextRouter } from 'next/router';
 import {
@@ -22,6 +26,12 @@ export const handleTableChange: TableProps<DataType>['onChange'] = (
 
 export const handleFormSubmit =
   (router: NextRouter, dispatch: AppDispatch) => async (form) => {
+    if (hasWhiteSpace(form.url)) {
+      openErrorNotification(
+        'В URL-адресе не допускается использование пробелов.',
+      );
+      return;
+    }
     if (router.query.id) {
       const isSaved: any = await dispatch(
         editTag({

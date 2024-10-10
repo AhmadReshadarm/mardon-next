@@ -1,4 +1,8 @@
-import { navigateTo } from 'common/helpers';
+import {
+  hasWhiteSpace,
+  navigateTo,
+  openErrorNotification,
+} from 'common/helpers';
 import cloneDeep from 'lodash/cloneDeep';
 import { NextRouter } from 'next/router';
 import { Dispatch } from 'react';
@@ -23,6 +27,12 @@ const handleFormSubmit =
     parameters: Parameter[],
   ) =>
   async (form) => {
+    if (hasWhiteSpace(form.url)) {
+      openErrorNotification(
+        'В URL-адресе не допускается использование пробелов.',
+      );
+      return;
+    }
     if (router.query.id) {
       const payload = {
         ...form,

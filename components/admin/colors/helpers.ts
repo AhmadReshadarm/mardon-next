@@ -5,7 +5,11 @@ import {
   editColor,
 } from 'redux/slicers/colorsSlicer';
 import { AppDispatch } from 'redux/store';
-import { navigateTo, openErrorNotification } from '../../../common/helpers';
+import {
+  hasWhiteSpace,
+  navigateTo,
+  openErrorNotification,
+} from '../../../common/helpers';
 import { NextRouter } from 'next/router';
 import { Page, paths } from 'routes/constants';
 import { TableProps } from 'antd';
@@ -28,6 +32,12 @@ export const handleDeleteColor =
 
 export const handleFormSubmitColors =
   (router: NextRouter, dispatch: AppDispatch) => async (form) => {
+    if (hasWhiteSpace(form.url)) {
+      openErrorNotification(
+        'В URL-адресе не допускается использование пробелов.',
+      );
+      return;
+    }
     if (router.query.id) {
       const isSaved: any = await dispatch(
         editColor({

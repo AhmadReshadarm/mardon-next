@@ -5,7 +5,11 @@ import {
   editProduct,
 } from 'redux/slicers/productsSlicer';
 import { AppDispatch } from 'redux/store';
-import { navigateTo, openErrorNotification } from '../../../common/helpers';
+import {
+  hasWhiteSpace,
+  navigateTo,
+  openErrorNotification,
+} from '../../../common/helpers';
 import { NextRouter } from 'next/router';
 import { Page, paths } from 'routes/constants';
 import { TableProps } from 'antd';
@@ -105,7 +109,12 @@ const handleFormSubmitProduct =
       parameterProducts,
       variantsLength,
     );
-
+    if (hasWhiteSpace(form.url)) {
+      openErrorNotification(
+        'В URL-адресе не допускается использование пробелов.',
+      );
+      return;
+    }
     if (convertedForm.productVariants.length == 0) {
       openErrorNotification('Установить параметр продукта');
       return;

@@ -4,7 +4,7 @@ import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 // import Editor from 'ui-kit/Editor';
 // const Editor = dynamic(async () => await import('ui-kit/Editor'), {
 //   ssr: false,
