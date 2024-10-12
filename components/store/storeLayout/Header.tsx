@@ -42,7 +42,10 @@ import NavMobile from './utils/mobileNav';
 import dynamic from 'next/dynamic';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { axiosInstance } from 'common/axios.instance';
-import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
+import {
+  // createWishlist,
+  fetchWishlistProducts,
+} from 'redux/slicers/store/wishlistSlicer';
 
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
   ssr: false,
@@ -66,7 +69,7 @@ const Header = () => {
   useEffect(() => overrideDefaultIOSZoom());
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const { wishlist }: TWishlistState = useAppSelector(
+  const { wishlist } = useAppSelector<TWishlistState>(
     (state) => state.wishlist,
   );
 
@@ -108,7 +111,7 @@ const Header = () => {
     isBasketOpen,
     isWishlistOpen,
     isSearchFormActive,
-    isDropDownOpen,
+    // isDropDownOpen,
     catelogDisplay,
     searchDisplay,
     wishlistDisplay,
@@ -136,54 +139,59 @@ const Header = () => {
   const [isClient, setClient] = useState(false);
   useEffect(() => {
     setClient(true);
-    const basketId = localStorage.getItem('basketId');
-    const wishlistId = localStorage.getItem('wishlistId')!;
-
-    if (!basketId) {
-      dispatch(createCart());
-    }
-    if (!wishlistId) {
-      const createWishlistId = async () => {
-        try {
-          const wishlist = await axiosInstance.post('/wishlists');
-          localStorage.setItem('wishlistId', wishlist.data.id);
-        } catch (error) {}
-      };
-      createWishlistId();
-    }
-
-    const fetchDataCartProducts = async () => {
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-      await sleep(500);
-      const createdCardId = localStorage.getItem('basketId');
-      if (createdCardId) {
-        dispatch(fetchCart(createdCardId));
-      }
-      if (!createdCardId) {
-        fetchDataCartProducts();
-      }
-    };
-    fetchDataCartProducts();
-
-    const fetchDataWishlistProducts = async () => {
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-
-      // waits for 500ms
-      await sleep(500);
-      const createdWishlistId = localStorage.getItem('wishlistId');
-      if (createdWishlistId) {
-        dispatch(fetchWishlistProducts(createdWishlistId));
-      }
-      if (!createdWishlistId) {
-        fetchDataWishlistProducts();
-      }
-    };
-    fetchDataWishlistProducts();
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      const basketId = localStorage.getItem('basketId');
+      const wishlistId = localStorage.getItem('wishlistId')!;
+
+      if (!basketId) {
+        dispatch(createCart());
+      }
+      if (!wishlistId) {
+        const createWishlistId = async () => {
+          try {
+            const wishlist = await axiosInstance.post('/wishlists');
+            localStorage.setItem('wishlistId', wishlist.data.id);
+          } catch (error) {}
+        };
+        createWishlistId();
+      }
+
+      const fetchDataCartProducts = async () => {
+        function sleep(ms) {
+          return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+        await sleep(500);
+        const createdCardId = localStorage.getItem('basketId');
+        if (createdCardId) {
+          dispatch(fetchCart(createdCardId));
+        }
+        if (!createdCardId) {
+          fetchDataCartProducts();
+        }
+      };
+      fetchDataCartProducts();
+
+      const fetchDataWishlistProducts = async () => {
+        function sleep(ms) {
+          return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        // waits for 500ms
+        await sleep(500);
+        const createdWishlistId = localStorage.getItem('wishlistId');
+        if (createdWishlistId) {
+          dispatch(fetchWishlistProducts(createdWishlistId));
+        }
+        if (!createdWishlistId) {
+          fetchDataWishlistProducts();
+        }
+      };
+      fetchDataWishlistProducts();
+    }
+  }, [isClient]);
 
   return (
     <>

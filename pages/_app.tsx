@@ -18,10 +18,10 @@ export type ComponentWithPageLayout = AppProps & {
 function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(session());
-  }, []);
+  // this would be redundend so remove it dumb shit
+  // useEffect(() => {
+  //   dispatch(session());
+  // }, []);
 
   useEffect(() => {
     if (!router.pathname.includes('/admin')) {

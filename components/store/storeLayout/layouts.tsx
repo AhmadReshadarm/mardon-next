@@ -26,12 +26,6 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <>
-      {/* <div
-        dangerouslySetInnerHTML={{
-          __html: YandexMetrics(),
-        }}
-      /> */}
-
       {isMetrics ? (
         <>
           <GoogleAnalytics gaId="G-LPMTNCKRGT" />
@@ -42,9 +36,6 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
               console.error('Error', err);
             }}
             defer={true}
-            // onLoad={() => {
-            //   console.log('now loaded');
-            // }}
           />
 
           <noscript>

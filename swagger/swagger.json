@@ -6082,9 +6082,9 @@
       },
       "post": {
         "tags": ["wishlist"],
-        "summary": "Create a wishlist",
-        "description": "",
+        "summary": "create new wishlist ID for new Users",
         "operationId": "createWishlist",
+        "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
           "200": {

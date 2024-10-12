@@ -146,21 +146,7 @@ const generateInvoiceTemplet = (payload: templetDTO) => {
       <div>
         <span>Адрес: </span> <span>${payload.address}</span>
       </div>
-      <div>
-        <span>Квартира/офис: </span> <span>${payload.roomOrOffice}</span>
-      </div>
-      <div>
-        <span>Индекс: </span> <span>${payload.zipCode}</span>
-      </div>
-      <div>
-        <span>Подъезд: </span> <span>${payload.door}</span>
-      </div>
-      <div>
-        <span>Этаж: </span> <span>${payload.floor}</span>
-      </div>
-      <div>
-        <span>Домофон: </span> <span>${payload.rignBell}</span>
-      </div>
+   
       <div>
         <h1>Заказ покупателя</h1>
       </div>
@@ -200,6 +186,22 @@ const generateInvoiceTemplet = (payload: templetDTO) => {
       </div>
       `;
 };
+
+//  <div>
+//       <span>Квартира/офис: </span> <span>${payload.roomOrOffice}</span>
+//     </div>
+//     <div>
+//       <span>Индекс: </span> <span>${payload.zipCode}</span>
+//     </div>
+//     <div>
+//       <span>Подъезд: </span> <span>${payload.door}</span>
+//     </div>
+//     <div>
+//       <span>Этаж: </span> <span>${payload.floor}</span>
+//     </div>
+//     <div>
+//       <span>Домофон: </span> <span>${payload.rignBell}</span>
+//     </div>
 
 export {
   DeliveryTooltip,

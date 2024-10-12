@@ -59,6 +59,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               <AuthInput
                 placeholder="Введите Ваш логин"
                 type="email"
+                autoComplete="username"
                 value={email}
                 onChange={(e) => {
                   setAuthPayload([e.target.value.toLowerCase(), password]);
@@ -69,6 +70,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               <AuthInput
                 placeholder="Введите Ваш пароль"
                 type="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => {
                   setAuthPayload([email, e.target.value]);

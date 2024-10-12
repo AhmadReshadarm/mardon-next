@@ -28,11 +28,12 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
     (state) => state.storeCheckout,
   );
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
+
   const [withDelivery, setWithDelivery] = useState(true);
   const [totalUI, setTotalUI] = useState(getTotalPrice(cart, withDelivery));
   const handleCheckoutWithoutRegister = (router: NextRouter) => async () => {
     setLoading(true);
-
+    reachGoal('cta-click-order');
     const payload = {
       receiverName: deliveryInfo?.receiverName,
       receiverPhone: deliveryInfo?.receiverPhone,
@@ -130,89 +131,114 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
     setTotalUI(getTotalPrice(cart, withDelivery));
   });
 
-  return (
-    <Container>
-      <h3 className="total-header">Ваша сумма</h3>
-      <Wrapper>
-        <Content>
-          <ItemColumn>
-            <span>
-              <button
-                onClick={
-                  isOneClickBuy
-                    ? handleCheckoutWithoutRegister(router)
-                    : handlePayClick(router)
-                }
-                className="checkout-action-btn"
-              >
-                Завершить мой заказ
-              </button>
-            </span>
-            <span className="user-agreement-text">
-              Нажимая на кнопку, вы соглашаетесь с{' '}
-              <Link href="/privacy">
-                <span>Политика безопасности</span>
-              </Link>
-              , а также с{' '}
-              <Link href="/user-agreement">
-                <span>Пользовательское соглашение</span>
-              </Link>
-            </span>
-          </ItemColumn>
-          <ItemRowWrapper>
-            <ItemRow>
-              <h3>Ваш заказ</h3>
-              <span className="product-wheight">
-                {cart?.orderProducts?.length} товар(ов) •
-              </span>
-            </ItemRow>
-            {cart?.orderProducts?.map((product: any, index) => {
-              return (
-                <ItemRow key={index}>
-                  <span>{product.product?.name?.slice(0, 20)}..</span>
-                  <p className="product-price-mobile-wrapper">
-                    <span>{product!.qty} шт</span> *{'  '}
-                    <span>
-                      {user?.role === Role.SuperUser
-                        ? product.productVariant?.wholeSalePrice
-                        : product.productVariant?.price}{' '}
-                      ₽
-                    </span>
-                    {'  '}
-                    <span>=</span>
-                    {'  '}
-                    <span style={{ whiteSpace: 'nowrap' }}>
-                      {user?.role === Role.SuperUser
-                        ? product.productVariant?.wholeSalePrice * product.qty
-                        : product.productVariant?.price * product.qty}{' '}
-                      ₽
-                    </span>
-                  </p>
-                </ItemRow>
-              );
-            })}
-            {user?.role === Role.SuperUser ? (
-              ''
-            ) : (
-              <ItemRow>
-                <span>Скидка</span>
-                <b>
-                  <span style={{ color: color.ok }}>
-                    {`${formatNumber(getDiscount(cart))}`} ₽
-                  </span>
-                </b>
-              </ItemRow>
-            )}
-          </ItemRowWrapper>
-          <ItemRow>
-            <h3 className="total">Итого</h3>
-            <h3 className="total">{formatNumber(totalUI)} ₽</h3>
-          </ItemRow>
-        </Content>
+  const estimated_delivery_date = new Date().toISOString().split('T')[0];
 
-        <DropDowns />
-      </Wrapper>
-    </Container>
+  return (
+    <>
+      <Container>
+        <h3 className="total-header">Ваша сумма</h3>
+        <Wrapper>
+          <Content>
+            <ItemColumn>
+              <span>
+                <button
+                  onClick={
+                    isOneClickBuy
+                      ? handleCheckoutWithoutRegister(router)
+                      : handlePayClick(router)
+                  }
+                  className="checkout-action-btn"
+                >
+                  Завершить мой заказ
+                </button>
+              </span>
+              <span className="user-agreement-text">
+                Нажимая на кнопку, вы соглашаетесь с{' '}
+                <Link href="/privacy">
+                  <span>Политика безопасности</span>
+                </Link>
+                , а также с{' '}
+                <Link href="/user-agreement">
+                  <span>Пользовательское соглашение</span>
+                </Link>
+              </span>
+            </ItemColumn>
+            <ItemRowWrapper>
+              <ItemRow>
+                <h3>Ваш заказ</h3>
+                <span className="product-wheight">
+                  {cart?.orderProducts?.length} товар(ов) •
+                </span>
+              </ItemRow>
+              {cart?.orderProducts?.map((product: any, index) => {
+                return (
+                  <ItemRow key={index}>
+                    <span>{product.product?.name?.slice(0, 20)}..</span>
+                    <p className="product-price-mobile-wrapper">
+                      <span>{product!.qty} шт</span> *{'  '}
+                      <span>
+                        {user?.role === Role.SuperUser
+                          ? product.productVariant?.wholeSalePrice
+                          : product.productVariant?.price}{' '}
+                        ₽
+                      </span>
+                      {'  '}
+                      <span>=</span>
+                      {'  '}
+                      <span style={{ whiteSpace: 'nowrap' }}>
+                        {user?.role === Role.SuperUser
+                          ? product.productVariant?.wholeSalePrice * product.qty
+                          : product.productVariant?.price * product.qty}{' '}
+                        ₽
+                      </span>
+                    </p>
+                  </ItemRow>
+                );
+              })}
+              {user?.role === Role.SuperUser ? (
+                ''
+              ) : (
+                <ItemRow>
+                  <span>Скидка</span>
+                  <b>
+                    <span style={{ color: color.ok }}>
+                      {`${formatNumber(getDiscount(cart))}`} ₽
+                    </span>
+                  </b>
+                </ItemRow>
+              )}
+            </ItemRowWrapper>
+            <ItemRow>
+              <h3 className="total">Итого</h3>
+              <h3 className="total">{formatNumber(totalUI)} ₽</h3>
+            </ItemRow>
+          </Content>
+
+          <DropDowns />
+        </Wrapper>
+      </Container>
+
+      <script
+        src="https://apis.google.com/js/platform.js?onload=renderOptIn"
+        async
+        defer
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `  window.renderOptIn = function()
+        {window.gapi.load('surveyoptin', function () {
+          window.gapi.surveyoptin.render({
+            // REQUIRED FIELDS
+            merchant_id: 5338706929,
+            order_id: ${cart?.id},
+            email: ${isOneClickBuy ? deliveryInfo?.receiverEmail : user?.email},
+            delivery_country: 'RU',
+            estimated_delivery_date: ${estimated_delivery_date},
+          });
+        })}`,
+        }}
+      />
+    </>
   );
 };
 

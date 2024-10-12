@@ -127,6 +127,7 @@ const AuthInput = styled.input`
   background: transparent;
   border: none;
   border-bottom: 1px solid;
+  font-size: 16px;
 `;
 
 const Loading = styled.div`

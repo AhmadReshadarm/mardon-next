@@ -1,12 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getErrorMassage, handleError, handlePending } from 'common/helpers';
 import { TWishlistState } from 'redux/types';
-import {
-  Product,
-  WishlistService,
+import { WishlistService, Wishlist, BasketDTO } from 'swagger/services';
+
+export const createWishlist = createAsyncThunk<
   Wishlist,
-  BasketDTO,
-} from 'swagger/services';
+  undefined,
+  { rejectValue: string }
+>(
+  'global/createWishlist',
+  async function (_, { rejectWithValue }): Promise<any> {
+    try {
+      return await WishlistService.createWishlist();
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
 
 export const fetchWishlistProducts = createAsyncThunk<
   Wishlist,
@@ -56,6 +66,14 @@ const wishlistSlicer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // createWishlist
+      .addCase(createWishlist.pending, handlePending)
+      .addCase(createWishlist.fulfilled, (state, action) => {
+        state.wishlist = action.payload;
+        localStorage.setItem('wishlistId', action.payload.id!);
+        state.loading = false;
+      })
+      .addCase(createWishlist.rejected, handleError)
       //fetchWishlistProducts
       .addCase(fetchWishlistProducts.pending, handlePending)
       .addCase(fetchWishlistProducts.fulfilled, (state, action) => {

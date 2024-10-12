@@ -19,6 +19,7 @@ const CheckoutContent = () => {
   const [backToFinal, setBacktoFinal] = useState(false);
   const [direction, authType, paginate] = UsePagination();
   const [step, setStep] = useState(0);
+  const [activeUI, setActiveUI] = useState('auth');
   const [isLoading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -36,6 +37,25 @@ const CheckoutContent = () => {
     }
   }, [isOneClickBuy]);
 
+  useEffect(() => {
+    switch (true) {
+      case step == 0 && !user && !isOneClickBuy:
+        setActiveUI('auth');
+        break;
+      case (step == 1 && isOneClickBuy && !hasAddress) ||
+        (step == 1 && user && !hasAddress):
+        setActiveUI('userData');
+        break;
+      case (step == 2 && isOneClickBuy && hasAddress) ||
+        (step == 2 && user && hasAddress):
+        setActiveUI('completeOrder');
+        break;
+      default:
+        break;
+    }
+    console.log(user);
+  }, [user, step, isOneClickBuy, hasAddress]);
+
   return (
     <Content>
       {isLoading ? (
@@ -46,40 +66,86 @@ const CheckoutContent = () => {
         ''
       )}
       <Header step={step} setStep={setStep} />
-      {step == 0 && !user && !isOneClickBuy ? (
-        <Contianer>
-          <Wrapper variants={variants.fadeInReveal}>
-            <AuthContent>
-              <Authorization
-                direction={direction}
-                authType={authType}
-                paginate={paginate}
-              />
-            </AuthContent>
-          </Wrapper>
-        </Contianer>
-      ) : (step == 1 && isOneClickBuy && !hasAddress) ||
-        (step == 1 && user && !hasAddress) ? (
+      <Contianer
+        style={{
+          display: activeUI == 'auth' ? 'flex' : 'none',
+        }}
+      >
+        <Wrapper variants={variants.fadeInReveal}>
+          <AuthContent>
+            <Authorization
+              direction={direction}
+              authType={authType}
+              paginate={paginate}
+            />
+          </AuthContent>
+        </Wrapper>
+      </Contianer>
+      <MapContainer
+        style={{
+          display: activeUI == 'userData' ? 'flex' : 'none',
+        }}
+      >
         <UserData
           setStep={setStep}
           backToFinal={backToFinal}
           setHasAddress={setHasAddress}
         />
-      ) : (
+      </MapContainer>
+      <CompleteOrderContainer
+        style={{
+          display: activeUI == 'completeOrder' ? 'flex' : 'none',
+        }}
+      >
         <TotalDeleveryDate
           setHasAddress={setHasAddress}
           setStep={setStep}
           setBacktoFinal={setBacktoFinal}
           setLoading={setLoading}
         />
-      )}
+      </CompleteOrderContainer>
     </Content>
   );
 };
 
+// step == 0 && !user && !isOneClickBuy ? (
+// <Contianer>
+//   <Wrapper variants={variants.fadeInReveal}>
+//     <AuthContent>
+//       <Authorization
+//         direction={direction}
+//         authType={authType}
+//         paginate={paginate}
+//       />
+//     </AuthContent>
+//   </Wrapper>
+// </Contianer>
+// ) : (step == 1 && isOneClickBuy && !hasAddress) ||
+//   (step == 1 && user && !hasAddress) ? (
+// <UserData
+//   setStep={setStep}
+//   backToFinal={backToFinal}
+//   setHasAddress={setHasAddress}
+// />
+// ) : (
+// <TotalDeleveryDate
+//   setHasAddress={setHasAddress}
+//   setStep={setStep}
+//   setBacktoFinal={setBacktoFinal}
+//   setLoading={setLoading}
+// />
+// );
+
 const Content = styled.div`
   width: 100%;
   position: relative;
+`;
+
+const MapContainer = styled.div`
+  width: 100%;
+`;
+const CompleteOrderContainer = styled.div`
+  width: 100%;
 `;
 
 const Contianer = styled(motion.div)`

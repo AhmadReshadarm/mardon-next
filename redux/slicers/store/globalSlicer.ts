@@ -1,17 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { handlePaginationDataFormatter } from 'redux/helpers';
+// import { handlePaginationDataFormatter } from 'redux/helpers';
 import { TFilters, TGlobalState } from 'redux/types';
 import {
-  BasketDTO,
-  Brand,
-  BrandService,
   Category,
   CategoryInTree,
   CategoryService,
   Product,
   ProductService,
-  Wishlist,
-  WishlistService,
+  // Wishlist,
+  // WishlistService,
   Tag,
   TagService,
   NewsService,
@@ -24,57 +21,57 @@ import {
   openErrorNotification,
 } from '../../../common/helpers';
 
-export const fetchWishlist = createAsyncThunk<
-  Wishlist,
-  string,
-  { rejectValue: string }
->(
-  'global/fetchWishlist',
-  async function (payload, { rejectWithValue }): Promise<any> {
-    // const userId = localStorage.getItem('userId');
-    try {
-      return await WishlistService.findWishlistById({ wishlistId: payload });
-    } catch (error: any) {
-      localStorage.removeItem('wishlistId');
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+// export const fetchWishlist = createAsyncThunk<
+//   Wishlist,
+//   string,
+//   { rejectValue: string }
+// >(
+//   'global/fetchWishlist',
+//   async function (payload, { rejectWithValue }): Promise<any> {
+//     // const userId = localStorage.getItem('userId');
+//     try {
+//       return await WishlistService.findWishlistById({ wishlistId: payload });
+//     } catch (error: any) {
+//       localStorage.removeItem('wishlistId');
+//       return rejectWithValue(getErrorMassage(error.response.status));
+//     }
+//   },
+// );
 
-export const createWishlist = createAsyncThunk<
-  Wishlist,
-  undefined,
-  { rejectValue: string }
->(
-  'global/createWishlist',
-  async function (_, { rejectWithValue }): Promise<any> {
-    try {
-      return await WishlistService.createWishlist();
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+// export const createWishlist = createAsyncThunk<
+//   Wishlist,
+//   undefined,
+//   { rejectValue: string }
+// >(
+//   'global/createWishlist',
+//   async function (_, { rejectWithValue }): Promise<any> {
+//     try {
+//       return await WishlistService.createWishlist();
+//     } catch (error: any) {
+//       return rejectWithValue(getErrorMassage(error.response.status));
+//     }
+//   },
+// );
 
-export const updateWishlist = createAsyncThunk<
-  Wishlist,
-  Wishlist,
-  { rejectValue: string }
->(
-  'global/updateWishlist',
-  async function (payload: BasketDTO, { rejectWithValue }): Promise<any> {
-    try {
-      const wishlistId = localStorage.getItem('wishlistId') ?? '';
+// export const updateWishlist = createAsyncThunk<
+//   Wishlist,
+//   Wishlist,
+//   { rejectValue: string }
+// >(
+//   'global/updateWishlist',
+//   async function (payload: BasketDTO, { rejectWithValue }): Promise<any> {
+//     try {
+//       const wishlistId = localStorage.getItem('wishlistId') ?? '';
 
-      return await WishlistService.updateWishlist({
-        wishlistId,
-        body: payload,
-      });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+//       return await WishlistService.updateWishlist({
+//         wishlistId,
+//         body: payload,
+//       });
+//     } catch (error: any) {
+//       return rejectWithValue(getErrorMassage(error.response.status));
+//     }
+//   },
+// );
 
 export const fetchCategories = createAsyncThunk<
   CategoryInTree[],
@@ -223,33 +220,33 @@ const globalSlicer = createSlice({
   extraReducers: (builder) => {
     builder
       //fetchWishlist
-      .addCase(fetchWishlist.pending, handlePending)
-      .addCase(fetchWishlist.fulfilled, (state, action) => {
-        state.wishlist = action.payload;
-        state.loading = false;
-      })
-      .addCase(fetchWishlist.rejected, handleError)
-      // createWishlist
-      .addCase(createWishlist.pending, handlePending)
-      .addCase(createWishlist.fulfilled, (state, action) => {
-        state.wishlist = action.payload;
-        localStorage.setItem('wishlistId', action.payload.id!);
-        state.loading = false;
-      })
-      .addCase(createWishlist.rejected, handleError)
-      //updateWishlist
-      .addCase(
-        updateWishlist.pending,
-        (state: { loadingAddRemoveWishlist: boolean }) => {
-          state.loadingAddRemoveWishlist = true;
-        },
-      )
-      .addCase(updateWishlist.fulfilled, (state, action) => {
-        state.wishlist = action.payload;
-        localStorage.setItem('wishlistId', action.payload.id!);
-        state.loadingAddRemoveWishlist = false;
-      })
-      .addCase(updateWishlist.rejected, handleError)
+      // .addCase(fetchWishlist.pending, handlePending)
+      // .addCase(fetchWishlist.fulfilled, (state, action) => {
+      //   state.wishlist = action.payload;
+      //   state.loading = false;
+      // })
+      // .addCase(fetchWishlist.rejected, handleError)
+      // // createWishlist
+      // .addCase(createWishlist.pending, handlePending)
+      // .addCase(createWishlist.fulfilled, (state, action) => {
+      //   state.wishlist = action.payload;
+      //   localStorage.setItem('wishlistId', action.payload.id!);
+      //   state.loading = false;
+      // })
+      // .addCase(createWishlist.rejected, handleError)
+      // //updateWishlist
+      // .addCase(
+      //   updateWishlist.pending,
+      //   (state: { loadingAddRemoveWishlist: boolean }) => {
+      //     state.loadingAddRemoveWishlist = true;
+      //   },
+      // )
+      // .addCase(updateWishlist.fulfilled, (state, action) => {
+      //   state.wishlist = action.payload;
+      //   localStorage.setItem('wishlistId', action.payload.id!);
+      //   state.loadingAddRemoveWishlist = false;
+      // })
+      // .addCase(updateWishlist.rejected, handleError)
       //fetchCategories
       .addCase(fetchCategories.pending, handlePending)
       .addCase(fetchCategories.fulfilled, (state, action) => {

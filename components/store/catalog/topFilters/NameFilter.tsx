@@ -73,6 +73,7 @@ const SearchInput = styled.input`
   padding: 10px 40px 10px 15px;
   border: none;
   background-color: transparent;
+  font-size: 16px;
 `;
 
 export default NameFilter;

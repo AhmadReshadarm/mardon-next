@@ -9,8 +9,6 @@ import styled from 'styled-components';
 import Authorization from './authorize';
 import { UsePagination } from './authorize/helpers';
 import { Profile } from './Profile';
-import { fetchUserById } from 'redux/slicers/authSlicer';
-import { getAccessToken } from 'common/helpers/jwtToken.helpers';
 import { session } from 'redux/slicers/authSlicer';
 import {
   changeAuthFormDisplayState,
@@ -53,12 +51,9 @@ const Authorize: React.FC<Props> = ({ authButtonRef, windowWidth }) => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   useEffect(() => {
-    const accessToken = getAccessToken();
-    if (accessToken && user?.id) dispatch(fetchUserById({ userId: user?.id! }));
-  }, [isAuthFormOpen]);
-
-  useEffect(() => {
-    dispatch(session());
+    if (!user) {
+      dispatch(session());
+    }
   }, [isAuthFormOpen]);
   return (
     <>
