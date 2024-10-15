@@ -141,10 +141,6 @@ const Header = () => {
     setClient(true);
   }, []);
 
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   useEffect(() => {
     if (isClient) {
       const basketId = localStorage.getItem('basketId');
