@@ -62,7 +62,7 @@ const Slider: React.FC<Props> = ({
   useEffect(() => {
     setTimeout(() => {
       setFirstLoad(false);
-    }, 15000);
+    }, 5000);
   }, []);
 
   return (
@@ -98,7 +98,12 @@ const Slider: React.FC<Props> = ({
             itemProp="contentUrl"
             width={1080}
             height={1080}
-            onLoadingComplete={() => setLoadingComplet(true)}
+            onLoadingComplete={() => {
+              setLoadingComplet(true);
+              setTimeout(() => {
+                setFirstLoad(false);
+              }, 2000);
+            }}
             priority={true}
           />
         </SliderSlide>
