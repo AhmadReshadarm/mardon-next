@@ -25,21 +25,28 @@ class MyDocument extends Document {
             rel="preload"
             href="/fonts/circe/circe-regular.woff"
             as="font"
-            type="font/woff2"
+            type="font/woff"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
             href="/fonts/circe/circe-extra-bold.woff"
             as="font"
-            type="font/woff2"
+            type="font/woff"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/circe/circe-bold.woff"
+            as="font"
+            type="font/woff"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
             href="/fonts/tt-ricordi-marmo-trial-variable.woff"
             as="font"
-            type="font/woff2"
+            type="font/woff"
             crossOrigin="anonymous"
           />
           <link

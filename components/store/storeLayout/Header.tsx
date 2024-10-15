@@ -141,52 +141,58 @@ const Header = () => {
     setClient(true);
   }, []);
 
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   useEffect(() => {
     if (isClient) {
       const basketId = localStorage.getItem('basketId');
       const wishlistId = localStorage.getItem('wishlistId')!;
 
-      if (!basketId) {
-        dispatch(createCart());
-      }
-      if (!wishlistId) {
-        const createWishlistId = async () => {
-          try {
-            const wishlist = await axiosInstance.post('/wishlists');
-            localStorage.setItem('wishlistId', wishlist.data.id);
-          } catch (error) {}
-        };
-        createWishlistId();
-      }
+      const createWishlistId = async () => {
+        try {
+          const wishlist = await axiosInstance.post('/wishlists');
+          localStorage.setItem('wishlistId', wishlist.data.id);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       const fetchDataCartProducts = async () => {
-        function sleep(ms) {
-          return new Promise((resolve) => setTimeout(resolve, ms));
+        if (!basketId) {
+          await dispatch(createCart());
+          const newCreatedCardId = localStorage.getItem('basketId');
+          await dispatch(fetchCart(newCreatedCardId!));
         }
-        await sleep(500);
-        const createdCardId = localStorage.getItem('basketId');
-        if (createdCardId) {
-          dispatch(fetchCart(createdCardId));
-        }
-        if (!createdCardId) {
-          fetchDataCartProducts();
+        if (basketId) {
+          const cartResponse = await dispatch(fetchCart(basketId));
+          // only for dev use 👇
+          if (cartResponse.meta.requestStatus == 'rejected') {
+            await dispatch(createCart());
+            const newCreatedCardId = localStorage.getItem('basketId');
+            await dispatch(fetchCart(newCreatedCardId!));
+          }
         }
       };
       fetchDataCartProducts();
 
       const fetchDataWishlistProducts = async () => {
-        function sleep(ms) {
-          return new Promise((resolve) => setTimeout(resolve, ms));
+        if (!wishlistId) {
+          await createWishlistId();
+          const newCreatedWishlistId = localStorage.getItem('wishlistId');
+          dispatch(fetchWishlistProducts(newCreatedWishlistId!));
         }
-
-        // waits for 500ms
-        await sleep(500);
-        const createdWishlistId = localStorage.getItem('wishlistId');
-        if (createdWishlistId) {
-          dispatch(fetchWishlistProducts(createdWishlistId));
-        }
-        if (!createdWishlistId) {
-          fetchDataWishlistProducts();
+        if (wishlistId) {
+          const wishlistResponse = await dispatch(
+            fetchWishlistProducts(wishlistId),
+          );
+          // only for dev use 👇
+          if (wishlistResponse.meta.requestStatus == 'rejected') {
+            await createWishlistId();
+            const newCreatedWishlistId = localStorage.getItem('wishlistId');
+            dispatch(fetchWishlistProducts(newCreatedWishlistId!));
+          }
         }
       };
       fetchDataWishlistProducts();

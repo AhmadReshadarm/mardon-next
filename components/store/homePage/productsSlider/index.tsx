@@ -37,6 +37,29 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
 
     return () => clearTimeout(timer);
   }, [caroselIndex, isMouseHover]);
+  // ------------------------------------------------------------------
+
+  const [firstLoad, setFirstLoad] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstLoad(false);
+    }, 14000);
+  }, []);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
 
   return (
     <Container
@@ -68,7 +91,6 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
         <>
           {caroselProducts.map((product, index) => {
             const images = getProductVariantsImages(product?.productVariants);
-
             return (
               <>
                 {caroselIndex === index ? (
@@ -124,6 +146,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                                   onClick={() => {
                                     setCaroselIndex(index);
                                     setISMouseHover(true);
+                                    setFirstLoad(false);
                                   }}
                                 ></span>
                               );
@@ -139,6 +162,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                                 <li
                                   onMouseOver={() => {
                                     setImageIndex(index);
+                                    setFirstLoad(false);
                                   }}
                                   className="image-index"
                                 ></li>
@@ -151,15 +175,33 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                             }}
                           />
 
-                          <Image
-                            style={{ opacity: loadingComplet ? 1 : 0 }}
-                            src={`/api/images/${images[imageIndex]}`}
-                            alt={product?.name!}
-                            width={1080}
-                            height={1080}
-                            priority={caroselIndex === index ? true : false}
-                            onLoadingComplete={() => setLoadingComplet(true)}
-                          />
+                          {firstLoad ? (
+                            <Image
+                              style={{ opacity: loadingComplet ? 1 : 0 }}
+                              src={`/api/images/compress/${
+                                images[imageIndex]
+                              }?qlty=1&width=${
+                                windowWidth < 1024 ? windowWidth : 1080
+                              }&height=${
+                                windowWidth < 1024 ? windowWidth : 1080
+                              }&lossless=false`}
+                              alt={product?.name!}
+                              width={1080}
+                              height={1080}
+                              priority={caroselIndex === index ? true : false}
+                              onLoadingComplete={() => setLoadingComplet(true)}
+                            />
+                          ) : (
+                            <Image
+                              style={{ opacity: loadingComplet ? 1 : 0 }}
+                              src={`/api/images/${images[imageIndex]}`}
+                              alt={product?.name!}
+                              width={1080}
+                              height={1080}
+                              priority={caroselIndex === index ? true : false}
+                              onLoadingComplete={() => setLoadingComplet(true)}
+                            />
+                          )}
                         </div>
                       </Link>
                     </div>

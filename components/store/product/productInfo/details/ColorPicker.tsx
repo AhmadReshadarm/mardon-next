@@ -168,7 +168,7 @@ const ColorPicker: React.FC<Props> = ({
                     position: loadingComplet ? 'inherit' : 'absolute',
                     zIndex: loadingComplet ? 1 : -1,
                   }}
-                  src={`/api/images/${variant.image}`}
+                  src={`/api/images/compress/${variant.image}?qlty=1&width=50&height=50&lossless=true`} // `/api/images/${variant.image}`
                   alt={variant.image}
                   width={50}
                   height={50}

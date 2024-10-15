@@ -106,6 +106,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   }}
                   width={35}
                   height={15}
+                  quality={20}
                   priority={false}
                   loading="lazy"
                   src="/icons/back_arrow.png"

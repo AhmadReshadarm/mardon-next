@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getErrorMassage, handleError, handlePending } from 'common/helpers';
+import {
+  getErrorMassage,
+  handleError,
+  handlePending,
+  openErrorNotification,
+} from 'common/helpers';
 import { TCartState } from 'redux/types';
 import {
   Basket,
@@ -104,7 +109,14 @@ const cartSlicer = createSlice({
         state.cart = action.payload;
         state.loading = false;
       })
-      .addCase(fetchCart.rejected, handleError)
+      .addCase(
+        fetchCart.rejected,
+        (state, action: PayloadAction<any, any, any, any>) => {
+          state.loading = false;
+          localStorage.removeItem('basketId');
+          openErrorNotification(action.payload);
+        },
+      )
       //createCart
       .addCase(createCart.pending, handlePending)
       .addCase(createCart.fulfilled, (state, action) => {

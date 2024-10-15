@@ -33,7 +33,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   const imgRef = useRef<HTMLDivElement | any>(null);
 
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
-  // const [changeImgSrc, setChangeImgSrc] = useState(false);
   const [loadingComplet, setLoadingComplet] = useState(false);
 
   useEffect(() => {
@@ -47,20 +46,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     return () => clearTimeout(timer);
   }, [imageIndex, isMouseHover]);
 
-  // const [imgHeight, setImgHeight] = useState();
-  // useEffect(() => {
-  //   setImgHeight(imgRef.current.clientHeight);
-  //   const handleWindowResize = () => {
-  //     setImgHeight(imgRef.current.clientHeight);
-  //   };
-
-  //   window.addEventListener('resize', handleWindowResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleWindowResize);
-  //   };
-  // });
-
   const {
     isCatalogOpen,
     isSearchFormActive,
@@ -69,6 +54,41 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     isAuthFormOpen,
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
+
+  // ---------------------------------------------------------------------
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [imageSrc, setImageSrc] = useState(
+    `/api/images/compress/${slides[imageIndex]?.image}?qlty=1&width=${
+      windowWidth < 450 ? windowWidth : 1920
+    }&height=${windowWidth < 450 ? 180 : 800}&lossless=false`,
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstLoad(false);
+    }, 14000);
+  }, []);
+
+  useEffect(() => {
+    if (!firstLoad) {
+      setImageSrc(`/api/images/${slides[imageIndex]?.image}`);
+    }
+  }, [imageIndex, firstLoad]);
 
   return (
     <SliderWrapper
@@ -105,6 +125,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             ? evt.preventDefault()
             : '';
         }}
+        style={{ background: color.backgroundSecondery }}
       >
         <AnimatePresence mode="wait" initial={false} custom={direction}>
           <SliderSlide
@@ -141,8 +162,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               }}
               ref={imgRef}
               alt={`${slides[imageIndex]?.link}`}
-              // ${changeImgSrc ? '/api/images/' : '/temp/'}
-              src={`/api/images/${slides[imageIndex]?.image}`}
+              // ${changeImgSrc ? '/api/images/' : '/temp/'} `/api/images/${slides[imageIndex]?.image}`
+              src={imageSrc}
               isDisplay={
                 isCatalogOpen ||
                 isSearchFormActive ||
@@ -335,6 +356,7 @@ const SliderWrapper = styled.div<StyleProps>`
       height: 515px;
       .banner-arrows-wrapper {
         max-width: 1230px;
+        width: 75%;
       }
     }
   }
@@ -422,7 +444,6 @@ const Slider = styled(Image)<StyleProps>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-
   ${(props) => {
     if (props.isDisplay) {
       return `

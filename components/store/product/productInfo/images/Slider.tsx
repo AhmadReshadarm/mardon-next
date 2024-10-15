@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
@@ -30,6 +30,40 @@ const Slider: React.FC<Props> = ({
   const [zoom, setZoom] = useState(false);
 
   const [loadingComplet, setLoadingComplet] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+
+  const [imageSrc, setImageSrc] = useState(
+    `/api/images/compress/${images[selectedIndex]}?qlty=1&width=${
+      windowWidth < 1024 ? windowWidth : 1080
+    }&height=${windowWidth < 1024 ? windowWidth : 1080}&lossless=false`,
+  );
+
+  useEffect(() => {
+    if (!firstLoad) {
+      setImageSrc(`/api/images/${images[selectedIndex]}`);
+    }
+  }, [selectedIndex, firstLoad]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstLoad(false);
+    }, 15000);
+  }, []);
 
   return (
     <SliderWrapper>
@@ -59,7 +93,7 @@ const Slider: React.FC<Props> = ({
           <LoaderMask style={{ display: loadingComplet ? 'none' : 'flex' }} />
           <SliderImage
             style={{ opacity: loadingComplet ? 1 : 0 }}
-            src={`/api/images/${images[selectedIndex]}`}
+            src={imageSrc}
             alt={alt}
             itemProp="contentUrl"
             width={1080}

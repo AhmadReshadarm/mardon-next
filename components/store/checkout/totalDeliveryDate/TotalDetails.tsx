@@ -16,7 +16,7 @@ import { openErrorNotification } from 'common/helpers';
 import { TAuthState } from 'redux/types';
 import { Role } from 'common/enums/roles.enum';
 import DropDowns from './DropDowns';
-import { useMetrica } from 'next-yandex-metrica';
+import { useMetrica, YandexMetricaProvider } from 'next-yandex-metrica';
 const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -135,97 +135,106 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
 
   return (
     <>
-      <Container>
-        <h3 className="total-header">Ваша сумма</h3>
-        <Wrapper>
-          <Content>
-            <ItemColumn>
-              <span>
-                <button
-                  onClick={
-                    isOneClickBuy
-                      ? handleCheckoutWithoutRegister(router)
-                      : handlePayClick(router)
-                  }
-                  className="checkout-action-btn"
-                >
-                  Завершить мой заказ
-                </button>
-              </span>
-              <span className="user-agreement-text">
-                Нажимая на кнопку, вы соглашаетесь с{' '}
-                <Link href="/privacy">
-                  <span>Политика безопасности</span>
-                </Link>
-                , а также с{' '}
-                <Link href="/user-agreement">
-                  <span>Пользовательское соглашение</span>
-                </Link>
-              </span>
-            </ItemColumn>
-            <ItemRowWrapper>
-              <ItemRow>
-                <h3>Ваш заказ</h3>
-                <span className="product-wheight">
-                  {cart?.orderProducts?.length} товар(ов) •
+      <YandexMetricaProvider
+        tagID={96632717}
+        initParameters={{
+          clickmap: true,
+          trackLinks: true,
+          accurateTrackBounce: true,
+        }}
+      >
+        <Container>
+          <h3 className="total-header">Ваша сумма</h3>
+          <Wrapper>
+            <Content>
+              <ItemColumn>
+                <span>
+                  <button
+                    onClick={
+                      isOneClickBuy
+                        ? handleCheckoutWithoutRegister(router)
+                        : handlePayClick(router)
+                    }
+                    className="checkout-action-btn"
+                  >
+                    Завершить мой заказ
+                  </button>
                 </span>
-              </ItemRow>
-              {cart?.orderProducts?.map((product: any, index) => {
-                return (
-                  <ItemRow key={index}>
-                    <span>{product.product?.name?.slice(0, 20)}..</span>
-                    <p className="product-price-mobile-wrapper">
-                      <span>{product!.qty} шт</span> *{'  '}
-                      <span>
-                        {user?.role === Role.SuperUser
-                          ? product.productVariant?.wholeSalePrice
-                          : product.productVariant?.price}{' '}
-                        ₽
-                      </span>
-                      {'  '}
-                      <span>=</span>
-                      {'  '}
-                      <span style={{ whiteSpace: 'nowrap' }}>
-                        {user?.role === Role.SuperUser
-                          ? product.productVariant?.wholeSalePrice * product.qty
-                          : product.productVariant?.price * product.qty}{' '}
-                        ₽
-                      </span>
-                    </p>
-                  </ItemRow>
-                );
-              })}
-              {user?.role === Role.SuperUser ? (
-                ''
-              ) : (
+                <span className="user-agreement-text">
+                  Нажимая на кнопку, вы соглашаетесь с{' '}
+                  <Link href="/privacy">
+                    <span>Политика безопасности</span>
+                  </Link>
+                  , а также с{' '}
+                  <Link href="/user-agreement">
+                    <span>Пользовательское соглашение</span>
+                  </Link>
+                </span>
+              </ItemColumn>
+              <ItemRowWrapper>
                 <ItemRow>
-                  <span>Скидка</span>
-                  <b>
-                    <span style={{ color: color.ok }}>
-                      {`${formatNumber(getDiscount(cart))}`} ₽
-                    </span>
-                  </b>
+                  <h3>Ваш заказ</h3>
+                  <span className="product-wheight">
+                    {cart?.orderProducts?.length} товар(ов) •
+                  </span>
                 </ItemRow>
-              )}
-            </ItemRowWrapper>
-            <ItemRow>
-              <h3 className="total">Итого</h3>
-              <h3 className="total">{formatNumber(totalUI)} ₽</h3>
-            </ItemRow>
-          </Content>
+                {cart?.orderProducts?.map((product: any, index) => {
+                  return (
+                    <ItemRow key={index}>
+                      <span>{product.product?.name?.slice(0, 20)}..</span>
+                      <p className="product-price-mobile-wrapper">
+                        <span>{product!.qty} шт</span> *{'  '}
+                        <span>
+                          {user?.role === Role.SuperUser
+                            ? product.productVariant?.wholeSalePrice
+                            : product.productVariant?.price}{' '}
+                          ₽
+                        </span>
+                        {'  '}
+                        <span>=</span>
+                        {'  '}
+                        <span style={{ whiteSpace: 'nowrap' }}>
+                          {user?.role === Role.SuperUser
+                            ? product.productVariant?.wholeSalePrice *
+                              product.qty
+                            : product.productVariant?.price * product.qty}{' '}
+                          ₽
+                        </span>
+                      </p>
+                    </ItemRow>
+                  );
+                })}
+                {user?.role === Role.SuperUser ? (
+                  ''
+                ) : (
+                  <ItemRow>
+                    <span>Скидка</span>
+                    <b>
+                      <span style={{ color: color.ok }}>
+                        {`${formatNumber(getDiscount(cart))}`} ₽
+                      </span>
+                    </b>
+                  </ItemRow>
+                )}
+              </ItemRowWrapper>
+              <ItemRow>
+                <h3 className="total">Итого</h3>
+                <h3 className="total">{formatNumber(totalUI)} ₽</h3>
+              </ItemRow>
+            </Content>
 
-          <DropDowns />
-        </Wrapper>
-      </Container>
+            <DropDowns />
+          </Wrapper>
+        </Container>
 
-      <script
-        src="https://apis.google.com/js/platform.js?onload=renderOptIn"
-        async
-        defer
-      ></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `  window.renderOptIn = function()
+        <script
+          src="https://apis.google.com/js/platform.js?onload=renderOptIn"
+          async
+          defer
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `  window.renderOptIn = function()
         {window.gapi.load('surveyoptin', function () {
           window.gapi.surveyoptin.render({
             // REQUIRED FIELDS
@@ -236,8 +245,9 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
             estimated_delivery_date: ${estimated_delivery_date},
           });
         })}`,
-        }}
-      />
+          }}
+        />
+      </YandexMetricaProvider>
     </>
   );
 };

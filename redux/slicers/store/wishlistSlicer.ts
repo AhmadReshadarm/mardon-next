@@ -80,7 +80,10 @@ const wishlistSlicer = createSlice({
         state.wishlist = action.payload;
         state.loading = false;
       })
-      .addCase(fetchWishlistProducts.rejected, handleError)
+      .addCase(fetchWishlistProducts.rejected, (state, action) => {
+        state.loading = false;
+        localStorage.removeItem('wishlistId');
+      })
       //updateWishlist
       .addCase(updateWishlist.pending, handlePending)
       .addCase(updateWishlist.fulfilled, (state, action) => {
