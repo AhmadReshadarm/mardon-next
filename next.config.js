@@ -67,10 +67,6 @@ module.exports = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000',
           },
-          {
-            key: 'Content-Encoding',
-            value: 'gzip',
-          },
         ],
       },
     ];
