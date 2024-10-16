@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
 type Props = {
   images: string[];
   selectedIndex: number;
@@ -15,6 +16,8 @@ type Props = {
   page: number;
   paginateImage: any;
   alt: any;
+  firstLoad: boolean;
+  setFirstLoad: Dispatch<SetStateAction<boolean>>;
 };
 
 const Slider: React.FC<Props> = ({
@@ -25,12 +28,14 @@ const Slider: React.FC<Props> = ({
   page,
   paginateImage,
   alt,
+  firstLoad,
+  setFirstLoad,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
 
   const [loadingComplet, setLoadingComplet] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
+  // const [firstLoad, setFirstLoad] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 

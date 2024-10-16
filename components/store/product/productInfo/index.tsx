@@ -37,7 +37,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const images = getProductVariantsImages(product?.productVariants);
-
+  const [firstLoad, setFirstLoad] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -179,6 +179,8 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   direction={direction}
                   page={page}
                   setPage={setPage}
+                  firstLoad={firstLoad}
+                  setFirstLoad={setFirstLoad}
                 />
               </ErrorBoundary>
               <ErrorBoundary fallbackRender={FallbackRender}>
@@ -189,6 +191,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   reviewRef={reviewRef}
                   questionRef={questionRef}
                   setSelectedIndex={setSelectedIndex}
+                  setFirstLoad={setFirstLoad}
                 />
               </ErrorBoundary>
             </Grid>

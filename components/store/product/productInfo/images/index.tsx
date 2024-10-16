@@ -12,6 +12,8 @@ type Props = {
   selectedIndex: number;
   direction: number;
   page: number;
+  firstLoad: boolean;
+  setFirstLoad: Dispatch<SetStateAction<boolean>>;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
   setPage: Dispatch<SetStateAction<[number, number]>>;
@@ -25,6 +27,8 @@ const Images: React.FC<Props> = ({
   page,
   setSelectedIndex,
   paginateImage,
+  firstLoad,
+  setFirstLoad,
 }) => {
   return (
     <ImagesContainer>
@@ -36,6 +40,8 @@ const Images: React.FC<Props> = ({
         page={page}
         paginateImage={paginateImage}
         alt={product?.name}
+        firstLoad={firstLoad}
+        setFirstLoad={setFirstLoad}
       />
     </ImagesContainer>
   );
