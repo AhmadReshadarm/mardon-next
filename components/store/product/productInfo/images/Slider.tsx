@@ -59,12 +59,6 @@ const Slider: React.FC<Props> = ({
     }
   }, [selectedIndex, firstLoad]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setFirstLoad(false);
-    }, 5000);
-  }, []);
-
   return (
     <SliderWrapper>
       <AnimatePresence mode="wait" initial={false} custom={direction}>
@@ -100,9 +94,7 @@ const Slider: React.FC<Props> = ({
             height={1080}
             onLoadingComplete={() => {
               setLoadingComplet(true);
-              setTimeout(() => {
-                setFirstLoad(false);
-              }, 2000);
+              setFirstLoad(false);
             }}
             priority={true}
           />

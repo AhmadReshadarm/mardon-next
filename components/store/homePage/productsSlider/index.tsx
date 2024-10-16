@@ -40,11 +40,11 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
   // ------------------------------------------------------------------
 
   const [firstLoad, setFirstLoad] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setFirstLoad(false);
-    }, 14000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setFirstLoad(false);
+  //   }, 14000);
+  // }, []);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -189,7 +189,10 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                               width={1080}
                               height={1080}
                               priority={caroselIndex === index ? true : false}
-                              onLoadingComplete={() => setLoadingComplet(true)}
+                              onLoadingComplete={() => {
+                                setLoadingComplet(true);
+                                setFirstLoad(false);
+                              }}
                             />
                           ) : (
                             <Image

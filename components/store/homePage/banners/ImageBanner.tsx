@@ -78,11 +78,11 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
     }&height=${windowWidth < 450 ? 180 : 800}&lossless=false`,
   );
 
-  useEffect(() => {
-    setTimeout(() => {
-      setFirstLoad(false);
-    }, 14000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setFirstLoad(false);
+  //   }, 14000);
+  // }, []);
 
   useEffect(() => {
     if (!firstLoad) {
@@ -175,7 +175,10 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               width={1920}
               height={800}
               priority={true}
-              onLoadingComplete={() => setLoadingComplet(true)}
+              onLoadingComplete={() => {
+                setLoadingComplet(true);
+                setFirstLoad(false);
+              }}
             />
           </SliderSlide>
         </AnimatePresence>
