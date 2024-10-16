@@ -21,7 +21,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="/favicon.svg" />
-          <link
+          {/* <link
             rel="preload"
             href="/fonts/circe/circe-regular.woff"
             as="font"
@@ -55,7 +55,7 @@ class MyDocument extends Document {
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
-          />
+          /> */}
         </Head>
         <body>
           {/* <div

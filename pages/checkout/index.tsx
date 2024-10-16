@@ -4,7 +4,7 @@ import {
   Wrapper,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import CheckoutContent from 'components/store/checkout';
+// import CheckoutContent from 'components/store/checkout';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
@@ -18,6 +18,13 @@ import { TCartState } from 'redux/types';
 import { useRouter } from 'next/router';
 import { fetchCart } from 'redux/slicers/store/cartSlicer';
 import { openErrorNotification } from 'common/helpers';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const CheckoutContent = dynamic(() => import('components/store/checkout'), {
+  ssr: false,
+  loading: () => <LoaderMask />,
+});
+
 const Checkout = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const router = useRouter();
@@ -107,35 +114,35 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const LoaderMask = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
+// const LoaderMask = styled.div`
+//   width: 100vw;
+//   height: 100vh;
+//   background: #cccccca3;
+//   position: relative;
+//   overflow: hidden;
+//   &:after {
+//     content: '';
+//     display: block;
+//     position: absolute;
+//     top: 0;
+//     width: 100%;
+//     height: 100%;
+//     transform: translateX(-100px);
+//     background: linear-gradient(
+//       90deg,
+//       transparent,
+//       rgba(255, 255, 255, 0.2),
+//       transparent
+//     );
+//     animation: loading 0.8s infinite;
+//   }
 
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
+//   @keyframes loading {
+//     100% {
+//       transform: translateX(100%);
+//     }
+//   }
+// `;
 
 Checkout.PageLayout = StoreLayout;
 export default Checkout;

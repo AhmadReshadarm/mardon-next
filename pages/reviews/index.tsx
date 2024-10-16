@@ -8,14 +8,17 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Pagination } from 'antd';
-import Loading from 'ui-kit/Loading';
 import { TReviewState } from 'redux/types';
-import ReviewsItems from 'components/store/reviews';
 import { fetchReviews } from 'redux/slicers/reviewsSlicer';
 import Subscribers from 'ui-kit/Subscribers';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import { baseUrl } from 'common/constant';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const ReviewsItems = dynamic(() => import('components/store/reviews'), {
+  ssr: false,
+  loading: () => <LoaderMask />,
+});
 // _________________________
 
 const Reviews = () => {
@@ -129,7 +132,7 @@ const Reviews = () => {
               <div>У вас еще нет отзывов</div>
             )
           ) : (
-            <Loading />
+            <LoaderMask />
           )}
           <Pagination
             style={{ marginTop: '20px' }}

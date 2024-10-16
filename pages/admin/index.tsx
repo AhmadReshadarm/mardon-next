@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import AdminLayout from 'components/admin/adminLayout/layout';
-import { List, Breadcrumb } from 'antd';
+import { List } from 'antd';
 import { menueItems } from 'components/admin/adminLayout/constants';
 import Link from 'next/link';
 const IndexPage = (): JSX.Element => {

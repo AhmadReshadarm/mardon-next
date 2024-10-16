@@ -1,5 +1,5 @@
 import variants from 'components/store/lib/variants';
-import Order from 'components/store/order';
+// import Order from 'components/store/order';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
 import Head from 'next/head';
@@ -12,6 +12,12 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import color from 'components/store/lib/ui.colors';
 import { baseUrl } from 'common/constant';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const Order = dynamic(() => import('components/store/order'), {
+  ssr: false,
+  loading: () => <LoaderMask />,
+});
 
 const Orders = () => {
   const dispatch = useAppDispatch();

@@ -1,17 +1,11 @@
 import styled from 'styled-components';
 import color from '../../lib/ui.colors';
-// import Map, { Marker, GeolocateControl, NavigationControl } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-// import { coordToAddress } from './helpers';
-// import { MAPBOX_TOKEN } from './constant';
 import { devices } from 'components/store/lib/Devices';
 import {
   GeolocationControl,
   Map,
   SearchControl,
   ZoomControl,
-
-  // Placemark,
 } from 'react-yandex-maps';
 import { useState, useRef, useEffect } from 'react';
 import { initialStateAdress } from './constant';
@@ -33,26 +27,10 @@ const geolocationOptions = {
 
 const MapContainer = (props: any) => {
   const { viewport, setViewPort, setAddress, mapRef, setPostCode } = props;
-  // const initialStateAdress = {
-  //   address: '',
-  //   center: [59.98653, 30.22623],
-  //   zoom: 12,
-  // };
-  // const mapOptions = {
-  //   modules: ['geocode', 'SuggestView'],
-  //   defaultOptions: { suppressMapOpenBlock: true },
-  //   width: '100%',
-  //   height: '100%',
-  // };
-  // const geolocationOptions = {
-  //   defaultOptions: { maxWidth: 128 },
-  //   defaultData: { content: 'Determine' },
-  // };
 
   const [mapConstructor, setMapConstructor]: [any, any] = useState(null);
-  // const mapRef: any = useRef(null);
+
   const searchRef = useRef(null);
-  // change title
   const handleBoundsChange = (e) => {
     const newCoords = mapRef.current.getCenter();
     mapConstructor.geocode(newCoords).then((res) => {
@@ -101,10 +79,6 @@ const MapContainer = (props: any) => {
         instanceRef={mapRef}
       >
         <LocationPlacemark className="placemark" color="primary" />
-        {/* <Placemark
-          geometry={[viewport.center[0], viewport.center[1]]}
-          // defaultGeometry={[55.749451, 37.542824]}
-        /> */}
 
         <GeolocationControl {...geolocationOptions} />
         <ZoomControl />
@@ -115,42 +89,6 @@ const MapContainer = (props: any) => {
           }}
         />
       </Map>
-      {/* <Map
-        {...viewport}
-        onMove={(evt) => setViewPort(evt.viewState)}
-        onDragEnd={() => {
-          coordToAddress(viewport, 'drag', 0, 0, setAddress, setPostCode);
-        }}
-        // style={{ width: '75vw', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
-        mapboxAccessToken={MAPBOX_TOKEN}
-      >
-        <Marker
-          longitude={viewport.longitude}
-          latitude={viewport.latitude}
-          color={color.btnPrimary}
-        />
-
-        <GeolocateControl
-          onGeolocate={(position) => {
-            coordToAddress(
-              viewport,
-              'geo',
-              position.coords.longitude,
-              position.coords.latitude,
-              setAddress,
-              setPostCode,
-            );
-            setViewPort({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-          }}
-          positionOptions={{ enableHighAccuracy: true }}
-        />
-
-        <NavigationControl />
-      </Map> */}
     </MapContianerWrapper>
   );
 };

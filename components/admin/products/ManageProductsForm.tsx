@@ -4,11 +4,7 @@ import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
-// import Editor from 'ui-kit/Editor';
-// const Editor = dynamic(async () => await import('ui-kit/Editor'), {
-//   ssr: false,
-// });
+
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
@@ -36,7 +32,6 @@ import {
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
 import ProductVariantForm from './ProductVariantForm';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const { Option } = Select;
 
@@ -107,18 +102,6 @@ const ManageProductForm = ({
     setVariants((prev) => prev.concat({}));
   };
 
-  // ------------------- descrption editor hooks -----------------------
-  // const [editorModal, setEditorModal] = useState('');
-  // const handleEditorChange = (evt) => {
-  //   setEditorModal(evt);
-  // };
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (editMode && product?.desc) setEditorModal(product?.desc!);
-  //   }, 500);
-  // }, [product, editMode]);
-  // ---------------------------------------------------------------
   return (
     <>
       <div className={styles.createProductHeader}>
@@ -163,12 +146,6 @@ const ManageProductForm = ({
             children={
               <TextArea required={true} rows={5} placeholder="Описание" />
             }
-            // children={
-            //   <Editor
-            //     handleEditorChange={handleEditorChange}
-            //     editorModal={editorModal}
-            //   />
-            // }
           />
 
           {/* ----------------------SHORT DESCRIPTION---------------------- */}

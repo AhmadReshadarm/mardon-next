@@ -1,11 +1,11 @@
 import CartItem from 'components/store/cart/cartItem';
-import Loading from 'ui-kit/Loading';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { handleRemoveClick } from './helpers';
 import color from '../lib/ui.colors';
 import { devices } from '../lib/Devices';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
 
 type Props = {};
 const BasketItems: React.FC<Props> = ({}) => {
@@ -35,7 +35,7 @@ const BasketItems: React.FC<Props> = ({}) => {
           </ItemsWrapper>
         </>
       ) : loading ? (
-        <Loading />
+        <LoaderMask />
       ) : (
         <NoCartItem>
           <h2>Ваша корзина пуста</h2>

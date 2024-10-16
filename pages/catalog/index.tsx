@@ -14,12 +14,23 @@ import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import { Category, Product } from 'swagger/services';
-import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-import TopFilterBar from 'components/store/catalog/TopFilterBar';
 import { Pagination } from 'antd';
 import Head from 'next/head';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const TopFilterBar = dynamic(
+  () => import('components/store/catalog/TopFilterBar'),
+  {
+    ssr: false,
+    loading: () => <LoaderMask style={{ width: '100%', height: '100%' }} />,
+  },
+);
+const ProductGrid = dynamic(() => import('ui-kit/products/productGrid'), {
+  ssr: false,
+  loading: () => <LoaderMask style={{ width: '100%', height: '100%' }} />,
+});
 
 const queryStringToObject = (url) =>
   Object.fromEntries([...new URLSearchParams(url.split('?')[1])]);

@@ -163,23 +163,23 @@ export const fetchSizes = createAsyncThunk<
   },
 );
 
-export const fetchProductsInExcelFile = createAsyncThunk<
-  any,
-  undefined,
-  { rejectValue: string }
->(
-  'tags/fetchProductsInExcelFile',
-  async function (_, { rejectWithValue }): Promise<any> {
-    try {
-      const response = (await ProductService.getProducts({
-        limit: 10000,
-      })) as unknown as { rows: Product[]; length: number };
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+// export const fetchProductsInExcelFile = createAsyncThunk<
+//   any,
+//   undefined,
+//   { rejectValue: string }
+// >(
+//   'tags/fetchProductsInExcelFile',
+//   async function (_, { rejectWithValue }): Promise<any> {
+//     try {
+//       const response = (await ProductService.getProducts({
+//         limit: 10000,
+//       })) as unknown as { rows: Product[]; length: number };
+//       return response;
+//     } catch (error: any) {
+//       return rejectWithValue(getErrorMassage(error.response.status));
+//     }
+//   },
+// );
 
 const initialState: TCatalogState = {
   categories: [],

@@ -60,7 +60,7 @@ const Slider: React.FC<Props> = ({
   }, [selectedIndex, firstLoad]);
 
   return (
-    <SliderWrapper>
+    <SliderWrapper onTouchStart={() => setFirstLoad(false)}>
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <SliderSlide
           key={page}
@@ -94,7 +94,9 @@ const Slider: React.FC<Props> = ({
             height={1080}
             onLoadingComplete={() => {
               setLoadingComplet(true);
-              setFirstLoad(false);
+              setTimeout(() => {
+                setFirstLoad(false);
+              }, 15000);
             }}
             priority={true}
           />

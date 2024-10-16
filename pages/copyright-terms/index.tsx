@@ -11,10 +11,8 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from 'common/constant';
-import { useAppSelector } from 'redux/hooks';
-import { TGlobalState } from 'redux/types';
+
 const Copyrights = () => {
-  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   return (
     <>
       <SEOstatic
@@ -23,9 +21,7 @@ const Copyrights = () => {
             'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           url: '/',
-          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categories.map(
-            (category) => `${category.name}, `,
-          )}`,
+          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия`,
           keywords:
             'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
           createdAt: new Date().toISOString(),
@@ -55,8 +51,8 @@ const Copyrights = () => {
             <Headers>Правила использования контента сайта</Headers>
             <Contents>
               Содержимое сайта{' '}
-              <Link href="https://fingarden.ru">
-                <Links>fingarden.ru</Links>
+              <Link href="https://nbhoz.ru">
+                <Links>nbhoz.ru</Links>
               </Link>{' '}
               (далее — Сайт), в том числе любая текстовая информация и
               графические изображения (далее — Контент), являются собственностью
@@ -72,8 +68,8 @@ const Copyrights = () => {
             <Contents>
               Чтобы запросить разрешение у Интернет Решения необходимо направить
               электронное письмо на{' '}
-              <Link href="mailto:help@fingarden.ru">
-                <Links>help@fingarden.ru</Links>
+              <Link href="mailto:help@nbhoz.ru">
+                <Links>help@nbhoz.ru</Links>
               </Link>{' '}
               с обязательным указанием следующей информации:
             </Contents>
@@ -95,8 +91,8 @@ const Copyrights = () => {
               <li>
                 использование Контента должно сопровождаться указанием на
                 источник их публикации —{' '}
-                <Link href="https://fingarden.ru">
-                  <Links>fingarden.ru</Links>
+                <Link href="https://nbhoz.ru">
+                  <Links>nbhoz.ru</Links>
                 </Link>
                 , иных источников информации, упомянутых в Контенте (при
                 наличии);
@@ -133,8 +129,8 @@ const Copyrights = () => {
             <Contents>
               Если вы считаете, что размещённый на Сайте Контент нарушает ваши
               права, сообщите об этом, направив электронное письмо на адрес{' '}
-              <Link href="mailto:help@fingarden.ru">
-                <Links>help@fingarden.ru</Links>
+              <Link href="mailto:help@nbhoz.ru">
+                <Links>help@nbhoz.ru</Links>
               </Link>{' '}
               с обязательным указанием следующей информации:
             </Contents>

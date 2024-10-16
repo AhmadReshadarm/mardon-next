@@ -7,9 +7,14 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
-import ProfileComp from 'components/store/profileComp';
 import { useState } from 'react';
 import { baseUrl } from 'common/constant';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const ProfileComp = dynamic(() => import('components/store/profileComp'), {
+  ssr: false,
+  loading: () => <LoaderMask />,
+});
 
 const Profile = () => {
   const [isActive, setActive] = useState('profile');

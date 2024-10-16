@@ -24,14 +24,16 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
   const [loadingComplet, setLoadingComplet] = useState(false);
-
+  const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (caroselProducts.length - 1 > caroselIndex && !isMouseHover) {
         setCaroselIndex(caroselIndex + 1);
+        setFirstLoad(false);
       }
       if (caroselProducts.length - 1 <= caroselIndex && !isMouseHover) {
         setCaroselIndex(0);
+        setFirstLoad(false);
       }
     }, 15000);
 
@@ -39,7 +41,6 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
   }, [caroselIndex, isMouseHover]);
   // ------------------------------------------------------------------
 
-  const [firstLoad, setFirstLoad] = useState(true);
   // useEffect(() => {
   //   setTimeout(() => {
   //     setFirstLoad(false);
@@ -191,7 +192,9 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                               priority={caroselIndex === index ? true : false}
                               onLoadingComplete={() => {
                                 setLoadingComplet(true);
-                                setFirstLoad(false);
+                                setTimeout(() => {
+                                  setFirstLoad(false);
+                                }, 14000);
                               }}
                             />
                           ) : (

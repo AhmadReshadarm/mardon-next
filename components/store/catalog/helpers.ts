@@ -1,9 +1,9 @@
 import {
   getQueryParams,
-  pushQueryParams,
+  // pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import {
-  clearBrands,
+  // clearBrands,
   clearColors,
   clearProducts,
   clearSubCategories,

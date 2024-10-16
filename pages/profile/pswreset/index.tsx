@@ -7,9 +7,16 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
-import EmailResetPsw from 'components/store/profileComp/emailresetpsw';
 import { baseUrl } from 'common/constant';
-
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const EmailResetPsw = dynamic(
+  () => import('components/store/profileComp/emailresetpsw'),
+  {
+    ssr: false,
+    loading: () => <LoaderMask />,
+  },
+);
 const PswReset = () => {
   return (
     <>

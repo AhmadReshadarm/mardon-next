@@ -9,12 +9,12 @@ import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { columns } from 'components/admin/settings/subscribers/constants';
 import {
   fetchSubscribers,
-  fetchSubscribersInExcelFile,
+  // fetchSubscribersInExcelFile,
   fetchSubscribersInJsonFile,
 } from 'redux/slicers/subscriberSlicer';
 import { TSubscribers } from 'redux/types';
 import styled from 'styled-components';
-import Link from 'next/link';
+// import Link from 'next/link';
 import Head from 'next/head';
 const Subscribers = () => {
   const dispatch = useAppDispatch();
@@ -56,14 +56,14 @@ const Subscribers = () => {
             style={{ display: isOpen ? 'flex' : 'none' }}
             className="options-wrapper"
           >
-            <li
+            {/* <li
               onClick={() => {
                 dispatch(fetchSubscribersInExcelFile());
                 setOpen(false);
               }}
             >
               Как файл Ms.Excel
-            </li>
+            </li> */}
             <li
               onClick={() => {
                 dispatch(fetchSubscribersInJsonFile());

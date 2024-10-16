@@ -1,6 +1,13 @@
 import AdminLayout from 'components/admin/adminLayout/layout';
-import BannersFormLayout from 'components/admin/banners/BannersFormLayout';
-import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const BannersFormLayout = dynamic(
+  () => import('components/admin/banners/BannersFormLayout'),
+  {
+    ssr: false,
+    loading: () => <LoaderMask />,
+  },
+);
 
 import styles from '../index.module.scss';
 

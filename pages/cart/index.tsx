@@ -1,10 +1,17 @@
 import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
-import Cart from 'components/store/cart';
+// import Cart from 'components/store/cart';
 import { motion } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
 import { baseUrl } from 'common/constant';
+import dynamic from 'next/dynamic';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+const Cart = dynamic(() => import('components/store/cart'), {
+  ssr: false,
+  loading: () => <LoaderMask />,
+});
+
 const CardPage = () => {
   return (
     <>

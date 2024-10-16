@@ -26,13 +26,14 @@ import {
 } from 'common/helpers/manageQueryParams.helper';
 import {
   fetchParentCategories,
-  fetchProductsInExcelFile,
+  // fetchProductsInExcelFile,
 } from 'redux/slicers/store/catalogSlicer';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+// import { unwrapResult } from '@reduxjs/toolkit';
+// import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
-import ExcelJs from 'exceljs';
+// import ExcelJs from 'exceljs';
 import Head from 'next/head';
+
 // _____________________________________________
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -143,101 +144,101 @@ const ProductsPage = () => {
       productVariants,
     }),
   ) as unknown as DataType[];
-  const [loadingProgress, seLoadingProgress] = useState(0);
-  const [loadingData, setLoadingData] = useState(false);
+  // const [loadingProgress, seLoadingProgress] = useState(0);
+  // const [loadingData, setLoadingData] = useState(false);
 
   // ------------------------------------------------- generate excel file from all goods -----------------------------------
-  const handleProductDownloadInExcel = () => {
-    setLoadingData(true);
-    dispatch(fetchProductsInExcelFile())
-      .then(unwrapResult)
-      .then((response) => {
-        setLoadingData(true);
-        let workBook = new ExcelJs.Workbook();
-        const sheet = workBook.addWorksheet('subscribers');
-        sheet.columns = [
-          { header: 'ID', key: 'id', width: 10 },
-          { header: 'Наименование товара', key: 'name', width: 40 },
-          { header: 'Артикул', key: 'artical', width: 10 },
-          { header: 'Цена', key: 'price', width: 10 },
-          { header: 'Ссылка на товар', key: 'link', width: 55 },
-          { header: 'Изображение', key: 'image', width: 21 },
-        ];
-        sheet.getRow(1).alignment = {
-          vertical: 'middle',
-          horizontal: 'center',
-          wrapText: true,
-        };
-        sheet.properties.defaultRowHeight = 115;
+  // const handleProductDownloadInExcel = () => {
+  //   setLoadingData(true);
+  //   dispatch(fetchProductsInExcelFile())
+  //     .then(unwrapResult)
+  //     .then((response) => {
+  //       setLoadingData(true);
+  //       let workBook = new ExcelJs.Workbook();
+  //       const sheet = workBook.addWorksheet('subscribers');
+  //       sheet.columns = [
+  //         { header: 'ID', key: 'id', width: 10 },
+  //         { header: 'Наименование товара', key: 'name', width: 40 },
+  //         { header: 'Артикул', key: 'artical', width: 10 },
+  //         { header: 'Цена', key: 'price', width: 10 },
+  //         { header: 'Ссылка на товар', key: 'link', width: 55 },
+  //         { header: 'Изображение', key: 'image', width: 21 },
+  //       ];
+  //       sheet.getRow(1).alignment = {
+  //         vertical: 'middle',
+  //         horizontal: 'center',
+  //         wrapText: true,
+  //       };
+  //       sheet.properties.defaultRowHeight = 115;
 
-        let counter = 0;
-        let progress = 0;
-        const productIteration = async () => {
-          if (counter < response.rows.length) {
-            progress = Math.floor((counter * 100) / response.rows.length);
-            seLoadingProgress(progress);
-            const images = getProductVariantsImages(
-              response.rows[counter]!.productVariants,
-            );
-            const responseImage = await fetch(
-              `https://nbhoz.ru/api/images/${images[0]}`,
-            );
-            const buffer = await responseImage.arrayBuffer();
-            const imageId = workBook.addImage({
-              buffer: buffer,
-              extension: 'webp' as 'jpeg',
-            });
-            await sheet.addRow({
-              id: response.rows[counter].id,
-              name: response.rows[counter].name,
-              artical: response.rows[counter]?.productVariants![0].artical,
-              price: `${response.rows[counter]?.productVariants![0].price} ₽`,
-              link: {
-                text: `https://nbhoz.ru/product/${response.rows[counter].url}`,
-                hyperlink: `https://nbhoz.ru/product/${response.rows[counter].url}`,
-              },
-            });
-            await sheet.addImage(imageId, {
-              tl: { col: 5, row: counter + 1 },
-              ext: { width: 150, height: 150 },
-              editAs: 'oneCell',
-            });
-            sheet.getRow(counter + 2).alignment = {
-              vertical: 'middle',
-              horizontal: 'center',
-              wrapText: true,
-            };
-            counter = counter + 1;
-            productIteration();
-          } else {
-            try {
-              workBook.xlsx.writeBuffer().then((data) => {
-                const blob = new Blob([data], {
-                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                });
-                const url = window.URL.createObjectURL(blob);
-                const anchor = document.createElement('a');
-                anchor.href = url;
-                anchor.download = `${
-                  new Date().toISOString().split('T')[0]
-                }.xlsx`;
-                anchor.click();
-                window.URL.revokeObjectURL(url);
-              });
-              seLoadingProgress(100);
-              setLoadingData(false);
-              seLoadingProgress(0);
-            } catch (error) {
-              // console.log(error);
-            }
-          }
-        };
-        productIteration();
-      })
-      .catch((error) => {
-        // console.log(error);
-      });
-  };
+  //       let counter = 0;
+  //       let progress = 0;
+  //       const productIteration = async () => {
+  //         if (counter < response.rows.length) {
+  //           progress = Math.floor((counter * 100) / response.rows.length);
+  //           seLoadingProgress(progress);
+  //           const images = getProductVariantsImages(
+  //             response.rows[counter]!.productVariants,
+  //           );
+  //           const responseImage = await fetch(
+  //             `https://nbhoz.ru/api/images/${images[0]}`,
+  //           );
+  //           const buffer = await responseImage.arrayBuffer();
+  //           const imageId = workBook.addImage({
+  //             buffer: buffer,
+  //             extension: 'webp' as 'jpeg',
+  //           });
+  //           await sheet.addRow({
+  //             id: response.rows[counter].id,
+  //             name: response.rows[counter].name,
+  //             artical: response.rows[counter]?.productVariants![0].artical,
+  //             price: `${response.rows[counter]?.productVariants![0].price} ₽`,
+  //             link: {
+  //               text: `https://nbhoz.ru/product/${response.rows[counter].url}`,
+  //               hyperlink: `https://nbhoz.ru/product/${response.rows[counter].url}`,
+  //             },
+  //           });
+  //           await sheet.addImage(imageId, {
+  //             tl: { col: 5, row: counter + 1 },
+  //             ext: { width: 150, height: 150 },
+  //             editAs: 'oneCell',
+  //           });
+  //           sheet.getRow(counter + 2).alignment = {
+  //             vertical: 'middle',
+  //             horizontal: 'center',
+  //             wrapText: true,
+  //           };
+  //           counter = counter + 1;
+  //           productIteration();
+  //         } else {
+  //           try {
+  //             workBook.xlsx.writeBuffer().then((data) => {
+  //               const blob = new Blob([data], {
+  //                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //               });
+  //               const url = window.URL.createObjectURL(blob);
+  //               const anchor = document.createElement('a');
+  //               anchor.href = url;
+  //               anchor.download = `${
+  //                 new Date().toISOString().split('T')[0]
+  //               }.xlsx`;
+  //               anchor.click();
+  //               window.URL.revokeObjectURL(url);
+  //             });
+  //             seLoadingProgress(100);
+  //             setLoadingData(false);
+  //             seLoadingProgress(0);
+  //           } catch (error) {
+  //             // console.log(error);
+  //           }
+  //         }
+  //       };
+  //       productIteration();
+  //     })
+  //     .catch((error) => {
+  //       // console.log(error);
+  //     });
+  // };
 
   // -------------------------------------------- END OF FUNCTION --------------------------------------------
 
@@ -249,7 +250,7 @@ const ProductsPage = () => {
       <div className={styles.productsHeader}>
         <h1 className={styles.productsHeader__title}>Продукты</h1>
         <HeaderActionBtnWrapper>
-          <Button
+          {/* <Button
             className={styles.productsHeader__createProductButton}
             type="primary"
             onClick={handleProductDownloadInExcel}
@@ -257,7 +258,7 @@ const ProductsPage = () => {
             {loadingData
               ? `Загрузка ${loadingProgress}%`
               : 'Скачать прайс-лист'}
-          </Button>
+          </Button> */}
           <Button
             className={styles.productsHeader__createProductButton}
             type="primary"

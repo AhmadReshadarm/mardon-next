@@ -1,4 +1,3 @@
-import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import {
   Container,
@@ -7,16 +6,20 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-import AddressContactUs from 'components/store/addressContactUs';
 import styled from 'styled-components';
 import { devices } from 'components/store/lib/Devices';
 import Link from 'next/link';
 import Subscribers from 'ui-kit/Subscribers';
 import { baseUrl } from 'common/constant';
-import { useAppSelector } from 'redux/hooks';
-import { TGlobalState } from 'redux/types';
+import dynamic from 'next/dynamic';
+const MapContainer = dynamic(
+  () => import('components/store/addressContactUs/index'),
+  {
+    ssr: true,
+    loading: () => <LoaderMask />,
+  },
+);
 const Contacts = () => {
-  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   return (
     <>
       <SEOstatic
@@ -25,9 +28,7 @@ const Contacts = () => {
             'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           name: 'NBHOZ - интернет магазин хозтовары оптом. по выгодным ценам',
           url: '/',
-          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия, купить ${categories.map(
-            (category) => `${category.name}, `,
-          )}`,
+          desc: `NBHOZ, Дешевые хозтовары оптом в интернет магазине nbhoz в Москве и все Россия`,
           keywords:
             'nbhoz, nbhoz.ru, Товары для сервировки стола,купить Кухонная утварь, Товары для ванной комнаты, Дешевые хозтовары',
           createdAt: new Date().toISOString(),
@@ -37,11 +38,6 @@ const Contacts = () => {
       />
 
       <Container
-        variants={variants.fadInOut}
-        key="profile-page"
-        initial="start"
-        animate="middle"
-        exit="end"
         flex_direction="column"
         justify_content="center"
         align_items="center"
@@ -68,7 +64,7 @@ const Contacts = () => {
             align_items="center"
             gap="30px"
           >
-            <AddressContactUs />
+            <MapContainer />
           </Content>
         </Wrapper>
         <Subscribers />
@@ -180,6 +176,36 @@ const HeaderWrapper = styled.div`
   @media ${devices.mobileS} {
     .header-title-wrapper {
       max-width: unset;
+    }
+  }
+`;
+
+const LoaderMask = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
     }
   }
 `;

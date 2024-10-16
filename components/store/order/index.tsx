@@ -3,9 +3,9 @@ import { Checkout } from 'swagger/services';
 import { devices } from '../lib/Devices';
 import Order from './Order';
 import color from '../lib/ui.colors';
-import Loading from 'ui-kit/Loading';
 import { useAppSelector } from 'redux/hooks';
 import { TStoreCheckoutState } from 'redux/types';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
 type Props = {
   checkouts: Checkout[];
 };
@@ -34,7 +34,7 @@ const MyOrders: React.FC<Props> = ({ checkouts }) => {
           </div>
         )
       ) : (
-        <Loading />
+        <LoaderMask />
       )}
     </>
   );

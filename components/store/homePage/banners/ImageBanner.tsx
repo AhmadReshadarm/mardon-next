@@ -34,12 +34,12 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
 
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
   const [loadingComplet, setLoadingComplet] = useState(false);
-
+  const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isMouseHover) {
         paginateImage(1);
-        // setChangeImgSrc(true);
+        setFirstLoad(false);
       }
     }, 15000);
 
@@ -71,7 +71,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
       window.removeEventListener('resize', handleWindowResize);
     };
   });
-  const [firstLoad, setFirstLoad] = useState(true);
+
   const [imageSrc, setImageSrc] = useState(
     `/api/images/compress/${slides[imageIndex]?.image}?qlty=1&width=${
       windowWidth < 450 ? windowWidth : 1920
@@ -101,6 +101,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
       }}
       onTouchStart={() => {
         setISMouseHover(true);
+        setFirstLoad(false);
         // setChangeImgSrc(true);
       }}
       onTouchEnd={() => {
@@ -177,7 +178,9 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               priority={true}
               onLoadingComplete={() => {
                 setLoadingComplet(true);
-                setFirstLoad(false);
+                setTimeout(() => {
+                  setFirstLoad(false);
+                }, 14000);
               }}
             />
           </SliderSlide>
@@ -194,6 +197,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             onClick={(e) => {
               e.preventDefault();
               paginateImage(1);
+              setFirstLoad(false);
             }}
             title="следующий слайд"
             aria-label="следующий слайд"
@@ -213,6 +217,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             onClick={(e) => {
               e.preventDefault();
               paginateImage(-1);
+              setFirstLoad(false);
             }}
             title="предыдущий слайд"
             aria-label="предыдущий слайд"

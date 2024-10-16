@@ -8,10 +8,10 @@ import ColorFilter from 'components/store/catalog/filters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/filters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelectionFilter';
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
+import { Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
@@ -50,7 +50,7 @@ const FilterBar: React.FC<Props> = ({
   handleExpantionChange,
   setSelectedCategory,
   setCurrentPage,
-  handlePageChange,
+  // handlePageChange,
   setPageSize,
 }) => {
   const router = useRouter();
