@@ -42,7 +42,7 @@ const ColorPicker: React.FC<Props> = ({
       paginateImage: (index: number) => void,
     ) =>
     () => {
-      setFirstLoad(true);
+      setFirstLoad(false);
       dispatch(setVariant(variant));
       setSelectedIndex(index);
 

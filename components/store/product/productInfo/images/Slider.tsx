@@ -35,7 +35,6 @@ const Slider: React.FC<Props> = ({
   const [zoom, setZoom] = useState(false);
 
   const [loadingComplet, setLoadingComplet] = useState(false);
-  // const [firstLoad, setFirstLoad] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -101,7 +100,7 @@ const Slider: React.FC<Props> = ({
               setLoadingComplet(true);
               setTimeout(() => {
                 setFirstLoad(false);
-              }, 15000);
+              }, 5000);
             }}
             priority={true}
           />
