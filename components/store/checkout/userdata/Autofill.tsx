@@ -2,16 +2,10 @@ import styled from 'styled-components';
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import color from '../../lib/ui.colors';
-import {
-  // AddressAutofill,
-  // addressToCoord,
-  handleHiddenInputChange,
-} from './helpers';
+import { handleHiddenInputChange } from './helpers';
 import { InputsTooltip } from '../helpers';
-// import { MAPBOX_TOKEN } from './constant';
-import Locate from '../../../../assets/geolocate.svg';
-import Close from '../../../../assets/close_black.svg';
 import { initialStateAdress } from './constant';
+import { GeoLocateSVG, CloseSVGBlack } from 'assets/icons/UI-icons';
 
 const AutoFill = (props: any) => {
   const { address, setAddress, setPostCode, setViewPort, mapRef } = props;
@@ -43,7 +37,7 @@ const AutoFill = (props: any) => {
                   Определить местоположение с нажав на кнопку местоположения
                 </span>
                 <span>
-                  <Locate />
+                  <GeoLocateSVG />
                 </span>
               </React.Fragment>
             }
@@ -52,17 +46,8 @@ const AutoFill = (props: any) => {
           </InputsTooltip>
         </label>
         {address != '' ? (
-          <span
-            className="address-clear-btn"
-            onClick={
-              () => handleReset() // setAddress('')
-              //   {
-              //    handleReset()
-              //   // setPostCode('');
-              // }
-            }
-          >
-            <Close />
+          <span className="address-clear-btn" onClick={() => handleReset()}>
+            <CloseSVGBlack />
           </span>
         ) : (
           ''
@@ -77,30 +62,6 @@ const AutoFill = (props: any) => {
           onChange={(e) => handleHiddenInputChange(e, setAddress)}
         />
       </TextAreaWrapper>
-      {/* <AutoFillWrapper>
-        <AddressAutofill
-          options={{
-            language: 'ru',
-          }}
-          onRetrieve={(e: any) => {
-            setPostCode(e.features[0].properties.postcode);
-            addressToCoord(
-              e.features[0].properties.full_address,
-              setViewPort,
-              setAddress,
-            );
-          }}
-          accessToken={MAPBOX_TOKEN}
-        >
-          <input
-            name="address"
-            id="address-autofill"
-            placeholder="Адресс"
-            type="text"
-            autoComplete="address-line1"
-          />
-        </AddressAutofill>
-      </AutoFillWrapper> */}
     </>
   );
 };

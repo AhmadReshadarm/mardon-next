@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
-import CloseSVG from '../../../../assets/close_black.svg';
 import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 type Props = {
   title: string;
   searchTerm: string;
@@ -38,7 +38,7 @@ const NameFilter: React.FC<Props> = ({
               }}
               className="search-term-clear-btn"
             >
-              <CloseSVG />
+              <CloseSVGBlack />
             </span>
           ) : (
             ''

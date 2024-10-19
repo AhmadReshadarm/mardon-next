@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion';
-import styled from 'styled-components';
 import { useState } from 'react';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import Arrow from '../../../../../assets/arrow_black.svg';
+import { ArrowBlackSVG } from 'assets/icons/UI-icons';
+import {
+  InfoBtnWrappers,
+  InfoContentWrappers,
+  InfoWrappers,
+} from './DropDownsParrent';
 
 type Props = {
   title: string;
@@ -24,13 +27,14 @@ const InfoDropdownReturn = ({ title, children, borderBottom }: Props) => {
             setDisplayInfo(displayInfo == 'none' ? 'flex' : 'none');
           }, 200);
         }}
+        title={title}
       >
         <h2>{title}</h2>
         <motion.span
           animate={openInfo ? 'open' : 'close'}
           variants={variants.rotate}
         >
-          <Arrow />
+          <ArrowBlackSVG />
         </motion.span>
       </InfoBtnWrappers>
       <InfoContentWrappers
@@ -53,57 +57,5 @@ const InfoDropdownReturn = ({ title, children, borderBottom }: Props) => {
     </InfoWrappers>
   );
 };
-
-const InfoWrappers = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid ${color.textSecondary};
-`;
-
-const InfoBtnWrappers = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  cursor: pointer;
-  h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-  span {
-    transform: rotate(90deg);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const InfoContentWrappers = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  overflow: hidden;
-  #info-content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    .fr-view {
-      width: 100%;
-      padding: 5px 20px;
-    }
-  }
-`;
 
 export default InfoDropdownReturn;

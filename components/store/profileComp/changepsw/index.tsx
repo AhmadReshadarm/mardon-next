@@ -6,9 +6,8 @@ import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { Container, Header } from '../common';
 import { InputsTooltip, handleChangePsw } from './helpers';
-import PswShow from '../../../../assets/pswshow.svg';
-import PswHide from '../../../../assets/pswhide.svg';
 import React, { useState, useMemo, useEffect } from 'react';
+import { HidePasswordSVG, ShowPasswordSVG } from 'assets/icons/UI-icons';
 
 const Changepsw = (props: any) => {
   const { changePswRef, setActive, user } = props;
@@ -118,7 +117,7 @@ const Changepsw = (props: any) => {
                     setOldPswSecret('text');
                   }}
                 >
-                  <PswHide />
+                  <HidePasswordSVG />
                 </motion.span>
                 <motion.span
                   custom={secret}
@@ -129,7 +128,7 @@ const Changepsw = (props: any) => {
                     setOldPswSecret('password');
                   }}
                 >
-                  <PswShow />
+                  <ShowPasswordSVG />
                 </motion.span>
               </span>
             </ConfidentialityWrapper>
@@ -200,7 +199,7 @@ const Changepsw = (props: any) => {
                     setConfidentiality('text');
                   }}
                 >
-                  <PswHide />
+                  <HidePasswordSVG />
                 </motion.span>
                 <motion.span
                   custom={secret}
@@ -211,7 +210,7 @@ const Changepsw = (props: any) => {
                     setConfidentiality('password');
                   }}
                 >
-                  <PswShow />
+                  <ShowPasswordSVG />
                 </motion.span>
               </span>
             </ConfidentialityWrapper>
@@ -280,7 +279,7 @@ const Changepsw = (props: any) => {
                     setConfidentiality('text');
                   }}
                 >
-                  <PswHide />
+                  <HidePasswordSVG />
                 </motion.span>
                 <motion.span
                   custom={secret}
@@ -291,7 +290,7 @@ const Changepsw = (props: any) => {
                     setConfidentiality('password');
                   }}
                 >
-                  <PswShow />
+                  <ShowPasswordSVG />
                 </motion.span>
               </span>
             </ConfidentialityWrapper>

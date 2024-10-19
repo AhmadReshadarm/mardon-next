@@ -6,12 +6,12 @@ import color from 'components/store/lib/ui.colors';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
 import { UserSelectWrapper } from './common';
-import Quastions from '../../../../../assets/quastions.svg';
 import { Basket, Product, ProductVariant } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { devices } from 'components/store/lib/Devices';
 import { TCartState } from 'redux/types';
+import { QuestionSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   product?: Product;
@@ -105,7 +105,7 @@ const Details: React.FC<Props> = ({
               variants={variants.fadInSlideUp}
             >
               <span>
-                <Quastions />
+                <QuestionSVG />
               </span>
 
               <span

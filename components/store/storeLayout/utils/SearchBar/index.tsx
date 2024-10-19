@@ -129,7 +129,6 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
               <MenuActiveStateSVG fill={color.inactiveIcons} />
             </div>
             <SearchFieldInput
-              // handleSearchQueryChange(undefined, dispatch)
               onChange={handleChangeOnquary}
               placeholder="Введите ключевые слова, артикул или символы"
               type="input"

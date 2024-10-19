@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
-import { DeliveryTooltip } from './helpers';
-import Delivery from '../../../../assets/delivery.svg';
-import Avatar from '../../../../assets/avatar.svg';
-import ArrowGray from '../../../../assets/arrowGray.svg';
-import Comment from '../../../../assets/comment.svg';
 import UserCommment from './UserComment';
 import { useAppSelector } from 'redux/hooks';
 import { TStoreCheckoutState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import Image from 'next/image';
+import { AvatarSVG, CommentSVG, DeliverySVG } from 'assets/icons/UI-icons';
 const UserDetails = (props: any) => {
   const { setStep, setHasAddress, setBacktoFinal } = props;
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
@@ -37,7 +33,7 @@ const UserDetails = (props: any) => {
         onClick={handleNavBack}
       >
         <span>
-          <Delivery />
+          <DeliverySVG />
         </span>
         <div className="edit-button-wrapper">
           <div className="address-wrapper">
@@ -63,7 +59,7 @@ const UserDetails = (props: any) => {
         onClick={handleNavBack}
       >
         <span>
-          <Avatar />
+          <AvatarSVG />
         </span>
         <div className="edit-button-wrapper">
           <div className="user-comment-wrapper">
@@ -89,7 +85,7 @@ const UserDetails = (props: any) => {
         onClick={() => setIsOpen(true)}
       >
         <span>
-          <Comment />
+          <CommentSVG />
         </span>
         <div className="edit-button-wrapper">
           <div className="user-comment-wrapper">

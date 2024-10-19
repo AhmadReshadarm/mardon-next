@@ -30,7 +30,6 @@ import {
   BrandResponse,
   CategoryResponse,
   SubscribersResponse,
-  Rating,
   Question,
 } from 'swagger/services';
 
@@ -312,17 +311,6 @@ type THomePageState = {
   banner: Banner | undefined;
   loading: boolean;
 };
-
-// type TDeliveryInfo = {
-//   address: string;
-//   fullName: string;
-//   phone: string;
-//   floor: string;
-//   door: string;
-//   roomOrOffice: string;
-//   postCode: string;
-//   rignBell: string;
-// };
 
 type TDeliveryInfo = {
   id?: string;

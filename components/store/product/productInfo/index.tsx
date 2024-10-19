@@ -11,17 +11,18 @@ import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { Product } from 'swagger/services';
 import { devices } from 'components/store/lib/Devices';
-import ShareToSocial from './details/ShareToSocial';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import ArrowGray from '../../../../assets/arrowGray.svg';
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
-import CloseSVG from '../../../../assets/close.svg';
 import Image from 'next/image';
-import DropDowns from './details/DropDowns';
+import { ArrowGraySVG, CloseSVGBlack } from 'assets/icons/UI-icons';
+import dynamic from 'next/dynamic';
+// import DropDowns from './details/DropDowns';
+const ShareToSocial = dynamic(() => import('./details/ShareToSocial'));
+const DropDowns = dynamic(() => import('./details/DropDowns'));
 
 type Props = {
   product?: Product;
@@ -79,7 +80,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
             }}
             className="close-btn-wrapper "
           >
-            <CloseSVG />
+            <CloseSVGBlack />
           </span>
         </OrderNotifier>
         <Content
@@ -129,7 +130,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                 </Link>
               )}
               <span>
-                <ArrowGray />
+                <ArrowGraySVG />
               </span>
               {!!product?.category && (
                 <Link
@@ -145,7 +146,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               {!!product?.tags![0] && (
                 <>
                   <span>
-                    <ArrowGray />
+                    <ArrowGraySVG />
                   </span>
                   <Link
                     href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}

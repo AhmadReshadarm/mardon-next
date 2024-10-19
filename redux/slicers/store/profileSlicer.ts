@@ -3,7 +3,6 @@ import { TProfileState } from 'redux/types';
 import { Review, ReviewService, ReviewDTO } from 'swagger/services';
 import {
   getErrorMassage,
-  handleChangePending,
   handleError,
   handlePending,
 } from '../../../common/helpers';

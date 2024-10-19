@@ -9,8 +9,6 @@ import {
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { MailOptionsDTO, TSubscribers } from 'redux/types';
 import { SubscribersResponse, SubscribesService } from 'swagger/services';
-// import ExcelJs from 'exceljs';
-// import fs from 'fs';
 
 export const fetchSubscribers = createAsyncThunk<
   SubscribersResponse[],
@@ -26,48 +24,6 @@ export const fetchSubscribers = createAsyncThunk<
     }
   },
 );
-
-// export const fetchSubscribersInExcelFile = createAsyncThunk<
-//   any,
-//   undefined,
-//   { rejectValue: string }
-// >(
-//   'tags/fetchSubscribersInExcelFile',
-//   async function (_, { rejectWithValue }): Promise<any> {
-//     try {
-//       const response = await SubscribesService.getSubscribers();
-//       let workBook = new ExcelJs.Workbook();
-//       const sheet = workBook.addWorksheet('subscribers');
-//       sheet.columns = [
-//         { header: 'ID', key: 'id', width: 10 },
-//         { header: 'Имя', key: 'name', width: 30 },
-//         { header: 'Электронная почта', key: 'email', width: 50 },
-//       ];
-
-//       await response.map((subscriber) => {
-//         sheet.addRow({
-//           id: subscriber.id,
-//           name: subscriber.name,
-//           email: subscriber.email,
-//         });
-//       });
-
-//       workBook.xlsx.writeBuffer().then((data) => {
-//         const blob = new Blob([data], {
-//           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-//         });
-//         const url = window.URL.createObjectURL(blob);
-//         const anchor = document.createElement('a');
-//         anchor.href = url;
-//         anchor.download = `${new Date().toISOString().split('T')[0]}.xlsx`;
-//         anchor.click();
-//         window.URL.revokeObjectURL(url);
-//       });
-//     } catch (error: any) {
-//       return rejectWithValue(getErrorMassage(error.response.status));
-//     }
-//   },
-// );
 
 export const fetchSubscribersInJsonFile = createAsyncThunk<
   any,
@@ -181,13 +137,6 @@ const subscriberSlicer = createSlice({
         state.SubscriberLenght = action.payload.length;
         state.loading = false;
       })
-      // .addCase(fetchSubscribers.rejected, handleError)
-      // //fetchSubscribersInExcelFile
-      // .addCase(fetchSubscribersInExcelFile.pending, handlePending)
-      // .addCase(fetchSubscribersInExcelFile.fulfilled, (state, action) => {
-      //   state.loading = false;
-      // })
-      // .addCase(fetchSubscribersInExcelFile.rejected, handleError)
       //fetchSubscribersInJsonFile
       .addCase(fetchSubscribersInJsonFile.pending, handlePending)
       .addCase(fetchSubscribersInJsonFile.fulfilled, (state, action) => {

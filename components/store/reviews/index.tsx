@@ -3,64 +3,183 @@ import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import { Rating } from '@mui/material';
 import Link from 'next/link';
-import { Review } from 'swagger/services';
 import { devices } from 'components/store/lib/Devices';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
+import { Wrapper } from '../storeLayout/common';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TReviewState } from 'redux/types';
+import { useEffect, useState } from 'react';
+import { fetchReviews } from 'redux/slicers/reviewsSlicer';
+import Subscribers from 'ui-kit/Subscribers';
+import { Pagination } from 'antd';
 
-type Props = {
-  review: Review;
-};
-const ReviewsItems: React.FC<Props> = ({ review }) => {
-  const images = getProductVariantsImages(review.product?.productVariants);
+const ReviewsItems = () => {
+  const dispatch = useAppDispatch();
+  const { reviewsLenght, reviews, loading } = useAppSelector<TReviewState>(
+    (state) => state.reviews,
+  );
+
+  useEffect(() => {
+    dispatch(fetchReviews({ limit: '20', offset: '0' }));
+  }, []);
+  // _____________________ paginition start ________________________
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize]: [number, any] = useState(20);
+  const handlePageChange = (
+    page: number,
+    pageSize: number,
+    current: number,
+  ) => {
+    setPageSize(pageSize);
+    setCurrentPage(current);
+
+    const offset = Number(pageSize) * (Number(page ?? 1) - 1);
+    dispatch(
+      fetchReviews({
+        offset: `${offset}`,
+        limit: `${pageSize}`,
+      }),
+    );
+  };
+  // _____________________ paginition end ________________________
 
   return (
-    <ReviewsItem>
-      <div className="review-info-wrapper">
-        <Link href={`/product/${review.product?.url}`}>
-          <h1 className="product-title">{review.product?.name}</h1>
-        </Link>
-        <div className="review-and-profile-wrapper">
-          <div className="profile-rating-wrapper">
-            <span className="rating-wrapper">
-              <Rating value={review.rating} size="small" readOnly />
-            </span>
-            <ReviewWrapper>
-              <img
-                src={
-                  review.user?.image !== ''
-                    ? `/api/images/${review.user?.image}`
-                    : `https://api.dicebear.com/7.x/micah/svg?radius=50&backgroundColor=ECEEE7&seed=${review.user?.firstName}`
-                }
-                alt={review.user?.firstName}
-                className="image-wrapper"
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = `https://api.dicebear.com/7.x/micah/svg?radius=50&backgroundColor=ECEEE7&seed=${review.user?.firstName}`;
-                }}
-              />
-              <div className="review-text-btn-wrapper">
-                <h2 className="user-name-wrapper">{review.user?.firstName}</h2>
-              </div>
-            </ReviewWrapper>
-          </div>
-          <span className="review-text">{review.text}</span>
-        </div>
-      </div>
+    <>
+      <Wrapper
+        flex_direction="column"
+        gap="40px"
+        style={{ flexDirection: 'column', padding: '50px 0' }}
+      >
+        {!loading ? (
+          reviews.length !== 0 ? (
+            <ReviewsList>
+              {reviews?.map((review, index) => {
+                const images = getProductVariantsImages(
+                  review.product?.productVariants,
+                );
 
-      <div className="product-image-wrapper">
-        <img
-          src={`/api/images/${images[0]!}`}
-          alt={review.product?.name}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/img_not_found.png';
+                return (
+                  <ReviewsItem key={index}>
+                    <div className="review-info-wrapper">
+                      <Link href={`/product/${review.product?.url}`}>
+                        <h1
+                          title={review.product?.name}
+                          className="product-title"
+                        >
+                          {review.product?.name}
+                        </h1>
+                      </Link>
+                      <div className="review-and-profile-wrapper">
+                        <div className="profile-rating-wrapper">
+                          <span
+                            title={`${
+                              review.rating == 0
+                                ? review.rating + ' звезд'
+                                : review.rating == 4
+                                ? review.rating + ' звезда'
+                                : review.rating + ' звезды'
+                            } `}
+                            className="rating-wrapper"
+                          >
+                            <Rating
+                              value={review.rating}
+                              size="small"
+                              readOnly
+                            />
+                          </span>
+                          <ReviewWrapper>
+                            <img
+                              title={
+                                review.user?.firstName
+                                  ? review.user?.firstName
+                                  : 'Unknown'
+                              }
+                              src={
+                                review.user?.image
+                                  ? `/api/images/${review.user.image}`
+                                  : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${
+                                      review.user?.firstName
+                                        ? review.user?.firstName
+                                        : 'Unknown'
+                                    }`
+                              }
+                              alt={review.user?.firstName}
+                              className="image-wrapper"
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${
+                                  review.user?.firstName
+                                    ? review.user?.firstName
+                                    : 'Unknown'
+                                }`;
+                              }}
+                            />
+                            <div className="review-text-btn-wrapper">
+                              <h2 className="user-name-wrapper">
+                                {review.user?.firstName}
+                              </h2>
+                            </div>
+                          </ReviewWrapper>
+                        </div>
+                        <span title={review.text} className="review-text">
+                          {review.text}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="product-image-wrapper">
+                      <img
+                        src={`/api/images/${images[0]!}`}
+                        alt={review.product?.name}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = '/img_not_found.png';
+                        }}
+                      />
+                    </div>
+                  </ReviewsItem>
+                );
+              })}
+            </ReviewsList>
+          ) : (
+            <div>Пако Нет отзывов</div>
+          )
+        ) : (
+          <LoaderMask />
+        )}
+        <Pagination
+          style={{ marginTop: '20px' }}
+          current={currentPage}
+          total={reviewsLenght}
+          pageSize={pageSize}
+          pageSizeOptions={[12, 24, 36, 50, 100]}
+          onChange={(current, pageSize) => {
+            handlePageChange(current, pageSize, current);
           }}
         />
-      </div>
-    </ReviewsItem>
+      </Wrapper>
+      <Subscribers />
+    </>
   );
 };
 
+const ReviewsList = styled.ul`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 50px;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+`;
 const ReviewsItem = styled(motion.li)`
   width: 100%;
   display: flex;

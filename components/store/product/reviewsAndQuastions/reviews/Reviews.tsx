@@ -16,7 +16,6 @@ import {
   sortReviews,
   updateComment,
 } from 'redux/slicers/store/productInfoSlicer';
-import { TProductInfoState } from 'redux/types';
 import styled from 'styled-components';
 import {
   LoadMoreBtnWrapper,
@@ -35,15 +34,13 @@ import {
   handleCommentReactionClick,
   handleReviewReactionClick,
 } from './helpers';
-// import UserImagesSlider from './UserImagesSlider';
 import SingleUserImagesSlider from './SingleUserImagesSlider';
 import { Role } from 'common/enums/roles.enum';
-import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { ThumbnailsWrapper } from '.';
 import { handleMenuState } from './helpers';
-import CloseSVG from '../../../../../assets/close_black.svg';
 import Pagination from '../../productInfo/images/Pagination';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 
 export enum ModalType {
   Review,
@@ -52,9 +49,7 @@ export enum ModalType {
 
 const Review = ({ product }) => {
   const dispatch = useAppDispatch();
-  // const { product } = useAppSelector<TProductInfoState>(
-  //   (state) => state.productInfo,
-  // );
+
   const [filterValue, setFilterValue] = useState('Сначала полезные');
   const [isReviewModalVisible, setIsReviewModalVisible] = useState(false);
   const [reviewId, setReviewId] = useState('');
@@ -332,7 +327,7 @@ const Review = ({ product }) => {
                           )}
                           className="close-btn-wrapper"
                         >
-                          <CloseSVG />
+                          <CloseSVGBlack />
                         </span>
                         <SingleUserImagesSlider
                           images={getImages(review)}

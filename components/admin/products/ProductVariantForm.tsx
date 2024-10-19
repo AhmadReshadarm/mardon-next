@@ -2,12 +2,12 @@ import { Button, Form, Input, Select, Switch } from 'antd';
 import { Color, Image } from 'swagger/services';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
-import CloseSVG from '../../../assets/close_black.svg';
 import MultipleImageUpload from '../generalComponents/MultipleImageUpload';
 import { InsertRowLeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useState } from 'react';
 import DatabaseImages from 'ui-kit/DatabaseImages';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 
 const { Option } = Select;
 
@@ -43,7 +43,7 @@ const ProductVariant: React.FC<Props> = ({
         className={styles['product-variant__remove']}
         onClick={handleRemove(index)}
       >
-        <CloseSVG />
+        <CloseSVGBlack />
       </button>
       <Form.Item name={`id[${index}]`} style={{ display: 'none' }}>
         <Input name={`id[${index}]`} />

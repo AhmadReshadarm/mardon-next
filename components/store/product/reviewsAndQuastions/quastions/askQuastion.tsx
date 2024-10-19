@@ -4,9 +4,9 @@ import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import Share from '../../../../../assets/shareWhite.svg';
 import { useAppDispatch } from 'redux/hooks';
 import { createQuestion } from 'redux/slicers/store/productInfoSlicer';
+import { ShareWhiteSVG } from 'assets/icons/UI-icons';
 
 const AskQuastion = ({ userId, productId }) => {
   const dispatch = useAppDispatch();
@@ -53,7 +53,7 @@ const AskQuastion = ({ userId, productId }) => {
         >
           <span>Опубликовать вопрос</span>
           <span>
-            <Share />
+            <ShareWhiteSVG />
           </span>
         </motion.button>
       </form>

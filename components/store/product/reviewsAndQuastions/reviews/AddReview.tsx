@@ -6,9 +6,6 @@ import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { handleFileChange } from './helpers';
-import Upload from '../../../../../assets/upload.svg';
-import Delete from '../../../../../assets/delete.svg';
-import Share from '../../../../../assets/shareWhite.svg';
 import { TAuthState } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
@@ -16,6 +13,7 @@ import { Product } from 'swagger/services';
 import { AppDispatch } from 'redux/store';
 import { createReview } from 'redux/slicers/store/productInfoSlicer';
 import { openErrorNotification } from 'common/helpers';
+import { DeleteSVG, ShareWhiteSVG, UploadSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   product: Product | undefined;
@@ -135,7 +133,7 @@ const AddReview: React.FC<Props> = ({ product }) => {
           >
             <span>Выберите изображения</span>
             <span>
-              <Upload />
+              <UploadSVG />
             </span>
           </motion.button>
         ) : (
@@ -159,7 +157,7 @@ const AddReview: React.FC<Props> = ({ product }) => {
         >
           <span>Опубликовать обзор</span>
           <span>
-            <Share />
+            <ShareWhiteSVG />
           </span>
         </motion.button>
       </form>
@@ -201,7 +199,7 @@ const AddReview: React.FC<Props> = ({ product }) => {
               >
                 <span>Удалить</span>
                 <span>
-                  <Delete />
+                  <DeleteSVG />
                 </span>
               </motion.span>
             </motion.li>

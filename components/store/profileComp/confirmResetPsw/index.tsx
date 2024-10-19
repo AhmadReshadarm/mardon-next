@@ -6,8 +6,7 @@ import { devices } from 'components/store/lib/Devices';
 import isEmpty from 'validator/lib/isEmpty';
 import React, { useEffect, useState } from 'react';
 import { InputsTooltip } from 'components/store/checkout/helpers';
-import PswShow from '../../../../assets/pswshow.svg';
-import PswHide from '../../../../assets/pswhide.svg';
+import { HidePasswordSVG, ShowPasswordSVG } from 'assets/icons/UI-icons';
 import { handleResetClick } from './helpers';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
@@ -77,7 +76,7 @@ const ConfirmResetPsw = () => {
                 setConfidentiality('text');
               }}
             >
-              <PswHide />
+              <HidePasswordSVG />
             </motion.span>
             <motion.span
               custom={secret}
@@ -88,7 +87,7 @@ const ConfirmResetPsw = () => {
                 setConfidentiality('password');
               }}
             >
-              <PswShow />
+              <ShowPasswordSVG />
             </motion.span>
           </span>
         </ConfidentialityWrapper>
@@ -147,7 +146,7 @@ const ConfirmResetPsw = () => {
                 setConfidentiality('text');
               }}
             >
-              <PswHide />
+              <HidePasswordSVG />
             </motion.span>
             <motion.span
               custom={secret}
@@ -158,7 +157,7 @@ const ConfirmResetPsw = () => {
                 setConfidentiality('password');
               }}
             >
-              <PswShow />
+              <ShowPasswordSVG />
             </motion.span>
           </span>
         </ConfidentialityWrapper>

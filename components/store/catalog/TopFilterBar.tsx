@@ -16,9 +16,11 @@ import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
-import CloseSVG from '../../../assets/close_black.svg';
-import CloseSVGWhite from '../../../assets/close.svg';
-import { LoadMoreIconSVG } from '../../../assets/icons/UI-icons';
+import {
+  CloseSVGBlack,
+  LoadMoreIconSVG,
+  CloseSVGWhite,
+} from '../../../assets/icons/UI-icons';
 import { motion } from 'framer-motion';
 import NameFilter from './topFilters/NameFilter';
 import { useAppSelector } from 'redux/hooks';
@@ -199,7 +201,7 @@ const TopFilterBar: React.FC<Props> = ({
             onMouseLeave={() => setIsHoverMobile(false)}
           >
             <span>Сохранить и закрыть</span>
-            {isHoverMobile ? <CloseSVGWhite /> : <CloseSVG />}
+            {isHoverMobile ? <CloseSVGWhite /> : <CloseSVGBlack />}
           </span>
         </div>
         {localFilters.map(
@@ -350,7 +352,7 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(selectedOptions);
                               }}
                             >
-                              <CloseSVG />
+                              <CloseSVGBlack />
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -388,7 +390,7 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(selectedOptions);
                               }}
                             >
-                              <CloseSVG />
+                              <CloseSVGBlack />
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -426,7 +428,7 @@ const TopFilterBar: React.FC<Props> = ({
                                 setSelectedCategory(undefined);
                               }}
                             >
-                              <CloseSVG />
+                              <CloseSVGBlack />
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -473,7 +475,7 @@ const TopFilterBar: React.FC<Props> = ({
                                 });
                               }}
                             >
-                              <CloseSVG />
+                              <CloseSVGBlack />
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -504,7 +506,7 @@ const TopFilterBar: React.FC<Props> = ({
                           selectedFilter.onChange(values);
                         }}
                       >
-                        <CloseSVG />
+                        <CloseSVGBlack />
                       </span>
                     </SelectedFiltersButtons>
                   ) : (

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import Arrow from '../../../../../assets/arrow_black.svg';
+import { ArrowBlackSVG } from 'assets/icons/UI-icons';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   title: string;
@@ -24,13 +25,14 @@ const InfoDropdown = ({ title, children, borderBottom }: Props) => {
             setDisplayInfo(displayInfo == 'none' ? 'flex' : 'none');
           }, 200);
         }}
+        title={title}
       >
         <h2>{title}</h2>
         <motion.span
           animate={openInfo ? 'open' : 'close'}
           variants={variants.rotate}
         >
-          <Arrow />
+          <ArrowBlackSVG />
         </motion.span>
       </InfoBtnWrappers>
       <InfoContentWrappers
@@ -54,7 +56,7 @@ const InfoDropdown = ({ title, children, borderBottom }: Props) => {
   );
 };
 
-const InfoWrappers = styled.div`
+export const InfoWrappers = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -63,7 +65,7 @@ const InfoWrappers = styled.div`
   border-bottom: 1px solid ${color.textSecondary};
 `;
 
-const InfoBtnWrappers = styled.div`
+export const InfoBtnWrappers = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -82,9 +84,33 @@ const InfoBtnWrappers = styled.div`
     justify-content: center;
     align-items: center;
   }
+  @media ${devices.tabletS} {
+    h2 {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+  @media ${devices.mobileL} {
+    h2 {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
+  @media ${devices.mobileM} {
+    h2 {
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+  }
+  @media ${devices.mobileS} {
+    h2 {
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+  }
 `;
 
-const InfoContentWrappers = styled(motion.div)`
+export const InfoContentWrappers = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -105,6 +131,32 @@ const InfoContentWrappers = styled(motion.div)`
     .fr-view {
       width: 100%;
       padding: 5px 20px;
+    }
+  }
+
+  @media ${devices.tabletL} {
+    .dilevery-title {
+      font-size: 1rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    .dilevery-title {
+      font-size: 0.9rem;
+    }
+  }
+  @media ${devices.mobileL} {
+    .dilevery-title {
+      font-size: 0.8rem;
+    }
+  }
+  @media ${devices.mobileM} {
+    .dilevery-title {
+      font-size: 0.6rem;
+    }
+  }
+  @media ${devices.mobileS} {
+    .dilevery-title {
+      font-size: 0.6rem;
     }
   }
 `;

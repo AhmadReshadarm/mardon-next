@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import styled, { css, CSSProp } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type Props = {
   label: string;
@@ -50,7 +50,6 @@ const ColorCheckbox: React.FC<Props> = ({
           hidden
         />
       </Checkbox>
-      {/* <CheckboxLabel>{label}</CheckboxLabel> */}
     </CheckboxWrapper>
   );
 };
@@ -90,11 +89,6 @@ const Checkbox = styled.div<{
       `;
     }
   }}
-`;
-
-const CheckboxLabel = styled.div`
-  font-size: 14px;
-  margin-left: 11px;
 `;
 
 export default ColorCheckbox;

@@ -4,11 +4,11 @@ import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { Category, CategoryInTree } from 'swagger/services';
-import Filter from '../../../../../assets/filter.svg';
+import { CategoryInTree } from 'swagger/services';
 import { PopupDisplay } from '../../constants';
 import { handleMenuState } from '../../helpers';
 import { Path } from '../paths';
+import { FilterBtnSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   selectedCategory: CategoryInTree | undefined;
@@ -74,7 +74,7 @@ const FilterBtn: React.FC<Props> = ({
         }}
       >
         <span>
-          <Filter />
+          <FilterBtnSVG />
         </span>
       </FilterNotSelected>
     </FilterBtnWrapper>

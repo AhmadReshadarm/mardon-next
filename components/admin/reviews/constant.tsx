@@ -54,7 +54,9 @@ const getColumns = (dispatch: AppDispatch): ColumnsType<Review> => {
       dataIndex: 'product',
       width: '25%',
       render: (_, record) => {
-        return <a href={record.product?.url}>{record.product?.name}</a>;
+        return (
+          <a href={`/product/${record.product?.url}`}>{record.product?.name}</a>
+        );
       },
     },
     {

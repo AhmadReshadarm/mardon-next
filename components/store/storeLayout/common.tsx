@@ -108,4 +108,73 @@ const Content = styled.div`
   gap: ${(p: props) => p.gap};
 `;
 
-export { Container, Wrapper, Content, Btns };
+const Headers = styled.h1`
+  width: 100%;
+  text-align: start;
+  font-size: 1.5rem;
+  @media ${devices.mobileL} {
+    max-width: 95vw;
+  }
+`;
+
+const Contents = styled.span`
+  width: 80%;
+  text-align: start;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
+`;
+
+const Links = styled.span`
+  color: ${color.hoverBtnBg};
+  &:hover {
+    color: ${color.ok};
+  }
+`;
+
+const ListsDots = styled.ul`
+  width: 80%;
+  text-align: start;
+  padding-left: 15px;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  li {
+    list-style-type: circle;
+  }
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
+`;
+const ListNumbers = styled.ol`
+  width: 80%;
+  text-align: start;
+  padding-left: 15px;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  li {
+    list-style-type: number;
+  }
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
+`;
+
+export {
+  Container,
+  Wrapper,
+  Content,
+  Btns,
+  Headers,
+  Contents,
+  Links,
+  ListsDots,
+  ListNumbers,
+};

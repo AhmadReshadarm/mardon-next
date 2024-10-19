@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from '../lib/ui.colors';
-import { styleProps } from '../lib/types';
 import { devices } from '../lib/Devices';
 
 const HeaderWrapper = styled(motion.div)`
@@ -17,29 +16,39 @@ const HeaderWrapper = styled(motion.div)`
     color: ${color.textPrimary};
   }
   @media ${devices.tabletL} {
+    align-items: flex-start;
+    padding: 20px;
     h3 {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
   }
 
   @media ${devices.tabletS} {
+    justify-content: flex-start;
+    padding: 20px;
     h3 {
-      font-size: 2rem;
+      font-size: 1.2rem;
     }
   }
   @media ${devices.mobileL} {
+    justify-content: flex-start;
+    padding: 20px;
     h3 {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
   @media ${devices.mobileM} {
+    justify-content: flex-start;
+    padding: 20px;
     h3 {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
   @media ${devices.mobileS} {
+    justify-content: flex-start;
+    padding: 20px;
     h3 {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 `;

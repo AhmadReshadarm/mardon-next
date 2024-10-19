@@ -83,7 +83,7 @@ export const makeStore = () =>
       getDefaultMiddleware({
         serializableCheck: false,
       }),
-  } as any);
+  } as never);
 
 type Store = ReturnType<typeof makeStore>;
 

@@ -1,21 +1,7 @@
-// import { Refund } from '@a2seven/yoo-checkout';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { axiosInstance } from 'common/axios.instance';
-import {
-  getErrorMassage,
-  handleChangeError,
-  handleChangePending,
-  handleError,
-  handlePending,
-} from 'common/helpers';
-import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { getErrorMassage, handlePending } from 'common/helpers';
 import { TDeliveryInfo, TOrderInfo, TStoreCheckoutState } from 'redux/types';
-import {
-  Address,
-  AddressService,
-  Checkout,
-  CheckoutService,
-} from 'swagger/services';
+import { AddressService, Checkout, CheckoutService } from 'swagger/services';
 
 export const fetchCheckouts = createAsyncThunk<
   Checkout[],

@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import Like from '../../../../assets/like.svg';
 import { styleProps } from 'components/store/lib/types';
 import { devices } from 'components/store/lib/Devices';
+import { LikeSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   bgColor: string;
@@ -34,7 +34,7 @@ const LikeDisLike: React.FC<Props> = ({
         onClick={onLikeClick}
         style={{ background: isLiked ? '#dfdfdf' : '#fff' }}
       >
-        <Like />
+        <LikeSVG />
         {likeNum}
       </motion.button>
       <motion.button
@@ -46,7 +46,7 @@ const LikeDisLike: React.FC<Props> = ({
         onClick={onDislikeClick}
         style={{ background: isDisliked ? '#dfdfdf' : '#fff' }}
       >
-        <Like />
+        <LikeSVG />
         {dislikeNum}
       </motion.button>
     </LikeDisLikeWrapper>

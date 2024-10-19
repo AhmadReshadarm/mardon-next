@@ -7,9 +7,9 @@ import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { PopupContainer } from '../common';
 import { InputsTooltip } from './helpers';
-import CloseSVG from '../../../../assets/close_black.svg';
 import { handleDataChange } from './helpers';
 import { useAppDispatch } from 'redux/hooks';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 const UserData = (props: any) => {
   const { isOpen, setOpen, user } = props;
   const [firstName, setFirstName] = useState(user.firstName);
@@ -36,7 +36,7 @@ const UserData = (props: any) => {
         variants={variants.fadeOutSlideOut}
       >
         <span onClick={() => setOpen(false)} className="close-btn">
-          <CloseSVG />
+          <CloseSVGBlack />
         </span>
         <h2>Личные данные</h2>
         <InputsDvider>

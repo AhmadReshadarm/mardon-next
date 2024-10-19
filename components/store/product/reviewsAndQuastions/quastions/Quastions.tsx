@@ -4,7 +4,7 @@ import Filters from '../Filters';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import LikeDisLike from '../LikeOrDisLike';
-import { quastionsDropdownOption, image } from '../../constants';
+import { quastionsDropdownOption } from '../../constants';
 import {
   LoadMoreBtnWrapper,
   ReviewContainer,

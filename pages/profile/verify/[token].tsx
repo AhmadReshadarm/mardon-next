@@ -7,7 +7,6 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
-// import VerifyAcountByToken from 'components/store/profileComp/verifyaccount';
 import { baseUrl } from 'common/constant';
 import dynamic from 'next/dynamic';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';

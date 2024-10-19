@@ -10,8 +10,8 @@ import { Loading } from './common';
 import SignIn from './signin';
 import SignUp from './signup';
 import { devices } from 'components/store/lib/Devices';
-import CloseSVGWhite from '../../../../../../assets/close.svg';
 import { useState } from 'react';
+import { CloseSVGWhite } from 'assets/icons/UI-icons';
 type Props = {
   direction: number;
   authType: string;

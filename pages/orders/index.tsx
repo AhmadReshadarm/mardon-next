@@ -1,5 +1,4 @@
 import variants from 'components/store/lib/variants';
-// import Order from 'components/store/order';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
 import Head from 'next/head';
@@ -61,7 +60,6 @@ const Orders = () => {
           </HeaderWrapper>
         </BasketHeader>
         <Order checkouts={checkouts} />
-        {/* {loading ? <Loading /> : } */}
       </Container>
     </>
   );

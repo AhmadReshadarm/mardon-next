@@ -125,62 +125,82 @@ const ColorPicker: React.FC<Props> = ({
                     ''
                   )}
                   {!variant.available ? (
-                    <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
+                    <ColorPickerSpan>Нет в наличии</ColorPickerSpan>
                   ) : (
                     <ColorPickerPriceWrapper>
-                      <ColorPickerSpan>{variant.price}₽</ColorPickerSpan>
+                      <ColorPickerSpan>{variant.price} ₽</ColorPickerSpan>
                     </ColorPickerPriceWrapper>
                   )}
                 </React.Fragment>
               }
             >
-              <ColorPickerItems
-                key="prices-product-page"
-                custom={0.05 * colIndex}
-                initial="init"
-                animate="animate"
-                exit={{
-                  y: -20,
-                  opacity: 0,
-                  transition: { delay: 0.05 * colIndex },
-                }}
-                variants={variants.fadInSlideUp}
-                onClick={handleImageChange(
-                  variant,
-                  colIndex,
-                  selectedIndex,
-                  setSelectedIndex,
-                  paginateImage,
-                )}
-                onTouchStart={handleImageChange(
-                  variant,
-                  colIndex,
-                  selectedIndex,
-                  setSelectedIndex,
-                  paginateImage,
-                )}
-              >
-                <LoaderMask
-                  style={{ display: loadingComplet ? 'none' : 'flex' }}
-                />
-                <Image
-                  style={{
-                    width: selectedIndex == colIndex ? '45px' : '50px',
-                    height: selectedIndex == colIndex ? '45px' : '50px',
-                    opacity: loadingComplet ? 1 : 0,
-                    position: loadingComplet ? 'inherit' : 'absolute',
-                    zIndex: loadingComplet ? 1 : -1,
+              <ColorPickerThumbnailWrapper>
+                <ColorPickerItems
+                  key="prices-product-page"
+                  custom={0.05 * colIndex}
+                  initial="init"
+                  animate="animate"
+                  exit={{
+                    y: -20,
+                    opacity: 0,
+                    transition: { delay: 0.05 * colIndex },
                   }}
-                  src={`/api/images/compress/${variant.image}?qlty=1&width=50&height=50&lossless=true`} // `/api/images/${variant.image}`
-                  alt={variant.image}
-                  width={50}
-                  height={50}
-                  loading="lazy"
-                  priority={false}
-                  onLoadingComplete={() => setLoadingComplet(true)}
-                />
-                {!variant.available ? <div></div> : ''}
-              </ColorPickerItems>
+                  variants={variants.fadInSlideUp}
+                  onClick={handleImageChange(
+                    variant,
+                    colIndex,
+                    selectedIndex,
+                    setSelectedIndex,
+                    paginateImage,
+                  )}
+                  onTouchStart={handleImageChange(
+                    variant,
+                    colIndex,
+                    selectedIndex,
+                    setSelectedIndex,
+                    paginateImage,
+                  )}
+                  style={{
+                    border:
+                      selectedIndex == colIndex
+                        ? `solid 1px ${color.searchBtnBg}`
+                        : 'none',
+                  }}
+                >
+                  <LoaderMask
+                    style={{ display: loadingComplet ? 'none' : 'flex' }}
+                  />
+                  <Image
+                    style={{
+                      width: selectedIndex == colIndex ? '48px' : '50px',
+                      height: selectedIndex == colIndex ? '48px' : '50px',
+
+                      opacity: loadingComplet ? 1 : 0,
+                      position: loadingComplet ? 'inherit' : 'absolute',
+                      zIndex: loadingComplet ? 1 : -1,
+                    }}
+                    src={`/api/images/compress/${variant.image}?qlty=10&width=50&height=50&lossless=true`} // `/api/images/${variant.image}`
+                    alt={variant.image}
+                    width={50}
+                    height={50}
+                    loading="lazy"
+                    priority={false}
+                    onLoadingComplete={() => setLoadingComplet(true)}
+                  />
+                  {!variant.available ? (
+                    <div className="not-available-mask">
+                      <div className="inner-not-available-mask"></div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </ColorPickerItems>
+                <span className="preview-artical">
+                  {variant.artical.includes('|')
+                    ? variant.artical.split('|')[0].toLocaleUpperCase()
+                    : variant.artical.toLocaleUpperCase()}
+                </span>
+              </ColorPickerThumbnailWrapper>
             </ImageTooltip>
           );
         })}
@@ -216,6 +236,17 @@ const LoaderMask = styled.div`
     100% {
       transform: translateX(100%);
     }
+  }
+`;
+
+const ColorPickerThumbnailWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  .preview-artical {
+    font-size: 0.7rem;
   }
 `;
 
@@ -280,6 +311,33 @@ export const ColorPickerItems = styled(motion.li)`
   box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
   cursor: pointer;
   overflow: hidden;
+  .not-available-mask {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff82;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    .inner-not-available-mask {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(25px, -18px);
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        width: 1px;
+        height: 170%;
+        background-color: #000;
+        transform: rotate(45deg);
+      }
+    }
+  }
   img {
     width: 50px;
     height: 50px;
@@ -298,8 +356,8 @@ const ColorPickerPriceWrapper = styled.div`
 `;
 
 const ColorPickerSpan = styled.span`
-  font-size: 1.1rem;
-  font-family: ricordi;
+  font-size: 1rem;
+  font-weight: 500;
 
   &:nth-child(2) {
     font-size: 1rem;

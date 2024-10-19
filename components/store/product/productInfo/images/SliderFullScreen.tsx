@@ -4,9 +4,6 @@ import variants from 'components/store/lib/variants';
 import { SliderImage } from '../../common';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
-// import { Product } from 'swagger/services';
-// import { Dispatch, SetStateAction } from 'react';
-// import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { devices } from 'components/store/lib/Devices';
 type Props = {
   images: string[];

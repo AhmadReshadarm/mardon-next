@@ -91,6 +91,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
         minWidth: `${wrapperSizes.minMaxWidth}px`,
         maxWidth: `${wrapperSizes.minMaxWidth}px`,
       }}
+      // title={product.name}
     >
       <ItemWrapper>
         <Slider
@@ -117,15 +118,45 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             </span>
           </Link>
           <div className="artical-wrapper">
-            <span style={{ fontFamily: 'ricordi' }}>Артикул : </span>
+            <span>Артикул : </span>
             <span>
               {product
                 ?.productVariants![0]?.artical?.slice(0, 15)
                 .toLocaleUpperCase()}
             </span>
           </div>
+          <div
+            title={`${
+              Math.floor(product.reviews?.length!) == 1
+                ? Math.floor(product.reviews?.length!) + ' Оценка'
+                : Math.floor(product.reviews?.length!) / 2 == 0
+                ? Math.floor(product.reviews?.length!) + ' Оценки'
+                : Math.floor(product.reviews?.length!) + ' Оценок'
+            } `}
+            className="rating-wrapper"
+            style={{ display: product.reviews?.length! == 0 ? 'none' : 'flex' }}
+          >
+            <span className="review-star">
+              <svg
+                focusable="false"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                data-testid="StarIcon"
+                fill="#FAAF00"
+              >
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+              </svg>
+            </span>
+            <span className="review-text">
+              {Math.floor(product.reviews?.length!) == 1
+                ? Math.floor(product.reviews?.length!) + ' Оценка'
+                : Math.floor(product.reviews?.length!) / 2 == 0
+                ? Math.floor(product.reviews?.length!) + ' Оценки'
+                : Math.floor(product.reviews?.length!) + ' Оценок'}
+            </span>
+          </div>
           <div className="product-description-wrapper">
-            <span>
+            <span title="Нажмите на карточку товара, чтобы узнать больше">
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 60
                   ? product?.desc?.split('|')[0].slice(0, 60) + '...'
@@ -191,7 +222,7 @@ export const ItemWrapper = styled.div`
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-family: ricordi;
         &:hover {
           color: ${color.textBase};
@@ -246,7 +277,27 @@ export const ItemWrapper = styled.div`
       justify-content: flex-start;
       gap: 10px;
       span {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+      }
+    }
+    .rating-wrapper {
+      width: 100%;
+      display: flex;
+      flex-dierction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 2px;
+      .review-star {
+        width: 12px;
+        height: 12px;
+        display: flex;
+        flex-dierction: row;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .review-text {
+        font-size: 10px;
+        color: #484848;
       }
     }
   }
@@ -274,7 +325,7 @@ export const ItemWrapper = styled.div`
       .product-title {
         line-break: anywhere;
         span {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
       .product-description-wrapper {
@@ -285,10 +336,10 @@ export const ItemWrapper = styled.div`
         justify-content: center;
         gap: 15px;
       }
-      .artical-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      // .artical-wrapper {
+      //   flex-direction: column;
+      //   align-items: flex-start;
+      // }
     }
   }
   @media ${devices.mobileL} {
@@ -296,7 +347,7 @@ export const ItemWrapper = styled.div`
       .product-title {
         line-break: anywhere;
         span {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
       .product-description-wrapper {
@@ -314,7 +365,7 @@ export const ItemWrapper = styled.div`
       .product-title {
         line-break: anywhere;
         span {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
       .product-description-wrapper {
@@ -333,7 +384,7 @@ export const ItemWrapper = styled.div`
       .product-title {
         line-break: anywhere;
         span {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
       .product-description-wrapper {
@@ -344,10 +395,10 @@ export const ItemWrapper = styled.div`
         justify-content: center;
         gap: 15px;
       }
-      .artical-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      // .artical-wrapper {
+      //   flex-direction: column;
+      //   align-items: flex-start;
+      // }
     }
   }
 `;

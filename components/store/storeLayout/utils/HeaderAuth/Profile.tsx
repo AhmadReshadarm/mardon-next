@@ -2,9 +2,6 @@ import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
-import ReviewsSVG from '../../../../../assets/reviews.svg';
-import BasketNormalSVG from '../../../../../assets/basket_normal.svg';
-import SettingskSVG from '../../../../../assets/settings.svg';
 import variants from 'components/store/lib/variants';
 import { handleLogout } from './authorize/helpers';
 import { useAppDispatch } from 'redux/hooks';
@@ -16,6 +13,11 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState } from 'redux/types';
+import {
+  BasketProfileSVG,
+  ReviewSVG,
+  SettingsSVG,
+} from 'assets/icons/UI-icons';
 type StyleProps = {
   width: number;
 };
@@ -93,7 +95,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
               authDisplay,
             )}
           >
-            <ReviewsSVG />
+            <ReviewSVG />
             <span>Мои отзывы</span>
           </AuthDevider>
         </Link>
@@ -112,7 +114,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
             )}
           >
             <span style={{ width: '35px', height: '35px' }}>
-              <BasketNormalSVG />
+              <BasketProfileSVG />
             </span>
             <span>Мои заказы</span>
           </AuthDevider>
@@ -131,7 +133,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
               authDisplay,
             )}
           >
-            <SettingskSVG />
+            <SettingsSVG />
             <span>Настройки</span>
           </AuthDevider>
         </Link>

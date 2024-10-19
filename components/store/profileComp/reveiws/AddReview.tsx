@@ -1,24 +1,18 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Rating } from '@mui/material';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
-import { handleFileChange } from './helpers';
 import { PopupContainer } from '../common';
-import Upload from '../../../../assets/upload.svg';
-import Delete from '../../../../assets/delete.svg';
-import Share from '../../../../assets/shareWhite.svg';
-import CloseSVG from '../../../../assets/close_black.svg';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch } from 'redux/hooks';
 import { updateReview } from 'redux/slicers/store/profileSlicer';
 import { AppDispatch } from 'redux/store';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
-// import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 import { Review } from 'swagger/services';
-import { fetchUserReviews } from 'redux/slicers/store/profileSlicer';
+import { DeleteSVG, ShareWhiteSVG, CloseSVGBlack } from 'assets/icons/UI-icons';
 
 const AddReview = ({ setOpen, review }) => {
   const dispatch = useAppDispatch();
@@ -26,38 +20,22 @@ const AddReview = ({ setOpen, review }) => {
   const [src, setSrc] = useState([]);
   const [input, setInput] = useState(review.text);
   const [success, setSuccess] = useState('');
-  const inputRef = useRef<any>(null);
-  const imageList = useAppSelector<any[]>((state) => state.images.imageList);
-  // const user = getUserInfo();
-
-  const handleClick = (evt: any) => {
-    evt.preventDefault();
-    inputRef.current.click();
-  };
 
   const handleDelete = (passed: any) => {
     setSrc(src.filter((item) => item != passed));
   };
 
   const handleReviewPublish =
-    (
-      dispatch: AppDispatch,
-      rating: number,
-      images: string[],
-      text: string,
-      review: Review,
-    ) =>
+    (dispatch: AppDispatch, rating: number, text: string, review: Review) =>
     async (e) => {
       e.preventDefault();
       const payload = {
         ...review,
         rating,
         text,
-        // images: images.join(', '),
       };
       await dispatch(updateReview({ reviewId: review.id!, payload }));
       setSuccess('Ваш отзыв опубликован');
-      // dispatch(fetchUserReviews(user?.id!));
       setTimeout(() => {
         setSuccess('');
         setOpen(false);
@@ -79,7 +57,7 @@ const AddReview = ({ setOpen, review }) => {
         variants={variants.fadeOutSlideOut}
       >
         <span onClick={() => setOpen(false)} className="close-btn">
-          <CloseSVG />
+          <CloseSVGBlack />
         </span>
         <StarsWrapper>
           <span>Пожалуйста, оцените этот товар</span>
@@ -102,25 +80,6 @@ const AddReview = ({ setOpen, review }) => {
             defaultValue=""
             onChange={(e) => setInput(e.target.value)}
           />
-          {/* <span>Пожалуйста, загрузите изображения товара</span>
-          <input
-            ref={inputRef}
-            type="file"
-            name="img"
-            multiple
-            onChange={(evt) => handleFileChange(evt, setSrc, dispatch)}
-          />
-          <motion.button
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            onClick={handleClick}
-          >
-            <span>Выберите изображения</span>
-            <span>
-              <Upload />
-            </span>
-          </motion.button> */}
           <motion.button
             whileHover={{ boxShadow: '0px 0px 4px 2px rgba(0, 0, 0, 0.25)' }}
             whileTap={{ boxShadow: '0px 0px 0px 0px #ffffff' }}
@@ -128,17 +87,11 @@ const AddReview = ({ setOpen, review }) => {
             animate={input.length == 0 ? 'init' : 'animate'}
             variants={variants.fadeOutSlideOut}
             style={{ display: input.length == 0 ? 'none' : 'flex' }}
-            onClick={handleReviewPublish(
-              dispatch,
-              rate,
-              imageList,
-              input,
-              review,
-            )}
+            onClick={handleReviewPublish(dispatch, rate, input, review)}
           >
             <span>Опубликовать обзор</span>
             <span>
-              <Share />
+              <ShareWhiteSVG />
             </span>
           </motion.button>
         </form>
@@ -180,7 +133,7 @@ const AddReview = ({ setOpen, review }) => {
                 >
                   <span>Удалить</span>
                   <span>
-                    <Delete />
+                    <DeleteSVG />
                   </span>
                 </motion.span>
               </motion.li>

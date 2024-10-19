@@ -8,6 +8,7 @@ import { useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
 import Link from 'next/link';
 import InfoDropdownReturn from './DropDownsParrentReturn';
+import { Contents, ListsDots } from 'components/store/storeLayout/common';
 
 type Props = {
   parameterProducts?: ParameterProduct[];
@@ -57,10 +58,13 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
                       className="wrapper-key-vlaue"
                       key={`parameter-product-label-${index}`}
                     >
-                      <span className="key-wrapper">
+                      <span
+                        title={item.parameter?.name}
+                        className="key-wrapper"
+                      >
                         {item.parameter?.name}:{' '}
                       </span>
-                      <span>{item.value}</span>
+                      <span title={item.value}>{item.value}</span>
                     </li>
                   )}
                 </>
@@ -85,9 +89,7 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
           Стоимость платной доставки определяется после оформления заказа. Наш
           менеджер свяжется с вами, чтобы уточнить адрес доставки и цену.
         </Contents>
-        <h3 className="dilevery-title">
-          {`Где находятся наши склады`.toUpperCase()}?
-        </h3>
+        <h3 className="dilevery-title">ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?</h3>
         <Contents>
           Наши склады находятся в разных районах Москвы. После оформления заказа
           мы свяжемся с вами, чтобы уточнить адрес доставки или самовывоза с
@@ -95,7 +97,11 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
         </Contents>
         <Contents>
           По дополнительным вопросам обращаться по номеру телефона:{' '}
-          <Link style={{ color: color.ok }} href="tel:89254865444">
+          <Link
+            title="По дополнительным вопросам обращаться по номеру телефона 8-925-486-54-44"
+            style={{ color: color.ok }}
+            href="tel:89254865444"
+          >
             <span>8-925-486-54-44</span>
           </Link>
           .
@@ -262,7 +268,6 @@ const SpecsKeyValueWrapper = styled.ul`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 30px;
   .wrapper-key-vlaue {
     width: 100%;
     display: flex;
@@ -270,36 +275,66 @@ const SpecsKeyValueWrapper = styled.ul`
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
-    // border-bottom: 1px solid;
     padding-bottom: 15px;
     .key-wrapper {
       white-space: nowrap;
     }
+    span {
+      font-size: 0.9rem;
+    }
+  }
+  @media ${devices.tabletS} {
+    .wrapper-key-vlaue {
+      span {
+        font-size: 0.7rem;
+      }
+    }
+  }
+  @media ${devices.mobileL} {
+    .wrapper-key-vlaue {
+      span {
+        font-size: 0.7rem;
+      }
+    }
+  }
+  @media ${devices.mobileM} {
+    .wrapper-key-vlaue {
+      span {
+        font-size: 0.6rem;
+      }
+    }
+  }
+  @media ${devices.mobileS} {
+    .wrapper-key-vlaue {
+      span {
+        font-size: 0.6rem;
+      }
+    }
   }
 `;
 
-const Contents = styled.span`
-  width: 80%;
-  text-align: start;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
+// const Contents = styled.span`
+//   width: 80%;
+//   text-align: start;
+//   line-height: 1.5rem;
+//   font-size: 1rem;
+//   @media ${devices.mobileL} {
+//     width: 100%;
+//   }
+// `;
 
-const ListsDots = styled.ul`
-  width: 80%;
-  text-align: start;
-  padding-left: 15px;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  li {
-    list-style-type: circle;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
+// const ListsDots = styled.ul`
+//   width: 80%;
+//   text-align: start;
+//   padding-left: 15px;
+//   line-height: 1.5rem;
+//   font-size: 1rem;
+//   li {
+//     list-style-type: circle;
+//   }
+//   @media ${devices.mobileL} {
+//     width: 100%;
+//   }
+// `;
 
 export default DropDowns;

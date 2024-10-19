@@ -7,9 +7,9 @@ import { useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
 import { CategoryInTree } from 'swagger/services';
-import CloseSVG from '../../../../../assets/close_black.svg';
 import { PopupDisplay } from '../../constants';
 import { handleMenuState } from '../../helpers';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 
 type Props = {
   isOpened: boolean;
@@ -55,7 +55,7 @@ const FilterModal: React.FC<Props> = ({
             variants={variants.grow}
             onClick={handleMenuState(setIsOpened, setDisplay)}
           >
-            <CloseSVG />
+            <CloseSVGBlack />
           </motion.button>
           <h3>Искать в категории</h3>
           <ContentInner>

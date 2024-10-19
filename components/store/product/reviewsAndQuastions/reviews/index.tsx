@@ -16,12 +16,12 @@ import variants from 'components/store/lib/variants';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { handleMenuState } from 'components/store/storeLayout/helpers';
 import Pagination from '../../productInfo/images/Pagination';
-import CloseSVG from '../../../../../assets/close_black.svg';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import { Role } from 'common/enums/roles.enum';
 import { Checkout } from 'swagger/services';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 
 const Reviews = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
@@ -69,7 +69,6 @@ const Reviews = () => {
   return (
     <ContentContainer>
       <ContentWrapper>
-        {/* fullscreen mode  start */}
         {thumbnails?.length! > 0 ? (
           <ThumbnailsWrapper>
             <h3 className="title-users-images">Фото покупателей</h3>
@@ -110,7 +109,7 @@ const Reviews = () => {
               onClick={handleMenuState(setIsOpened, setDisplay)}
               className="close-btn-wrapper"
             >
-              <CloseSVG />
+              <CloseSVGBlack />
             </span>
             <UserImagesSlider
               images={thumbnails!}

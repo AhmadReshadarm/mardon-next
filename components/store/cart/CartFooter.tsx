@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import { devices } from '../lib/Devices';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
-import ArrowSVG from '../../../assets/arrow_white.svg';
+import { ArrowSVG } from 'assets/icons/UI-icons';
 type Props = {
   cart: Basket | null;
 };

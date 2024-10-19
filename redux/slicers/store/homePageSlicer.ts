@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getErrorMassage, handleError, handlePending } from 'common/helpers';
 import { Banner, THomePageState } from 'redux/types';
 import {
-  AdvertisementService,
   BrandResponse,
   BrandService,
   ReviewResponse,
@@ -58,14 +57,9 @@ export const fetchBanner = createAsyncThunk<
   'homePage/fetchBanner',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      // advertisement,
-      const [slides] = await Promise.all([
-        // AdvertisementService.getAdvertisements(),
-        SlideService.getSlides(),
-      ]);
+      const [slides] = await Promise.all([SlideService.getSlides()]);
 
       return {
-        // advertisement: advertisement[0],
         slides,
       };
     } catch (error: any) {

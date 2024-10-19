@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Product, Wishlist } from 'swagger/services';
-import CloseSVG from '../../../assets/close_black.svg';
 import { devices } from '../lib/Devices';
 import { Rating } from '@mui/material';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
@@ -14,6 +13,7 @@ import { handleWishBtnClick } from 'ui-kit/products/helpers';
 import { TCartState } from 'redux/types';
 import { AddToCart } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 type Props = {
   product: Product;
   index: number;
@@ -76,7 +76,7 @@ const ItemWishlist: React.FC<Props> = ({ product, index, wishlist }) => {
             handleWishBtnClick(product, dispatch, wishlist),
           )}
         >
-          <CloseSVG />
+          <CloseSVGBlack />
         </motion.button>
       </div>
     </Item>

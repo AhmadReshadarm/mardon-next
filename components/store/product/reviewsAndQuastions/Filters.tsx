@@ -4,8 +4,8 @@ import { useState, useCallback, useEffect } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
-import Arrow from '../../../../assets/arrow_white.svg';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
+import { ArrowSVG } from 'assets/icons/UI-icons';
 
 const Filters = (props: any) => {
   // _______________ menu hooks _______________
@@ -54,7 +54,7 @@ const Filters = (props: any) => {
           animate={isOpen ? 'open' : 'close'}
           variants={variants.rotate}
         >
-          <Arrow />
+          <ArrowSVG />
         </motion.span>
       </FilterDropDownBtn>
       <FilterDropDownWrapper
@@ -112,7 +112,6 @@ const FilterDropDownBtn = styled(motion.button)`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-family: ricordi;
   }
 `;
 

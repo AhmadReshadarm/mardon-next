@@ -1,7 +1,6 @@
 import color from 'components/store/lib/ui.colors';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import CloseSVG from '../../assets/close_black.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageDBList } from 'redux/slicers/imagesSlicer';
 import { fetchImages } from 'redux/slicers/imagesSlicer';
@@ -11,6 +10,7 @@ import { DataType } from 'common/interfaces/data-type.interface';
 import { columnsImages } from './constantsImages';
 import { emptyLoading } from 'common/constants';
 import { dumyDataLoader } from './dumyDataLoader';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 
 type Props = {
   setOpen: any;
@@ -87,7 +87,7 @@ const DatabaseImages = ({
     <Contaienr style={{ display: isOpen ? 'flex' : 'none' }}>
       <Wrapper>
         <CloseBtn onClick={() => setOpen(false)}>
-          <CloseSVG />
+          <CloseSVGBlack />
         </CloseBtn>
 
         {loading ? (

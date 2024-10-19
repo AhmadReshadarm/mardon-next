@@ -9,8 +9,6 @@ import { useEffect, useState, useRef } from 'react';
 import { styleProps } from 'components/store/lib/types';
 import { geoLocatClick } from './helpers';
 import AutoFill from './Autofill';
-import Locate from '../../../../assets/geolocate.svg';
-// import AddressDetails from './AddressDetails';
 import ReciverData from './ReciverData';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -22,7 +20,7 @@ import { devices } from 'components/store/lib/Devices';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { initialStateAdress } from './constant';
 import { openErrorNotification } from 'common/helpers';
-// import * as turf from '@turf/turf';
+import { GeoLocateSVG } from 'assets/icons/UI-icons';
 
 const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   const dispatch = useAppDispatch();
@@ -32,25 +30,9 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   const { isOneClickBuy } = useAppSelector<TCartState>((state) => state.cart);
 
   const mapRef: any = useRef(null);
-  // const [viewport, setViewPort]: [any, any] = useState({
-  //   latitude: 59.98653,
-  //   longitude: 30.22623,
-  //   zoom: 10,
-  //   width: 'fit',
-  // });
 
   const [viewport, setViewPort] = useState({ ...initialStateAdress });
 
-  //
-  // useEffect(() => {
-  //   const { latitude, longitude } = viewport;
-
-  //   let from = turf.point([59.98653, 30.22623]);
-  //   let to = turf.point([latitude, longitude]);
-
-  //   let distance = turf.distance(from, to, { units: 'kilometers' });
-  //   console.log(distance);
-  // }, [viewport]);
   const [address, setAddress] = useState('');
   const [zipCode, setPostCode] = useState('');
   const [roomOrOffice, setRoomOrOffice] = useState('');
@@ -209,7 +191,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
             onClick={geoLocatClick}
           >
             <span>
-              <Locate />
+              <GeoLocateSVG />
             </span>
             <span>Определить местоположение</span>
           </button>

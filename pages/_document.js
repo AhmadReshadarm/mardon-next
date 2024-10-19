@@ -1,7 +1,5 @@
-// import { GoogleAnalytics } from 'components/metrics/google-analytics';
-import { YandexMetrics } from 'components/metrics/yandex-metrics';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -58,16 +56,6 @@ class MyDocument extends Document {
           /> */}
         </Head>
         <body>
-          {/* <div
-            dangerouslySetInnerHTML={{
-              __html: GoogleAnalytics(),
-            }}
-          /> */}
-          {/* <div
-            dangerouslySetInnerHTML={{
-              __html: YandexMetrics(),
-            }}
-          /> */}
           <Main />
           <NextScript />
         </body>

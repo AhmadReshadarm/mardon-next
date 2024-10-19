@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import React, { useEffect } from 'react';
 import color from '../../lib/ui.colors';
 import TextField from '@mui/material/TextField';
 import variants from 'components/store/lib/variants';
-import Close from '../../../../assets/close_black.svg';
 import { devices } from 'components/store/lib/Devices';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 const UserCommment = (props: any) => {
   const { comment, setComment, setIsOpen } = props;
 
@@ -18,7 +17,7 @@ const UserCommment = (props: any) => {
     >
       <CommentWrapper>
         <span onClick={() => setIsOpen(false)} className="comment-close-btn">
-          <Close />
+          <CloseSVGBlack />
         </span>
         <CommentContent>
           <h2 style={{ fontWeight: 600 }}>Комментарий к заказу</h2>

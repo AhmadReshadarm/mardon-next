@@ -6,7 +6,6 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { useEffect, useState } from 'react';
-import MailSVg from '../../../../assets/mail.svg';
 import { handleEmailChange } from './helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TSubscribers } from 'redux/types';
@@ -17,6 +16,7 @@ import {
 } from 'redux/slicers/subscriberSlicer';
 import { User } from 'swagger/services';
 import Loading from 'ui-kit/Loading';
+import { MailSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   user: User;
@@ -45,7 +45,7 @@ const Notifactions: React.FC<Props> = ({ user }) => {
   return (
     <NotifactionWrapper>
       <span className="mail-icon">
-        <MailSVg />
+        <MailSVG />
       </span>
       <Notifaction>
         <h2>Уведомления</h2>

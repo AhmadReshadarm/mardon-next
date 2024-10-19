@@ -81,6 +81,13 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'URL',
     dataIndex: 'url',
+    render: (_, record) => {
+      return (
+        <>
+          <a href={`/product/${record.url}`}>{record.url}</a>
+        </>
+      );
+    },
     width: '7.5%',
   },
   {
@@ -123,12 +130,16 @@ export const columns: ColumnsType<Product> = [
               <span>{variant.artical}</span>
               <span>:</span>
               <span>{variant.price} ₽</span>
+              <span>,</span>
+              <span>В наличии</span>
+              <span>:</span>
+              <span>{variant.available ? 'да' : 'нет'}</span>
             </li>
           ))}
         </ul>
       );
     },
-    width: '10%',
+    width: '15%',
   },
 
   {

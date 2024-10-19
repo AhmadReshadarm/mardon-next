@@ -10,7 +10,7 @@ import {
   UseImagePaginat,
   handleDragEnd,
 } from 'components/store/storeLayout/helpers';
-import { devices, sizesNum } from 'components/store/lib/Devices';
+import { sizesNum } from 'components/store/lib/Devices';
 
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';

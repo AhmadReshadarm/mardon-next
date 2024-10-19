@@ -12,12 +12,12 @@ import {
   signout,
   updateUserById,
 } from 'redux/slicers/authSlicer';
-import BasketNormalSVG from '../../../../assets/basket_normal.svg';
 import Link from 'next/link';
 import { devices } from 'components/store/lib/Devices';
 import { AppDispatch } from 'redux/store';
 import { clearSingleImage, createSigleImage } from 'redux/slicers/imagesSlicer';
 import { openErrorNotification } from 'common/helpers';
+import { BasketProfileSVG } from 'assets/icons/UI-icons';
 const UserInfo = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [counter, setCoutner] = useState(30);
@@ -152,7 +152,7 @@ const UserInfo = () => {
           href="/orders"
         >
           <span style={{ width: '20px', height: '20px' }}>
-            <BasketNormalSVG />
+            <BasketProfileSVG />
           </span>
           <span>Мои заказы</span>
         </Link>

@@ -1,8 +1,8 @@
-import { Button, Form, Input, Select, Switch } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { Product } from 'swagger/services';
 import styles from './checkouts.module.scss';
-import CloseSVG from '../../../assets/close_black.svg';
 import { ManageCheckoutFields } from './ManageCheckoutFields.enum';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 const { Option } = Select;
 type Props = {
   product: Product;
@@ -34,7 +34,7 @@ const BasketProductForm: React.FC<Props> = ({
         className={styles['product-variant__remove']}
         onClick={handleRemove(product.id!, basketList, setBasketList)}
       >
-        <CloseSVG />
+        <CloseSVGBlack />
       </button>
       {/* ----------------------COLORS---------------------- */}
       <Form.Item

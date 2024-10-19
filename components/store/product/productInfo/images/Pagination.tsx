@@ -5,9 +5,9 @@ import { paginateHandler } from 'components/store/storeLayout/helpers';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import Arrow from '../../../../../assets/arrow_black.svg';
 import { handlePaginate } from './helpers';
 import { devices } from 'components/store/lib/Devices';
+import { ArrowBlackSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   images: string[];
@@ -77,7 +77,7 @@ const Pagination: React.FC<Props> = ({
             onClick={() => paginate(1)}
           >
             <ArrowSpan rotate="-90">
-              <Arrow />
+              <ArrowBlackSVG />
             </ArrowSpan>
           </ArrowBtns>
           <ArrowBtns
@@ -96,7 +96,7 @@ const Pagination: React.FC<Props> = ({
             onClick={() => paginate(-1)}
           >
             <ArrowSpan rotate="90">
-              <Arrow />
+              <ArrowBlackSVG />
             </ArrowSpan>
           </ArrowBtns>
         </>

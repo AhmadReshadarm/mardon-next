@@ -25,7 +25,6 @@ import {
   ReviewDTO,
   ReviewReaction,
   ReviewService,
-  ReviewWithoutJoins,
 } from 'swagger/services';
 import {
   getErrorMassage,

@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
-import Vector from '../../../../assets/vector_upside_black.svg';
 import { devices } from 'components/store/lib/Devices';
+import { VectorUpsideBlackSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   title: string;
@@ -48,7 +48,7 @@ const InfoDropdown = ({
             }}
             transition={{ duration: 0.001 }}
           >
-            <Vector />
+            <VectorUpsideBlackSVG />
           </motion.span>
         </div>
       </InfoBtnWrappers>

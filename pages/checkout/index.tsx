@@ -4,7 +4,6 @@ import {
   Wrapper,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-// import CheckoutContent from 'components/store/checkout';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';

@@ -120,8 +120,6 @@ const CatalogPage = ({
     };
   }, []);
 
-  // const randomProduct = Math.floor(Math.random() * products?.length - 1);
-
   const filteredTags: any = tags.filter((tag) => {
     if (
       tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
@@ -172,12 +170,6 @@ const CatalogPage = ({
     ]);
   };
   // ---------------------------------------------------------------------------
-  // ------ reset the page number on UI when category is changed ---------------
-  // useEffect(() => {
-  //   setCurrentPage(1);
-  // }, [selectedCategory]);
-  // ----------------------------------------------------------------------------
-  // const [hasActiveFilters, setHasActiveFilters] = useState(false);
 
   const [isClient, setClient] = useState(false);
   useEffect(() => {
@@ -241,14 +233,11 @@ const CatalogPage = ({
                 setSelectedCategory={setSelectedCategory}
                 setCurrentPage={setCurrentPage}
                 setPageSize={setPageSize}
-                // setHasActiveFilters={setHasActiveFilters}
               />
 
               <Content>
                 <Products>
                   <ProductGrid
-                    // products={products}
-                    // loading={loading}
                     emptyProductsTitle={'По вашему запросу ничего не найдено.'}
                   />
                 </Products>

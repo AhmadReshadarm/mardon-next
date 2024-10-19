@@ -18,10 +18,6 @@ export type ComponentWithPageLayout = AppProps & {
 function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  // this would be redundend so remove it dumb shit
-  // useEffect(() => {
-  //   dispatch(session());
-  // }, []);
 
   useEffect(() => {
     if (!router.pathname.includes('/admin')) {
@@ -50,14 +46,6 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
       </ContextProvider>
     </>
   );
-  // return router.pathname !== paths[Page.LOGIN] &&
-  //   router.pathname.includes('/admin') ? (
-  //   <AdminLayout user={user}>
-  //     <Component {...pageProps} />
-  //   </AdminLayout>
-  // ) : (
-  //   <Component {...pageProps} />
-  // );
 }
 
 export default wrapper.withRedux(App);

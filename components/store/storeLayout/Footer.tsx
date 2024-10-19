@@ -67,11 +67,13 @@ const Footer = (): JSX.Element => {
                   <FooterTopContentWrapper>
                     <FooterLeftContentWrapper>
                       <div className="footer-columns-wrapper">
-                        <span className="columns-header">Каталог </span>
+                        <span title="Каталог" className="columns-header">
+                          Каталог
+                        </span>
                         {categories.map((category, index) => {
                           return (
                             <Link
-                              aria-label={category.name}
+                              title={category.name}
                               key={`${category.url}-${index}`}
                               href={`/catalog?categories=${category.url}`}
                             >
@@ -80,25 +82,13 @@ const Footer = (): JSX.Element => {
                           );
                         })}
                       </div>
-                      {/* <div className="footer-columns-wrapper">
-                  <span className="columns-header">Услуги</span>
-                  {content.services.map((service, index) => {
-                    return (
-                      <Link
-                        key={`${service.url}-${index}`}
-                        href={`${service.url}`}
-                      >
-                        <span>{service.text}</span>
-                      </Link>
-                    );
-                  })}
-                </div> */}
+
                       <div className="footer-columns-wrapper">
                         <span className="columns-header">О нас</span>
                         {content.aboutUs.map((service, index) => {
                           return (
                             <Link
-                              aria-label={service.text}
+                              title={service.text}
                               key={`${service.url}-${index}`}
                               href={`${service.url}`}
                             >
@@ -228,17 +218,19 @@ const Footer = (): JSX.Element => {
                   <FooterBottomContentWrapper>
                     <div className="bottom-left-wrapper">
                       <Link
-                        aria-label="Пользовательское соглашение"
+                        title="Пользовательское соглашение"
                         href="/user-agreement"
                       >
                         <span>Пользовательское соглашение</span>
                       </Link>
-                      <Link aria-label="Политика безопасности" href="/privacy">
+                      <Link title="Политика безопасности" href="/privacy">
                         <span>Политика безопасности</span>
                       </Link>
                     </div>
                     <div className="bottom-right-wrapper">
-                      <span>
+                      <span
+                        title={`Nbhoz. All rights reserved. Все права защищены © ${copyRighYear}`}
+                      >
                         Nbhoz. All rights reserved. Все права защищены ©{' '}
                         {copyRighYear}
                       </span>
@@ -249,7 +241,10 @@ const Footer = (): JSX.Element => {
             )}
           </Container>
           {showCookiesNotifi ? (
-            <CookiesNotification style={{ display: isOpen ? 'flex' : 'none' }}>
+            <CookiesNotification
+              title="Политикой использования файлов cookies."
+              style={{ display: isOpen ? 'flex' : 'none' }}
+            >
               <div className="close-cookies">
                 <span
                   onClick={() => {

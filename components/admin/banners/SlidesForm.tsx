@@ -10,17 +10,17 @@ import {
 } from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
 import styled from 'styled-components';
-import { Image, Slide } from 'swagger/services';
+import { Image } from 'swagger/services';
 import FormItem from '../generalComponents/FormItem';
 import ImageUpload from '../generalComponents/ImageUpload';
 import { handleFormSubmitBanner, handleGetImage } from './helpers';
 import styles from './index.module.scss';
 import { ManageSlidesFields } from './manageSlidesFields';
-import CloseSVG from '../../../assets/close_black.svg';
 import { TBannerState } from 'redux/types';
 import { addSlide, removeSlide } from 'redux/slicers/bannersSlicer';
 import DatabaseImages from 'ui-kit/DatabaseImages';
 import { InsertRowLeftOutlined } from '@ant-design/icons';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 interface Props {
   isLoading: boolean;
   isSaveLoading: boolean;
@@ -152,7 +152,9 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
                       </>
                     }
                   />
-                  <CloseSVG onClick={handleRemove(index)} />
+                  <span onClick={handleRemove(index)}>
+                    <CloseSVGBlack />
+                  </span>
                 </SlideItem>
               );
             })}

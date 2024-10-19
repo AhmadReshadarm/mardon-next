@@ -2,10 +2,8 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Product } from 'swagger/services';
 import ProductItem from 'ui-kit/products/productItem';
-import Loading from 'ui-kit/Loading';
 import { devices } from 'components/store/lib/Devices';
 import { LoaderItem } from 'ui-kit/products/Loader';
-import { useEffect, useState } from 'react';
 import { emptyLoading } from 'common/constants';
 type Props = {
   products: Product[];
@@ -39,7 +37,7 @@ const ProductFlexEmpty = () => {
     <FlexWrapper>
       <SliderWrapper>
         {emptyLoading.map((item, index) => {
-          return <Loader index={index} />;
+          return <Loader key={item} index={index} />;
         })}
       </SliderWrapper>
     </FlexWrapper>
@@ -215,16 +213,20 @@ const ContentWrapper = styled.div`
   justify-content: space-between;
   aling-items: center;
   gap: 60px;
-`;
-const HeaderWrapper = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  h3 {
-    font-family: ricordi;
-    font-size: 1.2rem;
+  @media ${devices.tabletL} {
+    gap: 0;
+  }
+  @media ${devices.tabletS} {
+    gap: 0;
+  }
+  @media ${devices.mobileL} {
+    gap: 0;
+  }
+  @media ${devices.mobileM} {
+    gap: 0;
+  }
+  @media ${devices.mobileS} {
+    gap: 0;
   }
 `;
 
@@ -237,10 +239,4 @@ const BtnsWrapper = styled.div`
   gap: 30px;
 `;
 
-export {
-  ProductFlex,
-  ProductFlexEmpty,
-  ContentWrapper,
-  HeaderWrapper,
-  BtnsWrapper,
-};
+export { ProductFlex, ProductFlexEmpty, ContentWrapper, BtnsWrapper };

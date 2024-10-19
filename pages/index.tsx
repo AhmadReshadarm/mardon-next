@@ -7,7 +7,6 @@ import { baseUrl } from '../common/constant';
 import styled from 'styled-components';
 import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';

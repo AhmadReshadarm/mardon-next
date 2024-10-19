@@ -10,7 +10,7 @@ export const dumyDataLoader: ColumnsType<ImageProp> = [
   {
     title: 'Изображения',
     dataIndex: 'index',
-    render: (_, record) => {
+    render: () => {
       return <LoaderMask style={{ width: '200px', height: '200px' }} />;
     },
     width: '10%',
@@ -18,7 +18,7 @@ export const dumyDataLoader: ColumnsType<ImageProp> = [
   {
     title: 'Имя',
     dataIndex: 'index',
-    render: (_, record) => {
+    render: () => {
       return <LoaderMask style={{ width: '100%', height: '20px' }} />;
     },
     width: '25%',
@@ -26,7 +26,7 @@ export const dumyDataLoader: ColumnsType<ImageProp> = [
   {
     title: 'URL',
     dataIndex: 'index',
-    render: (_, record) => {
+    render: () => {
       return <LoaderMask style={{ width: '100%', height: '20px' }} />;
     },
     width: '30%',

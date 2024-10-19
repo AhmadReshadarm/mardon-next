@@ -16,7 +16,8 @@ import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
-import CloseSVG from '../../../assets/close_black.svg';
+import Checkbox from 'react-custom-checkbox';
+import { CloseSVGBlack } from 'assets/icons/UI-icons';
 // import { AppDispatch } from 'redux/store';
 // import {
 //   changeSearchQuery,
@@ -81,8 +82,10 @@ const FilterBar: React.FC<Props> = ({
   const [orderBy, setOrderBy] = useState('DESC');
   const [isSortByBtn, setIsSortBy] = useState(false);
   const [isOrderByBtn, setIsOrderBy] = useState(false);
+  const [available, setNotAvailable] = useState(true);
   // ----------------------------------------------------------------------------
   const hanldeResetBtnClick = () => {
+    setNotAvailable(true);
     setIsresetBtn(true);
     setSortBy('name');
     setOrderBy('DESC');
@@ -141,12 +144,26 @@ const FilterBar: React.FC<Props> = ({
       pushQueryParams([{ name: 'sortBy', value: sortBy }]);
     }
   }, [sortBy]);
+
   useEffect(() => {
     if (!isResetBtn) {
       pushQueryParams([{ name: 'orderBy', value: orderBy }]);
     }
   }, [orderBy]);
+  const onChange = (checked) => {
+    setNotAvailable(!checked);
+  };
+  useEffect(() => {
+    if (!available) {
+      pushQueryParams([{ name: 'available', value: 'false' }]);
+    }
+    if (available) {
+      pushQueryParams([{ name: 'available', value: undefined }]);
+    }
+  }, [available]);
+
   // ----------------------------------------------------------------------------------------------
+
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
@@ -154,6 +171,7 @@ const FilterBar: React.FC<Props> = ({
           <span>Сбросить фильтры</span>
         </ResetButton>
         {/* -------------------- temp filters please remove this once you find a better slution ------------ */}
+
         <OrderBtnsWrapper>
           <button
             className="sort-by-btn"
@@ -224,6 +242,23 @@ const FilterBar: React.FC<Props> = ({
           ) : (
             ''
           )}
+          <Checkbox
+            icon={<Checked dimensions={12} />}
+            onChange={onChange}
+            checked={!available}
+            borderColor={color.textTertiary}
+            size={16}
+            borderWidth={1}
+            borderRadius={2}
+            style={{ cursor: 'pointer' }}
+            labelStyle={{
+              marginLeft: '10px',
+              userSelect: 'none',
+              cursor: 'pointer',
+              textWrap: 'nowrap',
+            }}
+            label={'Товары нет в наличии'}
+          />
         </OrderBtnsWrapper>
         {/* --------------------------------------------------------------------------------------------- */}
         <input
@@ -300,12 +335,19 @@ const FilterBar: React.FC<Props> = ({
       <CloseBtn onClick={handleExpantionChange} title="Закрыть фильтры">
         <span>Сохранить и Закрыть</span>
         <span>
-          <CloseSVG />
+          <CloseSVGBlack />
         </span>
       </CloseBtn>
     </FilterBarContent>
   );
 };
+
+const Checked = styled.div<{ dimensions: number }>`
+  height: ${(prop) => prop.dimensions}px;
+  width: ${(prop) => prop.dimensions}px;
+  border-radius: 2px;
+  background-color: ${color.activeIcons};
+`;
 
 const FilterBarContent = styled.div<any>`
   min-width: 250px;
