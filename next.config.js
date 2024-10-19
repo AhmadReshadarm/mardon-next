@@ -73,12 +73,12 @@ module.exports = {
   },
   reactStrictMode: true,
 };
+// Production mode is On
+// const withBundleAnalyzer = require('@next/bundle-analyzer')({
+//   enabled: process.env.ANALYZE === 'true',
+// });
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {};
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-module.exports = withBundleAnalyzer(nextConfig);
+// module.exports = withBundleAnalyzer(nextConfig);
