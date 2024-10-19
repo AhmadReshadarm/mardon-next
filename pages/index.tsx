@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
-import styled from 'styled-components';
 import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
 
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
@@ -109,36 +109,6 @@ const IndexPage = ({
     </>
   );
 };
-
-const LoaderMask = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
 
 IndexPage.PageLayout = StoreLayout;
 export default IndexPage;

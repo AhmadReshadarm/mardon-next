@@ -12,12 +12,16 @@ import {
 } from 'components/store/storeLayout/common';
 import TabPanel from './TabPanel';
 import { a11yProps } from './helpers';
-import Reviews from './reviews';
-import Quastions from './quastions';
+// import Reviews from './reviews';
+// import Quastions from './quastions';
 import { useAppSelector } from 'redux/hooks';
 import { Product } from 'swagger/services';
 import { TAuthState } from 'redux/types';
 import { useInViewport } from 'components/store/storeLayout/useInViewport';
+import dynamic from 'next/dynamic';
+const Reviews = dynamic(() => import('./reviews'));
+const Quastions = dynamic(() => import('./quastions'));
+
 type Props = {
   reviewRef: MutableRefObject<null>;
   questionRef: MutableRefObject<null>;

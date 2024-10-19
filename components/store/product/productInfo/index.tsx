@@ -143,7 +143,10 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   </span>
                 </Link>
               )}
-              {!!product?.tags![0] && (
+              {!!product?.tags![0] &&
+              product?.tags![0].url !== 'main_page' &&
+              product?.tags![0].url !== 'best_product' &&
+              product?.tags![0].url !== '-' ? (
                 <>
                   <span>
                     <ArrowGraySVG />
@@ -159,6 +162,8 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                     </span>
                   </Link>
                 </>
+              ) : (
+                ''
               )}
             </div>
             <ShareToSocial

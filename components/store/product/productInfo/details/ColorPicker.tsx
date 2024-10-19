@@ -198,6 +198,8 @@ const ColorPicker: React.FC<Props> = ({
                 <span className="preview-artical">
                   {variant.artical.includes('|')
                     ? variant.artical.split('|')[0].toLocaleUpperCase()
+                    : variant.artical.includes(' ')
+                    ? variant.artical.split(' ')[0].toLocaleUpperCase()
                     : variant.artical.toLocaleUpperCase()}
                 </span>
               </ColorPickerThumbnailWrapper>

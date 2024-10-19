@@ -1,7 +1,6 @@
 import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import React from 'react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
@@ -12,6 +11,7 @@ import { setProductStateFromServer } from 'redux/slicers/store/productInfoSlicer
 import { useAppDispatch } from 'redux/hooks';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import ProductInfo from 'components/store/product/productInfo';
+import { LoaderMask } from 'ui-kit/generalLoaderMask';
 
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
@@ -109,36 +109,6 @@ const ProductInfoPage = ({
     </>
   );
 };
-
-const LoaderMask = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
 
 ProductInfoPage.PageLayout = StoreLayout;
 export default ProductInfoPage;

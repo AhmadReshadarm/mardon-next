@@ -73,7 +73,7 @@ module.exports = {
   },
   reactStrictMode: true,
 };
-// Production mode is On
+
 // const withBundleAnalyzer = require('@next/bundle-analyzer')({
 //   enabled: process.env.ANALYZE === 'true',
 // });
