@@ -17,6 +17,7 @@ import {
   clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
 import { useEffect, useState } from 'react';
+import { StarSmallYellowSVG } from 'assets/icons/UI-icons';
 type Props = {
   product: Product;
   custom: number;
@@ -137,15 +138,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             style={{ display: product.reviews?.length! == 0 ? 'none' : 'flex' }}
           >
             <span className="review-star">
-              <svg
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="StarIcon"
-                fill="#FAAF00"
-              >
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
-              </svg>
+              <StarSmallYellowSVG />
             </span>
             <span className="review-text">
               {Math.floor(product.reviews?.length!) == 1

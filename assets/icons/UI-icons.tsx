@@ -1132,6 +1132,23 @@ const CloseSVGWhite = () => {
   );
 };
 
+const StarSmallYellowSVG = () => {
+  return (
+    <svg
+      width="11"
+      height="11"
+      viewBox="0 0 11 11"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6 9.64421L9.708 12L8.724 7.56L12 4.57263L7.686 4.18737L6 0L4.314 4.18737L0 4.57263L3.276 7.56L2.292 12L6 9.64421Z"
+        fill="#FAAF00"
+      />
+    </svg>
+  );
+};
+
 // --------------------------------------------------------
 
 const SVG = styled(motion.svg)`
@@ -1183,5 +1200,6 @@ export {
   TwitterSVG,
   QuestionSVG,
   CloseSVGWhite,
+  StarSmallYellowSVG,
 };
 // -------------------------------------------------
