@@ -67,6 +67,7 @@ const ReviewsPage = () => {
             pagination={{
               pageSize: 20,
               current: currentPage,
+              locale: { items_per_page: '/ странице' },
             }}
             columns={
               getColumns(dispatch) as (

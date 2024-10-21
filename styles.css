@@ -230,32 +230,15 @@ h6 {
   text-align: center;
 }
 
-/* custom css for rich text editor */
-
-.rdw-image-alignment {
-  display: inline !important;
-  object-fit: cover;
-}
-
-.rdw-image-center {
-  display: flex !important;
-  justify-content: center;
-}
-
-.rdw-image-right {
-  float: right !important;
-}
-
-.rdw-image-left {
-  float: left !important;
-}
-
-.preview-advertisment img {
-  object-fit: cover !important;
-  float: inline-start !important;
-}
-
-.main-page-advertisment {
-  width: 100%;
-  padding: 100px 0;
+/* custom css for antd pagesize */
+@media only screen and (max-width: 576px) {
+  .ant-pagination {
+    position: relative;
+    padding-bottom: 40px;
+  }
+  .ant-pagination .ant-pagination-options {
+    display: block;
+    position: absolute;
+    bottom: 0;
+  }
 }

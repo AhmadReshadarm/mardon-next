@@ -158,6 +158,7 @@ const ReviewsItems = () => {
           onChange={(current, pageSize) => {
             handlePageChange(current, pageSize, current);
           }}
+          locale={{ items_per_page: '/ странице' }}
         />
       </Wrapper>
       <Subscribers />

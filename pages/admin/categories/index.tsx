@@ -82,6 +82,7 @@ const CategoriesPage = () => {
           pagination={{
             pageSize: 20,
             current: currentPage,
+            locale: { items_per_page: '/ странице' },
           }}
           columns={
             columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]

@@ -83,6 +83,7 @@ const QuestionsPage = () => {
               );
               setCurrentPage(current as number);
             }}
+            locale={{ items_per_page: '/ странице' }}
           />
         </>
       )}

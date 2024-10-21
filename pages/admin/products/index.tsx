@@ -309,6 +309,7 @@ const ProductsPage = () => {
                   current: currentPage,
                   total: paginationLength,
                   pageSizeOptions: [12, 24, 36, 50, 100],
+                  locale: { items_per_page: '/ странице' },
                 }}
                 dataSource={dataSource}
                 onChange={(event) => {

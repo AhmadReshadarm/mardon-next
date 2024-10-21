@@ -75,6 +75,7 @@ const AnalyticsUsers = () => {
           pagination={{
             pageSize: 20,
             current: currentPage,
+            locale: { items_per_page: '/ странице' },
           }}
           columns={
             columns as (
