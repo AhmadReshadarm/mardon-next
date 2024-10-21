@@ -251,7 +251,11 @@ const Header = () => {
                 </MenuButtonWrapper>
                 {/* ---------------------- end of catelog ------------------------- */}
                 <LogoWrapper>
-                  <Link aria-label="Главная страница NBHOZ" href="/">
+                  <Link
+                    aria-label="Главная страница NBHOZ"
+                    href="/"
+                    prefetch={false}
+                  >
                     <LogoSVG />
                   </Link>
                 </LogoWrapper>

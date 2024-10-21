@@ -101,6 +101,7 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
             title="По дополнительным вопросам обращаться по номеру телефона 8-925-486-54-44"
             style={{ color: color.ok }}
             href="tel:89254865444"
+            prefetch={false}
           >
             <span>8-925-486-54-44</span>
           </Link>

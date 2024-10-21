@@ -34,19 +34,19 @@ const ContactsMainPage = (): JSX.Element => {
                   <PhoneSVG />
                 </span>
                 <div className="call-wrapper">
-                  <Link href="tel:+79254865444">
+                  <Link href="tel:+79254865444" prefetch={false}>
                     <span title="позвонить 8-925-486-54-44">
                       8-925-486-54-44
                     </span>
                   </Link>
                   <span className="call-saperator">|</span>
-                  <Link href="tel:89266999952">
+                  <Link href="tel:89266999952" prefetch={false}>
                     <span title="позвонить 8-926-699-99-52">
                       8-926-699-99-52
                     </span>
                   </Link>
                   <span className="call-saperator">|</span>
-                  <Link href="tel:89268999954">
+                  <Link href="tel:89268999954" prefetch={false}>
                     <span title="позвонить 8-926-899-99-54">
                       8-926-899-99-54
                     </span>
@@ -58,13 +58,13 @@ const ContactsMainPage = (): JSX.Element => {
                   <MailSVG />
                 </span>
                 <div className="call-wrapper">
-                  <Link href="mailto:info@nbhoz.ru">
+                  <Link href="mailto:info@nbhoz.ru" prefetch={false}>
                     <span title="отправьте письмо по адресу info@nbhoz.ru">
                       info@nbhoz.ru
                     </span>
                   </Link>
                   <span className="call-saperator">|</span>
-                  <Link href="mailto:exelon@hoz-mardon.ru">
+                  <Link href="mailto:exelon@hoz-mardon.ru" prefetch={false}>
                     <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
                       exelon@hoz-mardon.ru
                     </span>

@@ -52,6 +52,7 @@ const TagsModal: React.FC<Props> = ({ category, subCategory }) => {
                   catelogDisplay,
                 )}
                 href={`/catalog?categories=${category}&subCategories=${subCategory}&tags=${tag.url}`}
+                prefetch={false}
               >
                 <span>{tag.name}</span>
               </Link>

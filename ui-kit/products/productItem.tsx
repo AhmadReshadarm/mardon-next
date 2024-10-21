@@ -111,6 +111,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             }}
             href={`/product/${product.url}`}
             aria-label={product.name}
+            prefetch={false}
           >
             <span title={product.name?.length! > 40 ? product.name : ''}>
               {product.name?.length! > 40

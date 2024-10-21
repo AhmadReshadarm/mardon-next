@@ -94,7 +94,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
               </PopupContent>
 
               <PopupBtnsDivider>
-                <Link href="/cart">
+                <Link href="/cart" prefetch={false}>
                   <ActionBtns
                     onClick={handleMenuStateRedux(
                       dispatch,
@@ -107,7 +107,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
                     {`корзина`.toLocaleUpperCase()}
                   </ActionBtns>
                 </Link>
-                <Link href="/checkout">
+                <Link href="/checkout" prefetch={false}>
                   <ActionBtns
                     onClick={() => {
                       handleGoToCart();

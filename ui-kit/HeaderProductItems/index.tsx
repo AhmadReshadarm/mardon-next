@@ -35,6 +35,7 @@ const HeaderProductItmes: React.FC<Props> = ({
           <Link
             onClick={() => handleMenuState()}
             href={`/product/${orderProduct!.product?.url}`}
+            prefetch={false}
           >
             <img
               src={`/api/images/${images[0]}`}
@@ -49,6 +50,7 @@ const HeaderProductItmes: React.FC<Props> = ({
               <Link
                 onClick={() => handleMenuState()}
                 href={`/product/${orderProduct!.product?.url}`}
+                prefetch={false}
               >
                 <h1>
                   {orderProduct!?.product!?.name?.length! > 18
@@ -105,6 +107,7 @@ const HeaderProductItmes: React.FC<Props> = ({
           <Link
             onClick={() => handleMenuState()}
             href={`/product/${product?.url}`}
+            prefetch={false}
           >
             <img
               src={`/api/images/${images[0]}`}
@@ -119,6 +122,7 @@ const HeaderProductItmes: React.FC<Props> = ({
               <Link
                 onClick={() => handleMenuState()}
                 href={`/product/${product?.url}`}
+                prefetch={false}
               >
                 <h1>
                   {product!?.name?.length! > 18

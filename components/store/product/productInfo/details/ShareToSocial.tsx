@@ -181,7 +181,7 @@ const ShareToSocial: React.FC<Props> = ({ image, title, artical }) => {
                 </VKShareButton>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/" prefetch={false}>
                   <WhatsappShareButton
                     style={{
                       display: 'flex',
@@ -202,7 +202,7 @@ const ShareToSocial: React.FC<Props> = ({ image, title, artical }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/" prefetch={false}>
                   <TelegramShareButton
                     style={{
                       display: 'flex',
@@ -222,7 +222,7 @@ const ShareToSocial: React.FC<Props> = ({ image, title, artical }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/" prefetch={false}>
                   <TwitterShareButton
                     style={{
                       display: 'flex',

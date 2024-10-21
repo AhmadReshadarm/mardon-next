@@ -48,6 +48,7 @@ const CatalogModal: React.FC<Props> = ({ setHoveredCategory }) => {
                     onMouseOver={() =>
                       setHoveredCategory(`/api/images/${category.image}`)
                     }
+                    prefetch={false}
                   >
                     <span>{category.name}</span>
                   </Link>
@@ -70,6 +71,7 @@ const CatalogModal: React.FC<Props> = ({ setHoveredCategory }) => {
                               `/api/images/${subCategory.image}`,
                             )
                           }
+                          prefetch={false}
                         >
                           <span className="sub-category">
                             {subCategory.name}

@@ -43,7 +43,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
     >
       <ProfileWrapper>
         <AuthDevider style={{ justifyContent: 'flex-start' }}>
-          <Link legacyBehavior href="/profile">
+          <Link legacyBehavior href="/profile" prefetch={false}>
             <span>
               <motion.img
                 src={
@@ -63,7 +63,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
           <ProfileDataWrapper>
             <h3>{`${user?.firstName} ${user?.lastName}`}</h3>
             <span className="user-email">{user?.email}</span>
-            <Link href="/profile">
+            <Link href="/profile" prefetch={false}>
               <span
                 className="user-profile-link"
                 onClick={handleMenuStateRedux(
@@ -81,7 +81,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
         </AuthDevider>
       </ProfileWrapper>
       <div className="profile-action-btn">
-        <Link href="/profile#reviews">
+        <Link href="/profile#reviews" prefetch={false}>
           <AuthDevider
             whileHover="hover"
             whileTap="tap"
@@ -99,7 +99,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
             <span>Мои отзывы</span>
           </AuthDevider>
         </Link>
-        <Link href="/orders">
+        <Link href="/orders" prefetch={false}>
           <AuthDevider
             whileHover="hover"
             whileTap="tap"
@@ -119,7 +119,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
             <span>Мои заказы</span>
           </AuthDevider>
         </Link>
-        <Link href="/profile#settings">
+        <Link href="/profile#settings" prefetch={false}>
           <AuthDevider
             whileHover="hover"
             whileTap="tap"

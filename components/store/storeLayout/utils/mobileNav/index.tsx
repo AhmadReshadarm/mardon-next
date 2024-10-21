@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { Btns } from '../../common';
 import {
   CatelogSVG,
   BasketSVG,
@@ -23,7 +22,7 @@ const NavMobile = () => {
 
   return (
     <NavWrap>
-      <Link aria-label="главная страница" href="/">
+      <Link aria-label="главная страница" href="/" prefetch={false}>
         <span className="icons-wrapper-mobile">
           <HomePageIconSVG
             colorState={router.pathname == '/' ? '#000000' : '#949494'}
@@ -35,7 +34,7 @@ const NavMobile = () => {
           </span>
         </span>
       </Link>
-      <Link aria-label="каталог" href="/catalog">
+      <Link aria-label="каталог" href="/catalog" prefetch={false}>
         <span className="icons-wrapper-mobile">
           <CatelogSVG
             colorState={router.pathname == '/catalog' ? '#000000' : '#949494'}
@@ -54,7 +53,7 @@ const NavMobile = () => {
         {!!cart?.orderProducts?.length && (
           <Counter>{cart?.orderProducts?.length}</Counter>
         )}
-        <Link aria-label="корзина" href="/cart">
+        <Link aria-label="корзина" href="/cart" prefetch={false}>
           <span className="icons-wrapper-mobile">
             <BasketSVG
               fill={router.pathname == '/cart' ? '#000000' : '#949494'}
@@ -73,7 +72,7 @@ const NavMobile = () => {
         {!!wishlist?.items?.length && (
           <Counter>{wishlist?.items?.length}</Counter>
         )}
-        <Link aria-label="избранное" href="/wishlist">
+        <Link aria-label="избранное" href="/wishlist" prefetch={false}>
           <span className="icons-wrapper-mobile">
             <WishlistSVG
               fill={router.pathname == '/wishlist' ? '#000000' : '#949494'}

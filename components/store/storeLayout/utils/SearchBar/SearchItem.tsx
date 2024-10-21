@@ -35,7 +35,7 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
 
   return (
     <>
-      <Link key={index} href={`/product/${product.url}`}>
+      <Link key={index} href={`/product/${product.url}`} prefetch={false}>
         <CardItemContainer
           custom={1.01}
           whileHover="hover"

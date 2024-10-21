@@ -112,6 +112,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
           }}
           href={`/product/${url}`}
           aria-label={product.name}
+          prefetch={false}
         >
           <AnimatePresence initial={false} custom={direction}>
             <ImageSliderSlide

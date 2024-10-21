@@ -91,7 +91,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
         >
           <NavWrapper width={`calc(${windowWidth}px - 100px)`}>
             <div className="nav-rightWrapper">
-              <Link href="/">
+              <Link href="/" prefetch={false}>
                 <LoaderMask
                   style={{
                     width: '35px',
@@ -120,6 +120,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               {!!product?.category?.parent && (
                 <Link
                   href={`/catalog?categories=${product?.category?.parent.url}&page=1`}
+                  prefetch={false}
                 >
                   <span title={product?.category?.parent?.name}>
                     {product?.category?.parent?.name?.length! > 16 &&
@@ -135,6 +136,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
               {!!product?.category && (
                 <Link
                   href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}`}
+                  prefetch={false}
                 >
                   <span title={product?.category?.name}>
                     {product?.category?.name?.length! > 16 && windowWidth > 1024
@@ -153,6 +155,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   </span>
                   <Link
                     href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}
+                    prefetch={false}
                   >
                     <span title={product?.tags[0].name}>
                       {product?.tags[0]?.name?.length! > 16 &&

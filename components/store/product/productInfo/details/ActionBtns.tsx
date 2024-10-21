@@ -51,7 +51,7 @@ const ActionBtns: React.FC<Props> = ({ orderProduct, cart, product }) => {
           animate="animate"
           variants={variants.fadeInSlideIn}
         >
-          <Link href="/cart">
+          <Link href="/cart" prefetch={false}>
             <AddtoCartWrapper>
               <button onClick={handleGoToCart} className="in-cart">
                 <span>ПЕРЕЙТИ В КОРЗИНУ</span>

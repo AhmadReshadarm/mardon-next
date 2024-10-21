@@ -85,6 +85,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
                   authDisplay,
                 )}
                 href="/profile/pswreset"
+                prefetch={false}
               >
                 <span>Забыли пароль?</span>
               </Link>

@@ -76,6 +76,7 @@ const Footer = (): JSX.Element => {
                               title={category.name}
                               key={`${category.url}-${index}`}
                               href={`/catalog?categories=${category.url}`}
+                              prefetch={false}
                             >
                               <span>{category.name}</span>
                             </Link>
@@ -91,6 +92,7 @@ const Footer = (): JSX.Element => {
                               title={service.text}
                               key={`${service.url}-${index}`}
                               href={`${service.url}`}
+                              prefetch={false}
                             >
                               <span>{service.text}</span>
                             </Link>
@@ -105,6 +107,7 @@ const Footer = (): JSX.Element => {
                           <Link
                             aria-label="позвонить 89254865444"
                             href="tel:+79254865444"
+                            prefetch={false}
                           >
                             <span title="позвонить 8-925-486-54-44">
                               8-925-486-54-44
@@ -114,6 +117,7 @@ const Footer = (): JSX.Element => {
                           <Link
                             aria-label="позвонить 89266999952"
                             href="tel:89266999952"
+                            prefetch={false}
                           >
                             <span title="позвонить 8-926-699-99-52">
                               8-926-699-99-52
@@ -136,6 +140,7 @@ const Footer = (): JSX.Element => {
                           <Link
                             aria-label="отправьте письмо по адресу info@nbhoz.ru"
                             href="mailto:info@nbhoz.ru"
+                            prefetch={false}
                           >
                             <span title="отправьте письмо по адресу info@nbhoz.ru">
                               info@nbhoz.ru
@@ -145,6 +150,7 @@ const Footer = (): JSX.Element => {
                           <Link
                             aria-label="отправьте письмо по адресу exelon@hoz-mardon.ru"
                             href="mailto:exelon@hoz-mardon.ru"
+                            prefetch={false}
                           >
                             <span title="отправьте письмо по адресу exelon@hoz-mardon.ru">
                               exelon@hoz-mardon.ru
@@ -165,6 +171,7 @@ const Footer = (): JSX.Element => {
                               gap: '5px',
                             }}
                             title="Подпишитесь на нас в ВКонтакте"
+                            prefetch={false}
                           >
                             <Image
                               src="/icons/vk.png"
@@ -188,6 +195,7 @@ const Footer = (): JSX.Element => {
                               gap: '5px',
                             }}
                             title="Подпишитесь на нас в Telegram"
+                            prefetch={false}
                           >
                             <Image
                               src="/icons/telegram.png"
@@ -220,10 +228,15 @@ const Footer = (): JSX.Element => {
                       <Link
                         title="Пользовательское соглашение"
                         href="/user-agreement"
+                        prefetch={false}
                       >
                         <span>Пользовательское соглашение</span>
                       </Link>
-                      <Link title="Политика безопасности" href="/privacy">
+                      <Link
+                        title="Политика безопасности"
+                        href="/privacy"
+                        prefetch={false}
+                      >
                         <span>Политика безопасности</span>
                       </Link>
                     </div>
@@ -264,6 +277,7 @@ const Footer = (): JSX.Element => {
                   <Link
                     style={{ color: color.hoverBtnBg }}
                     href="/privacy#cookies"
+                    prefetch={false}
                   >
                     <span>Политикой использования файлов cookies.</span>
                   </Link>

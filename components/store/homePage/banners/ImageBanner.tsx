@@ -127,6 +127,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             : '';
         }}
         style={{ background: color.backgroundSecondery }}
+        prefetch={false}
       >
         <AnimatePresence mode="wait" initial={false} custom={direction}>
           <SliderSlide

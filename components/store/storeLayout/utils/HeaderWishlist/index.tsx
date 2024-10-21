@@ -88,7 +88,7 @@ const HeaderWishlist: React.FC<Props> = ({ wishlistButtonRef }) => {
                   })}
                 </PopupContent>
                 <PopupBtnsDivider>
-                  <Link href="/wishlist">
+                  <Link href="/wishlist" prefetch={false}>
                     <ActionBtns
                       onClick={handleMenuStateRedux(
                         dispatch,

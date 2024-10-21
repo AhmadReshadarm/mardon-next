@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
 import { CategoryInTree } from 'swagger/services';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
