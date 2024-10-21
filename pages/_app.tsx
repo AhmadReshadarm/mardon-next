@@ -1,9 +1,6 @@
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useAppDispatch } from 'redux/hooks';
 import { AnimatePresence } from 'framer-motion';
-import { session } from 'redux/slicers/authSlicer';
 import 'styles.css';
 import { wrapper } from '../redux/store';
 import { ContextProvider } from 'common/context/AppContext';
@@ -17,13 +14,7 @@ export type ComponentWithPageLayout = AppProps & {
 
 function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!router.pathname.includes('/admin')) {
-      dispatch(session());
-    }
-  }, [router]);
   return (
     <>
       <Head>
