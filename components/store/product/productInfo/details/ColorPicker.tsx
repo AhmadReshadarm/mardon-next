@@ -241,7 +241,7 @@ const LoaderMask = styled.div`
   }
 `;
 
-const ColorPickerThumbnailWrapper = styled.div`
+const ColorPickerThumbnailWrapper = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -299,7 +299,7 @@ export const ColorPickerList = styled.ul`
   }
 `;
 
-export const ColorPickerItems = styled(motion.li)`
+export const ColorPickerItems = styled(motion.div)`
   max-width: 50px;
   min-width: 50px;
   height: 50px;

@@ -65,11 +65,7 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
             ref={ref}
           >
             <Box>
-              <Tabs
-                value={tab}
-                onChange={handleChange}
-                aria-label="reviews label"
-              >
+              <Tabs value={tab} onChange={handleChange}>
                 <Tab
                   ref={reviewRef}
                   label={`${product?.reviews?.length} Отзыв(ов) о товаре`}

@@ -111,7 +111,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   priority={false}
                   loading="lazy"
                   src="/icons/back_arrow.png"
-                  alt="Обратно на главную"
+                  alt="Back to main arrow"
                   onLoadingComplete={() => setLoadingComplet(true)}
                 />
                 <span>Обратно на главную</span>
