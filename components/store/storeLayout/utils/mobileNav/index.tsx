@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import Link from 'next/link';
 import {
   CatelogSVG,
@@ -12,6 +11,7 @@ import { useAppSelector } from 'redux/hooks';
 import { TWishlistState } from 'redux/types';
 import { useRouter } from 'next/router';
 import color from 'components/store/lib/ui.colors';
+import styled from 'styled-components';
 
 const NavMobile = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);

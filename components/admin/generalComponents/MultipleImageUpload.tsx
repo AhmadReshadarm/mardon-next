@@ -9,8 +9,9 @@ interface Props {
 }
 
 const MultipleImageUpload = ({ fileList, isProduct, index }: Props) => {
-  const { uploadImage, progress, handleRemoveImage } =
-    useMultipleUploadImage(index);
+  const { uploadImage, progress, handleRemoveImage } = useMultipleUploadImage(
+    index,
+  );
 
   return (
     <>

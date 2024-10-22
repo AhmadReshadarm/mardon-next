@@ -10,8 +10,12 @@ interface Props {
 }
 
 const ImageUpload = ({ fileList, isProduct, slideNum }: Props) => {
-  const { uploadImage, progress, setCatalogUpload, handleRemoveImage } =
-    useUploadImage(slideNum);
+  const {
+    uploadImage,
+    progress,
+    setCatalogUpload,
+    handleRemoveImage,
+  } = useUploadImage(slideNum);
 
   return (
     <>

@@ -9,7 +9,7 @@ import {
 } from 'react-yandex-maps';
 import { useState, useRef, useEffect } from 'react';
 import { initialStateAdress } from './constant';
-import LocationPlacemark from '@mui/icons-material/LocationOn';
+import { LocationPlaceMark } from 'assets/icons/UI-icons';
 
 const mapOptions = {
   modules: ['geocode', 'SuggestView'],
@@ -78,8 +78,9 @@ const MapContainer = (props: any) => {
         onBoundsChange={handleBoundsChange}
         instanceRef={mapRef}
       >
-        <LocationPlacemark className="placemark" color="primary" />
-
+        <span className="placemark">
+          <LocationPlaceMark />
+        </span>
         <GeolocationControl {...geolocationOptions} />
         <ZoomControl />
         <SearchControl
@@ -115,8 +116,8 @@ const MapContianerWrapper = styled.div`
   }
 
   .placemark {
-    width: 35px;
-    height: 35px;
+    width: 14px;
+    height: 20px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -124,6 +125,10 @@ const MapContianerWrapper = styled.div`
     z-index: 1200;
     fontsize: 35px !important;
     cursor: grab;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 
   @media ${devices.laptopS} {

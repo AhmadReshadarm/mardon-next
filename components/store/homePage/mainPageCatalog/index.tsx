@@ -4,7 +4,6 @@ import color from 'components/store/lib/ui.colors';
 import { TGlobalState } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import CatalogModal from './CatalogModal';
-import Loading from 'ui-kit/Loading';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { useEffect, useState } from 'react';
 import ImageSlider from './ImageSlider';

@@ -1,4 +1,4 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
+// import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';

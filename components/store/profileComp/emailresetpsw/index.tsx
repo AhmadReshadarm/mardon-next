@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
@@ -9,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { handleResetClick } from './helpers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
 import { useDispatch } from 'react-redux';
 const EmailResetPsw = () => {
   const [email, setEmail] = useState('');

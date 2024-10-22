@@ -6,12 +6,9 @@ import React, { useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { TStoreCheckoutState, TAuthState } from 'redux/types';
 import styled from 'styled-components';
-import { Checkout } from 'swagger/services';
-import Loading from 'ui-kit/Loading';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';
-import { timeCheck } from './helpers';
 import { CheckoutService } from 'swagger/services';
 import ProductItem from './ProductItem';
 import { useRouter } from 'next/router';
@@ -31,10 +28,6 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   const router = useRouter();
-
-  const onRemoveClick = () => () => {
-    setIsModalVisible(true);
-  };
 
   const handleRemove = (checkoutId: string) => async () => {
     setIsModalVisible(false);
@@ -131,26 +124,6 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               <span className="key">Адрес доставки:</span>
               <span className="value">{`${checkout.address?.address}`}</span>
             </div>
-            {/* <div className="order-key-value">
-              <span className="key">подъезд:</span>
-              <span className="value">
-                {checkout.address?.door ??
-                  `${checkout.address?.door} подъезд, `}
-              </span>
-            </div>
-            <div className="order-key-value">
-              <span className="key">этаж:</span>
-              <span className="value">
-                {checkout.address?.floor ?? `${checkout.address?.floor} этаж, `}
-              </span>
-            </div>
-            <div className="order-key-value">
-              <span className="key">домофон:</span>
-              <span className="value">
-                {checkout.address?.rignBell ??
-                  `${checkout.address?.rignBell} домофон, `}
-              </span>
-            </div> */}
             <div className="order-key-value">
               <span className="key">Получатель:</span>
               <span className="value">
@@ -169,30 +142,6 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
                 )}
               </span>
             </div>
-
-            {/* <div className="order-action-btns">
-              {!timeCheck(checkout.createdAt) ? (
-                checkout.status !== CheckoutStatus.Completed ? (
-                  checkout.status === CheckoutStatus.Canceled ? (
-                    <></>
-                  ) : (
-                    <motion.button
-                      whileHover="hover"
-                      whileTap="tap"
-                      variants={variants.boxShadow}
-                      className="danger"
-                      onClick={onRemoveClick()}
-                    >
-                      Отменить заказ {saveLoading && <Loading />}
-                    </motion.button>
-                  )
-                ) : (
-                  <></>
-                )
-              ) : (
-                <></>
-              )}
-            </div> */}
           </div>
         </div>
       </Items>

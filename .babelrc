@@ -1,5 +1,0 @@
-{
-  "presets": ["next/babel"],
-  "comments": false,
-  "plugins": [["styled-components", { "ssr": true }], "inline-react-svg"]
-}
