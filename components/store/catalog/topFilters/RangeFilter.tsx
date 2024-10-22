@@ -1,5 +1,5 @@
 import { Input, Slider as SliderInit } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
 import debounce from 'lodash/debounce';
@@ -113,6 +113,8 @@ const RangeFilter: React.FC<Props> = ({
           <div className="fields-wrapper">
             <span className="field-label">От</span>
             <Input
+              title="Мин. цена"
+              placeholder="Установить мин., макс. цену"
               min={min}
               max={max}
               // value={minVal}
@@ -129,6 +131,8 @@ const RangeFilter: React.FC<Props> = ({
           <div className="fields-wrapper">
             <span className="field-label">До</span>
             <Input
+              title="Макс. цена"
+              placeholder="Установить мин., макс. цену"
               min={min}
               max={max}
               // value={maxVal}
@@ -146,7 +150,7 @@ const RangeFilter: React.FC<Props> = ({
         <SliderWrapper>
           <Slider
             range
-            step={10}
+            step={1}
             min={min}
             max={max}
             handleStyle={{
@@ -175,7 +179,7 @@ const RangeFilter: React.FC<Props> = ({
 
 const SliderWrapper = styled.div`
   margin-top: 20px;
-
+  width: 90%;
   .ant-slider-rail {
     height: 2px;
     margin-top: 1px;
@@ -187,6 +191,7 @@ const SliderWrapper = styled.div`
       }
     }
   }
+
   @media ${devices.mobileM} {
     max-width: 60vw;
   }
