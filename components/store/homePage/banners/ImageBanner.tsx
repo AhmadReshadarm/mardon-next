@@ -128,6 +128,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         }}
         style={{ background: color.backgroundSecondery }}
         prefetch={false}
+        title={`Перейти в ${slides[imageIndex].link}`}
       >
         <AnimatePresence mode="wait" initial={false} custom={direction}>
           <SliderSlide
@@ -197,13 +198,13 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             filterdropback="blur"
             onClick={(e) => {
               e.preventDefault();
-              paginateImage(1);
+              paginateImage(-1);
               setFirstLoad(false);
             }}
-            title="следующий слайд"
-            aria-label="следующий слайд"
+            title="предыдущий слайд"
+            aria-label="предыдущий слайд"
           >
-            <ArrowSpan rotate="0">
+            <ArrowSpan rotate="180">
               <ArrowSVG />
             </ArrowSpan>
           </ArrowBtns>
@@ -217,13 +218,13 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             filterdropback="blur"
             onClick={(e) => {
               e.preventDefault();
-              paginateImage(-1);
+              paginateImage(1);
               setFirstLoad(false);
             }}
-            title="предыдущий слайд"
-            aria-label="предыдущий слайд"
+            title="следующий слайд"
+            aria-label="следующий слайд"
           >
-            <ArrowSpan rotate="180">
+            <ArrowSpan rotate="0">
               <ArrowSVG />
             </ArrowSpan>
           </ArrowBtns>
@@ -334,7 +335,7 @@ const SliderWrapper = styled.div<StyleProps>`
       height: 100%;
       max-width: 1500px;
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: row;
       align-items: center;
       justify-content: space-between;
       position: absolute;

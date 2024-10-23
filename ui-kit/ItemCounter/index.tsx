@@ -14,6 +14,7 @@ import {
 } from 'assets/icons/UI-icons';
 import { handleCartBtnClick } from 'ui-kit/products/helpers';
 import { devices } from 'components/store/lib/Devices';
+import { openErrorNotification } from 'common/helpers';
 type Props = {
   qty: number;
   product: Product;
@@ -27,10 +28,6 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
   const [decrementPressed, setDecrementPressed] = useState(false);
   const [incrementPressed, setIncrementPressed] = useState(false);
   const [inputValue, setInputValue] = useState(qty);
-  const [timer, setTimer] = useState<any>(null);
-  useEffect(() => {
-    setInputValue(qty);
-  }, [qty]);
 
   // -----------------------------------------------
   return (
@@ -45,6 +42,10 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
           onMouseDown={() => setDecrementPressed(true)}
           onMouseUp={() => setDecrementPressed(false)}
           onClick={() => {
+            if (inputValue <= 0 || String(inputValue) == '') {
+              openErrorNotification('Должно быть число от 1 до 10000');
+              return;
+            }
             setInputValue(inputValue > 1 ? inputValue - 1 : inputValue);
             handleItemCountChange(
               inputValue > 1 ? inputValue - 1 : inputValue,
@@ -57,46 +58,40 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
           initial={{ opacity: 0, x: 45 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ x: { delay: 0.4 }, delay: 0.3 }}
+          title="Уменьшить количество товара в корзине"
         >
           <BasketDecrementSVG pressed={decrementPressed} />
         </motion.button>
         <motion.input
           type="number"
-          min={1}
-          max={10000}
-          defaultValue={1}
-          value={inputValue}
+          value={String(inputValue).replace(/^0+/, '')}
           onChange={(evt) => {
-            setInputValue(
-              Number(evt.target.value) == 0
-                ? 1
-                : Number(evt.target.value) > 10000
-                ? 10000
-                : Number(evt.target.value),
+            const newValue = evt.target.value.replace(/^0+/, '');
+            if (Number(newValue) < 0 || Number(newValue) > 10000) {
+              openErrorNotification('Должно быть число от 1 до 10000');
+              return;
+            }
+            setInputValue(Number(newValue));
+            handleItemCountChange(
+              Number(newValue == '' ? 1 : newValue),
+              product,
+              dispatch,
+              cart!,
             );
-            clearTimeout(timer);
-            const newTimer = setTimeout(() => {
-              handleItemCountChange(
-                Number(evt.target.value) == 0
-                  ? 1
-                  : Number(evt.target.value) >= 10000
-                  ? 10000
-                  : Number(evt.target.value),
-                product,
-                dispatch,
-                cart!,
-              );
-            }, 500);
-            setTimer(newTimer);
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
+          title="Введите количество товара"
         />
         <motion.button
           onMouseDown={() => setIncrementPressed(true)}
           onMouseUp={() => setIncrementPressed(false)}
           onClick={() => {
+            if (inputValue >= 10000 || String(inputValue) == '') {
+              openErrorNotification('Должно быть число от 1 до 10000');
+              return;
+            }
             setInputValue(inputValue >= 10000 ? 10000 : inputValue + 1);
             handleItemCountChange(
               inputValue >= 10000 ? 10000 : inputValue + 1,
@@ -112,11 +107,12 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
             x: { delay: 0.4 },
             delay: 0.3,
           }}
+          title="Увеличить количество товара в корзине"
         >
           <BasketIncrementSVG pressed={incrementPressed} />
         </motion.button>
       </motion.div>
-      <motion.div
+      <motion.button
         className="remove-from-cart-action-button"
         onClick={handleCartBtnClick(
           product,
@@ -127,9 +123,10 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
+        title={`Удалить ${product.name} из корзины`}
       >
         <MenuActiveStateSVG fill={color.inactiveIcons} />
-      </motion.div>
+      </motion.button>
     </ItemCounterWrapper>
   );
 };

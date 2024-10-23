@@ -104,6 +104,7 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                             <Link
                               href={`/product/${product?.url}`}
                               prefetch={false}
+                              title={`Перейти к товар ${product.name}`}
                             >
                               <h1 title={product?.name}>{`${
                                 product?.name?.length! > 40
@@ -158,7 +159,11 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                           </div>
                         </div>
                       </div>
-                      <Link href={`/product/${product?.url}`} prefetch={false}>
+                      <Link
+                        href={`/product/${product?.url}`}
+                        prefetch={false}
+                        title={`Перейти к товар ${product.name}`}
+                      >
                         <div className="cart-image-wrapper">
                           <ul className="images-scroll-wrapper">
                             {images.map((image, index) => {
@@ -218,7 +223,11 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts }) => {
                       <div className="indecator-wrapper">
                         <div className="index-indecator-top"></div>
                       </div>
-                      <Link href={`/product/${product?.url}`} prefetch={false}>
+                      <Link
+                        href={`/product/${product?.url}`}
+                        prefetch={false}
+                        title={`Перейти к товар ${product.name}`}
+                      >
                         <h1 title={product?.name}>{`${
                           product?.name?.length! > 40
                             ? product?.name?.slice(0, 40) + '...'

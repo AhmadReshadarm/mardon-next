@@ -252,16 +252,16 @@ const Header = () => {
                 {/* ---------------------- end of catelog ------------------------- */}
                 <LogoWrapper>
                   <Link
-                    aria-label="Главная страница NBHOZ"
                     href="/"
                     prefetch={false}
+                    title="Перейти на главную страницу"
                   >
                     <LogoSVG />
                   </Link>
                 </LogoWrapper>
                 <IconsWrapper>
                   {/* ---------------------- search ------------------------- */}
-                  <div
+                  <button
                     ref={searchButtonNode}
                     onClick={handleMenuStateRedux(
                       dispatch,
@@ -283,10 +283,10 @@ const Header = () => {
                           : color.activeIcons
                       }
                     />
-                  </div>
+                  </button>
                   {/* ---------------------- end of search ------------------------- */}
                   {/* ---------------------- wishlist ------------------------- */}
-                  <div
+                  <button
                     ref={wishlistButtonNode}
                     onClick={handleMenuStateRedux(
                       dispatch,
@@ -311,10 +311,10 @@ const Header = () => {
                           : color.activeIcons
                       }
                     />
-                  </div>
+                  </button>
                   {/* ---------------------- end of wishlist ------------------------- */}
                   {/* ---------------------- basket ------------------------- */}
-                  <div
+                  <button
                     ref={cartButtonNode}
                     onClick={handleMenuStateRedux(
                       dispatch,
@@ -339,7 +339,7 @@ const Header = () => {
                           : color.activeIcons
                       }
                     />
-                  </div>
+                  </button>
                   {/* ---------------------- end of basket ------------------------- */}
                   {/* ---------------------- Authorization ------------------------- */}
                   <div
@@ -529,7 +529,7 @@ const IconsWrapper = styled.div`
   }
 `;
 
-const MenuButtonWrapper = styled.div`
+const MenuButtonWrapper = styled.button`
   z-index: 100;
   cursor: pointer;
   @media ${devices.laptopS} {
