@@ -165,6 +165,7 @@ const ItemCounterWrapper = styled(motion.div)`
       border: none;
       text-align: center;
       padding: 3px;
+      font-size: 16px;
     }
     input[type='number']::-webkit-inner-spin-button,
     input[type='number']::-webkit-outer-spin-button {
