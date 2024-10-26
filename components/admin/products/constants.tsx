@@ -88,11 +88,28 @@ export const columns: ColumnsType<Product> = [
     render: (_, record) => {
       return (
         <>
-          <a href={`/product/${record.url}`}>{record.url}</a>
+          <a
+            target="__blank"
+            href={`/product/${record.url}`}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+          >
+            {record.url}
+            <img
+              src="/icons/blank.png"
+              alt="target blank"
+              style={{ width: '15px' }}
+            />
+          </a>
         </>
       );
     },
-    width: '7.5%',
+    width: '10%',
   },
   {
     title: 'Теги',

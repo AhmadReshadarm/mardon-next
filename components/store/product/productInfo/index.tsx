@@ -18,7 +18,7 @@ import { TCartState } from 'redux/types';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import Image from 'next/image';
-import { ArrowGraySVG, CloseSVGBlack } from 'assets/icons/UI-icons';
+import { ArrowGraySVG, CloseSVGWhite } from 'assets/icons/UI-icons';
 import dynamic from 'next/dynamic';
 // import DropDowns from './details/DropDowns';
 const ShareToSocial = dynamic(() => import('./details/ShareToSocial'));
@@ -80,7 +80,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
             }}
             className="close-btn-wrapper "
           >
-            <CloseSVGBlack />
+            <CloseSVGWhite />
           </span>
         </OrderNotifier>
         <Content
