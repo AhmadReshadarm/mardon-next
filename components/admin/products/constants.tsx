@@ -21,10 +21,14 @@ export const columns: ColumnsType<Product> = [
     dataIndex: 'images',
     render: (_, record) => {
       if (record.productVariants) {
-        const imagesString = record.productVariants[0]
-          ? record.productVariants[0].images
-          : '';
-        const images = imagesString?.split(', ');
+        const images: string[] = [];
+        record.productVariants.map((variant: any) => {
+          const variantImages = variant.images?.split(', ');
+          variantImages.map((image) => {
+            images.push(image);
+          });
+        });
+
         return (
           <div
             style={{
@@ -39,7 +43,7 @@ export const columns: ColumnsType<Product> = [
                     <div key={`${image}-${index}`}>
                       <Image
                         className={styles.productsTable__contentStyle}
-                        src={`/api/images/${image.trim()}`}
+                        src={`/api/images/${image}`}
                         fallback={imageFallback}
                       />
                     </div>
