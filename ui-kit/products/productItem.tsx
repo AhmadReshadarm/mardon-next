@@ -92,7 +92,6 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
         minWidth: `${wrapperSizes.minMaxWidth}px`,
         maxWidth: `${wrapperSizes.minMaxWidth}px`,
       }}
-      // title={product.name}
     >
       <ItemWrapper>
         <Slider

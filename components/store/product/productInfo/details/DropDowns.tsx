@@ -99,11 +99,10 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
           По дополнительным вопросам обращаться по номеру телефона:{' '}
           <Link
             title="По дополнительным вопросам обращаться по номеру телефона 8-925-486-54-44"
-            style={{ color: color.ok }}
             href="tel:89254865444"
             prefetch={false}
           >
-            <span>8-925-486-54-44</span>
+            <span style={{ fontWeight: 500 }}>8-925-486-54-44</span>
           </Link>
           .
         </Contents>
@@ -313,29 +312,5 @@ const SpecsKeyValueWrapper = styled.ul`
     }
   }
 `;
-
-// const Contents = styled.span`
-//   width: 80%;
-//   text-align: start;
-//   line-height: 1.5rem;
-//   font-size: 1rem;
-//   @media ${devices.mobileL} {
-//     width: 100%;
-//   }
-// `;
-
-// const ListsDots = styled.ul`
-//   width: 80%;
-//   text-align: start;
-//   padding-left: 15px;
-//   line-height: 1.5rem;
-//   font-size: 1rem;
-//   li {
-//     list-style-type: circle;
-//   }
-//   @media ${devices.mobileL} {
-//     width: 100%;
-//   }
-// `;
 
 export default DropDowns;

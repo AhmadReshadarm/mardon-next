@@ -24,7 +24,7 @@ const ProductFlex: React.FC<Props> = ({ products, loading }) => {
               );
             })
           : emptyLoading.map((item, index) => {
-              return <Loader index={index} />;
+              return <LoaderItem index={index} />;
             })}
       </SliderWrapper>
     </FlexWrapper>
@@ -37,18 +37,8 @@ const ProductFlexEmpty = () => {
     <FlexWrapper>
       <SliderWrapper>
         {emptyLoading.map((item, index) => {
-          return <Loader key={item} index={index} />;
+          return <LoaderItem index={index} />;
         })}
-      </SliderWrapper>
-    </FlexWrapper>
-  );
-};
-
-const Loader = ({ index }) => {
-  return (
-    <FlexWrapper key={index}>
-      <SliderWrapper>
-        <LoaderItem index={index} />
       </SliderWrapper>
     </FlexWrapper>
   );

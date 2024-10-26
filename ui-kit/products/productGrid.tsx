@@ -1,30 +1,13 @@
 import { devices } from 'components/store/lib/Devices';
 import styled from 'styled-components';
-// import { Product } from 'swagger/services';
 import { getAnimationDelay } from './helpers';
 import ProductItem from './productItem';
-import { ErrorBoundary } from 'react-error-boundary';
-import FallbackRender from 'ui-kit/FallbackRenderer';
 import { LoaderItem } from './Loader';
 import { emptyLoading } from 'common/constants';
 import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
 
-type Props = {
-  // products: Product[];
-  // loading?: boolean;
-  // gridStyle?: any;
-  emptyProductsTitle?: string;
-  // children?: JSX.Element;
-};
-
-const ProductGrid: React.FC<Props> = ({
-  // products,
-  emptyProductsTitle,
-  // gridStyle,
-  // children,
-  // loading,
-}) => {
+const ProductGrid = () => {
   const { products, loading } = useAppSelector<TCatalogState>(
     (state) => state.catalog,
   );
@@ -35,21 +18,14 @@ const ProductGrid: React.FC<Props> = ({
       {products.length !== 0 && !loading ? (
         <Grid>
           <>
-            {/* {children} */}
-
             {!loading
               ? products.map((product, index) => {
                   return (
-                    <ErrorBoundary
+                    <ProductItem
                       key={`product-item-${index}`}
-                      fallbackRender={FallbackRender}
-                    >
-                      <ProductItem
-                        key={`product-item-${index}`}
-                        product={product}
-                        custom={delay[index]}
-                      />
-                    </ErrorBoundary>
+                      product={product}
+                      custom={delay[index]}
+                    />
                   );
                 })
               : emptyLoading.map((item, index) => {
@@ -59,7 +35,10 @@ const ProductGrid: React.FC<Props> = ({
         </Grid>
       ) : products.length === 0 && !loading ? (
         <EmptyProductsTitle>
-          <h3>{emptyProductsTitle ?? 'Список продуктов пуст'}</h3>
+          <h3>
+            Слишком много фильтров. Пожалуйста, сбросьте фильтры и попробуйте
+            еще раз.
+          </h3>
         </EmptyProductsTitle>
       ) : (
         <Grid>
@@ -121,8 +100,7 @@ const EmptyProductsTitle = styled.div`
   justify-content: center;
   padding-top: 100px;
   h3 {
-    font-size: 2rem;
-    font-family: ricordi;
+    font-size: 1.8rem;
     text-align: center;
   }
   @media ${devices.tabletL} {
@@ -151,14 +129,5 @@ const EmptyProductsTitle = styled.div`
     }
   }
 `;
-
-// const LoaderWrapper = styled.div`
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   flex-direction: coloumn;
-//   justify-content: center;
-//   align-items: center;
-// `;
 
 export default ProductGrid;

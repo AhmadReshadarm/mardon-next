@@ -238,7 +238,7 @@ const CatalogPage = ({
               <Content>
                 <Products>
                   <ProductGrid
-                    emptyProductsTitle={'По вашему запросу ничего не найдено.'}
+                  // emptyProductsTitle={'По вашему запросу ничего не найдено.'}
                   />
                 </Products>
                 <Pagination
