@@ -71,7 +71,7 @@ const FormWrapper = styled.form`
       border-radius: 30px;
       background-color: ${color.buttonPrimary};
       color: ${color.textPrimary};
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       &:active {
         border: 1px solid;
         background-color: ${color.backgroundPrimary} !important;

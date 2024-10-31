@@ -19,9 +19,10 @@ import { ErrorBoundary } from 'react-error-boundary';
 import FallbackRender from 'ui-kit/FallbackRenderer';
 import Image from 'next/image';
 import { ArrowGraySVG, CloseSVGWhite } from 'assets/icons/UI-icons';
-import dynamic from 'next/dynamic';
-const ShareToSocial = dynamic(() => import('./details/ShareToSocial'));
-const DropDowns = dynamic(() => import('./details/DropDowns'));
+// import dynamic from 'next/dynamic';
+import ShareToSocial from './details/ShareToSocial';
+import DropDowns from './details/DropDowns';
+// const DropDowns = dynamic(() => import('./details/DropDowns'));
 
 type Props = {
   product?: Product;
@@ -61,7 +62,7 @@ const ProductInfo: React.FC<Props> = ({
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
   const [isOrderNotify, setOrderNotify] = useState(false);
-  const [loadingComplet, setLoadingComplet] = useState(false);
+  // const [loadingComplet, setLoadingComplet] = useState(false);
 
   return (
     <Container
@@ -97,27 +98,27 @@ const ProductInfo: React.FC<Props> = ({
           <NavWrapper width={`calc(${windowWidth}px - 100px)`}>
             <div className="nav-rightWrapper">
               <Link href="/" prefetch={false}>
-                <LoaderMask
+                {/* <LoaderMask
                   style={{
                     width: '35px',
                     height: '15px',
                     display: loadingComplet ? 'none' : 'flex',
                   }}
-                />
+                /> */}
                 <Image
-                  style={{
-                    opacity: loadingComplet ? 1 : 0,
-                    position: loadingComplet ? 'inherit' : 'absolute',
-                    zIndex: loadingComplet ? 1 : -1,
-                  }}
+                  // style={{
+                  //   opacity: loadingComplet ? 1 : 0,
+                  //   position: loadingComplet ? 'inherit' : 'absolute',
+                  //   zIndex: loadingComplet ? 1 : -1,
+                  // }}
                   width={35}
                   height={15}
                   quality={20}
-                  priority={false}
-                  loading="lazy"
+                  priority={true}
+                  // loading="lazy"
                   src="/icons/back_arrow.png"
                   alt="Back to main arrow"
-                  onLoadingComplete={() => setLoadingComplet(true)}
+                  // onLoadingComplete={() => setLoadingComplet(true)}
                 />
                 <span>Обратно на главную</span>
               </Link>
@@ -218,36 +219,6 @@ const ProductInfo: React.FC<Props> = ({
   );
 };
 
-const LoaderMask = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
-
 export const ContentCotainer = styled.div`
   width: 100%;
   height: 100%;
@@ -255,54 +226,7 @@ export const ContentCotainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  border-radius: 10px;
   position: relative;
-  .product-title-wrappre {
-    padding: 75px;
-    z-index: 2;
-    width: 78%;
-    h1 {
-      font-weight: 100;
-      font-size: 2.25rem;
-    }
-  }
-
-  @media ${devices.laptopS} {
-    .product-title-wrappre {
-      padding: 40px 20px;
-      width: 100%;
-      h1 {
-        font-size: 2rem;
-      }
-    }
-  }
-  @media ${devices.mobileL} {
-    .product-title-wrappre {
-      padding: 40px 10px;
-      width: 100%;
-      h1 {
-        font-size: 2rem;
-      }
-    }
-  }
-  @media ${devices.mobileM} {
-    .product-title-wrappre {
-      padding: 40px 10px;
-      width: 100%;
-      h1 {
-        font-size: 2rem;
-      }
-    }
-  }
-  @media ${devices.mobileS} {
-    .product-title-wrappre {
-      padding: 40px 10px;
-      width: 100%;
-      h1 {
-        font-size: 2rem;
-      }
-    }
-  }
 `;
 
 export const OrderNotifier = styled.div`
@@ -393,7 +317,7 @@ export const NavWrapper = styled.div`
     color: ${color.textSecondary};
 
     span {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       white-space: nowrap;
     }
   }

@@ -172,7 +172,7 @@ const ContentWarpper = styled.div`
         border: 1px solid ${color.textSecondary};
       }
       span {
-        font-family: 'Jost';
+        font-family: ver(--font-Jost);
         font-size: 1rem;
       }
     }

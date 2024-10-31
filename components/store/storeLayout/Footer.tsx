@@ -668,7 +668,7 @@ const CookiesNotification = styled.div`
       border: 1px solid;
     }
     span {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
     }
   }
 

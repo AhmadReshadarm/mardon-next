@@ -134,7 +134,7 @@ const CommentContent = styled.div`
       transform: scale(1);
     }
     span {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       font-size: 1rem;
     }
   }

@@ -216,7 +216,7 @@ export const ItemWrapper = styled.div`
         align-items: center;
         justify-content: flex-start;
         font-size: 0.9rem;
-        font-family: ricordi;
+        font-family: var(--font-ricordi);
         &:hover {
           color: ${color.textBase};
         }

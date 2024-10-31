@@ -252,7 +252,7 @@ const AuthInput = styled(motion.input)`
   border-radius: 10px;
   padding: 0 10px;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 500;
 `;
 
 const SaveBtn = styled.button`

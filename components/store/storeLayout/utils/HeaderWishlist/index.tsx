@@ -147,7 +147,7 @@ const PopupWrapper = styled(motion.div)`
     justify-content: center;
     align-items: center;
     h1 {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
     }
   }
   @media (min-width: 1024px) and (max-width: 1150px) {
@@ -200,7 +200,7 @@ const ActionBtns = styled.button`
   color: ${color.textPrimary};
   border: none;
   border-radius: 30px;
-  font-family: ricordi;
+  font-family: var(--font-ricordi);
   &:active {
     border: 1px solid;
     background: ${color.backgroundPrimary};

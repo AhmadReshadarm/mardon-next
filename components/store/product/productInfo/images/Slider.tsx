@@ -36,7 +36,7 @@ const Slider: React.FC<Props> = ({
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
 
-  const [loadingComplet, setLoadingComplet] = useState(false);
+  // const [loadingComplet, setLoadingComplet] = useState(false);
 
   // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -91,16 +91,16 @@ const Slider: React.FC<Props> = ({
             selectedIndex,
           )}
         >
-          <LoaderMask style={{ display: loadingComplet ? 'none' : 'flex' }} />
+          {/* <LoaderMask style={{ display: loadingComplet ? 'none' : 'flex' }} /> */}
           <SliderImage
-            style={{ opacity: loadingComplet ? 1 : 0 }}
+            // style={{ opacity: loadingComplet ? 1 : 0 }}
             src={imageSrc}
             alt={alt}
             itemProp="contentUrl"
             width={1080}
             height={1080}
             onLoadingComplete={() => {
-              setLoadingComplet(true);
+              // setLoadingComplet(true);
               setTimeout(() => {
                 setFirstLoad(false);
               }, 5000);

@@ -201,7 +201,7 @@ const ProductItemWrapper = styled.div`
       a {
         padding: 0;
         h1 {
-          font-family: ricordi;
+          font-family: var(--font-ricordi);
           font-size: 1.3rem;
         }
       }

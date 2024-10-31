@@ -180,14 +180,12 @@ const ItemDetails = styled.div`
     align-items: center;
     gap: 20px;
     h3 {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       font-size: 2rem;
-      font-weight: 400;
     }
     span {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       font-size: 2rem;
-      font-weight: 300;
     }
   }
   .review-and-rating-Wrapper {
@@ -198,7 +196,7 @@ const ItemDetails = styled.div`
     align-items: center;
     gap: 5px;
     span {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       font-size: 14px;
     }
     .reviews {

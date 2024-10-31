@@ -386,7 +386,7 @@ const Content = styled.div`
             background-color: ${color.activeIcons};
           }
           h1 {
-            font-family: ricordi;
+            font-family: var(--font-ricordi);
             font-size: 1.5rem;
             &:hover {
               color: ${color.textBase};
@@ -425,7 +425,7 @@ const Content = styled.div`
             align-items: center;
             gap: 5px;
             span {
-              font-weight: 600;
+              font-weight: 500;
             }
           }
           .action-buttons-wrapper {
@@ -521,11 +521,11 @@ const Content = styled.div`
       align-items: center;
       gap: 5px;
       span {
-        font-weight: 800;
+        font-weight: 500;
       }
     }
     h1 {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       font-size: 1.5rem;
       &:hover {
         color: ${color.textBase};

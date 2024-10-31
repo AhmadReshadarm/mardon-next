@@ -84,7 +84,7 @@ const ItemsWrapper = styled.div`
         color: ${color.textPrimary};
       }
       span {
-        font-family: 'Jost';
+        font-family: ver(--font-Jost);
         font-size: 1rem;
       }
     }
@@ -112,7 +112,6 @@ const NoCartItem = styled.div`
   h2 {
     font-size: 3rem;
     text-align: center;
-    font-weight: 400;
   }
   @media ${devices.laptopS} {
     h2 {

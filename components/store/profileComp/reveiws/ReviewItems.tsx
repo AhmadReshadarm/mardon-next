@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { Rating } from '@mui/material';
-import DeleteSVG from '../../../../assets/close_black.svg';
 import Link from 'next/link';
 import AddReview from './AddReview';
 import { Review } from 'swagger/services';
@@ -83,7 +82,6 @@ const ReviewsItem = styled(motion.li)`
     .product-title {
       font-size: 1.5rem;
       line-height: 2rem;
-      font-weight: 100;
       &:hover {
         color: ${color.hoverBtnBg};
         text-decoration: underline;

@@ -108,7 +108,7 @@ const BasketHeader = styled.div`
         width: 40px;
       }
       span {
-        font-family: 'Jost';
+        font-family: ver(--font-Jost);
       }
     }
   }

@@ -35,7 +35,7 @@ const VerifyAcountByToken = () => {
 
 const Counter = styled.h2`
   font-size: 2rem;
-  font-family: 'ricordi';
+  font-family: var(--font-ricordi);
 `;
 
 export default VerifyAcountByToken;

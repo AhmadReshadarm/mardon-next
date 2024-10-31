@@ -13,6 +13,7 @@ import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
 import axios from 'axios';
+import { handleHistory } from 'common/helpers/history.helper';
 
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
@@ -61,8 +62,6 @@ export const getServerSideProps = (async (context) => {
     // Pass data to the page via props
     return { props: { repo, imagesWithUrl, base64Image } };
   } catch (error) {
-    console.log(error);
-
     return { props: { repo: {}, imagesWithUrl: [], base64Image: null } };
   }
 }) as GetServerSideProps<{
@@ -98,6 +97,9 @@ const ProductInfoPage = ({
   useEffect(() => {
     setClient(true);
   }, []);
+  useEffect(() => {
+    handleHistory(repo.id);
+  }, [isClient]);
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />

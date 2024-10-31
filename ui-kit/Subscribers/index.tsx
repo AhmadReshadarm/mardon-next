@@ -391,7 +391,7 @@ const AuthTabWrapper = styled.div<StyleProps>`
     align-items: center;
     gap: 10px;
     h2 {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       font-size: 1rem;
       cursor: pointer;
       color: ${color.textTertiary};
@@ -538,7 +538,7 @@ const ActionBtn = styled.button`
   user-select: none;
   -webkit-user-select: none;
   span {
-    font-family: ricordi;
+    font-family: var(--font-ricordi);
   }
 
   &:active {

@@ -160,7 +160,7 @@ const ContactContentWrapper = styled.div`
     justify-content: flex-start;
     h1 {
       font-size: 3rem;
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       text-align: left;
     }
   }

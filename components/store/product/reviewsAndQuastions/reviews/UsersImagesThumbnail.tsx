@@ -62,7 +62,6 @@ const ImagesWrapper = styled.div`
   gap: 20px;
   h3 {
     text-align: start;
-    font-weight: 400;
   }
 `;
 

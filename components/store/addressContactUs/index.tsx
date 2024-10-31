@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useCopyToClipboard } from './helpers';
 import { useEffect } from 'react';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+
 const MapContainer = () => {
   const [copiedText, setCopiedText, copy] = useCopyToClipboard();
   useEffect(() => {
@@ -205,9 +206,6 @@ const ContactContentWrapper = styled.div`
   align-items: center;
   padding: 0 0 0 20%;
   gap: 90px;
-  span {
-    font-weight: 600;
-  }
   .first-column {
     display: flex;
     flex-direction: column;
@@ -271,9 +269,7 @@ const ContactContentWrapper = styled.div`
         background-color: ${color.btnSecondery};
         cursor: pointer;
         transition: 300ms;
-        span {
-          font-weight: 400;
-        }
+
         &:hover {
           background-color: ${color.btnPrimary};
           color: ${color.textPrimary};
@@ -283,7 +279,7 @@ const ContactContentWrapper = styled.div`
           transform: scale(1);
         }
         span {
-          font-family: 'Jost';
+          font-family: ver(--font-Jost);
           font-size: 1rem;
         }
       }

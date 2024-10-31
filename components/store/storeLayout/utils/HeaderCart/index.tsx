@@ -178,7 +178,7 @@ const PopupWrapper = styled(motion.div)`
     justify-content: center;
     align-items: center;
     h1 {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
     }
   }
   @media (min-width: 1024px) and (max-width: 1150px) {
@@ -218,7 +218,7 @@ const TotalPriceWrapper = styled.div<StyleProps>`
   gap: 20px;
   h1 {
     font-size: 1.8rem;
-    font-family: ricordi;
+    font-family: var(--font-ricordi);
     color: ${color.textBase};
     white-space: nowrap;
   }
@@ -254,7 +254,7 @@ const ActionBtns = styled.button`
   color: ${color.textPrimary};
   border: none;
   border-radius: 30px;
-  font-family: ricordi;
+  font-family: var(--font-ricordi);
   &:active {
     border: 1px solid;
     background: ${color.backgroundPrimary};

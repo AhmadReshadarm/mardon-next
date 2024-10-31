@@ -170,7 +170,7 @@ const MainCatalogWrapper = styled.div`
     span {
       font-size: 1.5rem;
       transition: 200ms;
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
     }
   }
 `;
@@ -204,7 +204,7 @@ const SubCategoriesContainer = styled.div`
   .sub-category {
     transition: 200ms;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
   }
 `;
 

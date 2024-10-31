@@ -177,7 +177,6 @@ export const ThumbnailsWrapper = styled.div`
   gap: 20px;
   .title-users-images {
     font-size: 1.2rem;
-    font-weight: 400;
   }
   .client-images-wrapper {
     max-width: 300px;
@@ -216,7 +215,7 @@ export const ThumbnailsWrapper = styled.div`
       color: ${color.activeIcons};
     }
     span {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       font-size: 1rem;
     }
   }

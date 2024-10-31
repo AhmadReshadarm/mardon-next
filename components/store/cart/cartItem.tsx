@@ -10,10 +10,6 @@ type Props = {
   product?: Product;
 };
 
-//  > 18
-//                 ? orderProduct!?.product!?.name?.slice(0, 18) + ' ...'
-//                 : orderProduct!?.product!?.name}
-
 const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
   const images = getProductVariantsImages(
     orderProduct.product?.productVariants,
@@ -124,7 +120,6 @@ const ProductItemWrapper = styled.div`
         padding: 0;
         h1 {
           font-size: 1.1rem;
-          font-weight: 400;
         }
       }
     }

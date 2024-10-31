@@ -242,7 +242,7 @@ const ActionBtns = styled.button`
     }
   }
   span {
-    font-family: 'Jost';
+    font-family: ver(--font-Jost);
     font-size: 1rem;
   }
   .action-btn-with-link {

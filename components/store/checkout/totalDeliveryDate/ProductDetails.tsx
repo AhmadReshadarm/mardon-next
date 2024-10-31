@@ -13,13 +13,6 @@ const ProductDetails = () => {
 
   return (
     <Wrapper style={{ gap: '20px' }}>
-      <ProudctHeaderWrapper
-        custom={0.1}
-        initial="init"
-        whileInView="animate"
-        viewport={{ once: true }}
-        variants={variants.fadInSlideUp}
-      ></ProudctHeaderWrapper>
       <ProductWrapper
         custom={0.2}
         initial="init"
@@ -55,23 +48,6 @@ const ProductDetails = () => {
     </Wrapper>
   );
 };
-
-const ProudctHeaderWrapper = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 5px;
-
-  h3 {
-    font-size: 1.2rem;
-    font-weight: 800;
-  }
-  span {
-    color: ${color.textSecondary};
-  }
-`;
 
 const ProductWrapper = styled(motion.div)`
   width: 100%;

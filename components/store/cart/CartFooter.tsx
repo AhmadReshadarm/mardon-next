@@ -1,29 +1,30 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Basket } from 'swagger/services';
 import { motion } from 'framer-motion';
 import { getTotalPrice } from './helpers';
 import color from 'components/store/lib/ui.colors';
 import variants from '../lib/variants';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { TAuthState } from 'redux/types';
+import { TAuthState, TCartState } from 'redux/types';
 import { devices } from '../lib/Devices';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
 import { ArrowSVG } from 'assets/icons/UI-icons';
-type Props = {
-  cart: Basket | null;
-};
 
-const CartFooter: React.FC<Props> = ({ cart }) => {
+const CartFooter = () => {
   const dispatch = useAppDispatch();
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const handleGoToCart = () => {
     dispatch(setOneClickBy(false));
   };
+
   return (
     <Wrapper>
       <CartTotalPrice
-        style={{ display: cart?.totalAmount == 0 ? 'none' : 'flex' }}
+        style={{
+          display: Number(cart?.orderProducts?.length) > 0 ? 'flex' : 'none',
+        }}
       >
         <span className="total-text">Ваша корзина</span>
         <span>Итого: {getTotalPrice(cart?.orderProducts!, user)} ₽</span>
@@ -34,7 +35,9 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
       </div>
       <CheckoutBtnWrapper>
         <Link
-          style={{ display: cart?.totalAmount == 0 ? 'none' : 'flex' }}
+          style={{
+            display: Number(cart?.orderProducts?.length) > 0 ? 'flex' : 'none',
+          }}
           href={cart?.totalAmount == 0 ? '/cart' : '/checkout'}
         >
           <CheckoutBtn
@@ -91,12 +94,10 @@ const CartTotalPrice = styled.div`
   padding: 10px 30px;
   gap: 50px;
   span {
-    font-family: 'Jost';
+    font-family: ver(--font-Jost);
     font-size: 2.5rem;
   }
-  .total-text {
-    font-weight: 300;
-  }
+
   @media ${devices.tabletL} {
     padding: 10px 20px;
     gap: 10px;
@@ -215,7 +216,6 @@ const CheckoutBtn = styled(motion.button)`
   padding: 0px 20px;
   border-radius: 30px;
   cursor: pointer;
-  font-weight: 500;
   display: flex;
   flex-direction: row;
   justify-content: center;

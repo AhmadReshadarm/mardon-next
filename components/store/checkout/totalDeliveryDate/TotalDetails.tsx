@@ -389,7 +389,7 @@ const ItemRow = styled(motion.div)`
   }
   h3 {
     font-size: 1rem;
-    font-weight: 800;
+    font-weight: 500;
   }
   .product-wheight {
     color: ${color.textTertiary};

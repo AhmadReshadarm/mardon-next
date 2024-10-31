@@ -117,7 +117,7 @@ const Wrapper = styled.div`
     padding: 0 0 50px 0;
     h1 {
       font-size: 3rem;
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       text-align: center;
     }
   }

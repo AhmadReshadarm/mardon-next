@@ -263,7 +263,6 @@ const Items = styled(motion.li)`
 
             span {
               font-size: 1.2rem;
-              font-weight: 400;
               &:hover {
                 color: ${color.hoverBtnBg};
               }

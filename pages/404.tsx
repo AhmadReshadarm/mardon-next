@@ -61,7 +61,7 @@ const NotFound = (): JSX.Element => {
 const Error = styled.h1`
   text-align: center;
   font-size: 3rem;
-  font-family: ricordi;
+  font-family: var(--font-ricordi);
   font-weight: 600;
   background: linear-gradient(
     90deg,
@@ -87,7 +87,7 @@ const ContentWrapper = styled.div`
   h2,
   h4 {
     font-size: 1.5rem;
-    font-family: ricordi;
+    font-family: var(--font-ricordi);
     font-weight: 300;
     color: #fff;
   }

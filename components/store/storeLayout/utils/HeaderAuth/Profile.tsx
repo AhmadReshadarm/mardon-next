@@ -221,7 +221,7 @@ const ProfileDataWrapper = styled.div`
   h3 {
     margin: 0;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 500;
     text-shadow: 0px 5px 10px ${color.boxShadowBtn};
   }
   .user-email {

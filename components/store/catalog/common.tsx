@@ -57,7 +57,7 @@ const FilterTitle = styled(motion.div)`
 `;
 const TopFilterTitle = styled(motion.div)`
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 500;
 
   @media ${devices.tabletL} {
     font-weight: unset;

@@ -10,7 +10,7 @@ const HeaderWrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   h3 {
-    font-family: ricordi;
+    font-family: var(--font-ricordi);
     font-size: 3.2rem;
     margin: 0;
     color: ${color.textPrimary};
@@ -165,7 +165,7 @@ const ReviewReplyContent = styled(motion.div)`
     justify-content: center;
     align-items: center;
     font-size: 0.7rem;
-    font-weight: 800;
+    font-weight: 500;
     background-color: ${color.btnPrimary};
     color: ${color.textPrimary};
     border-radius: 50%;

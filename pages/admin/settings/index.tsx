@@ -59,7 +59,7 @@ const Wrapper = styled.div`
       color: ${color.textPrimary};
     }
     span {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       font-size: 1rem;
       &:hover {
         background-color: ${color.searchBtnBg};

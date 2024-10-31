@@ -75,7 +75,7 @@ export const InfoBtnWrappers = styled.div`
   cursor: pointer;
   h2 {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 500;
   }
   span {
     transform: rotate(90deg);
@@ -126,7 +126,7 @@ export const InfoContentWrappers = styled(motion.div)`
     align-items: flex-start;
     gap: 20px;
     .dilevery-title {
-      font-weight: 600;
+      font-weight: 500;
     }
     .fr-view {
       width: 100%;

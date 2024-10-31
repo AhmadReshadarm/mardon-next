@@ -111,7 +111,7 @@ const AuthHeader = styled(motion.div)`
   align-items: flex-start;
   gap: 15px;
   h3 {
-    font-family: ricordi;
+    font-family: var(--font-ricordi);
     font-size: 2rem;
   }
   span {
@@ -268,7 +268,7 @@ const AuthTabWrapper = styled.div<StyleProps>`
     }
 
     h2 {
-      font-family: ricordi;
+      font-family: var(--font-ricordi);
       font-size: 1.5rem;
       cursor: pointer;
       color: ${color.inactiveIcons};

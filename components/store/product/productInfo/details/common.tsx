@@ -12,16 +12,13 @@ const UserSelectWrapper = styled.div<StyleProps>`
   gap: 20px;
   border-radius: 15px;
   user-select: none;
-  h3 {
-    font-size: 1.2rem;
-    font-weight: 100;
-  }
   .short-description-wrapper {
     width: 100%;
     padding-right: 50px;
   }
   .product-header-1 {
-    font-family: ricordi;
+    font-family: var(--font-ricordi);
+    font-size: 1.5rem;
   }
 
   .product-title-wrapper {
@@ -38,20 +35,14 @@ const UserSelectWrapper = styled.div<StyleProps>`
     }
   }
 
-  ${(props) => {
-    return props.textWidth! > 45
-      ? `
-    .product-header-1{
-    font-size: 1.5rem;
-    }
-     @media ${devices.tabletL} {
+  @media ${devices.tabletL} {
     .product-header-1 {
       font-size: 1.2rem;
     }
   }
   @media ${devices.tabletS} {
     .product-header-1 {
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
   }
   @media ${devices.mobileL} {
@@ -69,38 +60,6 @@ const UserSelectWrapper = styled.div<StyleProps>`
       font-size: 0.8rem;
     }
   }
-    `
-      : `
-    .product-header-1{
-    font-size: 2.3rem;
-    }
-     @media ${devices.tabletL} {
-    .product-header-1 {
-      font-size: 1.5rem;
-    }
-  }
-  @media ${devices.tabletS} {
-    .product-header-1 {
-      font-size: 1.5rem;
-    }
-  }
-  @media ${devices.mobileL} {
-    .product-header-1 {
-      font-size: 1.2rem;
-    }
-  }
-  @media ${devices.mobileM} {
-    .product-header-1 {
-      font-size: 1.2rem;
-    }
-  }
-  @media ${devices.mobileS} {
-    .product-header-1 {
-      font-size: 1rem;
-    }
-  }
-    `;
-  }};
 `;
 
 export { UserSelectWrapper };

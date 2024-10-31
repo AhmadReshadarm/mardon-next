@@ -95,7 +95,7 @@ const CardItemContainer = styled(motion.li)`
       color: ${color.textPrimary};
     }
     span {
-      font-family: 'Jost';
+      font-family: ver(--font-Jost);
       font-size: 1rem;
     }
   }

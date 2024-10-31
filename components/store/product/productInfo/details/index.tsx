@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Rating } from '@mui/material'; // docs: https://mui.com/material-ui/api/rating/ *** https://mui.com/material-ui/react-rating/
-import variants from 'components/store/lib/variants';
+import { Rating } from '@mui/material';
 import color from 'components/store/lib/ui.colors';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
@@ -49,9 +47,9 @@ const Details: React.FC<Props> = ({
       <UserSelectWrapper textWidth={product?.name?.length!}>
         <div className="product-title-wrapper">
           <div className="title-top-bar"></div>
-          <motion.h1 className="product-header-1" itemProp="name">
+          <h1 className="product-header-1" itemProp="name">
             {product?.name}
-          </motion.h1>
+          </h1>
         </div>
 
         <div className="short-description-wrapper">
@@ -69,14 +67,7 @@ const Details: React.FC<Props> = ({
         </div>
         <ConvoContainer>
           <div className="convo-contentWrapper">
-            <ConvoWrappers
-              key="reveiws-product-page"
-              custom={0.2}
-              initial="init"
-              animate="animate"
-              exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
-              variants={variants.fadInSlideUp}
-            >
+            <ConvoWrappers>
               <Rating
                 value={product?.rating?.avg}
                 precision={0.5}
@@ -96,14 +87,7 @@ const Details: React.FC<Props> = ({
                 <span>Отзыв(ов) об этом товаре</span>
               </span>
             </ConvoWrappers>
-            <ConvoWrappers
-              key="quastions-product-page"
-              custom={0.3}
-              initial="init"
-              animate="animate"
-              exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
-              variants={variants.fadInSlideUp}
-            >
+            <ConvoWrappers>
               <span>
                 <QuestionSVG />
               </span>
@@ -118,14 +102,7 @@ const Details: React.FC<Props> = ({
               </span>
             </ConvoWrappers>
           </div>
-          <PriceWrapper
-            key="prices-product-page"
-            custom={0.35}
-            initial="init"
-            animate="animate"
-            exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
-            variants={variants.fadInSlideUp}
-          >
+          <PriceWrapper>
             <PriceItem>
               {checkHasOldPrice(variant! ?? product?.productVariants![0])
                 ? `${
@@ -214,7 +191,7 @@ export const ConvoContainer = styled.div`
   }
 `;
 
-export const ConvoWrappers = styled(motion.div)`
+export const ConvoWrappers = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -236,7 +213,7 @@ export const ConvoWrappers = styled(motion.div)`
   }
 `;
 
-export const PriceWrapper = styled(motion.div)`
+export const PriceWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -261,8 +238,8 @@ export const PriceWrapper = styled(motion.div)`
 `;
 
 const PriceItem = styled.span`
-  font-size: 2rem;
-  font-family: ricordi;
+  font-size: 1.5rem;
+  font-family: var(--font-ricordi);
   &:nth-child(1) {
     font-size: 1rem;
     text-decoration: line-through;

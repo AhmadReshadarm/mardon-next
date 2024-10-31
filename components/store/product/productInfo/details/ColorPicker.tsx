@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { getFlatVariantImages, ImageTooltip } from './helpers';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -136,16 +134,6 @@ const ColorPicker: React.FC<Props> = ({
             >
               <ColorPickerThumbnailWrapper>
                 <ColorPickerItems
-                  key="prices-product-page"
-                  custom={0.05 * colIndex}
-                  initial="init"
-                  animate="animate"
-                  exit={{
-                    y: -20,
-                    opacity: 0,
-                    transition: { delay: 0.05 * colIndex },
-                  }}
-                  variants={variants.fadInSlideUp}
                   onClick={handleImageChange(
                     variant,
                     colIndex,
@@ -299,7 +287,7 @@ export const ColorPickerList = styled.ul`
   }
 `;
 
-export const ColorPickerItems = styled(motion.div)`
+export const ColorPickerItems = styled.div`
   max-width: 50px;
   min-width: 50px;
   height: 50px;

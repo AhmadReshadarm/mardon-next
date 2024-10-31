@@ -129,7 +129,6 @@ const HeaderWrapper = styled.div`
     margin-bottom: -1px;
     h2 {
       font-size: 2rem;
-      font-weight: 400;
     }
   }
   .header-divder-wrapper {

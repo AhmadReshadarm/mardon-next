@@ -189,7 +189,7 @@ const Wrapper = styled(motion.div)`
 
       h3 {
         font-size: 1.2rem;
-        font-weight: 800;
+        font-weight: 500;
       }
     }
   }
@@ -202,7 +202,7 @@ const Wrapper = styled(motion.div)`
     align-items: center;
     gap: 10px;
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 500;
   }
   .tool-tip {
     width: 30px;
@@ -215,7 +215,7 @@ const Wrapper = styled(motion.div)`
     justify-content: center;
     align-items: center;
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 500;
   }
   @media ${devices.tabletL} {
     flex-direction:column;

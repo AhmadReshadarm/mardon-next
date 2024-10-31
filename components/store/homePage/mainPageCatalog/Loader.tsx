@@ -85,10 +85,6 @@ const HeaderWrapper = styled.div`
     border-bottom: 1px solid ${color.textSecondary};
     z-index: 2;
     margin-bottom: -1px;
-    h2 {
-      font-size: 2rem;
-      font-weight: 400;
-    }
   }
   .header-divder-wrapper {
     width: 50%;

@@ -145,7 +145,7 @@ export const InfoContainer = styled(motion.div)`
         button {
           cursor: pointer;
           span {
-            font-family: 'Jost';
+            font-family: ver(--font-Jost);
             font-size: 1rem;
             color: #fff;
             cursor: pointer;
@@ -264,7 +264,7 @@ const SubCategoriesContainer = styled.div`
   .sub-category {
     transition: 200ms;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
   }
 `;
 

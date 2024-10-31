@@ -30,8 +30,6 @@ const Container = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-
-    font-weight: 300;
     color: ${color.textSecondary};
   }
 

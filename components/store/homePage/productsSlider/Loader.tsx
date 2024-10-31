@@ -162,13 +162,6 @@ const Content = styled.div`
             height: 3px;
             background-color: ${color.activeIcons};
           }
-          h1 {
-            font-family: ricordi;
-            font-size: 1.5rem;
-            &:hover {
-              color: ${color.textBase};
-            }
-          }
         }
         .cart-price-n-action-button-wrapper {
           width: 100%;
@@ -201,9 +194,6 @@ const Content = styled.div`
             justify-content: flex-end;
             align-items: center;
             gap: 5px;
-            span {
-              font-weight: 800;
-            }
           }
           .action-buttons-wrapper {
             width: 110%;
@@ -296,16 +286,6 @@ const Content = styled.div`
       justify-content: flex-start;
       align-items: center;
       gap: 5px;
-      span {
-        font-weight: 800;
-      }
-    }
-    h1 {
-      font-family: ricordi;
-      font-size: 1.5rem;
-      &:hover {
-        color: ${color.textBase};
-      }
     }
   }
 

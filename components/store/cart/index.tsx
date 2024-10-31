@@ -1,18 +1,15 @@
 import styled from 'styled-components';
 import BasketItems from './BasketItems';
 import CartFooter from 'components/store/cart/CartFooter';
-import { useAppSelector } from 'redux/hooks';
-import { TCartState } from 'redux/types';
 type Props = {};
 
 const Cart: React.FC<Props> = ({}) => {
-  const { cart } = useAppSelector<TCartState>((state) => state.cart);
   return (
     <Wrapper>
       <ItemWrapper>
         <BasketItems />
       </ItemWrapper>
-      <CartFooter cart={cart} />
+      <CartFooter />
     </Wrapper>
   );
 };

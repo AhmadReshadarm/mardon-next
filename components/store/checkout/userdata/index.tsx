@@ -350,7 +350,7 @@ const ActionBtns = styled.button`
     border: 1px solid ${color.textSecondary};
   }
   span {
-    font-family: 'Jost';
+    font-family: ver(--font-Jost);
     font-size: 1rem;
   }
 `;
@@ -375,7 +375,7 @@ const FormWrapper = styled.div`
     span {
       color: ${color.ok};
       font-size: 1rem;
-      font-weight: 800;
+      font-weight: 500;
       cursor: pointer;
     }
     &:hover {

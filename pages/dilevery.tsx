@@ -92,7 +92,7 @@ const Headers = styled.h1`
   width: 100%;
   text-align: start;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 500;
   @media ${devices.mobileL} {
     max-width: 95vw;
   }
@@ -104,42 +104,7 @@ const Contents = styled.span`
   line-height: 1.5rem;
   font-size: 1rem;
   .dilevery-title {
-    font-weight: 600;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
-
-const Links = styled.span`
-  color: ${color.yellow};
-  white-space: nowrap;
-  &:hover {
-    color: ${color.hover};
-  }
-`;
-
-const ListsDots = styled.ul`
-  width: 80%;
-  text-align: start;
-  padding-left: 15px;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  li {
-    list-style-type: circle;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
-const ListNumbers = styled.ol`
-  width: 80%;
-  text-align: start;
-  padding-left: 15px;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  li {
-    list-style-type: number;
+    font-weight: 500;
   }
   @media ${devices.mobileL} {
     width: 100%;
