@@ -5,6 +5,17 @@ import 'styles.css';
 import { wrapper } from '../redux/store';
 import { ContextProvider } from 'common/context/AppContext';
 import Head from 'next/head';
+import localFont from 'next/font/local';
+const Circe = localFont({
+  src: [
+    {
+      path: '../public/fonts/circe/circe-regular.woff',
+      weight: 'normal',
+      style: '400',
+    },
+  ],
+  variable: '--font-Circe',
+});
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -16,7 +27,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
 
   return (
-    <>
+    <div className={`${Circe.variable}`}>
       <Head>
         <meta
           property="viewport"
@@ -35,7 +46,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
           <Component {...pageProps} />
         )}
       </ContextProvider>
-    </>
+    </div>
   );
 }
 

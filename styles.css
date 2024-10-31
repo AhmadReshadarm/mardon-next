@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: 'Jost';
   src: url('/fonts/Jost/Jost-thin.woff2') format('woff2');
   font-weight: 100;
@@ -64,7 +64,7 @@
 
 /* ---------------------------------- Circe font ----------------------------------------- */
 
-@font-face {
+/* @font-face {
   font-family: 'Circe';
   src: url('/fonts/circe/circe-thin.woff') format('woff');
   font-weight: 100;
@@ -112,22 +112,18 @@
   font-display: swap;
 }
 /* ---------------------------------- Circe font end ----------------------------------------- */
-@font-face {
+/* @font-face {
   font-family: 'ricordi';
   src: url('/fonts/tt-ricordi-marmo-trial-variable.woff') format('woff');
   font-style: normal;
   font-display: swap; /* important for google speed insight*/
-}
+/* }  */
 
-/* h1,
-h2 {
-  font-weight: 100;
-} */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Circe', sans-serif, 'Jost';
+  font-family: var(--font-Circe), sans-serif;
   font-weight: 400;
 }
 

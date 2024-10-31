@@ -18,6 +18,7 @@ type Props = {
   alt: any;
   firstLoad: boolean;
   setFirstLoad: Dispatch<SetStateAction<boolean>>;
+  base64Image: any;
 };
 
 const Slider: React.FC<Props> = ({
@@ -30,31 +31,33 @@ const Slider: React.FC<Props> = ({
   alt,
   firstLoad,
   setFirstLoad,
+  base64Image,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
 
   const [loadingComplet, setLoadingComplet] = useState(false);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  // useEffect(() => {
+  //   setWindowWidth(window.innerWidth);
+  //   const handleWindowResize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //   };
 
-    window.addEventListener('resize', handleWindowResize);
+  //   window.addEventListener('resize', handleWindowResize);
 
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
+  //   return () => {
+  //     window.removeEventListener('resize', handleWindowResize);
+  //   };
+  // });
 
   const [imageSrc, setImageSrc] = useState(
-    `/api/images/compress/${images[selectedIndex]}?qlty=1&width=${
-      windowWidth < 1024 ? windowWidth : 1080
-    }&height=${windowWidth < 1024 ? windowWidth : 1080}&lossless=false`,
+    base64Image,
+    // `/api/images/compress/${
+    //   images[selectedIndex]
+    // }?qlty=1&width=${400}&height=${400}&lossless=false`,
   );
 
   useEffect(() => {
