@@ -12,7 +12,7 @@ import { useAppDispatch } from 'redux/hooks';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
-import { handleHistory } from 'common/helpers/history.helper';
+import axios from 'axios';
 
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
@@ -44,14 +44,31 @@ export const getServerSideProps = (async (context) => {
     for (let i = 0; i < images?.length; i++) {
       imagesWithUrl.push(`https://nbhoz.ru/api/images/${images[i]}`);
     }
+
+    const getBase64Image = async (imageUrl) => {
+      const response = await axios.get(imageUrl, {
+        responseType: 'arraybuffer',
+      });
+      const buffer = Buffer.from(response.data, 'binary');
+      const base64Image = buffer.toString('base64');
+      return `data:image/png;base64,${base64Image}`; // Adjust the MIME type as needed
+    };
+    const base64Image = await getBase64Image(
+      `http://5.35.93.60:4010/images/compress/${
+        images[0]
+      }?qlty=1&width=${400}&height=${400}&lossless=false`,
+    );
     // Pass data to the page via props
-    return { props: { repo, imagesWithUrl } };
+    return { props: { repo, imagesWithUrl, base64Image } };
   } catch (error) {
-    return { props: { repo: {}, imagesWithUrl: [] } };
+    console.log(error);
+
+    return { props: { repo: {}, imagesWithUrl: [], base64Image: null } };
   }
 }) as GetServerSideProps<{
   repo: Product;
   imagesWithUrl: string[];
+  base64Image: any;
 }>;
 
 // -----------------------------------------------------------
@@ -66,6 +83,7 @@ function isNotFound(obj) {
 const ProductInfoPage = ({
   repo,
   imagesWithUrl,
+  base64Image,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -80,11 +98,6 @@ const ProductInfoPage = ({
   useEffect(() => {
     setClient(true);
   }, []);
-  useEffect(() => {
-    if (isClient) {
-      handleHistory(repo.id);
-    }
-  }, [isClient]);
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />
@@ -97,6 +110,7 @@ const ProductInfoPage = ({
                 reviewRef={reviewBtnRef}
                 questionRef={questionBtnRef}
                 product={repo}
+                base64Image={base64Image}
               />
               <Recomendation product={repo} />
               <ReveiwsAndQuastions

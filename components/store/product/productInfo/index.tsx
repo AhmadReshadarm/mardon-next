@@ -27,13 +27,19 @@ type Props = {
   product?: Product;
   reviewRef: MutableRefObject<any>;
   questionRef: MutableRefObject<any>;
+  base64Image: any;
 };
 
 type StyleProps = {
   width: string;
 };
 
-const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
+const ProductInfo: React.FC<Props> = ({
+  product,
+  reviewRef,
+  questionRef,
+  base64Image,
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const images = getProductVariantsImages(product?.productVariants);
@@ -189,6 +195,7 @@ const ProductInfo: React.FC<Props> = ({ product, reviewRef, questionRef }) => {
                   setPage={setPage}
                   firstLoad={firstLoad}
                   setFirstLoad={setFirstLoad}
+                  base64Image={base64Image}
                 />
               </ErrorBoundary>
               <ErrorBoundary fallbackRender={FallbackRender}>

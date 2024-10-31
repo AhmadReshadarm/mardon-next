@@ -128,32 +128,50 @@ interface templetDTO {
 }
 
 const generateInvoiceTemplet = (payload: templetDTO) => {
-  return `  <div>
+  return `
+  <!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://nbhoz.ru/favicon.svg" />
+    <link rel="stylesheet" href="https://nbhoz.ru/emailStyle.css" />
+    <title>Форма заказа | NBHOZ</title>
+  </head>
+  <body>
+    <div class="body-wrapper" style="width: 90%;  padding: 40px;">
+      <div>
         <h1>Данные получателя</h1>
       </div>
-      <div>
-        <span>Имя и фамилия: </span> <span>${payload.receiverName}</span>
-      </div>
-      <div>
-        <span>Телефон: </span> <span>${payload.receiverPhone}</span>
-      </div>
-      <div>
-        <span>Ад. эл.: </span> <span>${payload.receiverEmail}</span>
-      </div>
+      <div><span>Имя и фамилия: </span> <span>${
+        payload.receiverName
+      }</span></div>
+      <div><span>Телефон: </span> <span>${payload.receiverPhone}</span></div>
+      <div><span>Ад. эл.: </span> <span>${payload.receiverEmail}</span></div>
       <div>
         <h1>Адрес доставки</h1>
       </div>
       <div>
         <span>Адрес: </span> <span>${payload.address}</span>
       </div>
-   
+
       <div>
         <h1>Заказ покупателя</h1>
       </div>
-      ${payload.cart?.orderProducts?.map(
-        (orderproduct) =>
-          ` <div>
-            <span>${orderproduct.product?.name}</span>
+       ${payload.cart?.orderProducts
+         ?.map((orderproduct) => {
+           return `<div class="product-wrapper" style="width: 150px; margin: 1%;  float: left;">
+        <div class="product-card">
+          <img
+            class="product-img"
+            src="https://nbhoz.ru/api/images/${
+              orderproduct.productVariant?.images?.split(',')[0]
+            }"
+            alt="${orderproduct.product?.name}"
+            style="width: 100%; height: 150px; min-height: 150px; border: 1px solid gray; border-radius: 20px;"
+          />
+          <h4 class="product-title">${orderproduct.product?.name}</h4>
+          <div class="product-details">
             <span>${orderproduct!.qty} шт</span>
             <span>*</span>
             <span>${orderproduct.productVariant?.price}₽</span>
@@ -162,46 +180,35 @@ const generateInvoiceTemplet = (payload: templetDTO) => {
               orderproduct.productVariant?.price! * orderproduct.qty!
             }₽</span>
           </div>
-          <div>
-            <span>Цвет:</span>
-            <span>${orderproduct.productVariant?.color?.name}</span>
-          </div>
-          <div>
+          <div class="product-artical">
             <span>Артикул:</span>
             <span>${orderproduct.productVariant?.artical}</span>
           </div>
-       `,
-      )}
-      <div>
-        <span>
-          <h3>Итого:</h3>
-        </span>
-        <span>${getTotalPrice(payload.cart, true)}₽</span>
+        </div>
       </div>
-      <div>
+       `;
+         })
+         .join('')}
+
+
+      <div class="total-wrapper" style="clear: both; padding: 30px 0 30px 0;">
+        <span>
+          <h1>Итого:</h1>
+        </span>
+        <h2>${getTotalPrice(payload.cart, true)}₽</h2>
+      </div>
+      <div class="comment-title-wrapper">
         <h1>Комментарий</h1>
       </div>
-       <div>
-         <span>${payload.comment}</span>
+      <div class="comment-wrapper">
+        <span>${payload.comment}</span>
       </div>
-      `;
-};
+    </div>
+  </body>
+</html>
 
-//  <div>
-//       <span>Квартира/офис: </span> <span>${payload.roomOrOffice}</span>
-//     </div>
-//     <div>
-//       <span>Индекс: </span> <span>${payload.zipCode}</span>
-//     </div>
-//     <div>
-//       <span>Подъезд: </span> <span>${payload.door}</span>
-//     </div>
-//     <div>
-//       <span>Этаж: </span> <span>${payload.floor}</span>
-//     </div>
-//     <div>
-//       <span>Домофон: </span> <span>${payload.rignBell}</span>
-//     </div>
+  `;
+};
 
 export {
   DeliveryTooltip,

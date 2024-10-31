@@ -34,16 +34,26 @@ const handleSubscriber =
       return openErrorNotification('Неверный адрес электронной почты');
     dispatch(createSubscriber({ name, email }));
   };
+
 const handleAdminCall =
-  (name: string, phone: string, dispatch: AppDispatch) => () => {
+  (name: string, phone: string, dispatch: AppDispatch) => async () => {
     if (isEmpty(phone))
       return openErrorNotification('Номер телефона не может быть пустым');
     if (isEmpty(name)) return openErrorNotification('имя не может быть пустым');
+
     dispatch(
       sendAdminCallEmail({
-        to: 'info@nbhoz.ru',
+        to: 'NBHOZ <info@nbhoz.ru>',
         subject: `${name} просит перезвонить`,
-        html: `имя: ${name}, Номер телефона: ${phone}`,
+        html: `
+        <div style="width:100%;">
+        <div style="width:90%; display: flex; flex-direction:row; justify-content:center; align-items:center;  padding: 30px 40px 30px 40px; background-color:#FDE5AC; border-radius: 20px;">
+        <a href="https://nbhoz.ru" target="__blank"><img src="https://nbhoz.ru/static/NBHOZ_LOGO.png" alt="NBHOZ"></a>
+        </div>
+        <div style="padding:20px 0px 20px 0px" >Имя: ${name}</div>
+        <div style="padding:20px 0px 20px 0px" >Номер телефона: ${phone}</div>
+        </div>
+        `,
       }),
     );
   };
