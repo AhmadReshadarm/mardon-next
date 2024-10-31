@@ -52,7 +52,7 @@ export const getServerSideProps = (async (context) => {
       });
       const buffer = Buffer.from(response.data, 'binary');
       const base64Image = buffer.toString('base64');
-      return `data:image/png;base64,${base64Image}`; // Adjust the MIME type as needed
+      return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
     };
     const base64Image = await getBase64Image(
       `http://5.35.93.60:4010/images/compress/${
