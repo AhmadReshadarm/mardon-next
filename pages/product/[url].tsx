@@ -12,6 +12,7 @@ import { useAppDispatch } from 'redux/hooks';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
+import { handleHistory } from 'common/helpers/history.helper';
 
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
@@ -79,6 +80,11 @@ const ProductInfoPage = ({
   useEffect(() => {
     setClient(true);
   }, []);
+  useEffect(() => {
+    if (isClient) {
+      handleHistory(repo.id);
+    }
+  }, [isClient]);
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />

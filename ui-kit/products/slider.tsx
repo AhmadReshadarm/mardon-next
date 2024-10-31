@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { wrap } from 'popmotion';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
-import { handleHistory, handlePagination } from './helpers';
+import { handlePagination } from './helpers';
 import {
   UseImagePaginat,
   handleDragEnd,
@@ -106,7 +106,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
       >
         <Link
           onClick={() => {
-            handleHistory(product.id);
+            // handleHistory(product.id);
             dispatch(clearSearchQuery());
             dispatch(clearSearchProducts());
           }}

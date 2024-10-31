@@ -7,7 +7,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
 import Slider from './slider';
-import { handleHistory } from './helpers';
+// import { handleHistory } from './helpers';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Basket } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
@@ -104,7 +104,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           <Link
             className="product-title"
             onClick={() => {
-              handleHistory(product.id);
+              // handleHistory(product.id);
               dispatch(clearSearchQuery());
               dispatch(clearSearchProducts());
             }}

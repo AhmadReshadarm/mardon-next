@@ -20,7 +20,6 @@ import FallbackRender from 'ui-kit/FallbackRenderer';
 import Image from 'next/image';
 import { ArrowGraySVG, CloseSVGWhite } from 'assets/icons/UI-icons';
 import dynamic from 'next/dynamic';
-// import DropDowns from './details/DropDowns';
 const ShareToSocial = dynamic(() => import('./details/ShareToSocial'));
 const DropDowns = dynamic(() => import('./details/DropDowns'));
 
