@@ -1,8 +1,67 @@
+:root {
+  --font-Circe: 'Circe';
+  --font-Jost: 'Jost';
+  --font-ricordi: 'ricordi';
+  --mobileES-breakpoint: 100px;
+  --mobileS-breakpoint: 200px;
+  --mobileM-breakpoint: 285px;
+  --mobileL-breakpoint: 350px;
+  --tabletS-breakpoint: 440px;
+  --tabletL-breakpoint: 768px;
+  --laptopS-breakpoint: 1024px;
+  --laptopM-breakpoint: 1240px;
+  --laptopL-breakpoint: 1550px;
+  --desktop-breakpoint: 2560px;
+  --textPrimary: '#ffffff';
+  --buttonPrimary: '#000000';
+  --textSecondary: '#000000';
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/Jost/Jost-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: 400;
+  font-display: swap;
+}
+
+/* ---------------------------------- Circe font ----------------------------------------- */
+
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/circe/circe-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/circe/circe-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Circe';
+  src: url('/fonts/circe/circe-bold.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------- Circe font end ----------------------------------------- */
+@font-face {
+  font-family: 'ricordi';
+  src: url('/fonts/tt-ricordi-marmo-trial-variable.woff') format('woff');
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-Circe), sans-serif;
+  font-family: var(--font-Circe), Arial;
   font-weight: 400;
 }
 

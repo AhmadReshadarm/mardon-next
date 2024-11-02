@@ -5,7 +5,7 @@ import 'styles.css';
 import { wrapper } from '../redux/store';
 import { ContextProvider } from 'common/context/AppContext';
 import Head from 'next/head';
-import { Circe, Jost, ricordi } from 'common/helpers/fonts.helper';
+// import { Circe, Jost, ricordi } from 'common/helpers/fonts.helper';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -15,9 +15,9 @@ export type ComponentWithPageLayout = AppProps & {
 
 function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
-
+  // className={`${Circe.variable} ${Jost.variable} ${ricordi.variable}`}
   return (
-    <div className={`${Circe.variable} ${Jost.variable} ${ricordi.variable}`}>
+    <>
       <Head>
         <meta
           property="viewport"
@@ -36,7 +36,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
           <Component {...pageProps} />
         )}
       </ContextProvider>
-    </div>
+    </>
   );
 }
 

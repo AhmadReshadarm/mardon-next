@@ -116,7 +116,7 @@ const ProductInfo: React.FC<Props> = ({
                   quality={20}
                   priority={true}
                   // loading="lazy"
-                  src="/icons/back_arrow.png"
+                  src="/icons/back_arrow_min.png"
                   alt="Back to main arrow"
                   // onLoadingComplete={() => setLoadingComplet(true)}
                 />
