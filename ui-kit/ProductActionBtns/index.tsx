@@ -48,6 +48,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
           }}
           disabled={countLoading ? true : false}
           title={`Добавить ${product.name} в корзину`}
+          type="button"
         >
           <motion.div
             initial={{ height: '0%', width: '0%' }}
@@ -106,6 +107,7 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
           ? `Удалить ${product.name} из избранного`
           : `Добавить ${product.name} в избранное`
       }
+      type="button"
     >
       <InWishlistButtonContent
         isInwishList={checkIfItemInWishlist(product, wishlist!)}

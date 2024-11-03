@@ -1,13 +1,13 @@
-import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import { handleDragEnd } from './helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { useEffect, useState } from 'react';
-import { devices } from 'components/store/lib/Devices';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
+import styles from '../../styles/images.module.css';
+import { ZoomSVG } from 'assets/icons/UI-icons';
 type Props = {
   images: string[];
   selectedIndex: number;
@@ -36,40 +36,50 @@ const Slider: React.FC<Props> = ({
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
 
-  // const [loadingComplet, setLoadingComplet] = useState(false);
-
-  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // useEffect(() => {
-  //   setWindowWidth(window.innerWidth);
-  //   const handleWindowResize = () => {
-  //     setWindowWidth(window.innerWidth);
-  //   };
-
-  //   window.addEventListener('resize', handleWindowResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleWindowResize);
-  //   };
-  // });
-
-  const [imageSrc, setImageSrc] = useState(
-    base64Image,
-    // `/api/images/compress/${
-    //   images[selectedIndex]
-    // }?qlty=1&width=${400}&height=${400}&lossless=false`,
-  );
+  const [imageSrc, setImageSrc] = useState(base64Image);
 
   useEffect(() => {
     if (!firstLoad) {
-      setImageSrc(`/api/images/${images[selectedIndex]}`);
+      setImageSrc(images[selectedIndex]);
     }
   }, [selectedIndex, firstLoad]);
 
+  // --------------------------------------------
+  useEffect(() => {
+    function hideOnClickOutside(element1, element2) {
+      const outsideClickListener = (event) => {
+        if (
+          !element1.contains(event.target) &&
+          !element2.contains(event.target) &&
+          isVisible(element1) &&
+          isVisible(element2)
+        ) {
+          setZoom(false);
+        }
+      };
+      document.addEventListener('click', outsideClickListener);
+    }
+
+    const isVisible = (elem) =>
+      !!elem &&
+      !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+
+    setTimeout(() => {
+      if (zoom) {
+        let zoomImg = document.querySelector('.ant-image-preview-img');
+        let zoomCtr = document.querySelector('.ant-image-preview-operations');
+        hideOnClickOutside(zoomImg, zoomCtr);
+      }
+    }, 300);
+  }, [zoom]);
+
   return (
-    <SliderWrapper onTouchStart={() => setFirstLoad(false)}>
+    <div
+      className={styles.SliderWrapper}
+      onTouchStart={() => setFirstLoad(false)}
+    >
       <AnimatePresence mode="wait" initial={false} custom={direction}>
-        <SliderSlide
+        <motion.div
           key={page}
           custom={direction}
           variants={variants.slider}
@@ -90,32 +100,26 @@ const Slider: React.FC<Props> = ({
             setSelectedIndex,
             selectedIndex,
           )}
+          className={styles.SliderSlide}
         >
-          {/* <LoaderMask style={{ display: loadingComplet ? 'none' : 'flex' }} /> */}
-          <SliderImage
-            // style={{ opacity: loadingComplet ? 1 : 0 }}
+          <Image
             src={imageSrc}
             alt={alt}
             itemProp="contentUrl"
             width={1080}
             height={1080}
-            // onLoadingComplete={() => {
-            //   // setLoadingComplet(true);
-            //   setTimeout(() => {
-            //     setFirstLoad(false);
-            //   }, 10000);
-            // }}
             priority={true}
+            className={styles.SliderImage}
           />
-        </SliderSlide>
+        </motion.div>
       </AnimatePresence>
 
-      <ul className="image-indecator-mobile">
+      <ul className={styles.image_indecator_mobile}>
         {images.map((image, index) => {
           return (
             <li
               key={index}
-              className="indecator"
+              className={styles.indecator}
               style={{
                 backgroundColor:
                   selectedIndex == index ? '#000000' : 'transparent',
@@ -124,125 +128,28 @@ const Slider: React.FC<Props> = ({
           );
         })}
       </ul>
-      <ZoomFullScreen
-        images={images}
-        imageIndex={selectedIndex}
-        zoom={zoom}
-        setZoom={setZoom}
-        zoomImgSrc={zoomImgSrc}
-        setZoomImgSrc={setZoomImgSrc}
-        zoomStyles="bottom: 30px; left: 30px; justify-content: flex-start; align-items: center;"
-      />
-    </SliderWrapper>
+
+      <div className={styles.ImageZoomButtonWrapper}>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            setZoom(true);
+            setZoomImgSrc(images[selectedIndex]);
+            setTimeout(() => {
+              const btnImg: any = document.querySelector('.hidden-image-zoom');
+              btnImg.click();
+            }, 300);
+          }}
+          className={styles.ImageZoomButton}
+          title="Увеличить до полного экрана"
+          type="button"
+        >
+          <ZoomSVG />
+        </button>
+      </div>
+      {zoom ? <ZoomFullScreen zoomImgSrc={zoomImgSrc} /> : ''}
+    </div>
   );
 };
-
-// const LoaderMask = styled.div`
-//   width: 100%;
-//   height: 100%;
-//   background: #cccccca3;
-//   position: relative;
-//   overflow: hidden;
-//   &:after {
-//     content: '';
-//     display: block;
-//     position: absolute;
-//     top: 0;
-//     width: 100%;
-//     height: 100%;
-//     transform: translateX(-100px);
-//     background: linear-gradient(
-//       90deg,
-//       transparent,
-//       rgba(255, 255, 255, 0.2),
-//       transparent
-//     );
-//     animation: loading 0.8s infinite;
-//   }
-
-//   @keyframes loading {
-//     100% {
-//       transform: translateX(100%);
-//     }
-//   }
-// `;
-
-const SliderSlide = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: auto;
-  top: auto;
-`;
-
-const SliderImage = styled(Image)`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-`;
-
-export const SliderWrapper = styled.div`
-  width: 600px;
-  height: 600px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-
-  .image-indecator-mobile {
-    width: 100%;
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    gap: 5px;
-    z-index: 2;
-    .indecator {
-      width: 6px;
-      height: 6px;
-      border: 1px solid;
-      border-radius: 50%;
-    }
-  }
-  .fullscreen-btn-parrent {
-    position: absolute;
-    bottom: 30px;
-    left: 30px;
-  }
-  @media ${devices.laptopM} {
-    width: 500px;
-    height: 500px;
-  }
-  @media ${devices.laptopS} {
-    width: 100%;
-    height: 500px;
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-    height: 350px;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-    height: 350px;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-    height: 300px;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-    height: 280px;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-    height: 280px;
-  }
-`;
 
 export default Slider;

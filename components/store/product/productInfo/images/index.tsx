@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import Slider from './Slider';
 import { Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
+import styles from '../../styles/images.module.css';
 
 type Props = {
   product?: Product;
@@ -30,7 +30,7 @@ const Images: React.FC<Props> = ({
   base64Image,
 }) => {
   return (
-    <ImagesContainer>
+    <div className={styles.ImagesContainer}>
       <Slider
         images={images}
         selectedIndex={selectedIndex}
@@ -43,17 +43,8 @@ const Images: React.FC<Props> = ({
         setFirstLoad={setFirstLoad}
         base64Image={base64Image}
       />
-    </ImagesContainer>
+    </div>
   );
 };
-
-export const ImagesContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-  position: relative;
-`;
 
 export default Images;

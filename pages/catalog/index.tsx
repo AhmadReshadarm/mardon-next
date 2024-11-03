@@ -24,12 +24,12 @@ const TopFilterBar = dynamic(
   () => import('components/store/catalog/TopFilterBar'),
   {
     ssr: false,
-    loading: () => <LoaderMask style={{ width: '100%', height: '100%' }} />,
+    loading: () => <LoaderMask />,
   },
 );
 const ProductGrid = dynamic(() => import('ui-kit/products/productGrid'), {
   ssr: false,
-  loading: () => <LoaderMask style={{ width: '100%', height: '100%' }} />,
+  loading: () => <LoaderMask />,
 });
 
 const queryStringToObject = (url) =>

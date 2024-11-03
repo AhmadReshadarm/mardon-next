@@ -20,6 +20,8 @@ import {
 } from 'redux/slicers/store/globalSlicer';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
+import styles from './productItem.module.css';
+import { ZoomSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   url?: string;
@@ -92,6 +94,35 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
       width: calculateImageSize(windowWidth).width,
     });
   }, [windowWidth]);
+
+  // --------------------------------------------
+  useEffect(() => {
+    function hideOnClickOutside(element1, element2) {
+      const outsideClickListener = (event) => {
+        if (
+          !element1.contains(event.target) &&
+          !element2.contains(event.target) &&
+          isVisible(element1) &&
+          isVisible(element2)
+        ) {
+          setZoom(false);
+        }
+      };
+      document.addEventListener('click', outsideClickListener);
+    }
+
+    const isVisible = (elem) =>
+      !!elem &&
+      !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+
+    setTimeout(() => {
+      if (zoom) {
+        let zoomImg = document.querySelector('.ant-image-preview-img');
+        let zoomCtr = document.querySelector('.ant-image-preview-operations');
+        hideOnClickOutside(zoomImg, zoomCtr);
+      }
+    }, 300);
+  }, [zoom]);
 
   return (
     <>
@@ -191,15 +222,24 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
             </ul>
           )}
         </Link>
-        <ZoomFullScreen
-          images={images}
-          imageIndex={imageIndex}
-          zoom={zoom}
-          setZoom={setZoom}
-          zoomImgSrc={zoomImgSrc}
-          setZoomImgSrc={setZoomImgSrc}
-          zoomStyles="bottom: 0; right: 0; justify-content: flex-end; align-items: center; padding: 0 5px 5px 0;"
-        />
+        <div className={styles.ImageZoomButtonWrapper}>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setZoom(true);
+              setZoomImgSrc(`/api/images/${images[imageIndex]}`);
+              setTimeout(() => {
+                const btnImg: any =
+                  document.querySelector('.hidden-image-zoom');
+                btnImg.click();
+              }, 300);
+            }}
+            className={styles.ImageZoomButton}
+          >
+            <ZoomSVG />
+          </button>
+        </div>
+        {zoom ? <ZoomFullScreen zoomImgSrc={zoomImgSrc} /> : ''}
       </ImageSliderWrapper>
     </>
   );

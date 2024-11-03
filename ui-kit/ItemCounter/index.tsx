@@ -59,6 +59,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ x: { delay: 0.4 }, delay: 0.3 }}
           title="Уменьшить количество товара в корзине"
+          type="button"
         >
           <BasketDecrementSVG pressed={decrementPressed} />
         </motion.button>
@@ -108,6 +109,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
             delay: 0.3,
           }}
           title="Увеличить количество товара в корзине"
+          type="button"
         >
           <BasketIncrementSVG pressed={incrementPressed} />
         </motion.button>
@@ -124,6 +126,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
         title={`Удалить ${product.name} из корзины`}
+        type="button"
       >
         <MenuActiveStateSVG fill={color.inactiveIcons} />
       </motion.button>

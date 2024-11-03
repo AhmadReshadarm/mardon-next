@@ -42,8 +42,10 @@ export const getServerSideProps = (async (context) => {
 
     images = getProductVariantsImages(repo?.productVariants);
     const imagesWithUrl: string[] = [];
+    const imagesWithUrlUI: string[] = [];
     for (let i = 0; i < images?.length; i++) {
       imagesWithUrl.push(`https://nbhoz.ru/api/images/${images[i]}`);
+      imagesWithUrlUI.push(`/api/images/${images[i]}`);
     }
 
     const getBase64Image = async (imageUrl) => {
@@ -60,13 +62,21 @@ export const getServerSideProps = (async (context) => {
       }?qlty=1&width=${400}&height=${400}&lossless=false`,
     );
     // Pass data to the page via props
-    return { props: { repo, imagesWithUrl, base64Image } };
+    return { props: { repo, imagesWithUrl, imagesWithUrlUI, base64Image } };
   } catch (error) {
-    return { props: { repo: {}, imagesWithUrl: [], base64Image: null } };
+    return {
+      props: {
+        repo: {},
+        imagesWithUrl: [],
+        imagesWithUrlUI: [],
+        base64Image: null,
+      },
+    };
   }
 }) as GetServerSideProps<{
   repo: Product;
   imagesWithUrl: string[];
+  imagesWithUrlUI: string[];
   base64Image: any;
 }>;
 
@@ -82,6 +92,7 @@ function isNotFound(obj) {
 const ProductInfoPage = ({
   repo,
   imagesWithUrl,
+  imagesWithUrlUI,
   base64Image,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
@@ -113,6 +124,7 @@ const ProductInfoPage = ({
                 questionRef={questionBtnRef}
                 product={repo}
                 base64Image={base64Image}
+                images={imagesWithUrlUI}
               />
               <Recomendation product={repo} />
               <ReveiwsAndQuastions

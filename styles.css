@@ -2,7 +2,7 @@
   --font-Circe: 'Circe';
   --font-Jost: 'Jost';
   --font-ricordi: 'ricordi';
-  --mobileES-breakpoint: 100px;
+  /* --mobileES-breakpoint: 100px;
   --mobileS-breakpoint: 200px;
   --mobileM-breakpoint: 285px;
   --mobileL-breakpoint: 350px;
@@ -11,10 +11,13 @@
   --laptopS-breakpoint: 1024px;
   --laptopM-breakpoint: 1240px;
   --laptopL-breakpoint: 1550px;
-  --desktop-breakpoint: 2560px;
-  --textPrimary: '#ffffff';
-  --buttonPrimary: '#000000';
-  --textSecondary: '#000000';
+  --desktop-breakpoint: 2560px; */
+  --textPrimary: #ffffff;
+  --buttonPrimary: #000000;
+  --textSecondary: #000000;
+  --boxShadowBtn: rgba(0, 0, 0, 0.25);
+  --textTertiary: #707f8d;
+  --textBase: #949494;
 }
 
 @font-face {
@@ -61,7 +64,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-Circe), Arial;
+  font-family: var(--font-Jost), Arial;
   font-weight: 400;
 }
 

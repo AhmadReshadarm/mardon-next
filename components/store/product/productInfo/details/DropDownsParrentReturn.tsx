@@ -1,12 +1,6 @@
-import { motion } from 'framer-motion';
 import { useState } from 'react';
-import variants from 'components/store/lib/variants';
 import { ArrowBlackSVG } from 'assets/icons/UI-icons';
-import {
-  InfoBtnWrappers,
-  InfoContentWrappers,
-  InfoWrappers,
-} from './DropDownsParrent';
+import styles from '../../styles/dropDowns.module.css';
 
 type Props = {
   title: string;
@@ -17,44 +11,38 @@ type Props = {
 const InfoDropdownReturn = ({ title, children, borderBottom }: Props) => {
   const [openInfo, setOpenInfo] = useState(false);
   const [displayInfo, setDisplayInfo] = useState('none');
-
+  const [rotation, setRotation] = useState(90);
   return (
-    <InfoWrappers style={{ border: borderBottom }}>
-      <InfoBtnWrappers
+    <div style={{ border: borderBottom }} className={styles.InfoWrappers}>
+      <div
         onClick={() => {
           setOpenInfo(!openInfo);
+          setRotation(rotation == 90 ? -90 : 90);
           setTimeout(() => {
             setDisplayInfo(displayInfo == 'none' ? 'flex' : 'none');
           }, 200);
         }}
         title={title}
+        className={styles.InfoBtnWrappers}
       >
         <h2>{title}</h2>
-        <motion.span
-          animate={openInfo ? 'open' : 'close'}
-          variants={variants.rotate}
-        >
+        <span style={{ transform: `rotate(${rotation}deg)` }}>
           <ArrowBlackSVG />
-        </motion.span>
-      </InfoBtnWrappers>
-      <InfoContentWrappers
+        </span>
+      </div>
+      <div
         style={{ display: displayInfo }}
-        animate={{
-          padding: openInfo ? '15px' : 0,
-        }}
-        transition={{ duration: 0.3, padding: { delay: 0.1 } }}
+        className={styles.InfoContentWrappers}
       >
-        <motion.div
+        <div
           id="info-content"
           style={{ display: displayInfo }}
-          animate={{
-            opacity: openInfo ? 1 : 0,
-          }}
+          className={styles.info_content}
         >
           {children}
-        </motion.div>
-      </InfoContentWrappers>
-    </InfoWrappers>
+        </div>
+      </div>
+    </div>
   );
 };
 
