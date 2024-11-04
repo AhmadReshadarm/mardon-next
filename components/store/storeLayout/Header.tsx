@@ -1,8 +1,5 @@
 import Link from 'next/link';
-import styled from 'styled-components';
-import { Container, Content, Wrapper } from './common';
 import { handleMenuStateRedux, overrideDefaultIOSZoom } from './helpers';
-import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import {
   MenueNormalStateSVG,
@@ -14,8 +11,6 @@ import {
   MenuActiveStateSVG,
 } from 'assets/icons/UI-icons';
 import { PopupDisplay } from './constants';
-import { motion } from 'framer-motion';
-import { devices } from '../lib/Devices';
 import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { useRouter } from 'next/router';
@@ -42,10 +37,8 @@ import NavMobile from './utils/mobileNav';
 import dynamic from 'next/dynamic';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { axiosInstance } from 'common/axios.instance';
-import {
-  // createWishlist,
-  fetchWishlistProducts,
-} from 'redux/slicers/store/wishlistSlicer';
+import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
+import styles from './styles/header.module.css';
 
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
   ssr: false,
@@ -199,27 +192,11 @@ const Header = () => {
     <>
       {isClient ? (
         <>
-          <Container
-            variants={variants.fadInOut}
-            key="header-global"
-            initial="start"
-            animate="middle"
-            exit="end"
-            flex_direction="column"
-            justify_content="center"
-            align_items="center"
-            position="relative"
-            bg_color={color.backgroundSecondery}
-          >
-            <Wrapper flex_direction="column" position="relative">
-              <Content
-                height="90px"
-                flex_direction="row"
-                justify_content="space-between"
-                align_items="center"
-              >
+          <div className={styles.Container}>
+            <div className={styles.Wrapper}>
+              <div className={styles.Content}>
                 {/* ---------------------- catelog ------------------------- */}
-                <MenuButtonWrapper
+                <button
                   ref={catelogButtonNode}
                   onClick={handleMenuStateRedux(
                     dispatch,
@@ -229,6 +206,7 @@ const Header = () => {
                     catelogDisplay,
                   )}
                   title="каталог"
+                  className={styles.MenuButtonWrapper}
                 >
                   {catelogDisplay == PopupDisplay.None ? (
                     <MenueNormalStateSVG
@@ -248,9 +226,9 @@ const Header = () => {
                       animate={true}
                     />
                   )}
-                </MenuButtonWrapper>
+                </button>
                 {/* ---------------------- end of catelog ------------------------- */}
-                <LogoWrapper>
+                <div className={styles.LogoWrapper}>
                   <Link
                     href="/"
                     prefetch={false}
@@ -258,8 +236,8 @@ const Header = () => {
                   >
                     <LogoSVG />
                   </Link>
-                </LogoWrapper>
-                <IconsWrapper>
+                </div>
+                <div className={styles.IconsWrapper}>
                   {/* ---------------------- search ------------------------- */}
                   <button
                     ref={searchButtonNode}
@@ -270,7 +248,7 @@ const Header = () => {
                       isSearchFormActive,
                       searchDisplay,
                     )}
-                    className="icons-parent-wrapper"
+                    className={styles.icons_parent_wrapper}
                     title="Поиск товаров"
                   >
                     <SearchSVG
@@ -295,11 +273,13 @@ const Header = () => {
                       isWishlistOpen,
                       wishlistDisplay,
                     )}
-                    className="icons-parent-wrapper"
+                    className={styles.icons_parent_wrapper}
                     title="избранное"
                   >
                     {!!wishlist?.items?.length && (
-                      <Counter>{wishlist?.items?.length}</Counter>
+                      <div className={styles.Counter}>
+                        {wishlist?.items?.length}
+                      </div>
                     )}
                     <WishlistSVG
                       fill={
@@ -323,11 +303,13 @@ const Header = () => {
                       isBasketOpen,
                       cartDisplay,
                     )}
-                    className="icons-parent-wrapper"
+                    className={styles.icons_parent_wrapper}
                     title="корзина"
                   >
                     {!!cart?.orderProducts?.length && (
-                      <Counter>{cart?.orderProducts?.length}</Counter>
+                      <div className={styles.Counter}>
+                        {cart?.orderProducts?.length}
+                      </div>
                     )}
                     <BasketSVG
                       fill={
@@ -355,64 +337,55 @@ const Header = () => {
                             authDisplay,
                           )();
                     }}
-                    className="profile-icon-wrapper"
+                    className={styles.profile_icon_wrapper}
                   >
-                    {!!!user ? (
-                      <>
-                        <motion.button
-                          key="profile-global-indecator-loged-out"
-                          initial="init"
-                          animate={!!user ? 'exit' : 'animate'}
-                          variants={variants.fadeInSlideIn}
-                          title="личный кабинет"
-                          aria-label="личный кабинет"
-                        >
-                          <ProfileSVG
-                            fill={
-                              isBasketOpen ||
-                              isSearchFormActive ||
-                              isWishlistOpen ||
-                              isCatalogOpen
-                                ? color.inactiveIcons
-                                : color.activeIcons
-                            }
-                          />
-                        </motion.button>
-                        <span className="profile-tag-mobile">Л.K.</span>
-                      </>
-                    ) : (
-                      <motion.button
-                        key="profile-global-indecator-loged-in"
-                        initial="init"
-                        animate={!!user ? 'animate' : 'exit'}
-                        variants={variants.fadeInSlideIn}
-                        title="личный кабинет"
-                        aria-label="личный кабинет"
-                      >
-                        <img
-                          style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                            objectFit: 'cover',
-                          }}
-                          src={
-                            user.image
-                              ? `/api/images/${user.image}`
+                    <button
+                      title="личный кабинет"
+                      aria-label="личный кабинет"
+                      style={{ display: user ? 'none' : 'flex' }}
+                    >
+                      <ProfileSVG
+                        fill={
+                          isBasketOpen ||
+                          isSearchFormActive ||
+                          isWishlistOpen ||
+                          isCatalogOpen
+                            ? color.inactiveIcons
+                            : color.activeIcons
+                        }
+                      />
+                    </button>
+                    <span className={styles.profile_tag_mobile}>Л.K.</span>
+
+                    <button
+                      title="личный кабинет"
+                      style={{ display: user ? 'flex' : 'none' }}
+                    >
+                      <img
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                        }}
+                        src={
+                          user
+                            ? user!.image
+                              ? `/api/images/${user!.image}`
                               : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
-                          }
-                          onError={({ currentTarget }) => {
-                            currentTarget.onerror = null;
-                            currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
-                          }}
-                        />
-                      </motion.button>
-                    )}
+                            : ''
+                        }
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
+                        }}
+                      />
+                    </button>
                   </div>
 
                   {/* ---------------------- end of Authorization ------------------------- */}
-                </IconsWrapper>
-              </Content>
+                </div>
+              </div>
 
               <HeaderCatalog catelogButtonRef={catelogButtonRef} />
               <SearchBar
@@ -425,8 +398,8 @@ const Header = () => {
                 authButtonRef={authButtonRef}
                 windowWidth={windowWidth}
               />
-            </Wrapper>
-          </Container>
+            </div>
+          </div>
           <NavMobile />
         </>
       ) : (
@@ -435,138 +408,5 @@ const Header = () => {
     </>
   );
 };
-
-const LogoWrapper = styled.div`
-  z-index: 100;
-`;
-
-const IconsWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 20px;
-  .icons-parent-wrapper {
-    display: flex;
-    position: relative;
-    z-index: 100;
-    cursor: pointer;
-  }
-  .profile-icon-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 100;
-    overflow: hidden;
-    button {
-      cursor: pointer;
-    }
-    .profile-tag-mobile {
-      display: none;
-      font-size: 12px;
-      font-weight: 500;
-    }
-  }
-  @media ${devices.laptopS} {
-    .icons-parent-wrapper {
-      display: none;
-    }
-    .profile-icon-wrapper {
-      .profile-tag-mobile {
-        display: block;
-      }
-    }
-  }
-  @media ${devices.tabletL} {
-    .icons-parent-wrapper {
-      display: none;
-    }
-    .profile-icon-wrapper {
-      .profile-tag-mobile {
-        display: block;
-      }
-    }
-  }
-  @media ${devices.tabletS} {
-    .icons-parent-wrapper {
-      display: none;
-    }
-    .profile-icon-wrapper {
-      .profile-tag-mobile {
-        display: block;
-      }
-    }
-  }
-  @media ${devices.mobileL} {
-    .icons-parent-wrapper {
-      display: none;
-    }
-    .profile-icon-wrapper {
-      .profile-tag-mobile {
-        display: block;
-      }
-    }
-  }
-  @media ${devices.mobileM} {
-    .icons-parent-wrapper {
-      display: none;
-    }
-    .profile-icon-wrapper {
-      .profile-tag-mobile {
-        display: block;
-      }
-    }
-  }
-  @media ${devices.mobileS} {
-    .icons-parent-wrapper {
-      display: none;
-    }
-    .profile-icon-wrapper {
-      .profile-tag-mobile {
-        display: block;
-      }
-    }
-  }
-`;
-
-const MenuButtonWrapper = styled.button`
-  z-index: 100;
-  cursor: pointer;
-  @media ${devices.laptopS} {
-    display: none;
-  }
-  @media ${devices.tabletL} {
-    display: none;
-  }
-  @media ${devices.tabletS} {
-    display: none;
-  }
-  @media ${devices.mobileL} {
-    display: none;
-  }
-  @media ${devices.mobileM} {
-    display: none;
-  }
-  @media ${devices.mobileS} {
-    display: none;
-  }
-`;
-
-const Counter = styled.span`
-  position: absolute;
-  top: -8px;
-  right: -10px;
-  width: 20px !important;
-  height: 20px !important;
-  border-radius: 50%;
-  background-color: ${color.buttonPrimary};
-  color: ${color.textPrimary};
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
-  user-select: none;
-`;
 
 export default Header;

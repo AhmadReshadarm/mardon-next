@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import styled from 'styled-components';
+
 const MenueNormalStateSVG = (props) => {
   return (
-    <SVG
+    <motion.svg
       width="44"
       height="41"
       viewBox="0 0 44 41"
@@ -29,13 +29,13 @@ const MenueNormalStateSVG = (props) => {
           />
         </clipPath>
       </defs>
-    </SVG>
+    </motion.svg>
   );
 };
 
 const MenuActiveStateSVG = (props) => {
   return (
-    <SVG
+    <motion.svg
       width="44"
       height="41"
       viewBox="0 0 44 41"
@@ -59,7 +59,7 @@ const MenuActiveStateSVG = (props) => {
         d="M13.2764 31.7215L32.7217 12.2764C33.2422 11.756 33.2431 10.9122 32.7217 10.3908C32.2004 9.86943 31.3565 9.87037 30.8361 10.3908L11.3908 29.8359C10.8704 30.3564 10.8694 31.2002 11.3908 31.7215C11.9122 32.2429 12.756 32.242 13.2764 31.7215Z"
         fill={props.fill}
       />
-    </SVG>
+    </motion.svg>
   );
 };
 // -------------------------------------------------
@@ -1167,10 +1167,6 @@ const LocationPlaceMark = () => {
 };
 
 // --------------------------------------------------------
-
-const SVG = styled(motion.svg)`
-  background: transparent;
-`;
 
 export {
   MenueNormalStateSVG,

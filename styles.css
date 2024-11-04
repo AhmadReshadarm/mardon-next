@@ -18,6 +18,9 @@
   --boxShadowBtn: rgba(0, 0, 0, 0.25);
   --textTertiary: #707f8d;
   --textBase: #949494;
+  --backgroundSecondery: #eee8dc;
+  --glassmorphismBg: rgba(236, 238, 231, 0.6);
+  --backgroundPrimary: #ffffff;
 }
 
 @font-face {

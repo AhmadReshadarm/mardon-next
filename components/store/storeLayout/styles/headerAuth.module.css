@@ -1,0 +1,36 @@
+.PopupWrapper {
+  width: 80%;
+  height: 590px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 0 50px 50px;
+}
+
+.header_authorization_form_background {
+  width: calc(100% + 50vw);
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -50vw;
+  background-color: var(--glassmorphismBg);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  z-index: -1;
+}
+
+.AuthContent {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--backgroundPrimary);
+  overflow: hidden;
+}

@@ -203,8 +203,9 @@ const SubCategoriesContainer = styled.div`
   gap: 10px;
   .sub-category {
     transition: 200ms;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
+    font-family: var(--font-Circe);
   }
 `;
 

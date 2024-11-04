@@ -1,15 +1,10 @@
-// import { YandexMetrics } from 'components/metrics/yandex-metrics';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
-// const Header = dynamic(() => import('./Header'), {
-//   ssr: false,
-// });
-// const Footer = dynamic(() => import('./Footer'), {
-//   ssr: false,
-// });
 import Header from './Header';
-import Footer from './Footer';
+const Footer = dynamic(() => import('./Footer'), {
+  ssr: false,
+});
 const GoogleAnalytics = dynamic(
   () => import('@next/third-parties/google').then((mod) => mod.GoogleAnalytics),
   {

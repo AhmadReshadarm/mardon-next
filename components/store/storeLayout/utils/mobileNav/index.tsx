@@ -5,13 +5,11 @@ import {
   WishlistSVG,
   HomePageIconSVG,
 } from 'assets/icons/UI-icons';
-import { devices } from '../../../lib/Devices';
 import { TCartState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 import { TWishlistState } from 'redux/types';
 import { useRouter } from 'next/router';
-import color from 'components/store/lib/ui.colors';
-import styled from 'styled-components';
+import styles from '../../styles/mobileNav.module.css';
 
 const NavMobile = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -21,27 +19,27 @@ const NavMobile = () => {
   const router = useRouter();
 
   return (
-    <NavWrap>
+    <div className={styles.NavWrap}>
       <Link aria-label="главная страница" href="/" prefetch={false}>
-        <span className="icons-wrapper-mobile">
+        <span className={styles.icons_wrapper_mobile}>
           <HomePageIconSVG
-            colorState={router.pathname == '/' ? '#000000' : '#949494'}
+            colorState={router.pathname == '/' ? '#000000' : '#545454'}
           />
           <span
-            style={{ color: router.pathname == '/' ? '#000000' : '#949494' }}
+            style={{ color: router.pathname == '/' ? '#000000' : '#545454' }}
           >
             Главная
           </span>
         </span>
       </Link>
       <Link aria-label="каталог" href="/catalog" prefetch={false}>
-        <span className="icons-wrapper-mobile">
+        <span className={styles.icons_wrapper_mobile}>
           <CatelogSVG
-            colorState={router.pathname == '/catalog' ? '#000000' : '#949494'}
+            colorState={router.pathname == '/catalog' ? '#000000' : '#545454'}
           />
           <span
             style={{
-              color: router.pathname == '/catalog' ? '#000000' : '#949494',
+              color: router.pathname == '/catalog' ? '#000000' : '#545454',
             }}
           >
             Каталог
@@ -49,113 +47,46 @@ const NavMobile = () => {
         </span>
       </Link>
 
-      <ParentWrapper>
+      <div className={styles.ParentWrapper}>
         {!!cart?.orderProducts?.length && (
-          <Counter>{cart?.orderProducts?.length}</Counter>
+          <span className={styles.Counter}>{cart?.orderProducts?.length}</span>
         )}
         <Link aria-label="корзина" href="/cart" prefetch={false}>
-          <span className="icons-wrapper-mobile">
+          <span className={styles.icons_wrapper_mobile}>
             <BasketSVG
-              fill={router.pathname == '/cart' ? '#000000' : '#949494'}
+              fill={router.pathname == '/cart' ? '#000000' : '#545454'}
             />
             <span
               style={{
-                color: router.pathname == '/cart' ? '#000000' : '#949494',
+                color: router.pathname == '/cart' ? '#000000' : '#545454',
               }}
             >
               Корзина
             </span>
           </span>
         </Link>
-      </ParentWrapper>
-      <ParentWrapper>
+      </div>
+      <div className={styles.ParentWrapper}>
         {!!wishlist?.items?.length && (
-          <Counter>{wishlist?.items?.length}</Counter>
+          <span className={styles.Counter}>{wishlist?.items?.length}</span>
         )}
         <Link aria-label="избранное" href="/wishlist" prefetch={false}>
-          <span className="icons-wrapper-mobile">
+          <span className={styles.icons_wrapper_mobile}>
             <WishlistSVG
-              fill={router.pathname == '/wishlist' ? '#000000' : '#949494'}
+              fill={router.pathname == '/wishlist' ? '#000000' : '#545454'}
             />
             <span
               style={{
-                color: router.pathname == '/wishlist' ? '#000000' : '#949494',
+                color: router.pathname == '/wishlist' ? '#000000' : '#545454',
               }}
             >
               Избранное
             </span>
           </span>
         </Link>
-      </ParentWrapper>
-    </NavWrap>
+      </div>
+    </div>
   );
 };
-
-const NavWrap = styled.div`
-  display: none;
-  position: fixed;
-  bottom: 0;
-  z-index: 1000;
-  width: 100vw;
-  min-width: 100vw;
-  min-height: 60px;
-  max-height: 60px;
-  height: 100%;
-  background-color: ${color.glassmorphismBg};
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-
-  .icons-wrapper-mobile {
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 500;
-    gap: 5px;
-  }
-  @media ${devices.laptopS} {
-    display: flex;
-  }
-  @media ${devices.tabletL} {
-    display: flex;
-  }
-  @media ${devices.tabletS} {
-    display: flex;
-  }
-  @media ${devices.mobileL} {
-    display: flex;
-  }
-  @media ${devices.mobileM} {
-    display: flex;
-  }
-  @media ${devices.mobileS} {
-    display: flex;
-  }
-`;
-
-const ParentWrapper = styled.div`
-  position: relative;
-`;
-const Counter = styled.span`
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${color.hoverBtnBg};
-  color: ${color.textPrimary};
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
-`;
 
 export default NavMobile;
