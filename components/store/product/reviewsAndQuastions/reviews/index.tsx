@@ -5,7 +5,7 @@ import UserImagesSlider from './UserImagesSlider';
 import Review from './Reviews';
 import AuthorizeReviewBtn from '../AuthorizeBtn';
 import AddReview from './AddReview';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   TAuthState,
   TProductInfoState,
@@ -22,8 +22,10 @@ import { motion } from 'framer-motion';
 import { Role } from 'common/enums/roles.enum';
 import { Checkout } from 'swagger/services';
 import { CloseSVGBlack } from 'assets/icons/UI-icons';
-
+import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
+import { getAccessToken } from 'common/helpers/jwtToken.helpers';
 const Reviews = () => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { product } = useAppSelector<TProductInfoState>(
     (state) => state.productInfo,
@@ -65,6 +67,10 @@ const Reviews = () => {
       () => !!product?.reviews?.find((review) => review.user?.id == user?.id),
     );
   }, [product]);
+
+  useEffect(() => {
+    if (getAccessToken()) dispatch(fetchCheckouts());
+  }, []);
 
   return (
     <ContentContainer>

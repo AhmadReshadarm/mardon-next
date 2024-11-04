@@ -1,5 +1,4 @@
-import { MutableRefObject, useState } from 'react';
-// import styled from 'styled-components';
+import { MutableRefObject, useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -12,13 +11,12 @@ import {
 } from 'components/store/storeLayout/common';
 import TabPanel from './TabPanel';
 import { a11yProps } from './helpers';
-// import Reviews from './reviews';
-// import Quastions from './quastions';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Product } from 'swagger/services';
 import { TAuthState } from 'redux/types';
 import { useInViewport } from 'components/store/storeLayout/useInViewport';
 import dynamic from 'next/dynamic';
+import { setProductStateFromServer } from 'redux/slicers/store/productInfoSlicer';
 const Reviews = dynamic(() => import('./reviews'));
 const Quastions = dynamic(() => import('./quastions'));
 
@@ -38,6 +36,10 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
   };
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const { isInViewport, ref } = useInViewport();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setProductStateFromServer(product));
+  }, []);
   return (
     <Container
       id="reveiws-quastions"

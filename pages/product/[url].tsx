@@ -6,10 +6,6 @@ import React from 'react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
 import dynamic from 'next/dynamic';
-import { getAccessToken } from 'common/helpers/jwtToken.helpers';
-import { setProductStateFromServer } from 'redux/slicers/store/productInfoSlicer';
-import { useAppDispatch } from 'redux/hooks';
-import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
 import axios from 'axios';
@@ -95,12 +91,6 @@ const ProductInfoPage = ({
   imagesWithUrlUI,
   base64Image,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(setProductStateFromServer(repo));
-    if (getAccessToken()) dispatch(fetchCheckouts());
-  }, []);
-
   const reviewBtnRef = useRef(null);
   const questionBtnRef = useRef(null);
 
