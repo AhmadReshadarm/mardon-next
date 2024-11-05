@@ -10,6 +10,7 @@ import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
 import axios from 'axios';
 import { handleHistory } from 'common/helpers/history.helper';
+import { baseUrl } from 'common/constant';
 
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
@@ -40,7 +41,7 @@ export const getServerSideProps = (async (context) => {
     const imagesWithUrl: string[] = [];
     const imagesWithUrlUI: string[] = [];
     for (let i = 0; i < images?.length; i++) {
-      imagesWithUrl.push(`https://nbhoz.ru/api/images/${images[i]}`);
+      imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
       imagesWithUrlUI.push(`/api/images/${images[i]}`);
     }
 
