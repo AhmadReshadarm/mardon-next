@@ -34,7 +34,7 @@ export const getServerSideProps = (async (context) => {
 
   // Fetch data from external API
   try {
-    const res = await fetch(`http://5.35.93.60:4010/products/by-url/${url}`);
+    const res = await fetch(`${process.env.API_URL}/products/by-url/${url}`);
     const repo: Product = await res.json();
 
     images = getProductVariantsImages(repo?.productVariants);
@@ -54,7 +54,7 @@ export const getServerSideProps = (async (context) => {
       return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
     };
     const base64Image = await getBase64Image(
-      `http://5.35.93.60:4010/images/compress/${
+      `${process.env.API_URL}/images/compress/${
         images[0]
       }?qlty=1&width=${400}&height=${400}&lossless=false`,
     );

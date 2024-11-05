@@ -1,15 +1,15 @@
 import { emptyLoading } from 'common/constants';
 import { sizesNum } from 'components/store/lib/Devices';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ItemContainer, ItemWrapper } from 'ui-kit/products/productItem';
-import { ImageSliderSlide, ImageSliderWrapper } from 'ui-kit/products/slider';
-
+import styles from './styles/productItem.module.css';
 const Loader = () => {
   return (
     <>
       <div className="section-title-wrapper">
-        <LoaderMask style={{ width: '150px', height: '50px' }} />
+        <div
+          className={styles.LoaderMask}
+          style={{ width: '150px', height: '50px' }}
+        />
         <ul className="best-product-grid-wrapper">
           {emptyLoading.map((item, index) => {
             return <LoaderItem index={index} />;
@@ -125,15 +125,17 @@ export const LoaderItem = ({ index }) => {
   }, [windowWidth]);
 
   return (
-    <ItemContainer
+    <li
+      className={styles.ItemContainer}
       key={index}
       style={{
         minWidth: `${wrapperSizesContainer.minMaxWidth}px`,
         maxWidth: `${wrapperSizesContainer.minMaxWidth}px`,
       }}
     >
-      <ItemWrapper>
-        <ImageSliderWrapper
+      <div className={styles.ItemWrapper}>
+        <div
+          className={styles.ImageSliderWrapper}
           style={{
             minWidth: `${wrapperSizes.minMaxWidth}px`,
             maxWidth: `${wrapperSizes.minMaxWidth}px`,
@@ -142,40 +144,64 @@ export const LoaderItem = ({ index }) => {
             width: `${wrapperSizes.width}%`,
           }}
         >
-          <ImageSliderSlide>
-            <LoaderMask style={{ width: '100%', height: '100%' }} />
-          </ImageSliderSlide>
-        </ImageSliderWrapper>
-        <div className="product-title-add-to-card-wrapper">
+          <div className={styles.ImageSliderSlide}>
+            <div
+              className={styles.LoaderMask}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
+        <div className={styles.product_title_add_to_card_wrapper}>
           <span>
-            {<LoaderMask style={{ width: '100%', height: '20px' }} />}
+            {
+              <div
+                className={styles.LoaderMask}
+                style={{ width: '100%', height: '20px' }}
+              />
+            }
           </span>
-          <div className="artical-wrapper">
+          <div className={styles.artical_wrapper}>
             <span>
-              {<LoaderMask style={{ width: '100px', height: '15px' }} />}
+              {
+                <div
+                  className={styles.LoaderMask}
+                  style={{ width: '100px', height: '15px' }}
+                />
+              }
             </span>
           </div>
-          <div className="product-description-wrapper">
+          <div className={styles.product_description_wrapper}>
             <span style={{ display: 'flex', gap: '10px' }}>
-              <LoaderMask style={{ width: '100%', height: '15px' }} />
+              <div
+                className={styles.LoaderMask}
+                style={{ width: '100%', height: '15px' }}
+              />
 
-              <LoaderMask style={{ width: '100%', height: '15px' }} />
+              <div
+                className={styles.LoaderMask}
+                style={{ width: '100%', height: '15px' }}
+              />
             </span>
           </div>
-          <div className="product-price-wrapper">
+          <div className={styles.product_price_wrapper}>
             <span>
-              <LoaderMask style={{ width: '80px', height: '15px' }} />
+              <div
+                className={styles.LoaderMask}
+                style={{ width: '80px', height: '15px' }}
+              />
             </span>
           </div>
-          <div className="action-buttons-wrapper">
-            <LoaderMask
+          <div className={styles.action_buttons_wrapper}>
+            <div
+              className={styles.LoaderMask}
               style={{
                 width: '150px',
                 height: '50px',
                 borderRadius: '30px',
               }}
             />
-            <LoaderMask
+            <div
+              className={styles.LoaderMask}
               style={{
                 width: '150px',
                 height: '50px',
@@ -184,38 +210,9 @@ export const LoaderItem = ({ index }) => {
             />
           </div>
         </div>
-      </ItemWrapper>
-    </ItemContainer>
+      </div>
+    </li>
   );
 };
-
-export const LoaderMask = styled.div`
-  border-radius: 5px;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
 
 export default Loader;

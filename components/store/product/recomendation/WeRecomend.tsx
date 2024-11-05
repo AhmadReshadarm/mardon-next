@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react';
-import variants from 'components/store/lib/variants';
-import { ContentWrapper } from './common';
-import { HeaderWrapper } from '../common';
 import { Product, ProductService } from 'swagger/services';
 import { useInViewportNoDelay } from 'components/store/storeLayout/useInViewport';
 import dynamic from 'next/dynamic';
@@ -11,6 +8,7 @@ const ProductFlex = dynamic(() =>
 const ProductFlexEmpty = dynamic(() =>
   import('./common').then((module) => module.ProductFlexEmpty),
 );
+import styles from '../styles/RecomendationSub.module.css';
 const WeRecomend = ({ product }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,17 +34,10 @@ const WeRecomend = ({ product }) => {
 
   return (
     <>
-      <ContentWrapper ref={ref}>
-        <HeaderWrapper
-          custom={0.2}
-          initial="init"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={variants.fadInSlideUp}
-        >
+      <div className={styles.ContentWrapper} ref={ref}>
+        <div className={styles.HeaderWrapper}>
           <h3>Рекомендуем также</h3>
-        </HeaderWrapper>
-
+        </div>
         {isInViewport ? (
           products.length !== 0 ? (
             <ProductFlex products={products} loading={loading} />
@@ -56,7 +47,7 @@ const WeRecomend = ({ product }) => {
         ) : (
           <ProductFlexEmpty />
         )}
-      </ContentWrapper>
+      </div>
     </>
   );
 };

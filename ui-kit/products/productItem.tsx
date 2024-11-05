@@ -1,13 +1,8 @@
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-import { devices, sizesNum } from 'components/store/lib/Devices';
-import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-import { motion } from 'framer-motion';
+import { sizesNum } from 'components/store/lib/Devices';
 import Link from 'next/link';
-import styled from 'styled-components';
 import { Product } from 'swagger/services';
 import Slider from './slider';
-// import { handleHistory } from './helpers';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Basket } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
@@ -18,12 +13,14 @@ import {
 } from 'redux/slicers/store/globalSlicer';
 import { useEffect, useState } from 'react';
 import { StarSmallYellowSVG } from 'assets/icons/UI-icons';
+import styles from './styles/productItem.module.css';
 type Props = {
+  key: string;
   product: Product;
   custom: number;
 };
 
-const ProductItem: React.FC<Props> = ({ product, custom }) => {
+const ProductItem: React.FC<Props> = ({ key, product, custom }) => {
   const images = getProductVariantsImages(product.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
@@ -82,29 +79,25 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
   }, [windowWidth]);
 
   return (
-    <ItemContainer
-      custom={custom}
-      initial="init"
-      whileInView="animate"
-      viewport={{ once: true }}
-      variants={variants.fadInSlideUp}
+    <li
+      key={key}
+      className={styles.ItemContainer}
       style={{
         minWidth: `${wrapperSizes.minMaxWidth}px`,
         maxWidth: `${wrapperSizes.minMaxWidth}px`,
       }}
     >
-      <ItemWrapper>
+      <div className={styles.ItemWrapper}>
         <Slider
           product={product}
           images={images}
           url={product.url}
           windowWidth={windowWidth}
         />
-        <div className="product-title-add-to-card-wrapper">
+        <div className={styles.product_title_add_to_card_wrapper}>
           <Link
-            className="product-title"
+            className={styles.product_title}
             onClick={() => {
-              // handleHistory(product.id);
               dispatch(clearSearchQuery());
               dispatch(clearSearchProducts());
             }}
@@ -118,7 +111,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : product.name}
             </span>
           </Link>
-          <div className="artical-wrapper">
+          <div className={styles.artical_wrapper}>
             <span>Артикул : </span>
             <span>
               {product
@@ -134,13 +127,13 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 ? Math.floor(product.reviews?.length!) + ' Оценки'
                 : Math.floor(product.reviews?.length!) + ' Оценок'
             } `}
-            className="rating-wrapper"
+            className={styles.rating_wrapper}
             style={{ display: product.reviews?.length! == 0 ? 'none' : 'flex' }}
           >
-            <span className="review-star">
+            <span className={styles.review_star}>
               <StarSmallYellowSVG />
             </span>
-            <span className="review-text">
+            <span className={styles.review_text}>
               {Math.floor(product.reviews?.length!) == 1
                 ? Math.floor(product.reviews?.length!) + ' Оценка'
                 : Math.floor(product.reviews?.length!) / 2 == 0
@@ -148,7 +141,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : Math.floor(product.reviews?.length!) + ' Оценок'}
             </span>
           </div>
-          <div className="product-description-wrapper">
+          <div className={styles.product_description_wrapper}>
             <span title="Нажмите на карточку товара, чтобы узнать больше">
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 60
@@ -159,9 +152,9 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : product?.desc?.slice(0, 60)}
             </span>
           </div>
-          <div className="product-price-wrapper">
+          <div className={styles.product_price_wrapper}>
             {product.productVariants![0]?.oldPrice ? (
-              <span className="old-price">
+              <span className={styles.old_price}>
                 {product.productVariants![0]?.oldPrice} ₽
               </span>
             ) : (
@@ -169,7 +162,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             )}
             <span>{product.productVariants![0]?.price} ₽</span>
           </div>
-          <div className="action-buttons-wrapper">
+          <div className={styles.action_buttons_wrapper}>
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
@@ -178,222 +171,9 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             />
           </div>
         </div>
-      </ItemWrapper>
-    </ItemContainer>
+      </div>
+    </li>
   );
 };
-
-export const ItemContainer = styled(motion.li)`
-  width: 100%;
-  height: 700px;
-  background-color: ${color.productCart};
-  padding: 10px;
-  border: 1px solid #e5e2d9;
-`;
-
-export const ItemWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  .product-title-add-to-card-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    .product-title {
-      width: 100%;
-      padding: 10px 0 20px 0;
-      span {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        font-size: 0.9rem;
-        font-family: var(--font-ricordi);
-        &:hover {
-          color: ${color.textBase};
-        }
-      }
-    }
-    .product-description-wrapper {
-      width: 100%;
-      padding: 30px 0;
-      span {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-      }
-    }
-    .product-price-wrapper {
-      width: 100%;
-      padding: 5px 0;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      border-top: 1px solid;
-      border-bottom: 1px solid;
-      span {
-        font-size: 1.5rem;
-        user-select: none;
-      }
-      .old-price {
-        text-decoration: line-through;
-        font-size: 0.9rem;
-        color: ${color.textBase};
-      }
-    }
-    .action-buttons-wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      flex-basis: 100%;
-    }
-    .artical-wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
-      span {
-        font-size: 0.8rem;
-      }
-    }
-    .rating-wrapper {
-      width: 100%;
-      display: flex;
-      flex-dierction: row;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 2px;
-      .review-star {
-        width: 12px;
-        height: 12px;
-        display: flex;
-        flex-dierction: row;
-        justify-content: flex-start;
-        align-items: center;
-      }
-      .review-text {
-        font-size: 10px;
-        color: #484848;
-      }
-    }
-  }
-  @media ${devices.laptopS} {
-    .product-title-add-to-card-wrapper {
-      .product-description-wrapper {
-        padding: 5px 0;
-      }
-    }
-  }
-  @media ${devices.tabletL} {
-    .product-title-add-to-card-wrapper {
-      .product-description-wrapper {
-        padding: 5px 0;
-      }
-      .action-buttons-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
-      }
-    }
-  }
-  @media ${devices.tabletS} {
-    .product-title-add-to-card-wrapper {
-      .product-title {
-        line-break: anywhere;
-        span {
-          font-size: 0.8rem;
-        }
-      }
-      .product-description-wrapper {
-        padding: 5px 0;
-      }
-      .action-buttons-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
-      }
-      // .artical-wrapper {
-      //   flex-direction: column;
-      //   align-items: flex-start;
-      // }
-    }
-  }
-  @media ${devices.mobileL} {
-    .product-title-add-to-card-wrapper {
-      .product-title {
-        line-break: anywhere;
-        span {
-          font-size: 0.8rem;
-        }
-      }
-      .product-description-wrapper {
-        padding: 5px 0;
-      }
-      .action-buttons-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
-      }
-    }
-  }
-  @media ${devices.mobileM} {
-    .product-title-add-to-card-wrapper {
-      .product-title {
-        line-break: anywhere;
-        span {
-          font-size: 0.8rem;
-        }
-      }
-      .product-description-wrapper {
-        padding: 5px 0;
-      }
-      .action-buttons-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
-      }
-    }
-  }
-
-  @media ${devices.mobileS} {
-    .product-title-add-to-card-wrapper {
-      .product-title {
-        line-break: anywhere;
-        span {
-          font-size: 0.8rem;
-        }
-      }
-      .product-description-wrapper {
-        padding: 5px 0;
-      }
-      .action-buttons-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
-      }
-      // .artical-wrapper {
-      //   flex-direction: column;
-      //   align-items: flex-start;
-      // }
-    }
-  }
-`;
 
 export default ProductItem;

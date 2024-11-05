@@ -47,7 +47,7 @@ const BestProduct: React.FC<Props> = () => {
                     {bestProduct.map((product, index) => {
                       return (
                         <ProductItem
-                          key={index}
+                          key={`best-product${index}`}
                           product={product}
                           custom={delay[index]}
                         />

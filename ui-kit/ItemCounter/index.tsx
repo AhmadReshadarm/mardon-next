@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import { Product } from 'swagger/services';
@@ -13,8 +12,8 @@ import {
   MenuActiveStateSVG,
 } from 'assets/icons/UI-icons';
 import { handleCartBtnClick } from 'ui-kit/products/helpers';
-import { devices } from 'components/store/lib/Devices';
 import { openErrorNotification } from 'common/helpers';
+import styles from './ItemCounter.module.css';
 type Props = {
   qty: number;
   product: Product;
@@ -31,12 +30,15 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
 
   // -----------------------------------------------
   return (
-    <ItemCounterWrapper onClick={(e) => e.preventDefault()}>
+    <motion.div
+      onClick={(e) => e.preventDefault()}
+      className={styles.ItemCounterWrapper}
+    >
       <motion.div
         initial={{ width: '0px', opacity: 0 }}
         animate={{ width: '130px', opacity: 1 }}
         transition={{ delay: 0.2, opacity: { delay: 0.1 } }}
-        className="counter-action-buttons-wrapper"
+        className={styles.counter_action_buttons_wrapper}
       >
         <motion.button
           onMouseDown={() => setDecrementPressed(true)}
@@ -115,7 +117,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
         </motion.button>
       </motion.div>
       <motion.button
-        className="remove-from-cart-action-button"
+        className={styles.remove_from_cart_action_button}
         onClick={handleCartBtnClick(
           product,
           dispatch,
@@ -130,67 +132,8 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
       >
         <MenuActiveStateSVG fill={color.inactiveIcons} />
       </motion.button>
-    </ItemCounterWrapper>
+    </motion.div>
   );
 };
-
-const ItemCounterWrapper = styled(motion.div)`
-  width: 150px;
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border: solid 1px;
-  border-radius: 30px;
-  padding: 0 5px 0 0;
-  .counter-action-buttons-wrapper {
-    width: 130px;
-    height: 100%;
-    border-radius: 30px;
-    background-color: #e2dad0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-
-    button {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    input {
-      width: 40px;
-      height: 30px;
-      border-radius: 3px;
-      background-color: #d6cec1;
-      border: none;
-      text-align: center;
-      padding: 3px;
-      font-size: 16px;
-    }
-    input[type='number']::-webkit-inner-spin-button,
-    input[type='number']::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-  .remove-from-cart-action-button {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  @media ${devices.laptopM} {
-    width: 140px;
-  }
-  @media ${devices.tabletS} {
-    width: 140px;
-  }
-`;
 
 export default ItemCounter;

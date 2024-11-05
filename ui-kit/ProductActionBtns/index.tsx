@@ -1,27 +1,21 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Product, ProductVariant } from 'swagger/services';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
-import ItemCounter from 'ui-kit/ItemCounter';
-import color from 'components/store/lib/ui.colors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState, TWishlistState } from 'redux/types';
 import {
   handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
-import { devices } from 'components/store/lib/Devices';
 import { useState } from 'react';
+import styles from './ProductActionBtns.module.css';
+import dynamic from 'next/dynamic';
+const ItemCounter = dynamic(() => import('ui-kit/ItemCounter'));
 
 type PropsCart = {
   product: Product;
   qty: number;
   variant: ProductVariant | undefined;
-};
-
-type StyleProps = {
-  cardWidth?: number;
-  isInwishList?: boolean;
 };
 
 export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
@@ -39,7 +33,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   return (
     <>
       {!checkIfItemInCart(product, cart!) ? (
-        <CartButtonWrapper
+        <motion.button
           onClick={() => {
             handleCartBtnClick(product, dispatch, variant!, cart!)();
             setProductId('');
@@ -49,15 +43,16 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
           disabled={countLoading ? true : false}
           title={`Добавить ${product.name} в корзину`}
           type="button"
+          className={styles.CartButtonWrapper}
         >
           <motion.div
             initial={{ height: '0%', width: '0%' }}
             animate={{ height: '100%', width: '100%' }}
             transition={{ duration: 0.15 }}
-            className="content-wrapper"
+            className={styles.content_wrapper}
           >
             {countLoading && productId === product.id ? (
-              <Loader />
+              <div className={styles.Loader} />
             ) : (
               <motion.span
                 initial={{ opacity: 0 }}
@@ -68,8 +63,8 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
               </motion.span>
             )}
           </motion.div>
-          <div className="content-indecator"></div>
-        </CartButtonWrapper>
+          <div className={styles.content_indecator}></div>
+        </motion.button>
       ) : (
         <ItemCounter product={product} qty={qty} />
       )}
@@ -94,7 +89,7 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
   // ------------------- end of UI Hooks --------------------
 
   return (
-    <WishlistButtonWrapper
+    <button
       onClick={handleWishBtnClick(product, dispatch, wishlist!)}
       onMouseDown={() => {
         setProductId('');
@@ -108,12 +103,28 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
           : `Добавить ${product.name} в избранное`
       }
       type="button"
+      className={styles.WishlistButtonWrapper}
     >
-      <InWishlistButtonContent
-        isInwishList={checkIfItemInWishlist(product, wishlist!)}
+      <div
+        className={styles.InWishlistButtonContent}
+        style={{
+          background: checkIfItemInWishlist(product, wishlist!)
+            ? `linear-gradient(
+      90deg,
+      #cda172 -6.8%,
+      #fef5ca 34.14%,
+      #fff8d7 38.26%,
+      #fdf3c8 66.52%,
+      #cda172 107.04%
+    )`
+            : `linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%)`,
+          border: checkIfItemInWishlist(product, wishlist!)
+            ? `1px solid #00000017`
+            : `none`,
+        }}
       >
         {loading && productId === product.id ? (
-          <Loader />
+          <div className={styles.Loader} />
         ) : (
           <motion.span
             initial={{ opacity: 0 }}
@@ -131,164 +142,8 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
               : 'В ИЗБРАННОЕ'}
           </motion.span>
         )}
-        <div className="content-indecator"></div>
-      </InWishlistButtonContent>
-    </WishlistButtonWrapper>
+        <div className={styles.content_indecator}></div>
+      </div>
+    </button>
   );
 };
-
-const Loader = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
-
-const CartButtonWrapper = styled(motion.button)`
-  width: 150px;
-  height: 50px;
-  border-radius: 30px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  background-color: transparent;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  span {
-    color: ${color.textPrimary};
-  }
-
-  .content-wrapper {
-    background-color: ${color.buttonPrimary};
-    width: 150px;
-    height: 50px;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .content-indecator {
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  &:active {
-    background-color: ${color.backgroundPrimary};
-    border: 1px solid;
-    span {
-      color: ${color.textSecondary};
-    }
-  }
-  @media ${devices.laptopM} {
-    width: 140px;
-  }
-  @media ${devices.tabletS} {
-    width: 125px;
-  }
-`;
-
-const InWishlistButtonContent = styled.div<StyleProps>`
-  width: 150px;
-  height: 50px;
-  border-radius: 30px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: 200ms;
-  position: relative;
-  overflow: hidden;
-  background: ${(props) => {
-    return props.isInwishList
-      ? `linear-gradient(
-      90deg,
-      #cda172 -6.8%,
-      #fef5ca 34.14%,
-      #fff8d7 38.26%,
-      #fdf3c8 66.52%,
-      #cda172 107.04%
-    )`
-      : `linear-gradient(94deg, #f2d099 9.58%, #c6986a 106.37%)`;
-  }};
-  ${(props) => {
-    return props.isInwishList ? `border:1px solid #00000017` : `none`;
-  }};
-  span {
-    color: ${color.textSecondary};
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .content-indecator {
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  &:active {
-    background: #c1ab93;
-    border: none;
-  }
-  @media ${devices.laptopM} {
-    width: 140px;
-  }
-  @media ${devices.tabletS} {
-    width: 125px;
-  }
-`;
-
-const WishlistButtonWrapper = styled.button`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-  width: 150px;
-  height: 50px;
-  position: relative;
-  overflow: hidden;
-  @media ${devices.laptopM} {
-    width: 140px;
-  }
-  @media ${devices.tabletS} {
-    width: 125px;
-  }
-`;

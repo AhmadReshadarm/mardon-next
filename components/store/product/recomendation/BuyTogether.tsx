@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
-import variants from 'components/store/lib/variants';
-import { ContentWrapper } from './common';
-import { HeaderWrapper } from '../common';
 import { Product, ProductService } from 'swagger/services';
 import { useInViewportNoDelay } from 'components/store/storeLayout/useInViewport';
 import dynamic from 'next/dynamic';
-// ProductFlex
-// ProductFlexEmpty
 const ProductFlex = dynamic(() =>
   import('./common').then((module) => module.ProductFlex),
 );
 const ProductFlexEmpty = dynamic(() =>
   import('./common').then((module) => module.ProductFlexEmpty),
 );
+import styles from '../styles/RecomendationSub.module.css';
 type Props = {
   product: Product;
 };
@@ -44,16 +40,10 @@ const BuyTogether: React.FC<Props> = ({ product }) => {
 
   return (
     <>
-      <ContentWrapper ref={ref}>
-        <HeaderWrapper
-          custom={0.2}
-          initial="init"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={variants.fadInSlideUp}
-        >
+      <div className={styles.ContentWrapper} ref={ref}>
+        <div className={styles.HeaderWrapper}>
           <h3>Покупают вместе</h3>
-        </HeaderWrapper>
+        </div>
         {isInViewport ? (
           products.length !== 0 ? (
             <ProductFlex products={products} loading={loading} />
@@ -63,7 +53,7 @@ const BuyTogether: React.FC<Props> = ({ product }) => {
         ) : (
           <ProductFlexEmpty />
         )}
-      </ContentWrapper>
+      </div>
     </>
   );
 };

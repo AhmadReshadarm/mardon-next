@@ -3,7 +3,6 @@ import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { wrap } from 'popmotion';
-import styled from 'styled-components';
 import { Product } from 'swagger/services';
 import { handlePagination } from './helpers';
 import {
@@ -20,7 +19,7 @@ import {
 } from 'redux/slicers/store/globalSlicer';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
-import styles from './productItem.module.css';
+import styles from './styles/slider.module.css';
 import { ZoomSVG } from 'assets/icons/UI-icons';
 
 type Props = {
@@ -126,7 +125,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
 
   return (
     <>
-      <ImageSliderWrapper
+      <div
         style={{
           minWidth: `${wrapperSizes.minMaxWidth}px`,
           maxWidth: `${wrapperSizes.minMaxWidth}px`,
@@ -134,10 +133,10 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
           maxHeight: `${wrapperSizes.minMaxheight}px`,
           width: `${wrapperSizes.width}%`,
         }}
+        className={styles.ImageSliderWrapper}
       >
         <Link
           onClick={() => {
-            // handleHistory(product.id);
             dispatch(clearSearchQuery());
             dispatch(clearSearchProducts());
           }}
@@ -146,7 +145,7 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
           prefetch={false}
         >
           <AnimatePresence initial={false} custom={direction}>
-            <ImageSliderSlide
+            <motion.div
               key={`slider-image${imageIndex}`}
               custom={direction}
               variants={variants.slider}
@@ -164,11 +163,14 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                 paginateImage,
                 SWIPE_CONFIDENCE_THRESHOLD,
               )}
+              className={styles.ImageSliderSlide}
             >
-              <LoaderMask
+              <div
+                className={styles.LoaderMask}
                 style={{ display: loadingComplet ? 'none' : 'flex' }}
               />
-              <ImageSlider
+              <Image
+                className={styles.ImageSlider}
                 style={{
                   opacity: loadingComplet ? 1 : 0,
                   position: loadingComplet ? 'inherit' : 'absolute',
@@ -183,11 +185,11 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                 priority={false}
                 onLoadingComplete={() => setLoadingComplet(true)}
               />
-            </ImageSliderSlide>
+            </motion.div>
           </AnimatePresence>
 
           {windowWidth > 1024 ? (
-            <ul className="image-scroll-wrapper">
+            <ul className={styles.image_scroll_wrapper}>
               {images.map((images, index) => {
                 return (
                   <li
@@ -200,18 +202,18 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
                       )
                     }
                     key={index}
-                    className="image-index"
+                    className={styles.image_index}
                   ></li>
                 );
               })}
             </ul>
           ) : (
-            <ul className="image-indecator-mobile">
+            <ul className={styles.image_indecator_mobile}>
               {images.map((image, index) => {
                 return (
                   <li
                     key={index}
-                    className="indecator"
+                    className={styles.indecator}
                     style={{
                       backgroundColor:
                         imageIndex == index ? '#000000' : 'transparent',
@@ -240,118 +242,9 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
           </button>
         </div>
         {zoom ? <ZoomFullScreen zoomImgSrc={zoomImgSrc} /> : ''}
-      </ImageSliderWrapper>
+      </div>
     </>
   );
 };
-
-const LoaderMask = styled.div`
-  width: 100%;
-  height: 100%;
-  background: #cccccca3;
-  position: relative;
-  overflow: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    animation: loading 0.8s infinite;
-  }
-
-  @keyframes loading {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
-
-export const ImageSliderWrapper = styled(motion.div)`
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  .image-scroll-wrapper {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    z-index: 2;
-    .image-index {
-      width: 100%;
-      height: 100%;
-      background: transparent;
-    }
-  }
-
-  .image-indecator-mobile {
-    width: 100%;
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    gap: 5px;
-    z-index: 2;
-    .indecator {
-      width: 6px;
-      height: 6px;
-      border: 1px solid;
-      border-radius: 50%;
-    }
-  }
-  a {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  .not-found {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    object-fit: contain;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-  }
-`;
-
-export const ImageSliderSlide = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ImageSlider = styled(Image)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
 
 export default Slider;
