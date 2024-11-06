@@ -2,13 +2,6 @@ import { MutableRefObject, useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-import {
-  Container,
-  Wrapper,
-  Content,
-} from 'components/store/storeLayout/common';
 import TabPanel from './TabPanel';
 import { a11yProps } from './helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -19,6 +12,7 @@ import dynamic from 'next/dynamic';
 import { setProductStateFromServer } from 'redux/slicers/store/productInfoSlicer';
 const Reviews = dynamic(() => import('./reviews'));
 const Quastions = dynamic(() => import('./quastions'));
+import styles from '../styles/reviewsAndQuestions.module.css';
 
 type Props = {
   reviewRef: MutableRefObject<null>;
@@ -41,25 +35,9 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
     dispatch(setProductStateFromServer(product));
   }, []);
   return (
-    <Container
-      id="reveiws-quastions"
-      key="container-product-section-one"
-      flex_direction="row"
-      justify_content="center"
-      align_items="center"
-      padding="50px 0"
-      bg_color={color.bgProduct}
-      initial="start"
-      whileInView="middle"
-      variants={variants.fadInOut}
-    >
-      <Wrapper>
-        <Content
-          flex_direction="column"
-          justify_content="space-between"
-          align_items="center"
-          gap="30px"
-        >
+    <div id="reveiws-quastions" className={styles.Container}>
+      <div className={styles.Wrapper}>
+        <div className={styles.Content}>
           <Box
             sx={{
               width: '100%',
@@ -93,9 +71,9 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
               ''
             )}
           </Box>
-        </Content>
-      </Wrapper>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 

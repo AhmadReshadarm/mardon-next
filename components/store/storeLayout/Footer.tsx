@@ -1,9 +1,4 @@
-import styled from 'styled-components';
 import Link from 'next/link';
-import variants from '../lib/variants';
-import color from '../lib/ui.colors';
-import { Container } from './common';
-import { devices } from '../lib/Devices';
 import { CloseSVGBlack } from '../../../assets/icons/UI-icons';
 import { handleCookiesClick, acceptedCookies } from './helpers';
 import { useEffect, useState } from 'react';
@@ -19,6 +14,7 @@ import { content } from './constants';
 import { useInViewport } from './useInViewport';
 import Image from 'next/image';
 import { fetchCategories, fetchTags } from 'redux/slicers/store/globalSlicer';
+import styles from './styles/footer.module.css';
 const Footer = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
@@ -49,25 +45,14 @@ const Footer = (): JSX.Element => {
     <>
       {isClient ? (
         <>
-          <Container
-            variants={variants.fadInOut}
-            key="header"
-            initial="start"
-            animate="middle"
-            exit="end"
-            flex_direction="row"
-            justify_content="space-evenly"
-            padding="100px 0"
-            bg_color={color.backgroundSecondery}
-            ref={ref}
-          >
+          <div className={styles.Container} ref={ref}>
             {isInViewport && (
-              <Wrapper>
-                <FooterContentWrapper>
-                  <FooterTopContentWrapper>
-                    <FooterLeftContentWrapper>
-                      <div className="footer-columns-wrapper">
-                        <span title="Каталог" className="columns-header">
+              <div className={styles.Wrapper}>
+                <div className={styles.FooterContentWrapper}>
+                  <div className={styles.FooterTopContentWrapper}>
+                    <div className={styles.FooterLeftContentWrapper}>
+                      <div className={styles.footer_columns_wrapper}>
+                        <span title="Каталог" className={styles.columns_header}>
                           Каталог
                         </span>
                         {categories.map((category, index) => {
@@ -84,8 +69,8 @@ const Footer = (): JSX.Element => {
                         })}
                       </div>
 
-                      <div className="footer-columns-wrapper">
-                        <span className="columns-header">О нас</span>
+                      <div className={styles.footer_columns_wrapper}>
+                        <span className={styles.columns_header}>О нас</span>
                         {content.aboutUs.map((service, index) => {
                           return (
                             <Link
@@ -99,11 +84,11 @@ const Footer = (): JSX.Element => {
                           );
                         })}
                       </div>
-                    </FooterLeftContentWrapper>
-                    <FooterRightContentWrapper>
-                      <div className="right-column-content">
+                    </div>
+                    <div className={styles.FooterRightContentWrapper}>
+                      <div className={styles.right_column_content}>
                         <PhoneSVG />
-                        <div className="call-row-wrapper">
+                        <div className={styles.call_row_wrapper}>
                           <Link
                             aria-label="позвонить 89254865444"
                             href="tel:+79254865444"
@@ -113,7 +98,7 @@ const Footer = (): JSX.Element => {
                               8-925-486-54-44
                             </span>
                           </Link>
-                          <span className="call-saperator">|</span>
+                          <span className={styles.call_saperator}>|</span>
                           <Link
                             aria-label="позвонить 89266999952"
                             href="tel:89266999952"
@@ -123,7 +108,7 @@ const Footer = (): JSX.Element => {
                               8-926-699-99-52
                             </span>
                           </Link>
-                          <span className="call-saperator">|</span>
+                          <span className={styles.call_saperator}>|</span>
                           <Link
                             aria-label="позвонить 89268999954"
                             href="tel:89268999954"
@@ -134,9 +119,9 @@ const Footer = (): JSX.Element => {
                           </Link>
                         </div>
                       </div>
-                      <div className="right-column-content">
+                      <div className={styles.right_column_content}>
                         <MailSVG />
-                        <div className="call-row-wrapper">
+                        <div className={styles.call_row_wrapper}>
                           <Link
                             aria-label="отправьте письмо по адресу info@nbhoz.ru"
                             href="mailto:info@nbhoz.ru"
@@ -146,7 +131,7 @@ const Footer = (): JSX.Element => {
                               info@nbhoz.ru
                             </span>
                           </Link>
-                          <span className="call-saperator">|</span>
+                          <span className={styles.call_saperator}>|</span>
                           <Link
                             aria-label="отправьте письмо по адресу exelon@hoz-mardon.ru"
                             href="mailto:exelon@hoz-mardon.ru"
@@ -158,8 +143,8 @@ const Footer = (): JSX.Element => {
                           </Link>
                         </div>
                       </div>
-                      <div className="right-column-content">
-                        <div className="call-row-wrapper">
+                      <div className={styles.right_column_content}>
+                        <div className={styles.call_row_wrapper}>
                           <Link
                             href="https://vk.com/nbhoz"
                             target="__blank"
@@ -183,7 +168,7 @@ const Footer = (): JSX.Element => {
                             />
                             <span>/nbhoz</span>
                           </Link>
-                          <span className="call-saperator">|</span>
+                          <span className={styles.call_saperator}>|</span>
                           <Link
                             href="https://t.me/nbhoz"
                             target="__blank"
@@ -209,22 +194,22 @@ const Footer = (): JSX.Element => {
                           </Link>
                         </div>
                       </div>
-                      <div className="right-column-content">
+                      <div className={styles.right_column_content}>
                         <WatchSVG />
                         <span title="график работы понедельник-суббота с 10:00 до 21:00">
                           Понедельник-Суббота с 10:00 до 21:00
                         </span>
                       </div>
-                      <div className="right-column-content">
+                      <div className={styles.right_column_content}>
                         <LocationPointerSVG />
                         <span title="адрес г. Москва, Каширское шоссе">
                           г. Москва, Каширское шоссе
                         </span>
                       </div>
-                    </FooterRightContentWrapper>
-                  </FooterTopContentWrapper>
-                  <FooterBottomContentWrapper>
-                    <div className="bottom-left-wrapper">
+                    </div>
+                  </div>
+                  <div className={styles.FooterBottomContentWrapper}>
+                    <div className={styles.bottom_left_wrapper}>
                       <Link
                         title="Пользовательское соглашение"
                         href="/user-agreement"
@@ -240,7 +225,7 @@ const Footer = (): JSX.Element => {
                         <span>Политика безопасности</span>
                       </Link>
                     </div>
-                    <div className="bottom-right-wrapper">
+                    <div className={styles.bottom_right_wrapper}>
                       <span
                         title={`Nbhoz. All rights reserved. Все права защищены © ${copyRighYear}`}
                       >
@@ -248,34 +233,35 @@ const Footer = (): JSX.Element => {
                         {copyRighYear}
                       </span>
                     </div>
-                  </FooterBottomContentWrapper>
-                </FooterContentWrapper>
-              </Wrapper>
+                  </div>
+                </div>
+              </div>
             )}
-          </Container>
+          </div>
           {showCookiesNotifi ? (
-            <CookiesNotification
+            <div
               title="Политикой использования файлов cookies."
               style={{ display: isOpen ? 'flex' : 'none' }}
+              className={styles.CookiesNotification}
             >
-              <div className="close-cookies">
+              <div className={styles.close_cookies}>
                 <span
                   onClick={() => {
                     setOpen(false);
                     localStorage.setItem('agree-cookies', '0');
                   }}
-                  className="close-btn-wrapper"
+                  className={styles.close_btn_wrapper}
                 >
                   <CloseSVGBlack />
                 </span>
               </div>
-              <div className="notification-cookies">
+              <div className={styles.notification_cookies}>
                 <span>
-                  При нажимая «Принять все файлы cookie», вы соглашаетесь, что
-                  NBHOZ может сохранять файлы cookie на вашем устройстве и
+                  При нажимая «Принять все файлы cookies», вы соглашаетесь, что
+                  NBHOZ может сохранять файлы cookies на вашем устройстве и
                   раскрывать информацию в соответствии с нашей{' '}
                   <Link
-                    style={{ color: color.hoverBtnBg }}
+                    style={{ color: '#5A6445' }}
                     href="/privacy#cookies"
                     prefetch={false}
                   >
@@ -284,13 +270,13 @@ const Footer = (): JSX.Element => {
                 </span>
               </div>
               <button
-                className="accept-cookies"
+                className={styles.accept_cookies}
                 onClick={() => handleCookiesClick(setOpen)}
                 title="Принять все файлы cookies"
               >
                 Принять все файлы cookies
               </button>
-            </CookiesNotification>
+            </div>
           ) : (
             ''
           )}
@@ -301,411 +287,5 @@ const Footer = (): JSX.Element => {
     </>
   );
 };
-
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 1500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const FooterContentWrapper = styled.div`
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 50px;
-`;
-
-const FooterTopContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  @media ${devices.laptopS} {
-    flex-direction: column;
-    gap: 30px;
-  }
-  @media ${devices.tabletL} {
-    flex-direction: column;
-    gap: 30px;
-  }
-  @media ${devices.tabletS} {
-    flex-direction: column;
-    gap: 30px;
-  }
-  @media ${devices.mobileL} {
-    flex-direction: column;
-    gap: 30px;
-  }
-  @media ${devices.mobileM} {
-    flex-direction: column;
-    gap: 30px;
-  }
-  @media ${devices.mobileS} {
-    flex-direction: column;
-    gap: 30px;
-  }
-`;
-
-const FooterLeftContentWrapper = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 100px;
-  .footer-columns-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 15px;
-    .columns-header {
-      font-size: 1.4rem;
-      padding: 0 0 25px 0;
-    }
-  }
-  @media ${devices.laptopS} {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-`;
-
-const FooterRightContentWrapper = styled.div`
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-item: flex-start;
-  gap: 30px;
-  .right-column-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    svg {
-      min-width: 25px;
-      min-height: 25px;
-    }
-    .call-row-wrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 20px;
-      span {
-        text-wrap: nowrap;
-      }
-      .call-saperator {
-        font-size: 1.5rem;
-      }
-      a {
-        img {
-          width: 25px;
-          height: 25px;
-        }
-      }
-    }
-  }
-  @media ${devices.laptopM} {
-    .right-column-content {
-      .call-row-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        .call-saperator {
-          display: none;
-        }
-      }
-    }
-  }
-  @media ${devices.laptopS} {
-    width: 100%;
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-    .right-column-content {
-      .call-row-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        .call-saperator {
-          display: none;
-        }
-      }
-    }
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-    .right-column-content {
-      .call-row-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        .call-saperator {
-          display: none;
-        }
-      }
-    }
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-    .right-column-content {
-      .call-row-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        .call-saperator {
-          display: none;
-        }
-      }
-    }
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-    .right-column-content {
-      .call-row-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        .call-saperator {
-          display: none;
-        }
-      }
-    }
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-    .right-column-content {
-      .call-row-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        .call-saperator {
-          display: none;
-        }
-      }
-    }
-  }
-`;
-
-const FooterBottomContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  .bottom-left-wrapper {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .bottom-right-wrapper {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  @media ${devices.laptopS} {
-    flex-direction: column;
-    gap: 30px;
-    .bottom-left-wrapper {
-      width: 100%;
-    }
-    .bottom-right-wrapper {
-      width: 100%;
-    }
-  }
-  @media ${devices.tabletL} {
-    flex-direction: column;
-    gap: 30px;
-    .bottom-left-wrapper {
-      width: 100%;
-    }
-    .bottom-right-wrapper {
-      width: 100%;
-    }
-  }
-  @media ${devices.tabletS} {
-    flex-direction: column;
-    gap: 30px;
-    .bottom-left-wrapper {
-      width: 100%;
-    }
-    .bottom-right-wrapper {
-      width: 100%;
-    }
-  }
-  @media ${devices.mobileL} {
-    flex-direction: column;
-    gap: 30px;
-    .bottom-left-wrapper {
-      width: 100%;
-    }
-    .bottom-right-wrapper {
-      width: 100%;
-    }
-  }
-  @media ${devices.mobileM} {
-    flex-direction: column;
-    gap: 30px;
-    .bottom-left-wrapper {
-      width: 100%;
-    }
-    .bottom-right-wrapper {
-      width: 100%;
-    }
-  }
-  @media ${devices.mobileS} {
-    flex-direction: column;
-    gap: 30px;
-    .bottom-left-wrapper {
-      width: 100%;
-    }
-    .bottom-right-wrapper {
-      width: 100%;
-    }
-  }
-`;
-
-const CookiesNotification = styled.div`
-  width: 350px;
-  height: 350px;
-  border-raidus: 40px;
-  background-color: ${color.glassmorphismBg};
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 9999;
-  border-radius: 40px;
-  padding: 10px 15px 20px 10px;
-  box-shadow: 0 0 4px 0 ${color.textBase};
-  .close-cookies {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    .close-btn-wrapper {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      cursor: pointer;
-      transition: 300ms;
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
-  }
-  .notification-cookies {
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-  }
-  .accept-cookies {
-    width: 200px;
-    height: 50px;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: ${color.textSecondary};
-    color: ${color.textPrimary};
-    cursor: pointer;
-
-    &:active {
-      background-color: ${color.backgroundPrimary};
-      color: ${color.textSecondary};
-      border: 1px solid;
-    }
-    span {
-      font-family: var(--font-ricordi);
-    }
-  }
-
-  @media ${devices.laptopS} {
-    width: 50%;
-    height: 250px;
-    bottom: 0;
-    right: 0;
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-    height: 250px;
-    bottom: 0;
-    right: 0;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-    height: 250px;
-    bottom: 0;
-    right: 0;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-    height: 300px;
-    bottom: 0;
-    right: 0;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-    bottom: 0;
-    right: 0;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-    bottom: 0;
-    right: 0;
-  }
-`;
 
 export default Footer;

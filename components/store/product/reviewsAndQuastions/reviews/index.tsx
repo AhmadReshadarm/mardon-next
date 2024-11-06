@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import Stars from './Stars';
 import UserImagesSlider from './UserImagesSlider';
@@ -11,19 +10,16 @@ import {
   TProductInfoState,
   TStoreCheckoutState,
 } from 'redux/types';
-import { devices } from 'components/store/lib/Devices';
-import variants from 'components/store/lib/variants';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { handleMenuState } from 'components/store/storeLayout/helpers';
 import Pagination from '../../productInfo/images/Pagination';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
-import color from 'components/store/lib/ui.colors';
-import { motion } from 'framer-motion';
 import { Role } from 'common/enums/roles.enum';
 import { Checkout } from 'swagger/services';
 import { CloseSVGBlack } from 'assets/icons/UI-icons';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { getAccessToken } from 'common/helpers/jwtToken.helpers';
+import styles from '../../styles/review.module.css';
 const Reviews = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
@@ -73,12 +69,12 @@ const Reviews = () => {
   }, []);
 
   return (
-    <ContentContainer>
-      <ContentWrapper>
+    <div className={styles.ContentContainer}>
+      <div className={styles.ContentWrapper}>
         {thumbnails?.length! > 0 ? (
-          <ThumbnailsWrapper>
-            <h3 className="title-users-images">Фото покупателей</h3>
-            <div className="client-images-wrapper">
+          <div className={styles.ThumbnailsWrapper}>
+            <h3 className={styles.title_users_images}>Фото покупателей</h3>
+            <div className={styles.client_images_wrapper}>
               {thumbnails!.map((image, index) => {
                 return (
                   <img
@@ -88,7 +84,7 @@ const Reviews = () => {
                       currentTarget.onerror = null;
                       currentTarget.src = '/img_not_found.png';
                     }}
-                    className="image-container"
+                    className={styles.image_container}
                   />
                 );
               })}
@@ -96,24 +92,23 @@ const Reviews = () => {
 
             <button
               onClick={handleMenuState(setIsOpened, setDisplay)}
-              className="show-all-action-btn"
+              className={styles.show_all_action_btn}
             >
               <span>Смотреть все</span>
             </button>
-          </ThumbnailsWrapper>
+          </div>
         ) : (
           ''
         )}
 
-        <ProductImagesFullScreenWrapper
+        <div
           style={{ display }}
-          animate={isOpened ? 'open' : 'close'}
-          variants={variants.fadeInReveal}
+          className={styles.ProductImagesFullScreenWrapper}
         >
-          <div className="pagination-and-slider-wrapper">
+          <div className={styles.pagination_and_slider_wrapper}>
             <span
               onClick={handleMenuState(setIsOpened, setDisplay)}
-              className="close-btn-wrapper"
+              className={styles.close_btn_wrapper}
             >
               <CloseSVGBlack />
             </span>
@@ -135,12 +130,12 @@ const Reviews = () => {
               isOpened={isOpened}
             />
           </div>
-        </ProductImagesFullScreenWrapper>
+        </div>
         {/* fullscreen mode  end */}
 
         <Review product={product} />
-      </ContentWrapper>
-      <ContentWrapper>
+      </div>
+      <div className={styles.ContentWrapper}>
         <Stars />
         {user && !loading && product ? (
           (isInUserCheckout(product?.id!, checkouts) &&
@@ -169,229 +164,9 @@ const Reviews = () => {
             />
           )
         )}
-      </ContentWrapper>
-    </ContentContainer>
+      </div>
+    </div>
   );
 };
-
-export const ThumbnailsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  .title-users-images {
-    font-size: 1.2rem;
-  }
-  .client-images-wrapper {
-    max-width: 300px;
-    min-width: 200px;
-    width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    .image-container {
-      width: 90px;
-      height: 90px;
-      object-fit: cover;
-      border-radius: 3px;
-    }
-  }
-  .show-all-action-btn {
-    width: 200px;
-    height: 50px;
-    background-color: ${color.activeIcons};
-    cursor: pointer;
-    transition: 300ms;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 30px;
-    color: ${color.backgroundPrimary};
-
-    &:active {
-      border: 1px solid;
-      background-color: ${color.backgroundPrimary};
-      color: ${color.activeIcons};
-    }
-    span {
-      font-family: var(--font-ricordi);
-      font-size: 1rem;
-    }
-  }
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0;
-
-  @media ${devices.laptopS} {
-    width: 95%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  @media ${devices.tabletL} {
-    width: 95%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  @media ${devices.tabletS} {
-    width: 95%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  @media ${devices.mobileL} {
-    width: 95%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  @media ${devices.mobileM} {
-    width: 95%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-
-  @media ${devices.mobileS} {
-    width: 95%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 20px 0;
-  gap: 20px;
-  position: relative;
-
-  @media ${devices.laptopS} {
-    width: 100%;
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-  }
-`;
-
-const ProductImagesFullScreenWrapper = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: ${color.glassmorphismBg};
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
-  transition: 200ms;
-  z-index: 99;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  .pagination-and-slider-wrapper {
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    position: relative;
-  }
-
-  .close-btn-wrapper {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transition: 200ms;
-    z-index: 9;
-    &:hover {
-      transform: scale(1.2);
-    }
-  }
-  @media ${devices.laptopS} {
-    .pagination-and-slider-wrapper {
-      width: 95%;
-      flex-direction: column;
-    }
-    // .close-btn-wrapper {
-    //   top: -50px;
-    // }
-  }
-  @media ${devices.tabletL} {
-    .pagination-and-slider-wrapper {
-      width: 95%;
-      flex-direction: column;
-    }
-    // .close-btn-wrapper {
-    //   top: -50px;
-    // }
-  }
-  @media ${devices.tabletS} {
-    .pagination-and-slider-wrapper {
-      width: 95%;
-      flex-direction: column;
-    }
-    // .close-btn-wrapper {
-    //   top: -50px;
-    // }
-  }
-  @media ${devices.mobileL} {
-    .pagination-and-slider-wrapper {
-      width: 95%;
-      flex-direction: column;
-    }
-    // .close-btn-wrapper {
-    //   top: -50px;
-    // }
-  }
-  @media ${devices.mobileM} {
-    .pagination-and-slider-wrapper {
-      width: 95%;
-      flex-direction: column;
-    }
-    // .close-btn-wrapper {
-    //   top: -50px;
-    // }
-  }
-
-  @media ${devices.mobileS} {
-    .pagination-and-slider-wrapper {
-      width: 95%;
-      flex-direction: column;
-    }
-    // .close-btn-wrapper {
-    //   top: -50px;
-    // }
-  }
-`;
 
 export default Reviews;

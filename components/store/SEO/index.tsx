@@ -1,4 +1,3 @@
-import React from 'react';
 import Head from 'next/head';
 import { settings } from './helpers';
 import { baseUrl } from 'common/constant';
@@ -58,18 +57,8 @@ const socialTags = ({
   return metaTags;
 };
 
-function isNotFound(obj) {
-  if (obj.statusCode == 404 || obj.statusCode >= 500) {
-    return true;
-  }
-  return false;
-}
-
 const SEO = ({ product, images }) => {
   const url = `${baseUrl}/product/${product?.url}`;
-  if (isNotFound(product)) {
-    return <></>;
-  }
 
   return (
     <Head>
@@ -102,7 +91,6 @@ const SEO = ({ product, images }) => {
               '@type': 'Product',
               name: product?.name,
               description: product?.shortDesc,
-              // image: image[0],
               image: images,
               sku: product?.productVariants[0]?.artical,
               aggregateRating: {

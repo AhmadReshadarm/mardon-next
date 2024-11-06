@@ -2,16 +2,6 @@
   --font-Circe: 'Circe';
   --font-Jost: 'Jost';
   --font-ricordi: 'ricordi';
-  /* --mobileES-breakpoint: 100px;
-  --mobileS-breakpoint: 200px;
-  --mobileM-breakpoint: 285px;
-  --mobileL-breakpoint: 350px;
-  --tabletS-breakpoint: 440px;
-  --tabletL-breakpoint: 768px;
-  --laptopS-breakpoint: 1024px;
-  --laptopM-breakpoint: 1240px;
-  --laptopL-breakpoint: 1550px;
-  --desktop-breakpoint: 2560px; */
   --textPrimary: #ffffff;
   --buttonPrimary: #000000;
   --textSecondary: #000000;
@@ -22,6 +12,9 @@
   --glassmorphismBg: rgba(236, 238, 231, 0.6);
   --backgroundPrimary: #ffffff;
   --productCart: #f5f1ec;
+  --bgProduct: #f9f9f9;
+  --hover: #ed3969;
+  --yellow: #edba64;
 }
 
 @font-face {

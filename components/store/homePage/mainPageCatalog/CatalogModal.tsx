@@ -129,10 +129,10 @@ export const InfoContainer = styled(motion.div)`
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        border: 1px solid #000;
         &:hover {
           background-color: ${color.backgroundPrimary};
-          transform: scale(1.02);
-          border: 1px solid #000;
+
           button {
             span {
               color: #000;
@@ -265,6 +265,7 @@ const SubCategoriesContainer = styled.div`
     transition: 200ms;
     font-size: 1rem;
     font-weight: 500;
+    font-family: var(--font-Circe);
   }
 `;
 

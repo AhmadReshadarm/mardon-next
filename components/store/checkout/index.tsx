@@ -108,34 +108,6 @@ const CheckoutContent = () => {
   );
 };
 
-// step == 0 && !user && !isOneClickBuy ? (
-// <Contianer>
-//   <Wrapper variants={variants.fadeInReveal}>
-//     <AuthContent>
-//       <Authorization
-//         direction={direction}
-//         authType={authType}
-//         paginate={paginate}
-//       />
-//     </AuthContent>
-//   </Wrapper>
-// </Contianer>
-// ) : (step == 1 && isOneClickBuy && !hasAddress) ||
-//   (step == 1 && user && !hasAddress) ? (
-// <UserData
-//   setStep={setStep}
-//   backToFinal={backToFinal}
-//   setHasAddress={setHasAddress}
-// />
-// ) : (
-// <TotalDeleveryDate
-//   setHasAddress={setHasAddress}
-//   setStep={setStep}
-//   setBacktoFinal={setBacktoFinal}
-//   setLoading={setLoading}
-// />
-// );
-
 const Content = styled.div`
   width: 100%;
   position: relative;

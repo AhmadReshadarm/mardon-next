@@ -39,6 +39,7 @@ import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { axiosInstance } from 'common/axios.instance';
 import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
 import styles from './styles/header.module.css';
+import Image from 'next/image';
 
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
   ssr: false,
@@ -375,10 +376,7 @@ const Header = () => {
                               : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
                             : ''
                         }
-                        onError={({ currentTarget }) => {
-                          currentTarget.onerror = null;
-                          currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
-                        }}
+                        alt="личный кабинет"
                       />
                     </button>
                   </div>
