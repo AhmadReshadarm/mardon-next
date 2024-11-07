@@ -11,7 +11,7 @@
     "postbuild": "next-sitemap --config custom-sitemap.config.js",
     "static": "next build && next export",
     "resources": "capacitor-resources -p android",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

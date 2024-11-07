@@ -17,7 +17,6 @@ import { devices } from 'components/store/lib/Devices';
 import { AppDispatch } from 'redux/store';
 import { clearSingleImage, createSigleImage } from 'redux/slicers/imagesSlicer';
 import { openErrorNotification } from 'common/helpers';
-import { BasketProfileSVG } from 'assets/icons/UI-icons';
 const UserInfo = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [counter, setCoutner] = useState(30);
@@ -152,7 +151,22 @@ const UserInfo = () => {
           href="/orders"
         >
           <span style={{ width: '20px', height: '20px' }}>
-            <BasketProfileSVG />
+            <svg
+              fill="#606060"
+              fillRule="evenodd"
+              id="Layer_1"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 18.41 19.38"
+            >
+              <defs>
+                <style></style>
+              </defs>
+              <path
+                className="cls-1"
+                d="M6.06,2.32c0-.41,.33-.73,.73-.73h4.93c.41,0,.73,.33,.73,.73v3.61H6.06V2.32Zm7.38,0v3.61h3.98l-.04,.53-.98,11.62-.04,.45H2.17l-.04-.45L1.15,6.46l-.04-.53h3.98V2.32c0-.95,.77-1.71,1.71-1.71h4.93c.95,0,1.71,.77,1.71,1.71ZM3.07,17.55l-.9-10.64h14.19l-.9,10.64H3.07Zm2.53-7.25h7.36v-.92H5.6v.92Z"
+              />
+            </svg>
           </span>
           <span>Мои заказы</span>
         </Link>

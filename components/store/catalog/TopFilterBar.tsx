@@ -16,11 +16,6 @@ import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
-import {
-  CloseSVGBlack,
-  LoadMoreIconSVG,
-  CloseSVGWhite,
-} from '../../../assets/icons/UI-icons';
 import { motion } from 'framer-motion';
 import NameFilter from './topFilters/NameFilter';
 import { useAppSelector } from 'redux/hooks';
@@ -201,7 +196,65 @@ const TopFilterBar: React.FC<Props> = ({
             onMouseLeave={() => setIsHoverMobile(false)}
           >
             <span>Сохранить и закрыть</span>
-            {isHoverMobile ? <CloseSVGWhite /> : <CloseSVGBlack />}
+            {isHoverMobile ? (
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 21 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3541"
+                  y2="-1"
+                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3044"
+                  y2="-1"
+                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 21 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3541"
+                  y2="-1"
+                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3044"
+                  y2="-1"
+                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            )}
           </span>
         </div>
         {localFilters.map(
@@ -297,7 +350,18 @@ const TopFilterBar: React.FC<Props> = ({
         >
           <span>{isMoreFilters ? 'Меньше фильтров' : 'Большe фильтров'}</span>
           <span className="more-filter-icon">
-            <LoadMoreIconSVG colorState={isMoreFilters ? 'white' : 'black'} />
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.0003 15.9999H20.0003C20.3539 15.9999 20.6931 15.8594 20.9431 15.6094C21.1932 15.3593 21.3337 15.0202 21.3337 14.6666V6.66659C21.3337 6.31296 21.1932 5.97382 20.9431 5.72378C20.6931 5.47373 20.3539 5.33325 20.0003 5.33325H12.0003C11.6467 5.33325 11.3076 5.47373 11.0575 5.72378C10.8075 5.97382 10.667 6.31296 10.667 6.66659V14.6666C10.667 15.0202 10.8075 15.3593 11.0575 15.6094C11.3076 15.8594 11.6467 15.9999 12.0003 15.9999ZM13.3337 7.99992H18.667V13.3333H13.3337V7.99992ZM28.0003 13.3333H25.3337C24.98 13.3333 24.6409 13.4737 24.3909 13.7238C24.1408 13.9738 24.0003 14.313 24.0003 14.6666C24.0003 15.0202 24.1408 15.3593 24.3909 15.6094C24.6409 15.8594 24.98 15.9999 25.3337 15.9999H28.0003C28.3539 15.9999 28.6931 15.8594 28.9431 15.6094C29.1932 15.3593 29.3337 15.0202 29.3337 14.6666C29.3337 14.313 29.1932 13.9738 28.9431 13.7238C28.6931 13.4737 28.3539 13.3333 28.0003 13.3333ZM25.3337 10.6666H28.0003C28.3539 10.6666 28.6931 10.5261 28.9431 10.2761C29.1932 10.026 29.3337 9.68687 29.3337 9.33325C29.3337 8.97963 29.1932 8.64049 28.9431 8.39044C28.6931 8.14039 28.3539 7.99992 28.0003 7.99992H25.3337C24.98 7.99992 24.6409 8.14039 24.3909 8.39044C24.1408 8.64049 24.0003 8.97963 24.0003 9.33325C24.0003 9.68687 24.1408 10.026 24.3909 10.2761C24.6409 10.5261 24.98 10.6666 25.3337 10.6666ZM4.00033 10.6666H6.66699C7.02061 10.6666 7.35975 10.5261 7.6098 10.2761C7.85985 10.026 8.00033 9.68687 8.00033 9.33325C8.00033 8.97963 7.85985 8.64049 7.6098 8.39044C7.35975 8.14039 7.02061 7.99992 6.66699 7.99992H4.00033C3.6467 7.99992 3.30756 8.14039 3.05752 8.39044C2.80747 8.64049 2.66699 8.97963 2.66699 9.33325C2.66699 9.68687 2.80747 10.026 3.05752 10.2761C3.30756 10.5261 3.6467 10.6666 4.00033 10.6666ZM4.00033 15.9999H6.66699C7.02061 15.9999 7.35975 15.8594 7.6098 15.6094C7.85985 15.3593 8.00033 15.0202 8.00033 14.6666C8.00033 14.313 7.85985 13.9738 7.6098 13.7238C7.35975 13.4737 7.02061 13.3333 6.66699 13.3333H4.00033C3.6467 13.3333 3.30756 13.4737 3.05752 13.7238C2.80747 13.9738 2.66699 14.313 2.66699 14.6666C2.66699 15.0202 2.80747 15.3593 3.05752 15.6094C3.30756 15.8594 3.6467 15.9999 4.00033 15.9999ZM28.0003 18.6666H4.00033C3.6467 18.6666 3.30756 18.8071 3.05752 19.0571C2.80747 19.3072 2.66699 19.6463 2.66699 19.9999C2.66699 20.3535 2.80747 20.6927 3.05752 20.9427C3.30756 21.1928 3.6467 21.3333 4.00033 21.3333H28.0003C28.3539 21.3333 28.6931 21.1928 28.9431 20.9427C29.1932 20.6927 29.3337 20.3535 29.3337 19.9999C29.3337 19.6463 29.1932 19.3072 28.9431 19.0571C28.6931 18.8071 28.3539 18.6666 28.0003 18.6666ZM17.3337 23.9999H4.00033C3.6467 23.9999 3.30756 24.1404 3.05752 24.3904C2.80747 24.6405 2.66699 24.9796 2.66699 25.3333C2.66699 25.6869 2.80747 26.026 3.05752 26.2761C3.30756 26.5261 3.6467 26.6666 4.00033 26.6666H17.3337C17.6873 26.6666 18.0264 26.5261 18.2765 26.2761C18.5265 26.026 18.667 25.6869 18.667 25.3333C18.667 24.9796 18.5265 24.6405 18.2765 24.3904C18.0264 24.1404 17.6873 23.9999 17.3337 23.9999Z"
+                fill={isMoreFilters ? 'white' : 'black'}
+              />
+            </svg>
           </span>
         </MoreFiltersButton>
         <ResetButton
@@ -352,7 +416,34 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(selectedOptions);
                               }}
                             >
-                              <CloseSVGBlack />
+                              <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 21 22"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3541"
+                                  y2="-1"
+                                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3044"
+                                  y2="-1"
+                                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                              </svg>
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -390,7 +481,34 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(selectedOptions);
                               }}
                             >
-                              <CloseSVGBlack />
+                              <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 21 22"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3541"
+                                  y2="-1"
+                                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3044"
+                                  y2="-1"
+                                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                              </svg>
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -428,7 +546,34 @@ const TopFilterBar: React.FC<Props> = ({
                                 setSelectedCategory(undefined);
                               }}
                             >
-                              <CloseSVGBlack />
+                              <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 21 22"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3541"
+                                  y2="-1"
+                                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3044"
+                                  y2="-1"
+                                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                              </svg>
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -475,7 +620,34 @@ const TopFilterBar: React.FC<Props> = ({
                                 });
                               }}
                             >
-                              <CloseSVGBlack />
+                              <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 21 22"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3541"
+                                  y2="-1"
+                                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                                <line
+                                  x1="1"
+                                  y1="-1"
+                                  x2="26.3044"
+                                  y2="-1"
+                                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                                  stroke="black"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                              </svg>
                             </span>
                           </SelectedFiltersButtons>
                         ) : (
@@ -506,7 +678,34 @@ const TopFilterBar: React.FC<Props> = ({
                           selectedFilter.onChange(values);
                         }}
                       >
-                        <CloseSVGBlack />
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 21 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="1"
+                            y1="-1"
+                            x2="26.3541"
+                            y2="-1"
+                            transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                            stroke="black"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <line
+                            x1="1"
+                            y1="-1"
+                            x2="26.3044"
+                            y2="-1"
+                            transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                            stroke="black"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                        </svg>
                       </span>
                     </SelectedFiltersButtons>
                   ) : (

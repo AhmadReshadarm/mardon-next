@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TAuthState, TCartState } from 'redux/types';
 import { devices } from '../lib/Devices';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
-import { ArrowSVG } from 'assets/icons/UI-icons';
 
 const CartFooter = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +46,21 @@ const CartFooter = () => {
             onClick={handleGoToCart}
           >
             <span>Перейти к оформлению заказа</span>
-            <ArrowSVG />
+            <svg
+              width="9"
+              height="14"
+              viewBox="0 0 9 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.3125 1.875L7.25 6.9375L2.3125 11.875"
+                stroke="white"
+                stroke-width="3.1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </CheckoutBtn>
         </Link>
         <Link href="/catalog">

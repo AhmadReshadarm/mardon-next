@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ArrowBlackSVG } from 'assets/icons/UI-icons';
 import styles from '../../styles/dropDowns.module.css';
 
 type Props = {
@@ -27,7 +26,21 @@ const InfoDropdownReturn = ({ title, children, borderBottom }: Props) => {
       >
         <h2>{title}</h2>
         <span style={{ transform: `rotate(${rotation}deg)` }}>
-          <ArrowBlackSVG />
+          <svg
+            width="9"
+            height="14"
+            viewBox="0 0 9 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.3125 1.875L7.25 6.9375L2.3125 11.875"
+              stroke="black"
+              stroke-width="3.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </span>
       </div>
       <div

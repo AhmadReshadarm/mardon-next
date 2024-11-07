@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
 import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
-import { CloseSVGBlack } from 'assets/icons/UI-icons';
 type Props = {
   title: string;
   searchTerm: string;
@@ -38,7 +37,34 @@ const NameFilter: React.FC<Props> = ({
               }}
               className="search-term-clear-btn"
             >
-              <CloseSVGBlack />
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 21 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3541"
+                  y2="-1"
+                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3044"
+                  y2="-1"
+                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
             </span>
           ) : (
             ''

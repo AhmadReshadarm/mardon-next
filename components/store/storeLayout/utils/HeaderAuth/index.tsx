@@ -70,7 +70,7 @@ const Authorize: React.FC<Props> = ({ authButtonRef, windowWidth }) => {
       >
         {isAuthFormOpen && (
           <>
-            <div className="header-authorization-form-background"></div>
+            <div className={styles.header_authorization_form_background} />
             <motion.div className={styles.AuthContent}>
               {user ? (
                 <Profile user={user} direction={direction} />

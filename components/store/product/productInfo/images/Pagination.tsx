@@ -7,7 +7,6 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { handlePaginate } from './helpers';
 import { devices } from 'components/store/lib/Devices';
-import { ArrowBlackSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   images: string[];
@@ -77,7 +76,21 @@ const Pagination: React.FC<Props> = ({
             onClick={() => paginate(1)}
           >
             <ArrowSpan rotate="-90">
-              <ArrowBlackSVG />
+              <svg
+                width="9"
+                height="14"
+                viewBox="0 0 9 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2.3125 1.875L7.25 6.9375L2.3125 11.875"
+                  stroke="black"
+                  stroke-width="3.1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </ArrowSpan>
           </ArrowBtns>
           <ArrowBtns
@@ -96,7 +109,21 @@ const Pagination: React.FC<Props> = ({
             onClick={() => paginate(-1)}
           >
             <ArrowSpan rotate="90">
-              <ArrowBlackSVG />
+              <svg
+                width="9"
+                height="14"
+                viewBox="0 0 9 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2.3125 1.875L7.25 6.9375L2.3125 11.875"
+                  stroke="black"
+                  stroke-width="3.1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </ArrowSpan>
           </ArrowBtns>
         </>

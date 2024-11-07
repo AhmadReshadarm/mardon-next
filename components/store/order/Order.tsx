@@ -1,4 +1,5 @@
-import { Modal } from 'antd';
+// import { Modal } from 'antd';
+import Modal from 'antd/es/modal';
 import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
 import { motion } from 'framer-motion';
 import moment from 'moment';

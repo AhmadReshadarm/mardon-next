@@ -29,7 +29,7 @@ import bannersReducer from './slicers/bannersSlicer';
 import storeCheckoutSlicer from './slicers/store/checkoutSlicer';
 import wishlistSlicer from './slicers/store/wishlistSlicer';
 import profileSlicer from './slicers/store/profileSlicer';
-import newsSlicer from './slicers/newsSlicer';
+// import newsSlicer from './slicers/newsSlicer';
 import subscriberSlicer from './slicers/subscriberSlicer';
 
 const combinedReducer = combineReducers({
@@ -47,7 +47,7 @@ const combinedReducer = combineReducers({
   checkouts: checkoutsReducer,
   // analytics: analyticsReducer,
   banners: bannersReducer,
-  newsPosts: newsSlicer,
+  // newsPosts: newsSlicer,
   subscribers: subscriberSlicer,
 
   global: globalSlicer,

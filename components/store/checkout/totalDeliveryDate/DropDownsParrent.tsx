@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { ArrowBlackSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   title: string;
@@ -30,7 +29,21 @@ const InfoDropdown = ({ title, children, borderBottom }: Props) => {
           animate={openInfo ? 'open' : 'close'}
           variants={variants.rotate}
         >
-          <ArrowBlackSVG />
+          <svg
+            width="9"
+            height="14"
+            viewBox="0 0 9 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.3125 1.875L7.25 6.9375L2.3125 11.875"
+              stroke="black"
+              stroke-width="3.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </motion.span>
       </InfoBtnWrappers>
       <InfoContentWrappers

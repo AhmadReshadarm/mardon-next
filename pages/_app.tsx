@@ -1,6 +1,5 @@
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import { AnimatePresence } from 'framer-motion';
 import 'styles.css';
 import { wrapper } from '../redux/store';
 import { ContextProvider } from 'common/context/AppContext';
@@ -28,9 +27,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
       <ContextProvider>
         {Component.PageLayout ? (
           <Component.PageLayout>
-            <AnimatePresence mode="wait">
-              <Component {...pageProps} key={router.asPath} />
-            </AnimatePresence>
+            <Component {...pageProps} key={router.asPath} />
           </Component.PageLayout>
         ) : (
           <Component {...pageProps} />

@@ -5,7 +5,6 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
-import { ArrowSVG } from 'assets/icons/UI-icons';
 
 const Filters = (props: any) => {
   // _______________ menu hooks _______________
@@ -54,7 +53,21 @@ const Filters = (props: any) => {
           animate={isOpen ? 'open' : 'close'}
           variants={variants.rotate}
         >
-          <ArrowSVG />
+          <svg
+            width="9"
+            height="14"
+            viewBox="0 0 9 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.3125 1.875L7.25 6.9375L2.3125 11.875"
+              stroke="white"
+              stroke-width="3.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </motion.span>
       </FilterDropDownBtn>
       <FilterDropDownWrapper

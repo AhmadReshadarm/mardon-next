@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import { devices } from 'components/store/lib/Devices';
-import { VectorUpsideBlackSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   title: string;
@@ -48,7 +47,27 @@ const InfoDropdown = ({
             }}
             transition={{ duration: 0.001 }}
           >
-            <VectorUpsideBlackSVG />
+            <svg
+              width="15"
+              height="20"
+              viewBox="0 0 15 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_27_2)">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8.22807 1.33891V20H7.38736V1.33891L0.7176 7.25493C0.553437 7.40807 0.287283 7.40807 0.123121 7.25493C-0.0410404 7.10173 -0.0410404 6.85347 0.123121 6.70033L7.51043 0.114859C7.67464 -0.0382864 7.94079 -0.0382864 8.10493 0.114859L14.8769 6.6864C15.0411 6.8396 15.0411 7.08787 14.8769 7.241C14.7127 7.39413 14.4466 7.39413 14.2824 7.241L8.22807 1.33891Z"
+                  fill="black"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_27_2">
+                  <rect width="15" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
           </motion.span>
         </div>
       </InfoBtnWrappers>

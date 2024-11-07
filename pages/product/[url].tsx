@@ -92,16 +92,16 @@ const ProductInfoPage = ({
   return (
     <>
       <SEO images={imagesWithUrl} product={repo} />
+      <ProductInfo
+        reviewRef={reviewBtnRef}
+        questionRef={questionBtnRef}
+        product={repo}
+        base64Image={base64Image}
+        images={imagesWithUrlUI}
+      />
       <>
         {isClient ? (
           <>
-            <ProductInfo
-              reviewRef={reviewBtnRef}
-              questionRef={questionBtnRef}
-              product={repo}
-              base64Image={base64Image}
-              images={imagesWithUrlUI}
-            />
             <Recomendation product={repo} />
             <ReveiwsAndQuastions
               product={repo}

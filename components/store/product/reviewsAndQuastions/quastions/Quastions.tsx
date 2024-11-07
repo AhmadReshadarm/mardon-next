@@ -15,7 +15,8 @@ import {
   ReplyWrapper,
 } from '../../common';
 import moment from 'moment';
-import { Modal } from 'antd';
+// import { Modal } from 'antd';
+import Modal from 'antd/es/modal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   createQuestionComment,

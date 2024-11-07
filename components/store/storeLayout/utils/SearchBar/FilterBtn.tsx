@@ -8,7 +8,6 @@ import { CategoryInTree } from 'swagger/services';
 import { PopupDisplay } from '../../constants';
 import { handleMenuState } from '../../helpers';
 import { Path } from '../paths';
-import { FilterBtnSVG } from 'assets/icons/UI-icons';
 
 type Props = {
   selectedCategory: CategoryInTree | undefined;
@@ -74,7 +73,19 @@ const FilterBtn: React.FC<Props> = ({
         }}
       >
         <span>
-          <FilterBtnSVG />
+          <svg
+            width="20"
+            height="21"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M11.7955 9.36331L18.5076 2.22995V0.884033H1.60071V2.22995L8.31279 9.36331M11.7955 9.36331V19.2558L8.31279 16.7658V9.36331M11.7955 9.36331H8.31279"
+              stroke="black"
+              stroke-width="1.4"
+            />
+          </svg>
         </span>
       </FilterNotSelected>
     </FilterBtnWrapper>

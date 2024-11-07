@@ -1,5 +1,7 @@
-import { CheckOutlined } from '@ant-design/icons';
-import { notification } from 'antd';
+// import { CheckOutlined } from '@ant-design/icons';
+import CheckOutlined from '@ant-design/icons/CheckOutlined';
+// import { notification } from 'antd';
+import notification from 'antd/es/notification';
 
 export const openSuccessNotification = (message: string) => {
   const args = {

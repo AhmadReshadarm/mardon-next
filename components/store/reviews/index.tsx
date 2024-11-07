@@ -12,7 +12,8 @@ import { TReviewState } from 'redux/types';
 import { useEffect, useState } from 'react';
 import { fetchReviews } from 'redux/slicers/reviewsSlicer';
 import Subscribers from 'ui-kit/Subscribers';
-import { Pagination } from 'antd';
+// import { Pagination } from 'antd';
+import Pagination from 'antd/es/pagination';
 
 const ReviewsItems = () => {
   const dispatch = useAppDispatch();

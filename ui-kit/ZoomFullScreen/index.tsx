@@ -1,4 +1,5 @@
-import { Image } from 'antd';
+// import { Image } from 'antd';
+import Image from 'antd/es/image';
 
 type PropsFullScreen = {
   zoomImgSrc?: string;

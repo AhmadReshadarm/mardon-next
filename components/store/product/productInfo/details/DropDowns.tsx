@@ -42,27 +42,22 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
         <div className={styles.SpecsContainer}>
           <ul className={styles.SpecsKeyValueWrapper}>
             {parameterProducts?.map((item, index) => {
+              if (item.value == '_' || item.value == '-' || item.value == '') {
+                return <></>;
+              }
               return (
-                <>
-                  {item.value == '_' ||
-                  item.value == '-' ||
-                  item.value == '' ? (
-                    ''
-                  ) : (
-                    <li
-                      className={styles.wrapper_key_vlaue}
-                      key={`parameter-product-label-${index}`}
-                    >
-                      <span
-                        title={item.parameter?.name}
-                        className={styles.key_wrapper}
-                      >
-                        {item.parameter?.name}:{' '}
-                      </span>
-                      <span title={item.value}>{item.value}</span>
-                    </li>
-                  )}
-                </>
+                <li
+                  className={styles.wrapper_key_vlaue}
+                  key={`parameter-product-label-${index}`}
+                >
+                  <span
+                    title={item.parameter?.name}
+                    className={styles.key_wrapper}
+                  >
+                    {item.parameter?.name}:{' '}
+                  </span>
+                  <span title={item.value}>{item.value}</span>
+                </li>
               );
             })}
           </ul>

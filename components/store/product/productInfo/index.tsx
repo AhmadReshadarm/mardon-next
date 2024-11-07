@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import Image from 'next/image';
-import { ArrowGraySVG, CloseSVGWhite } from 'assets/icons/UI-icons';
 import ShareToSocial from './details/ShareToSocial';
 import DropDowns from './details/DropDowns';
 import styles from '../styles/productInfoMain.module.css';
@@ -30,7 +29,7 @@ const ProductInfo: React.FC<Props> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const [firstLoad, setFirstLoad] = useState(true);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(1025);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -68,7 +67,34 @@ const ProductInfo: React.FC<Props> = ({
             }}
             className={styles.close_btn_wrapper}
           >
-            <CloseSVGWhite />
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 21 22"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                x1="1"
+                y1="-1"
+                x2="26.3541"
+                y2="-1"
+                transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="1"
+                y1="-1"
+                x2="26.3044"
+                y2="-1"
+                transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
           </span>
         </div>
         <div className={styles.Content}>
@@ -100,7 +126,21 @@ const ProductInfo: React.FC<Props> = ({
                 </Link>
               )}
               <span>
-                <ArrowGraySVG />
+                <svg
+                  width="6"
+                  height="10"
+                  viewBox="0 0 6 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 1.5L4.84375 5.53125L1.03125 9.34375"
+                    stroke="#AAB4BD"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </span>
               {!!product?.category && (
                 <Link
@@ -120,7 +160,21 @@ const ProductInfo: React.FC<Props> = ({
               product?.tags![0].url !== '-' ? (
                 <>
                   <span>
-                    <ArrowGraySVG />
+                    <svg
+                      width="6"
+                      height="10"
+                      viewBox="0 0 6 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 1.5L4.84375 5.53125L1.03125 9.34375"
+                        stroke="#AAB4BD"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </span>
                   <Link
                     href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}
@@ -140,9 +194,8 @@ const ProductInfo: React.FC<Props> = ({
             </div>
             <ShareToSocial
               title={product?.name}
-              image={images[0]}
               productId={product?.id}
-              artical={variant?.artical}
+              artical={variant?.artical ?? product?.productVariants![0].artical}
             />
           </div>
           <div className={styles.ContentCotainer}>
