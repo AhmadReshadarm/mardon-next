@@ -10,6 +10,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
+import axios from 'axios';
 
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
@@ -52,23 +53,47 @@ export const getServerSideProps = (async () => {
       caroselProducts.rows[0].productVariants,
     );
 
+    const getBase64Image = async (imageUrl) => {
+      const response = await axios.get(imageUrl, {
+        responseType: 'arraybuffer',
+      });
+      const buffer = Buffer.from(response.data, 'binary');
+      const base64Image = buffer.toString('base64');
+      return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
+    };
+    const base64Image = await getBase64Image(
+      `${process.env.API_URL}/images/compress/${
+        caroselImages[0]
+      }?qlty=1&width=${400}&height=${400}&lossless=false`,
+    );
+
     return {
       props: {
         slides,
         caroselProducts: caroselProducts.rows,
+        base64Image,
       },
     };
   } catch (error) {
-    return { props: { slides: [], caroselProducts: [] } };
+    return {
+      props: {
+        slides: [],
+        caroselProducts: [],
+        base64Image: null,
+      },
+    };
   }
 }) as GetServerSideProps<{
   slides: Slide[];
   caroselProducts: Product[];
+  base64Image: any;
 }>;
 
+// ---------------------------------------------------------------------------------------
 const IndexPage = ({
   slides,
   caroselProducts,
+  base64Image,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isClient, setClient] = useState(false);
 
@@ -94,10 +119,13 @@ const IndexPage = ({
       <Head>
         <link rel="canonical" href="https://nbhoz.ru" />
       </Head>
+      <Banners slides={slides} />
+      <ProductsSlider
+        caroselProducts={caroselProducts}
+        base64Image={base64Image}
+      />
       {isClient ? (
         <>
-          <Banners slides={slides} />
-          <ProductsSlider caroselProducts={caroselProducts} />
           <MainPageCatalog />
           <BestProduct />
           <Subscribers />

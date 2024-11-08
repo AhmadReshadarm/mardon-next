@@ -39,14 +39,14 @@ class MyDocument extends Document {
             as="font"
             type="font/woff"
             crossOrigin="anonymous"
-          />
+          />*/}
           <link
             rel="preload"
             href="/fonts/tt-ricordi-marmo-trial-variable.woff"
             as="font"
             type="font/woff"
             crossOrigin="anonymous"
-          />*/}
+          />
           <link
             rel="preload"
             href="/fonts/Jost/Jost-Regular.woff2"

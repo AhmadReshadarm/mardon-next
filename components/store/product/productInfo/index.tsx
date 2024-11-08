@@ -105,7 +105,7 @@ const ProductInfo: React.FC<Props> = ({
                   width={35}
                   height={15}
                   quality={20}
-                  priority={true}
+                  priority={false}
                   src="/icons/back_arrow_min.png"
                   alt="Back to main arrow"
                 />

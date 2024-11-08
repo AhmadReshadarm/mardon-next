@@ -34,9 +34,7 @@ const Slider: React.FC<Props> = ({
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
-
   const [imageSrc, setImageSrc] = useState(base64Image);
-
   useEffect(() => {
     if (!firstLoad) {
       setImageSrc(images[selectedIndex]);
