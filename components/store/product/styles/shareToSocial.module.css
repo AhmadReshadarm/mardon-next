@@ -119,6 +119,9 @@
     gap: 5px;
     cursor: pointer;
   }
+  .share_btn_mobile > span {
+    color: var(--textSecondary);
+  }
 }
 
 /* Global 3 */

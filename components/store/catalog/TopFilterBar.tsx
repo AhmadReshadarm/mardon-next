@@ -348,7 +348,9 @@ const TopFilterBar: React.FC<Props> = ({
               : color.textPrimary,
           }}
         >
-          <span>{isMoreFilters ? 'Меньше фильтров' : 'Большe фильтров'}</span>
+          <span style={{ fontWeight: '500', fontFamily: 'Circe' }}>
+            {isMoreFilters ? 'Закрыть категории' : 'Открытые категории'}
+          </span>
           <span className="more-filter-icon">
             <svg
               width="32"
