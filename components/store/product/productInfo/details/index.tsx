@@ -130,20 +130,14 @@ const Details: React.FC<Props> = ({
           <div className={styles.info_size_wrapper}>
             <span className={styles.title}>Выберите артикул:</span>
           </div>
-          {variant?.color ? (
-            <ColorPicker
-              variantColor={
-                variant?.color ?? product?.productVariants![0]?.color
-              }
-              productVariants={product?.productVariants}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-              paginateImage={paginateImage}
-              setFirstLoad={setFirstLoad}
-            />
-          ) : (
-            ''
-          )}
+          <ColorPicker
+            variantColor={variant?.color ?? product?.productVariants![0]?.color}
+            productVariants={product?.productVariants}
+            selectedIndex={selectedIndex}
+            setSelectedIndex={setSelectedIndex}
+            paginateImage={paginateImage}
+            setFirstLoad={setFirstLoad}
+          />
         </div>
       </div>
 
