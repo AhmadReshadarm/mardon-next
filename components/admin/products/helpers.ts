@@ -14,7 +14,12 @@ import { NextRouter } from 'next/router';
 import { Page, paths } from 'routes/constants';
 import { TableProps } from 'antd';
 import { DataType } from 'common/interfaces/data-type.interface';
-import { Category, ParameterProduct, Product } from 'swagger/services';
+import {
+  Category,
+  ParameterProduct,
+  Product,
+  ProductVariant,
+} from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { ManageProductFields } from './ManageProductsFields.enum';
@@ -91,6 +96,17 @@ const handleDataConvertation = (
   return newForm;
 };
 
+const checkForEmptyColorFieldInVariant = (variants: ProductVariant[]) => {
+  let isEmpty = false;
+  let emptyVariant;
+  variants.map((variant) => {
+    if (!variant.color) {
+      isEmpty = true;
+      emptyVariant = variant;
+    }
+  });
+  return { isEmpty, emptyVariant };
+};
 const handleFormSubmitProduct =
   (
     router: NextRouter,
@@ -116,13 +132,25 @@ const handleFormSubmitProduct =
       return;
     }
     if (convertedForm.productVariants.length == 0) {
-      openErrorNotification('Установить параметр продукта');
+      openErrorNotification('Установить вариант товара');
       return;
     }
     if (convertedForm.productVariants[0].price == undefined) {
-      openErrorNotification('Установить цену продукта');
+      openErrorNotification('Установить цену товара');
       return;
     }
+    if (
+      checkForEmptyColorFieldInVariant(convertedForm.productVariants).isEmpty
+    ) {
+      openErrorNotification(
+        `Выберите цвет для ${
+          checkForEmptyColorFieldInVariant(convertedForm.productVariants)
+            .emptyVariant.artical
+        }`,
+      );
+      return;
+    }
+
     if (router.query.id) {
       const isSaved: any = await dispatch(
         editProduct({
