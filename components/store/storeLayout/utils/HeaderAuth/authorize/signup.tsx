@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import isEmail from 'validator/lib/isEmail'; // docs: https://www.npmjs.com/package/validator
 import isEmpty from 'validator/lib/isEmpty';
-import {
-  Content,
-  AuthInput,
-  AuthInputsWrapper,
-  FormWrapper,
-  AuthorizationFormWrapper,
-} from './common';
 import variants from 'components/store/lib/variants';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { handleSignUp } from './helpers';
@@ -15,6 +8,8 @@ import color from 'components/store/lib/ui.colors';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
 import { TGlobalUIState } from 'redux/types';
 import { useRouter } from 'next/router';
+import styles from '../../../styles/singIn-singUp.module.css';
+import { motion } from 'framer-motion';
 
 type Props = {
   direction: number;
@@ -30,20 +25,24 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
   );
   const router = useRouter();
   return (
-    <Content
+    <motion.div
+      className={styles.Content}
       dragConstraints={{ left: 0, right: 0 }}
       custom={direction}
       variants={variants.authorizeSlideX}
       animate={authType == 'signup' ? 'center' : 'enter'}
+      style={{ zIndex: authType == 'signup' ? 1 : -1 }}
     >
-      <AuthorizationFormWrapper>
-        <FormWrapper
+      <div className={styles.AuthorizationFormWrapper}>
+        <form
+          className={styles.FormWrapper}
           name="singup"
           onSubmit={handleSignUp(email, isSubscribed, paginate, dispatch)}
         >
           <span>Логин и пароль будут отправлены вам на электронную почту</span>
-          <AuthInputsWrapper>
-            <AuthInput
+          <div className={styles.AuthInputsWrapper}>
+            <input
+              className={styles.AuthInput}
               placeholder="Эл. адрес"
               type="email"
               value={email}
@@ -52,7 +51,7 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
 
             <div
               onClick={() => setSbuscribed((prev) => !prev)}
-              className="newsletter-wrapper"
+              className={styles.newsletter_wrapper}
             >
               <input type="checkbox" name="newsletter" checked={isSubscribed} />
               <label htmlFor="newsletter">
@@ -73,8 +72,8 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
                 Оформить заказ как гость
               </span>
             )}
-          </AuthInputsWrapper>
-          <div className="action-buttons-wrapper ">
+          </div>
+          <div className={styles.action_buttons_wrapper}>
             <button
               type={'submit'}
               disabled={isEmpty(email) || !isEmail(email)}
@@ -88,9 +87,9 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
               ЗАРЕГИСТРИРОВАТЬСЯ
             </button>
           </div>
-        </FormWrapper>
-      </AuthorizationFormWrapper>
-    </Content>
+        </form>
+      </div>
+    </motion.div>
   );
 };
 

@@ -6,6 +6,7 @@ import color from '../lib/ui.colors';
 import { useAppSelector } from 'redux/hooks';
 import { TStoreCheckoutState } from 'redux/types';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
+import styles from './styles/main.module.css';
 type Props = {
   checkouts: Checkout[];
 };
@@ -29,8 +30,8 @@ const MyOrders: React.FC<Props> = ({ checkouts }) => {
             </Content>
           </Wrapper>
         ) : (
-          <div className="no-orders">
-            <h2 className="empty-orders">У вас пока нет заказов</h2>
+          <div className={styles.no_orders}>
+            <h2 className={styles.empty_orders}>У вас пока нет заказов</h2>
           </div>
         )
       ) : (
