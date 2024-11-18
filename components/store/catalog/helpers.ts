@@ -124,11 +124,13 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     queryParams;
   const { categories, subCategories, colors, tags } =
     convertQueryParams(queryParams);
+  console.log(name);
+
   const payload = {
     // brands,
     colors,
     tags,
-    name,
+    name: name ? name[0] : undefined,
     parent: categories ? categories[0] : undefined,
     categories: subCategories,
     minPrice: minPrice ? Number(minPrice) : undefined,
