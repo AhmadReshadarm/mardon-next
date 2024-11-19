@@ -296,6 +296,7 @@ const FormContent = styled.div`
         justify-content: flex-end;
         align-items: center;
         position: relative;
+        overflow: hidden;
       }
     }
   }

@@ -124,7 +124,6 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     queryParams;
   const { categories, subCategories, colors, tags } =
     convertQueryParams(queryParams);
-  console.log(name);
 
   const payload = {
     // brands,
@@ -171,8 +170,8 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
       await dispatch(fetchSubCategories(category));
       await dispatch(fetchColors({ parent: category }));
     } else {
-      await dispatch(clearSubCategories());
-      await dispatch(clearColors());
+      dispatch(clearSubCategories());
+      dispatch(clearColors());
     }
   }
 
@@ -185,11 +184,11 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
       await dispatch(fetchColors({ category: subCategories[0] }));
       await dispatch(fetchTags({ children: subCategory }));
     } else {
-      await dispatch(clearTags());
-      await dispatch(clearColors());
+      dispatch(clearTags());
+      dispatch(clearColors());
     }
   }
-  return () => clearProducts();
+  return () => dispatch(clearProducts());
 };
 
 export {

@@ -50,7 +50,7 @@ export const getServerSideProps = (async (context) => {
         : queryStringToObject(query).subCategories,
   };
 
-  const url = `http://5.35.93.60:4010/products?${
+  const url = `${process.env.API_URL}/products?${
     queryObj.categories ? 'parent=' + queryObj.categories : ''
   }${
     queryObj.subCategories
@@ -200,7 +200,7 @@ const CatalogPage = ({
             updatedAt:
               repo[randomProduct]?.updatedAt ?? selectedCategory?.updatedAt,
           }}
-          image={`http://5.35.93.60:4010/images/${repo[0]?.category?.parent?.image}`}
+          image={`https://nbhoz.ru/api/images/${repo[0]?.category?.parent?.image}`}
         />
       ) : (
         ''
