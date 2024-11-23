@@ -7,10 +7,9 @@ import { Product } from 'swagger/services';
 import dynamic from 'next/dynamic';
 import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
-import axios from 'axios';
+// import axios from 'axios';
 import { handleHistory } from 'common/helpers/history.helper';
 import { baseUrl } from 'common/constant';
-import Head from 'next/head';
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
   {

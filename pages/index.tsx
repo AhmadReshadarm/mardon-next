@@ -10,7 +10,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
-import axios from 'axios';
+// import axios from 'axios';
 
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
