@@ -13,6 +13,7 @@ import { Slide } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState, TGlobalState } from 'redux/types';
 import styles from '../styles/banners.module.css';
+import Image from 'next/image';
 type Props = {
   slides: Slide[];
 };
@@ -45,13 +46,16 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
 
   // ---------------------------------------------------------------------
-
+  const [imageSrc, setImageSrc] = useState(
+    `/api/images/compress/${slides[0]?.image}?qlty=1&width=1550&height=520&lossless=false`,
+  );
   useEffect(() => {
     if (!firstLoad) {
-      const timer = setTimeout(() => {
-        imgRef.current.src = `/api/images/${slides[imageIndex]?.image}`;
-      }, 600);
-      return () => clearTimeout(timer);
+      // const timer = setTimeout(() => {
+      //   imgRef.current.src = `/api/images/${slides[imageIndex]?.image}`;
+      // }, 600);
+      // return () => clearTimeout(timer);
+      setImageSrc(`/api/images/${slides[imageIndex]?.image}`);
     }
   }, [imageIndex, firstLoad]);
 
@@ -93,28 +97,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         title={`Перейти в ${slides[imageIndex].link}`}
       >
         <AnimatePresence mode="wait" initial={false} custom={direction}>
-          <motion.img
-            className={`${styles.Slider} ${
-              isCatalogOpen ||
-              isSearchFormActive ||
-              isWishlistOpen ||
-              isBasketOpen ||
-              isAuthFormOpen ||
-              !!searchQuery
-                ? styles.isDisplay
-                : ''
-            } slider-img`}
-            ref={imgRef}
-            alt={`${slides[imageIndex]?.link}`}
-            src={`/api/images/compress/${
-              slides[0]?.image
-            }?qlty=1&width=${1550}&height=${520}&lossless=false`}
-            onLoad={() => {
-              const timer = setTimeout(() => {
-                setFirstLoad(false);
-              }, 14000);
-              return clearTimeout(timer);
-            }}
+          <motion.div
+            className={styles.SliderSlide}
             key={page}
             custom={direction}
             variants={variants.slider}
@@ -134,7 +118,33 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
             onDragEnd={handleDragEnd(paginateImage, SWIPE_CONFIDENCE_THRESHOLD)}
-          />
+          >
+            <Image
+              className={`${styles.Slider} ${
+                isCatalogOpen ||
+                isSearchFormActive ||
+                isWishlistOpen ||
+                isBasketOpen ||
+                isAuthFormOpen ||
+                !!searchQuery
+                  ? styles.isDisplay
+                  : ''
+              } slider-img`}
+              ref={imgRef}
+              alt={`${slides[imageIndex]?.link}`}
+              // src={`/api/images/compress/${slides[0]?.image}?qlty=1&width=1550&height=520&lossless=false`}
+              src={imageSrc}
+              priority={true}
+              width={1550}
+              height={520}
+              onLoad={() => {
+                const timer = setTimeout(() => {
+                  setFirstLoad(false);
+                }, 14000);
+                return clearTimeout(timer);
+              }}
+            />
+          </motion.div>
         </AnimatePresence>
 
         <div className={styles.banner_arrows_wrapper}>

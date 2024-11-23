@@ -70,10 +70,17 @@ const Slider: React.FC<Props> = ({
     }, 300);
   }, [zoom]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstLoad(false);
+    }, 10000);
+  }, []);
+
   return (
     <div
       className={styles.SliderWrapper}
       onTouchStart={() => setFirstLoad(false)}
+      onClick={() => setFirstLoad(false)}
     >
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
@@ -97,6 +104,7 @@ const Slider: React.FC<Props> = ({
             setSelectedIndex,
             selectedIndex,
           )}
+          draggable={true}
           className={styles.SliderSlide}
         >
           <Image

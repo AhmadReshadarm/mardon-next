@@ -10,6 +10,7 @@ import { LoaderMask } from 'ui-kit/generalLoaderMask';
 import axios from 'axios';
 import { handleHistory } from 'common/helpers/history.helper';
 import { baseUrl } from 'common/constant';
+import Head from 'next/head';
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
   {
@@ -42,22 +43,26 @@ export const getServerSideProps = (async (context) => {
       imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
       imagesWithUrlUI.push(`/api/images/${images[i]}`);
     }
+    // removed fetching from server directly becuase of load prefomence in faver of using next js fetch poirity defualt option
+    // const getBase64Image = async (imageUrl) => {
+    //   const response = await axios.get(imageUrl, {
+    //     responseType: 'arraybuffer',
+    //   });
+    //   const buffer = Buffer.from(response.data, 'binary');
+    //   const base64Image = buffer.toString('base64');
+    //   return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
+    // };
+    const base64Image = `/api/images/compress/${images[0]}?qlty=1&width=200&height=200&lossless=true`;
+    //  await getBase64Image(
+    //   `${process.env.API_URL}/images/compress/${
+    //     images[0]
+    //   }?qlty=1&width=${150}&height=${150}&lossless=true`,
+    // );
 
-    const getBase64Image = async (imageUrl) => {
-      const response = await axios.get(imageUrl, {
-        responseType: 'arraybuffer',
-      });
-      const buffer = Buffer.from(response.data, 'binary');
-      const base64Image = buffer.toString('base64');
-      return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
-    };
-    const base64Image = await getBase64Image(
-      `${process.env.API_URL}/images/compress/${
-        images[0]
-      }?qlty=1&width=${400}&height=${400}&lossless=false`,
-    );
     // Pass data to the page via props
-    return { props: { repo, imagesWithUrl, imagesWithUrlUI, base64Image } };
+    return {
+      props: { repo, imagesWithUrl, imagesWithUrlUI, base64Image },
+    };
   } catch (error) {
     return {
       notFound: true,

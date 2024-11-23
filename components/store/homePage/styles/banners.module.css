@@ -112,6 +112,11 @@
   object-fit: cover;
 }
 
+.SliderSlide {
+  width: 100%;
+  height: 100%;
+}
+
 .isDisplay {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import { Product } from 'swagger/services';
 import styles from '../styles/productSlider.module.css';
+import Image from 'next/image';
 type Props = {
   caroselProducts: Product[];
   base64Image: any;
@@ -175,10 +176,13 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
                               );
                             })}
                           </ul>
-                          <img
+                          <Image
                             className="product-slider-img"
                             src={base64Image}
                             alt={product?.name!}
+                            width={400}
+                            height={400}
+                            priority={true}
                             onLoad={() => {
                               const timer = setTimeout(() => {
                                 setFirstLoad(false);

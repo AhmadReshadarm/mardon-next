@@ -57,6 +57,7 @@ const ColorPicker: React.FC<Props> = ({
       <ul className={styles.ColorPickerList}>
         {variantImages?.map((variant, colIndex) => {
           if (!initialVariant) setInitialVariant(variant);
+
           return (
             <ImageTooltip
               enterTouchDelay={0}

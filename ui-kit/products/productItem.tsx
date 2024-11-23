@@ -14,12 +14,12 @@ import {
 import { useEffect, useState } from 'react';
 import styles from './styles/productItem.module.css';
 type Props = {
-  key: string;
+  // key: string;
   product: Product;
   custom: number;
 };
-
-const ProductItem: React.FC<Props> = ({ key, product, custom }) => {
+// key,
+const ProductItem: React.FC<Props> = ({ product, custom }) => {
   const images = getProductVariantsImages(product.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
@@ -76,10 +76,23 @@ const ProductItem: React.FC<Props> = ({ key, product, custom }) => {
       minMaxWidth: calculateImageSizeContainer(windowWidth).minMaxWidth,
     });
   }, [windowWidth]);
+  const articals = product.productVariants?.map((variant) => variant.artical);
+  const filteredArticals = articals!.filter(function (value, index, array) {
+    return array.indexOf(value) === index;
+  });
+  const colors: string[] = [];
+  product.productVariants!.map((variant) => {
+    if (variant.color?.url !== '-') {
+      colors.push(variant.color?.code!);
+    }
+  });
+  const filteredColors = colors.filter(function (value, index, array) {
+    return array.indexOf(value) === index;
+  });
 
   return (
     <li
-      key={key}
+      // key={key}
       className={styles.ItemContainer}
       style={{
         minWidth: `${wrapperSizes.minMaxWidth}px`,
@@ -110,14 +123,46 @@ const ProductItem: React.FC<Props> = ({ key, product, custom }) => {
                 : product.name}
             </span>
           </Link>
+          {/* ----------- aritcale ---------- */}
           <div className={styles.artical_wrapper}>
-            <span>Артикул : </span>
-            <span>
-              {product
-                ?.productVariants![0]?.artical?.slice(0, 15)
-                .toLocaleUpperCase()}
-            </span>
+            <span>Артикул(ы) : </span>
+            <div className={styles.artical_content_wrapper}>
+              {filteredArticals.map((artical, index) => {
+                return (
+                  <span key={index}>
+                    {artical!.slice(0, 15).toUpperCase()}
+                    {filteredArticals.length - 1 !== index ? ', ' : ''}
+                  </span>
+                );
+              })}
+            </div>
           </div>
+          {/* ----------- end of articale ------------ */}
+          {/* ----------- color ------------------- */}
+          <div
+            style={{
+              alignItems: 'center',
+              display: filteredColors.length !== 0 ? 'flex' : 'none',
+            }}
+            className={styles.artical_wrapper}
+          >
+            <span>Цвет(а) : </span>
+            {filteredColors.map((color, index) => {
+              return (
+                <span
+                  style={{
+                    width: '10px',
+                    height: '10px',
+                    borderRadius: '50%',
+                    backgroundColor: color,
+                    border: '1px solid rgb(129 129 129)',
+                  }}
+                  key={index}
+                />
+              );
+            })}
+          </div>
+          {/* ---------- end of color ----------- */}
           <div
             title={`${
               Math.floor(product.reviews?.length!) == 1
