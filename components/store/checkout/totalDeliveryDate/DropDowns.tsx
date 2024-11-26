@@ -22,15 +22,43 @@ const DropDowns = () => {
         <h3>КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?</h3>
 
         <Contents>
-          Минимальная сумма заказа для доставка - от 70.000 рублей. Доставка в
-          любую транспортную компанию и по Москве бесплатная.
+          Бесплатная доставка по Москве и в любую транспортную компанию при
+          заказе от 70 000 рублей.
+        </Contents>
+        <Contents>
+          При меньшей сумме заказа возможен самовывоз или платная доставка.
+        </Contents>
+        <Contents>
+          Стоимость платной доставки определяется после оформления заказа. Наш
+          менеджер свяжется с вами, чтобы уточнить адрес доставки и цену.
+        </Contents>
+        <h3>ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?</h3>
+        <Contents>
+          Наши склады находятся в разных районах Москвы. После оформления заказа
+          мы свяжемся с вами, чтобы уточнить адрес доставки или самовывоза с
+          ближайшего к вам склада.
         </Contents>
         <Contents>
           По дополнительным вопросам обращаться по номеру телефона:{' '}
-          <Link href="tel:89254865444">
-            <span>8-925-486-54-44</span>
-          </Link>{' '}
-          . Дополнительная скидка рассчитывается индивидуально и зависит от
+          <Link
+            title="По дополнительным вопросам обращаться по номеру телефона 8-925-486-54-44"
+            href="tel:89254865444"
+            prefetch={false}
+          >
+            <span
+              style={{
+                fontWeight: 500,
+                fontFamily: 'var(--font-Circe)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              8-925-486-54-44
+            </span>
+          </Link>
+          .
+        </Contents>
+        <Contents>
+          Дополнительная скидка рассчитывается индивидуально и зависит от
           количества заказанного товара.
         </Contents>
       </InfoDropdown>
@@ -51,61 +79,11 @@ const InfoContainer = styled(motion.div)`
   user-select: none;
 `;
 
-const Headers = styled.h1`
+const Contents = styled.span`
   width: 100%;
   text-align: start;
-  font-size: 1rem;
-  @media ${devices.tabletL} {
-    max-width: 95vw;
-  }
-  @media ${devices.tabletS} {
-    max-width: 95vw;
-  }
-  @media ${devices.mobileL} {
-    max-width: 95vw;
-  }
-  @media ${devices.mobileM} {
-    max-width: 95vw;
-  }
-  @media ${devices.mobileS} {
-    max-width: 95vw;
-  }
-`;
-
-const Contents = styled.span`
-  width: 80%;
-  text-align: start;
   line-height: 1.5rem;
   font-size: 1rem;
-  @media ${devices.tabletL} {
-    width: 100%;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-  }
-`;
-
-const ListsDots = styled.ul`
-  width: 80%;
-  text-align: start;
-  padding-left: 15px;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  li {
-    list-style-type: circle;
-  }
   @media ${devices.tabletL} {
     width: 100%;
   }

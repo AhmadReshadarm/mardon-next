@@ -92,7 +92,13 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
             href="tel:89254865444"
             prefetch={false}
           >
-            <span style={{ fontWeight: 500 }}>8-925-486-54-44</span>
+            <span
+              style={{
+                whiteSpace: 'nowrap',
+              }}
+            >
+              8-925-486-54-44
+            </span>
           </Link>
           .
         </span>

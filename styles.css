@@ -18,13 +18,13 @@
   --yellow: #edba64;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Jost';
   src: url('/fonts/Jost/Jost-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: 400;
   font-display: swap;
-}
+} */
 
 /* ---------------------------------- Circe font ----------------------------------------- */
 

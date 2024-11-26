@@ -15,8 +15,6 @@ type Props = {
   page: number;
   paginateImage: any;
   alt: any;
-  firstLoad: boolean;
-  setFirstLoad: Dispatch<SetStateAction<boolean>>;
   base64Image: any;
 };
 
@@ -28,18 +26,10 @@ const Slider: React.FC<Props> = ({
   page,
   paginateImage,
   alt,
-  firstLoad,
-  setFirstLoad,
   base64Image,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
-  const [imageSrc, setImageSrc] = useState(base64Image);
-  useEffect(() => {
-    if (!firstLoad) {
-      setImageSrc(images[selectedIndex]);
-    }
-  }, [selectedIndex, firstLoad]);
 
   // --------------------------------------------
   useEffect(() => {
@@ -70,18 +60,8 @@ const Slider: React.FC<Props> = ({
     }, 300);
   }, [zoom]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setFirstLoad(false);
-    }, 10000);
-  }, []);
-
   return (
-    <div
-      className={styles.SliderWrapper}
-      onTouchStart={() => setFirstLoad(false)}
-      onClick={() => setFirstLoad(false)}
-    >
+    <div className={styles.SliderWrapper}>
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={page}
@@ -108,12 +88,14 @@ const Slider: React.FC<Props> = ({
           className={styles.SliderSlide}
         >
           <Image
-            src={imageSrc}
+            src={images[selectedIndex]}
             alt={alt}
             itemProp="contentUrl"
             width={1080}
             height={1080}
             priority={true}
+            placeholder="blur"
+            blurDataURL={base64Image}
             className={styles.SliderImage}
           />
         </motion.div>

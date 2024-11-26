@@ -20,30 +20,18 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
   const [caroselIndex, setCaroselIndex] = useState<number>(0);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
-  const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (caroselProducts.length - 1 > caroselIndex && !isMouseHover) {
         setCaroselIndex(caroselIndex + 1);
-        setFirstLoad(false);
       }
       if (caroselProducts.length - 1 <= caroselIndex && !isMouseHover) {
         setCaroselIndex(0);
-        setFirstLoad(false);
       }
     }, 15000);
 
     return () => clearTimeout(timer);
   }, [caroselIndex, isMouseHover]);
-
-  useEffect(() => {
-    if (!firstLoad) {
-      const currentProduct = caroselProducts[caroselIndex];
-      const images = getProductVariantsImages(currentProduct?.productVariants);
-      const image = document.querySelector('.product-slider-img');
-      image?.setAttribute('src', `/api/images/${images[imageIndex]}`);
-    }
-  }, [firstLoad, caroselIndex, imageIndex]);
 
   return (
     <div
@@ -149,7 +137,6 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
                                   onClick={() => {
                                     setCaroselIndex(index);
                                     setISMouseHover(true);
-                                    setFirstLoad(false);
                                   }}
                                 ></span>
                               );
@@ -169,7 +156,6 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
                                 <li
                                   onMouseOver={() => {
                                     setImageIndex(index);
-                                    setFirstLoad(false);
                                   }}
                                   className={styles.image_index}
                                 ></li>
@@ -178,17 +164,13 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
                           </ul>
                           <Image
                             className="product-slider-img"
-                            src={base64Image}
+                            src={`/api/images/${images[imageIndex]}`}
                             alt={product?.name!}
-                            width={400}
-                            height={400}
+                            width={1080}
+                            height={1080}
                             priority={true}
-                            onLoad={() => {
-                              const timer = setTimeout(() => {
-                                setFirstLoad(false);
-                              }, 14000);
-                              return clearTimeout(timer);
-                            }}
+                            placeholder="blur"
+                            blurDataURL={base64Image}
                           />
                         </div>
                       </Link>

@@ -10,7 +10,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
-// import axios from 'axios';
+import axios from 'axios';
 
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
@@ -53,26 +53,29 @@ export const getServerSideProps = (async () => {
       caroselProducts.rows[0].productVariants,
     );
 
-    // const getBase64Image = async (imageUrl) => {
-    //   const response = await axios.get(imageUrl, {
-    //     responseType: 'arraybuffer',
-    //   });
-    //   const buffer = Buffer.from(response.data, 'binary');
-    //   const base64Image = buffer.toString('base64');
-    //   return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
-    // };
-    const base64Image = `/api/images/compress/${caroselImages[0]}?qlty=1&width=200&height=200&lossless=true`;
-    // await getBase64Image(
-    //   `${process.env.API_URL}/images/compress/${
-    //     caroselImages[0]
-    //   }?qlty=1&width=${400}&height=${400}&lossless=false`,
-    // );
+    const getBase64Image = async (imageUrl) => {
+      const response = await axios.get(imageUrl, {
+        responseType: 'arraybuffer',
+      });
+      const buffer = Buffer.from(response.data, 'binary');
+      const base64Image = buffer.toString('base64');
+      return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
+    };
+    // `/api/images/compress/${caroselImages[0]}?qlty=1&width=200&height=200&lossless=true`;
+
+    const base64Image = await getBase64Image(
+      `${process.env.API_URL}/images/compress/${caroselImages[0]}?qlty=1&width=100&height=100&lossless=false`,
+    );
+    const base64Image_2 = await getBase64Image(
+      `${process.env.API_URL}/images/compress/${slides[0].image}?qlty=1&width=190&height=80&lossless=false`,
+    );
 
     return {
       props: {
         slides,
         caroselProducts: caroselProducts.rows,
         base64Image,
+        base64Image_2,
       },
     };
   } catch (error) {
@@ -81,6 +84,7 @@ export const getServerSideProps = (async () => {
         slides: [],
         caroselProducts: [],
         base64Image: null,
+        base64Image_2: null,
       },
     };
   }
@@ -88,6 +92,7 @@ export const getServerSideProps = (async () => {
   slides: Slide[];
   caroselProducts: Product[];
   base64Image: any;
+  base64Image_2: any;
 }>;
 
 // ---------------------------------------------------------------------------------------
@@ -95,6 +100,7 @@ const IndexPage = ({
   slides,
   caroselProducts,
   base64Image,
+  base64Image_2,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isClient, setClient] = useState(false);
 
@@ -120,7 +126,7 @@ const IndexPage = ({
       <Head>
         <link rel="canonical" href="https://nbhoz.ru" />
       </Head>
-      <Banners slides={slides} />
+      <Banners slides={slides} base64Image_2={base64Image_2} />
       <ProductsSlider
         caroselProducts={caroselProducts}
         base64Image={base64Image}

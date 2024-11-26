@@ -19,39 +19,12 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="/favicon.svg" />
-          {/* <link
-            rel="preload"
-            href="/fonts/circe/circe-regular.woff"
-            as="font"
-            type="font/woff"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/circe/circe-extra-bold.woff"
-            as="font"
-            type="font/woff"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/circe/circe-bold.woff"
-            as="font"
-            type="font/woff"
-            crossOrigin="anonymous"
-          />*/}
+
           <link
             rel="preload"
             href="/fonts/tt-ricordi-marmo-trial-variable.woff"
             as="font"
             type="font/woff"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Jost/Jost-Regular.woff2"
-            as="font"
-            type="font/woff2"
             crossOrigin="anonymous"
           />
         </Head>

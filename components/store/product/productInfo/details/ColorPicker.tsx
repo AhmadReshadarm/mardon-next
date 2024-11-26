@@ -13,7 +13,6 @@ type Props = {
   selectedIndex: number;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
-  setFirstLoad: Dispatch<SetStateAction<boolean>>;
 };
 
 const ColorPicker: React.FC<Props> = ({
@@ -22,7 +21,6 @@ const ColorPicker: React.FC<Props> = ({
   selectedIndex,
   setSelectedIndex,
   paginateImage,
-  setFirstLoad,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -35,7 +33,6 @@ const ColorPicker: React.FC<Props> = ({
       paginateImage: (index: number) => void,
     ) =>
     () => {
-      setFirstLoad(false);
       dispatch(setVariant(variant));
       setSelectedIndex(index);
 

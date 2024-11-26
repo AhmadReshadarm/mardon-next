@@ -2,7 +2,7 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { wrap } from 'popmotion';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import Link from 'next/link';
 import {
@@ -16,20 +16,18 @@ import styles from '../styles/banners.module.css';
 import Image from 'next/image';
 type Props = {
   slides: Slide[];
+  base64Image_2: any;
 };
 
-const ImageBanner: React.FC<Props> = ({ slides }) => {
+const ImageBanner: React.FC<Props> = ({ slides, base64Image_2 }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, Number(slides?.length), page);
-  const imgRef = useRef<HTMLDivElement | any>(null);
 
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
-  const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isMouseHover) {
         paginateImage(1);
-        setFirstLoad(false);
       }
     }, 15000);
 
@@ -45,20 +43,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
 
-  // ---------------------------------------------------------------------
-  const [imageSrc, setImageSrc] = useState(
-    `/api/images/compress/${slides[0]?.image}?qlty=1&width=1550&height=520&lossless=false`,
-  );
-  useEffect(() => {
-    if (!firstLoad) {
-      // const timer = setTimeout(() => {
-      //   imgRef.current.src = `/api/images/${slides[imageIndex]?.image}`;
-      // }, 600);
-      // return () => clearTimeout(timer);
-      setImageSrc(`/api/images/${slides[imageIndex]?.image}`);
-    }
-  }, [imageIndex, firstLoad]);
-
   return (
     <div
       className={styles.SliderWrapper}
@@ -70,7 +54,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
       }}
       onTouchStart={() => {
         setISMouseHover(true);
-        setFirstLoad(false);
       }}
       onTouchEnd={() => {
         const id = setTimeout(() => {
@@ -130,19 +113,13 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
                   ? styles.isDisplay
                   : ''
               } slider-img`}
-              ref={imgRef}
               alt={`${slides[imageIndex]?.link}`}
-              // src={`/api/images/compress/${slides[0]?.image}?qlty=1&width=1550&height=520&lossless=false`}
-              src={imageSrc}
+              src={`/api/images/${slides[imageIndex]?.image}`}
               priority={true}
-              width={1550}
-              height={520}
-              onLoad={() => {
-                const timer = setTimeout(() => {
-                  setFirstLoad(false);
-                }, 14000);
-                return clearTimeout(timer);
-              }}
+              width={1920}
+              height={800}
+              placeholder="blur"
+              blurDataURL={base64Image_2}
             />
           </motion.div>
         </AnimatePresence>
@@ -153,7 +130,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             onClick={(e) => {
               e.preventDefault();
               paginateImage(-1);
-              setFirstLoad(false);
             }}
             title="предыдущий слайд"
             aria-label="предыдущий слайд"
@@ -184,7 +160,6 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
             onClick={(e) => {
               e.preventDefault();
               paginateImage(1);
-              setFirstLoad(false);
             }}
             title="следующий слайд"
             aria-label="следующий слайд"

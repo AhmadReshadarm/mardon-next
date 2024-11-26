@@ -11,7 +11,6 @@ type Props = {
   selectedIndex: number;
   reviewRef: MutableRefObject<any>;
   questionRef: MutableRefObject<any>;
-  setFirstLoad: Dispatch<SetStateAction<boolean>>;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
 };
@@ -23,7 +22,6 @@ const Details: React.FC<Props> = ({
   reviewRef,
   setSelectedIndex,
   paginateImage,
-  setFirstLoad,
 }) => {
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
@@ -136,7 +134,6 @@ const Details: React.FC<Props> = ({
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
             paginateImage={paginateImage}
-            setFirstLoad={setFirstLoad}
           />
         </div>
       </div>
