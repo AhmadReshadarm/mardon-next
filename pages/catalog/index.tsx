@@ -169,6 +169,7 @@ const CatalogPage = ({
       { name: 'page', value: page },
       { name: 'limit', value: pageSize },
     ]);
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
   // ---------------------------------------------------------------------------
 
