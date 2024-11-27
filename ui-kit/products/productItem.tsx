@@ -77,6 +77,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
     });
   }, [windowWidth]);
   const articals = product.productVariants?.map((variant) => variant.artical);
+  // remove the repated product artical from array to only show in UI once
   const filteredArticals = articals!.filter(function (value, index, array) {
     return array.indexOf(value) === index;
   });
@@ -86,6 +87,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
       colors.push(variant.color?.code!);
     }
   });
+  // remove the repated product colors from array to only show in UI once
   const filteredColors = colors.filter(function (value, index, array) {
     return array.indexOf(value) === index;
   });
@@ -130,7 +132,9 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
               {filteredArticals.map((artical, index) => {
                 return (
                   <span key={index}>
-                    {artical!.slice(0, 15).toUpperCase()}
+                    {artical!.includes('|')
+                      ? artical!.split('|')[0].toUpperCase()
+                      : artical!.toUpperCase()}
                     {filteredArticals.length - 1 !== index ? ', ' : ''}
                   </span>
                 );
@@ -163,6 +167,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             })}
           </div>
           {/* ---------- end of color ----------- */}
+          {/* ------------ rating --------------- */}
           <div
             title={`${
               Math.floor(product.reviews?.length!) == 1
@@ -196,6 +201,8 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : Math.floor(product.reviews?.length!) + ' Оценок'}
             </span>
           </div>
+          {/* ------------- end of rating ---------------- */}
+          {/* ------------------ description ---------------- */}
           <div className={styles.product_description_wrapper}>
             <span title="Нажмите на карточку товара, чтобы узнать больше">
               {product?.desc?.includes('|')
@@ -207,6 +214,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : product?.desc?.slice(0, 60)}
             </span>
           </div>
+          {/* ----------------- end of description ---------- */}
           <div className={styles.product_price_wrapper}>
             {product.productVariants![0]?.oldPrice ? (
               <span className={styles.old_price}>
