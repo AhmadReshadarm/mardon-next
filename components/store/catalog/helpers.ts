@@ -145,6 +145,7 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
   dispatch(setPage(Number(page ?? 1)));
 
   dispatch(fetchProducts(payload));
+
   const curLocation = localStorage.getItem('location')!;
   localStorage.setItem('location', window.location.search);
 

@@ -21,7 +21,6 @@ import Checkbox from 'react-custom-checkbox';
 type Props = {
   categories: Category[];
   subCategories: Category[];
-  // brands: Brand[];
   colors: Color[];
   tags: Tag[];
   priceRange: PriceRange;
@@ -36,7 +35,6 @@ type Props = {
 const FilterBar: React.FC<Props> = ({
   categories,
   subCategories,
-  // brands,
   colors,
   tags,
   priceRange,
@@ -44,7 +42,6 @@ const FilterBar: React.FC<Props> = ({
   handleExpantionChange,
   setSelectedCategory,
   setCurrentPage,
-  // handlePageChange,
   setPageSize,
 }) => {
   const router = useRouter();
@@ -53,7 +50,6 @@ const FilterBar: React.FC<Props> = ({
     getFiltersConfig({
       categories,
       subCategories,
-      // brands,
       colors,
       priceRange,
       filters,
@@ -91,7 +87,6 @@ const FilterBar: React.FC<Props> = ({
       getFiltersConfig({
         categories,
         subCategories,
-        // brands,
         colors,
         priceRange,
         filters,

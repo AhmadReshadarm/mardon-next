@@ -13,7 +13,6 @@ enum FilterType {
 const getFilters = ({
   sectionOptions,
   subSectionOptions,
-  // brandOptions,
   colorOptions,
   tagOptions,
   minPrice,
@@ -21,7 +20,6 @@ const getFilters = ({
 }: {
   sectionOptions: FilterOption[];
   subSectionOptions: FilterOption[];
-  // brandOptions: FilterOption[];
   colorOptions: FilterOption[];
   tagOptions: FilterOption[];
   minPrice: number;
@@ -38,7 +36,6 @@ const getFilters = ({
         pushQueryParams([
           { name: 'categories', value: categories == '' ? '' : categories },
           { name: 'subCategories', value: [] },
-          // { name: 'brands', value: [] },
           { name: 'colors', value: [] },
           { name: 'tags', value: [] },
           { name: 'minPrice', value: null },
@@ -59,7 +56,6 @@ const getFilters = ({
             name: 'subCategories',
             value: subCategories == '' ? '' : subCategories,
           },
-          // { name: 'brands', value: [] },
           { name: 'colors', value: [] },
           { name: 'tags', value: [] },
           { name: 'minPrice', value: null },
@@ -68,19 +64,6 @@ const getFilters = ({
         ]);
       },
     },
-    // {
-    //   title: 'Бренды',
-    //   options: cloneDeep(brandOptions),
-    //   type: FilterType.MULTIPLE_SELECTION,
-    //   onChange: (selectedOptions: FilterOption[] | undefined) => {
-    //     const brands = selectedOptions?.map((option) => option.url);
-
-    //     pushQueryParams([
-    //       { name: 'brands', value: brands },
-    //       { name: 'page', value: 1 },
-    //     ]);
-    //   },
-    // },
     {
       title: 'Выберите тип товара',
       options: cloneDeep(tagOptions),

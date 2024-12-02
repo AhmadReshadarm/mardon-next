@@ -71,7 +71,7 @@ const ProductsPage = () => {
     );
     setCategory(category);
   };
-
+  const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
@@ -81,9 +81,12 @@ const ProductsPage = () => {
     setPriceRange(dispatch);
 
     (async () => {
-      await dispatch(fetchParentCategories());
-      await handleLocationChange();
-      onCategoryChange();
+      if (firstLoad) {
+        await dispatch(fetchParentCategories());
+        await handleLocationChange();
+        onCategoryChange();
+        setFirstLoad(false);
+      }
     })();
 
     return () => {

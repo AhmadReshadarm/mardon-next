@@ -98,12 +98,13 @@ export const columns: ColumnsType<Product> = [
               alignItems: 'center',
               gap: '5px',
             }}
+            title={record.url}
           >
-            {record.url}
+            {record.url?.slice(0, 20)}
             <img
               src="/icons/blank.png"
               alt="target blank"
-              style={{ width: '15px' }}
+              style={{ width: '10px' }}
             />
           </a>
         </>
@@ -129,10 +130,10 @@ export const columns: ColumnsType<Product> = [
         </ul>
       );
     },
-    width: '7.5%',
+    width: '8.5%',
   },
   {
-    title: 'Артикул: Цена',
+    title: 'Артикул | Цена | Статус на складе',
     dataIndex: 'price',
     render: (_, record) => {
       return (
@@ -149,9 +150,9 @@ export const columns: ColumnsType<Product> = [
               key={variant.id}
             >
               <span>{variant.artical}</span>
-              <span>:</span>
+              <span> | </span>
               <span>{variant.price} ₽</span>
-              <span>,</span>
+              <span> | </span>
               <span>В наличии</span>
               <span>:</span>
               <span>{variant.available ? 'да' : 'нет'}</span>

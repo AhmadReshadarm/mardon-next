@@ -103,7 +103,7 @@ const CatalogPage = ({
   } = useAppSelector<TCatalogState>((state) => state.catalog);
 
   const handleLocationChange = onLocationChange(dispatch);
-
+  const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
@@ -112,8 +112,11 @@ const CatalogPage = ({
     setPriceRange(dispatch);
 
     (async () => {
-      await dispatch(fetchParentCategories());
-      await handleLocationChange();
+      if (firstLoad) {
+        await dispatch(fetchParentCategories());
+        await handleLocationChange();
+        setFirstLoad(false);
+      }
     })();
 
     return () => {
