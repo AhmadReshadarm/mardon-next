@@ -31,6 +31,7 @@ const Orders = () => {
   useEffect(() => {
     if (user) {
       setActiveUI('userData');
+      dispatch(fetchCheckouts());
     }
     if (!user) {
       setActiveUI('auth');
