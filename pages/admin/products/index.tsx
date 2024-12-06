@@ -48,12 +48,13 @@ const ProductsPage = () => {
     productsLength,
     categories,
     subCategories,
-    brands,
+    // brands,
     colors,
     tags,
     priceRange,
-    loading,
-    page,
+    // loading,
+    productsLoading,
+    // page,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
 
   const handleLocationChange = onLocationChange(dispatch);
@@ -287,7 +288,7 @@ const ProductsPage = () => {
           setPageSize={setPageSize}
         />
         <Content>
-          {loading ? (
+          {productsLoading ? (
             <EmptyProductsTitle>
               <Spin className={styles.spinner} size="large" />
             </EmptyProductsTitle>

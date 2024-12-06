@@ -193,6 +193,7 @@ const initialState: TCatalogState = {
     maxPrice: 0,
   },
   products: [],
+  productsLoading: false,
   productsLength: 0,
   filters: {},
   loading: false,
@@ -271,11 +272,13 @@ const cartSlicer = createSlice({
       })
       .addCase(fetchPriceRange.rejected, handleError)
       //fetchProducts
-      .addCase(fetchProducts.pending, handlePending)
+      .addCase(fetchProducts.pending, (state: { productsLoading: boolean }) => {
+        state.productsLoading = true;
+      })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.products = action.payload.rows;
         state.productsLength = action.payload.length;
-        state.loading = false;
+        state.productsLoading = false;
       })
       .addCase(fetchProducts.rejected, handleError)
       //fetchTags

@@ -7,17 +7,17 @@ import { TCatalogState } from 'redux/types';
 import styles from './styles/productGrid.module.css';
 
 const ProductGrid = () => {
-  const { products, loading } = useAppSelector<TCatalogState>(
+  const { products, loading, productsLoading } = useAppSelector<TCatalogState>(
     (state) => state.catalog,
   );
   const delay = getAnimationDelay(products.length);
 
   return (
     <>
-      {products.length !== 0 && !loading ? (
+      {products.length !== 0 && !productsLoading ? (
         <ul className={styles.Grid}>
           <>
-            {!loading
+            {!productsLoading
               ? products.map((product, index) => {
                   return (
                     <ProductItem
@@ -32,7 +32,7 @@ const ProductGrid = () => {
                 })}
           </>
         </ul>
-      ) : products.length === 0 && !loading ? (
+      ) : products.length === 0 && !productsLoading ? (
         <div className={styles.EmptyProductsTitle}>
           <h3>
             Слишком много фильтров, или товар, который вы ищете, у нас

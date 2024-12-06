@@ -236,6 +236,7 @@ type TCatalogState = {
   sizes: Size[];
   priceRange: PriceRange;
   products: Product[];
+  productsLoading: boolean;
   productsLength: number;
   loading: boolean;
   filters: TFilters;
