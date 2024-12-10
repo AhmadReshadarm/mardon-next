@@ -27,6 +27,11 @@ class MyDocument extends Document {
             type="font/woff"
             crossOrigin="anonymous"
           />
+          {/* microsoft bing verification */}
+          <meta
+            name="msvalidate.01"
+            content="C34B962949690979DF0ADC0147270090"
+          />
         </Head>
         <body>
           <Main />
