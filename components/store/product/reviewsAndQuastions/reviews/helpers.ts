@@ -40,9 +40,10 @@ const handleFileChange = async (
   }
   const imagesUrl: any = [];
   for (let i = 0; i < fileObj.length; i++) {
-    if (fileObj[i].size > 2000000) {
+    const restriction = 5242880;
+    if (fileObj[i].size > restriction) {
       openErrorNotification(
-        `Размер файла ${fileObj[i].name} более 2 МБ не допускается.`,
+        `Размер файла ${fileObj[i].name} более 5 МБ не допускается.`,
       );
       return;
     }
