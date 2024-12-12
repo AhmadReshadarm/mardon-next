@@ -42,6 +42,14 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
               />
             </div>
           </noscript>
+          <Script
+            id="bing-tag"
+            src="/bing.js"
+            onError={(err) => {
+              console.error('Error', err);
+            }}
+            defer={true}
+          />
         </>
       ) : (
         ''
