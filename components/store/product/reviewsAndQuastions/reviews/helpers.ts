@@ -8,8 +8,8 @@ import {
   deleteReviewReaction,
 } from 'redux/slicers/store/productInfoSlicer';
 import { AppDispatch } from 'redux/store';
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
-import { PopupDisplay } from 'components/store/storeLayout/constants';
+import { Dispatch, SetStateAction } from 'react';
+// import { PopupDisplay } from 'components/store/storeLayout/constants';
 import {
   Comment,
   CommentReaction,
