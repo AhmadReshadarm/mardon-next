@@ -26,12 +26,21 @@ const CheckoutsPage = () => {
   const isLoading = useAppSelector((state) => state.checkouts.loading);
 
   const dataSource = checkouts?.map(
-    ({ id, user, basket, address, comment, ...rest }): CheckoutsData => ({
+    ({
+      id,
+      user,
+      basket,
+      address,
+      comment,
+      createdAt,
+      ...rest
+    }): CheckoutsData => ({
       key: id as string,
       id,
       user,
       basket,
       address,
+      createdAt,
       comment,
     }),
   ) as unknown as DataType[];

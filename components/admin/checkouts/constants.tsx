@@ -2,11 +2,13 @@ import { ColumnsType } from 'antd/lib/table';
 import { OrderProduct } from 'swagger/services';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
+import moment from 'moment';
 
 interface CheckoutsTableData {
   id: string;
   user: { id: string; firstName: string; email: string };
   basket: { orderProducts: OrderProduct[] };
+  createdAt: Date;
   address: { address: string; receiverPhone: string };
 }
 //  initialState.checkout.basket?.orderProducts[0].productSize
@@ -82,8 +84,16 @@ const columns: ColumnsType<CheckoutsTableData> = [
     width: '20%',
   },
   {
-    title: 'Комментарий',
-    dataIndex: 'comment',
+    title: 'Дата создания',
+    dataIndex: 'createdAt',
+    render: (_, record) => {
+      return (
+        <p>
+          {moment(record.createdAt).format('DD.MM.YYYY')} |{' '}
+          {moment(record.createdAt).format('hh:mm a')}
+        </p>
+      );
+    },
     width: '25%',
   },
   {
