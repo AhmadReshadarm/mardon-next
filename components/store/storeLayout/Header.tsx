@@ -37,7 +37,10 @@ import NavMobile from './utils/mobileNav';
 import dynamic from 'next/dynamic';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { axiosInstance } from 'common/axios.instance';
-import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
+import {
+  createWishlist,
+  fetchWishlistProducts,
+} from 'redux/slicers/store/wishlistSlicer';
 import styles from './styles/header.module.css';
 
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
@@ -139,14 +142,14 @@ const Header = () => {
       const basketId = localStorage.getItem('basketId');
       const wishlistId = localStorage.getItem('wishlistId')!;
 
-      const createWishlistId = async () => {
-        try {
-          const wishlist = await axiosInstance.post('/wishlists');
-          localStorage.setItem('wishlistId', wishlist.data.id);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+      // const createWishlistId = async () => {
+      //   try {
+      //     const wishlist = await axiosInstance.post('/wishlists');
+      //     localStorage.setItem('wishlistId', wishlist.data.id);
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // };
 
       const fetchDataCartProducts = async () => {
         if (!basketId) {
@@ -168,7 +171,8 @@ const Header = () => {
 
       const fetchDataWishlistProducts = async () => {
         if (!wishlistId) {
-          await createWishlistId();
+          // await createWishlistId();
+          await dispatch(createWishlist());
           const newCreatedWishlistId = localStorage.getItem('wishlistId');
           dispatch(fetchWishlistProducts(newCreatedWishlistId!));
         }
@@ -178,7 +182,9 @@ const Header = () => {
           );
           // only for dev use 👇
           if (wishlistResponse.meta.requestStatus == 'rejected') {
-            await createWishlistId();
+            // await createWishlistId();
+            await dispatch(createWishlist());
+
             const newCreatedWishlistId = localStorage.getItem('wishlistId');
             dispatch(fetchWishlistProducts(newCreatedWishlistId!));
           }

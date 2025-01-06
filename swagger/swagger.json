@@ -6094,6 +6094,9 @@
               "properties": {
                 "id": {
                   "type": "string"
+                },
+                "items": {
+                  "type": "array"
                 }
               }
             }

@@ -8,7 +8,7 @@ export const createWishlist = createAsyncThunk<
   undefined,
   { rejectValue: string }
 >(
-  'global/createWishlist',
+  'wishlist/createWishlist',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
       return await WishlistService.createWishlist();
@@ -40,7 +40,7 @@ export const updateWishlist = createAsyncThunk<
   Wishlist,
   { rejectValue: string }
 >(
-  'global/updateWishlist',
+  'wishlist/updateWishlist',
   async function (payload: BasketDTO, { rejectWithValue }): Promise<any> {
     try {
       const wishlistId = localStorage.getItem('wishlistId') ?? '';

@@ -41,32 +41,30 @@ const handleSearchFormSubmit =
     router: NextRouter,
     changeSearchFormState: any,
     changeSearchDisplayState: any,
+    clearSearchProducts: any,
+    clearSearchQuery: any,
+
     dispatch: AppDispatch,
   ) =>
-  (e) => {
-    e.preventDefault();
+  (event) => {
+    event.preventDefault();
 
-    if (searchQuery == undefined || searchQuery == '') return;
+    if (searchQuery == undefined || searchQuery == '') {
+      dispatch(clearSearchQuery());
+      dispatch(clearSearchProducts());
+      return;
+    }
 
-    dispatch(clearSearchQuery());
-    dispatch(clearSearchProducts());
-
-    if (searchQuery !== undefined || searchQuery !== '') {
+    if (searchQuery !== undefined && searchQuery !== '') {
       const query: { name: string; categories?: string } = {
         name: searchQuery,
       };
-
+      dispatch(changeSearchFormState(false));
+      dispatch(changeSearchDisplayState(PopupDisplay.None));
       router.push({
         pathname: '/catalog',
         query,
       });
-
-      setTimeout(() => {
-        dispatch(changeSearchFormState(false));
-        setTimeout(() => {
-          dispatch(changeSearchDisplayState(PopupDisplay.None));
-        }, 100);
-      }, 300);
     }
   };
 

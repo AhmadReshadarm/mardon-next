@@ -58,10 +58,8 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
     ),
   );
   useEffect(() => {
-    if (!isSearchFormActive) {
-      dispatch(clearSearchQuery());
-      dispatch(clearSearchProducts());
-    }
+    dispatch(clearSearchQuery());
+    dispatch(clearSearchProducts());
   }, [isSearchFormActive]);
   const delay = getAnimationDelay(products.length);
   // --------------------- end of UI hooks -------------------------
@@ -110,6 +108,8 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
               router,
               changeSearchFormState,
               changeSearchDisplayState,
+              clearSearchQuery,
+              clearSearchProducts,
               dispatch,
             )}
             className={styles.SearchForm}

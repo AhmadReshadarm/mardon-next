@@ -41,9 +41,9 @@ export const getServerSideProps = (async () => {
   let caroselImages: string[];
 
   try {
-    const resSlides = await fetch(`http://5.35.93.60:4010/slides`);
+    const resSlides = await fetch(`${process.env.API_URL}/slides`);
     const resCarosel = await fetch(
-      `http://5.35.93.60:4010/products?tags[]=main_page`,
+      `${process.env.API_URL}/products?tags[]=main_page`,
     );
     slides = await resSlides.json();
     const caroselProducts: { rows: Product[]; lenght: number } =
