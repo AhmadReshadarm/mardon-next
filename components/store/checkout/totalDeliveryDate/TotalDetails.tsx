@@ -204,7 +204,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                     </ItemRow>
                   );
                 })}
-                {user?.role === Role.SuperUser ? (
+                {/* {user?.role === Role.SuperUser ? (
                   ''
                 ) : (
                   <ItemRow>
@@ -215,7 +215,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                       </span>
                     </b>
                   </ItemRow>
-                )}
+                )} */}
               </ItemRowWrapper>
               <ItemRow>
                 <h3 className="total">Итого</h3>
@@ -226,7 +226,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
             <DropDowns />
           </Wrapper>
         </Container>
-
         <script
           src="https://apis.google.com/js/platform.js?onload=renderOptIn"
           async
@@ -237,7 +236,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
             __html: `  window.renderOptIn = function()
         {window.gapi.load('surveyoptin', function () {
           window.gapi.surveyoptin.render({
-            // REQUIRED FIELDS
             merchant_id: 5338706929,
             order_id: ${cart?.id},
             email: ${isOneClickBuy ? deliveryInfo?.receiverEmail : user?.email},
@@ -396,6 +394,7 @@ const ItemRow = styled(motion.div)`
   }
   .total {
     font-size: 1.1rem;
+    font-weight: 600;
   }
   @media ${devices.laptopS} {
     .product-price-mobile-wrapper {
