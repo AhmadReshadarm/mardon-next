@@ -14,12 +14,15 @@ import { clearQueryParams } from 'common/helpers/manageQueryParams.helper';
 import { motion } from 'framer-motion';
 import { fetchProducts } from 'redux/slicers/store/catalogSlicer';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { Modal } from 'antd';
 
 const IncreaseOrDecreasePrice = () => {
   const [increasePrice, setIncreasePrice] = useState(false);
   const [decreasePrice, setDecreasePrice] = useState(false);
   const [progress, setProgress] = useState(0);
   const [increaseDecreaseValue, setIncreaseDEcreaseValue] = useState(1);
+  const [visibleIncreasePrice, setVisibleIncreasePrice] = useState(false);
+  const [visibleDecreasePrice, setVisibleDecreasePrice] = useState(false);
   const { isCheckBoxEnabled, selectedProducts } = useAppSelector(
     (state) => state.catalog,
   );
@@ -150,6 +153,13 @@ const IncreaseOrDecreasePrice = () => {
     handleIncreaseOrDecreasePrice(selectedProducts, dispatch, increaseDecrease);
   };
 
+  const showOrDontModalIncreasePrice = () => {
+    setVisibleIncreasePrice(!visibleIncreasePrice);
+  };
+  const showOrDontModalDecreasePrice = () => {
+    setVisibleDecreasePrice(!visibleDecreasePrice);
+  };
+
   return (
     <Wrapper>
       {!increasePrice ? (
@@ -215,17 +225,26 @@ const IncreaseOrDecreasePrice = () => {
             }
           />
           <ButtonWrapper>
-            <Buttons
-              onClick={() =>
+            <Buttons onClick={showOrDontModalIncreasePrice}>
+              <span>применяется ко всем</span>
+            </Buttons>
+            <Modal
+              title="Подтвердите действие."
+              open={visibleIncreasePrice}
+              onOk={() =>
                 handleAllProductIncreaseDecreasePrice(
                   dispatch,
                   paginationLength,
                   true,
                 )
               }
+              onCancel={showOrDontModalIncreasePrice}
             >
-              <span>применяется ко всем</span>
-            </Buttons>
+              <p>
+                Вы уверены, что хотите увеличить цену на {increaseDecreaseValue}
+                %?
+              </p>
+            </Modal>
             <Buttons
               style={{
                 backgroundColor: isCheckBoxEnabled
@@ -258,6 +277,7 @@ const IncreaseOrDecreasePrice = () => {
         </FormWrapper>
       )}
       <div className="spaerator"></div>
+      {/* -----------------------------------------------------  end of Increase price  ---------------------------- */}
       {!decreasePrice ? (
         <Buttons
           onClick={() => {
@@ -322,17 +342,26 @@ const IncreaseOrDecreasePrice = () => {
             }
           />
           <ButtonWrapper>
-            <Buttons
-              onClick={() =>
+            <Buttons onClick={showOrDontModalDecreasePrice}>
+              <span>применяется ко всем</span>
+            </Buttons>
+            <Modal
+              title="Подтвердите действие."
+              open={visibleDecreasePrice}
+              onOk={() =>
                 handleAllProductIncreaseDecreasePrice(
                   dispatch,
                   paginationLength,
                   false,
                 )
               }
+              onCancel={showOrDontModalDecreasePrice}
             >
-              <span>применяется ко всем</span>
-            </Buttons>
+              <p>
+                Вы уверены, что хотите снизить цену на {increaseDecreaseValue}
+                %?
+              </p>
+            </Modal>
             <Buttons
               style={{
                 backgroundColor: isCheckBoxEnabled
