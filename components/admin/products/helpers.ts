@@ -125,6 +125,7 @@ const handleFormSubmitProduct =
       parameterProducts,
       variantsLength,
     );
+
     if (hasWhiteSpace(form.url)) {
       openErrorNotification(
         'В URL-адресе не допускается использование пробелов.',

@@ -33,6 +33,7 @@ import {
 
 // import ExcelJs from 'exceljs';
 import Head from 'next/head';
+import IncreaseOrDecreasePrice from 'components/admin/products/increaseOrDecreasePrice';
 
 // _____________________________________________
 const ProductsPage = () => {
@@ -122,6 +123,12 @@ const ProductsPage = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [category, selectedCategory]);
+  const isCheckBoxEnabled = useAppSelector(
+    (state) => state.catalog.isCheckBoxEnabled,
+  );
+  const selectedProducts = useAppSelector(
+    (state) => state.catalog.selectedProducts,
+  );
 
   // ___________________________________________________________________
   let dataSource = products?.map(
@@ -146,6 +153,9 @@ const ProductsPage = () => {
       sizes,
       url,
       productVariants,
+      isCheckBoxEnabled,
+      selectedProducts,
+      dispatch,
     }),
   ) as unknown as DataType[];
   // const [loadingProgress, seLoadingProgress] = useState(0);
@@ -274,19 +284,23 @@ const ProductsPage = () => {
       </div>
 
       <CatelogContentWrapper>
-        <FilterBar
-          categories={categories}
-          subCategories={subCategories}
-          colors={colors}
-          priceRange={priceRange}
-          tags={tags}
-          expanded={expanded}
-          handleExpantionChange={handleExpantionChange}
-          setSelectedCategory={setSelectedCategory}
-          setCurrentPage={setCurrentPage}
-          handlePageChange={handlePageChange}
-          setPageSize={setPageSize}
-        />
+        <SideBarWrapper>
+          <IncreaseOrDecreasePrice />
+          <FilterBar
+            categories={categories}
+            subCategories={subCategories}
+            colors={colors}
+            priceRange={priceRange}
+            tags={tags}
+            expanded={expanded}
+            handleExpantionChange={handleExpantionChange}
+            setSelectedCategory={setSelectedCategory}
+            setCurrentPage={setCurrentPage}
+            handlePageChange={handlePageChange}
+            setPageSize={setPageSize}
+          />
+        </SideBarWrapper>
+
         <Content>
           {productsLoading ? (
             <EmptyProductsTitle>
@@ -331,6 +345,14 @@ const ProductsPage = () => {
     </>
   );
 };
+
+const SideBarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+`;
 
 const CatelogContentWrapper = styled.div`
   width: 100%;

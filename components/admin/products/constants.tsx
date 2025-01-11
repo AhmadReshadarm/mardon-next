@@ -1,7 +1,7 @@
-import { Carousel, Image } from 'antd';
+import { Carousel, Image, Checkbox } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
-import { Product, ProductVariant, Tag } from 'swagger/services';
+import { ProductVariant, Tag } from 'swagger/services';
 import { handleRedirectCategory } from '../categories/helpers';
 
 import ActionButtons from '../generalComponents/ActionButtons';
@@ -9,12 +9,54 @@ import { handleRedirectTags } from '../tags/helpers';
 import { handleDeleteProduct, handleRedirectProducts } from './helpers';
 import styles from './products.module.scss';
 import TableLink from './TableLink';
-
-export const columns: ColumnsType<Product> = [
+import { addSelectedProducts } from 'redux/slicers/store/catalogSlicer';
+const isChecked = (selectedProducts, productId) => {
+  return selectedProducts.find(
+    (selectedProductId) => selectedProductId === productId,
+  );
+};
+export const columns: ColumnsType<any> = [
   {
     title: 'Id',
     dataIndex: 'id',
     width: '3.5%',
+    render: (value, record) => {
+      const checked = isChecked(record.selectedProducts, value);
+
+      return (
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
+          {record.isCheckBoxEnabled ? (
+            <Checkbox
+              checked={checked}
+              onChange={(evt) => {
+                let newData: string[] = [];
+                if (
+                  record.selectedProducts.length === 0 &&
+                  evt.target.checked
+                ) {
+                  newData.push(value);
+                  record.dispatch(addSelectedProducts(newData));
+                }
+                if (record.selectedProducts.length > 0) {
+                  newData = record.selectedProducts.filter((selectedIds) => {
+                    if (selectedIds !== value) {
+                      return selectedIds;
+                    }
+                  });
+                  if (evt.target.checked) {
+                    newData.push(value);
+                  }
+                  record.dispatch(addSelectedProducts(newData));
+                }
+              }}
+            />
+          ) : (
+            ''
+          )}
+          <p>{value}</p>
+        </div>
+      );
+    },
   },
   {
     title: 'Изображения',

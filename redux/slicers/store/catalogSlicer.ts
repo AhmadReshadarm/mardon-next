@@ -202,6 +202,8 @@ const initialState: TCatalogState = {
     minPrice: 0,
     maxPrice: 0,
   },
+  selectedProducts: [],
+  isCheckBoxEnabled: false,
 };
 
 const cartSlicer = createSlice({
@@ -232,6 +234,12 @@ const cartSlicer = createSlice({
     clearProducts(state) {
       state.products = initialState.products;
       state.productsLength = initialState.productsLength;
+    },
+    addSelectedProducts(state, action) {
+      state.selectedProducts = action.payload;
+    },
+    handleCheckBoxEnabled(state, action) {
+      state.isCheckBoxEnabled = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -320,6 +328,8 @@ export const {
   clearProducts,
   setPage,
   setUIPriceRange,
+  addSelectedProducts,
+  handleCheckBoxEnabled,
 } = cartSlicer.actions;
 
 export default cartSlicer.reducer;

@@ -227,6 +227,10 @@ type TFilters = {
   sizes?: string[];
 };
 
+type TselectedProducts = {
+  id: string;
+};
+
 type TCatalogState = {
   categories: Category[];
   subCategories: Category[];
@@ -242,6 +246,8 @@ type TCatalogState = {
   filters: TFilters;
   page: number;
   uiPriceRang: PriceRange;
+  selectedProducts: TselectedProducts[];
+  isCheckBoxEnabled: boolean;
 };
 
 type TCheckoutState = {
