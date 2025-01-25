@@ -102,6 +102,10 @@ const ManageProductForm = ({
     setVariants((prev) => prev.concat({}));
   };
 
+  const filteredTags = tags.map((tag) => {
+    return { value: tag.id, label: tag.name };
+  });
+
   return (
     <>
       <div className={styles.createProductHeader}>
@@ -144,7 +148,7 @@ const ManageProductForm = ({
           <FormItem
             option={ManageProductFields.Desc}
             children={
-              <TextArea required={true} rows={5} placeholder="Описание" />
+              <TextArea required={true} rows={10} placeholder="Описание" />
             }
           />
 
@@ -154,7 +158,7 @@ const ManageProductForm = ({
             children={
               <TextArea
                 required={true}
-                rows={4}
+                rows={10}
                 placeholder="Краткое описание, Не более 350 символов"
               />
             }
@@ -165,7 +169,7 @@ const ManageProductForm = ({
             children={
               <TextArea
                 required={true}
-                rows={4}
+                rows={10}
                 placeholder="Введите keywords | Пользователь ',' между каждым ключевым словом, Например: ключевое слово-1, ключевое слово-2."
               />
             }
@@ -178,43 +182,83 @@ const ManageProductForm = ({
                 setCurCategory,
                 setParameterProducts,
               )}
-              style={{ width: '100%' }}
+              style={{ width: '100%', height: '50px' }}
             >
               {categories?.map((item) => {
                 return (
-                  <Option key={item.id} value={item.id}>
-                    {item.parent?.name} / {item.name}
+                  <Option
+                    key={item.id}
+                    value={item.id}
+                    style={{ padding: '10px' }}
+                  >
+                    <div
+                      style={{
+                        borderBottom: '1px solid #4096FF',
+                      }}
+                    >
+                      <p style={{ fontWeight: '600', fontSize: '1rem' }}>
+                        {item.parent?.name}{' '}
+                        <svg
+                          width="6"
+                          height="10"
+                          viewBox="0 0 6 10"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1 1.5L4.84375 5.53125L1.03125 9.34375"
+                            stroke="#4096FF"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>{' '}
+                        {item.name}
+                      </p>
+                    </div>
                   </Option>
                 );
               })}
             </Select>
           </Form.Item>
           {/* ----------------------TAGS---------------------- */}
-          <Form.Item label="коллекция" name="tags">
+          <Form.Item label="коллекция" name="tags" style={{ height: '50px' }}>
             <Select
               mode="multiple"
               allowClear
-              style={{ width: '100%' }}
+              style={{
+                width: '100%',
+                height: '50px',
+              }}
               placeholder={`Выберите несколько или одну коллекцию`}
-            >
-              {tags?.map((item) => (
-                <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
-              ))}
-            </Select>
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? '')
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={filteredTags}
+            />
+            {/* {tags?.map((item) => (
+                <Option
+                  key={item.id}
+                  value={item.id}
+                  style={{ padding: '10px' }}
+                >
+                  <p
+                    style={{
+                      fontWeight: '600',
+                      fontSize: '1rem',
+                      borderBottom: '1px solid #4096FF',
+                    }}
+                  >
+                    {`${item.name}`}
+                  </p>
+                </Option>
+              ))} */}
+            {/* </Select> */}
           </Form.Item>
-          {/* ----------------------SIZES---------------------- */}
-          {/* <Form.Item label="Размер" name="sizes">
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%' }}
-              placeholder={`Выберите несколько или один размер`}
-            >
-              {sizes?.map((item) => (
-                <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
-              ))}
-            </Select>
-          </Form.Item> */}
+
           {/* ----------------------PRODUCT VARIANTS---------------------- */}
           <h2 style={{ fontSize: '26px', marginBottom: '20px' }}>
             Варианты продукта
