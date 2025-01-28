@@ -84,14 +84,14 @@ const Checkout = () => {
                 justify_content="space-between"
                 align_items="center"
               >
-                <Header>
+                {/* <Header>
                   <Image
                     src="/static/secure-badge.png"
                     alt=""
                     width={80}
                     height={80}
                   />
-                </Header>
+                </Header> */}
                 <CheckoutContent />
               </Content>
             </Wrapper>

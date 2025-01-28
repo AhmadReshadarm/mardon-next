@@ -52,7 +52,7 @@ const Progress = (props: props) => {
         >
           3
         </StepsNumber>
-        <span>Оформление заказа</span>
+        <span>Подтверждение заказа</span>
       </Step>
     </StepsWrapper>
   );

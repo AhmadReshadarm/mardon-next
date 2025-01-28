@@ -9,13 +9,13 @@ const Footer = () => {
     <Container>
       <Wrapper>
         <Link href="/copyright-terms">
-          <span>© {copyRighYear} «Fingarden». Все права защищены.</span>
+          <span>© {copyRighYear} «nbhoz». Все права защищены.</span>
         </Link>
         <SocialWrapper>
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://vk.com/fingarden"
+            href="https://vk.com/nbhoz"
           >
             <span>
               <svg
@@ -35,7 +35,7 @@ const Footer = () => {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://t.me/fingarden"
+            href="https://t.me/nbhoz"
           >
             <span>
               <TelegraSVG />
@@ -44,7 +44,7 @@ const Footer = () => {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://wa.me/+79313539004"
+            href="https://wa.me/+79254865444"
           >
             <span>
               <svg

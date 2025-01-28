@@ -144,7 +144,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
         }}
       >
         <Container>
-          <h3 className="total-header">Ваша сумма</h3>
+          {/* <h3 className="total-header">Ваша сумма</h3> */}
           <Wrapper>
             <Content>
               <ItemColumn>
@@ -181,7 +181,9 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                 {cart?.orderProducts?.map((product: any, index) => {
                   return (
                     <ItemRow key={index}>
-                      <span>{product.product?.name?.slice(0, 20)}..</span>
+                      <span title={product.product.name}>
+                        {product.product?.name?.slice(0, 20)}..
+                      </span>
                       <p className="product-price-mobile-wrapper">
                         <span>{product!.qty} шт</span> *{'  '}
                         <span>
@@ -260,6 +262,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   .total-header {
+    font-size: 1.5rem;
     color: ${color.textSecondary};
   }
   @media ${devices.tabletL} {
@@ -393,7 +396,7 @@ const ItemRow = styled(motion.div)`
     color: ${color.textTertiary};
   }
   .total {
-    font-size: 1.1rem;
+    font-size: 1.6rem;
     font-weight: 600;
   }
   @media ${devices.laptopS} {

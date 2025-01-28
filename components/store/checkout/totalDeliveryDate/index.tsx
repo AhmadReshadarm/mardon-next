@@ -16,7 +16,7 @@ const TotalDeliveryDate = (props: any) => {
         <Link href="/cart">
           <span>Вернуться в корзину</span>
         </Link>
-        <h1>Оформление заказа</h1>
+        <h1>Подтверждение заказа</h1>
       </div>
       <Wrapper>
         <DeliveryDetails

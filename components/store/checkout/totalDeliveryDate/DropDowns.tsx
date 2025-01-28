@@ -18,7 +18,7 @@ const DropDowns = () => {
       viewport={{ once: true }}
       variants={variants.fadInSlideUp}
     >
-      <InfoDropdown title="О Доставка">
+      <InfoDropdown title="О доставке и оплате">
         <h3>КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?</h3>
 
         <Contents>
@@ -60,6 +60,11 @@ const DropDowns = () => {
         <Contents>
           Дополнительная скидка рассчитывается индивидуально и зависит от
           количества заказанного товара.
+        </Contents>
+        <h3>Как можно оплатить?</h3>
+        <Contents>
+          Мы принимаем оплату через расчетный счет или наличными при доставке
+          или самовывоз.
         </Contents>
       </InfoDropdown>
     </InfoContainer>

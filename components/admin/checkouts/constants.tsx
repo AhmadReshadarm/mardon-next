@@ -58,10 +58,8 @@ const columns: ColumnsType<CheckoutsTableData> = [
         <ul>
           {record.basket.orderProducts.map((variant, index) => {
             return (
-              <li key={`size-${index}`}>
-                {variant.productSize != ''
-                  ? `${index + 1}: ${variant.productVariant?.artical}`
-                  : ''}
+              <li key={`variant-${index}`}>
+                {`${index + 1}: ${variant.productVariant?.artical}`}
               </li>
             );
           })}
