@@ -17,6 +17,7 @@ const UserDetails = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleNavBack = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     setStep(1);
     setHasAddress(false);
     setBacktoFinal(true);

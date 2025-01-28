@@ -64,6 +64,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       openErrorNotification('Неправильный адрес электронной почты');
       return;
     }
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     const payload = {
       address,
       receiverName,
@@ -101,6 +102,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       openErrorNotification('Неправильный адрес электронной почты');
       return;
     }
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     const payload = {
       address,
       receiverName,
