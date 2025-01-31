@@ -2,6 +2,8 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  border: 1px solid #00000014;
+  border-radius: 15px;
 }
 
 .ImageSliderWrapper > a {

@@ -5,7 +5,7 @@ import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { useEffect, useState } from 'react';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
-import { Dispatch, SetStateAction } from 'react';
+// import { Dispatch, SetStateAction } from 'react';
 import styles from '../../styles/images.module.css';
 type Props = {
   images: string[];
@@ -60,8 +60,21 @@ const Slider: React.FC<Props> = ({
     }, 300);
   }, [zoom]);
 
+  const [zoomEnabeld, setZoomEnabled] = useState(false);
+
   return (
-    <div className={styles.SliderWrapper}>
+    <div
+      className={styles.SliderWrapper}
+      id="image-zoom-controller"
+      onTouchEnd={(evt) => {
+        if (evt.changedTouches.length > 1) {
+          setZoomEnabled(true);
+          setTimeout(() => {
+            setZoomEnabled(false);
+          }, 5000);
+        }
+      }}
+    >
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={page}
@@ -115,7 +128,16 @@ const Slider: React.FC<Props> = ({
           );
         })}
       </ul>
-
+      {zoomEnabeld ? (
+        <>
+          <div className={styles.ImageZoomInfo}>
+            <span>Нажмите здесь, чтобы увеличить изображение</span>
+          </div>
+          <div className={styles.ImageZoomInfoPointer} />
+        </>
+      ) : (
+        <></>
+      )}
       <div className={styles.ImageZoomButtonWrapper}>
         <button
           onClick={(e) => {

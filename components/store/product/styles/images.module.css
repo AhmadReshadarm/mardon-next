@@ -72,6 +72,29 @@
   align-items: center;
 }
 
+.ImageZoomInfo {
+  position: absolute;
+  bottom: 75px;
+  left: 30px;
+  z-index: 999;
+  padding: 10px;
+  background: #000000;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.ImageZoomInfoPointer {
+  width: 30px;
+  height: 30px;
+  background: #000000;
+  position: absolute;
+  bottom: 72px;
+  left: 36px;
+  z-index: 9;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
 .ImageZoomButton {
   width: 30px;
   height: 30px;

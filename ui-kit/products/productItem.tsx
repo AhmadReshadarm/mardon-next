@@ -119,9 +119,9 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             aria-label={product.name}
             prefetch={false}
           >
-            <span title={product.name?.length! > 40 ? product.name : ''}>
-              {product.name?.length! > 40
-                ? `${product.name?.slice(0, 40)}...`
+            <span title={product.name}>
+              {product.name?.length! > 80
+                ? `${product.name?.slice(0, 80)}...`
                 : product.name}
             </span>
           </Link>
@@ -203,7 +203,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </div>
           {/* ------------- end of rating ---------------- */}
           {/* ------------------ description ---------------- */}
-          <div className={styles.product_description_wrapper}>
+          {/* <div className={styles.product_description_wrapper}>
             <span title="Нажмите на карточку товара, чтобы узнать больше">
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 60
@@ -213,7 +213,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 ? product?.desc?.slice(0, 60) + '...'
                 : product?.desc?.slice(0, 60)}
             </span>
-          </div>
+          </div> */}
           {/* ----------------- end of description ---------- */}
           <div className={styles.product_price_wrapper}>
             {product.productVariants![0]?.oldPrice ? (
