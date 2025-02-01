@@ -16,6 +16,7 @@ type Props = {
   paginateImage: any;
   alt: any;
   base64Image: any;
+  zoomEnabeld: boolean;
 };
 
 const Slider: React.FC<Props> = ({
@@ -27,6 +28,7 @@ const Slider: React.FC<Props> = ({
   paginateImage,
   alt,
   base64Image,
+  zoomEnabeld,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
@@ -60,21 +62,8 @@ const Slider: React.FC<Props> = ({
     }, 300);
   }, [zoom]);
 
-  const [zoomEnabeld, setZoomEnabled] = useState(false);
-
   return (
-    <div
-      className={styles.SliderWrapper}
-      id="image-zoom-controller"
-      onTouchEnd={(evt) => {
-        if (evt.changedTouches.length > 1) {
-          setZoomEnabled(true);
-          setTimeout(() => {
-            setZoomEnabled(false);
-          }, 5000);
-        }
-      }}
-    >
+    <div className={styles.SliderWrapper} id="image-zoom-controller">
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={page}

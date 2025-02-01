@@ -13,6 +13,7 @@ type Props = {
   paginateImage: Dispatch<SetStateAction<number>>;
   setPage: Dispatch<SetStateAction<[number, number]>>;
   base64Image: any;
+  zoomEnabeld: boolean;
 };
 
 const Images: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const Images: React.FC<Props> = ({
   setSelectedIndex,
   paginateImage,
   base64Image,
+  zoomEnabeld,
 }) => {
   return (
     <div className={styles.ImagesContainer}>
@@ -36,6 +38,7 @@ const Images: React.FC<Props> = ({
         paginateImage={paginateImage}
         alt={product?.name}
         base64Image={base64Image}
+        zoomEnabeld={zoomEnabeld}
       />
     </div>
   );

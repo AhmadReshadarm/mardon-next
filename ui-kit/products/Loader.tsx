@@ -126,7 +126,7 @@ export const LoaderItem = ({ index }) => {
 
   return (
     <li
-      className={styles.ItemContainer}
+      className={styles.ItemContainer_dummy_data}
       key={index}
       style={{
         minWidth: `${wrapperSizesContainer.minMaxWidth}px`,
