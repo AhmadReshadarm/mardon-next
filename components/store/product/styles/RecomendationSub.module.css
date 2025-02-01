@@ -51,7 +51,9 @@
   justify-content: flex-start;
   padding: 0 20px;
 }
-
+.seeMoreWrapper a {
+  color: #000;
+}
 .seeMoreButton {
   display: flex;
   flex-direction: row;
@@ -67,6 +69,7 @@
 .seeMoreButton span {
   font-weight: 600;
   font-size: 1rem;
+  color: #000;
 }
 
 .seeMoreButton:hover {
