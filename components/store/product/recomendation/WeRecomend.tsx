@@ -40,7 +40,11 @@ const WeRecomend = ({ product }) => {
         </div>
         {isInViewport ? (
           products.length !== 0 ? (
-            <ProductFlex products={products} loading={loading} />
+            <ProductFlex
+              products={products}
+              loading={loading}
+              seeMoreUrl={`/catalog?categories=${product?.category.parent?.url}`}
+            />
           ) : (
             <ProductFlexEmpty />
           )

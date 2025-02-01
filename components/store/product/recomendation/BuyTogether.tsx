@@ -46,7 +46,14 @@ const BuyTogether: React.FC<Props> = ({ product }) => {
         </div>
         {isInViewport ? (
           products.length !== 0 ? (
-            <ProductFlex products={products} loading={loading} />
+            <ProductFlex
+              products={products}
+              loading={loading}
+              // seeMoreUrl={`/catalog?categories=${product?.category?.url!}`}
+              seeMoreUrl={`/catalog?categories=${
+                product?.category!.parent?.url
+              }&subCategories=${product?.category?.url!}`}
+            />
           ) : (
             <ProductFlexEmpty />
           )
