@@ -69,6 +69,7 @@ const TopFilterBar: React.FC<Props> = ({
   const [ActivateResetBtn, setActivateResetBtn] = useState(false);
   const [resetSlider, setResetSlider] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [clearSearchTerm, setClearSearchTerm] = useState(false);
   const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
   const [sliderChanged, setSliderChanged] = useState(false);
   const handleResetFilters = () => {
@@ -107,7 +108,7 @@ const TopFilterBar: React.FC<Props> = ({
 
   useEffect(() => {
     searchTerm !== '' ? setActivateResetBtn(true) : setActivateResetBtn(false);
-    const delayDebounceFn = setTimeout(() => {
+    if (clearSearchTerm) {
       setCurrentPage(1);
       setPageSize(12);
 
@@ -115,9 +116,20 @@ const TopFilterBar: React.FC<Props> = ({
         { name: 'name', value: searchTerm },
         { name: 'page', value: 1 },
       ]);
-    }, 1500);
+      setClearSearchTerm(false);
+    } else {
+      const delayDebounceFn = setTimeout(() => {
+        setCurrentPage(1);
+        setPageSize(12);
 
-    return () => clearTimeout(delayDebounceFn);
+        pushQueryParams([
+          { name: 'name', value: searchTerm },
+          { name: 'page', value: 1 },
+        ]);
+      }, 1500);
+
+      return () => clearTimeout(delayDebounceFn);
+    }
   }, [searchTerm]);
 
   useEffect(() => {
@@ -379,7 +391,48 @@ const TopFilterBar: React.FC<Props> = ({
       </ActionButtonsWrapper>
       <SelectedFiltersWrapper className="selected-parent">
         {/* ----------------------------------------- seleceted Filters start ------------------------------------------- */}
-
+        {searchTerm !== '' ? (
+          <SelectedFiltersButtons className="selected-filter-child">
+            <span>{searchTerm}</span>
+            <span
+              onClick={() => {
+                setClearSearchTerm(true);
+                setSearchTerm('');
+              }}
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 21 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3541"
+                  y2="-1"
+                  transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="1"
+                  y1="-1"
+                  x2="26.3044"
+                  y2="-1"
+                  transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+          </SelectedFiltersButtons>
+        ) : (
+          ''
+        )}
         {localFilters.map((selectedFilter, indexSelectedFilter) => {
           switch (selectedFilter.title) {
             case 'Выберите цвет':
