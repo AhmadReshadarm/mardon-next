@@ -33,6 +33,7 @@ const CheckoutsPage = () => {
       address,
       comment,
       createdAt,
+      status,
       ...rest
     }): CheckoutsData => ({
       key: id as string,
@@ -42,6 +43,7 @@ const CheckoutsPage = () => {
       address,
       createdAt,
       comment,
+      status,
     }),
   ) as unknown as DataType[];
 

@@ -3,6 +3,8 @@ import { OrderProduct } from 'swagger/services';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
 import moment from 'moment';
+import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
+import color from 'components/store/lib/ui.colors';
 
 interface CheckoutsTableData {
   id: string;
@@ -10,13 +12,51 @@ interface CheckoutsTableData {
   basket: { orderProducts: OrderProduct[] };
   createdAt: Date;
   address: { address: string; receiverPhone: string };
+  status: number;
 }
+
 //  initialState.checkout.basket?.orderProducts[0].productSize
 const columns: ColumnsType<CheckoutsTableData> = [
   {
     title: 'Заказ №',
     dataIndex: 'id',
     width: '5%',
+  },
+  {
+    title: 'status',
+    render: (_, record) => {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: '15px',
+          }}
+        >
+          <span
+            style={{
+              backgroundColor:
+                record.status !== CheckoutStatus.Completed
+                  ? record.status === CheckoutStatus.Canceled
+                    ? color.hover
+                    : color.yellow
+                  : color.ok,
+              borderRadius: '50%',
+              width: '10px',
+              height: '10px',
+            }}
+          ></span>
+          <span>
+            {record.status === CheckoutStatus.New && 'Новый заказ'}
+            {record.status === CheckoutStatus.InDelivery && 'В пути'}
+            {record.status === CheckoutStatus.Completed && 'Завершен'}
+            {record.status === CheckoutStatus.Canceled && 'Отменено'}
+          </span>
+        </div>
+      );
+    },
   },
   {
     title: 'Пользователь',

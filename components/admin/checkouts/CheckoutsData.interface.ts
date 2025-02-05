@@ -8,4 +8,5 @@ export interface CheckoutsData {
   address?: Address;
   createdAt: Date;
   comment?: string;
+  status: number;
 }

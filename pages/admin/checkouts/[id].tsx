@@ -88,6 +88,7 @@ const CheckoutsPage = () => {
                       onClick={() =>
                         handleOrderStaus(checkout.id, statusSetter(index))
                       }
+                      className="status-text"
                     >
                       {status}
                     </li>
@@ -148,16 +149,17 @@ const StatusOptionsWappper = styled.ul`
   algin-items: center;
   overflow: hidden;
   position: absolute;
-  top: 50px;
+  top: 75px;
   left: 150px;
-  li {
+  .status-text {
     cursor: pointer;
     width: 100%;
     text-align: center;
     padding: 15px;
     color: ${color.btnPrimary};
     &:hover {
-      background-color: ${color.textSecondary};
+      background-color: ${color.btnPrimary};
+      color: ${color.textPrimary};
     }
   }
 `;
