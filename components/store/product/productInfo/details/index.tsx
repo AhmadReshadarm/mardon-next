@@ -127,6 +127,10 @@ const Details: React.FC<Props> = ({
         <div className={styles.SizePickerWrapper}>
           <div className={styles.info_size_wrapper}>
             <span className={styles.title}>Выберите артикул:</span>
+            <span className={styles.title} style={{ color: 'red' }}>
+              Товар в коробке по цветам не продаются, там микс цвета в коробке
+              идут
+            </span>
           </div>
           <ColorPicker
             variantColor={variant?.color ?? product?.productVariants![0]?.color}

@@ -107,7 +107,39 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
             {slides.map((slide, index) => {
               return (
                 <SlideItem key={`slides-${index + 1}`}>
-                  {index + 1}
+                  <div className="number_and_delete_wrapper">
+                    <span>{index + 1}</span>
+                    <span onClick={handleRemove(index)}>
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 21 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="1"
+                          y1="-1"
+                          x2="26.3541"
+                          y2="-1"
+                          transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
+                          stroke="black"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <line
+                          x1="1"
+                          y1="-1"
+                          x2="26.3044"
+                          y2="-1"
+                          transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
+                          stroke="black"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </span>
+                  </div>
                   <FormItem
                     option={`${ManageSlidesFields.Link}${index + 1}`}
                     children={
@@ -127,6 +159,9 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
                           isProduct={false}
                           slideNum={index + 1}
                         />
+                        <label htmlFor="uploadBtn">
+                          Размер изображения должен быть 1920 x 800 пикселей.
+                        </label>
                         <ButtonDevider>
                           {imageList.length < slides.length ? (
                             <Button
@@ -151,64 +186,38 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
                       </>
                     }
                   />
-                  <span onClick={handleRemove(index)}>
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 21 22"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <line
-                        x1="1"
-                        y1="-1"
-                        x2="26.3541"
-                        y2="-1"
-                        transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
-                        stroke="black"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                      <line
-                        x1="1"
-                        y1="-1"
-                        x2="26.3044"
-                        y2="-1"
-                        transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
-                        stroke="black"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </span>
                 </SlideItem>
               );
             })}
-            <Button
-              onClick={handleAddSlide}
-              type="primary"
-              disabled={slides.length === 5}
-              style={{ marginBottom: '20px' }}
-            >
-              Добавить слайд
-            </Button>
-            {/*--------------THE END--------------*/}
-            <Form.Item className={styles.updateBannerForm__buttonsStack}>
+            <div style={{ padding: '20px 0' }}>
               <Button
+                onClick={handleAddSlide}
                 type="primary"
-                htmlType="submit"
-                className={styles.updateBannerForm__buttonsStack__submitButton}
-                loading={isSaveLoading}
+                disabled={slides.length === 5}
+                style={{ marginBottom: '20px' }}
               >
-                Сохранить
+                Добавить слайд
               </Button>
-              <Button
-                type="primary"
-                onClick={navigateTo(router, Page.ADMIN_BANNERS)}
-              >
-                Вернуться назад
-              </Button>
-            </Form.Item>
+              {/*--------------THE END--------------*/}
+              <Form.Item className={styles.updateBannerForm__buttonsStack}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className={
+                    styles.updateBannerForm__buttonsStack__submitButton
+                  }
+                  loading={isSaveLoading}
+                >
+                  Сохранить
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={navigateTo(router, Page.ADMIN_BANNERS)}
+                >
+                  Вернуться назад
+                </Button>
+              </Form.Item>
+            </div>
           </Form>
         </div>
       )}
@@ -218,12 +227,18 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
 
 const SlideItem = styled.div`
   position: relative;
-
-  > svg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
+  border-bottom: 1px solid;
+  padding: 30px;
+  .number_and_delete_wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    span {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
   }
 `;
 

@@ -148,6 +148,9 @@ const ManageCategoryForm = ({
             children={
               <>
                 <ImageUpload fileList={imageList} />
+                <label style={{ color: 'red' }} htmlFor="uploadBtn">
+                  Размер изображения должен быть 820 x 1024 пикселей.
+                </label>
                 <ButtonDevider>
                   {imageList.length < 1 && (
                     <Button
