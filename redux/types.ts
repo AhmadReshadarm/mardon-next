@@ -248,6 +248,7 @@ type TCatalogState = {
   uiPriceRang: PriceRange;
   selectedProducts: TselectedProducts[];
   isCheckBoxEnabled: boolean;
+  loadingProgress: boolean;
 };
 
 type TCheckoutState = {

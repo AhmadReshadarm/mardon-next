@@ -2,17 +2,9 @@ import variants from 'components/store/lib/variants';
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { FilterOption } from '../../../../ui-kit/FilterCheckbox/types';
-import {
-  Filter,
-  FilterBody,
-  FilterTitle,
-  TopFilter,
-  TopFilterBody,
-  TopFilterTitle,
-} from '../common';
-import color from 'components/store/lib/ui.colors';
+import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
 import { devices } from 'components/store/lib/Devices';
-import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
+import Image from 'next/image';
 type Props = {
   title: string;
   options?: FilterOption[];
@@ -76,20 +68,19 @@ const SingleSelectionFilter: React.FC<Props> = ({
         exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
         variants={variants.fadInSlideUp}
       >
-        {stateOptions?.map((option, index) => (
+        {stateOptions?.map((option) => (
           <Selection
             key={`filter-selection-${option.id}`}
             selected={!!option.checked}
             onClick={handleChange(option.id)}
-            // onMouseOver={() => setHoverdIndex(index)}
-            // onMouseLeave={() => setHoverdIndex(null)}
           >
-            <span>
-              {option.name}
-              {/* {hoveredIndex == index
-                ? option.name
-                : option.name.slice(0, 9) + '...'} */}
-            </span>
+            <Image
+              src={option.ImageUrl!}
+              width={1080}
+              height={1080}
+              alt={option.name}
+            />
+            <span>{option.name}</span>
           </Selection>
         ))}
       </TopFilterBody>
@@ -102,16 +93,20 @@ const Selection = styled.div<{
 }>`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  padding: 2px;
   border-radius: 30px;
   cursor: pointer;
   border: 1px solid #949494;
   box-shadow: 3px 13px 25px 0px #00000012;
   transition: 250ms;
-
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
   ${(props) => {
     if (props.selected) {
       return css`
@@ -122,6 +117,7 @@ const Selection = styled.div<{
   }}
   span {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -132,59 +128,71 @@ const Selection = styled.div<{
     text-align: center;
   }
   @media ${devices.laptopS} {
-    width: fit-content;
+    width: unset;
+    overflow: unset;
+    img {
+      border-radius: 30px 30px 0px 0px;
+    }
     span {
       white-space: nowrap;
+      padding: 8px 20px;
     }
   }
   @media ${devices.tabletL} {
-    width: fit-content;
+    width: unset;
+    overflow: unset;
+    img {
+      border-radius: 30px 30px 0px 0px;
+    }
     span {
       white-space: nowrap;
+      padding: 8px 20px;
     }
   }
   @media ${devices.tabletS} {
-    width: fit-content;
+    width: unset;
+    overflow: unset;
+    img {
+      border-radius: 30px 30px 0px 0px;
+    }
     span {
       white-space: nowrap;
+      padding: 8px 20px;
     }
   }
   @media ${devices.mobileL} {
-    width: fit-content;
+    width: unset;
+    overflow: unset;
+    img {
+      border-radius: 30px 30px 0px 0px;
+    }
     span {
       white-space: nowrap;
+      padding: 8px 20px;
     }
   }
   @media ${devices.mobileM} {
-    width: fit-content;
+    width: unset;
+    overflow: unset;
+    img {
+      border-radius: 30px 30px 0px 0px;
+    }
     span {
       white-space: nowrap;
+      padding: 8px 20px;
     }
   }
   @media ${devices.mobileS} {
-    width: fit-content;
+    width: unset;
+    overflow: unset;
+    img {
+      border-radius: 30px 30px 0px 0px;
+    }
     span {
       white-space: nowrap;
+      padding: 8px 20px;
     }
   }
 `;
-
-//  ${(props) => {
-//     if (props.selected) {
-//       return css`
-//         box-shadow: 0px 5px 10px 0px ${color.boxShadowBtn};
-//       `;
-//     }
-//   }}
-
-// ${(props) => {
-//   if (props.selected) {
-//     return css`
-//       background: ${color.selected};
-//       color: ${color.btnPrimary};
-//       text-align: center;
-//     `;
-//   }
-// }}
 
 export default SingleSelectionFilter;

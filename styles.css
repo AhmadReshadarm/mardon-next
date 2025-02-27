@@ -164,6 +164,9 @@ h6 {
 .ant-carousel .slick-list .slick-slide > div > div {
   text-align: center;
 }
+.ant-select-selection-search-input {
+  font-size: 1rem; /* antd paginition input text size */
+}
 
 /* custom css for antd pagesize */
 @media only screen and (max-width: 576px) {

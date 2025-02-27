@@ -18,7 +18,7 @@ const Footer = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
   const copyRighYear = new Date().getFullYear();
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
   const [showCookiesNotifi, setShowCookiesNotifi] = useState(false);
   const { isInViewport, ref } = useInViewport();
   useEffect(() => {
@@ -247,7 +247,7 @@ const Footer = (): JSX.Element => {
                 <span
                   onClick={() => {
                     setOpen(false);
-                    localStorage.setItem('agree-cookies', '0');
+                    localStorage.setItem('agree-cookies', '1');
                   }}
                   className={styles.close_btn_wrapper}
                 >

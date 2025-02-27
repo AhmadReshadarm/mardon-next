@@ -65,7 +65,7 @@ const TopFilterBar: React.FC<Props> = ({
     }),
   );
 
-  const [isMoreFilters, setMoreFilters] = useState(false);
+  const [isMoreFilters, setMoreFilters] = useState(true);
   const [ActivateResetBtn, setActivateResetBtn] = useState(false);
   const [resetSlider, setResetSlider] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -159,18 +159,22 @@ const TopFilterBar: React.FC<Props> = ({
   const { uiPriceRang } = useAppSelector<TCatalogState>(
     (state) => state.catalog,
   );
-  // useEffect(() => {
-  //   const child = document.querySelector('.selected-filter-child');
 
-  //   function isInPage(node) {
-  //     return node === document.body ? false : document.body.contains(node);
-  //   }
-  //   isInPage(child) ? setHasActiveFilters(true) : setActivateResetBtn(false);
-  // });
+  useEffect(() => {
+    if (expanded) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  }, [expanded, isMoreFilters]);
 
   return (
     <FilterBarContent expanded={expanded}>
-      <div className="mobile-background"></div>
+      <div
+        className="mobile-background"
+        onClick={() => {
+          setMoreFilters(!isMoreFilters);
+          handleExpantionChange();
+        }}
+      ></div>
       <FiltersWrapper
         expanded={expanded}
         animate={{ height: isMoreFilters ? 'unset' : '0px' }}
@@ -347,6 +351,7 @@ const TopFilterBar: React.FC<Props> = ({
               )),
         )}
       </FiltersWrapper>
+      {/* ----------------------------- category menu state aciton buttons ---------------------- */}
       <ActionButtonsWrapper>
         <MoreFiltersButton
           onClick={() => {
@@ -389,11 +394,13 @@ const TopFilterBar: React.FC<Props> = ({
           <span>Сбросить фильтры</span>
         </ResetButton>
       </ActionButtonsWrapper>
+
+      {/* ----------------------------- end category menu state aciton buttons ---------------------- */}
       <SelectedFiltersWrapper className="selected-parent">
         {/* ----------------------------------------- seleceted Filters start ------------------------------------------- */}
         {searchTerm !== '' ? (
           <SelectedFiltersButtons className="selected-filter-child">
-            <span>{searchTerm}</span>
+            <span>Наименование товара: {searchTerm}</span>
             <span
               onClick={() => {
                 setClearSearchTerm(true);
@@ -433,7 +440,8 @@ const TopFilterBar: React.FC<Props> = ({
         ) : (
           ''
         )}
-        {localFilters.map((selectedFilter, indexSelectedFilter) => {
+        {/* ----------------------------------------------- selected filters ------------------------------------- */}
+        {localFilters.map((selectedFilter) => {
           switch (selectedFilter.title) {
             case 'Выберите цвет':
               return (
@@ -447,13 +455,14 @@ const TopFilterBar: React.FC<Props> = ({
                             className="selected-filter-child"
                           >
                             <div className="selected-color-warpper">
-                              <span>Цвет</span>
+                              <span>Цвет:</span>
                               <div
                                 style={{
                                   backgroundColor: `${selectedColor.color}`,
                                 }}
                                 className="selected-color-indecator"
-                              ></div>
+                                title={`Цвет: ${selectedColor.name}`}
+                              />
                             </div>
 
                             <span
@@ -520,7 +529,7 @@ const TopFilterBar: React.FC<Props> = ({
                             key={`${selectedType.id}-${index}`}
                             className="selected-filter-child"
                           >
-                            <span>{selectedType.name}</span>
+                            <span>Тип товара: {selectedType.name}</span>
                             <span
                               onClick={() => {
                                 const curOption = selectedFilter.options?.find(
@@ -585,7 +594,7 @@ const TopFilterBar: React.FC<Props> = ({
                             key={`${selectedCategory.id}-${index}`}
                             className="selected-filter-child"
                           >
-                            <span>{selectedCategory.name}</span>
+                            <span>Категории: {selectedCategory.name}</span>
                             <span
                               onClick={() => {
                                 const curOption: any =
@@ -650,7 +659,7 @@ const TopFilterBar: React.FC<Props> = ({
                             key={`${selectedSubCategory.id}-${index}`}
                             className="selected-filter-child"
                           >
-                            <span>{selectedSubCategory.name}</span>
+                            <span>Подкатегори: {selectedSubCategory.name}</span>
                             <span
                               onClick={() => {
                                 const curOption: any =
@@ -722,7 +731,7 @@ const TopFilterBar: React.FC<Props> = ({
                       className="selected-filter-child"
                     >
                       <span>
-                        От ${uiPriceRang.minPrice} ₽ до ${uiPriceRang.maxPrice}{' '}
+                        От: {uiPriceRang.minPrice}₽ | до: {uiPriceRang.maxPrice}
                         ₽
                       </span>
                       <span
@@ -797,8 +806,11 @@ const FilterBarContent = styled.div<any>`
   background-color: #f3f2f0;
   border-radius: 30px;
   @media ${devices.laptopS} {
+    position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
+    top: 0;
+    z-index: 9;
     .mobile-background {
-      display: ${(props) => (!props.expanded ? 'none' : 'block;')};
+      display: ${(props) => (!props.expanded ? 'none' : 'block')};
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -810,8 +822,11 @@ const FilterBarContent = styled.div<any>`
     }
   }
   @media ${devices.tabletL} {
+    position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
+    top: 0;
+    z-index: 9;
     .mobile-background {
-      display: ${(props) => (!props.expanded ? 'none' : 'block;')};
+      display: ${(props) => (!props.expanded ? 'none' : 'block')};
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -824,8 +839,11 @@ const FilterBarContent = styled.div<any>`
   }
 
   @media ${devices.tabletS} {
+    position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
+    top: 0;
+    z-index: 9;
     .mobile-background {
-      display: ${(props) => (!props.expanded ? 'none' : 'block;')};
+      display: ${(props) => (!props.expanded ? 'none' : 'block')};
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -837,8 +855,11 @@ const FilterBarContent = styled.div<any>`
     }
   }
   @media ${devices.mobileL} {
+    position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
+    top: 0;
+    z-index: 9;
     .mobile-background {
-      display: ${(props) => (!props.expanded ? 'none' : 'block;')};
+      display: ${(props) => (!props.expanded ? 'none' : 'block')};
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -851,8 +872,11 @@ const FilterBarContent = styled.div<any>`
   }
 
   @media ${devices.mobileM} {
+    position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
+    top: 0;
+    z-index: 9;
     .mobile-background {
-      display: ${(props) => (!props.expanded ? 'none' : 'block;')};
+      display: ${(props) => (!props.expanded ? 'none' : 'block')};
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -865,8 +889,11 @@ const FilterBarContent = styled.div<any>`
   }
 
   @media ${devices.mobileS} {
+    position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
+    top: 0;
+    z-index: 9;
     .mobile-background {
-      display: ${(props) => (!props.expanded ? 'none' : 'block;')};
+      display: ${(props) => (!props.expanded ? 'none' : 'block')};
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -1011,11 +1038,20 @@ const SelectedFiltersButtons = styled.button`
 const FiltersWrapper = styled<any>(motion.div)`
   width: 100%;
   display: inline-grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   column-gap: 50px;
   row-gap: 30px;
   padding: 10px;
   justify-items: center;
+
+  & > *:nth-child(2),
+  & > *:nth-child(3) {
+    grid-column: span 3;
+  }
+
+  & > *:nth-child(n + 4) {
+    grid-column: span 2;
+  }
 
   .mobile-filter-action-buttons {
     display: none;
@@ -1069,13 +1105,13 @@ const FiltersWrapper = styled<any>(motion.div)`
     }
   }
   @media ${devices.desktop} {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   @media ${devices.laptopL} {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   @media ${devices.laptopM} {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   @media ${devices.laptopS} {
     height: 100% !important;

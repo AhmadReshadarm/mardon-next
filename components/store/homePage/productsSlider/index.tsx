@@ -20,18 +20,18 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
   const [caroselIndex, setCaroselIndex] = useState<number>(0);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [isMouseHover, setISMouseHover] = useState<boolean>(false);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (caroselProducts.length - 1 > caroselIndex && !isMouseHover) {
-        setCaroselIndex(caroselIndex + 1);
-      }
-      if (caroselProducts.length - 1 <= caroselIndex && !isMouseHover) {
-        setCaroselIndex(0);
-      }
-    }, 15000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (caroselProducts.length - 1 > caroselIndex && !isMouseHover) {
+  //       setCaroselIndex(caroselIndex + 1);
+  //     }
+  //     if (caroselProducts.length - 1 <= caroselIndex && !isMouseHover) {
+  //       setCaroselIndex(0);
+  //     }
+  //   }, 15000);
 
-    return () => clearTimeout(timer);
-  }, [caroselIndex, isMouseHover]);
+  //   return () => clearTimeout(timer);
+  // }, [caroselIndex, isMouseHover]);
 
   return (
     <div

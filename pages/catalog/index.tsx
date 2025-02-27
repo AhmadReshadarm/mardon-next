@@ -92,15 +92,8 @@ const CatalogPage = ({
     Category | undefined
   >();
 
-  const {
-    // products,
-    categories,
-    subCategories,
-    colors,
-    tags,
-    priceRange,
-    // loading,
-  } = useAppSelector<TCatalogState>((state) => state.catalog);
+  const { categories, subCategories, colors, tags, priceRange } =
+    useAppSelector<TCatalogState>((state) => state.catalog);
 
   const handleLocationChange = onLocationChange(dispatch);
   const [firstLoad, setFirstLoad] = useState(true);
@@ -148,7 +141,7 @@ const CatalogPage = ({
     return color;
   });
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const handleExpantionChange = () => {
     setExpanded((prev) => !prev);
@@ -320,17 +313,37 @@ const Products = styled.div`
     width: 5px;
   }
   @media ${devices.laptopS} {
+    height: unset;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+
+  @media ${devices.tabletL} {
+    height: unset;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+
+  @media ${devices.tabletS} {
+    height: unset;
+    overflow: hidden;
     padding: 0 10px;
   }
 
   @media ${devices.mobileL} {
+    height: unset;
+    overflow: hidden;
     padding: 0 10px;
   }
   @media ${devices.mobileM} {
+    height: unset;
+    overflow: hidden;
     padding: 0 10px;
   }
 
   @media ${devices.mobileS} {
+    height: unset;
+    overflow: hidden;
     padding: 0 10px;
   }
 `;

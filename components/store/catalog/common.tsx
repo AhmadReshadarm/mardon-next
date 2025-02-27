@@ -83,7 +83,7 @@ const TopFilterTitle = styled(motion.div)`
 const TopFilterBody = styled(motion.div)`
   width: 100%;
   display: inline-grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 10px;
   row-gap: 10px;
   padding: 10px;
@@ -100,7 +100,13 @@ const TopFilterBody = styled(motion.div)`
   &::-webkit-scrollbar {
     display: none;
   }
+  @media ${devices.laptopL} {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
+  @media ${devices.laptopM} {
+    grid-template-columns: repeat(2, 1fr);
+  }
   @media ${devices.laptopS} {
     width: 100%;
     display: flex;

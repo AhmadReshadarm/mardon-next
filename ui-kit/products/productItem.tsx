@@ -109,6 +109,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           windowWidth={windowWidth}
         />
         <div className={styles.product_title_add_to_card_wrapper}>
+          {/* ----------------- title start ------------------ */}
           <Link
             className={styles.product_title}
             onClick={() => {
@@ -125,6 +126,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                 : product.name}
             </span>
           </Link>
+          {/* ------------ end of title ---------------- */}
           {/* ----------- aritcale ---------- */}
           <div className={styles.artical_wrapper}>
             <span>Артикул(ы) : </span>
@@ -202,19 +204,6 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             </span>
           </div>
           {/* ------------- end of rating ---------------- */}
-          {/* ------------------ description ---------------- */}
-          {/* <div className={styles.product_description_wrapper}>
-            <span title="Нажмите на карточку товара, чтобы узнать больше">
-              {product?.desc?.includes('|')
-                ? product?.desc?.split('|')[0]?.length! > 60
-                  ? product?.desc?.split('|')[0].slice(0, 60) + '...'
-                  : product?.desc?.split('|')[0]
-                : product?.desc?.length! > 60
-                ? product?.desc?.slice(0, 60) + '...'
-                : product?.desc?.slice(0, 60)}
-            </span>
-          </div> */}
-          {/* ----------------- end of description ---------- */}
           <div className={styles.product_price_wrapper}>
             {product.productVariants![0]?.oldPrice ? (
               <span className={styles.old_price}>

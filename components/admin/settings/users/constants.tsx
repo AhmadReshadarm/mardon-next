@@ -5,6 +5,7 @@ import { handleDeleteUser } from './helpers';
 import styles from './settings.module.scss';
 import { Image } from 'antd';
 import { imageFallback } from 'common/constants';
+import { Role } from 'common/enums/roles.enum';
 
 export const columns: ColumnsType<User> = [
   {
@@ -60,7 +61,11 @@ export const columns: ColumnsType<User> = [
     title: 'Роль пользователя',
     dataIndex: 'role',
     render: (_, record) => {
-      return <span>{record.role}</span>;
+      return (
+        <span>
+          {record.role === Role.Admin ? 'Администратор' : 'пользователь'}
+        </span>
+      );
     },
     width: '10%',
   },

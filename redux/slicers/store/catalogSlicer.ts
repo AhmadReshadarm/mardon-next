@@ -163,23 +163,23 @@ export const fetchSizes = createAsyncThunk<
   },
 );
 
-// export const fetchProductsInExcelFile = createAsyncThunk<
-//   any,
-//   undefined,
-//   { rejectValue: string }
-// >(
-//   'tags/fetchProductsInExcelFile',
-//   async function (_, { rejectWithValue }): Promise<any> {
-//     try {
-//       const response = (await ProductService.getProducts({
-//         limit: 10000,
-//       })) as unknown as { rows: Product[]; length: number };
-//       return response;
-//     } catch (error: any) {
-//       return rejectWithValue(getErrorMassage(error.response.status));
-//     }
-//   },
-// );
+export const fetchProductsInExcelFile = createAsyncThunk<
+  any,
+  undefined,
+  { rejectValue: string }
+>(
+  'tags/fetchProductsInExcelFile',
+  async function (_, { rejectWithValue }): Promise<any> {
+    try {
+      const response = (await ProductService.getProducts({
+        limit: 10000,
+      })) as unknown as { rows: Product[]; length: number };
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
 
 const initialState: TCatalogState = {
   categories: [],
@@ -204,6 +204,7 @@ const initialState: TCatalogState = {
   },
   selectedProducts: [],
   isCheckBoxEnabled: false,
+  loadingProgress: false,
 };
 
 const cartSlicer = createSlice({
@@ -302,20 +303,20 @@ const cartSlicer = createSlice({
         state.sizes = action.payload;
         state.loading = false;
       })
-      .addCase(fetchSizes.rejected, handleError);
-    // fetchProductsInExcelFile
-    // .addCase(
-    //   fetchProductsInExcelFile.pending,
-    //   (state: { loadingProgress: any; loading: boolean }, action) => {
-    //     state.loading = true;
-    //     state.loadingProgress = action.payload;
-    //   },
-    // )
-    // .addCase(fetchProductsInExcelFile.fulfilled, (state, action) => {
-    //   state.loadingProgress = action.payload;
-    //   state.loading = false;
-    // })
-    // .addCase(fetchProductsInExcelFile.rejected, handleError);
+      .addCase(fetchSizes.rejected, handleError)
+      // fetchProductsInExcelFile
+      .addCase(
+        fetchProductsInExcelFile.pending,
+        (state: { loadingProgress: any; loading: boolean }, action) => {
+          state.loading = true;
+          state.loadingProgress = action.payload;
+        },
+      )
+      .addCase(fetchProductsInExcelFile.fulfilled, (state, action) => {
+        state.loadingProgress = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProductsInExcelFile.rejected, handleError);
   },
 });
 

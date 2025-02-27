@@ -1,6 +1,6 @@
 .ItemContainer {
   width: 100%;
-  height: 700px;
+  height: 650px;
   background-color: var(--productCart);
   padding: 10px;
   border: 1px solid #e5e2d9;
@@ -10,7 +10,7 @@
 
 .ItemContainer_dummy_data {
   width: 100%;
-  height: 700px;
+  height: 650px;
   background-color: var(--productCart);
   padding: 10px;
   border: 1px solid #e5e2d9;

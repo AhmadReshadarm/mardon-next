@@ -4,11 +4,13 @@ type FilterOption = {
   url: string;
   checked?: boolean;
   color?: string;
-}
+  ImageUrl?: string;
+};
 
 enum FilterCheckboxSize {
   Small,
   Big,
 }
 
-export { FilterCheckboxSize }; export type { FilterOption };
+export { FilterCheckboxSize };
+export type { FilterOption };
