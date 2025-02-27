@@ -403,6 +403,7 @@ const TopFilterBar: React.FC<Props> = ({
             <span>Наименование товара: {searchTerm}</span>
             <span
               onClick={() => {
+                window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
                 setClearSearchTerm(true);
                 setSearchTerm('');
               }}
@@ -467,6 +468,11 @@ const TopFilterBar: React.FC<Props> = ({
 
                             <span
                               onClick={() => {
+                                window.scrollTo({
+                                  top: 0,
+                                  left: 0,
+                                  behavior: 'smooth',
+                                });
                                 const curOption = selectedFilter.options?.find(
                                   (option) => option.id === selectedColor.id,
                                 );
@@ -532,6 +538,11 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Тип товара: {selectedType.name}</span>
                             <span
                               onClick={() => {
+                                window.scrollTo({
+                                  top: 0,
+                                  left: 0,
+                                  behavior: 'smooth',
+                                });
                                 const curOption = selectedFilter.options?.find(
                                   (option) => option.id === selectedType.id,
                                 );
@@ -597,6 +608,11 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Категории: {selectedCategory.name}</span>
                             <span
                               onClick={() => {
+                                window.scrollTo({
+                                  top: 0,
+                                  left: 0,
+                                  behavior: 'smooth',
+                                });
                                 const curOption: any =
                                   selectedFilter.options?.find(
                                     (option) =>
@@ -662,6 +678,11 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Подкатегори: {selectedSubCategory.name}</span>
                             <span
                               onClick={() => {
+                                window.scrollTo({
+                                  top: 0,
+                                  left: 0,
+                                  behavior: 'smooth',
+                                });
                                 const curOption: any =
                                   selectedFilter.options?.find(
                                     (option) =>
@@ -736,6 +757,11 @@ const TopFilterBar: React.FC<Props> = ({
                       </span>
                       <span
                         onClick={() => {
+                          window.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: 'smooth',
+                          });
                           setResetSlider(true);
                           setSliderChanged(false);
                           const values: any = [null, null];
