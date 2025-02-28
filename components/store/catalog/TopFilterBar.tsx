@@ -29,7 +29,7 @@ type Props = {
   priceRange: PriceRange;
   expanded: boolean;
   handleExpantionChange: any;
-  setSelectedCategory: any;
+  // setSelectedCategory: any;
   setCurrentPage: any;
   setPageSize: any;
   // setHasActiveFilters: any;
@@ -47,7 +47,7 @@ const TopFilterBar: React.FC<Props> = ({
   priceRange,
   expanded,
   handleExpantionChange,
-  setSelectedCategory,
+  // setSelectedCategory,
   setCurrentPage,
   setPageSize,
   // setHasActiveFilters,
@@ -78,7 +78,7 @@ const TopFilterBar: React.FC<Props> = ({
 
   const hanldeResetBtnClick = () => {
     setSearchTerm('');
-    setSelectedCategory(undefined);
+    // setSelectedCategory(undefined);
     setCurrentPage(1);
     setPageSize(12);
     handleResetFilters();
@@ -294,7 +294,7 @@ const TopFilterBar: React.FC<Props> = ({
                     key={`filter-${key}`}
                     title={filter.title}
                     options={filter.options}
-                    setSelectedCategory={setSelectedCategory}
+                    // setSelectedCategory={setSelectedCategory}
                     setSliderChanged={setSliderChanged}
                     onChange={
                       filter.onChange as (selectedOptions: FilterOption) => void
@@ -623,7 +623,7 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(curOption);
                                 setResetSlider(true);
                                 setSliderChanged(false);
-                                setSelectedCategory(undefined);
+                                // setSelectedCategory(undefined);
                               }}
                             >
                               <svg
@@ -694,15 +694,15 @@ const TopFilterBar: React.FC<Props> = ({
                                 setResetSlider(true);
                                 setSliderChanged(false);
                                 // set header to parent category on filter close
-                                localFilters.map((filter) => {
-                                  if (filter.title == 'Выберите категории') {
-                                    const curOptionChecked =
-                                      filter.options?.find(
-                                        (option) => option.checked,
-                                      );
-                                    setSelectedCategory(curOptionChecked);
-                                  }
-                                });
+                                // localFilters.map((filter) => {
+                                //   if (filter.title == 'Выберите категории') {
+                                //     const curOptionChecked =
+                                //       filter.options?.find(
+                                //         (option) => option.checked,
+                                //       );
+                                //     // setSelectedCategory(curOptionChecked);
+                                //   }
+                                // });
                               }}
                             >
                               <svg

@@ -18,6 +18,7 @@ import {
   Category,
   ParameterProduct,
   Product,
+  ProductResponse,
   ProductVariant,
 } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
@@ -25,6 +26,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import { createImage } from 'redux/slicers/imagesSlicer';
 import { onLocationChange } from 'components/store/catalog/helpers';
+import { fetchProductsInExcelFile } from 'redux/slicers/store/catalogSlicer';
+import { unwrapResult } from '@reduxjs/toolkit';
 const handleDeleteProduct =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
   async () => {
@@ -281,6 +284,128 @@ async function uploadImage(file, dispatch) {
   });
 }
 
+// ------------------------------- download products as excel file ---------------------
+
+const handleProductDownloadInExcel = (
+  dispatch,
+  setLoadingData,
+  ExcelJs,
+  seLoadingProgress,
+) => {
+  setLoadingData(true);
+  dispatch(fetchProductsInExcelFile())
+    .then(unwrapResult)
+    .then((response: ProductResponse) => {
+      setLoadingData(true);
+      if (!response.rows || !Array.isArray(response.rows)) {
+        console.error(
+          'Error: Products data is missing or not in the expected format.',
+          response,
+        );
+        return; // Exit the function to prevent further errors
+      }
+
+      let workBook = new ExcelJs.Workbook();
+      const sheet = workBook.addWorksheet('subscribers');
+      sheet.columns = [
+        { header: 'ID', key: 'id', width: 10 },
+        { header: 'Наименование товара', key: 'name', width: 40 },
+        { header: 'Артикул товара', key: 'artical', width: 20 },
+        { header: 'Цена', key: 'price', width: 10 },
+        { header: 'Ссылка на товара', key: 'link', width: 55 },
+        { header: 'Изображение', key: 'image', width: 21 },
+      ];
+      sheet.getRow(1).alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+        wrapText: true,
+      };
+      sheet.properties.defaultRowHeight = 115;
+
+      let counter = 0;
+      let progress = 0;
+      const productIteration = async () => {
+        if (counter < response.rows!.length) {
+          progress = Math.floor((counter * 100) / response.rows!.length);
+          seLoadingProgress(progress);
+
+          await Promise.all(
+            response.rows![counter]?.productVariants!?.map(
+              async (variant: ProductVariant) => {
+                const images = variant.images ? variant.images.split(', ') : [];
+
+                const responseImage = await fetch(
+                  `https://nbhoz.ru/api/images/${images[0]}`,
+                );
+
+                const buffer = await responseImage.arrayBuffer();
+                const imageId = workBook.addImage({
+                  buffer: buffer,
+                  extension: 'jpeg',
+                });
+                await sheet.addRow({
+                  id: response.rows![counter]?.id,
+                  name: response.rows![counter]?.name,
+                  artical: variant.artical!.includes('|')
+                    ? variant.artical!.split('|')[0].toLocaleUpperCase()
+                    : variant.artical!.toLocaleUpperCase(),
+                  price: variant.price ? `${variant.price} ₽` : 'N/A',
+                  link: {
+                    text: `https://nbhoz.ru/product/${
+                      response.rows![counter]?.url
+                    }`,
+                    hyperlink: `https://nbhoz.ru/product/${
+                      response.rows![counter]?.url
+                    }`,
+                  },
+                });
+
+                await sheet.addImage(imageId, {
+                  tl: { col: 5, row: sheet.rowCount - 1 },
+                  ext: { width: 150, height: 150 },
+                  editAs: 'oneCell',
+                });
+                sheet.getRow(sheet.rowCount).alignment = {
+                  vertical: 'middle',
+                  horizontal: 'center',
+                  wrapText: true,
+                };
+              },
+            ),
+          );
+
+          counter = counter + 1;
+          productIteration();
+        } else {
+          try {
+            workBook.xlsx.writeBuffer().then((data) => {
+              const blob = new Blob([data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              });
+              const url = window.URL.createObjectURL(blob);
+              const anchor = document.createElement('a');
+              anchor.href = url;
+              anchor.download = `${
+                new Date().toISOString().split('T')[0]
+              }.xlsx`;
+              anchor.click();
+              window.URL.revokeObjectURL(url);
+            });
+            seLoadingProgress(100);
+            setLoadingData(false);
+            seLoadingProgress(0);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      };
+      productIteration();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 export {
   handleDeleteProduct,
   handleFormSubmitProduct,
@@ -290,4 +415,5 @@ export {
   handleParameterChange,
   handleCategoryChange,
   uploadImage,
+  handleProductDownloadInExcel,
 };

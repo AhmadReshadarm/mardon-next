@@ -9,7 +9,7 @@ type Props = {
   title: string;
   options?: FilterOption[];
   onChange: (selectedOption: FilterOption) => void;
-  setSelectedCategory: any;
+  // setSelectedCategory: any;
   setSliderChanged: any;
 };
 
@@ -17,7 +17,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
   title,
   options,
   onChange,
-  setSelectedCategory,
+  // setSelectedCategory,
   setSliderChanged,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
@@ -39,16 +39,16 @@ const SingleSelectionFilter: React.FC<Props> = ({
 
     setStateOptions(options);
     onChange(curOption!);
-    setSelectedCategory(curOption);
+    // setSelectedCategory(curOption);
     setSliderChanged(false);
   };
 
-  useEffect(() => {
-    const curOption = options?.find((option) => option.checked);
-    if (curOption !== undefined) {
-      setSelectedCategory(curOption);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const curOption = options?.find((option) => option.checked);
+  //   if (curOption !== undefined) {
+  //     // setSelectedCategory(curOption);
+  //   }
+  // }, []);
 
   return (
     <TopFilter>

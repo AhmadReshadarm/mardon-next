@@ -20,7 +20,9 @@ const PAGE_ITEMS_LIMIT = 12;
 const convertQueryParams = (query: {
   [k: string]: string | string[] | undefined;
 }) => {
-  const { categories, subCategories, colors, tags } = query;
+  const { categories, subCategories, colors, tags, orderBy, sortBy, name } =
+    query;
+
   const categoriesArray = categories
     ? Array.isArray(categories)
       ? categories
@@ -37,12 +39,30 @@ const convertQueryParams = (query: {
       : [colors]
     : undefined;
   const tagsArray = tags ? (Array.isArray(tags) ? tags : [tags]) : undefined;
+  const orderByQuary = orderBy
+    ? Array.isArray(orderBy)
+      ? orderBy[0]
+      : [orderBy][0]
+    : undefined;
+  const sortByQuary = sortBy
+    ? Array.isArray(sortBy)
+      ? sortBy[0]
+      : [sortBy][0]
+    : undefined;
+  const nameQuary = name
+    ? Array.isArray(name)
+      ? name[0]
+      : [name][0]
+    : undefined;
 
   return {
     categories: categoriesArray,
     subCategories: subCategoriesArray,
     colors: colorsArray,
     tags: tagsArray,
+    orderBy: orderByQuary,
+    sortBy: sortByQuary,
+    name: nameQuary,
   };
 };
 
@@ -86,6 +106,34 @@ const getFiltersConfig = ({
     })) as FilterOption[],
     minPrice: priceRange.minPrice!,
     maxPrice: priceRange.maxPrice!,
+    orderSectionOptions: [
+      {
+        id: '1',
+        name: '(От А до Я)',
+        url: 'ASC',
+        checked: filters.orderBy !== 'ASC' ? false : true,
+      },
+      {
+        id: '2',
+        name: '(От Я до А)',
+        url: 'DESC',
+        checked: filters.orderBy !== 'DESC' ? false : true,
+      },
+    ] as FilterOption[],
+    sortSectionOptions: [
+      {
+        id: '3',
+        name: 'Имени',
+        url: 'name',
+        checked: filters.sortBy !== 'name' ? false : true,
+      },
+      {
+        id: '4',
+        name: 'ID',
+        url: 'id',
+        checked: filters.sortBy !== 'id' ? false : true,
+      },
+    ] as FilterOption[],
   };
 };
 
@@ -106,6 +154,7 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
   const queryParams = getQueryParams(window.location.search);
   const { minPrice, maxPrice, name, page, limit, sortBy, orderBy, available } =
     queryParams;
+
   const { categories, subCategories, colors, tags } =
     convertQueryParams(queryParams);
 

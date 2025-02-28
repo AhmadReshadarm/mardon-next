@@ -9,76 +9,67 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
 import styles from './index.module.scss';
-// _____________________________________________
 import FilterBar from 'components/store/catalog/FilterBar';
 import styled from 'styled-components';
 import { devices } from 'components/store/lib/Devices';
 import { TCatalogState } from 'redux/types';
-import { Category, ProductResponse, ProductVariant } from 'swagger/services';
 import {
-  convertQueryParams,
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
-import {
-  getQueryParams,
-  pushQueryParams,
-} from 'common/helpers/manageQueryParams.helper';
-import {
-  fetchParentCategories,
-  fetchProductsInExcelFile,
-} from 'redux/slicers/store/catalogSlicer';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-
+import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
+import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import ExcelJs from 'exceljs';
 import Head from 'next/head';
 import IncreaseOrDecreasePrice from 'components/admin/products/increaseOrDecreasePrice';
+import { handleProductDownloadInExcel } from 'components/admin/products/helpers';
 
 // _____________________________________________
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   // ____________________________________________________________________
-  const [category, setCategory] = useState<Category | undefined>();
-  const [selectedCategory, setSelectedCategory] = useState<
-    Category | undefined
-  >();
+  // const [category, setCategory] = useState<Category | undefined>();
+  // const [selectedCategory, setSelectedCategory] = useState<
+  //   Category | undefined
+  // >();
   const {
     products,
     productsLength,
     categories,
     subCategories,
-    // brands,
     colors,
     tags,
     priceRange,
-    // loading,
     productsLoading,
-    // page,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
 
   const handleLocationChange = onLocationChange(dispatch);
+  const paginationLength = useAppSelector(
+    (state) => state.catalog.productsLength,
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize]: [number, any] = useState(12);
 
-  const onCategoryChange = () => {
-    const queryParams = convertQueryParams(
-      getQueryParams(window.location.search),
-    );
-    const categoryUrl =
-      queryParams.categories && queryParams.categories![0]
-        ? queryParams.categories![0]
-        : '';
-    const category = categories.find(
-      (category) => category.url === categoryUrl,
-    );
-    setCategory(category);
-  };
+  // const onCategoryChange = () => {
+  //   const queryParams = convertQueryParams(
+  //     getQueryParams(window.location.search),
+  //   );
+  //   const categoryUrl =
+  //     queryParams.categories && queryParams.categories![0]
+  //       ? queryParams.categories![0]
+  //       : '';
+  //   const category = categories.find(
+  //     (category) => category.url === categoryUrl,
+  //   );
+  //   setCategory(category);
+  // };
   const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
       handleLocationChange();
-      onCategoryChange();
+      // onCategoryChange();
     });
     setPriceRange(dispatch);
 
@@ -86,7 +77,7 @@ const ProductsPage = () => {
       if (firstLoad) {
         await dispatch(fetchParentCategories());
         await handleLocationChange();
-        onCategoryChange();
+        // onCategoryChange();
         setFirstLoad(false);
       }
     })();
@@ -102,12 +93,6 @@ const ProductsPage = () => {
     setExpanded((prev) => !prev);
   };
 
-  const paginationLength = useAppSelector(
-    (state) => state.catalog.productsLength,
-  );
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize]: [number, any] = useState(12);
-
   const handlePageChange = (
     page: number,
     pageSize: number,
@@ -120,9 +105,7 @@ const ProductsPage = () => {
       { name: 'limit', value: pageSize },
     ]);
   };
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [category, selectedCategory]);
+
   const isCheckBoxEnabled = useAppSelector(
     (state) => state.catalog.isCheckBoxEnabled,
   );
@@ -132,25 +115,13 @@ const ProductsPage = () => {
 
   // ___________________________________________________________________
   let dataSource = products?.map(
-    ({
-      id,
-      name,
-      desc,
-      category,
-      brand,
-      tags,
-      sizes,
-      url,
-      productVariants,
-      ...rest
-    }) => ({
+    ({ id, name, desc, category, tags, url, productVariants, ...rest }) => ({
       key: id,
       id,
       name,
       desc,
       category,
       tags,
-      sizes,
       url,
       productVariants,
       isCheckBoxEnabled,
@@ -160,157 +131,6 @@ const ProductsPage = () => {
   ) as unknown as DataType[];
   const [loadingProgress, seLoadingProgress] = useState(0);
   const [loadingData, setLoadingData] = useState(false);
-
-  // ------------------------------------------------- generate excel file from all goods -----------------------------------
-  const handleProductDownloadInExcel = () => {
-    setLoadingData(true);
-    dispatch(fetchProductsInExcelFile())
-      .then(unwrapResult)
-      .then((response: ProductResponse) => {
-        setLoadingData(true);
-        if (!response.rows || !Array.isArray(response.rows)) {
-          console.error(
-            'Error: Products data is missing or not in the expected format.',
-            response,
-          );
-          return; // Exit the function to prevent further errors
-        }
-
-        let workBook = new ExcelJs.Workbook();
-        const sheet = workBook.addWorksheet('subscribers');
-        sheet.columns = [
-          { header: 'ID', key: 'id', width: 10 },
-          { header: 'Наименование товара', key: 'name', width: 40 },
-          { header: 'Артикул товара', key: 'artical', width: 20 },
-          { header: 'Цена', key: 'price', width: 10 },
-          { header: 'Ссылка на товара', key: 'link', width: 55 },
-          { header: 'Изображение', key: 'image', width: 21 },
-        ];
-        sheet.getRow(1).alignment = {
-          vertical: 'middle',
-          horizontal: 'center',
-          wrapText: true,
-        };
-        sheet.properties.defaultRowHeight = 115;
-
-        let counter = 0;
-        let progress = 0;
-        const productIteration = async () => {
-          if (counter < response.rows!.length) {
-            progress = Math.floor((counter * 100) / response.rows!.length);
-            seLoadingProgress(progress);
-
-            await Promise.all(
-              response.rows![counter]?.productVariants!?.map(
-                async (variant: ProductVariant, index: number) => {
-                  const images = variant.images
-                    ? variant.images.split(', ')
-                    : [];
-
-                  const responseImage = await fetch(
-                    `https://nbhoz.ru/api/images/${images[0]}`,
-                  );
-
-                  const buffer = await responseImage.arrayBuffer();
-                  const imageId = workBook.addImage({
-                    buffer: buffer,
-                    extension: 'jpeg',
-                  });
-                  await sheet.addRow({
-                    id: response.rows![counter]?.id,
-                    name: response.rows![counter]?.name,
-                    artical: variant.artical!.includes('|')
-                      ? variant.artical!.split('|')[0].toLocaleUpperCase()
-                      : variant.artical!.toLocaleUpperCase(),
-                    price: variant.price ? `${variant.price} ₽` : 'N/A',
-                    link: {
-                      text: `https://nbhoz.ru/product/${
-                        response.rows![counter]?.url
-                      }`,
-                      hyperlink: `https://nbhoz.ru/product/${
-                        response.rows![counter]?.url
-                      }`,
-                    },
-                  });
-
-                  // counter + 1
-                  await sheet.addImage(imageId, {
-                    tl: { col: 5, row: sheet.rowCount - 1 },
-                    ext: { width: 150, height: 150 },
-                    editAs: 'oneCell',
-                  });
-                  sheet.getRow(sheet.rowCount).alignment = {
-                    vertical: 'middle',
-                    horizontal: 'center',
-                    wrapText: true,
-                  };
-                },
-              ),
-            );
-            // const images = getProductVariantsImages(
-            //   response.rows[counter]!.productVariants,
-            // );
-            // const responseImage = await fetch(
-            //   `https://nbhoz.ru/api/images/${images[0]}`,
-            // );
-            // const buffer = await responseImage.arrayBuffer();
-            // const imageId = workBook.addImage({
-            //   buffer: buffer,
-            //   extension: 'webp' as 'jpeg',
-            // });
-            // await sheet.addRow({
-            //   id: response.rows[counter].id,
-            //   name: response.rows[counter].name,
-            //   artical: response.rows[counter]?.productVariants![0].artical,
-            //   price: `${response.rows[counter]?.productVariants![0].price} ₽`,
-            //   link: {
-            //     text: `https://nbhoz.ru/product/${response.rows[counter].url}`,
-            //     hyperlink: `https://nbhoz.ru/product/${response.rows[counter].url}`,
-            //   },
-            // });
-            // await sheet.addImage(imageId, {
-            //   tl: { col: 5, row: counter + 1 },
-            //   ext: { width: 150, height: 150 },
-            //   editAs: 'oneCell',
-            // });
-            // sheet.getRow(counter + 2).alignment = {
-            //   vertical: 'middle',
-            //   horizontal: 'center',
-            //   wrapText: true,
-            // };
-            counter = counter + 1;
-            productIteration();
-          } else {
-            try {
-              workBook.xlsx.writeBuffer().then((data) => {
-                const blob = new Blob([data], {
-                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                });
-                const url = window.URL.createObjectURL(blob);
-                const anchor = document.createElement('a');
-                anchor.href = url;
-                anchor.download = `${
-                  new Date().toISOString().split('T')[0]
-                }.xlsx`;
-                anchor.click();
-                window.URL.revokeObjectURL(url);
-              });
-              seLoadingProgress(100);
-              setLoadingData(false);
-              seLoadingProgress(0);
-            } catch (error) {
-              // console.log(error);
-            }
-          }
-        };
-        productIteration();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // -------------------------------------------- END OF FUNCTION --------------------------------------------
 
   return (
     <>
@@ -323,7 +143,14 @@ const ProductsPage = () => {
           <Button
             className={styles.productsHeader__createProductButton}
             type="primary"
-            onClick={handleProductDownloadInExcel}
+            onClick={() =>
+              handleProductDownloadInExcel(
+                dispatch,
+                setLoadingData,
+                ExcelJs,
+                seLoadingProgress,
+              )
+            }
           >
             {loadingData
               ? `Загрузка ${loadingProgress}%`
@@ -350,7 +177,7 @@ const ProductsPage = () => {
             tags={tags}
             expanded={expanded}
             handleExpantionChange={handleExpantionChange}
-            setSelectedCategory={setSelectedCategory}
+            // setSelectedCategory={setSelectedCategory}
             setCurrentPage={setCurrentPage}
             handlePageChange={handlePageChange}
             setPageSize={setPageSize}

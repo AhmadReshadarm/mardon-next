@@ -16,19 +16,21 @@ export type Filter = {
   options?: FilterOption[];
   min?: number;
   max?: number;
+  name?: string;
   onChange: (
     selectedOptions: (FilterOption[] | undefined) &
       FilterOption &
-      [number, number],
+      [number, number] &
+      string,
   ) => void;
 };
 
 export type TFiltersConfig = {
   categories: Category[];
   subCategories: Category[];
-  // brands: Brand[];
   colors: Color[];
   tags: Tag[];
   priceRange: PriceRange;
   filters: TFilters;
+  name?: string;
 };

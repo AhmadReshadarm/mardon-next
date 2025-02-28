@@ -225,6 +225,8 @@ type TFilters = {
   brands?: string[];
   tags?: string[];
   sizes?: string[];
+  orderBy?: string;
+  sortBy?: string;
 };
 
 type TselectedProducts = {

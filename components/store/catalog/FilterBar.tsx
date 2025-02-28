@@ -9,7 +9,7 @@ import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSe
 import RangeFilter from 'components/store/catalog/filters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelectionFilter';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
@@ -17,6 +17,9 @@ import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import Checkbox from 'react-custom-checkbox';
+import OrderByAndSortBySelectionFilter from './filters/OrderByAndSortBySelectionFilter';
+import { debounce } from '@mui/material';
+import NameFilterAdmin from './filters/NameFilter';
 
 type Props = {
   categories: Category[];
@@ -26,7 +29,6 @@ type Props = {
   priceRange: PriceRange;
   expanded: any;
   handleExpantionChange: any;
-  setSelectedCategory: any;
   setCurrentPage?: any;
   handlePageChange?: any;
   setPageSize?: any;
@@ -40,12 +42,12 @@ const FilterBar: React.FC<Props> = ({
   priceRange,
   expanded,
   handleExpantionChange,
-  setSelectedCategory,
   setCurrentPage,
   setPageSize,
 }) => {
   const router = useRouter();
   const filters = convertQueryParams(router.query);
+  const [searchTerm, setSearchTerm] = useState('');
   const [filtersConfig, setFiltersConfig] = useState(
     getFiltersConfig({
       categories,
@@ -54,6 +56,7 @@ const FilterBar: React.FC<Props> = ({
       priceRange,
       filters,
       tags,
+      name: searchTerm,
     }),
   );
 
@@ -64,21 +67,6 @@ const FilterBar: React.FC<Props> = ({
     setSearchTerm('');
     setCurrentPage(1);
     setPageSize(12);
-  };
-  // -------------------- temp filters please remove this once you find a better slution ------------
-  const [isResetBtn, setIsresetBtn] = useState(false);
-  const [sortBy, setSortBy] = useState('name');
-  const [orderBy, setOrderBy] = useState('DESC');
-  const [isSortByBtn, setIsSortBy] = useState(false);
-  const [isOrderByBtn, setIsOrderBy] = useState(false);
-  const [available, setNotAvailable] = useState(true);
-  // ----------------------------------------------------------------------------
-  const hanldeResetBtnClick = () => {
-    setNotAvailable(true);
-    setIsresetBtn(true);
-    setSortBy('name');
-    setOrderBy('DESC');
-    handleResetFilters();
   };
 
   useEffect(() => {
@@ -93,182 +81,71 @@ const FilterBar: React.FC<Props> = ({
         tags,
       }),
     );
-  }, [categories, subCategories, colors, priceRange, tags]);
+  }, [categories, subCategories, colors, priceRange, tags, searchTerm]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
 
-  useEffect(() => {
-    const checkedCategory = localFilters[0].options?.find(
-      (checked) => checked.checked,
-    );
-    const selectedCategory = categories.find(
-      (category) => category.url === checkedCategory?.url,
-    );
-    setSelectedCategory(selectedCategory);
-  }, [categories, subCategories, colors, priceRange, tags]);
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      setCurrentPage(1);
-      setPageSize(12);
-
-      pushQueryParams([
-        { name: 'name', value: searchTerm },
-        { name: 'page', value: 1 },
-      ]);
-    }, 1500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
-
-  // -------------------- temp filters please remove this once you find a better slution ------------
-
-  useEffect(() => {
-    if (!isResetBtn) {
-      pushQueryParams([{ name: 'sortBy', value: sortBy }]);
-    }
-  }, [sortBy]);
-
-  useEffect(() => {
-    if (!isResetBtn) {
-      pushQueryParams([{ name: 'orderBy', value: orderBy }]);
-    }
-  }, [orderBy]);
-  const onChange = (checked) => {
-    setNotAvailable(!checked);
-  };
-  useEffect(() => {
-    if (!available) {
-      pushQueryParams([{ name: 'available', value: 'false' }]);
-    }
-    if (available) {
-      pushQueryParams([{ name: 'available', value: undefined }]);
-    }
-  }, [available]);
-
-  // ----------------------------------------------------------------------------------------------
-
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
-        <ResetButton onClick={hanldeResetBtnClick}>
+        <ResetButton onClick={handleResetFilters}>
           <span>Сбросить фильтры</span>
         </ResetButton>
-        {/* -------------------- temp filters please remove this once you find a better slution ------------ */}
 
-        <OrderBtnsWrapper>
-          <button
-            className="sort-by-btn"
-            onClick={() => {
-              setIsSortBy(!isSortByBtn);
-              setIsOrderBy(false);
-              setIsresetBtn(false);
-            }}
-          >
-            Сортировать по {sortBy == 'name' ? 'имени' : 'ID'}
-          </button>
-          <button
-            className="sort-by-btn"
-            onClick={() => {
-              setIsOrderBy(!isOrderByBtn);
-              setIsSortBy(false);
-              setIsresetBtn(false);
-            }}
-          >
-            Сортировать по{' '}
-            {orderBy == 'ASC' ? 'возрастанию (ASC)' : 'убыванию (DESC)'}
-          </button>
-          {isSortByBtn ? (
-            <div className="order-btn-content sort-by-content-wrapper">
-              <button
-                onClick={() => {
-                  setSortBy('id');
-                  setIsOrderBy(false);
-                  setIsSortBy(false);
-                }}
-              >
-                Сортировать по ID
-              </button>
-              <button
-                onClick={() => {
-                  setSortBy('name');
-                  setIsOrderBy(false);
-                  setIsSortBy(false);
-                }}
-              >
-                Сортировать по имени
-              </button>
-            </div>
-          ) : (
-            ''
-          )}
-          {isOrderByBtn ? (
-            <div className="order-btn-content order-by-contet-wrapper">
-              <button
-                onClick={() => {
-                  setOrderBy('ASC');
-                  setIsOrderBy(false);
-                  setIsSortBy(false);
-                }}
-              >
-                Сортировать по возрастанию (ASC)
-              </button>
-              <button
-                onClick={() => {
-                  setOrderBy('DESC');
-                  setIsOrderBy(false);
-                  setIsSortBy(false);
-                }}
-              >
-                Сортировать по убыванию (DESC)
-              </button>
-            </div>
-          ) : (
-            ''
-          )}
-          <Checkbox
-            icon={<Checked dimensions={12} />}
-            onChange={onChange}
-            checked={!available}
-            borderColor={color.textTertiary}
-            size={16}
-            borderWidth={1}
-            borderRadius={2}
-            style={{ cursor: 'pointer' }}
-            labelStyle={{
-              marginLeft: '10px',
-              userSelect: 'none',
-              cursor: 'pointer',
-              textWrap: 'nowrap',
-            }}
-            label={'Товары нет в наличии'}
-          />
-        </OrderBtnsWrapper>
-        {/* --------------------------------------------------------------------------------------------- */}
-        <input
-          autoFocus
-          autoComplete="on"
-          type="text"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            // handleSearch(e.target.value);
-          }}
-          placeholder="Название продукта или артикул"
-          style={{
-            width: '100%',
-            height: '50px',
-            borderRadius: '10px',
-            padding: '10px',
-            border: `1px solid ${color.activeIcons}`,
-          }}
-        />
         {localFilters.map(
           (filter, key) =>
+            (filter.type === FilterType.SEARCH_TERM && (
+              <NameFilterAdmin
+                title={filter.title}
+                name={filter.name!}
+                onChange={filter.onChange}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+              />
+              // <input
+              //   autoFocus
+              //   autoComplete="on"
+              //   type="text"
+              //   value={searchTerm}
+              //   onChange={(e) => {
+              //     setSearchTerm(e.target.value);
+              //     // const value = e.target.value;
+
+              //     // filter.onChange(finalTerm);
+              //   }}
+              //   placeholder="Название товар или артикул"
+              //   style={{
+              //     width: '100%',
+              //     height: '50px',
+              //     borderRadius: '10px',
+              //     padding: '10px',
+              //     border: `1px solid ${color.activeIcons}`,
+              //   }}
+              // />
+            )) ||
+            (filter.type === FilterType.ORDER_BY &&
+              !!filter.options?.length && (
+                <OrderByAndSortBySelectionFilter
+                  key={`filter-${key}`}
+                  title={filter.title}
+                  options={filter.options}
+                  onChange={
+                    filter.onChange as (selectedOptions: FilterOption) => void
+                  }
+                />
+              )) ||
+            (filter.type === FilterType.SORT_BY && !!filter.options?.length && (
+              <OrderByAndSortBySelectionFilter
+                key={`filter-${key}`}
+                title={filter.title}
+                options={filter.options}
+                onChange={
+                  filter.onChange as (selectedOptions: FilterOption) => void
+                }
+              />
+            )) ||
             (filter.type === FilterType.SINGLE_SELECTION &&
               !!filter.options?.length && (
                 <SingleSelectionFilter

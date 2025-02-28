@@ -228,7 +228,7 @@ const CatalogPage = ({
                 tags={filteredTags}
                 expanded={expanded}
                 handleExpantionChange={handleExpantionChange}
-                setSelectedCategory={setSelectedCategory}
+                // setSelectedCategory={setSelectedCategory}
                 setCurrentPage={setCurrentPage}
                 setPageSize={setPageSize}
               />

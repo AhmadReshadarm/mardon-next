@@ -8,6 +8,9 @@ enum FilterType {
   SINGLE_SELECTION,
   RANGE,
   COLOR,
+  ORDER_BY,
+  SORT_BY,
+  SEARCH_TERM,
 }
 
 const getFilters = ({
@@ -17,6 +20,9 @@ const getFilters = ({
   tagOptions,
   minPrice,
   maxPrice,
+  name,
+  orderSectionOptions,
+  sortSectionOptions,
 }: {
   sectionOptions: FilterOption[];
   subSectionOptions: FilterOption[];
@@ -24,8 +30,44 @@ const getFilters = ({
   tagOptions: FilterOption[];
   minPrice: number;
   maxPrice: number;
+  name?: string;
+  orderSectionOptions: FilterOption[];
+  sortSectionOptions: FilterOption[];
 }): Filter[] => {
   return [
+    {
+      title: 'Название товар или артикул',
+      type: FilterType.SEARCH_TERM,
+      name,
+      onChange: (searchTerm: string) => {
+        pushQueryParams([
+          { name: 'name', value: searchTerm },
+          { name: 'page', value: 1 },
+        ]);
+      },
+    },
+    {
+      title: 'Сортировать товар по',
+      type: FilterType.ORDER_BY,
+      options: cloneDeep(orderSectionOptions),
+      onChange: (selectedOption: FilterOption | undefined) => {
+        const orderBy = selectedOption?.url!;
+        pushQueryParams([
+          { name: 'orderBy', value: orderBy == '' ? '' : orderBy },
+        ]);
+      },
+    },
+    {
+      title: 'Сортировать товар по',
+      type: FilterType.SORT_BY,
+      options: cloneDeep(sortSectionOptions),
+      onChange: (selectedOption: FilterOption | undefined) => {
+        const sortBy = selectedOption?.url!;
+        pushQueryParams([
+          { name: 'sortBy', value: sortBy == '' ? '' : sortBy },
+        ]);
+      },
+    },
     {
       title: 'Выберите категории',
       options: cloneDeep(sectionOptions),
