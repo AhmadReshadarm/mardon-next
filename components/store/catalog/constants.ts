@@ -11,6 +11,7 @@ enum FilterType {
   ORDER_BY,
   SORT_BY,
   SEARCH_TERM,
+  IN_STOCK,
 }
 
 const getFilters = ({
@@ -44,6 +45,18 @@ const getFilters = ({
           { name: 'name', value: searchTerm },
           { name: 'page', value: 1 },
         ]);
+      },
+    },
+    {
+      title: 'Товары нет в наличии',
+      type: FilterType.IN_STOCK,
+      onChange: (available: boolean) => {
+        if (available) {
+          pushQueryParams([{ name: 'available', value: 'false' }]);
+        }
+        if (!available) {
+          pushQueryParams([{ name: 'available', value: undefined }]);
+        }
       },
     },
     {

@@ -1,5 +1,10 @@
-import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
 import {
+  getQueryParams,
+  pushQueryParams,
+} from 'common/helpers/manageQueryParams.helper';
+import {
+  convertQueryParams,
+  getFiltersConfig,
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
@@ -13,7 +18,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
-import { Category, Product } from 'swagger/services';
+import { Product } from 'swagger/services';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 // import { Pagination } from 'antd';
 import Pagination from 'antd/es/pagination';
@@ -21,6 +26,7 @@ import Head from 'next/head';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
+import { FilterType, getFilters } from 'components/store/catalog/constants';
 const TopFilterBar = dynamic(
   () => import('components/store/catalog/TopFilterBar'),
   {
@@ -88,12 +94,63 @@ const CatalogPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<
-    Category | undefined
-  >();
-
   const { categories, subCategories, colors, tags, priceRange } =
     useAppSelector<TCatalogState>((state) => state.catalog);
+  const [selectedCategory, setSelectedCategory] = useState<
+    string | undefined
+  >();
+  const filters = convertQueryParams(router.query);
+  const [filtersConfig, setFiltersConfig] = useState(
+    getFiltersConfig({
+      categories,
+      subCategories,
+      colors,
+      priceRange,
+      filters,
+      tags,
+    }),
+  );
+
+  const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
+
+  useEffect(() => {
+    const filters = convertQueryParams(getQueryParams(window.location.search));
+
+    setFiltersConfig(
+      getFiltersConfig({
+        categories,
+        subCategories,
+        colors,
+        priceRange,
+        filters,
+        tags,
+      }),
+    );
+  }, [categories, subCategories, colors, priceRange, tags]);
+
+  useEffect(() => {
+    setLocalFilters(getFilters(filtersConfig));
+  }, [filtersConfig]);
+
+  useEffect(() => {
+    const filtersCategory = localFilters.filter(
+      (filter) => filter.type === FilterType.SINGLE_SELECTION,
+    );
+    const checkedCategory = filtersCategory.map((filter) => {
+      const checkedOption = filter.options!.filter(
+        (option) => option.checked === true,
+      );
+      return checkedOption;
+    });
+
+    if (checkedCategory[0].length > 0) {
+      if (checkedCategory[1].length > 0) {
+        setSelectedCategory(checkedCategory[1][0].name);
+      } else {
+        setSelectedCategory(checkedCategory[0][0].name);
+      }
+    }
+  }, [localFilters]);
 
   const handleLocationChange = onLocationChange(dispatch);
   const [firstLoad, setFirstLoad] = useState(true);
@@ -179,7 +236,7 @@ const CatalogPage = ({
       {repo.length !== 0 ? (
         <SEOstatic
           page={{
-            realName: `${selectedCategory?.name ?? 'Каталог'} | NBHOZ`,
+            realName: `${selectedCategory ?? 'Каталог'} | NBHOZ`,
             name: `${
               repo[randomProduct].category?.parent?.name +
               ' > ' +
@@ -189,13 +246,11 @@ const CatalogPage = ({
             desc: `${
               repo[0].category?.name ?? 'Каталог'
             } - покупайте Опт на NBHOZ по выгодным ценам! оптом ${
-              repo[randomProduct]?.shortDesc ?? selectedCategory?.desc
+              repo[randomProduct]?.shortDesc
             }`,
             keywords: `${repo[randomProduct]?.keywords}`,
-            createdAt:
-              repo[randomProduct]?.createdAt ?? selectedCategory?.createdAt,
-            updatedAt:
-              repo[randomProduct]?.updatedAt ?? selectedCategory?.updatedAt,
+            createdAt: repo[randomProduct]?.createdAt,
+            updatedAt: repo[randomProduct]?.updatedAt,
           }}
           image={`https://nbhoz.ru/api/images/${repo[0]?.category?.parent?.image}`}
         />
@@ -228,9 +283,9 @@ const CatalogPage = ({
                 tags={filteredTags}
                 expanded={expanded}
                 handleExpantionChange={handleExpantionChange}
-                // setSelectedCategory={setSelectedCategory}
                 setCurrentPage={setCurrentPage}
                 setPageSize={setPageSize}
+                localFilters={localFilters}
               />
 
               <Content>

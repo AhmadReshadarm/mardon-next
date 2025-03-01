@@ -3,23 +3,22 @@ import {
   getQueryParams,
   pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
-import { FilterType, getFilters } from 'components/store/catalog/constants';
+import { FilterType } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/topFilters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/topFilters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/topFilters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/topFilters/SingleSelectionFilter';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
-import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import { motion } from 'framer-motion';
 import NameFilter from './topFilters/NameFilter';
 import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
+import { Filter } from './types';
 
 type Props = {
   categories: Category[];
@@ -29,10 +28,9 @@ type Props = {
   priceRange: PriceRange;
   expanded: boolean;
   handleExpantionChange: any;
-  // setSelectedCategory: any;
   setCurrentPage: any;
   setPageSize: any;
-  // setHasActiveFilters: any;
+  localFilters: Filter[];
 };
 
 type StyleProps = {
@@ -47,30 +45,29 @@ const TopFilterBar: React.FC<Props> = ({
   priceRange,
   expanded,
   handleExpantionChange,
-  // setSelectedCategory,
   setCurrentPage,
   setPageSize,
-  // setHasActiveFilters,
+  localFilters,
 }) => {
-  const router = useRouter();
-  const filters = convertQueryParams(router.query);
-  const [filtersConfig, setFiltersConfig] = useState(
-    getFiltersConfig({
-      categories,
-      subCategories,
-      colors,
-      priceRange,
-      filters,
-      tags,
-    }),
-  );
+  // const router = useRouter();
+  // const filters = convertQueryParams(router.query);
+  // const [filtersConfig, setFiltersConfig] = useState(
+  //   getFiltersConfig({
+  //     categories,
+  //     subCategories,
+  //     colors,
+  //     priceRange,
+  //     filters,
+  //     tags,
+  //   }),
+  // );
 
   const [isMoreFilters, setMoreFilters] = useState(true);
   const [ActivateResetBtn, setActivateResetBtn] = useState(false);
   const [resetSlider, setResetSlider] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [clearSearchTerm, setClearSearchTerm] = useState(false);
-  const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
+  // const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
   const [sliderChanged, setSliderChanged] = useState(false);
   const handleResetFilters = () => {
     clearQueryParams();
@@ -78,7 +75,6 @@ const TopFilterBar: React.FC<Props> = ({
 
   const hanldeResetBtnClick = () => {
     setSearchTerm('');
-    // setSelectedCategory(undefined);
     setCurrentPage(1);
     setPageSize(12);
     handleResetFilters();
@@ -87,24 +83,24 @@ const TopFilterBar: React.FC<Props> = ({
     setSliderChanged(false);
   };
 
-  useEffect(() => {
-    const filters = convertQueryParams(getQueryParams(window.location.search));
+  // useEffect(() => {
+  //   const filters = convertQueryParams(getQueryParams(window.location.search));
 
-    setFiltersConfig(
-      getFiltersConfig({
-        categories,
-        subCategories,
-        colors,
-        priceRange,
-        filters,
-        tags,
-      }),
-    );
-  }, [categories, subCategories, colors, priceRange, tags]);
+  //   setFiltersConfig(
+  //     getFiltersConfig({
+  //       categories,
+  //       subCategories,
+  //       colors,
+  //       priceRange,
+  //       filters,
+  //       tags,
+  //     }),
+  //   );
+  // }, [categories, subCategories, colors, priceRange, tags]);
 
-  useEffect(() => {
-    setLocalFilters(getFilters(filtersConfig));
-  }, [filtersConfig]);
+  // useEffect(() => {
+  //   setLocalFilters(getFilters(filtersConfig));
+  // }, [filtersConfig]);
 
   useEffect(() => {
     searchTerm !== '' ? setActivateResetBtn(true) : setActivateResetBtn(false);
@@ -548,10 +544,11 @@ const TopFilterBar: React.FC<Props> = ({
                                 );
                                 curOption!.checked = false;
 
-                                const selectedOptions: any =
-                                  selectedFilter.options?.filter(
-                                    (option) => option.checked,
-                                  );
+                                const selectedOptions:
+                                  | FilterOption[]
+                                  | undefined = selectedFilter.options?.filter(
+                                  (option) => option.checked,
+                                );
 
                                 selectedFilter.onChange(selectedOptions);
                               }}
@@ -693,16 +690,6 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(curOption);
                                 setResetSlider(true);
                                 setSliderChanged(false);
-                                // set header to parent category on filter close
-                                // localFilters.map((filter) => {
-                                //   if (filter.title == 'Выберите категории') {
-                                //     const curOptionChecked =
-                                //       filter.options?.find(
-                                //         (option) => option.checked,
-                                //       );
-                                //     // setSelectedCategory(curOptionChecked);
-                                //   }
-                                // });
                               }}
                             >
                               <svg

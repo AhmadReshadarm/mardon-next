@@ -20,8 +20,16 @@ const PAGE_ITEMS_LIMIT = 12;
 const convertQueryParams = (query: {
   [k: string]: string | string[] | undefined;
 }) => {
-  const { categories, subCategories, colors, tags, orderBy, sortBy, name } =
-    query;
+  const {
+    categories,
+    subCategories,
+    colors,
+    tags,
+    orderBy,
+    sortBy,
+    name,
+    available,
+  } = query;
 
   const categoriesArray = categories
     ? Array.isArray(categories)
@@ -54,6 +62,11 @@ const convertQueryParams = (query: {
       ? name[0]
       : [name][0]
     : undefined;
+  const availableQuary = available
+    ? Array.isArray(available)
+      ? available[0]
+      : [available][0]
+    : undefined;
 
   return {
     categories: categoriesArray,
@@ -63,6 +76,7 @@ const convertQueryParams = (query: {
     orderBy: orderByQuary,
     sortBy: sortByQuary,
     name: nameQuary,
+    available: Boolean(availableQuary),
   };
 };
 

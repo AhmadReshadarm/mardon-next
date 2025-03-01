@@ -1,24 +1,22 @@
 import {
   clearQueryParams,
   getQueryParams,
-  pushQueryParams,
 } from 'common/helpers/manageQueryParams.helper';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/filters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/filters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelectionFilter';
+import InStockFilter from 'components/store/catalog/filters/inStockFilter';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
-import Checkbox from 'react-custom-checkbox';
 import OrderByAndSortBySelectionFilter from './filters/OrderByAndSortBySelectionFilter';
-import { debounce } from '@mui/material';
 import NameFilterAdmin from './filters/NameFilter';
 
 type Props = {
@@ -104,26 +102,9 @@ const FilterBar: React.FC<Props> = ({
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
               />
-              // <input
-              //   autoFocus
-              //   autoComplete="on"
-              //   type="text"
-              //   value={searchTerm}
-              //   onChange={(e) => {
-              //     setSearchTerm(e.target.value);
-              //     // const value = e.target.value;
-
-              //     // filter.onChange(finalTerm);
-              //   }}
-              //   placeholder="Название товар или артикул"
-              //   style={{
-              //     width: '100%',
-              //     height: '50px',
-              //     borderRadius: '10px',
-              //     padding: '10px',
-              //     border: `1px solid ${color.activeIcons}`,
-              //   }}
-              // />
+            )) ||
+            (filter.type === FilterType.IN_STOCK && (
+              <InStockFilter title={filter.title} onChange={filter.onChange} />
             )) ||
             (filter.type === FilterType.ORDER_BY &&
               !!filter.options?.length && (

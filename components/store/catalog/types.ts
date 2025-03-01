@@ -1,12 +1,5 @@
 import { TFilters } from 'redux/types';
-import {
-  // Brand,
-  Category,
-  Color,
-  PriceRange,
-  // Size,
-  Tag,
-} from 'swagger/services';
+import { Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { FilterType } from './constants';
 
@@ -17,13 +10,14 @@ export type Filter = {
   min?: number;
   max?: number;
   name?: string;
-  onChange: (
-    selectedOptions: (FilterOption[] | undefined) &
-      FilterOption &
-      [number, number] &
-      string,
-  ) => void;
+  onChange: (selectedOptions: any) => void;
 };
+
+// (FilterOption[] | undefined) &
+//       FilterOption &
+//       [number, number] &
+//       string &
+//       boolean,
 
 export type TFiltersConfig = {
   categories: Category[];
