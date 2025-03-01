@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
-import { Product } from 'swagger/services';
+import { Color, Product } from 'swagger/services';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 // import { Pagination } from 'antd';
 import Pagination from 'antd/es/pagination';
@@ -99,58 +99,6 @@ const CatalogPage = ({
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
-  const filters = convertQueryParams(router.query);
-  const [filtersConfig, setFiltersConfig] = useState(
-    getFiltersConfig({
-      categories,
-      subCategories,
-      colors,
-      priceRange,
-      filters,
-      tags,
-    }),
-  );
-
-  const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
-
-  useEffect(() => {
-    const filters = convertQueryParams(getQueryParams(window.location.search));
-
-    setFiltersConfig(
-      getFiltersConfig({
-        categories,
-        subCategories,
-        colors,
-        priceRange,
-        filters,
-        tags,
-      }),
-    );
-  }, [categories, subCategories, colors, priceRange, tags]);
-
-  useEffect(() => {
-    setLocalFilters(getFilters(filtersConfig));
-  }, [filtersConfig]);
-
-  useEffect(() => {
-    const filtersCategory = localFilters.filter(
-      (filter) => filter.type === FilterType.SINGLE_SELECTION,
-    );
-    const checkedCategory = filtersCategory.map((filter) => {
-      const checkedOption = filter.options!.filter(
-        (option) => option.checked === true,
-      );
-      return checkedOption;
-    });
-
-    if (checkedCategory[0].length > 0) {
-      if (checkedCategory[1].length > 0) {
-        setSelectedCategory(checkedCategory[1][0].name);
-      } else {
-        setSelectedCategory(checkedCategory[0][0].name);
-      }
-    }
-  }, [localFilters]);
 
   const handleLocationChange = onLocationChange(dispatch);
   const [firstLoad, setFirstLoad] = useState(true);
@@ -187,7 +135,7 @@ const CatalogPage = ({
     return tag;
   });
 
-  const filteredColors: any = colors.filter((color) => {
+  const filteredColors: Color[] = colors.filter((color) => {
     if (
       color.url?.match(/(?:^|\W)-(?:$|\W)/) ||
       color.url?.match(/(?:^|\W)_(?:$|\W)/) ||
@@ -230,6 +178,61 @@ const CatalogPage = ({
   useEffect(() => {
     setClient(true);
   }, []);
+
+  // ----------------------------- filters ---------------------
+
+  const filters = convertQueryParams(router.query);
+  const [filtersConfig, setFiltersConfig] = useState(
+    getFiltersConfig({
+      categories,
+      subCategories,
+      colors: filteredColors,
+      priceRange,
+      filters,
+      tags: filteredTags,
+    }),
+  );
+
+  const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
+
+  useEffect(() => {
+    const filters = convertQueryParams(getQueryParams(window.location.search));
+
+    setFiltersConfig(
+      getFiltersConfig({
+        categories,
+        subCategories,
+        colors: filteredColors,
+        priceRange,
+        filters,
+        tags: filteredTags,
+      }),
+    );
+  }, [categories, subCategories, colors, priceRange, tags]);
+
+  useEffect(() => {
+    setLocalFilters(getFilters(filtersConfig));
+  }, [filtersConfig]);
+
+  useEffect(() => {
+    const filtersCategory = localFilters.filter(
+      (filter) => filter.type === FilterType.SINGLE_SELECTION,
+    );
+    const checkedCategory = filtersCategory.map((filter) => {
+      const checkedOption = filter.options!.filter(
+        (option) => option.checked === true,
+      );
+      return checkedOption;
+    });
+
+    if (checkedCategory[0].length > 0) {
+      if (checkedCategory[1].length > 0) {
+        setSelectedCategory(checkedCategory[1][0].name);
+      } else {
+        setSelectedCategory(checkedCategory[0][0].name);
+      }
+    }
+  }, [localFilters]);
 
   return (
     <>
