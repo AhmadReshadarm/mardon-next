@@ -13,9 +13,18 @@ type Props = {
   min: number;
   max: number;
   onChange: (values: [number, number]) => void;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
-const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
+const RangeFilter: React.FC<Props> = ({
+  title,
+  min,
+  max,
+  onChange,
+  setPageSize,
+  setCurrentPage,
+}) => {
   const [[minVal, maxVal], setValues] = useState([min, max]);
   const Slider = SliderInit as any;
 
@@ -24,16 +33,22 @@ const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
   }, [min, max]);
 
   const handleSliderChange = (values: [number, number]) => {
+    setCurrentPage(1);
+    setPageSize(12);
     setValues(values);
     delayedChange(values);
   };
 
   const handleMinValChange = (e) => {
+    setCurrentPage(1);
+    setPageSize(12);
     setValues([e.target.value, maxVal]);
     delayedChange([e.target.value, maxVal]);
   };
 
   const handleMaxValChange = (e) => {
+    setCurrentPage(1);
+    setPageSize(12);
     setValues([minVal, e.target.value]);
     delayedChange([minVal, e.target.value]);
   };

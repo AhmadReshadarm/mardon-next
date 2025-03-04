@@ -7,10 +7,20 @@ type Props = {
   title: string;
   options?: FilterOption[];
   onChange: (selectedOptions: FilterOption[] | undefined) => void;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
-const ColorFilter: React.FC<Props> = ({ title, options, onChange }) => {
+const ColorFilter: React.FC<Props> = ({
+  title,
+  options,
+  onChange,
+  setPageSize,
+  setCurrentPage,
+}) => {
   const handleChange = (id: string) => (value: boolean) => {
+    setCurrentPage(1);
+    setPageSize(12);
     const curOption = options?.find((option) => option.id === id);
     curOption!.checked = value;
     const selectedOptions = options?.filter((option) => option.checked);

@@ -5,10 +5,18 @@ import styled from 'styled-components';
 type Props = {
   title: string;
   onChange: any; // (values: string) => void;
+  setCurrentPage: any;
+  setPageSize: any;
 };
 
-const InStockFilter: React.FC<Props> = ({ onChange }) => {
+const InStockFilter: React.FC<Props> = ({
+  onChange,
+  setPageSize,
+  setCurrentPage,
+}) => {
   const handleChange = (evt) => {
+    setCurrentPage(1);
+    setPageSize(12);
     onChange(evt);
   };
   return (

@@ -10,7 +10,11 @@ export type Filter = {
   min?: number;
   max?: number;
   name?: string;
-  onChange: (selectedOptions: any) => void;
+  onChange: (
+    selectedOptions: any,
+    setCurrentPage?: any,
+    setPageSize?: any,
+  ) => void;
 };
 
 // (FilterOption[] | undefined) &

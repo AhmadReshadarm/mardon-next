@@ -1,26 +1,26 @@
 import variants from 'components/store/lib/variants';
 import ColorCheckbox from 'ui-kit/ColorCheckbox';
 import { FilterOption } from '../../../../ui-kit/FilterCheckbox/types';
-import {
-  Filter,
-  FilterBody,
-  FilterTitle,
-  TopFilter,
-  TopFilterBody,
-  TopFilterTitle,
-} from '../common';
-import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
-import { convertQueryParams } from '../helpers';
-import { useEffect, useState } from 'react';
+import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
 
 type Props = {
   title: string;
   options?: FilterOption[];
   onChange: (selectedOptions: FilterOption[] | undefined) => void;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
-const ColorFilter: React.FC<Props> = ({ title, options, onChange }) => {
+const ColorFilter: React.FC<Props> = ({
+  title,
+  options,
+  onChange,
+  setPageSize,
+  setCurrentPage,
+}) => {
   const handleChange = (id: string) => (value: boolean) => {
+    setCurrentPage(1);
+    setPageSize(12);
     const curOption = options?.find((option) => option.id === id);
     curOption!.checked = value;
 

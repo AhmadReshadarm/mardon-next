@@ -8,12 +8,16 @@ type Props = {
   title: string;
   options?: FilterOption[];
   onChange: (selectedOption: FilterOption) => void;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
 const SingleSelectionFilter: React.FC<Props> = ({
   title,
   options,
   onChange,
+  setPageSize,
+  setCurrentPage,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
 
@@ -22,6 +26,8 @@ const SingleSelectionFilter: React.FC<Props> = ({
   }, [options]);
 
   const handleChange = (id: string) => () => {
+    setCurrentPage(1);
+    setPageSize(12);
     const options = [...stateOptions!];
     const activeOption = options?.find((option) => option.checked);
 

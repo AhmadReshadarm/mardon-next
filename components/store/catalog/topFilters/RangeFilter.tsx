@@ -22,6 +22,8 @@ type Props = {
   resetSlider: boolean;
   sliderChanged: boolean;
   setSliderChanged: any;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
 const RangeFilter: React.FC<Props> = ({
@@ -34,6 +36,8 @@ const RangeFilter: React.FC<Props> = ({
   resetSlider,
   sliderChanged,
   setSliderChanged,
+  setPageSize,
+  setCurrentPage,
 }) => {
   const dispatch = useAppDispatch();
   const { uiPriceRang } = useAppSelector<TCatalogState>(
@@ -49,6 +53,8 @@ const RangeFilter: React.FC<Props> = ({
   }, [min, max]);
 
   const handleSliderChange = (values: [number, number]) => {
+    setCurrentPage(1);
+    setPageSize(12);
     setActivateResetBtn(true);
     setResetSlider(false);
     delayedChange(values);
@@ -57,6 +63,8 @@ const RangeFilter: React.FC<Props> = ({
   };
 
   const handleMinValChange = (e) => {
+    setCurrentPage(1);
+    setPageSize(12);
     setActivateResetBtn(true);
     setResetSlider(false);
     delayedChange([e.target.value, uiPriceRang.maxPrice]);
@@ -70,6 +78,8 @@ const RangeFilter: React.FC<Props> = ({
   };
 
   const handleMaxValChange = (e) => {
+    setCurrentPage(1);
+    setPageSize(12);
     setActivateResetBtn(true);
     setResetSlider(false);
     delayedChange([uiPriceRang.minPrice, e.target.value]);

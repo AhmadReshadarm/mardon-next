@@ -20,7 +20,6 @@ import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import { Color, Product } from 'swagger/services';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-// import { Pagination } from 'antd';
 import Pagination from 'antd/es/pagination';
 import Head from 'next/head';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -279,11 +278,8 @@ const CatalogPage = ({
           <Wrapper flex_direction="column">
             <CatelogContentWrapper>
               <TopFilterBar
-                categories={categories}
                 subCategories={subCategories}
-                colors={filteredColors}
                 priceRange={priceRange}
-                tags={filteredTags}
                 expanded={expanded}
                 handleExpantionChange={handleExpantionChange}
                 setCurrentPage={setCurrentPage}
@@ -293,9 +289,7 @@ const CatalogPage = ({
 
               <Content>
                 <Products>
-                  <ProductGrid
-                  // emptyProductsTitle={'По вашему запросу ничего не найдено.'}
-                  />
+                  <ProductGrid />
                 </Products>
                 <Pagination
                   style={{ marginTop: '20px' }}

@@ -52,10 +52,16 @@ const getFilters = ({
       type: FilterType.IN_STOCK,
       onChange: (available: boolean) => {
         if (available) {
-          pushQueryParams([{ name: 'available', value: 'false' }]);
+          pushQueryParams([
+            { name: 'available', value: 'false' },
+            { name: 'page', value: 1 },
+          ]);
         }
         if (!available) {
-          pushQueryParams([{ name: 'available', value: undefined }]);
+          pushQueryParams([
+            { name: 'available', value: undefined },
+            { name: 'page', value: 1 },
+          ]);
         }
       },
     },

@@ -10,6 +10,8 @@ type Props = {
   options?: FilterOption[];
   onChange: (selectedOption: FilterOption) => void;
   setSliderChanged: any;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
 const SingleSelectionFilter: React.FC<Props> = ({
@@ -17,6 +19,8 @@ const SingleSelectionFilter: React.FC<Props> = ({
   options,
   onChange,
   setSliderChanged,
+  setPageSize,
+  setCurrentPage,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
 
@@ -25,6 +29,8 @@ const SingleSelectionFilter: React.FC<Props> = ({
   }, [options]);
 
   const handleChange = (id: string) => () => {
+    setCurrentPage(1);
+    setPageSize(12);
     const options = [...stateOptions!];
     const activeOption = options?.find((option) => option.checked);
 

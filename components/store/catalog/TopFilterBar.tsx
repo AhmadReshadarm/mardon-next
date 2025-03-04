@@ -10,7 +10,7 @@ import RangeFilter from 'components/store/catalog/topFilters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/topFilters/SingleSelectionFilter';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Category, Color, PriceRange, Tag } from 'swagger/services';
+import { Category, PriceRange } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
@@ -21,10 +21,7 @@ import { TCatalogState } from 'redux/types';
 import { Filter } from './types';
 
 type Props = {
-  categories: Category[];
   subCategories: Category[];
-  colors: Color[];
-  tags: Tag[];
   priceRange: PriceRange;
   expanded: boolean;
   handleExpantionChange: any;
@@ -38,10 +35,7 @@ type StyleProps = {
 };
 
 const TopFilterBar: React.FC<Props> = ({
-  categories,
   subCategories,
-  colors,
-  tags,
   priceRange,
   expanded,
   handleExpantionChange,
@@ -49,25 +43,11 @@ const TopFilterBar: React.FC<Props> = ({
   setPageSize,
   localFilters,
 }) => {
-  // const router = useRouter();
-  // const filters = convertQueryParams(router.query);
-  // const [filtersConfig, setFiltersConfig] = useState(
-  //   getFiltersConfig({
-  //     categories,
-  //     subCategories,
-  //     colors,
-  //     priceRange,
-  //     filters,
-  //     tags,
-  //   }),
-  // );
-
   const [isMoreFilters, setMoreFilters] = useState(true);
   const [ActivateResetBtn, setActivateResetBtn] = useState(false);
   const [resetSlider, setResetSlider] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [clearSearchTerm, setClearSearchTerm] = useState(false);
-  // const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
   const [sliderChanged, setSliderChanged] = useState(false);
   const handleResetFilters = () => {
     clearQueryParams();
@@ -82,25 +62,6 @@ const TopFilterBar: React.FC<Props> = ({
     setActivateResetBtn(false);
     setSliderChanged(false);
   };
-
-  // useEffect(() => {
-  //   const filters = convertQueryParams(getQueryParams(window.location.search));
-
-  //   setFiltersConfig(
-  //     getFiltersConfig({
-  //       categories,
-  //       subCategories,
-  //       colors,
-  //       priceRange,
-  //       filters,
-  //       tags,
-  //     }),
-  //   );
-  // }, [categories, subCategories, colors, priceRange, tags]);
-
-  // useEffect(() => {
-  //   setLocalFilters(getFilters(filtersConfig));
-  // }, [filtersConfig]);
 
   useEffect(() => {
     searchTerm !== '' ? setActivateResetBtn(true) : setActivateResetBtn(false);
@@ -281,20 +242,23 @@ const TopFilterBar: React.FC<Props> = ({
                       searchTerm={searchTerm}
                       setSearchTerm={setSearchTerm}
                       setSliderChanged={setSliderChanged}
+                      setPageSize={setPageSize}
+                      setCurrentPage={setCurrentPage}
                     />
                   ) : (
-                    ''
+                    <></>
                   )}
 
                   <SingleSelectionFilter
                     key={`filter-${key}`}
                     title={filter.title}
                     options={filter.options}
-                    // setSelectedCategory={setSelectedCategory}
                     setSliderChanged={setSliderChanged}
                     onChange={
                       filter.onChange as (selectedOptions: FilterOption) => void
                     }
+                    setPageSize={setPageSize}
+                    setCurrentPage={setCurrentPage}
                   />
                 </SearchAndCategoryWrapper>
               )) ||
@@ -310,6 +274,8 @@ const TopFilterBar: React.FC<Props> = ({
                       selectedOptions: FilterOption[] | undefined,
                     ) => void
                   }
+                  setPageSize={setPageSize}
+                  setCurrentPage={setCurrentPage}
                 />
               )) ||
             (filter.type === FilterType.COLOR &&
@@ -324,6 +290,8 @@ const TopFilterBar: React.FC<Props> = ({
                       selectedOptions: FilterOption[] | undefined,
                     ) => void
                   }
+                  setPageSize={setPageSize}
+                  setCurrentPage={setCurrentPage}
                 />
               )) ||
             (filter.type === FilterType.RANGE &&
@@ -343,6 +311,8 @@ const TopFilterBar: React.FC<Props> = ({
                   resetSlider={resetSlider}
                   sliderChanged={sliderChanged}
                   setSliderChanged={setSliderChanged}
+                  setPageSize={setPageSize}
+                  setCurrentPage={setCurrentPage}
                 />
               )),
         )}

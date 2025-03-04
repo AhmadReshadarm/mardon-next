@@ -24,15 +24,10 @@ import Head from 'next/head';
 import IncreaseOrDecreasePrice from 'components/admin/products/increaseOrDecreasePrice';
 import { handleProductDownloadInExcel } from 'components/admin/products/helpers';
 
-// _____________________________________________
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // ____________________________________________________________________
-  // const [category, setCategory] = useState<Category | undefined>();
-  // const [selectedCategory, setSelectedCategory] = useState<
-  //   Category | undefined
-  // >();
+
   const {
     products,
     productsLength,
@@ -51,25 +46,11 @@ const ProductsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize]: [number, any] = useState(12);
 
-  // const onCategoryChange = () => {
-  //   const queryParams = convertQueryParams(
-  //     getQueryParams(window.location.search),
-  //   );
-  //   const categoryUrl =
-  //     queryParams.categories && queryParams.categories![0]
-  //       ? queryParams.categories![0]
-  //       : '';
-  //   const category = categories.find(
-  //     (category) => category.url === categoryUrl,
-  //   );
-  //   setCategory(category);
-  // };
   const [firstLoad, setFirstLoad] = useState(true);
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
       handleLocationChange();
-      // onCategoryChange();
     });
     setPriceRange(dispatch);
 
@@ -77,7 +58,6 @@ const ProductsPage = () => {
       if (firstLoad) {
         await dispatch(fetchParentCategories());
         await handleLocationChange();
-        // onCategoryChange();
         setFirstLoad(false);
       }
     })();
@@ -177,7 +157,6 @@ const ProductsPage = () => {
             tags={tags}
             expanded={expanded}
             handleExpantionChange={handleExpantionChange}
-            // setSelectedCategory={setSelectedCategory}
             setCurrentPage={setCurrentPage}
             handlePageChange={handlePageChange}
             setPageSize={setPageSize}

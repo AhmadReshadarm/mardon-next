@@ -104,7 +104,12 @@ const FilterBar: React.FC<Props> = ({
               />
             )) ||
             (filter.type === FilterType.IN_STOCK && (
-              <InStockFilter title={filter.title} onChange={filter.onChange} />
+              <InStockFilter
+                title={filter.title}
+                onChange={filter.onChange}
+                setPageSize={setPageSize}
+                setCurrentPage={setCurrentPage}
+              />
             )) ||
             (filter.type === FilterType.ORDER_BY &&
               !!filter.options?.length && (
@@ -136,6 +141,8 @@ const FilterBar: React.FC<Props> = ({
                   onChange={
                     filter.onChange as (selectedOptions: FilterOption) => void
                   }
+                  setPageSize={setPageSize}
+                  setCurrentPage={setCurrentPage}
                 />
               )) ||
             (filter.type === FilterType.MULTIPLE_SELECTION &&
@@ -149,6 +156,8 @@ const FilterBar: React.FC<Props> = ({
                       selectedOptions: FilterOption[] | undefined,
                     ) => void
                   }
+                  setPageSize={setPageSize}
+                  setCurrentPage={setCurrentPage}
                 />
               )) ||
             (filter.type === FilterType.COLOR && !!filter.options?.length && (
@@ -161,6 +170,8 @@ const FilterBar: React.FC<Props> = ({
                     selectedOptions: FilterOption[] | undefined,
                   ) => void
                 }
+                setPageSize={setPageSize}
+                setCurrentPage={setCurrentPage}
               />
             )) ||
             (filter.type === FilterType.RANGE &&
@@ -174,6 +185,8 @@ const FilterBar: React.FC<Props> = ({
                   onChange={
                     filter.onChange as (values: [number, number]) => void
                   }
+                  setPageSize={setPageSize}
+                  setCurrentPage={setCurrentPage}
                 />
               )),
         )}
@@ -214,13 +227,6 @@ const FilterBar: React.FC<Props> = ({
     </FilterBarContent>
   );
 };
-
-const Checked = styled.div<{ dimensions: number }>`
-  height: ${(prop) => prop.dimensions}px;
-  width: ${(prop) => prop.dimensions}px;
-  border-radius: 2px;
-  background-color: ${color.activeIcons};
-`;
 
 const FilterBarContent = styled.div<any>`
   min-width: 250px;

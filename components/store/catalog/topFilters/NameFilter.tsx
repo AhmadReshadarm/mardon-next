@@ -6,6 +6,8 @@ type Props = {
   searchTerm: string;
   setSearchTerm: any;
   setSliderChanged: any;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
 const NameFilter: React.FC<Props> = ({
@@ -13,6 +15,8 @@ const NameFilter: React.FC<Props> = ({
   searchTerm,
   setSearchTerm,
   setSliderChanged,
+  setPageSize,
+  setCurrentPage,
 }) => {
   return (
     <TopFilter>
@@ -23,6 +27,8 @@ const NameFilter: React.FC<Props> = ({
           <SearchInput
             value={searchTerm}
             onChange={(evt) => {
+              setCurrentPage(1);
+              setPageSize(12);
               setSearchTerm(evt.target.value);
               setSliderChanged(false);
             }}
@@ -33,6 +39,8 @@ const NameFilter: React.FC<Props> = ({
             <span
               onClick={() => {
                 setSearchTerm('');
+                setCurrentPage(1);
+                setPageSize(12);
                 pushQueryParams([{ name: 'name', value: undefined }]);
               }}
               className="search-term-clear-btn"
