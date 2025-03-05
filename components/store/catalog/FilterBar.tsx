@@ -101,6 +101,8 @@ const FilterBar: React.FC<Props> = ({
                 onChange={filter.onChange}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                setPageSize={setPageSize}
+                setCurrentPage={setCurrentPage}
               />
             )) ||
             (filter.type === FilterType.IN_STOCK && (

@@ -196,15 +196,13 @@
   .product_description_wrapper {
     padding: 5px 0;
   }
+  .ItemContainer {
+    height: auto;
+  }
 }
 
 /* Global 2 */
 @media (min-width: 100px) and (max-width: 768px) {
-  /* .action_buttons_wrapper {
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-  } */
   .product_title {
     line-break: anywhere;
   }
@@ -259,12 +257,5 @@
 @media (min-width: 100px) and (max-width: 320px) {
   .artical_content_wrapper {
     grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-/* special 5*/
-@media (min-width: 100px) and (max-width: 440px) {
-  .ItemContainer {
-    height: auto;
   }
 }

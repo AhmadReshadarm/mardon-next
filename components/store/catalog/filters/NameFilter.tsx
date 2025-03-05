@@ -1,6 +1,3 @@
-import styled from 'styled-components';
-import { TopFilter, TopFilterBody, TopFilterTitle } from '../common';
-import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
 import color from 'components/store/lib/ui.colors';
 import { useCallback, useEffect } from 'react';
 import { debounce } from '@mui/material';
@@ -10,6 +7,8 @@ type Props = {
   searchTerm: string;
   setSearchTerm: any;
   onChange: any; // (values: string) => void;
+  setPageSize: any;
+  setCurrentPage: any;
 };
 
 const NameFilterAdmin: React.FC<Props> = ({
@@ -18,13 +17,19 @@ const NameFilterAdmin: React.FC<Props> = ({
   searchTerm,
   setSearchTerm,
   onChange,
+  setPageSize,
+  setCurrentPage,
 }) => {
   const handleTermChange = (values: string) => {
     setSearchTerm(values);
     delayedChange(values);
   };
   const delayedChange = useCallback(
-    debounce((values) => onChange(values), 500),
+    debounce((values) => {
+      setCurrentPage(1);
+      setPageSize(12);
+      onChange(values);
+    }, 500),
     [],
   );
   useEffect(() => {

@@ -30,7 +30,7 @@ const ProductFlex: React.FC<Props> = ({ products, loading, seeMoreUrl }) => {
       <div className={styles.seeMoreWrapper}>
         <Link href={seeMoreUrl}>
           <button className={styles.seeMoreButton}>
-            <span>Смотреть больше</span>
+            <span>Еще</span>
             <span>
               <svg
                 width="6"

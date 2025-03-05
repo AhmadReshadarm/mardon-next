@@ -890,24 +890,17 @@ const FilterBarContent = styled.div<any>`
 `;
 
 const SelectedFiltersWrapper = styled.div`
-  display: inline-grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 10px;
-  row-gap: 30px;
-  padding: 40px 10px 0 10px;
-  justify-items: flex-start;
-  @media ${devices.desktop} {
-    grid-template-columns: repeat(5, 1fr);
-    width: 70%;
-  }
-  @media ${devices.laptopL} {
-    grid-template-columns: repeat(4, 1fr);
-    width: 70%;
-  }
-  @media ${devices.laptopM} {
-    grid-template-columns: repeat(3, 1fr);
-     width: 60%;
-  }
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: flex-start;
+    gap:10px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    justify-items: flex-start;
+    padding: 40px 10px 10px 10px;
+
   @media ${devices.laptopS} {
     width: 100%;
     display: flex;
