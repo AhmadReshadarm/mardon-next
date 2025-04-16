@@ -180,7 +180,7 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     categories: subCategories,
     minPrice: minPrice ? Number(minPrice) : undefined,
     maxPrice: maxPrice ? Number(maxPrice) : undefined,
-    sortBy: sortBy ? String(sortBy) : 'name',
+    sortBy: sortBy ? String(sortBy) : 'id',
     orderBy: orderBy ? String(orderBy) : 'DESC',
     limit: limit ? limit : PAGE_ITEMS_LIMIT,
     offset: Number(limit ?? PAGE_ITEMS_LIMIT) * (Number(page ?? 1) - 1),
