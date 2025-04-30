@@ -19,6 +19,13 @@ import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpe
 import { openErrorNotification } from 'common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { generateInvoiceTemplet } from 'components/store/checkout/totalDeliveryDate/helpers';
+
+interface EmbeddedImage {
+  filename: string;
+  href: string; // Use href for URLs
+  cid: string;
+}
+
 const handleDeleteCheckout =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
   async () => {
@@ -116,7 +123,7 @@ const handleFormSubmitCheckout =
     setSaveLoading(true);
     try {
       if (!form.checkoutType) {
-        const basket = {
+        const basket: any = {
           orderProducts: convertBasketData(basketList, form),
         };
         const payload = {
@@ -133,7 +140,42 @@ const handleFormSubmitCheckout =
           cart: basket,
         };
 
-        const generatedHtml = generateInvoiceTemplet(payload);
+        //       const payload = {
+        //   receiverName: deliveryInfo?.receiverName,
+        //   receiverPhone: deliveryInfo?.receiverPhone,
+        //   receiverEmail: deliveryInfo?.receiverEmail,
+        //   address: deliveryInfo?.address,
+        //   roomOrOffice: deliveryInfo?.roomOrOffice,
+        //   door: deliveryInfo?.door,
+        //   floor: deliveryInfo?.floor,
+        //   rignBell: deliveryInfo?.rignBell,
+        //   zipCode: deliveryInfo?.zipCode,
+        //   comment,
+        //   cart,
+        // };
+
+        // const generatedHtml = generateInvoiceTemplet(payload);
+        const cidImageMap: Record<string, string> = {};
+
+        const productAttachments: EmbeddedImage[] = [];
+        if (payload.cart?.orderProducts) {
+          for (const orderproduct of payload.cart.orderProducts) {
+            const imageName =
+              orderproduct.productVariant?.images?.split(',')[0];
+            if (imageName) {
+              const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
+              const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
+
+              productAttachments.push({
+                filename: imageName,
+                href: imageUrl, // URL for product image
+                cid: productImageCid,
+              });
+            }
+          }
+        }
+
+        const generatedHtml = generateInvoiceTemplet(payload, cidImageMap);
         openErrorNotification('В процессе: Отправка счета-фактуры на заказ...');
         await CheckoutService.createCheckoutWithoutRegister({
           body: {
