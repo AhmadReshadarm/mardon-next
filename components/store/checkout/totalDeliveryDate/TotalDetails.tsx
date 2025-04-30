@@ -5,7 +5,7 @@ import color from '../../lib/ui.colors';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState, TStoreCheckoutState } from 'redux/types';
-import { getDiscount, getTotalPrice, generateInvoiceTemplet } from './helpers';
+import { getTotalPrice, generateInvoiceTemplet } from './helpers';
 import { formatNumber } from 'common/helpers/number.helper';
 import { NextRouter, useRouter } from 'next/router';
 import { devices } from 'components/store/lib/Devices';
@@ -17,6 +17,11 @@ import { TAuthState } from 'redux/types';
 import { Role } from 'common/enums/roles.enum';
 import DropDowns from './DropDowns';
 import { useMetrica, YandexMetricaProvider } from 'next-yandex-metrica';
+interface EmbeddedImage {
+  filename: string;
+  href: string; // Use href for URLs
+  cid: string;
+}
 const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -48,7 +53,26 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
       cart,
     };
 
-    const generatedHtml = generateInvoiceTemplet(payload);
+    const cidImageMap: Record<string, string> = {};
+
+    const productAttachments: EmbeddedImage[] = [];
+    if (payload.cart?.orderProducts) {
+      for (const orderproduct of payload.cart.orderProducts) {
+        const imageName = orderproduct.productVariant?.images?.split(',')[0];
+        if (imageName) {
+          const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
+          const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
+
+          productAttachments.push({
+            filename: imageName,
+            href: imageUrl, // URL for product image
+            cid: productImageCid,
+          });
+        }
+      }
+    }
+
+    const generatedHtml = generateInvoiceTemplet(payload, cidImageMap);
 
     if (deliveryInfo && payload && cart) {
       try {

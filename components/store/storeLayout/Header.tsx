@@ -36,7 +36,6 @@ import {
 import NavMobile from './utils/mobileNav';
 import dynamic from 'next/dynamic';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
-import { axiosInstance } from 'common/axios.instance';
 import {
   createWishlist,
   fetchWishlistProducts,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import { Product } from 'swagger/services';
@@ -22,6 +22,23 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
   const [decrementPressed, setDecrementPressed] = useState(false);
   const [incrementPressed, setIncrementPressed] = useState(false);
   const [inputValue, setInputValue] = useState(qty);
+  const [currentVariant, setCurrentVariant]: [any, any] = useState(
+    cart?.orderProducts?.find((productInBasket) =>
+      product.productVariants?.find(
+        (variant) => variant.id === productInBasket.productVariant?.id,
+      ),
+    )?.productVariant,
+  );
+
+  useEffect(() => {
+    setCurrentVariant(
+      cart?.orderProducts?.find((productInBasket) =>
+        product.productVariants?.find(
+          (variant) => variant.id === productInBasket.productVariant?.id,
+        ),
+      )?.productVariant,
+    );
+  }, []);
 
   // -----------------------------------------------
   return (
@@ -200,7 +217,8 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
         onClick={handleCartBtnClick(
           product,
           dispatch,
-          product?.productVariants![0],
+          // product?.productVariants![0],
+          currentVariant,
           cart!,
         )}
         initial={{ opacity: 0 }}

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
-import { Product, Slide } from 'swagger/services';
+import { OrderProductResponse, Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Banners from 'components/store/homePage/banners';

@@ -13,15 +13,15 @@ const GoogleAnalytics = dynamic(
 );
 
 const StoreLayout = ({ children }: { children: React.ReactNode }) => {
-  const [isMetrics, setIsMetrics] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsMetrics(true);
-    }, 10000);
-  }, []);
+  // const [isMetrics, setIsMetrics] = useState(false);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsMetrics(true);
+  //   }, 10000);
+  // }, []);
   return (
     <>
-      {isMetrics ? (
+      {/* {isMetrics ? (
         <>
           <GoogleAnalytics gaId="G-LPMTNCKRGT" />
           <Script
@@ -53,7 +53,7 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
         </>
       ) : (
         ''
-      )}
+      )} */}
 
       <Header />
       {children}

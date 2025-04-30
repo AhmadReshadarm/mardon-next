@@ -50,10 +50,23 @@ const handleCartBtnClick =
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
-    if (!curOrderProduct)
+    if (!curOrderProduct) {
       openSuccessNotification(
         `Вы выбрали артикул: ${variant?.artical?.toLocaleUpperCase()}`,
       );
+
+      dispatch(
+        updateCart({
+          orderProducts: cart?.orderProducts
+            ?.concat({ product: { id: product?.id }, qty: 1 })
+            .map((orderProduct) => ({
+              productId: orderProduct.product?.id,
+              qty: orderProduct.qty,
+              productVariantId: variant?.id!,
+            })),
+        }),
+      );
+    }
     if (curOrderProduct) {
       dispatch(setOneClickBy(false));
       dispatch(
@@ -64,26 +77,12 @@ const handleCartBtnClick =
               productId: orderProduct.product?.id?.toString(),
               qty: orderProduct.qty,
               productVariantId: variant?.id!,
-              // productSize,
             })),
         }),
       );
 
       return;
     }
-
-    dispatch(
-      updateCart({
-        orderProducts: cart?.orderProducts
-          ?.concat({ product: { id: product?.id }, qty: 1 })
-          .map((orderProduct) => ({
-            productId: orderProduct.product?.id,
-            qty: orderProduct.qty,
-            productVariantId: variant?.id!,
-            // productSize,
-          })),
-      }),
-    );
   };
 
 const handleWishBtnClick =

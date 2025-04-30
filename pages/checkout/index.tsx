@@ -10,7 +10,6 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { YMaps } from 'react-yandex-maps';
-import Image from 'next/image';
 import styled from 'styled-components';
 import { baseUrl } from 'common/constant';
 import { TCartState } from 'redux/types';
@@ -84,14 +83,6 @@ const Checkout = () => {
                 justify_content="space-between"
                 align_items="center"
               >
-                {/* <Header>
-                  <Image
-                    src="/static/secure-badge.png"
-                    alt=""
-                    width={80}
-                    height={80}
-                  />
-                </Header> */}
                 <CheckoutContent />
               </Content>
             </Wrapper>
@@ -99,7 +90,6 @@ const Checkout = () => {
         ) : (
           <LoaderMask />
         )}
-        {/* <Footer /> */}
       </YMaps>
     </>
   );
