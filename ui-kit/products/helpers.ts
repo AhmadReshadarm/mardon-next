@@ -39,14 +39,14 @@ const handleCartBtnClick =
     // productSize?: string,
   ) =>
   async () => {
-    if (!variant.available) {
-      openErrorNotification('Товар нет в наличии');
-      return;
-    }
-    if (variant.price == 1) {
-      openErrorNotification('К сожалению, цена товара не указана.');
-      return;
-    }
+    // if (!variant.available) {
+    //   openErrorNotification('Товар нет в наличии');
+    //   return;
+    // }
+    // if (variant.price == 1) {
+    //   openErrorNotification('К сожалению, цена товара не указана.');
+    //   return;
+    // }
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );

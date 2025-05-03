@@ -136,13 +136,18 @@ const cartSlicer = createSlice({
         state.cart = action.payload;
         localStorage.setItem('basketId', action.payload.id!);
         state.countLoading = false;
-      }) // clearCart
+      })
+      .addCase(updateCart.rejected, (state, action) => {
+        state.countLoading = false;
+        openErrorNotification(action.payload!);
+      })
+      // clearCart
       .addCase(clearCart.pending, handlePending)
       .addCase(clearCart.fulfilled, (state, action) => {
         state.cart = action.payload;
         state.loading = false;
       })
-      .addCase(updateCart.rejected, handleError);
+      .addCase(clearCart.rejected, handleError);
   },
 });
 

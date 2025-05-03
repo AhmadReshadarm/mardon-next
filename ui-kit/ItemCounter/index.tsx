@@ -9,6 +9,7 @@ import { TCartState } from 'redux/types';
 import { handleCartBtnClick } from 'ui-kit/products/helpers';
 import { openErrorNotification } from 'common/helpers';
 import styles from './ItemCounter.module.css';
+import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 type Props = {
   qty: number;
   product: Product;
@@ -39,6 +40,10 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
       )?.productVariant,
     );
   }, []);
+
+  useEffect(() => {
+    setInputValue(findCartQTY(product, cart!));
+  }, [cart]);
 
   // -----------------------------------------------
   return (
