@@ -1,4 +1,10 @@
-import { setOneClickBy, updateCart } from 'redux/slicers/store/cartSlicer';
+import {
+  addToCart,
+  removeFromCart,
+  setOneClickBy,
+  updateCart,
+  updateCartQty,
+} from 'redux/slicers/store/cartSlicer';
 import { AppDispatch } from 'redux/store';
 import { Basket, Product, ProductVariant, Wishlist } from 'swagger/services';
 import { updateWishlist } from 'redux/slicers/store/wishlistSlicer';
@@ -30,23 +36,106 @@ const getAnimationDelay = (length: number) => {
   return passDelay;
 };
 
+const handleAddToCartBtnClick =
+  (
+    product: Product,
+    dispatch: AppDispatch,
+    variant: ProductVariant,
+    cart?: Basket,
+  ) =>
+  async () => {
+    if (!variant.available) {
+      openErrorNotification('Товар нет в наличии');
+      return;
+    }
+    if (variant.price == 1) {
+      openErrorNotification('К сожалению, цена товара не указана.');
+      return;
+    }
+    const curOrderProduct = cart?.orderProducts?.find(
+      (orderProduct) => orderProduct.product?.id == product?.id,
+    );
+    if (!curOrderProduct) {
+      openSuccessNotification(
+        `Товар ${
+          product.name
+        } с артикул ${variant?.artical?.toLocaleUpperCase()} добавлены в корзину`,
+      );
+
+      dispatch(
+        addToCart({
+          productId: product.id,
+          qty: 1,
+          productVariantId: variant.id,
+        }),
+      );
+    }
+  };
+
+const handleProductCartQty = (
+  counter: number,
+  product: Product,
+  dispatch: AppDispatch,
+  cart?: Basket,
+) => {
+  const curOrderProduct = cart?.orderProducts?.find(
+    (orderProduct) => orderProduct.product?.id == product?.id,
+  );
+
+  dispatch(
+    updateCartQty({
+      id: curOrderProduct?.id,
+      productId: product.id,
+      qty: counter,
+      productPrice: curOrderProduct?.productPrice,
+      basketId: cart?.id,
+      inBasket: cart,
+      productVariantId: curOrderProduct?.productVariant?.id,
+    }),
+  );
+};
+
+const handleRemoveFromCartBtnClick =
+  (
+    product: Product,
+    dispatch: AppDispatch,
+    variant: ProductVariant,
+    cart?: Basket,
+  ) =>
+  async () => {
+    const curOrderProduct = cart?.orderProducts?.find(
+      (orderProduct) => orderProduct.product?.id == product?.id,
+    );
+    if (curOrderProduct) {
+      openSuccessNotification(
+        `Товар ${
+          product.name
+        } с артикул ${variant?.artical?.toLocaleUpperCase()} удален из корзины`,
+      );
+      const payload = {
+        id: curOrderProduct.id,
+      };
+
+      dispatch(removeFromCart(payload));
+    }
+  };
+
 const handleCartBtnClick =
   (
     product: Product,
     dispatch: AppDispatch,
     variant: ProductVariant,
     cart?: Basket,
-    // productSize?: string,
   ) =>
   async () => {
-    // if (!variant.available) {
-    //   openErrorNotification('Товар нет в наличии');
-    //   return;
-    // }
-    // if (variant.price == 1) {
-    //   openErrorNotification('К сожалению, цена товара не указана.');
-    //   return;
-    // }
+    if (!variant.available) {
+      openErrorNotification('Товар нет в наличии');
+      return;
+    }
+    if (variant.price == 1) {
+      openErrorNotification('К сожалению, цена товара не указана.');
+      return;
+    }
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
@@ -153,4 +242,7 @@ export {
   checkIfItemInWishlist,
   // handleHistory,
   handlePagination,
+  handleAddToCartBtnClick,
+  handleRemoveFromCartBtnClick,
+  handleProductCartQty,
 };

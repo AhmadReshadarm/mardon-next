@@ -4,10 +4,11 @@ import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState, TWishlistState } from 'redux/types';
 import {
+  handleAddToCartBtnClick,
   handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ProductActionBtns.module.css';
 import dynamic from 'next/dynamic';
 const ItemCounter = dynamic(() => import('ui-kit/ItemCounter'));
@@ -24,9 +25,8 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   );
 
   const dispatch = useAppDispatch();
-
   // -------------------- UI Hooks ---------------------
-  const [productId, setProductId] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
 
   // ------------------- end of UI Hooks --------------------
 
@@ -34,11 +34,18 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
     <>
       {!checkIfItemInCart(product, cart!) ? (
         <motion.button
-          onClick={() => {
-            handleCartBtnClick(product, dispatch, variant!, cart!)();
-            setProductId('');
-            setProductId(product.id!);
-            setTimeout(() => setProductId(''), 1200);
+          onClick={async () => {
+            setIsAdding(true);
+            try {
+              await handleAddToCartBtnClick(
+                product,
+                dispatch,
+                variant!,
+                cart!,
+              )();
+            } finally {
+              setIsAdding(false);
+            }
           }}
           disabled={countLoading ? true : false}
           title={`Добавить ${product.name} в корзину`}
@@ -51,7 +58,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
             transition={{ duration: 0.15 }}
             className={styles.content_wrapper}
           >
-            {countLoading && productId === product.id ? (
+            {countLoading && isAdding ? (
               <div className={styles.Loader} />
             ) : (
               <motion.span

@@ -10,6 +10,9 @@ import {
   Basket,
   BasketDTO,
   BasketService,
+  OrderProduct,
+  OrderProductDTO,
+  OrderProductWithJoins,
   ProductVariant,
 } from 'swagger/services';
 
@@ -66,6 +69,69 @@ export const updateCart = createAsyncThunk<
       const basketId = localStorage.getItem('basketId') ?? '';
 
       return await BasketService.updateBasket({ basketId, body: payload });
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const addToCart = createAsyncThunk<
+  Basket,
+  OrderProductDTO,
+  { rejectValue: string }
+>(
+  'cart/addToCart',
+  async function (payload: OrderProductDTO, { rejectWithValue }): Promise<any> {
+    try {
+      const basketId = localStorage.getItem('basketId') ?? '';
+
+      return await BasketService.addToCart({
+        basketId,
+        body: payload,
+      });
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const updateCartQty = createAsyncThunk<
+  Basket,
+  OrderProduct,
+  { rejectValue: string }
+>(
+  'cart/updateCartQty',
+  async function (payload: OrderProduct, { rejectWithValue }): Promise<any> {
+    try {
+      const basketId = localStorage.getItem('basketId') ?? '';
+
+      return await BasketService.updateCartQty({
+        basketId,
+        body: payload,
+      });
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const removeFromCart = createAsyncThunk<
+  Basket,
+  OrderProductWithJoins,
+  { rejectValue: string }
+>(
+  'cart/removeFromCart',
+  async function (
+    payload: OrderProductWithJoins,
+    { rejectWithValue },
+  ): Promise<any> {
+    try {
+      const basketId = localStorage.getItem('basketId') ?? '';
+
+      return await BasketService.removeFromCart({
+        basketId,
+        body: payload,
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -138,6 +204,37 @@ const cartSlicer = createSlice({
         state.countLoading = false;
       })
       .addCase(updateCart.rejected, (state, action) => {
+        state.countLoading = false;
+        openErrorNotification(action.payload!);
+      })
+      //addToCart
+      .addCase(addToCart.pending, (state: { countLoading: boolean }) => {
+        state.countLoading = true;
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.cart = action.payload;
+        state.countLoading = false;
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.countLoading = false;
+        openErrorNotification(action.payload!);
+      })
+      //updateCartQty
+      .addCase(updateCartQty.pending, handlePending)
+      .addCase(updateCartQty.fulfilled, (state, action) => {
+        state.cart = action.payload;
+        state.loading = false;
+      })
+      .addCase(updateCartQty.rejected, handleError)
+      //removeFromCart
+      .addCase(removeFromCart.pending, (state: { countLoading: boolean }) => {
+        state.countLoading = true;
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.cart = action.payload;
+        state.countLoading = false;
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
         state.countLoading = false;
         openErrorNotification(action.payload!);
       })
