@@ -89,7 +89,7 @@ const handleProductCartQty = (
       qty: counter,
       productPrice: curOrderProduct?.productPrice,
       basketId: cart?.id,
-      inBasket: cart,
+      // inBasket: cart,
       productVariantId: curOrderProduct?.productVariant?.id,
     }),
   );
