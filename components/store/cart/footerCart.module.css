@@ -1,0 +1,113 @@
+.Wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer_spliter {
+  width: 100%;
+  display: flex;
+}
+
+.footer_border {
+  width: 95%;
+  border-top: 1px solid;
+}
+.footer_no_border {
+  width: 5%;
+}
+
+.CartTotalPrice {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 30px;
+  gap: 50px;
+}
+
+.CartTotalPrice > span {
+  font-size: 2.5rem;
+}
+
+.CheckoutBtnWrapper {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 30px;
+  gap: 50px;
+}
+
+.CheckoutBtn {
+  height: 50px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 1.2rem;
+  padding: 0px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* global 1 */
+@media (min-width: 100px) and (max-width: 768px) {
+  .CheckoutBtnWrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .CheckoutBtnWrapper > a {
+    width: 100%;
+  }
+}
+/* global 2 */
+@media (min-width: 350px) and (max-width: 768px) {
+  .CartTotalPrice {
+    padding: 10px 20px;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .total_text {
+    font-size: 1.5rem;
+  }
+  .CartTotalPrice > span {
+    font-size: 1.5rem;
+  }
+  .CheckoutBtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* global 3 */
+@media (min-width: 100px) and (max-width: 350px) {
+  .CartTotalPrice {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    align-items: flex-start;
+    padding: 0 0 0 20px;
+  }
+  .total_text {
+    font-size: 1.5rem;
+  }
+  .CartTotalPrice > span {
+    font-size: 1.5rem;
+  }
+  .CheckoutBtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+}

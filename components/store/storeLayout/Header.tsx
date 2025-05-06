@@ -141,15 +141,6 @@ const Header = () => {
       const basketId = localStorage.getItem('basketId');
       const wishlistId = localStorage.getItem('wishlistId')!;
 
-      // const createWishlistId = async () => {
-      //   try {
-      //     const wishlist = await axiosInstance.post('/wishlists');
-      //     localStorage.setItem('wishlistId', wishlist.data.id);
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // };
-
       const fetchDataCartProducts = async () => {
         if (!basketId) {
           await dispatch(createCart());

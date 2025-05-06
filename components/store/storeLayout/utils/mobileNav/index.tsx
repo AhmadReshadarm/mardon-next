@@ -1,9 +1,5 @@
 import Link from 'next/link';
-import {
-  BasketSVG,
-  WishlistSVG,
-  HomePageIconSVG,
-} from '../../utils/headerIcons/SVGIconsHeader';
+import { BasketSVG, WishlistSVG } from '../../utils/headerIcons/SVGIconsHeader';
 import { TCartState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 import { TWishlistState } from 'redux/types';
@@ -66,7 +62,26 @@ const NavMobile = () => {
 
       <div className={styles.ParentWrapper}>
         {!!cart?.orderProducts?.length && (
-          <span className={styles.Counter}>{cart?.orderProducts?.length}</span>
+          <span
+            style={{
+              width:
+                cart.orderProducts.length < 10
+                  ? '20px'
+                  : cart.orderProducts.length < 100
+                  ? '25px'
+                  : 'unset',
+              height:
+                cart.orderProducts.length < 10
+                  ? '20px'
+                  : cart.orderProducts.length < 100
+                  ? '25px'
+                  : 'unset',
+              borderRadius: cart.orderProducts.length < 100 ? '50%' : '5px',
+            }}
+            className={styles.Counter}
+          >
+            {cart?.orderProducts?.length}
+          </span>
         )}
         <Link aria-label="корзина" href="/cart" prefetch={false}>
           <span className={styles.icons_wrapper_mobile}>
@@ -85,7 +100,26 @@ const NavMobile = () => {
       </div>
       <div className={styles.ParentWrapper}>
         {!!wishlist?.items?.length && (
-          <span className={styles.Counter}>{wishlist?.items?.length}</span>
+          <span
+            style={{
+              width:
+                wishlist?.items?.length < 10
+                  ? '20px'
+                  : wishlist.items.length < 100
+                  ? '25px'
+                  : 'unset',
+              height:
+                wishlist?.items?.length < 10
+                  ? '20px'
+                  : wishlist.items.length < 100
+                  ? '25px'
+                  : 'unset',
+              borderRadius: wishlist?.items?.length < 100 ? '50%' : '5px',
+            }}
+            className={styles.Counter}
+          >
+            {wishlist?.items?.length}
+          </span>
         )}
         <Link aria-label="избранное" href="/wishlist" prefetch={false}>
           <span className={styles.icons_wrapper_mobile}>

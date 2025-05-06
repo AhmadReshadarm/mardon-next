@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { getTotalPrice } from './helpers';
-import color from 'components/store/lib/ui.colors';
 import variants from '../lib/variants';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TAuthState, TCartState } from 'redux/types';
-import { devices } from '../lib/Devices';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
+import styles from './footerCart.module.css';
 
 const CartFooter = () => {
   const dispatch = useAppDispatch();
@@ -19,27 +17,29 @@ const CartFooter = () => {
   };
 
   return (
-    <Wrapper>
-      <CartTotalPrice
+    <div className={styles.Wrapper}>
+      <div
+        className={styles.CartTotalPrice}
         style={{
           display: Number(cart?.orderProducts?.length) > 0 ? 'flex' : 'none',
         }}
       >
-        <span className="total-text">Ваша корзина</span>
+        <span className={styles.total_text}>Ваша корзина</span>
         <span>Итого: {getTotalPrice(cart?.orderProducts!, user)} ₽</span>
-      </CartTotalPrice>
-      <div className="footer-spliter">
-        <div className="footer-no-border"></div>
-        <div className="footer-border"></div>
       </div>
-      <CheckoutBtnWrapper>
+      <div className={styles.footer_spliter}>
+        <div className={styles.footer_no_border}></div>
+        <div className={styles.footer_border}></div>
+      </div>
+      <div className={styles.CheckoutBtnWrapper}>
         <Link
           style={{
             display: Number(cart?.orderProducts?.length) > 0 ? 'flex' : 'none',
           }}
           href={cart?.totalAmount == 0 ? '/cart' : '/checkout'}
         >
-          <CheckoutBtn
+          <motion.button
+            className={styles.CheckoutBtn}
             whileHover="hover"
             whileTap="tap"
             variants={variants.boxShadow}
@@ -61,204 +61,22 @@ const CartFooter = () => {
                 stroke-linejoin="round"
               />
             </svg>
-          </CheckoutBtn>
+          </motion.button>
         </Link>
         <Link href="/catalog">
-          <CheckoutBtn
+          <motion.button
+            className={styles.CheckoutBtn}
             whileHover="hover"
             whileTap="tap"
             variants={variants.boxShadow}
             style={{ backgroundColor: '#e2dad0', color: '#000000e3' }}
           >
             Продолжить покупки
-          </CheckoutBtn>
+          </motion.button>
         </Link>
-      </CheckoutBtnWrapper>
-    </Wrapper>
+      </div>
+    </div>
   );
 };
-
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  .footer-spliter {
-    width: 100%;
-    display: flex;
-    .footer-border {
-      width: 95%;
-      border-top: 1px solid;
-    }
-    .footer-no-border {
-      width: 5%;
-    }
-  }
-`;
-
-const CartTotalPrice = styled.div`
-  width: 100%;
-  max-width: 1500px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 30px;
-  gap: 50px;
-  span {
-    font-family: ver(--font-Jost);
-    font-size: 2.5rem;
-  }
-
-  @media ${devices.tabletL} {
-    padding: 10px 20px;
-    gap: 10px;
-    justify-content: space-between;
-    .total-text {
-      font-size: 1.5rem;
-    }
-    span {
-      font-size: 1.5rem;
-    }
-  }
-  @media ${devices.tabletS} {
-    padding: 10px 20px;
-    gap: 10px;
-    justify-content: space-between;
-
-    .total-text {
-      font-size: 1.5rem;
-    }
-    span {
-      font-size: 1.5rem;
-    }
-  }
-  @media ${devices.mobileL} {
-    flex-direction: column;
-    padding: 0;
-    gap: 0;
-    align-items: flex-start;
-    padding: 0 0 0 20px;
-    .total-text {
-      font-size: 1.5rem;
-    }
-    span {
-      font-size: 1.5rem;
-    }
-  }
-  @media ${devices.mobileM} {
-    flex-direction: column;
-    padding: 0;
-    gap: 0;
-    align-items: flex-start;
-    padding: 0 0 0 20px;
-    .total-text {
-      font-size: 1.5rem;
-    }
-    span {
-      font-size: 1.5rem;
-    }
-  }
-  @media ${devices.mobileS} {
-    flex-direction: column;
-    padding: 0;
-    gap: 0;
-    align-items: flex-start;
-    padding: 0 0 0 20px;
-    .total-text {
-      font-size: 1.5rem;
-    }
-    span {
-      font-size: 1.5rem;
-    }
-  }
-`;
-
-const CheckoutBtnWrapper = styled.div`
-  width: 100%;
-  max-width: 1500px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 30px;
-  gap: 50px;
-  @media ${devices.tabletL} {
-    flex-direction: column;
-    gap: 20px;
-    a {
-      width: 100%;
-    }
-  }
-  @media ${devices.tabletS} {
-    flex-direction: column;
-    gap: 20px;
-    a {
-      width: 100%;
-    }
-  }
-  @media ${devices.mobileL} {
-    flex-direction: column;
-    gap: 20px;
-    a {
-      width: 100%;
-    }
-  }
-  @media ${devices.mobileM} {
-    flex-direction: column;
-    gap: 20px;
-    a {
-      width: 100%;
-    }
-  }
-  @media ${devices.mobileS} {
-    flex-direction: column;
-    gap: 20px;
-    a {
-      width: 100%;
-    }
-  }
-`;
-
-const CheckoutBtn = styled(motion.button)`
-  height: 50px;
-  background: ${color.btnPrimary};
-  color: ${color.textPrimary};
-  font-size: 1.2rem;
-  padding: 0px 20px;
-  border-radius: 30px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  @media ${devices.tabletL} {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-    padding: 10px;
-    font-size: 0.8rem;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-    padding: 10px;
-    font-size: 0.8rem;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-    padding: 10px;
-    font-size: 0.8rem;
-  }
-`;
 
 export default CartFooter;

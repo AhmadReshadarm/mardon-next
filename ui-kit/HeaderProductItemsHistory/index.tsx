@@ -1,24 +1,45 @@
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Link from 'next/link';
-import { Product } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
+import { Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
-import styles from './wishlistStyles.module.css';
+import styles from 'ui-kit/HeaderProductItems/headerProductItems.module.css';
+import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
+import { useEffect } from 'react';
+
 type Props = {
   product: Product;
-  index: number;
+  handleMenuState?: () => void;
 };
 
-const ItemWishlist: React.FC<Props> = ({ product, index }) => {
+const HeaderProductItmesHistory: React.FC<Props> = ({
+  product,
+  handleMenuState,
+}) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const { productVariants } = product;
 
-  const images = getProductVariantsImages(productVariants);
+  if (checkIfItemInCart(product, cart!)) {
+    return;
+  }
+  const images = getProductVariantsImages(product?.productVariants);
+
+  const articals = product.productVariants?.map((variant) => variant.artical);
+  // remove the repated product artical from array to only show in UI once
+  const filteredArticals = articals!.filter(function (value, index, array) {
+    return array.indexOf(value) === index;
+  });
 
   const colors: string[] = [];
   product!?.productVariants!.map((variant) => {
+    if (
+      variant.color?.url == '' ||
+      variant.color?.url == '-' ||
+      variant.color?.url == '_'
+    ) {
+      return;
+    }
     if (variant.color?.url !== '-') {
       colors.push(variant.color?.code!);
     }
@@ -28,16 +49,14 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
     return array.indexOf(value) === index;
   });
 
-  const articals = product!.productVariants?.map((variant) => variant.artical);
-  // remove the repated product artical from array to only show in UI once
-  const filteredArticals = articals!.filter(function (value, index, array) {
-    return array.indexOf(value) === index;
-  });
-
   return (
-    <li className={styles.ProductItemWrapper} key={index}>
+    <li className={styles.ProductItemWrapper}>
       <>
-        <Link href={`/product/${product?.url}`} prefetch={false}>
+        <Link
+          onClick={() => (handleMenuState ? handleMenuState() : '')}
+          href={`/product/${product?.url}`}
+          prefetch={false}
+        >
           <img
             src={`/api/images/${images[0]}`}
             onError={({ currentTarget }) => {
@@ -49,8 +68,12 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
         </Link>
         <div className={styles.product_details_wrapper}>
           <div className={styles.product_title_description_wrapper}>
-            <Link href={`/product/${product?.url}`} prefetch={false}>
-              <h1 title={product!?.name}>
+            <Link
+              onClick={() => (handleMenuState ? handleMenuState() : '')}
+              href={`/product/${product?.url}`}
+              prefetch={false}
+            >
+              <h1>
                 {product!?.name?.length! > 18
                   ? product!?.name?.slice(0, 18) + ' ...'
                   : product!?.name}
@@ -97,11 +120,16 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
             <div
               style={{
                 alignItems: 'center',
-                display: filteredColors.length !== 0 ? 'flex' : 'none',
               }}
               className={styles.artical_wrapper}
             >
-              <span>Цвет(а) : </span>
+              <span
+                style={{
+                  display: filteredColors.length > 0 ? 'block' : 'none',
+                }}
+              >
+                Цвет{`(а)`} :{' '}
+              </span>
               {filteredColors.map((color, index) => {
                 return (
                   <span
@@ -162,4 +190,4 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
   );
 };
 
-export default ItemWishlist;
+export default HeaderProductItmesHistory;

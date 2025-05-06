@@ -175,11 +175,13 @@ type TGlobalState = {
   products: Product[];
   caroselProducts: Product[];
   bestProduct: Product[];
+  historyProducts: Product[];
   loading: boolean;
   loadingAddRemoveWishlist: boolean;
   loadingCarosel: boolean;
   productsLoading: boolean;
   bestProductLoading: boolean;
+  loadingHistory: boolean;
 };
 
 type TGlobalUIState = {
@@ -218,6 +220,7 @@ type TFilters = {
   maxPrice?: number;
   desc?: string;
   available?: boolean;
+  userHistory?: string[];
   colors?: string[];
   categories?: string[];
   subCategories?: string[];

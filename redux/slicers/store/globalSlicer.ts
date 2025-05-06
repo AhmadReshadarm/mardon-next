@@ -69,6 +69,24 @@ export const fetchBestProducts = createAsyncThunk<
   },
 );
 
+export const fetchHistoryProducts = createAsyncThunk<
+  Product[],
+  TFilters,
+  { rejectValue: string }
+>(
+  'catalog/fetchHistoryProducts',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const response = (await ProductService.getProducts(
+        payload,
+      )) as unknown as { rows: Product[]; length: number };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 export const fetchTags = createAsyncThunk<
   Tag[],
   undefined,
@@ -141,11 +159,14 @@ const initialState: TGlobalState = {
   newsPosts: [],
   caroselProducts: [],
   bestProduct: [],
+  historyProducts: [],
   loading: false,
   loadingAddRemoveWishlist: false,
   loadingCarosel: false,
   productsLoading: false,
   bestProductLoading: false,
+
+  loadingHistory: false,
 };
 
 const globalSlicer = createSlice({
@@ -180,6 +201,18 @@ const globalSlicer = createSlice({
         state.loadingCarosel = false;
       })
       .addCase(fetchMainPageProducts.rejected, handleError)
+      // fetchHistoryProducts
+      .addCase(fetchHistoryProducts.pending, (state) => {
+        state.loadingHistory = true;
+      })
+      .addCase(fetchHistoryProducts.fulfilled, (state, action) => {
+        state.historyProducts = action.payload;
+        state.loadingHistory = false;
+      })
+      .addCase(fetchHistoryProducts.rejected, (state, action) => {
+        state.loadingHistory = false;
+        openErrorNotification(action.payload!);
+      })
       //fetchBestProducts
       .addCase(fetchBestProducts.pending, (state, action) => {
         state.bestProductLoading = true;

@@ -7,7 +7,7 @@ import {
   handleMenuStateRedux,
   outsideClickListnerRedux,
 } from 'components/store/storeLayout/helpers';
-import { TCartState, TGlobalUIState } from 'redux/types';
+import { TCartState, TGlobalState, TGlobalUIState } from 'redux/types';
 import { getTotalPrice } from 'components/store/cart/helpers';
 import { TAuthState } from 'redux/types';
 import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
@@ -17,6 +17,8 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import styles from '../../styles/headerWishList.module.css';
 import dynamic from 'next/dynamic';
+import { fetchHistoryProducts } from 'redux/slicers/store/globalSlicer';
+import HeaderProductItmesHistory from 'ui-kit/HeaderProductItemsHistory';
 const HeaderProductItmes = dynamic(() => import('ui-kit/HeaderProductItems'), {
   ssr: false,
 });
@@ -29,6 +31,10 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
 
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const { historyProducts } = useAppSelector<TGlobalState>(
+    (state) => state.global,
+  );
+
   const handleGoToCart = () => {
     dispatch(setOneClickBy(false));
   };
@@ -39,6 +45,14 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
   );
   const [cartWrapperRef, setCartWrapperRef] = useState(null);
   const [listening, setListening] = useState(false);
+  const [cartProductIds, setCartProductIds] = useState(
+    new Set(),
+    // new Set(cart?.orderProducts!.map((item) => item.product!.id)),
+  );
+  const [hasAllProducts, setHasAllProducts] = useState(
+    historyProducts.every((product) => cartProductIds.has(product.id)),
+  );
+
   const cartWrapperNode = useCallback((node: any) => {
     setCartWrapperRef(node);
   }, []);
@@ -54,6 +68,25 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
       changeCartDisplayState,
     ),
   );
+
+  useEffect(() => {
+    const userHistoy = localStorage.getItem('history');
+    if (userHistoy) {
+      dispatch(fetchHistoryProducts({ userHistory: JSON.parse(userHistoy) }));
+    }
+  }, [isBasketOpen]);
+
+  useEffect(() => {
+    setCartProductIds(
+      new Set(cart?.orderProducts!.map((item) => item.product!.id)),
+    );
+  }, [cart, isBasketOpen, historyProducts]);
+
+  useEffect(() => {
+    setHasAllProducts(
+      historyProducts.every((product) => cartProductIds.has(product.id)),
+    );
+  }, [cartProductIds, historyProducts]);
   // ---------------------- end of UI hooks ---------------------
   return (
     <motion.div
@@ -67,31 +100,79 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
         <>
           <div className={styles.header_wishlist_form_background}></div>
           <div className={styles.header_spacer}></div>
-          {!cart?.orderProducts?.length ? (
-            <div className={styles.empty_wrapper}>
-              <h1>{`Корзина пуста`.toLocaleUpperCase()}</h1>
-            </div>
-          ) : (
-            <div className={styles.PopupDivider}>
-              <ul className={styles.PopupContent}>
-                {cart?.orderProducts?.map((orderProduct, index: any) => {
-                  return (
-                    <HeaderProductItmes
-                      key={`cart-item-${index}`}
-                      orderProduct={orderProduct}
-                      dataType="cart"
-                      handleMenuState={handleMenuStateRedux(
-                        dispatch,
-                        changeBasketState,
-                        changeCartDisplayState,
-                        isBasketOpen,
-                        cartDisplay,
-                      )}
-                    />
-                  );
-                })}
-              </ul>
 
+          <div className={styles.PopupDivider}>
+            <ul className={styles.PopupContent}>
+              {!cart?.orderProducts?.length ? (
+                <>
+                  {!historyProducts.length ? (
+                    <div className={styles.empty_wrapper}>
+                      <h1>{`Корзина пуста`.toLocaleUpperCase()}</h1>
+                    </div>
+                  ) : (
+                    <div
+                      style={{ justifyContent: 'center' }}
+                      className={styles.PopupBtnsDivider}
+                    >
+                      <h1 style={{ fontWeight: '600' }}>
+                        {`Корзина пуста`.toLocaleUpperCase()}
+                      </h1>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {cart?.orderProducts?.map((orderProduct, index: any) => {
+                    return (
+                      <HeaderProductItmes
+                        key={`cart-item-${index}`}
+                        orderProduct={orderProduct}
+                        dataType="cart"
+                        handleMenuState={handleMenuStateRedux(
+                          dispatch,
+                          changeBasketState,
+                          changeCartDisplayState,
+                          isBasketOpen,
+                          cartDisplay,
+                        )}
+                      />
+                    );
+                  })}
+                </>
+              )}
+              {!historyProducts.length || hasAllProducts ? (
+                <></>
+              ) : (
+                <>
+                  <li style={{ width: '100%' }}>
+                    <div
+                      style={{ justifyContent: 'center' }}
+                      className={styles.PopupBtnsDivider}
+                    >
+                      <h1 style={{ fontWeight: '600' }}>Вы смотрели</h1>
+                    </div>
+                  </li>
+                  {historyProducts.map((historyProduct, index) => {
+                    return (
+                      <HeaderProductItmesHistory
+                        key={`history-item-${index}`}
+                        product={historyProduct}
+                        handleMenuState={handleMenuStateRedux(
+                          dispatch,
+                          changeBasketState,
+                          changeCartDisplayState,
+                          isBasketOpen,
+                          cartDisplay,
+                        )}
+                      />
+                    );
+                  })}
+                </>
+              )}
+            </ul>
+            {!cart?.orderProducts?.length ? (
+              <></>
+            ) : (
               <div className={styles.PopupBtnsDivider}>
                 <Link href="/cart" prefetch={false}>
                   <button
@@ -130,17 +211,17 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
                     className={styles.total_price_wrapper}
                     style={{
                       fontSize:
-                        getTotalPrice(cart.orderProducts, user!)! > 100000
+                        getTotalPrice(cart?.orderProducts!, user!)! > 100000
                           ? '1rem'
                           : '1.8rem',
                     }}
                   >
-                    {getTotalPrice(cart.orderProducts, user!)}₽
+                    {getTotalPrice(cart?.orderProducts!, user!)}₽
                   </h1>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </>
       )}
     </motion.div>
