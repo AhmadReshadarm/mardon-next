@@ -114,8 +114,8 @@
 .artical_content_wrapper {
   display: inline-grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 5px;
-  row-gap: 5px;
+  column-gap: 10px;
+  row-gap: 10px;
 }
 
 .artical_wrapper > span {
@@ -202,6 +202,7 @@
   justify-content: center;
   cursor: pointer;
   user-select: none;
+  color: #000;
 }
 
 /* Global 1 */
