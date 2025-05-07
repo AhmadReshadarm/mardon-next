@@ -6,6 +6,7 @@ import { Color, OrderProduct, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from './helpers';
 import styles from './headerProductItems.module.css';
+import { useState } from 'react';
 
 type Props = {
   orderProduct?: OrderProduct;
@@ -26,6 +27,11 @@ const HeaderProductItmes: React.FC<Props> = ({
       ? orderProduct!?.product!?.productVariants
       : product?.productVariants,
   );
+
+  const [variant, setVariant]: [any, any] = useState(
+    dataType == 'wishlist' ? product!.productVariants![0] : [],
+  );
+
   const colors: Color[] = [];
   product!?.productVariants!.map((variant) => {
     if (variant.color?.url !== '-') {
@@ -47,7 +53,6 @@ const HeaderProductItmes: React.FC<Props> = ({
   const filteredArticals = articals!.filter(function (value, index, array) {
     return array.indexOf(value) === index;
   });
-
   return (
     <li className={styles.ProductItemWrapper}>
       {dataType == 'cart' ? (
@@ -58,7 +63,9 @@ const HeaderProductItmes: React.FC<Props> = ({
             prefetch={false}
           >
             <img
-              src={`/api/images/${images[0]}`}
+              src={`/api/images/${
+                orderProduct?.productVariant?.images?.split(', ')[0]
+              }`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
                 currentTarget.src = '/img_not_found.png';
@@ -211,7 +218,9 @@ const HeaderProductItmes: React.FC<Props> = ({
             prefetch={false}
           >
             <img
-              src={`/api/images/${images[0]}`}
+              src={`/api/images/${
+                variant.images ? variant.images.split(', ')[0] : ''
+              }`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
                 currentTarget.src = '/img_not_found.png';
@@ -298,7 +307,7 @@ const HeaderProductItmes: React.FC<Props> = ({
               {/* ---------- end of color ----------- */}
               <div className={styles.artical_wrapper}>
                 <span>Артикул(ы):</span>
-                {filteredArticals.map((artical, index) => {
+                {/* {filteredArticals.map((artical, index) => {
                   return (
                     <span key={index}>
                       {artical!.includes('|')
@@ -307,19 +316,46 @@ const HeaderProductItmes: React.FC<Props> = ({
                       {filteredArticals.length - 1 !== index ? ', ' : ''}
                     </span>
                   );
-                })}
+                })} */}
+                <ul className={styles.artical_data_wrapper}>
+                  {filteredArticals.map((artical, index) => {
+                    return (
+                      <button
+                        className={styles.artical_variant_selector}
+                        key={index}
+                        onClick={() => {
+                          const currentVariant = product!.productVariants?.find(
+                            (variant) => variant.artical == artical,
+                          );
+                          if (currentVariant) {
+                            setVariant(currentVariant);
+                          }
+                        }}
+                        style={{
+                          borderColor:
+                            variant.artical == artical ? '#000' : '#00000029',
+                        }}
+                      >
+                        {artical!.includes('|')
+                          ? artical!.split('|')[0].toUpperCase()
+                          : artical!.toUpperCase()}
+                        {filteredArticals.length - 1 !== index ? ', ' : ''}
+                      </button>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
             <div className={styles.price_sperator_wrapper}>
               <div className={styles.old_new_price_wrapper}>
-                {product?.productVariants![0]?.oldPrice ? (
+                {/* {product?.productVariants![0]?.oldPrice ? (
                   <span className={styles.old_price}>
                     {product?.productVariants![0]?.oldPrice} ₽
                   </span>
                 ) : (
                   ''
-                )}
-                <span>{product?.productVariants![0]?.price} ₽</span>
+                )} */}
+                <span>{variant.price} ₽</span>
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import styles from 'ui-kit/HeaderProductItems/headerProductItems.module.css';
 import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 type Props = {
   product: Product;
@@ -19,11 +19,11 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
   handleMenuState,
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-
+  const [variant, setVariant] = useState(product.productVariants![0]);
   if (checkIfItemInCart(product, cart!)) {
     return;
   }
-  const images = getProductVariantsImages(product?.productVariants);
+  // const images = getProductVariantsImages(product?.productVariants);
 
   const articals = product.productVariants?.map((variant) => variant.artical);
   // remove the repated product artical from array to only show in UI once
@@ -61,7 +61,9 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
           prefetch={false}
         >
           <img
-            src={`/api/images/${images[0]}`}
+            src={`/api/images/${
+              variant.images ? variant.images.split(', ')[0] : ''
+            }`}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src = '/img_not_found.png';
@@ -150,34 +152,51 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
               })}
             </div>
             {/* ---------- end of color ----------- */}
+            {/* -------------- articals ----------- */}
             <div className={styles.artical_wrapper}>
               <span>Артикул(ы):</span>
-              {filteredArticals.map((artical, index) => {
-                return (
-                  <span key={index}>
-                    {artical!.includes('|')
-                      ? artical!.split('|')[0].toUpperCase()
-                      : artical!.toUpperCase()}
-                    {filteredArticals.length - 1 !== index ? ', ' : ''}
-                  </span>
-                );
-              })}
+              <ul className={styles.artical_data_wrapper}>
+                {filteredArticals.map((artical, index) => {
+                  return (
+                    <button
+                      className={styles.artical_variant_selector}
+                      key={index}
+                      onClick={() => {
+                        const currentVariant = product.productVariants?.find(
+                          (variant) => variant.artical == artical,
+                        );
+                        if (currentVariant) {
+                          setVariant(currentVariant);
+                        }
+                      }}
+                      style={{
+                        borderColor:
+                          variant.artical == artical ? '#000' : '#00000029',
+                      }}
+                    >
+                      {artical!.includes('|')
+                        ? artical!.split('|')[0].toUpperCase()
+                        : artical!.toUpperCase()}
+                      {filteredArticals.length - 1 !== index ? ', ' : ''}
+                    </button>
+                  );
+                })}
+              </ul>
             </div>
+            {/* ---------------- end of artical --------------- */}
           </div>
 
           <div className={styles.price_sperator_wrapper}>
             <div className={styles.old_new_price_wrapper}>
-              <span
+              {/* <span
                 style={{
-                  display: !product?.productVariants![0].oldPrice
-                    ? 'none'
-                    : 'flex',
+                  display: variant.oldPrice ? 'none' : 'flex',
                 }}
                 className={styles.old_price}
               >
-                {product?.productVariants![0].oldPrice} ₽
-              </span>
-              <span>{product?.productVariants![0].price} ₽</span>
+                {variant.oldPrice} ₽
+              </span> */}
+              <span>{variant.price} ₽</span>
             </div>
           </div>
         </div>
@@ -186,7 +205,7 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
           <AddToCart
             product={product}
             qty={findCartQTY(product, cart!)}
-            variant={product?.productVariants![0]}
+            variant={variant}
           />
         </div>
       </>

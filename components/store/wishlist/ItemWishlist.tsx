@@ -6,6 +6,7 @@ import { TCartState } from 'redux/types';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import styles from './wishlistStyles.module.css';
+import { useState } from 'react';
 type Props = {
   product: Product;
   index: number;
@@ -14,7 +15,7 @@ type Props = {
 const ItemWishlist: React.FC<Props> = ({ product, index }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const { productVariants } = product;
-
+  const [variant, setVariant] = useState(product.productVariants![0]);
   const images = getProductVariantsImages(productVariants);
 
   const colors: string[] = [];
@@ -39,7 +40,9 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
       <>
         <Link href={`/product/${product?.url}`} prefetch={false}>
           <img
-            src={`/api/images/${images[0]}`}
+            src={`/api/images/${
+              variant.images ? variant.images.split(', ')[0] : ''
+            }`}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src = '/img_not_found.png';
@@ -120,22 +123,39 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
             {/* ---------- end of color ----------- */}
             <div className={styles.artical_wrapper}>
               <span>Артикул(ы):</span>
-              {filteredArticals.map((artical, index) => {
-                return (
-                  <span key={index}>
-                    {artical!.includes('|')
-                      ? artical!.split('|')[0].toUpperCase()
-                      : artical!.toUpperCase()}
-                    {filteredArticals.length - 1 !== index ? ', ' : ''}
-                  </span>
-                );
-              })}
+              <ul className={styles.artical_data_wrapper}>
+                {filteredArticals.map((artical, index) => {
+                  return (
+                    <button
+                      className={styles.artical_variant_selector}
+                      key={index}
+                      onClick={() => {
+                        const currentVariant = product!.productVariants?.find(
+                          (variant) => variant.artical == artical,
+                        );
+                        if (currentVariant) {
+                          setVariant(currentVariant);
+                        }
+                      }}
+                      style={{
+                        borderColor:
+                          variant.artical == artical ? '#000' : '#00000029',
+                      }}
+                    >
+                      {artical!.includes('|')
+                        ? artical!.split('|')[0].toUpperCase()
+                        : artical!.toUpperCase()}
+                      {filteredArticals.length - 1 !== index ? ', ' : ''}
+                    </button>
+                  );
+                })}
+              </ul>
             </div>
           </div>
 
           <div className={styles.price_sperator_wrapper}>
             <div className={styles.old_new_price_wrapper}>
-              <span
+              {/* <span
                 style={{
                   display: !product?.productVariants![0].oldPrice
                     ? 'none'
@@ -144,8 +164,8 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
                 className={styles.old_price}
               >
                 {product?.productVariants![0].oldPrice} ₽
-              </span>
-              <span>{product?.productVariants![0].price} ₽</span>
+              </span> */}
+              <span>{variant.price} ₽</span>
             </div>
           </div>
         </div>

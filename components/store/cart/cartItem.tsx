@@ -9,15 +9,17 @@ type Props = {
 };
 
 const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
-  const images = getProductVariantsImages(
-    orderProduct.product?.productVariants,
-  );
+  // const images = getProductVariantsImages(
+  //   orderProduct.product?.productVariants,
+  // );
 
   return (
     <li className={styles.ProductItemWrapper}>
       <a href={`/product/${orderProduct!.product?.url}`}>
         <img
-          src={`/api/images/${images[0]}`}
+          src={`/api/images/${
+            orderProduct?.productVariant?.images?.split(', ')[0]
+          }`}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
             currentTarget.src = '/img_not_found.png';

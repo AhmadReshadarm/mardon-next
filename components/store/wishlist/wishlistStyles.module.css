@@ -201,6 +201,26 @@
   font-size: 0.8rem;
 }
 
+.artical_data_wrapper {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.artical_variant_selector {
+  border: 1px solid #00000029;
+  padding: 2px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  color: #000;
+}
+
 /* global 1 */
 @media (min-width: 100px) and (max-width: 1024px) {
   .ProductItemWrapper {
