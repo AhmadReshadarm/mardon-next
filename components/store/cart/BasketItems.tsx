@@ -36,7 +36,11 @@ const BasketItems: React.FC<Props> = ({}) => {
   useEffect(() => {
     const userHistoy = localStorage.getItem('history');
     if (userHistoy) {
-      dispatch(fetchHistoryProducts({ userHistory: JSON.parse(userHistoy) }));
+      const payload = {
+        userHistory: JSON.parse(userHistoy),
+        limit: '1000',
+      };
+      dispatch(fetchHistoryProducts(payload));
     }
   }, [cart]);
 

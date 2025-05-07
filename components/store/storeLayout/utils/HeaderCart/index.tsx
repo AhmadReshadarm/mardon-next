@@ -72,7 +72,11 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
   useEffect(() => {
     const userHistoy = localStorage.getItem('history');
     if (userHistoy) {
-      dispatch(fetchHistoryProducts({ userHistory: JSON.parse(userHistoy) }));
+      const payload = {
+        userHistory: JSON.parse(userHistoy),
+        limit: '1000',
+      };
+      dispatch(fetchHistoryProducts(payload));
     }
   }, [isBasketOpen]);
 

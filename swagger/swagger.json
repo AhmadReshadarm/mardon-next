@@ -1682,6 +1682,16 @@
             "required": false,
             "type": "string"
           },
+          {
+            "name": "userHistory",
+            "in": "query",
+            "description": "Filtering product by user history",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
 
           {
             "name": "minPrice",
