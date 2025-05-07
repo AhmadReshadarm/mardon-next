@@ -1,4 +1,4 @@
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+// import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import { sizesNum } from 'components/store/lib/Devices';
 import Link from 'next/link';
 import { Product } from 'swagger/services';
@@ -20,8 +20,9 @@ type Props = {
 };
 // key,
 const ProductItem: React.FC<Props> = ({ product, custom }) => {
-  const images = getProductVariantsImages(product.productVariants);
+  // const images = getProductVariantsImages(product.productVariants);
   const cart: Basket = useAppSelector((state) => state.cart.cart);
+  const [variant, setVariant] = useState(product.productVariants![0]);
   const dispatch = useAppDispatch();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -104,9 +105,11 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
       <div className={styles.ItemWrapper}>
         <Slider
           product={product}
-          images={images}
+          images={variant.images ? variant.images.split(', ') : []}
+          // images={images}
           url={product.url}
           windowWidth={windowWidth}
+          variant={variant}
         />
         <div className={styles.product_title_add_to_card_wrapper}>
           {/* ----------------- title start ------------------ */}
@@ -121,24 +124,45 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             prefetch={false}
           >
             <span title={product.name}>
-              {product.name?.length! > 80
+              {product.name?.length! > 80 && windowWidth > 1024
                 ? `${product.name?.slice(0, 80)}...`
                 : product.name}
             </span>
           </Link>
           {/* ------------ end of title ---------------- */}
           {/* ----------- aritcale ---------- */}
-          <div className={styles.artical_wrapper}>
+          <div
+            style={{
+              alignItems: filteredArticals.length > 2 ? 'flex-start' : 'center',
+            }}
+            className={styles.artical_wrapper}
+          >
             <span>Артикул(ы) : </span>
             <div className={styles.artical_content_wrapper}>
               {filteredArticals.map((artical, index) => {
                 return (
-                  <span key={index}>
+                  <button
+                    onClick={() => {
+                      const currentVariant = product.productVariants?.find(
+                        (variant) => variant.artical == artical,
+                      );
+                      if (currentVariant) {
+                        setVariant(currentVariant);
+                      }
+                    }}
+                    style={{
+                      borderColor:
+                        variant.artical == artical ? '#000' : '#00000029',
+                    }}
+                    className={styles.artical_variant_selector}
+                    key={index}
+                    type="button"
+                  >
                     {artical!.includes('|')
                       ? artical!.split('|')[0].toUpperCase()
                       : artical!.toUpperCase()}
-                    {filteredArticals.length - 1 !== index ? ', ' : ''}
-                  </span>
+                    {/* {filteredArticals.length - 1 !== index ? ', ' : ''} */}
+                  </button>
                 );
               })}
             </div>
@@ -147,7 +171,6 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           {/* ----------- color ------------------- */}
           <div
             style={{
-              alignItems: 'center',
               display: filteredColors.length !== 0 ? 'flex' : 'none',
             }}
             className={styles.artical_wrapper}
@@ -205,21 +228,16 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
           </div>
           {/* ------------- end of rating ---------------- */}
           <div className={styles.product_price_wrapper}>
-            {product.productVariants![0]?.oldPrice ? (
-              <span className={styles.old_price}>
-                {product.productVariants![0]?.oldPrice} ₽
-              </span>
-            ) : (
-              ''
-            )}
-            <span>{product.productVariants![0]?.price} ₽</span>
+            <span>{variant.price} ₽</span>
+            {/* -------------- end of price --------------- */}
           </div>
           <div className={styles.action_buttons_wrapper}>
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
               qty={findCartQTY(product, cart)}
-              variant={product?.productVariants![0]}
+              // variant={product?.productVariants![0]}
+              variant={variant}
             />
           </div>
         </div>

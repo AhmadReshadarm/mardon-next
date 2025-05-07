@@ -82,6 +82,26 @@
   object-fit: cover;
 }
 
+.discount_wrapper {
+  position: absolute;
+  z-index: 9;
+  right: 5px;
+  top: 8px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #2a2627;
+}
+
+.discount_wrapper > span {
+  color: #f4f4f4;
+  font-size: 0.8rem;
+}
+
 @keyframes loading {
   100% {
     transform: translateX(100%);

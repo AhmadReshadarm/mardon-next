@@ -2,7 +2,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
-import { OrderProduct, Product } from 'swagger/services';
+import { Color, OrderProduct, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from './helpers';
 import styles from './headerProductItems.module.css';
@@ -26,16 +26,18 @@ const HeaderProductItmes: React.FC<Props> = ({
       ? orderProduct!?.product!?.productVariants
       : product?.productVariants,
   );
-  const colors: string[] = [];
+  const colors: Color[] = [];
   product!?.productVariants!.map((variant) => {
     if (variant.color?.url !== '-') {
-      colors.push(variant.color?.code!);
+      colors.push(variant.color!);
     }
   });
   // remove the repated product colors from array to only show in UI once
-  const filteredColors = colors.filter(function (value, index, array) {
-    return array.indexOf(value) === index;
-  });
+  const filteredColors = colors.filter(
+    (o, index, arr) =>
+      arr.findIndex((item) => JSON.stringify(item) === JSON.stringify(o)) ===
+      index,
+  );
 
   const articals =
     dataType !== 'cart'
@@ -150,6 +152,7 @@ const HeaderProductItmes: React.FC<Props> = ({
                     backgroundColor: orderProduct?.productVariant?.color?.code,
                     border: '1px solid rgb(129 129 129)',
                   }}
+                  title={`Цвет: ${orderProduct?.productVariant?.color?.name}`}
                 />
               </div>
               {/* ---------- end of color ----------- */}
@@ -283,10 +286,11 @@ const HeaderProductItmes: React.FC<Props> = ({
                         width: '10px',
                         height: '10px',
                         borderRadius: '50%',
-                        backgroundColor: color,
+                        backgroundColor: color.code,
                         border: '1px solid rgb(129 129 129)',
                       }}
                       key={index}
+                      title={`Цвет: ${color.name}`}
                     />
                   );
                 })}

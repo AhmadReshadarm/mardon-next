@@ -3,7 +3,7 @@ import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { wrap } from 'popmotion';
-import { Product } from 'swagger/services';
+import { Product, ProductVariant } from 'swagger/services';
 import { handlePagination } from './helpers';
 import {
   UseImagePaginat,
@@ -31,9 +31,16 @@ type Props = {
   imageIndex?: any;
   setZoomImgSrc?: any;
   zoomImgSrc?: string;
+  variant?: ProductVariant;
 };
 
-const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
+const Slider: React.FC<Props> = ({
+  product,
+  url,
+  images,
+  windowWidth,
+  variant,
+}) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, images.length, page);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -134,6 +141,23 @@ const Slider: React.FC<Props> = ({ product, url, images, windowWidth }) => {
         }}
         className={styles.ImageSliderWrapper}
       >
+        {variant?.oldPrice ? (
+          <div className={styles.discount_wrapper}>
+            <span>
+              {Math.floor(
+                Math.round(
+                  ((variant?.oldPrice - variant?.price!) * 100) /
+                    variant?.price!,
+                ),
+              )}
+              %
+            </span>
+            <span>OFF</span>
+          </div>
+        ) : (
+          <></>
+        )}
+
         <Link
           onClick={() => {
             dispatch(clearSearchQuery());
