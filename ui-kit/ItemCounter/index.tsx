@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
-import { Product } from 'swagger/services';
+import { Product, ProductVariant } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
 import { useAppDispatch } from 'redux/hooks';
 import { TCartState } from 'redux/types';
@@ -14,9 +14,10 @@ import styles from './ItemCounter.module.css';
 type Props = {
   qty: number;
   product: Product;
+  variant?: ProductVariant;
 };
 
-const ItemCounter: React.FC<Props> = ({ qty, product }) => {
+const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
   const dispatch = useAppDispatch();
   const { cart, loading } = useAppSelector<TCartState>((state) => state.cart);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
@@ -25,23 +26,23 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
   const [incrementPressed, setIncrementPressed] = useState(false);
   const [inputValue, setInputValue] = useState(String(qty));
   const [isEditing, setIsEditing] = useState(false);
-  const [currentVariant, setCurrentVariant]: [any, any] = useState(
-    cart?.orderProducts?.find((productInBasket) =>
-      product.productVariants?.find(
-        (variant) => variant.id === productInBasket.productVariant?.id,
-      ),
-    )?.productVariant,
-  );
+  // const [currentVariant, setCurrentVariant]: [any, any] = useState(
+  //   cart?.orderProducts?.find((productInBasket) =>
+  //     product.productVariants?.find(
+  //       (variant) => variant.id === productInBasket.productVariant?.id,
+  //     ),
+  //   )?.productVariant,
+  // );
 
-  useEffect(() => {
-    setCurrentVariant(
-      cart?.orderProducts?.find((productInBasket) =>
-        product.productVariants?.find(
-          (variant) => variant.id === productInBasket.productVariant?.id,
-        ),
-      )?.productVariant,
-    );
-  }, []);
+  // useEffect(() => {
+  //   setCurrentVariant(
+  //     cart?.orderProducts?.find((productInBasket) =>
+  //       product.productVariants?.find(
+  //         (variant) => variant.id === productInBasket.productVariant?.id,
+  //       ),
+  //     )?.productVariant,
+  //   );
+  // }, []);
 
   // Sync local state with prop when not editing
   useEffect(() => {
@@ -56,6 +57,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
       if (timeoutId.current) clearTimeout(timeoutId.current);
     };
   }, []);
+  // console.log(currentVariant);
 
   // -----------------------------------------------
   return (
@@ -79,7 +81,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
               return;
             }
             setInputValue(String(newQty)); // Optimistic update
-            handleProductCartQty(newQty, product, dispatch, cart!);
+            handleProductCartQty(newQty, product, dispatch, cart!, variant);
           }}
           disabled={loading ? true : false}
           initial={{ opacity: 0, x: 45 }}
@@ -150,7 +152,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
             }
 
             timeoutId.current = setTimeout(() => {
-              handleProductCartQty(numValue, product, dispatch, cart!);
+              handleProductCartQty(numValue, product, dispatch, cart!, variant);
             }, 500);
           }}
           onFocus={() => setIsEditing(true)}
@@ -162,7 +164,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
               setInputValue(String(qty));
               return;
             }
-            handleProductCartQty(numValue, product, dispatch, cart!);
+            handleProductCartQty(numValue, product, dispatch, cart!, variant);
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -179,7 +181,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
               return;
             }
             setInputValue(String(newQty)); // Optimistic update
-            handleProductCartQty(newQty, product, dispatch, cart!);
+            handleProductCartQty(newQty, product, dispatch, cart!, variant);
           }}
           disabled={loading ? true : false}
           initial={{ opacity: 0, x: -45 }}
@@ -241,7 +243,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product }) => {
         onClick={handleRemoveFromCartBtnClick(
           product,
           dispatch,
-          currentVariant,
+          variant!,
           cart!,
         )}
         initial={{ opacity: 0 }}

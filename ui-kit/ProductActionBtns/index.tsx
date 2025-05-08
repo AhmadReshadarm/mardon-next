@@ -32,7 +32,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
 
   return (
     <>
-      {!checkIfItemInCart(product, cart!) ? (
+      {!checkIfItemInCart(product, cart!, variant) ? (
         <motion.button
           onClick={async () => {
             setIsAdding(true);
@@ -73,7 +73,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
           <div className={styles.content_indecator}></div>
         </motion.button>
       ) : (
-        <ItemCounter product={product} qty={qty} />
+        <ItemCounter product={product} qty={qty} variant={variant} />
       )}
     </>
   );

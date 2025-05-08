@@ -26,7 +26,7 @@ const ActionBtns: React.FC<Props> = ({ cart, product }) => {
         <AddToWishlist product={product!} />
         <AddToCart
           product={product!}
-          qty={findCartQTY(product, cart!)}
+          qty={findCartQTY(product, cart!, variant!)}
           variant={variant ?? product?.productVariants![0]}
         />
       </div>

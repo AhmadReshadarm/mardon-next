@@ -21,7 +21,7 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <>
-      {isMetrics ? (
+      {/* {isMetrics ? (
         <>
           <GoogleAnalytics gaId="G-LPMTNCKRGT" />
           <Script
@@ -53,7 +53,7 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
         </>
       ) : (
         ''
-      )}
+      )} */}
 
       <Header />
       {children}

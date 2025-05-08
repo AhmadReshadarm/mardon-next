@@ -1,8 +1,7 @@
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
-import { Color, Product } from 'swagger/services';
+import { Basket, Color, Product, ProductVariant } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import styles from 'ui-kit/HeaderProductItems/headerProductItems.module.css';
@@ -20,10 +19,6 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const [variant, setVariant] = useState(product.productVariants![0]);
-  if (checkIfItemInCart(product, cart!)) {
-    return;
-  }
-  // const images = getProductVariantsImages(product?.productVariants);
 
   const articals = product.productVariants?.map((variant) => variant.artical);
   // remove the repated product artical from array to only show in UI once
@@ -177,7 +172,6 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
                       {artical!.includes('|')
                         ? artical!.split('|')[0].toUpperCase()
                         : artical!.toUpperCase()}
-                      {filteredArticals.length - 1 !== index ? ', ' : ''}
                     </button>
                   );
                 })}
@@ -204,7 +198,7 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
           <AddToWishlist product={product} />
           <AddToCart
             product={product}
-            qty={findCartQTY(product, cart!)}
+            qty={findCartQTY(product, cart!, variant)}
             variant={variant}
           />
         </div>

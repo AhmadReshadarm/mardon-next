@@ -1,4 +1,4 @@
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+// import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Link from 'next/link';
 import { Product } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
@@ -14,9 +14,9 @@ type Props = {
 
 const ItemWishlist: React.FC<Props> = ({ product, index }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const { productVariants } = product;
+  // const { productVariants } = product;
   const [variant, setVariant] = useState(product.productVariants![0]);
-  const images = getProductVariantsImages(productVariants);
+  // const images = getProductVariantsImages(productVariants);
 
   const colors: string[] = [];
   product!?.productVariants!.map((variant) => {
@@ -145,7 +145,6 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
                       {artical!.includes('|')
                         ? artical!.split('|')[0].toUpperCase()
                         : artical!.toUpperCase()}
-                      {filteredArticals.length - 1 !== index ? ', ' : ''}
                     </button>
                   );
                 })}
@@ -173,8 +172,8 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
           <AddToWishlist product={product} />
           <AddToCart
             product={product}
-            qty={findCartQTY(product, cart!)}
-            variant={product?.productVariants![0]}
+            qty={findCartQTY(product, cart!, variant)}
+            variant={variant}
           />
         </div>
       </>

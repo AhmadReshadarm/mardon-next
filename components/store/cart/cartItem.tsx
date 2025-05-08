@@ -152,7 +152,7 @@ const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
         <AddToCart
           product={orderProduct!?.product!}
           qty={orderProduct!?.qty!}
-          variant={product?.productVariants![0]}
+          variant={orderProduct.productVariant}
         />
       </div>
     </li>

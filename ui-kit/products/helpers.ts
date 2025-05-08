@@ -53,7 +53,7 @@ const handleAddToCartBtnClick =
       return;
     }
     const curOrderProduct = cart?.orderProducts?.find(
-      (orderProduct) => orderProduct.product?.id == product?.id,
+      (orderProduct) => orderProduct.productVariant?.id == variant?.id,
     );
     if (!curOrderProduct) {
       openSuccessNotification(
@@ -77,9 +77,10 @@ const handleProductCartQty = (
   product: Product,
   dispatch: AppDispatch,
   cart?: Basket,
+  variant?: ProductVariant,
 ) => {
   const curOrderProduct = cart?.orderProducts?.find(
-    (orderProduct) => orderProduct.product?.id == product?.id,
+    (orderProduct) => orderProduct.productVariant?.id == variant?.id,
   );
 
   dispatch(
@@ -89,7 +90,6 @@ const handleProductCartQty = (
       qty: counter,
       productPrice: curOrderProduct?.productPrice,
       basketId: cart?.id,
-      // inBasket: cart,
       productVariantId: curOrderProduct?.productVariant?.id,
     }),
   );
@@ -104,7 +104,7 @@ const handleRemoveFromCartBtnClick =
   ) =>
   async () => {
     const curOrderProduct = cart?.orderProducts?.find(
-      (orderProduct) => orderProduct.product?.id == product?.id,
+      (orderProduct) => orderProduct.productVariant?.id == variant?.id,
     );
     if (curOrderProduct) {
       openSuccessNotification(

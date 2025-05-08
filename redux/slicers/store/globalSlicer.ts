@@ -10,6 +10,7 @@ import {
   TagService,
   NewsService,
   NewsPosts,
+  Basket,
 } from 'swagger/services';
 import {
   getErrorMassage,
@@ -160,6 +161,7 @@ const initialState: TGlobalState = {
   caroselProducts: [],
   bestProduct: [],
   historyProducts: [],
+  historyProductsSource: [],
   loading: false,
   loadingAddRemoveWishlist: false,
   loadingCarosel: false,
@@ -181,6 +183,36 @@ const globalSlicer = createSlice({
     },
     clearSearchProducts(state) {
       state.products = [];
+    },
+    // In globalSlicer.ts - Update the reducer
+    filterHistoryProducts(
+      state,
+      action: PayloadAction<{
+        cart: Basket | null;
+        historyProducts: Product[];
+      }>,
+    ) {
+      const { cart, historyProducts } = action.payload;
+
+      // Clone the original history products to preserve source data
+      const originalHistory = state.historyProductsSource || historyProducts;
+
+      const cartVariantIds = new Set(
+        cart?.orderProducts?.map((op) => op.productVariant?.id),
+      );
+
+      const filteredHistory = originalHistory
+        .map((product) => ({
+          ...product,
+          productVariants: product.productVariants?.filter(
+            (variant) => !cartVariantIds.has(variant.id),
+          ),
+        }))
+        .filter((product) => product.productVariants?.length);
+
+      // Store both source and filtered versions
+      state.historyProducts = filteredHistory;
+      state.historyProductsSource = originalHistory; // Preserve original data
     },
   },
   extraReducers: (builder) => {
@@ -246,7 +278,11 @@ const globalSlicer = createSlice({
   },
 });
 
-export const { clearSearchProducts, changeSearchQuery, clearSearchQuery } =
-  globalSlicer.actions;
+export const {
+  clearSearchProducts,
+  changeSearchQuery,
+  clearSearchQuery,
+  filterHistoryProducts,
+} = globalSlicer.actions;
 
 export default globalSlicer.reducer;

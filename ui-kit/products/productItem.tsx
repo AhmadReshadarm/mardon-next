@@ -235,7 +235,7 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
-              qty={findCartQTY(product, cart)}
+              qty={findCartQTY(product, cart, variant)}
               // variant={product?.productVariants![0]}
               variant={variant}
             />

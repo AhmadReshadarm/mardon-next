@@ -22,14 +22,14 @@ const HeaderProductItmes: React.FC<Props> = ({
   handleMenuState,
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const images = getProductVariantsImages(
-    dataType == 'cart'
-      ? orderProduct!?.product!?.productVariants
-      : product?.productVariants,
-  );
+  // const images = getProductVariantsImages(
+  //   dataType == 'cart'
+  //     ? orderProduct!?.product!?.productVariants
+  //     : product?.productVariants,
+  // );
 
   const [variant, setVariant]: [any, any] = useState(
-    dataType == 'wishlist' ? product!.productVariants![0] : [],
+    dataType == 'wishlist' ? product!.productVariants![0] : {},
   );
 
   const colors: Color[] = [];
@@ -206,7 +206,7 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToCart
               product={orderProduct!?.product!}
               qty={orderProduct!?.qty!}
-              variant={product?.productVariants![0]}
+              variant={orderProduct?.productVariant}
             />
           </div>
         </>
@@ -307,16 +307,6 @@ const HeaderProductItmes: React.FC<Props> = ({
               {/* ---------- end of color ----------- */}
               <div className={styles.artical_wrapper}>
                 <span>Артикул(ы):</span>
-                {/* {filteredArticals.map((artical, index) => {
-                  return (
-                    <span key={index}>
-                      {artical!.includes('|')
-                        ? artical!.split('|')[0].toUpperCase()
-                        : artical!.toUpperCase()}
-                      {filteredArticals.length - 1 !== index ? ', ' : ''}
-                    </span>
-                  );
-                })} */}
                 <ul className={styles.artical_data_wrapper}>
                   {filteredArticals.map((artical, index) => {
                     return (
@@ -339,7 +329,6 @@ const HeaderProductItmes: React.FC<Props> = ({
                         {artical!.includes('|')
                           ? artical!.split('|')[0].toUpperCase()
                           : artical!.toUpperCase()}
-                        {filteredArticals.length - 1 !== index ? ', ' : ''}
                       </button>
                     );
                   })}
@@ -348,13 +337,6 @@ const HeaderProductItmes: React.FC<Props> = ({
             </div>
             <div className={styles.price_sperator_wrapper}>
               <div className={styles.old_new_price_wrapper}>
-                {/* {product?.productVariants![0]?.oldPrice ? (
-                  <span className={styles.old_price}>
-                    {product?.productVariants![0]?.oldPrice} ₽
-                  </span>
-                ) : (
-                  ''
-                )} */}
                 <span>{variant.price} ₽</span>
               </div>
             </div>
@@ -363,8 +345,8 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToWishlist product={product!} />
             <AddToCart
               product={product!}
-              qty={findCartQTY(product, cart!)}
-              variant={product?.productVariants![0]}
+              qty={findCartQTY(product, cart!, variant)}
+              variant={variant}
             />
           </div>
         </>
