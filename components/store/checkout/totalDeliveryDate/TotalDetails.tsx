@@ -58,7 +58,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
     const productAttachments: EmbeddedImage[] = [];
     if (payload.cart?.orderProducts) {
       for (const orderproduct of payload.cart.orderProducts) {
-        const imageName = orderproduct.productVariant?.images?.split(',')[0];
+        const imageName = orderproduct.productVariant?.images?.split(', ')[0];
         if (imageName) {
           const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
           const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
@@ -81,6 +81,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
             to: payload.receiverEmail,
             subject: `Заказ ${payload.receiverName}`,
             html: `${generatedHtml}`,
+            attachments: productAttachments,
           },
         });
         // await dispatch(createCart());

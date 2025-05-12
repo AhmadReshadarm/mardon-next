@@ -1,12 +1,11 @@
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
-import { Basket, Color, Product, ProductVariant } from 'swagger/services';
+import { Color, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import styles from 'ui-kit/HeaderProductItems/headerProductItems.module.css';
-import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   product: Product;
@@ -46,6 +45,10 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
       arr.findIndex((item) => JSON.stringify(item) === JSON.stringify(o)) ===
       index,
   );
+
+  useEffect(() => {
+    setVariant(product.productVariants![0]);
+  }, [product]);
 
   return (
     <li className={styles.ProductItemWrapper}>

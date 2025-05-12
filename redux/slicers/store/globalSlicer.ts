@@ -161,13 +161,11 @@ const initialState: TGlobalState = {
   caroselProducts: [],
   bestProduct: [],
   historyProducts: [],
-  historyProductsSource: [],
   loading: false,
   loadingAddRemoveWishlist: false,
   loadingCarosel: false,
   productsLoading: false,
   bestProductLoading: false,
-
   loadingHistory: false,
 };
 
@@ -184,7 +182,6 @@ const globalSlicer = createSlice({
     clearSearchProducts(state) {
       state.products = [];
     },
-    // In globalSlicer.ts - Update the reducer
     filterHistoryProducts(
       state,
       action: PayloadAction<{
@@ -194,8 +191,7 @@ const globalSlicer = createSlice({
     ) {
       const { cart, historyProducts } = action.payload;
 
-      // Clone the original history products to preserve source data
-      const originalHistory = state.historyProductsSource || historyProducts;
+      const originalHistory = historyProducts;
 
       const cartVariantIds = new Set(
         cart?.orderProducts?.map((op) => op.productVariant?.id),
@@ -210,9 +206,7 @@ const globalSlicer = createSlice({
         }))
         .filter((product) => product.productVariants?.length);
 
-      // Store both source and filtered versions
       state.historyProducts = filteredHistory;
-      state.historyProductsSource = originalHistory; // Preserve original data
     },
   },
   extraReducers: (builder) => {

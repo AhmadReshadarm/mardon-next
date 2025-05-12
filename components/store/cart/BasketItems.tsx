@@ -24,12 +24,12 @@ const BasketItems: React.FC<Props> = ({}) => {
   const { historyProducts, loadingHistory } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
-  const [cartProductIds, setCartProductIds] = useState(
-    new Set(cart?.orderProducts!.map((item) => item.product!.id)),
-  );
-  const [hasAllProducts, setHasAllProducts] = useState(
-    historyProducts.every((product) => cartProductIds.has(product.id)),
-  );
+  // const [cartProductIds, setCartProductIds] = useState(
+  //   new Set(cart?.orderProducts!.map((item) => item.product!.id)),
+  // );
+  // const [hasAllProducts, setHasAllProducts] = useState(
+  //   historyProducts.every((product) => cartProductIds.has(product.id)),
+  // );
 
   const dispatch = useAppDispatch();
 
@@ -44,17 +44,17 @@ const BasketItems: React.FC<Props> = ({}) => {
     }
   }, [cart]);
 
-  useEffect(() => {
-    setCartProductIds(
-      new Set(cart?.orderProducts!.map((item) => item.product!.id)),
-    );
-  }, [cart, historyProducts]);
+  // useEffect(() => {
+  //   setCartProductIds(
+  //     new Set(cart?.orderProducts!.map((item) => item.product!.id)),
+  //   );
+  // }, [cart, historyProducts]);
 
-  useEffect(() => {
-    setHasAllProducts(
-      historyProducts.every((product) => cartProductIds.has(product.id)),
-    );
-  }, [cartProductIds, historyProducts]);
+  // useEffect(() => {
+  //   setHasAllProducts(
+  //     historyProducts.every((product) => cartProductIds.has(product.id)),
+  //   );
+  // }, [cartProductIds, historyProducts]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -69,6 +69,34 @@ const BasketItems: React.FC<Props> = ({}) => {
       window.removeEventListener('resize', handleWindowResize);
     };
   });
+
+  const [historyUI, setHistoryUI] = useState(historyProducts);
+  useEffect(() => {
+    const userHistoy = localStorage.getItem('history');
+    if (userHistoy) {
+      const payload = {
+        userHistory: JSON.parse(userHistoy),
+        limit: '1000',
+      };
+      dispatch(fetchHistoryProducts(payload));
+    }
+  }, []);
+
+  useEffect(() => {
+    const cartVariantIds = new Set(
+      cart?.orderProducts?.map((op) => op.productVariant?.id),
+    );
+
+    const filteredHistory = historyProducts
+      .map((product) => ({
+        ...product,
+        productVariants: product.productVariants?.filter(
+          (variant) => !cartVariantIds.has(variant.id),
+        ),
+      }))
+      .filter((product) => product.productVariants?.length);
+    setHistoryUI(filteredHistory);
+  }, [cart]);
 
   return (
     <div className={styles.ItemsWrapper}>
@@ -108,7 +136,7 @@ const BasketItems: React.FC<Props> = ({}) => {
             </h1>
           </div>
         )}
-        {!historyProducts.length && loadingHistory ? (
+        {!historyUI.length && loadingHistory ? (
           <>
             {emptyLoading.map((item, index) => {
               return <CartItemLoader key={index} windowWidth={windowWidth} />;
@@ -116,7 +144,7 @@ const BasketItems: React.FC<Props> = ({}) => {
           </>
         ) : (
           <>
-            {!hasAllProducts ? (
+            {historyUI.length !== 0 ? (
               <>
                 <li style={{ width: '100%' }}>
                   <div
@@ -128,7 +156,7 @@ const BasketItems: React.FC<Props> = ({}) => {
                     </h1>
                   </div>
                 </li>
-                {historyProducts.map((historyProduct, index) => {
+                {historyUI.map((historyProduct, index) => {
                   return (
                     <HeaderProductItmesHistory
                       key={`history-item-${index}`}

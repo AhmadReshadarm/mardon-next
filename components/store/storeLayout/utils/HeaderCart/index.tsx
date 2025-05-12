@@ -17,10 +17,7 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import styles from '../../styles/headerWishList.module.css';
 import dynamic from 'next/dynamic';
-import {
-  fetchHistoryProducts,
-  filterHistoryProducts,
-} from 'redux/slicers/store/globalSlicer';
+import { fetchHistoryProducts } from 'redux/slicers/store/globalSlicer';
 import HeaderProductItmesHistory from 'ui-kit/HeaderProductItemsHistory';
 const HeaderProductItmes = dynamic(() => import('ui-kit/HeaderProductItems'), {
   ssr: false,
@@ -48,20 +45,8 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
   );
   const [cartWrapperRef, setCartWrapperRef] = useState(null);
   const [listening, setListening] = useState(false);
-  const [cartProductIds, setCartProductIds] = useState(
-    new Set(
-      cart?.orderProducts!.map(
-        (orderProduct) => orderProduct.productVariant!.id,
-      ),
-    ),
-  );
-  const [hasAllProducts, setHasAllProducts] = useState(
-    historyProducts.every((product) =>
-      product.productVariants?.some((variant) =>
-        cartProductIds.has(variant.id),
-      ),
-    ),
-  );
+
+  const [historyUI, setHistoryUI] = useState(historyProducts);
 
   const cartWrapperNode = useCallback((node: any) => {
     if (node) setCartWrapperRef(node);
@@ -88,37 +73,23 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
       };
       dispatch(fetchHistoryProducts(payload));
     }
-  }, [isBasketOpen]);
+  }, []);
 
   useEffect(() => {
-    setCartProductIds(
-      new Set(
-        cart?.orderProducts!.map(
-          (orderProduct) => orderProduct.productVariant!.id,
-        ),
-      ),
+    const cartVariantIds = new Set(
+      cart?.orderProducts?.map((op) => op.productVariant?.id),
     );
-  }, [cart, isBasketOpen, historyProducts]);
 
-  useEffect(() => {
-    setHasAllProducts(
-      historyProducts.every((product) =>
-        product.productVariants?.some((variant) =>
-          cartProductIds.has(variant.id),
+    const filteredHistory = historyProducts
+      .map((product) => ({
+        ...product,
+        productVariants: product.productVariants?.filter(
+          (variant) => !cartVariantIds.has(variant.id),
         ),
-      ),
-    );
-  }, [cartProductIds, historyProducts]);
-  // ---------------------- end of UI hooks ---------------------
-
-  useEffect(() => {
-    const payload = {
-      cart,
-      historyProducts,
-    };
-    dispatch(filterHistoryProducts(payload));
-    // console.log(historyProducts);
-  }, [cart]);
+      }))
+      .filter((product) => product.productVariants?.length);
+    setHistoryUI(filteredHistory);
+  }, [isBasketOpen, cart]);
 
   return (
     <motion.div
@@ -174,7 +145,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
                 </>
               )}
               {/* !historyProducts.length ||  */}
-              {hasAllProducts ? (
+              {historyUI.length === 0 ? (
                 <></>
               ) : (
                 <>
@@ -186,7 +157,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
                       <h1 style={{ fontWeight: '600' }}>Вы смотрели</h1>
                     </div>
                   </li>
-                  {historyProducts.map((historyProduct, index) => {
+                  {historyUI.map((historyProduct, index) => {
                     return (
                       <HeaderProductItmesHistory
                         key={`history-item-${index}`}

@@ -89,21 +89,21 @@ const HeaderProductItmes: React.FC<Props> = ({
               {/* ------------ rating --------------- */}
               <div
                 title={`${
-                  Math.floor(orderProduct!?.product!?.reviews?.length!) == 1
-                    ? Math.floor(orderProduct!?.product!?.reviews?.length!) +
+                  Math.floor(Number(orderProduct!?.product?.reviewCount)) == 1
+                    ? Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                       ' Оценка'
-                    : Math.floor(orderProduct!?.product!?.reviews?.length!) /
+                    : Math.floor(Number(orderProduct!?.product?.reviewCount)) /
                         2 ==
                       0
-                    ? Math.floor(orderProduct!?.product!?.reviews?.length!) +
+                    ? Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                       ' Оценки'
-                    : Math.floor(orderProduct!?.product!?.reviews?.length!) +
+                    : Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                       ' Оценок'
                 } `}
                 className={styles.rating_wrapper}
                 style={{
                   display:
-                    orderProduct!?.product!?.reviews?.length! == 0
+                    Number(orderProduct!?.product?.reviewCount) == 0
                       ? 'none'
                       : 'flex',
                 }}
@@ -123,15 +123,15 @@ const HeaderProductItmes: React.FC<Props> = ({
                   </svg>
                 </span>
                 <span className={styles.review_text}>
-                  {Math.floor(orderProduct!?.product!?.reviews?.length!) == 1
-                    ? Math.floor(orderProduct!?.product!?.reviews?.length!) +
+                  {Math.floor(Number(orderProduct!?.product?.reviewCount)) == 1
+                    ? Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                       ' Оценка'
-                    : Math.floor(orderProduct!?.product!?.reviews?.length!) /
+                    : Math.floor(Number(orderProduct!?.product?.reviewCount)) /
                         2 ==
                       0
-                    ? Math.floor(orderProduct!?.product!?.reviews?.length!) +
+                    ? Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                       ' Оценки'
-                    : Math.floor(orderProduct!?.product!?.reviews?.length!) +
+                    : Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                       ' Оценок'}
                 </span>
               </div>

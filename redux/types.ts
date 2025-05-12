@@ -176,7 +176,6 @@ type TGlobalState = {
   caroselProducts: Product[];
   bestProduct: Product[];
   historyProducts: Product[];
-  historyProductsSource: Product[];
   loading: boolean;
   loadingAddRemoveWishlist: boolean;
   loadingCarosel: boolean;
