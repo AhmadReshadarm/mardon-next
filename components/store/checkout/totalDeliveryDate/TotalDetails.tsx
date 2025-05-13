@@ -138,7 +138,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
 
         const basketId = localStorage.getItem('basketId') ?? '';
 
-        dispatch(fetchCart(basketId));
+        dispatch(fetchCart({ basketId, offset: 0, limit: 12 }));
         openSuccessNotification('Ваш Заказ успешно');
 
         router.push('/orders');

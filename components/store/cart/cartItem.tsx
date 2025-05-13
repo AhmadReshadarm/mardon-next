@@ -1,4 +1,3 @@
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Link from 'next/link';
 import { OrderProduct, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';

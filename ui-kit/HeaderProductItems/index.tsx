@@ -1,4 +1,3 @@
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Link from 'next/link';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
@@ -22,22 +21,19 @@ const HeaderProductItmes: React.FC<Props> = ({
   handleMenuState,
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  // const images = getProductVariantsImages(
-  //   dataType == 'cart'
-  //     ? orderProduct!?.product!?.productVariants
-  //     : product?.productVariants,
-  // );
 
   const [variant, setVariant]: [any, any] = useState(
     dataType == 'wishlist' ? product!.productVariants![0] : {},
   );
 
   const colors: Color[] = [];
-  product!?.productVariants!.map((variant) => {
-    if (variant.color?.url !== '-') {
-      colors.push(variant.color!);
-    }
-  });
+  if (dataType == 'wishlist') {
+    product!?.productVariants!.map((variant) => {
+      if (variant.color?.url !== '-') {
+        colors.push(variant.color!);
+      }
+    });
+  }
   // remove the repated product colors from array to only show in UI once
   const filteredColors = colors.filter(
     (o, index, arr) =>

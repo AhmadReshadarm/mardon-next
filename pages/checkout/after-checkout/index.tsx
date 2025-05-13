@@ -18,7 +18,7 @@ const AfterCheckout = () => {
     const clearCart = async () => {
       await dispatch(createCart());
       const basketId = localStorage.getItem('basketId') ?? '';
-      dispatch(fetchCart(basketId));
+      dispatch(fetchCart({ basketId, offset: 0, limit: 12 }));
     };
     clearCart();
   }, []);

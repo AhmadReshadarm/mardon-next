@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--backgroundPrimary);
 }
 
 .footer_spliter {
@@ -68,6 +69,10 @@
   }
   .CheckoutBtnWrapper > a {
     width: 100%;
+  }
+  .Wrapper {
+    position: sticky;
+    bottom: 40px;
   }
 }
 /* global 2 */

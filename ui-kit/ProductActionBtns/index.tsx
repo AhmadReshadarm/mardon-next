@@ -5,10 +5,9 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState, TWishlistState } from 'redux/types';
 import {
   handleAddToCartBtnClick,
-  handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './ProductActionBtns.module.css';
 import dynamic from 'next/dynamic';
 const ItemCounter = dynamic(() => import('ui-kit/ItemCounter'));

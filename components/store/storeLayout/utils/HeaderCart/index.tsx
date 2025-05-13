@@ -142,6 +142,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
                       />
                     );
                   })}
+                  <li>pagination...</li>
                 </>
               )}
               {/* !historyProducts.length ||  */}

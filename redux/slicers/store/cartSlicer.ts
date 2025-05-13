@@ -18,13 +18,17 @@ import {
 
 export const fetchCart = createAsyncThunk<
   Basket,
-  string,
+  { basketId: string; offset: number; limit: number },
   { rejectValue: string }
 >(
   'cart/fetchCart',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      return await BasketService.findBasketById({ basketId: payload });
+      return await BasketService.findBasketById({
+        basketId: payload.basketId,
+        offset: payload.offset,
+        limit: payload.limit,
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
