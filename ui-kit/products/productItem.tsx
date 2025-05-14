@@ -1,4 +1,3 @@
-// import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import { sizesNum } from 'components/store/lib/Devices';
 import Link from 'next/link';
 import { Product } from 'swagger/services';
@@ -14,13 +13,11 @@ import {
 import { useEffect, useState } from 'react';
 import styles from './styles/productItem.module.css';
 type Props = {
-  // key: string;
   product: Product;
   custom: number;
 };
-// key,
-const ProductItem: React.FC<Props> = ({ product, custom }) => {
-  // const images = getProductVariantsImages(product.productVariants);
+
+const ProductItem: React.FC<Props> = ({ product }) => {
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const [variant, setVariant] = useState(product.productVariants![0]);
   const dispatch = useAppDispatch();
