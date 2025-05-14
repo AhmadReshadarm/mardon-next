@@ -145,21 +145,15 @@ const Header = () => {
         if (!basketId) {
           await dispatch(createCart());
           const newCreatedCardId = localStorage.getItem('basketId');
-          await dispatch(
-            fetchCart({ basketId: newCreatedCardId!, offset: 0, limit: 1 }),
-          );
+          await dispatch(fetchCart(newCreatedCardId!));
         }
         if (basketId) {
-          const cartResponse = await dispatch(
-            fetchCart({ basketId: basketId!, offset: 0, limit: 1 }),
-          );
+          const cartResponse = await dispatch(fetchCart(basketId!));
           // only for dev use 👇
           if (cartResponse.meta.requestStatus == 'rejected') {
             await dispatch(createCart());
             const newCreatedCardId = localStorage.getItem('basketId');
-            await dispatch(
-              fetchCart({ basketId: newCreatedCardId!, offset: 0, limit: 1 }),
-            );
+            await dispatch(fetchCart(newCreatedCardId!));
           }
         }
       };

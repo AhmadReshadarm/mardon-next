@@ -41,7 +41,7 @@ const Checkout = () => {
   }, [cart]);
   useEffect(() => {
     const basketId: any = getBasketId();
-    dispatch(fetchCart({ basketId, offset: 0, limit: 10000 }));
+    dispatch(fetchCart(basketId));
   }, [isClient]);
   useEffect(() => {
     setClient(true);

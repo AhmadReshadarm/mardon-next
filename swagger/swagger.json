@@ -4190,22 +4190,6 @@
             "description": "ID of basket to return",
             "required": true,
             "type": "string"
-          },
-          {
-            "type": "integer",
-            "in": "query",
-            "name": "offset",
-            "required": false,
-            "default": 0,
-            "description": "qty rows to skip for pagination"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "qty rows to take for pagination",
-            "default": 12,
-            "required": false,
-            "type": "integer"
           }
         ],
         "responses": {
