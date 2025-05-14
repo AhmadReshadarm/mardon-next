@@ -24,12 +24,6 @@ const BasketItems: React.FC<Props> = ({}) => {
   const { historyProducts, loadingHistory } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
-  // const [cartProductIds, setCartProductIds] = useState(
-  //   new Set(cart?.orderProducts!.map((item) => item.product!.id)),
-  // );
-  // const [hasAllProducts, setHasAllProducts] = useState(
-  //   historyProducts.every((product) => cartProductIds.has(product.id)),
-  // );
 
   const dispatch = useAppDispatch();
 
@@ -44,17 +38,6 @@ const BasketItems: React.FC<Props> = ({}) => {
     }
   }, [cart]);
 
-  // useEffect(() => {
-  //   setCartProductIds(
-  //     new Set(cart?.orderProducts!.map((item) => item.product!.id)),
-  //   );
-  // }, [cart, historyProducts]);
-
-  // useEffect(() => {
-  //   setHasAllProducts(
-  //     historyProducts.every((product) => cartProductIds.has(product.id)),
-  //   );
-  // }, [cartProductIds, historyProducts]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {

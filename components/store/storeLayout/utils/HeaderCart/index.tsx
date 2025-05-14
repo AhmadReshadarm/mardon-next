@@ -73,7 +73,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
       };
       dispatch(fetchHistoryProducts(payload));
     }
-  }, []);
+  }, [isBasketOpen]);
 
   useEffect(() => {
     const cartVariantIds = new Set(

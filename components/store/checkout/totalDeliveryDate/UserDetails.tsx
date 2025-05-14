@@ -83,14 +83,13 @@ const UserDetails = (props: any) => {
             <h3>Курьером по адресу</h3>
             <span>{`${deliveryInfo?.address!}`}</span>
           </div>
-          <span>
+          <span className="edit-button-icon-wrapper">
             <Image
               src="/icons/edit.png"
               width={20}
               height={20}
               alt="edit address"
             />
-            {/* <ArrowGray /> */}
           </span>
         </div>
       </Wrapper>
@@ -138,7 +137,7 @@ const UserDetails = (props: any) => {
             <span>{deliveryInfo?.receiverName}</span>
             <span>{deliveryInfo?.receiverPhone}</span>
           </div>
-          <span>
+          <span className="edit-button-icon-wrapper">
             <Image
               src="/icons/edit.png"
               width={20}
@@ -187,52 +186,17 @@ const UserDetails = (props: any) => {
           <div className="user-comment-wrapper">
             <span>Комментарий</span>
           </div>
-          <span>
+          <span className="edit-button-icon-wrapper">
             <Image
               src="/icons/edit.png"
               width={20}
               height={20}
               alt="edit comment"
             />
-            {/* <ArrowGray /> */}
           </span>
         </div>
       </Wrapper>
-      {/* <Wrapper
-        custom={0.3}
-        initial="init"
-        animate="animate"
-        variants={variants.fadInSlideUp}
-      >
-        <label className="leave-on-door-wrapper" htmlFor="leave-on-door">
-          <input
-            type="checkbox"
-            id="leave-on-door"
-            title="Оставить на двери?"
-          />
-          <span>Оставить у двери</span>
-        </label>
-        <span>
-          <DeliveryTooltip
-            enterTouchDelay={0}
-            leaveTouchDelay={5000}
-            key="address-room-tip"
-            title={
-              <React.Fragment>
-                <h2>Как это работает?</h2>
-                <h3>Безопасная доставка до двери</h3>
-                <span>
-                  Оставим заказ у двери и отправим фото с подтверждением
-                  доставки. Включите «Позвонить перед доставкой», чтобы курьер
-                  предупредил о прибытии.
-                </span>
-              </React.Fragment>
-            }
-          >
-            <span className="tool-tip">?</span>
-          </DeliveryTooltip>
-        </span>
-      </Wrapper> */}
+
       {isOpen ? <UserCommment setIsOpen={setIsOpen} {...props} /> : ''}
     </>
   );
@@ -274,7 +238,12 @@ const Wrapper = styled(motion.div)`
     flex-direction:row;
     justify-content:space-between;
     align-items;center;
-  
+    .edit-button-icon-wrapper{
+    transition:200ms;
+    &:hover{
+    transform:scale(1.1);
+    }
+    }
     .address-wrapper {
       width: 100%;
       display: flex;

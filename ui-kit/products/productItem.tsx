@@ -161,7 +161,6 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
                     {artical!.includes('|')
                       ? artical!.split('|')[0].toUpperCase()
                       : artical!.toUpperCase()}
-                    {/* {filteredArticals.length - 1 !== index ? ', ' : ''} */}
                   </button>
                 );
               })}
@@ -236,7 +235,6 @@ const ProductItem: React.FC<Props> = ({ product, custom }) => {
             <AddToCart
               product={product}
               qty={findCartQTY(product, cart, variant)}
-              // variant={product?.productVariants![0]}
               variant={variant}
             />
           </div>

@@ -84,11 +84,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
             attachments: productAttachments,
           },
         });
-        // await dispatch(createCart());
-
-        // const basketId = localStorage.getItem('basketId') ?? '';
-
-        // dispatch(fetchCart(basketId));
         openSuccessNotification('Ваш Заказ успешно');
 
         router.push('/checkout/after-checkout');
@@ -169,7 +164,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
         }}
       >
         <Container>
-          {/* <h3 className="total-header">Ваша сумма</h3> */}
           <Wrapper>
             <Content>
               <ItemColumn>
@@ -231,18 +225,6 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                     </ItemRow>
                   );
                 })}
-                {/* {user?.role === Role.SuperUser ? (
-                  ''
-                ) : (
-                  <ItemRow>
-                    <span>Скидка</span>
-                    <b>
-                      <span style={{ color: color.ok }}>
-                        {`${formatNumber(getDiscount(cart))}`} ₽
-                      </span>
-                    </b>
-                  </ItemRow>
-                )} */}
               </ItemRowWrapper>
               <ItemRow>
                 <h3 className="total">Итого</h3>
@@ -374,9 +356,9 @@ const ItemColumn = styled(motion.div)`
   .user-agreement-text {
     width: 100%;
     a {
-      color: ${color.hoverBtnBg};
+      color: ${color.textBase};
       &:hover {
-        color: ${color.ok};
+        color: ${color.textSecondary};
       }
     }
   }

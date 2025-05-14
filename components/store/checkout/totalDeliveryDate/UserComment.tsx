@@ -145,23 +145,21 @@ const CommentContent = styled.div`
   }
   button {
     width: 100%;
-    height: 40px;
-    min-height: 40px;
-    border-radius: 3px;
-    background-color: ${color.btnSecondery};
+    height: 50px;
+    min-height: 50px;
+    border-radius: 30px;
+    background-color: ${color.btnPrimary};
     cursor: pointer;
-    transition: 300ms;
+    transition: 250ms;
+    color: ${color.textPrimary};
     &:hover {
-      background-color: ${color.btnPrimary};
-      color: ${color.textPrimary};
+      background-color: ${color.bgPrimary};
+      color: ${color.textSecondary};
+      border: 1px solid;
       transform: scale(1.02);
     }
     &:active {
       transform: scale(1);
-    }
-    span {
-      font-family: ver(--font-Jost);
-      font-size: 1rem;
     }
   }
 `;

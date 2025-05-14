@@ -50,8 +50,9 @@ const Container = styled.div`
     justify-content: flex-start;
     gap: 20px;
     a {
+      color: ${color.textBase};
       &:hover {
-        color: ${color.textBase};
+        color: ${color.textSecondary};
       }
     }
     h1 {
