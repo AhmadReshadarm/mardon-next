@@ -46,7 +46,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
               setIsAdding(false);
             }
           }}
-          disabled={countLoading ? true : false}
+          disabled={countLoading || !variant?.available ? true : false}
           title={`Добавить ${product.name} в корзину`}
           type="button"
           className={styles.CartButtonWrapper}
@@ -65,7 +65,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                В КОРЗИНУ
+                {!variant?.available ? 'НЕТ В НАЛИЧИИ' : 'В КОРЗИНУ'}
               </motion.span>
             )}
           </motion.div>

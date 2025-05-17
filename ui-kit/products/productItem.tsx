@@ -90,6 +90,9 @@ const ProductItem: React.FC<Props> = ({ product }) => {
     return array.indexOf(value) === index;
   });
 
+  const currentVariant = (artical) =>
+    product.productVariants?.find((variant) => variant.artical == artical);
+
   return (
     <li
       // key={key}
@@ -140,11 +143,12 @@ const ProductItem: React.FC<Props> = ({ product }) => {
                 return (
                   <button
                     onClick={() => {
-                      const currentVariant = product.productVariants?.find(
+                      const currentOrderVariant = product.productVariants?.find(
                         (variant) => variant.artical == artical,
                       );
-                      if (currentVariant) {
-                        setVariant(currentVariant);
+
+                      if (currentOrderVariant) {
+                        setVariant(currentOrderVariant);
                       }
                     }}
                     style={{
@@ -158,6 +162,13 @@ const ProductItem: React.FC<Props> = ({ product }) => {
                     {artical!.includes('|')
                       ? artical!.split('|')[0].toUpperCase()
                       : artical!.toUpperCase()}
+                    {!currentVariant(artical)?.available ? (
+                      <div className={styles.NotInStockWrapper}>
+                        <div className={styles.NotInStockLineThrough} />
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </button>
                 );
               })}
