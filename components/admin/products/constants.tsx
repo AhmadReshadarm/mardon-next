@@ -191,11 +191,11 @@ export const columns: ColumnsType<any> = [
               }}
               key={variant.id}
             >
-              <span>{variant.artical}</span>
+              <span style={{ whiteSpace: 'nowrap' }}>{variant.artical}</span>
               <span> | </span>
-              <span>{variant.price} ₽</span>
+              <span style={{ whiteSpace: 'nowrap' }}>{variant.price} ₽</span>
               <span> | </span>
-              <span>В наличии</span>
+              <span style={{ whiteSpace: 'nowrap' }}>В наличии</span>
               <span>:</span>
               <span>{variant.available ? 'да' : 'нет'}</span>
             </li>

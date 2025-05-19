@@ -116,8 +116,30 @@ const ProductVariant: React.FC<Props> = ({
           style={{ width: '100%' }}
           placeholder={`Выберите цвета`}
         >
-          {colors?.map((item) => (
-            <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
+          {colors?.map((item, index) => (
+            <Option key={item.id} value={item.id}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '10px',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  borderTop: index == 0 ? 'none' : '1px solid #4096FF',
+                  padding: '5px 0',
+                }}
+              >
+                <span
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    backgroundColor: item.code,
+                    borderRadius: '50%',
+                  }}
+                ></span>
+                <span>{`${item.name}`}</span>
+              </div>
+            </Option>
           ))}
         </Select>
       </Form.Item>
