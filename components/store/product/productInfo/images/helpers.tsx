@@ -26,7 +26,8 @@ const handleDragEnd =
     setSelectedIndex,
     selectedIndex,
   ) =>
-  (e, { offset, velocity }) => {
+  // (e, { offset, velocity }) => {
+  (e: any, { offset = { x: 0 }, velocity = { x: 0 } } = {}) => {
     const swipe = swipePower(offset.x, velocity.x);
     if (swipe < -swipeConfidenceThreshold) {
       paginateTo(1);

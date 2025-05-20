@@ -28,14 +28,16 @@ const ReveiwsAndQuastions = dynamic(
 
 export const getServerSideProps = (async (context) => {
   const { url } = context.query;
-  let images: string[] = [];
+  // let images: string[] = [];
+  let images: string[] | any = [];
 
   // Fetch data from external API
   try {
     const res = await fetch(`${process.env.API_URL}/products/by-url/${url}`);
     const repo: Product = await res.json();
 
-    images = getProductVariantsImages(repo?.productVariants);
+    // images = getProductVariantsImages(repo?.productVariants);
+    images = repo?.productVariants![0].images?.split(', ');
     const imagesWithUrl: string[] = [];
     const imagesWithUrlUI: string[] = [];
     for (let i = 0; i < images?.length; i++) {

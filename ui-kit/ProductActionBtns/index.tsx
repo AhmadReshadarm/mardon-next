@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import { Product, ProductVariant } from 'swagger/services';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -32,7 +32,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   return (
     <>
       {!checkIfItemInCart(product, cart!, variant) ? (
-        <motion.button
+        <button
           onClick={async () => {
             setIsAdding(true);
             try {
@@ -51,26 +51,26 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
           type="button"
           className={styles.CartButtonWrapper}
         >
-          <motion.div
-            initial={{ height: '0%', width: '0%' }}
-            animate={{ height: '100%', width: '100%' }}
-            transition={{ duration: 0.15 }}
+          <div
+            // initial={{ height: '0%', width: '0%' }}
+            // animate={{ height: '100%', width: '100%' }}
+            // transition={{ duration: 0.15 }}
             className={styles.content_wrapper}
           >
             {countLoading && isAdding ? (
               <div className={styles.Loader} />
             ) : (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
+              <span
+              // initial={{ opacity: 0 }}
+              // animate={{ opacity: 1 }}
+              // transition={{ delay: 0.2 }}
               >
                 {!variant?.available ? 'НЕТ В НАЛИЧИИ' : 'В КОРЗИНУ'}
-              </motion.span>
+              </span>
             )}
-          </motion.div>
+          </div>
           <div className={styles.content_indecator}></div>
-        </motion.button>
+        </button>
       ) : (
         <ItemCounter product={product} qty={qty} variant={variant} />
       )}
@@ -132,10 +132,10 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
         {loading && productId === product.id ? (
           <div className={styles.Loader} />
         ) : (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+          <span
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // transition={{ delay: 0.2 }}
             className="wishlist-text-wrapper"
             style={{
               fontSize: checkIfItemInWishlist(product, wishlist!)
@@ -146,7 +146,7 @@ export const AddToWishlist: React.FC<PropsWishlist> = ({ product }) => {
             {checkIfItemInWishlist(product, wishlist!)
               ? 'УЖЕ В ИЗБРАННОЕ'
               : 'В ИЗБРАННОЕ'}
-          </motion.span>
+          </span>
         )}
         <div className={styles.content_indecator}></div>
       </div>

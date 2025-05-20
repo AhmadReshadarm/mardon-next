@@ -26,9 +26,6 @@ const Details: React.FC<Props> = ({
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
   const cart: Basket = useAppSelector((state) => state.cart.cart);
-  // const orderProduct = cart?.orderProducts?.find(
-  //   (orderProduct) => orderProduct.product?.id === product?.id,
-  // );
 
   const checkHasOldPrice = (productVariant: ProductVariant) => {
     if (productVariant?.oldPrice) return true;
@@ -127,17 +124,11 @@ const Details: React.FC<Props> = ({
         <div className={styles.SizePickerWrapper}>
           <div className={styles.info_size_wrapper}>
             <span className={styles.title}>Выберите артикул:</span>
-            <span className={styles.title} style={{ color: 'red' }}>
-              Товар в коробке по цветам не продаются, там микс цвета в коробке
-              идут
-            </span>
           </div>
           <ColorPicker
             variantColor={variant?.color ?? product?.productVariants![0]?.color}
             productVariants={product?.productVariants}
-            selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
-            paginateImage={paginateImage}
           />
         </div>
       </div>

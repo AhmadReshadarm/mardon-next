@@ -351,18 +351,18 @@
 }
 /* tabletL */
 @media (min-width: 440px) and (max-width: 768px) {
-  .product_header_1 {
+  /* .product_header_1 {
     font-size: 1rem;
-  }
+  } */
   .ColorPickerList {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 /* tabletS */
 @media (min-width: 350px) and (max-width: 440px) {
-  .product_header_1 {
+  /* .product_header_1 {
     font-size: 0.8rem;
-  }
+  } */
   .ColorPickerList {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -370,7 +370,7 @@
 /* mobileL */
 @media (min-width: 285px) and (max-width: 350px) {
   .product_header_1 {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
   }
   .ColorPickerList {
     grid-template-columns: repeat(4, 1fr);
@@ -383,7 +383,7 @@
 /* mobileM */
 @media (min-width: 200px) and (max-width: 285px) {
   .product_header_1 {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   .ColorPickerList {
     grid-template-columns: repeat(3, 1fr);
@@ -396,7 +396,7 @@
 /* mobileS */
 @media (min-width: 100px) and (max-width: 200px) {
   .product_header_1 {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   .ColorPickerList {
     grid-template-columns: repeat(3, 1fr);
@@ -420,5 +420,31 @@
 @media (min-width: 100px) and (max-width: 440px) {
   .DetailsContainer {
     padding: 0;
+  }
+}
+
+@media (min-width: 100px) and (max-width: 1024px) {
+  .UserSelectWrapper > .SizePickerWrapper {
+    order: 1;
+  }
+  .UserSelectWrapper > .short_description_wrapper {
+    order: 2;
+    display: none;
+  }
+  .UserSelectWrapper > .ConvoContainer {
+    order: 3;
+    padding: 0;
+  }
+
+  .product_header_1 {
+    font-family: var(--font-Jost);
+    font-weight: 600;
+  }
+
+  .ActionBtnContainer {
+    background-color: #fff;
+    position: sticky;
+    bottom: 60px;
+    z-index: 9;
   }
 }

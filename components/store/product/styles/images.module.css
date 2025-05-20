@@ -1,10 +1,11 @@
 .ImagesContainer {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
   position: relative;
+  gap: 10px;
 }
 
 .SliderWrapper {
@@ -16,6 +17,79 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+}
+
+.thumbnails_wrapper {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  padding: 0 0 10px 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.thumbnails_wrapper::-webkit-scrollbar {
+  height: 5px;
+}
+
+.thumbnails_circle {
+  position: relative;
+  width: 65px;
+  height: 65px;
+  min-width: 65px;
+  min-height: 65px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  padding: 1px;
+}
+
+.LoaderMask {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  background: #cccccca3;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes loading {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.LoaderMask:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100px);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: loading 0.8s infinite;
+}
+
+.thumbnails_circle img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  object-fit: cover;
 }
 
 .image_indecator_mobile {
@@ -60,14 +134,12 @@
 }
 
 .ImageZoomButtonWrapper {
-  width: 100%;
-  height: 40px;
   position: absolute;
   z-index: 3;
   display: flex;
   flex-direction: row;
-  bottom: 30px;
-  left: 30px;
+  bottom: 5px;
+  left: 10px;
   justify-content: flex-start;
   align-items: center;
 }
@@ -113,6 +185,9 @@
     width: 500px;
     height: 500px;
   }
+  .thumbnails_wrapper {
+    height: 500px;
+  }
 }
 /* laptopS */
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -154,5 +229,8 @@
 @media (min-width: 100px) and (max-width: 1024px) {
   .SliderWrapper {
     width: 100%;
+  }
+  .thumbnails_wrapper {
+    display: none;
   }
 }

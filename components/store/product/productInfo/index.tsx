@@ -45,7 +45,6 @@ const ProductInfo: React.FC<Props> = ({
   });
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
-  const [isOrderNotify, setOrderNotify] = useState(false);
   const [zoomEnabeld, setZoomEnabled] = useState(false);
 
   return (
@@ -63,49 +62,6 @@ const ProductInfo: React.FC<Props> = ({
       }}
     >
       <div className={styles.Wrapper}>
-        <div
-          className={styles.OrderNotifier}
-          style={{ display: !isOrderNotify ? 'flex' : 'none' }}
-        >
-          <span className={styles.notifier_text}>
-            Оформить заказ можно без оплаты и без привязки банковской карты
-          </span>
-          <span
-            onClick={() => {
-              setOrderNotify(true);
-            }}
-            className={styles.close_btn_wrapper}
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 21 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <line
-                x1="1"
-                y1="-1"
-                x2="26.3541"
-                y2="-1"
-                transform="matrix(0.683484 -0.729965 0.681649 0.731679 1.52267 21.0312)"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="1"
-                y1="-1"
-                x2="26.3044"
-                y2="-1"
-                transform="matrix(0.680786 0.732483 -0.684345 0.729158 0.21875 1.03125)"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </span>
-        </div>
         <div className={styles.Content}>
           <div className={styles.NavWrapper}>
             <div className={styles.nav_rightWrapper}>
@@ -116,8 +72,8 @@ const ProductInfo: React.FC<Props> = ({
                   quality={20}
                   priority={false}
                   src={'/icons/back_arrow_min.png'}
-                  // placeholder="blur"
-                  // blurDataURL={backArrow}
+                  placeholder="blur"
+                  blurDataURL={backArrow}
                   alt="Back to main arrow"
                 />
                 <span>Обратно на главную</span>
@@ -222,6 +178,7 @@ const ProductInfo: React.FC<Props> = ({
                 setPage={setPage}
                 base64Image={base64Image}
                 zoomEnabeld={zoomEnabeld}
+                windowWidth={windowWidth}
               />
               <Details
                 product={product}

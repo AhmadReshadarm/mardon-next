@@ -25,29 +25,6 @@
   gap: 40px;
 }
 
-.OrderNotifier {
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: cneter;
-  padding: 0 0 25px 0;
-  position: relative;
-}
-
-.notifier_text {
-  width: 100%;
-  color: var(--textPrimary);
-  padding: 5px;
-  text-align: center;
-  background-color: var(--buttonPrimary);
-  font-size: 1.1rem;
-}
-.close_btn_wrapper {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-}
-
 .NavWrapper {
   width: 100%;
   display: flex;
