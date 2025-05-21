@@ -41,6 +41,7 @@ const ColorCheckbox: React.FC<Props> = ({
         active={!!stateChecked}
         style={{ backgroundColor: color, border: '1px solid' }}
         title={label}
+        tabIndex={0}
       >
         <input
           ref={nativeCheckboxRef}
@@ -60,7 +61,7 @@ const CheckboxWrapper = styled.div`
   cursor: pointer;
 `;
 
-const Checkbox = styled.div<{
+const Checkbox = styled.button<{
   active: boolean;
 }>`
   width: 25px;

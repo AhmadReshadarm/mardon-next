@@ -24,6 +24,16 @@ const InfoDropdown = ({ title, children, borderBottom }: Props) => {
         }}
         title={title}
         className={styles.InfoBtnWrappers}
+        tabIndex={0}
+        onKeyDown={(evt) => {
+          if (evt.key == 'Enter') {
+            setOpenInfo(!openInfo);
+            setRotation(rotation == 90 ? -90 : 90);
+            setTimeout(() => {
+              setDisplayInfo(displayInfo == 'none' ? 'flex' : 'none');
+            }, 200);
+          }
+        }}
       >
         <h2>{title}</h2>
         <span style={{ transform: `rotate(${rotation}deg)` }}>

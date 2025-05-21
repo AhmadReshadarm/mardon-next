@@ -129,6 +129,7 @@ const Details: React.FC<Props> = ({
             variantColor={variant?.color ?? product?.productVariants![0]?.color}
             productVariants={product?.productVariants}
             setSelectedIndex={setSelectedIndex}
+            product={product}
           />
         </div>
       </div>

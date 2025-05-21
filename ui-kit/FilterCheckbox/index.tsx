@@ -21,9 +21,9 @@ const FilterCheckbox: React.FC<Props> = ({
   const sizeValue = size === FilterCheckboxSize.Big ? 24 : 16;
   const dimensions = size === FilterCheckboxSize.Big ? 18 : 12;
   return (
-    <div className="check-box" style={style}>
+    <div title={label} className="check-box" style={style}>
       <Checkbox
-        icon={<Checked dimensions={dimensions} />}
+        icon={<Checked title={label} dimensions={dimensions} />}
         onChange={onChange}
         checked={checked}
         borderColor={color.textTertiary}
@@ -38,6 +38,7 @@ const FilterCheckbox: React.FC<Props> = ({
           // textWrap: 'nowrap',
         }}
         label={label}
+        tabIndex={0}
       />
     </div>
   );

@@ -80,7 +80,11 @@ const Images: React.FC<Props> = ({
               >
                 <Image
                   src={`/api/images/${image}`}
-                  alt={image}
+                  alt={`${
+                    product?.name?.includes('(')
+                      ? product.name.split('(')[0]
+                      : product?.name
+                  }- ${variant.artical} - ${index + 1}`}
                   width={65}
                   height={65}
                   loading="lazy"

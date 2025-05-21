@@ -367,7 +367,7 @@ const TopFilterBar: React.FC<Props> = ({
         {searchTerm !== '' ? (
           <SelectedFiltersButtons className="selected-filter-child">
             <span>Наименование товара: {searchTerm}</span>
-            <span
+            <button
               onClick={() => {
                 window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
                 setClearSearchTerm(true);
@@ -402,7 +402,7 @@ const TopFilterBar: React.FC<Props> = ({
                   stroke-linecap="round"
                 />
               </svg>
-            </span>
+            </button>
           </SelectedFiltersButtons>
         ) : (
           ''
@@ -432,7 +432,7 @@ const TopFilterBar: React.FC<Props> = ({
                               />
                             </div>
 
-                            <span
+                            <button
                               onClick={() => {
                                 window.scrollTo({
                                   top: 0,
@@ -480,7 +480,7 @@ const TopFilterBar: React.FC<Props> = ({
                                   stroke-linecap="round"
                                 />
                               </svg>
-                            </span>
+                            </button>
                           </SelectedFiltersButtons>
                         ) : (
                           ''
@@ -502,7 +502,7 @@ const TopFilterBar: React.FC<Props> = ({
                             className="selected-filter-child"
                           >
                             <span>Тип товара: {selectedType.name}</span>
-                            <span
+                            <button
                               onClick={() => {
                                 window.scrollTo({
                                   top: 0,
@@ -551,7 +551,7 @@ const TopFilterBar: React.FC<Props> = ({
                                   stroke-linecap="round"
                                 />
                               </svg>
-                            </span>
+                            </button>
                           </SelectedFiltersButtons>
                         ) : (
                           ''
@@ -573,7 +573,7 @@ const TopFilterBar: React.FC<Props> = ({
                             className="selected-filter-child"
                           >
                             <span>Категории: {selectedCategory.name}</span>
-                            <span
+                            <button
                               onClick={() => {
                                 window.scrollTo({
                                   top: 0,
@@ -621,7 +621,7 @@ const TopFilterBar: React.FC<Props> = ({
                                   stroke-linecap="round"
                                 />
                               </svg>
-                            </span>
+                            </button>
                           </SelectedFiltersButtons>
                         ) : (
                           ''
@@ -643,7 +643,7 @@ const TopFilterBar: React.FC<Props> = ({
                             className="selected-filter-child"
                           >
                             <span>Подкатегори: {selectedSubCategory.name}</span>
-                            <span
+                            <button
                               onClick={() => {
                                 window.scrollTo({
                                   top: 0,
@@ -690,7 +690,7 @@ const TopFilterBar: React.FC<Props> = ({
                                   stroke-linecap="round"
                                 />
                               </svg>
-                            </span>
+                            </button>
                           </SelectedFiltersButtons>
                         ) : (
                           ''
@@ -712,7 +712,7 @@ const TopFilterBar: React.FC<Props> = ({
                         От: {uiPriceRang.minPrice}₽ | до: {uiPriceRang.maxPrice}
                         ₽
                       </span>
-                      <span
+                      <button
                         onClick={() => {
                           window.scrollTo({
                             top: 0,
@@ -753,7 +753,7 @@ const TopFilterBar: React.FC<Props> = ({
                             stroke-linecap="round"
                           />
                         </svg>
-                      </span>
+                      </button>
                     </SelectedFiltersButtons>
                   ) : (
                     ''
@@ -969,7 +969,7 @@ const SelectedFiltersWrapper = styled.div`
   }
 `;
 
-const SelectedFiltersButtons = styled.button`
+const SelectedFiltersButtons = styled.div`
   width: fit-content;
   display: flex;
   flex-direction: row;
@@ -983,6 +983,19 @@ const SelectedFiltersButtons = styled.button`
   background-color: #e8d9ca;
   transition: 150ms;
   span {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: center;
+    white-space: nowrap;
+    color: #000;
+  }
+  button {
     width: 100%;
     display: flex;
     flex-direction: row;

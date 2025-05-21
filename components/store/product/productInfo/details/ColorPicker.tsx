@@ -1,7 +1,7 @@
 import color from 'components/store/lib/ui.colors';
 import { ImageTooltip } from './helpers';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Color, ProductVariant } from 'swagger/services';
+import { Color, Product, ProductVariant } from 'swagger/services';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setVariant } from 'redux/slicers/store/cartSlicer';
 import Image from 'next/image';
@@ -12,12 +12,14 @@ type Props = {
   variantColor: Color | undefined;
   productVariants: ProductVariant[] | undefined;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
+  product: Product | undefined;
 };
 
 const ColorPicker: React.FC<Props> = ({
   variantColor,
   productVariants,
   setSelectedIndex,
+  product,
 }) => {
   const [loadingComplet, setLoadingComplet] = useState(false);
   const dispatch = useAppDispatch();
@@ -30,7 +32,7 @@ const ColorPicker: React.FC<Props> = ({
       dispatch(setVariant(variant));
       setSelectedIndex(0);
     };
-
+  // variant.artical!
   const [initialVariant, setInitialVariant] = useState(productVariants![0]);
   useEffect(() => {
     dispatch(setVariant(initialVariant));
@@ -123,23 +125,15 @@ const ColorPicker: React.FC<Props> = ({
               }
             >
               <li
-                // style={{
-                //   border:
-                //     variant === SelectedVariant
-                //       ? '1px solid #00000075'
-                //       : 'none',
-                // }}
                 className={styles.ColorPickerThumbnailWrapper}
-                onClick={handleImageChange(
-                  variant,
-
-                  setSelectedIndex,
-                )}
-                onTouchStart={handleImageChange(
-                  variant,
-
-                  setSelectedIndex,
-                )}
+                onClick={handleImageChange(variant, setSelectedIndex)}
+                onTouchStart={handleImageChange(variant, setSelectedIndex)}
+                tabIndex={0}
+                onKeyDown={(evt) => {
+                  if (evt.key == 'Enter') {
+                    handleImageChange(variant, setSelectedIndex)();
+                  }
+                }}
               >
                 <div
                   className={styles.ColorPickerItems}
@@ -164,7 +158,11 @@ const ColorPicker: React.FC<Props> = ({
                       zIndex: loadingComplet ? 1 : -1,
                     }}
                     src={`/api/images/compress/${images[0]}?qlty=10&width=50&height=50&lossless=true`}
-                    alt={variant.artical!}
+                    alt={`${
+                      product?.name?.includes('(')
+                        ? product.name.split('(')[0]
+                        : product?.name
+                    }- ${variant.artical!}`}
                     width={50}
                     height={50}
                     loading="lazy"

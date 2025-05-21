@@ -37,7 +37,7 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
                 ))
             : ''}
         </p>
-        <span className={styles.title} style={{ color: 'red' }}>
+        <span className={styles.title} style={{ color: '#B30000' }}>
           Товар в коробке по цветам не продаются, там микс цвета в коробке идут
         </span>
       </InfoDropdown>

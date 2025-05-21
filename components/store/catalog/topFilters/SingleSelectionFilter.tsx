@@ -69,6 +69,8 @@ const SingleSelectionFilter: React.FC<Props> = ({
             key={`filter-selection-${option.id}`}
             selected={!!option.checked}
             onClick={handleChange(option.id)}
+            tabIndex={0}
+            title={option.name}
           >
             <Image
               src={option.ImageUrl!}
@@ -84,7 +86,7 @@ const SingleSelectionFilter: React.FC<Props> = ({
   );
 };
 
-const Selection = styled.div<{
+const Selection = styled.button<{
   selected: boolean;
 }>`
   width: 100%;
