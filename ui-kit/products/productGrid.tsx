@@ -7,7 +7,7 @@ import { TCatalogState } from 'redux/types';
 import styles from './styles/productGrid.module.css';
 
 const ProductGrid = () => {
-  const { products, loading, productsLoading } = useAppSelector<TCatalogState>(
+  const { products, productsLoading } = useAppSelector<TCatalogState>(
     (state) => state.catalog,
   );
   const delay = getAnimationDelay(products.length);

@@ -5,6 +5,7 @@ import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
 import moment from 'moment';
 import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
 import color from 'components/store/lib/ui.colors';
+import Image from 'next/image';
 
 interface CheckoutsTableData {
   id: string;
@@ -57,56 +58,120 @@ const columns: ColumnsType<CheckoutsTableData> = [
         </div>
       );
     },
+    width: '10%',
   },
   {
     title: 'Пользователь',
     dataIndex: 'user',
-    render: (_, record) => {
+    render: (_, record: any) => {
       return (
-        <p>
-          ID:{record.user.id} - Имя:{record.user.firstName}
-        </p>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <span>
+            ID:{record.user.id} - {record.user.firstName}
+          </span>
+          <span>Имя получателя: {record.address.receiverName}</span>
+        </div>
       );
     },
-    width: '10%',
-  },
-  {
-    title: 'Цвет(ы)',
-    dataIndex: 'color',
-    render: (_, record) => {
-      return (
-        <ul>
-          {record.basket.orderProducts.map((variant, index) => {
-            return (
-              <li key={`color-${index}`}>
-                {variant.productVariant?.color!.name != ''
-                  ? `${index + 1}: ${variant.productVariant?.color!.name}`
-                  : ''}
-              </li>
-            );
-          })}
-        </ul>
-      );
-    },
-    width: '10%',
+    width: '8%',
   },
   {
     title: 'Артикул',
     dataIndex: 'size',
     render: (_, record) => {
       return (
-        <ul>
+        <ul
+          style={{
+            display: 'inline-grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            columnGap: '3px',
+            rowGap: '3px',
+          }}
+        >
           {record.basket.orderProducts.map((variant, index) => {
             return (
-              <li key={`variant-${index}`}>
-                {`${index + 1}: ${variant.productVariant?.artical}`}
+              <li
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                  gap: '2px',
+                }}
+                key={`variant-${index}`}
+              >
+                <span>{index + 1}: </span>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+
+                    border: '1px solid rgb(0 0 0 / 37%)',
+                    borderRadius: '5px',
+                    padding: '5px',
+                  }}
+                >
+                  <Image
+                    width={100}
+                    height={100}
+                    src={`/api/images/${
+                      variant.productVariant?.images!?.split(', ')[0]
+                    }`}
+                    alt={variant.productVariant?.id!}
+                    style={{ borderRadius: '5px' }}
+                  />
+                  <span>
+                    Артикул: {variant.productVariant?.artical?.toUpperCase()}
+                  </span>
+                  <span>Кол-во: {variant.qty} шт</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      gap: '5px',
+                    }}
+                  >
+                    {variant.productVariant?.color?.url == '' ||
+                    variant.productVariant?.color?.url == '-' ||
+                    variant.productVariant?.color?.url == '_' ? (
+                      <></>
+                    ) : (
+                      <>
+                        <span>Цвет: </span>
+                        <div
+                          title={variant.productVariant?.color?.name}
+                          style={{
+                            width: '10px',
+                            height: '10px',
+                            minWidth: '10px',
+                            minHeight: '10px',
+                            borderRadius: '50%',
+                            background: variant.productVariant?.color?.code,
+                            border: '1px solid rgb(0 0 0 / 45%)',
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                </div>
               </li>
             );
           })}
         </ul>
       );
     },
-    width: '10%',
+    width: '20%',
   },
   {
     title: 'Адрес, Тел',
@@ -119,7 +184,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
         </>
       );
     },
-    width: '20%',
+    width: '15%',
   },
   {
     title: 'Дата создания',
@@ -132,7 +197,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
         </p>
       );
     },
-    width: '25%',
+    width: '12%',
   },
   {
     title: 'Действия',

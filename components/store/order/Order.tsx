@@ -63,7 +63,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
           <Header>
             <span> Заказ № {checkout.id}.</span>
             <div className="price-wrapper">
-              <Price>итого: </Price>
+              <Price>ИТОГО: </Price>
               <Price>{(checkout as any)?.totalAmount} ₽</Price>
             </div>
           </Header>
@@ -263,7 +263,11 @@ const Items = styled(motion.li)`
                 font-weight: 600;
               }
             }
+            &:hover {
+              color: #000;
+            }
           }
+
           .total-numbers {
             width: 100%;
             display: flex;

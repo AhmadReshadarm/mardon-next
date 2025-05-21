@@ -1,20 +1,9 @@
-import { formatNumber } from 'common/helpers/number.helper';
 import Link from 'next/link';
 import { OrderProduct } from 'swagger/services';
-import { TAuthState } from 'redux/types';
-import { useAppSelector } from 'redux/hooks';
-import { Role } from 'common/enums/roles.enum';
 type Props = {
   orderProduct: OrderProduct;
 };
 const ProductItem: React.FC<Props> = ({ orderProduct }) => {
-  const curVariant = orderProduct.productVariant
-    ? orderProduct.productVariant
-    : orderProduct.product?.productVariants![0]
-    ? orderProduct.product?.productVariants![0]
-    : ({} as any);
-
-  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   return (
     <li className="product">
       <Link
@@ -39,7 +28,7 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         {orderProduct.productVariant?.color?.name === '_' ||
         orderProduct.productVariant?.color?.name === '-' ||
         orderProduct.productVariant?.color?.name === ' ' ? (
-          ''
+          <></>
         ) : (
           <div className="color-wrapper">
             <span>Цвет: </span>
@@ -59,15 +48,15 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         )}
         {
           <div className="selected-sizes">
-            <span>Артикул: {orderProduct.productVariant?.artical}</span>
+            <span>
+              Артикул: {orderProduct.productVariant?.artical?.toUpperCase()}
+            </span>
           </div>
         }
         <div className="total-numbers">
           <span>
-            {user?.role === Role.SuperUser
-              ? curVariant.wholeSalePrice
-              : formatNumber(curVariant.price)}{' '}
-            ₽ - {orderProduct.qty}шт
+            {orderProduct.productVariant?.price!} ₽ x {orderProduct.qty} шт ={' '}
+            {orderProduct.productVariant?.price! * orderProduct.qty!} ₽
           </span>
         </div>
       </div>
