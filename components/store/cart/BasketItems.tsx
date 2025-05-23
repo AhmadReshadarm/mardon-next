@@ -11,7 +11,7 @@ import HeaderProductItmesHistory from 'ui-kit/HeaderProductItemsHistory';
 type Props = {};
 const BasketItems: React.FC<Props> = ({}) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const { historyProducts } = useAppSelector<TGlobalState>(
+  const { historyProducts, loadingHistory } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
 
@@ -123,9 +123,13 @@ const BasketItems: React.FC<Props> = ({}) => {
           </>
         ) : (
           <>
-            {emptyLoading.map((item, index) => {
-              return <CartItemLoader key={index} windowWidth={windowWidth} />;
-            })}
+            {loadingHistory ? (
+              emptyLoading.map((item, index) => {
+                return <CartItemLoader key={index} windowWidth={windowWidth} />;
+              })
+            ) : (
+              <></>
+            )}
           </>
         )}
       </ul>
