@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 export function useInViewport(): {
   isInViewport: boolean;
@@ -15,18 +15,18 @@ export function useInViewport(): {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (refElement && !isInViewport) {
-        const observer = new IntersectionObserver(
-          ([entry]) => entry.isIntersecting && setIsInViewport(true),
-        );
-        observer.observe(refElement);
+    // setTimeout(() => {
+    if (refElement && !isInViewport) {
+      const observer = new IntersectionObserver(
+        ([entry]) => entry.isIntersecting && setIsInViewport(true),
+      );
+      observer.observe(refElement);
 
-        return () => {
-          observer.disconnect();
-        };
-      }
-    }, 1500);
+      return () => {
+        observer.disconnect();
+      };
+    }
+    // }, 1500);
   }, [isInViewport, refElement]);
 
   return { isInViewport, ref: setRef };

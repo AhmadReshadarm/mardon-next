@@ -1,7 +1,5 @@
-import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import InfoDropdown from './DropDownsParrent';
 import { CategoryInTree } from 'swagger/services';
 import Link from 'next/link';
@@ -21,15 +19,7 @@ const CatalogModal: React.FC<Props> = ({
   paginateImage,
 }) => {
   return (
-    <InfoContainer
-      key="info-product-page"
-      custom={0.3}
-      initial="init"
-      whileInView="animate"
-      exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
-      viewport={{ once: true }}
-      variants={variants.fadInSlideUp}
-    >
+    <InfoContainer key="info-product-page">
       {categories.map((category, index) => {
         return (
           <InfoDropdown
@@ -47,17 +37,7 @@ const CatalogModal: React.FC<Props> = ({
                     return (
                       <SubCategoriesContainer key={index}>
                         <Link
-                          // onClick={handleMenuStateRedux(
-                          //   dispatch,
-                          //   changeCatelogState,
-                          //   changeCatelogDisplayState,
-                          //   isCatalogOpen,
-                          //   catelogDisplay,
-                          // )}
                           href={`/catalog?categories=${category.url}&subCategories=${subCategory.url}`}
-                          // onMouseOver={() =>
-                          //   setHoveredCategory(`/api/images/${subCategory.image}`)
-                          // }
                           prefetch={false}
                         >
                           <span className="sub-category">
@@ -91,7 +71,7 @@ const CatalogModal: React.FC<Props> = ({
   );
 };
 
-export const InfoContainer = styled(motion.div)`
+export const InfoContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

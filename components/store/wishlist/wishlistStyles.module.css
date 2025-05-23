@@ -219,6 +219,28 @@
   cursor: pointer;
   user-select: none;
   color: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.NotInStockWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #f4f4f440;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.NotInStockLineThrough {
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  transform: rotate(-25deg);
 }
 
 /* global 1 */

@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { handleMobileShare } from './helpers';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
-import { useInViewportNoDelay } from 'components/store/storeLayout/useInViewport';
 import styles from '../../styles/shareToSocial.module.css';
 import dynamic from 'next/dynamic';
+import { useDynamicSection } from 'common/helpers/useDynamicSection.helper';
 const ShareToSocialContent = dynamic(() => import('./ShareToSocialContent'));
 
 type Props = {
@@ -58,10 +58,9 @@ const ShareToSocial: React.FC<Props> = ({ title, artical }) => {
     url: `${baseUrl}${router.asPath}`,
   };
 
-  const { isInViewport, ref } = useInViewportNoDelay();
-
+  const shareToSocialContent = useDynamicSection('ShareToSocialContent');
   return (
-    <div className={styles.SocialParent}>
+    <div ref={shareToSocialContent.ref} className={styles.SocialParent}>
       <div className={styles.product_artical_wrapper}>
         <span>{`Артикул товара: ${artical?.toLocaleUpperCase()}`}</span>
       </div>
@@ -116,7 +115,7 @@ const ShareToSocial: React.FC<Props> = ({ title, artical }) => {
         style={{ display: display }}
         className={styles.ShareToSocialWrapper}
       >
-        <ul ref={ref}>{isInViewport ? <ShareToSocialContent /> : ''}</ul>
+        {shareToSocialContent.shouldRender ? <ShareToSocialContent /> : <></>}
       </div>
     </div>
   );

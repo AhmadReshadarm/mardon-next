@@ -182,7 +182,7 @@ const Subscribers = (): JSX.Element => {
           </FormContent>
         </FormContainer>
       ) : (
-        <LoaderMask></LoaderMask>
+        <LoaderMask />
       )}
     </Container>
   );

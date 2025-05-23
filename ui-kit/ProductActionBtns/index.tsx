@@ -1,4 +1,3 @@
-// import { motion } from 'framer-motion';
 import { Product, ProductVariant } from 'swagger/services';
 import { checkIfItemInCart, checkIfItemInWishlist } from './helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -30,7 +29,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   // ------------------- end of UI Hooks --------------------
 
   return (
-    <>
+    <div style={{ minWidth: '150px' }}>
       {!checkIfItemInCart(product, cart!, variant) ? (
         <button
           onClick={async () => {
@@ -51,22 +50,11 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
           type="button"
           className={styles.CartButtonWrapper}
         >
-          <div
-            // initial={{ height: '0%', width: '0%' }}
-            // animate={{ height: '100%', width: '100%' }}
-            // transition={{ duration: 0.15 }}
-            className={styles.content_wrapper}
-          >
+          <div className={styles.content_wrapper}>
             {countLoading && isAdding ? (
               <div className={styles.Loader} />
             ) : (
-              <span
-              // initial={{ opacity: 0 }}
-              // animate={{ opacity: 1 }}
-              // transition={{ delay: 0.2 }}
-              >
-                {!variant?.available ? 'НЕТ В НАЛИЧИИ' : 'В КОРЗИНУ'}
-              </span>
+              <span>{!variant?.available ? 'НЕТ В НАЛИЧИИ' : 'В КОРЗИНУ'}</span>
             )}
           </div>
           <div className={styles.content_indecator}></div>
@@ -74,7 +62,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
       ) : (
         <ItemCounter product={product} qty={qty} variant={variant} />
       )}
-    </>
+    </div>
   );
 };
 

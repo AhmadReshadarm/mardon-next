@@ -43,6 +43,18 @@
   padding: 20px;
 }
 
+.SliderWrapper_Empty {
+  width: 100%;
+  display: flex;
+  padding-top: 5px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: scroll;
+}
+
 .seeMoreWrapper {
   width: 100%;
   display: flex;

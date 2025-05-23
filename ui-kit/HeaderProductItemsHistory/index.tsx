@@ -50,6 +50,9 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
     setVariant(product.productVariants![0]);
   }, [product]);
 
+  const currentVariant = (artical) =>
+    product.productVariants?.find((variant) => variant.artical == artical);
+
   return (
     <li className={styles.ProductItemWrapper}>
       <>
@@ -175,6 +178,13 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
                       {artical!.includes('|')
                         ? artical!.split('|')[0].toUpperCase()
                         : artical!.toUpperCase()}
+                      {!currentVariant(artical)?.available ? (
+                        <div className={styles.NotInStockWrapper}>
+                          <div className={styles.NotInStockLineThrough} />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </button>
                   );
                 })}

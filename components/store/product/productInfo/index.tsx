@@ -45,21 +45,11 @@ const ProductInfo: React.FC<Props> = ({
   });
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
-  const [zoomEnabeld, setZoomEnabled] = useState(false);
-
   return (
     <div
       className={styles.Container}
       itemScope
       itemType="https://schema.org/ImageObject"
-      onTouchEnd={(evt) => {
-        if (evt.changedTouches.length > 1) {
-          setZoomEnabled(true);
-          setTimeout(() => {
-            setZoomEnabled(false);
-          }, 5000);
-        }
-      }}
     >
       <div className={styles.Wrapper}>
         <div className={styles.Content}>
@@ -72,8 +62,8 @@ const ProductInfo: React.FC<Props> = ({
                   quality={20}
                   priority={false}
                   src={'/icons/back_arrow_min.png'}
-                  placeholder="blur"
-                  blurDataURL={backArrow}
+                  // placeholder="blur"
+                  // blurDataURL={backArrow}
                   alt="Back to main arrow"
                 />
                 <span>Обратно на главную</span>
@@ -177,8 +167,6 @@ const ProductInfo: React.FC<Props> = ({
                 page={page}
                 setPage={setPage}
                 base64Image={base64Image}
-                zoomEnabeld={zoomEnabeld}
-                windowWidth={windowWidth}
               />
               <Details
                 product={product}

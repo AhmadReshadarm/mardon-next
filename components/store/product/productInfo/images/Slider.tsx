@@ -15,8 +15,6 @@ type Props = {
   paginateImage: any;
   alt: any;
   base64Image: any;
-  zoomEnabeld: boolean;
-  windowWidth: number;
 };
 
 const Slider: React.FC<Props> = ({
@@ -28,8 +26,6 @@ const Slider: React.FC<Props> = ({
   paginateImage,
   alt,
   base64Image,
-  zoomEnabeld,
-  windowWidth,
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
@@ -237,16 +233,7 @@ const Slider: React.FC<Props> = ({
           );
         })}
       </ul>
-      {zoomEnabeld ? (
-        <>
-          <div className={styles.ImageZoomInfo}>
-            <span>Нажмите здесь, чтобы увеличить изображение</span>
-          </div>
-          <div className={styles.ImageZoomInfoPointer} />
-        </>
-      ) : (
-        <></>
-      )}
+
       <div className={styles.ImageZoomButtonWrapper}>
         <button
           onClick={(e) => {

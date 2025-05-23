@@ -168,10 +168,6 @@ h6 {
   font-size: 1rem; /* antd paginition input text size */
 }
 
-/* .ant-table-row-level-0 {
-  border-top: 1px solid #0000006b !important;
-} */
-
 :where(.css-dev-only-do-not-override-ni1kz0)[class^='ant-table']
   [class^='ant-table'],
 :where(.css-dev-only-do-not-override-ni1kz0)[class*=' ant-table']

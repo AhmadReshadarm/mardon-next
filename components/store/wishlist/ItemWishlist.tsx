@@ -1,4 +1,3 @@
-// import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Link from 'next/link';
 import { Product } from 'swagger/services';
 import { useAppSelector } from 'redux/hooks';
@@ -14,9 +13,7 @@ type Props = {
 
 const ItemWishlist: React.FC<Props> = ({ product, index }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  // const { productVariants } = product;
   const [variant, setVariant] = useState(product.productVariants![0]);
-  // const images = getProductVariantsImages(productVariants);
 
   const colors: string[] = [];
   product!?.productVariants!.map((variant) => {
@@ -34,6 +31,9 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
   const filteredArticals = articals!.filter(function (value, index, array) {
     return array.indexOf(value) === index;
   });
+
+  const currentVariant = (artical) =>
+    product.productVariants?.find((variant) => variant.artical == artical);
 
   return (
     <li className={styles.ProductItemWrapper} key={index}>
@@ -145,6 +145,13 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
                       {artical!.includes('|')
                         ? artical!.split('|')[0].toUpperCase()
                         : artical!.toUpperCase()}
+                      {!currentVariant(artical)?.available ? (
+                        <div className={styles.NotInStockWrapper}>
+                          <div className={styles.NotInStockLineThrough} />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </button>
                   );
                 })}
@@ -154,16 +161,6 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
 
           <div className={styles.price_sperator_wrapper}>
             <div className={styles.old_new_price_wrapper}>
-              {/* <span
-                style={{
-                  display: !product?.productVariants![0].oldPrice
-                    ? 'none'
-                    : 'flex',
-                }}
-                className={styles.old_price}
-              >
-                {product?.productVariants![0].oldPrice} ₽
-              </span> */}
               <span>{variant.price} ₽</span>
             </div>
           </div>

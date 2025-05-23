@@ -1,16 +1,16 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
-import { OrderProductResponse, Product, Slide } from 'swagger/services';
+import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import Banners from 'components/store/homePage/banners';
 import ProductsSlider from 'components/store/homePage/productsSlider';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
-import axios from 'axios';
+import { useDynamicSection } from 'common/helpers/useDynamicSection.helper';
+import { getBase64Image } from 'common/helpers/getBase64Image.helper';
 
 const MainPageCatalog = dynamic(
   () => import('components/store/homePage/mainPageCatalog'),
@@ -36,49 +36,53 @@ const ContactsMainPage = dynamic(
   },
 );
 
-export const getServerSideProps = (async () => {
-  let slides: Slide[];
-  let caroselImages: string[];
-
+export const getServerSideProps: GetServerSideProps<{
+  slides: Slide[];
+  caroselProducts: Product[];
+  base64Image: string | null;
+  base64Image_2: string | null;
+}> = (async () => {
+  const apiUrl = process.env.API_URL || 'http://localhost:4010';
   try {
-    const resSlides = await fetch(`${process.env.API_URL}/slides`);
-    const resCarosel = await fetch(
-      `${process.env.API_URL}/products?tags[]=main_page`,
-    );
-    slides = await resSlides.json();
-    const caroselProducts: { rows: Product[]; lenght: number } =
+    const resSlides = await fetch(`${apiUrl}/slides`);
+    if (!resSlides.ok) throw new Error('Failed to fetch slides');
+    const slides: Slide[] = await resSlides.json();
+
+    const resCarosel = await fetch(`${apiUrl}/products?tags[]=main_page`);
+    if (!resCarosel.ok) throw new Error('Failed to fetch carousel products');
+    const caroselData: { rows: Product[]; lenght: number } =
       await resCarosel.json();
+    const caroselProducts = caroselData.rows;
 
-    caroselImages = getProductVariantsImages(
-      caroselProducts.rows[0].productVariants,
-    );
+    let caroselImages: string[] = [];
+    if (caroselProducts.length > 0 && caroselProducts[0].productVariants) {
+      caroselImages = getProductVariantsImages(
+        caroselProducts[0].productVariants,
+      );
+    }
 
-    const getBase64Image = async (imageUrl) => {
-      const response = await axios.get(imageUrl, {
-        responseType: 'arraybuffer',
-      });
-      const buffer = Buffer.from(response.data, 'binary');
-      const base64Image = buffer.toString('base64');
-      return `data:image/webp;base64,${base64Image}`; // Adjust the MIME type as needed
-    };
-    // `/api/images/compress/${caroselImages[0]}?qlty=1&width=200&height=200&lossless=true`;
+    const firstCarouselImageUrl =
+      caroselImages.length > 0
+        ? `${apiUrl}/images/compress/${caroselImages[0]}?qlty=1&width=100&height=100&lossless=false`
+        : '';
+    const firstSlideImageUrl =
+      slides.length > 0 && slides[0].image
+        ? `${apiUrl}/images/compress/${slides[0].image}?qlty=1&width=190&height=80&lossless=false`
+        : '';
 
-    const base64Image = await getBase64Image(
-      `${process.env.API_URL}/images/compress/${caroselImages[0]}?qlty=1&width=100&height=100&lossless=false`,
-    );
-    const base64Image_2 = await getBase64Image(
-      `${process.env.API_URL}/images/compress/${slides[0].image}?qlty=1&width=190&height=80&lossless=false`,
-    );
+    const base64Image = await getBase64Image(firstCarouselImageUrl);
+    const base64Image_2 = await getBase64Image(firstSlideImageUrl);
 
     return {
       props: {
         slides,
-        caroselProducts: caroselProducts.rows,
+        caroselProducts,
         base64Image,
         base64Image_2,
       },
     };
   } catch (error) {
+    console.error('Error in getServerSideProps:', error);
     return {
       props: {
         slides: [],
@@ -91,22 +95,26 @@ export const getServerSideProps = (async () => {
 }) as GetServerSideProps<{
   slides: Slide[];
   caroselProducts: Product[];
-  base64Image: any;
-  base64Image_2: any;
+  base64Image: string | null;
+  base64Image_2: string | null;
 }>;
 
 // ---------------------------------------------------------------------------------------
-const IndexPage = ({
+
+type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const IndexPage: React.FC<IndexPageProps> & {
+  PageLayout?: React.FC<{ children: React.ReactNode }>;
+} = ({
   slides,
   caroselProducts,
   base64Image,
   base64Image_2,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [isClient, setClient] = useState(false);
-
-  useEffect(() => {
-    setClient(true);
-  }, []);
+  const catalogSection = useDynamicSection('MainPageCatalog');
+  const bestProductSection = useDynamicSection('BestProduct');
+  const subscribersSection = useDynamicSection('Subscribers');
+  const contactsSection = useDynamicSection('ContactsMainPage');
 
   return (
     <>
@@ -131,16 +139,22 @@ const IndexPage = ({
         caroselProducts={caroselProducts}
         base64Image={base64Image}
       />
-      {isClient ? (
-        <>
-          <MainPageCatalog />
-          <BestProduct />
-          <Subscribers />
-          <ContactsMainPage />
-        </>
-      ) : (
-        <LoaderMask />
-      )}
+
+      <div ref={catalogSection.ref}>
+        {catalogSection.shouldRender ? <MainPageCatalog /> : <LoaderMask />}
+      </div>
+
+      <div ref={bestProductSection.ref}>
+        {bestProductSection.shouldRender ? <BestProduct /> : <LoaderMask />}
+      </div>
+
+      <div ref={subscribersSection.ref}>
+        {subscribersSection.shouldRender ? <Subscribers /> : <LoaderMask />}
+      </div>
+
+      <div ref={contactsSection.ref}>
+        {contactsSection.shouldRender ? <ContactsMainPage /> : <LoaderMask />}
+      </div>
     </>
   );
 };

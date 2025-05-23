@@ -6,37 +6,16 @@ import { fetchHistoryProducts } from 'redux/slicers/store/globalSlicer';
 import styles from './cartStyles.module.css';
 import CartItemLoader from './cartItemLoaders';
 import { emptyLoading } from 'common/constants';
-import dynamic from 'next/dynamic';
-const CartItem = dynamic(() => import('./cartItem'), {
-  ssr: false,
-});
-const HeaderProductItmesHistory = dynamic(
-  () => import('ui-kit/HeaderProductItemsHistory'),
-  {
-    ssr: false,
-  },
-);
+import CartItem from './cartItem';
+import HeaderProductItmesHistory from 'ui-kit/HeaderProductItemsHistory';
 type Props = {};
 const BasketItems: React.FC<Props> = ({}) => {
-  const { cart, countLoading, loading } = useAppSelector<TCartState>(
-    (state) => state.cart,
-  );
-  const { historyProducts, loadingHistory } = useAppSelector<TGlobalState>(
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const { historyProducts } = useAppSelector<TGlobalState>(
     (state) => state.global,
   );
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const userHistoy = localStorage.getItem('history');
-    if (userHistoy) {
-      const payload = {
-        userHistory: JSON.parse(userHistoy),
-        limit: '1000',
-      };
-      dispatch(fetchHistoryProducts(payload));
-    }
-  }, [cart]);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -56,7 +35,7 @@ const BasketItems: React.FC<Props> = ({}) => {
   const [historyUI, setHistoryUI] = useState(historyProducts);
   useEffect(() => {
     const userHistoy = localStorage.getItem('history');
-    if (userHistoy) {
+    if (userHistoy && historyProducts.length == 0) {
       const payload = {
         userHistory: JSON.parse(userHistoy),
         limit: '1000',
@@ -79,20 +58,27 @@ const BasketItems: React.FC<Props> = ({}) => {
       }))
       .filter((product) => product.productVariants?.length);
     setHistoryUI(filteredHistory);
-  }, [cart]);
+  }, [cart, historyProducts]);
 
   return (
     <div className={styles.ItemsWrapper}>
-      <div className={styles.action_buttons_wrapper}>
-        <button
-          className={styles.action_btn_clear}
-          onClick={() => handleRemoveClick(dispatch)}
-        >
-          <span className={styles.action_btn_clear_text}>ОЧИСТИТЬ КОРЗИНУ</span>
-        </button>
-      </div>
+      {cart?.orderProducts?.length !== 0 ? (
+        <div className={styles.action_buttons_wrapper}>
+          <button
+            className={styles.action_btn_clear}
+            onClick={() => handleRemoveClick(dispatch)}
+          >
+            <span className={styles.action_btn_clear_text}>
+              ОЧИСТИТЬ КОРЗИНУ
+            </span>
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
+
       <ul className={styles.CartBody}>
-        {cart?.orderProducts?.length && !countLoading ? (
+        {cart?.orderProducts?.length !== 0 ? (
           <>
             {cart?.orderProducts?.map((orderProduct, index) => {
               return (
@@ -101,12 +87,6 @@ const BasketItems: React.FC<Props> = ({}) => {
                   orderProduct={orderProduct}
                 />
               );
-            })}
-          </>
-        ) : countLoading || loading ? (
-          <>
-            {emptyLoading.map((item, index) => {
-              return <CartItemLoader key={index} windowWidth={windowWidth} />;
             })}
           </>
         ) : (
@@ -119,38 +99,33 @@ const BasketItems: React.FC<Props> = ({}) => {
             </h1>
           </div>
         )}
-        {!historyUI.length && loadingHistory ? (
+
+        {historyUI.length !== 0 ? (
           <>
-            {emptyLoading.map((item, index) => {
-              return <CartItemLoader key={index} windowWidth={windowWidth} />;
+            <li style={{ width: '100%' }}>
+              <div
+                style={{ justifyContent: 'center' }}
+                className={styles.PopupBtnsDivider}
+              >
+                <h1 style={{ fontWeight: '600', textAlign: 'center' }}>
+                  Вы смотрели
+                </h1>
+              </div>
+            </li>
+            {historyUI.map((historyProduct, index) => {
+              return (
+                <HeaderProductItmesHistory
+                  key={`history-item-${index}`}
+                  product={historyProduct}
+                />
+              );
             })}
           </>
         ) : (
           <>
-            {historyUI.length !== 0 ? (
-              <>
-                <li style={{ width: '100%' }}>
-                  <div
-                    style={{ justifyContent: 'center' }}
-                    className={styles.PopupBtnsDivider}
-                  >
-                    <h1 style={{ fontWeight: '600', textAlign: 'center' }}>
-                      Вы смотрели
-                    </h1>
-                  </div>
-                </li>
-                {historyUI.map((historyProduct, index) => {
-                  return (
-                    <HeaderProductItmesHistory
-                      key={`history-item-${index}`}
-                      product={historyProduct}
-                    />
-                  );
-                })}
-              </>
-            ) : (
-              <></>
-            )}
+            {emptyLoading.map((item, index) => {
+              return <CartItemLoader key={index} windowWidth={windowWidth} />;
+            })}
           </>
         )}
       </ul>

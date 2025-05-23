@@ -10,7 +10,7 @@ const Loader = () => {
     <>
       <HeaderWrapper>
         <div className="header-title-wrapper">
-          <LoaderMask style={{ width: '100px', height: '30px' }} />
+          <h2>Ассортимент</h2>
         </div>
       </HeaderWrapper>
       <CatalogContentWrapper>
@@ -85,6 +85,9 @@ const HeaderWrapper = styled.div`
     border-bottom: 1px solid ${color.textSecondary};
     z-index: 2;
     margin-bottom: -1px;
+    h2 {
+      font-size: 2rem;
+    }
   }
   .header-divder-wrapper {
     width: 50%;

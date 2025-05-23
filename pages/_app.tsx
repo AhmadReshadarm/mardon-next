@@ -5,7 +5,7 @@ import { wrapper } from '../redux/store';
 import { ContextProvider } from 'common/context/AppContext';
 import Head from 'next/head';
 import { Jost } from 'next/font/google';
-// import { Circe, Jost, ricordi } from 'common/helpers/fonts.helper';
+import { DynamicLoadProvider } from '../common/context/DynamicLoadContext';
 const jost = Jost({
   subsets: ['cyrillic', 'latin'],
   display: 'swap',
@@ -20,27 +20,24 @@ export type ComponentWithPageLayout = AppProps & {
 
 function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
-  // className={`${Circe.variable} ${Jost.variable} ${ricordi.variable}`}
   return (
     <>
       <Head>
-        <meta
-          property="viewport"
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-        />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <ContextProvider>
-        {Component.PageLayout ? (
-          <Component.PageLayout>
-            <div className={`${jost.variable}`}>
-              <Component {...pageProps} key={router.asPath} />
-            </div>
-          </Component.PageLayout>
-        ) : (
-          <Component {...pageProps} />
-        )}
-      </ContextProvider>
+      <DynamicLoadProvider>
+        <ContextProvider>
+          {Component.PageLayout ? (
+            <Component.PageLayout>
+              <div className={`${jost.variable} font-sans`}>
+                <Component {...pageProps} key={router.asPath} />
+              </div>
+            </Component.PageLayout>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </ContextProvider>
+      </DynamicLoadProvider>
     </>
   );
 }

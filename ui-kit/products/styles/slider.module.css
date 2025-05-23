@@ -84,7 +84,7 @@
 
 .discount_wrapper {
   position: absolute;
-  z-index: 9;
+  z-index: 2;
   right: 5px;
   top: 8px;
   border-radius: 50%;

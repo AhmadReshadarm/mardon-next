@@ -58,7 +58,7 @@ const ProductFlex: React.FC<Props> = ({ products, loading, seeMoreUrl }) => {
 const ProductFlexEmpty = () => {
   return (
     <div className={styles.FlexWrapper}>
-      <ul className={styles.SliderWrapper}>
+      <ul className={styles.SliderWrapper_Empty}>
         {emptyLoading.map((item, index) => {
           return <LoaderItem index={index} />;
         })}

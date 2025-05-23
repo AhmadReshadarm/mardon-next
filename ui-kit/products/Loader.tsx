@@ -6,10 +6,10 @@ const Loader = () => {
   return (
     <>
       <div className="section-title-wrapper">
-        <div
+        {/* <div
           className={styles.LoaderMask}
           style={{ width: '150px', height: '50px' }}
-        />
+        /> */}
         <ul className="best-product-grid-wrapper">
           {emptyLoading.map((item, index) => {
             return <LoaderItem index={index} />;

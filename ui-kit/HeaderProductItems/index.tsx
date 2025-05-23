@@ -49,6 +49,11 @@ const HeaderProductItmes: React.FC<Props> = ({
   const filteredArticals = articals!.filter(function (value, index, array) {
     return array.indexOf(value) === index;
   });
+
+  const currentVariant = (artical) =>
+    dataType == 'wishlist'
+      ? product!.productVariants?.find((variant) => variant.artical == artical)
+      : null;
   return (
     <li className={styles.ProductItemWrapper}>
       {dataType == 'cart' ? (
@@ -325,6 +330,13 @@ const HeaderProductItmes: React.FC<Props> = ({
                         {artical!.includes('|')
                           ? artical!.split('|')[0].toUpperCase()
                           : artical!.toUpperCase()}
+                        {!currentVariant(artical)?.available ? (
+                          <div className={styles.NotInStockWrapper}>
+                            <div className={styles.NotInStockLineThrough} />
+                          </div>
+                        ) : (
+                          <></>
+                        )}
                       </button>
                     );
                   })}

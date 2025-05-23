@@ -89,7 +89,7 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
       }))
       .filter((product) => product.productVariants?.length);
     setHistoryUI(filteredHistory);
-  }, [isBasketOpen, cart]);
+  }, [isBasketOpen, cart, historyProducts]);
 
   return (
     <motion.div

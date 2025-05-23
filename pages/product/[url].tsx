@@ -1,15 +1,14 @@
 import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { useEffect, useRef, useState } from 'react';
-import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Product } from 'swagger/services';
 import dynamic from 'next/dynamic';
 import ProductInfo from 'components/store/product/productInfo';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
-import axios from 'axios';
 import { handleHistory } from 'common/helpers/history.helper';
 import { baseUrl } from 'common/constant';
+import { getBase64Image } from 'common/helpers/getBase64Image.helper';
 const Recomendation = dynamic(
   () => import('components/store/product/recomendation'),
   {
@@ -26,44 +25,43 @@ const ReveiwsAndQuastions = dynamic(
   },
 );
 
-export const getServerSideProps = (async (context) => {
+export const getServerSideProps: GetServerSideProps<{
+  repo: Product;
+  imagesWithUrl: string[];
+  imagesWithUrlUI: string[];
+  base64Image: string | null;
+}> = (async (context) => {
   const { url } = context.query;
-  // let images: string[] = [];
   let images: string[] | any = [];
-
-  // Fetch data from external API
   try {
-    const res = await fetch(`${process.env.API_URL}/products/by-url/${url}`);
+    const apiUrl = process.env.API_URL || 'http://localhost:4010';
+    const res = await fetch(`${apiUrl}/products/by-url/${url}`);
+    if (!res.ok) throw new Error('Failed to fetch product');
     const repo: Product = await res.json();
 
-    // images = getProductVariantsImages(repo?.productVariants);
     images = repo?.productVariants![0].images?.split(', ');
     const imagesWithUrl: string[] = [];
     const imagesWithUrlUI: string[] = [];
+
     for (let i = 0; i < images?.length; i++) {
       imagesWithUrl.push(`${baseUrl}/api/images/${images[i]}`);
       imagesWithUrlUI.push(`/api/images/${images[i]}`);
     }
-    const getBase64Image = async (imageUrl) => {
-      const response = await axios.get(imageUrl, {
-        responseType: 'arraybuffer',
-      });
-      const buffer = Buffer.from(response.data, 'binary');
-      const base64Image = buffer.toString('base64');
-      return `data:image/webp;base64,${base64Image}`;
-    };
 
-    const base64Image = await getBase64Image(
-      `${process.env.API_URL}/images/compress/${
-        images[0]
-      }?qlty=1&width=${100}&height=${100}&lossless=false`,
-    );
+    const firstProductImageUrl =
+      images.length > 0
+        ? `${apiUrl}/images/compress/${
+            images[0]
+          }?qlty=1&width=${100}&height=${100}&lossless=false`
+        : '';
 
-    // Pass data to the page via props
+    const base64Image = await getBase64Image(firstProductImageUrl);
+
     return {
       props: { repo, imagesWithUrl, imagesWithUrlUI, base64Image },
     };
   } catch (error) {
+    console.error('Error in getServerSideProps:', error);
     return {
       notFound: true,
     };
@@ -85,13 +83,14 @@ const ProductInfoPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const reviewBtnRef = useRef(null);
   const questionBtnRef = useRef(null);
+
   const [isClient, setClient] = useState(false);
 
   useEffect(() => {
     setClient(true);
   }, []);
   useEffect(() => {
-    handleHistory(repo.id);
+    if (isClient) handleHistory(repo.id);
   }, [isClient]);
 
   return (
@@ -104,6 +103,7 @@ const ProductInfoPage = ({
         base64Image={base64Image}
         images={imagesWithUrlUI}
       />
+
       <>
         {isClient ? (
           <>

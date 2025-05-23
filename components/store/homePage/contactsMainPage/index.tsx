@@ -165,7 +165,7 @@ const ContactsMainPage = (): JSX.Element => {
           </ContactContentWrapper>
         </Wrapper>
       ) : (
-        <LoaderMask></LoaderMask>
+        <LoaderMask />
       )}
     </Container>
   );

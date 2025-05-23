@@ -68,7 +68,7 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
                 </TabPanel>
               </>
             ) : (
-              ''
+              <></>
             )}
           </Box>
         </div>

@@ -26,23 +26,6 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
   const [incrementPressed, setIncrementPressed] = useState(false);
   const [inputValue, setInputValue] = useState(String(qty));
   const [isEditing, setIsEditing] = useState(false);
-  // const [currentVariant, setCurrentVariant]: [any, any] = useState(
-  //   cart?.orderProducts?.find((productInBasket) =>
-  //     product.productVariants?.find(
-  //       (variant) => variant.id === productInBasket.productVariant?.id,
-  //     ),
-  //   )?.productVariant,
-  // );
-
-  // useEffect(() => {
-  //   setCurrentVariant(
-  //     cart?.orderProducts?.find((productInBasket) =>
-  //       product.productVariants?.find(
-  //         (variant) => variant.id === productInBasket.productVariant?.id,
-  //       ),
-  //     )?.productVariant,
-  //   );
-  // }, []);
 
   // Sync local state with prop when not editing
   useEffect(() => {
@@ -57,12 +40,11 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
       if (timeoutId.current) clearTimeout(timeoutId.current);
     };
   }, []);
-  // console.log(currentVariant);
 
   // -----------------------------------------------
   return (
-    <motion.div
-      onClick={(e) => e.preventDefault()}
+    <div
+      // onClick={(e) => e.preventDefault()}
       className={styles.ItemCounterWrapper}
     >
       <motion.div
@@ -275,7 +257,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
           />
         </motion.svg>
       </motion.button>
-    </motion.div>
+    </div>
   );
 };
 

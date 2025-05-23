@@ -14,19 +14,74 @@ import Loader from './Loader';
 
 const MainPageCatalog = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { categories, loading } = useAppSelector<TGlobalState>(
-    (state) => state.global,
+
+  const categoriesData = useAppSelector<TGlobalState['categories']>(
+    (state) => state.global.categories,
   );
+
+  const isLoading = useAppSelector<TGlobalState['loading']>(
+    (state) => state.global.loading,
+  );
+
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const [index, setIndex] = useState(0);
   const { isInViewport, ref } = useInViewport();
 
   useEffect(() => {
-    if (isInViewport) {
+    if (
+      isInViewport &&
+      (!categoriesData || categoriesData.length === 0) &&
+      !isLoading
+    ) {
       dispatch(fetchCategories());
       dispatch(fetchTags());
     }
-  }, [isInViewport]);
+  }, [isInViewport, isLoading, dispatch, categoriesData]);
+
+  if (isLoading && (!categoriesData || categoriesData.length === 0)) {
+    return (
+      <Container
+        flex_direction="column"
+        justify_content="center"
+        align_items="center"
+        ref={ref}
+      >
+        <Wrapper>
+          <Loader />
+        </Wrapper>
+      </Container>
+    );
+  }
+
+  if (!isLoading && (!categoriesData || categoriesData.length === 0)) {
+    return (
+      <Container
+        flex_direction="column"
+        justify_content="center"
+        align_items="center"
+        ref={ref}
+      >
+        <Wrapper>
+          <Loader />
+        </Wrapper>
+      </Container>
+    );
+  }
+
+  if (!categoriesData) {
+    return (
+      <Container
+        flex_direction="column"
+        justify_content="center"
+        align_items="center"
+        ref={ref}
+      >
+        <Wrapper>
+          <Loader />
+        </Wrapper>
+      </Container>
+    );
+  }
 
   return (
     <Container
@@ -37,38 +92,26 @@ const MainPageCatalog = (): JSX.Element => {
       ref={ref}
     >
       <Wrapper>
-        {isInViewport ? (
-          <>
-            {!loading && categories.length !== 0 ? (
-              <>
-                <HeaderWrapper>
-                  <div className="header-title-wrapper">
-                    <h2>Ассортимент</h2>
-                  </div>
-                </HeaderWrapper>
+        <HeaderWrapper>
+          <div className="header-title-wrapper">
+            <h2>Ассортимент</h2>
+          </div>
+        </HeaderWrapper>
 
-                <CatalogContentWrapper>
-                  <ImageSlider
-                    categories={categories}
-                    page={page}
-                    index={index}
-                    direction={direction}
-                  />
-                  <CatalogModal
-                    paginateImage={paginateImage}
-                    stateIndex={index}
-                    setIndex={setIndex}
-                    categories={categories}
-                  />
-                </CatalogContentWrapper>
-              </>
-            ) : (
-              <Loader />
-            )}
-          </>
-        ) : (
-          <Loader />
-        )}
+        <CatalogContentWrapper>
+          <ImageSlider
+            categories={categoriesData}
+            page={page}
+            index={index}
+            direction={direction}
+          />
+          <CatalogModal
+            paginateImage={paginateImage}
+            stateIndex={index}
+            setIndex={setIndex}
+            categories={categoriesData}
+          />
+        </CatalogContentWrapper>
       </Wrapper>
     </Container>
   );

@@ -16,8 +16,6 @@ type Props = {
   paginateImage: Dispatch<SetStateAction<number>>;
   setPage: Dispatch<SetStateAction<[number, number]>>;
   base64Image: any;
-  zoomEnabeld: boolean;
-  windowWidth: number;
 };
 
 const Images: React.FC<Props> = ({
@@ -29,8 +27,6 @@ const Images: React.FC<Props> = ({
   setSelectedIndex,
   paginateImage,
   base64Image,
-  zoomEnabeld,
-  windowWidth,
 }) => {
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
   let thumbnaiImages: string[] = [];
@@ -116,8 +112,8 @@ const Images: React.FC<Props> = ({
         paginateImage={paginateImage}
         alt={product?.name}
         base64Image={base64Image}
-        zoomEnabeld={zoomEnabeld}
-        windowWidth={windowWidth}
+        // zoomEnabeld={zoomEnabeld}
+        // windowWidth={windowWidth}
       />
     </div>
   );
