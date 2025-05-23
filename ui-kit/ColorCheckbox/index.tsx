@@ -39,7 +39,7 @@ const ColorCheckbox: React.FC<Props> = ({
     <CheckboxWrapper style={style} onClick={handleClick}>
       <Checkbox
         active={!!stateChecked}
-        style={{ backgroundColor: color, border: '1px solid' }}
+        style={{ backgroundColor: color }}
         title={label}
         tabIndex={0}
       >
@@ -67,8 +67,7 @@ const Checkbox = styled.button<{
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #ccc;
-
+  border: 1px solid #00000078;
   ${(props) => {
     if (props.active) {
       return css`
@@ -83,10 +82,6 @@ const Checkbox = styled.button<{
           border-radius: 50%;
           background: #ffffff59;
         }
-      `;
-    } else {
-      return css`
-        background: green;
       `;
     }
   }}

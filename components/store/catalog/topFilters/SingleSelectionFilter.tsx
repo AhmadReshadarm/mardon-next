@@ -124,6 +124,7 @@ const Selection = styled.button<{
     padding: 8px;
     font-size: 1rem;
     text-align: center;
+    color: #000;
   }
   @media ${devices.laptopS} {
     width: unset;
