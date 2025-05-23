@@ -35,7 +35,7 @@ const BasketItems: React.FC<Props> = ({}) => {
   const [historyUI, setHistoryUI] = useState(historyProducts);
   useEffect(() => {
     const userHistoy = localStorage.getItem('history');
-    if (userHistoy && historyProducts.length == 0) {
+    if (userHistoy) {
       const payload = {
         userHistory: JSON.parse(userHistoy),
         limit: '1000',
