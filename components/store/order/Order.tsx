@@ -1,19 +1,19 @@
 // import { Modal } from 'antd';
-import Modal from 'antd/es/modal';
+// import Modal from 'antd/es/modal';
 import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
 import { motion } from 'framer-motion';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React from 'react';
 import { useAppSelector } from 'redux/hooks';
-import { TStoreCheckoutState, TAuthState } from 'redux/types';
+import { TAuthState } from 'redux/types';
 import styled from 'styled-components';
 import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';
-import { CheckoutService } from 'swagger/services';
+// import { CheckoutService } from 'swagger/services';
 import ProductItem from './ProductItem';
-import { useRouter } from 'next/router';
-import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+// import { useRouter } from 'next/router';
+// import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { Role } from 'common/enums/roles.enum';
 
 type Props = {
@@ -22,29 +22,27 @@ type Props = {
 };
 
 const Orders: React.FC<Props> = ({ checkout, index }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const { saveLoading } = useAppSelector<TStoreCheckoutState>(
-    (state) => state.storeCheckout,
-  );
+  // const [isModalVisible, setIsModalVisible] = useState(false);
+
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleRemove = (checkoutId: string) => async () => {
-    setIsModalVisible(false);
-    await CheckoutService.updateCheckout({
-      checkoutId,
-      body: {
-        status: CheckoutStatus.Canceled,
-      },
-    });
-    openSuccessNotification('Заказ отменен');
-    router.push('/');
-  };
+  // const handleRemove = (checkoutId: string) => async () => {
+  //   setIsModalVisible(false);
+  //   await CheckoutService.updateCheckout({
+  //     checkoutId,
+  //     body: {
+  //       status: CheckoutStatus.Canceled,
+  //     },
+  //   });
+  //   openSuccessNotification('Заказ отменен');
+  //   router.push('/');
+  // };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  // const handleCancel = () => {
+  //   setIsModalVisible(false);
+  // };
 
   return (
     <React.Fragment key={index}>
@@ -114,9 +112,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
                   ₽,
                 </span>
                 <span className="value-content">
-                  {checkout.status === CheckoutStatus.Completed
-                    ? 'оплачено'
-                    : 'Не оплачено'}
+                  {checkout.paidFor ? 'оплачено' : 'Не оплачено'}
                 </span>
               </span>
             </div>
@@ -146,12 +142,12 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
           </div>
         </div>
       </Items>
-      <Modal
+      {/* <Modal
         title={'Вы уверены, что хотите отменить этот заказ?'}
         open={isModalVisible}
         onOk={handleRemove(checkout.id!)}
         onCancel={handleCancel}
-      ></Modal>
+      ></Modal> */}
     </React.Fragment>
   );
 };

@@ -2,7 +2,7 @@ import AdminLayout from '../../../components/admin/adminLayout/layout';
 import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Spin } from 'antd';
+import { Spin, Switch } from 'antd';
 import styles from './index.module.scss';
 import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
@@ -11,11 +11,11 @@ import Link from 'next/link';
 import Orders from 'components/store/order/Order';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
-  clearCheckout,
   fetchCheckoutById,
   updateCheckout,
 } from '../../../redux/slicers/checkoutsSlicer';
 import Head from 'next/head';
+import { TCheckoutState } from 'redux/types';
 const Constants = [
   'Изменить на (Новый заказ)',
   'Изменить на (В пути)',
@@ -24,26 +24,48 @@ const Constants = [
 ];
 const CheckoutsPage = () => {
   const router = useRouter();
+  const [isClinet, setClient] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { checkout, loading, saveLoading } = useAppSelector(
+  const { checkout, loading, saveLoading } = useAppSelector<TCheckoutState>(
     (state) => state.checkouts,
   );
 
   useEffect(() => {
-    dispatch(fetchCheckoutById({ checkoutId: router.query.id as string }));
-    return () => {
-      dispatch(clearCheckout());
-    };
+    setClient(true);
   }, []);
+
+  useEffect(() => {
+    if (isClinet && router.query.id) {
+      dispatch(fetchCheckoutById({ checkoutId: router.query.id as string }));
+    }
+  }, [isClinet, router]);
 
   const handleOrderStaus = async (
     checkoutId: string,
     status: CheckoutStatus,
   ) => {
     setOpen(false);
-    dispatch(updateCheckout({ checkoutId, status }));
+    dispatch(
+      updateCheckout({
+        checkoutId,
+        status,
+        paidFor: checkout.paidFor!,
+        sendMail: true,
+      }),
+    );
+  };
+
+  const handlePaidForStatus = (paidFor: boolean, checkoutId: string) => {
+    dispatch(
+      updateCheckout({
+        checkoutId,
+        status: checkout.status,
+        paidFor,
+        sendMail: false,
+      }),
+    );
   };
 
   const statusSetter = (index: number) => {
@@ -97,6 +119,15 @@ const CheckoutsPage = () => {
               ) : (
                 ''
               )}
+              <div>
+                <span>Paid for: </span>
+                <Switch
+                  onChange={(evt) => {
+                    handlePaidForStatus(evt, checkout.id);
+                  }}
+                  value={checkout.paidFor}
+                />
+              </div>
             </ActionButtonsWrapper>
             {checkout.user ? <Orders checkout={checkout} index={0} /> : ''}
           </Content>

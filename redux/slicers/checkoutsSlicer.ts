@@ -75,15 +75,23 @@ export const fetchCheckoutById = createAsyncThunk<
 
 export const updateCheckout = createAsyncThunk<
   Checkout,
-  { checkoutId: string; status: CheckoutStatus },
+  {
+    checkoutId: string;
+    status: CheckoutStatus;
+    paidFor: boolean;
+    sendMail: boolean;
+  },
   { rejectValue: string }
 >(
   'checkouts/updateCheckout',
-  async function ({ checkoutId, status }, { rejectWithValue }): Promise<any> {
+  async function (
+    { checkoutId, status, paidFor, sendMail },
+    { rejectWithValue },
+  ): Promise<any> {
     try {
       return await CheckoutService.updateCheckout({
         checkoutId,
-        body: { status },
+        body: { status, paidFor, sendMail },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));

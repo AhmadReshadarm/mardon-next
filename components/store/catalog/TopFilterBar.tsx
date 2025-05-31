@@ -8,7 +8,7 @@ import ColorFilter from 'components/store/catalog/topFilters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/topFilters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/topFilters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/topFilters/SingleSelectionFilter';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Category, PriceRange } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
@@ -19,6 +19,7 @@ import NameFilter from './topFilters/NameFilter';
 import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
 import { Filter } from './types';
+import { cleanSearchTerm } from './helpers';
 
 type Props = {
   subCategories: Category[];
@@ -49,6 +50,7 @@ const TopFilterBar: React.FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [clearSearchTerm, setClearSearchTerm] = useState(false);
   const [sliderChanged, setSliderChanged] = useState(false);
+  const timeoutRef: any = useRef(null);
   const handleResetFilters = () => {
     clearQueryParams();
   };
@@ -63,8 +65,23 @@ const TopFilterBar: React.FC<Props> = ({
     setSliderChanged(false);
   };
 
+  // const cleanSearchTerm = (term: string): string => {
+  //   if (!term.trim()) return '';
+
+  //   return term
+  //     .split(/\s+/)
+  //     .filter((word) => {
+  //       const cleanWord = word.replace(/[^\wа-яё-]/gi, '').toLowerCase();
+  //       return cleanWord.length >= 2 && !stopWords.includes(cleanWord);
+  //     })
+  //     .join(' ');
+  // };
+
   useEffect(() => {
-    searchTerm !== '' ? setActivateResetBtn(true) : setActivateResetBtn(false);
+    const cleanedTerm = cleanSearchTerm(searchTerm);
+    const isValidSearch = cleanedTerm.length > 0;
+    isValidSearch ? setActivateResetBtn(true) : setActivateResetBtn(false);
+    // searchTerm !== '' ? setActivateResetBtn(true) : setActivateResetBtn(false);
     if (clearSearchTerm) {
       setCurrentPage(1);
       setPageSize(12);
@@ -75,17 +92,31 @@ const TopFilterBar: React.FC<Props> = ({
       ]);
       setClearSearchTerm(false);
     } else {
-      const delayDebounceFn = setTimeout(() => {
+      // const delayDebounceFn = setTimeout(() => {
+      //   setCurrentPage(1);
+      //   setPageSize(12);
+
+      //   pushQueryParams([
+      //     { name: 'name', value: searchTerm },
+      //     { name: 'page', value: 1 },
+      //   ]);
+      // }, 1500);
+
+      // return () => clearTimeout(delayDebounceFn);
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
         setCurrentPage(1);
         setPageSize(12);
-
         pushQueryParams([
-          { name: 'name', value: searchTerm },
+          // { name: 'name', value: searchTerm },
+          { name: 'name', value: isValidSearch ? cleanedTerm : '' },
           { name: 'page', value: 1 },
         ]);
-      }, 1500);
-
-      return () => clearTimeout(delayDebounceFn);
+      }, 1000);
     }
   }, [searchTerm]);
 

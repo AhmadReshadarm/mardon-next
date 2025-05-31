@@ -1,6 +1,7 @@
 import color from 'components/store/lib/ui.colors';
-import { useCallback, useEffect } from 'react';
-import { debounce } from '@mui/material';
+import { useEffect, useRef } from 'react';
+import { cleanSearchTerm } from '../helpers';
+
 type Props = {
   title: string;
   name: string;
@@ -20,18 +21,36 @@ const NameFilterAdmin: React.FC<Props> = ({
   setPageSize,
   setCurrentPage,
 }) => {
+  const timeoutRef: any = useRef(null);
   const handleTermChange = (values: string) => {
     setSearchTerm(values);
-    delayedChange(values);
+    // delayedChange(values);
+    delayDebounceFn(values);
   };
-  const delayedChange = useCallback(
-    debounce((values) => {
+  // const delayedChange = useCallback(
+  //   debounce((values) => {
+  //     setCurrentPage(1);
+  //     setPageSize(12);
+  //     onChange(values);
+  //   }, 500),
+  //   [],
+  // );
+
+  const delayDebounceFn = (value) => {
+    const cleanedTerm = cleanSearchTerm(value);
+    const isValidSearch = cleanedTerm.length > 0;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
       setCurrentPage(1);
       setPageSize(12);
-      onChange(values);
-    }, 500),
-    [],
-  );
+      onChange(isValidSearch ? cleanedTerm : '');
+    }, 1000);
+  };
+
   useEffect(() => {
     if (name) {
       setSearchTerm(name);

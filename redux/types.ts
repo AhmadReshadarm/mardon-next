@@ -1,3 +1,4 @@
+import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
 import {
   AnalyticsBrand,
   AnalyticsCategory,
@@ -31,6 +32,7 @@ import {
   CategoryResponse,
   SubscribersResponse,
   Question,
+  AddressDTO,
 } from 'swagger/services';
 
 type TCategoryState = {
@@ -257,7 +259,7 @@ type TCatalogState = {
 };
 
 type TCheckoutState = {
-  checkout: Checkout;
+  checkout: Checkout | any;
   checkouts: Checkout[];
   loading: boolean;
   saveLoading: boolean;

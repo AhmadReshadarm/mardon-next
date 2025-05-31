@@ -14,6 +14,7 @@ import {
 import { AppDispatch } from 'redux/store';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { TFiltersConfig } from './types';
+import { stopWords } from 'common/constants';
 
 const PAGE_ITEMS_LIMIT = 12;
 
@@ -229,9 +230,22 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
   return () => dispatch(clearProducts());
 };
 
+const cleanSearchTerm = (term: string): string => {
+  if (!term.trim()) return '';
+
+  return term
+    .split(/\s+/)
+    .filter((word) => {
+      const cleanWord = word.replace(/[^\wа-яё-]/gi, '').toLowerCase();
+      return cleanWord.length >= 2 && !stopWords.includes(cleanWord);
+    })
+    .join(' ');
+};
+
 export {
   convertQueryParams,
   getFiltersConfig,
   setPriceRange,
   onLocationChange,
+  cleanSearchTerm,
 };
