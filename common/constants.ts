@@ -8,6 +8,13 @@ export const basicRequestParams: BasicRequestParams = {
   limit: '100000',
 };
 
+export const paymentMethod = [
+  'Не выбрано',
+  'Наличные +0%',
+  'Без наличных +5%',
+  // 'Расчётный счёт +12%',
+];
+
 export const emptyLoading = [
   '',
   '',

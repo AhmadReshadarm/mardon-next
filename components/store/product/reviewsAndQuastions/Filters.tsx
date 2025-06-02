@@ -136,7 +136,7 @@ const FilterDropDownWrapper = styled(motion.div)`
   border-radius: 15px;
   padding: 20px;
   background-color: ${color.textPrimary};
-  box-shadow: 0px 2px 6px ${color.boxShadow};
+  box-shadow: 0px 2px 6px ${color.boxShadowBtn};
   position: absolute;
   top: 75px;
   left: 0;

@@ -1,28 +1,31 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import color from '../../lib/ui.colors';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState, TStoreCheckoutState } from 'redux/types';
-import { getTotalPrice, generateInvoiceTemplet } from './helpers';
-import { formatNumber } from 'common/helpers/number.helper';
-import { NextRouter, useRouter } from 'next/router';
+import {
+  getTotalPrice,
+  calculateIndvidualProductTotal,
+  calculateIndvidualPercent,
+  handlePayClick,
+  handleCheckoutWithoutRegister,
+} from './helpers';
+import { useRouter } from 'next/router';
 import { devices } from 'components/store/lib/Devices';
-import { AddressService, CheckoutService, CheckoutDTO } from 'swagger/services';
-import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
-import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { openErrorNotification } from 'common/helpers';
 import { TAuthState } from 'redux/types';
-import { Role } from 'common/enums/roles.enum';
 import DropDowns from './DropDowns';
 import { useMetrica, YandexMetricaProvider } from 'next-yandex-metrica';
-interface EmbeddedImage {
-  filename: string;
-  href: string; // Use href for URLs
-  cid: string;
-}
-const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
+import variants from 'components/store/lib/variants';
+import Filters from 'components/store/product/reviewsAndQuastions/Filters';
+import { paymentMethod } from 'common/constants';
+
+const TotalDetails = ({
+  comment,
+  setLoading,
+  paymentOption,
+  setPaymentOption,
+}) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { reachGoal } = useMetrica();
@@ -34,122 +37,68 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   );
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
-  const [withDelivery, setWithDelivery] = useState(true);
-  const [totalUI, setTotalUI] = useState(getTotalPrice(cart, withDelivery));
-  const handleCheckoutWithoutRegister = (router: NextRouter) => async () => {
-    setLoading(true);
-    reachGoal('cta-click-order');
-    const payload = {
-      receiverName: deliveryInfo?.receiverName,
-      receiverPhone: deliveryInfo?.receiverPhone,
-      receiverEmail: deliveryInfo?.receiverEmail,
-      address: deliveryInfo?.address,
-      roomOrOffice: deliveryInfo?.roomOrOffice,
-      door: deliveryInfo?.door,
-      floor: deliveryInfo?.floor,
-      rignBell: deliveryInfo?.rignBell,
-      zipCode: deliveryInfo?.zipCode,
-      comment,
-      cart,
-    };
+  // const handleCheckoutWithoutRegister = (router: NextRouter) => async () => {
+  //   setLoading(true);
+  //   reachGoal('cta-click-order');
+  //   const payload = {
+  //     receiverName: deliveryInfo?.receiverName,
+  //     receiverPhone: deliveryInfo?.receiverPhone,
+  //     receiverEmail: deliveryInfo?.receiverEmail,
+  //     address: deliveryInfo?.address,
+  //     roomOrOffice: deliveryInfo?.roomOrOffice,
+  //     door: deliveryInfo?.door,
+  //     floor: deliveryInfo?.floor,
+  //     rignBell: deliveryInfo?.rignBell,
+  //     zipCode: deliveryInfo?.zipCode,
+  //     comment,
+  //     cart,
+  //   };
 
-    const cidImageMap: Record<string, string> = {};
+  //   const cidImageMap: Record<string, string> = {};
 
-    const productAttachments: EmbeddedImage[] = [];
-    if (payload.cart?.orderProducts) {
-      for (const orderproduct of payload.cart.orderProducts) {
-        const imageName = orderproduct.productVariant?.images?.split(', ')[0];
-        if (imageName) {
-          const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
-          const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
+  //   const productAttachments: EmbeddedImage[] = [];
+  //   if (payload.cart?.orderProducts) {
+  //     for (const orderproduct of payload.cart.orderProducts) {
+  //       const imageName = orderproduct.productVariant?.images?.split(', ')[0];
+  //       if (imageName) {
+  //         const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
+  //         const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
 
-          productAttachments.push({
-            filename: imageName,
-            href: imageUrl, // URL for product image
-            cid: productImageCid,
-          });
-        }
-      }
-    }
+  //         productAttachments.push({
+  //           filename: imageName,
+  //           href: imageUrl, // URL for product image
+  //           cid: productImageCid,
+  //         });
+  //       }
+  //     }
+  //   }
 
-    const generatedHtml = generateInvoiceTemplet(payload, cidImageMap);
+  //   const generatedHtml = generateInvoiceTemplet(
+  //     payload,
+  //     cidImageMap,
+  //     paymentOption,
+  //   );
 
-    if (deliveryInfo && payload && cart) {
-      try {
-        await CheckoutService.createCheckoutWithoutRegister({
-          body: {
-            to: payload.receiverEmail,
-            subject: `Заказ ${payload.receiverName}`,
-            html: `${generatedHtml}`,
-            attachments: productAttachments,
-          },
-        });
-        openSuccessNotification('Ваш Заказ успешно');
+  //   if (deliveryInfo && payload && cart) {
+  //     try {
+  //       await CheckoutService.createCheckoutWithoutRegister({
+  //         body: {
+  //           to: payload.receiverEmail,
+  //           subject: `Заказ ${payload.receiverName}`,
+  //           html: `${generatedHtml}`,
+  //           attachments: productAttachments,
+  //         },
+  //       });
+  //       openSuccessNotification('Ваш Заказ успешно');
 
-        router.push('/checkout/after-checkout');
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        openErrorNotification('Ваш Заказ не прошел, Попробуйте еще раз');
-      }
-    }
-  };
-  const handlePayClick = (router: NextRouter) => async () => {
-    setLoading(true);
-    reachGoal('cta-click-order');
-
-    const payload = {
-      comment,
-      leaveNearDoor,
-    };
-
-    if (deliveryInfo && payload && cart) {
-      try {
-        const responseAdress = await AddressService.createAddress({
-          body: {
-            receiverName: deliveryInfo.receiverName,
-            receiverPhone: deliveryInfo.receiverPhone,
-            address: deliveryInfo.address,
-            roomOrOffice: deliveryInfo.roomOrOffice,
-            door: deliveryInfo.door,
-            floor: deliveryInfo.floor,
-            rignBell: deliveryInfo.rignBell,
-            zipCode: deliveryInfo.zipCode,
-          },
-        });
-
-        await CheckoutService.createCheckout({
-          body: {
-            address: responseAdress,
-            basket: cart,
-            totalAmount: getTotalPrice(cart, withDelivery),
-            comment: payload.comment,
-            leaveNearDoor: payload.leaveNearDoor,
-            userId: user?.id,
-          } as CheckoutDTO,
-        });
-
-        await dispatch(createCart());
-
-        const basketId = localStorage.getItem('basketId') ?? '';
-
-        dispatch(fetchCart(basketId));
-        openSuccessNotification('Ваш Заказ успешно');
-
-        router.push('/orders');
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        openErrorNotification('Ваш Заказ не прошел');
-      }
-
-      return;
-    }
-  };
-
-  useEffect(() => {
-    setTotalUI(getTotalPrice(cart, withDelivery));
-  });
+  //       router.push('/checkout/after-checkout');
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setLoading(false);
+  //       openErrorNotification('Ваш Заказ не прошел, Попробуйте еще раз');
+  //     }
+  //   }
+  // };
 
   const estimated_delivery_date = new Date().toISOString().split('T')[0];
 
@@ -167,18 +116,36 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
           <Wrapper>
             <Content>
               <ItemColumn>
-                <span>
-                  <button
-                    onClick={
-                      isOneClickBuy
-                        ? handleCheckoutWithoutRegister(router)
-                        : handlePayClick(router)
-                    }
-                    className="checkout-action-btn"
-                  >
-                    Завершить мой заказ
-                  </button>
-                </span>
+                <PlaceOrderButton
+                  onClick={
+                    isOneClickBuy
+                      ? handleCheckoutWithoutRegister(
+                          router,
+                          cart!,
+                          deliveryInfo!,
+                          paymentOption,
+                          setLoading,
+                          reachGoal,
+                          comment,
+                        )
+                      : handlePayClick(
+                          router,
+                          cart!,
+                          deliveryInfo!,
+                          paymentOption,
+                          setLoading,
+                          reachGoal,
+                          comment,
+                          user!,
+                          dispatch,
+                        )
+                  }
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={variants.boxShadow}
+                >
+                  <span>Завершить мой заказ</span>
+                </PlaceOrderButton>
                 <span className="user-agreement-text">
                   Нажимая на кнопку, вы соглашаетесь с{' '}
                   <Link href="/privacy">
@@ -190,6 +157,18 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                   </Link>
                 </span>
               </ItemColumn>
+
+              <ItemColumn style={{ borderBottom: 'none' }}>
+                <span className="payment_method_title">
+                  Выберите способ оплаты
+                </span>
+                <Filters
+                  options={paymentMethod.slice(1, 3)}
+                  value={paymentOption}
+                  setValue={setPaymentOption}
+                />
+              </ItemColumn>
+
               <ItemRowWrapper>
                 <ItemRow>
                   <h3>Ваш заказ</h3>
@@ -206,19 +185,21 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                       <p className="product-price-mobile-wrapper">
                         <span>{product!.qty} шт</span> *{'  '}
                         <span>
-                          {user?.role === Role.SuperUser
-                            ? product.productVariant?.wholeSalePrice
-                            : product.productVariant?.price}{' '}
+                          {calculateIndvidualPercent(
+                            paymentOption,
+                            product.productVariant?.price,
+                          )}{' '}
                           ₽
                         </span>
                         {'  '}
                         <span>=</span>
                         {'  '}
                         <span style={{ whiteSpace: 'nowrap' }}>
-                          {user?.role === Role.SuperUser
-                            ? product.productVariant?.wholeSalePrice *
-                              product.qty
-                            : product.productVariant?.price * product.qty}{' '}
+                          {calculateIndvidualProductTotal(
+                            paymentOption,
+                            product.productVariant?.price,
+                            product.qty,
+                          )}{' '}
                           ₽
                         </span>
                       </p>
@@ -228,7 +209,9 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
               </ItemRowWrapper>
               <ItemRow>
                 <h3 className="total">Итого</h3>
-                <h3 className="total">{formatNumber(totalUI)} ₽</h3>
+                <h3 className="total">
+                  {getTotalPrice(cart, paymentOption)} ₽
+                </h3>
               </ItemRow>
             </Content>
 
@@ -314,6 +297,21 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
+  @media ${devices.tabletL} {
+    gap: 0;
+  }
+  @media ${devices.tabletS} {
+    gap: 0;
+  }
+  @media ${devices.mobileL} {
+    gap: 0;
+  }
+  @media ${devices.mobileM} {
+    gap: 0;
+  }
+  @media ${devices.mobileS} {
+    gap: 0;
+  }
 `;
 
 const ItemColumn = styled(motion.div)`
@@ -325,34 +323,7 @@ const ItemColumn = styled(motion.div)`
   gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid rgb(124 124 124 / 19%);
-  span {
-    width: 100%;
-    .checkout-action-btn {
-      width: 100%;
-      height: 50px;
-      border-radius: 30px;
-      background-color: ${color.textSecondary};
-      cursor: pointer;
-      transition: 150ms;
-      color: ${color.textPrimary};
-      font-size: 1.2rem;
-      &:active {
-        background-color: ${color.textPrimary};
-        color: ${color.textSecondary};
-        border: 1px solid ${color.textSecondary};
-      }
-      &:hover {
-        scale: 1.01;
-        background-color: ${color.textPrimary};
-        color: ${color.textSecondary};
-        border: 1px solid ${color.textSecondary};
-        box-shadow: 0px 4px 10px 5px rgb(0 0 0 / 12%);
-      }
-      span {
-        font-size: 1rem;
-      }
-    }
-  }
+  position: relative;
   .user-agreement-text {
     width: 100%;
     a {
@@ -361,6 +332,10 @@ const ItemColumn = styled(motion.div)`
         color: ${color.textSecondary};
       }
     }
+  }
+  .payment_method_title {
+    font-weight: 600;
+    font-size: 1.2rem;
   }
 `;
 
@@ -442,6 +417,27 @@ const ItemRow = styled(motion.div)`
       width: 100%;
       text-align: end;
     }
+  }
+`;
+
+const PlaceOrderButton = styled(motion.button)`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 30px;
+  padding: 0 15px;
+  gap: 20px;
+  background-color: ${color.btnPrimary};
+  span {
+    color: ${color.textPrimary};
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
   }
 `;
 

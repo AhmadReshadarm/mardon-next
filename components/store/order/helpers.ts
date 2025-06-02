@@ -1,3 +1,5 @@
+import { PaymentMethod } from 'common/enums/paymentMethod.enum';
+
 const timeCheck = (orderDate: any) => {
   const oneDay = 24 * 60 * 60 * 1000;
   const currentDate = new Date().getTime();
@@ -24,7 +26,47 @@ const getFormatedDate = (date: any) => {
   let deliveryDueIntial = new Date(date);
   deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
 
-  return `${deliveryDueIntial.getDate()} ${months[deliveryDueIntial.getMonth() + 1]
-    }`;
+  return `${deliveryDueIntial.getDate()} ${
+    months[deliveryDueIntial.getMonth() + 1]
+  }`;
 };
-export { timeCheck, getFormatedDate };
+
+const calculateIndvidualProductTotal = (
+  selectedMethod: number,
+  productPrice: number,
+  qty: number,
+) => {
+  switch (selectedMethod) {
+    case PaymentMethod.Cash:
+      return productPrice * qty;
+    case PaymentMethod.NoCash:
+      return (productPrice + (productPrice * 5) / 100) * qty;
+    case PaymentMethod.BankTransfer:
+      return (productPrice + (productPrice * 12) / 100) * qty;
+    default:
+      return productPrice * qty;
+  }
+};
+
+const calculateIndvidualPercent = (
+  selectedMethod: number,
+  productPrice: number,
+) => {
+  switch (selectedMethod) {
+    case PaymentMethod.Cash:
+      return productPrice;
+    case PaymentMethod.NoCash:
+      return (productPrice * 5) / 100 + productPrice;
+    case PaymentMethod.BankTransfer:
+      return (productPrice * 12) / 100 + productPrice;
+    default:
+      return productPrice;
+  }
+};
+
+export {
+  timeCheck,
+  getFormatedDate,
+  calculateIndvidualProductTotal,
+  calculateIndvidualPercent,
+};

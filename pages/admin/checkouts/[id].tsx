@@ -120,7 +120,7 @@ const CheckoutsPage = () => {
                 ''
               )}
               <div>
-                <span>Paid for: </span>
+                <span>Статус платежа: </span>
                 <Switch
                   onChange={(evt) => {
                     handlePaidForStatus(evt, checkout.id);

@@ -1,9 +1,14 @@
 import Link from 'next/link';
-import { OrderProduct } from 'swagger/services';
+import { Checkout, OrderProduct } from 'swagger/services';
+import {
+  calculateIndvidualPercent,
+  calculateIndvidualProductTotal,
+} from './helpers';
 type Props = {
   orderProduct: OrderProduct;
+  checkout: Checkout;
 };
-const ProductItem: React.FC<Props> = ({ orderProduct }) => {
+const ProductItem: React.FC<Props> = ({ orderProduct, checkout }) => {
   return (
     <li className="product">
       <Link
@@ -15,14 +20,23 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
             orderProduct.productVariant?.images?.split(', ')[0]
           }`}
           alt={orderProduct.product?.name}
+          title={orderProduct!?.product!?.name}
         />
       </Link>
       <div className="product-info-wrapper">
         <Link
           className="product-title-wrapper"
           href={`/product/${orderProduct.product?.url}`}
+          title={orderProduct!?.product!?.name}
         >
-          <h1>{orderProduct.product?.name}</h1>
+          <h1>
+            {orderProduct!?.product!?.name?.split('(')[0]}{' '}
+            {orderProduct?.productVariant?.artical!.includes('|')
+              ? orderProduct?.productVariant
+                  ?.artical!.split('|')[0]
+                  .toUpperCase()
+              : orderProduct?.productVariant?.artical!.toUpperCase()}
+          </h1>
         </Link>
 
         {orderProduct.productVariant?.color?.name === '_' ||
@@ -55,8 +69,18 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         }
         <div className="total-numbers">
           <span>
-            {orderProduct.productVariant?.price!} ₽ x {orderProduct.qty} шт ={' '}
-            {orderProduct.productVariant?.price! * orderProduct.qty!} ₽
+            {orderProduct.productVariant?.price!} ₽ x {orderProduct.qty}
+            {calculateIndvidualPercent(
+              checkout.paymentMethod,
+              orderProduct.productVariant?.price!,
+            )}{' '}
+            шт ={' '}
+            {calculateIndvidualProductTotal(
+              checkout.paymentMethod,
+              orderProduct.productVariant?.price!,
+              orderProduct.qty!,
+            )}{' '}
+            ₽
           </span>
         </div>
       </div>

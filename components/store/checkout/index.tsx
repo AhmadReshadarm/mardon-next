@@ -53,7 +53,6 @@ const CheckoutContent = () => {
       default:
         break;
     }
-    console.log(user);
   }, [user, step, isOneClickBuy, hasAddress]);
 
   return (

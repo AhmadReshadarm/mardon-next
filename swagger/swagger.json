@@ -7815,6 +7815,10 @@
           "type": "number",
           "enum": ["New", "InDelivery", "Completed", "Canceled"]
         },
+        "paymentMethod": {
+          "type": "number",
+          "enum": ["Cash", "NoCash", "BankTransfer"]
+        },
         "paidFor": {
           "type": "boolean"
         }
@@ -7885,6 +7889,10 @@
         "userId": {
           "type": "string",
           "description": "User ID"
+        },
+        "paymentMethod": {
+          "type": "number",
+          "description": "Payment method"
         }
       }
     },

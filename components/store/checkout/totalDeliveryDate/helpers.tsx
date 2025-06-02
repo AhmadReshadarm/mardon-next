@@ -1,7 +1,21 @@
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import { PaymentMethod } from 'common/enums/paymentMethod.enum';
+import { openErrorNotification } from 'common/helpers';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import color from 'components/store/lib/ui.colors';
-import { Basket } from 'swagger/services';
+import { NextRouter } from 'next/router';
+import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
+import { TDeliveryInfo } from 'redux/types';
+import {
+  AddressService,
+  Basket,
+  CheckoutDTO,
+  CheckoutService,
+  OrderProduct,
+  OrderProductDTO,
+  User,
+} from 'swagger/services';
 
 const DeliveryTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -65,17 +79,22 @@ const getDiscount = (cart: Basket | null) => {
   return oldPrice - totalAmount;
 };
 
-const getTotalPrice = (cart: Basket | null, withDliver: boolean | any) => {
+const getTotalPrice = (cart: Basket | null, selectedMethod: string) => {
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
     return accum + Number(item.qty) * Number(item.productVariant?.price);
   }, 0)!;
 
-  // if (!withDliver) {
-  return totalAmount;
-  // }
-  // if (withDliver) {
-  //   return totalAmount + 150;
-  // }
+  // return totalAmount;
+  switch (selectedMethod) {
+    case 'Наличные +0%':
+      return totalAmount;
+    case 'Без наличных +5%':
+      return totalAmount + (totalAmount * 5) / 100;
+    case 'Расчётный счёт +12%':
+      return totalAmount + (totalAmount * 12) / 100;
+    default:
+      return totalAmount;
+  }
 };
 
 const getTotalPriceSuperUser = (
@@ -93,6 +112,39 @@ const getTotalPriceSuperUser = (
   }
   if (withDliver) {
     return totalAmount + 500;
+  }
+};
+
+const calculateIndvidualProductTotal = (
+  selectedMethod: string,
+  productPrice: number,
+  qty: number,
+) => {
+  switch (selectedMethod) {
+    case 'Наличные +0%':
+      return productPrice * qty;
+    case 'Без наличных +5%':
+      return (productPrice + (productPrice * 5) / 100) * qty;
+    case 'Расчётный счёт +12%':
+      return (productPrice + (productPrice * 12) / 100) * qty;
+    default:
+      return productPrice * qty;
+  }
+};
+
+const calculateIndvidualPercent = (
+  selectedMethod: string,
+  productPrice: number,
+) => {
+  switch (selectedMethod) {
+    case 'Наличные +0%':
+      return productPrice;
+    case 'Без наличных +5%':
+      return (productPrice * 5) / 100 + productPrice;
+    case 'Расчётный счёт +12%':
+      return (productPrice * 12) / 100 + productPrice;
+    default:
+      return productPrice;
   }
 };
 
@@ -130,6 +182,7 @@ interface templetDTO {
 const generateInvoiceTemplet = (
   payload: templetDTO,
   cidImageMap: Record<string, string>,
+  paymentOption: string,
 ) => {
   return `
     <!DOCTYPE html>
@@ -160,7 +213,7 @@ const generateInvoiceTemplet = (
           <h1>Заказ покупателя</h1>
         </div>
         ${payload.cart?.orderProducts
-          ?.map((orderproduct: any) => {
+          ?.map((orderproduct: OrderProduct) => {
             const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
             cidImageMap[productImageCid] = productImageCid;
             return `<div class="product-wrapper" style="width: 150px; margin: 1%; float: left;">
@@ -173,16 +226,29 @@ const generateInvoiceTemplet = (
                 />
                 </a>
                 <a href="https://nbhoz.ru/product/${orderproduct.product?.url}">
-                <h4 class="product-title">${orderproduct.product?.name}</h4>
+                <h4 class="product-title">${
+                  orderproduct.product?.name?.split('(')[0]
+                } ${
+              orderproduct?.productVariant?.artical!.includes('|')
+                ? orderproduct?.productVariant
+                    ?.artical!.split('|')[0]
+                    .toUpperCase()
+                : orderproduct?.productVariant?.artical!.toUpperCase()
+            }</h4>
                 </a>
                 <div class="product-details">
                   <span>${orderproduct!.qty} шт</span>
                   <span>*</span>
-                  <span>${orderproduct.productVariant?.price}₽</span>
+                  <span>${calculateIndvidualPercent(
+                    paymentOption,
+                    orderproduct.productVariant?.price!,
+                  )}₽</span>
                   <span>=</span>
-                  <span>${
-                    orderproduct.productVariant?.price! * orderproduct.qty!
-                  }₽</span>
+                  <span>${calculateIndvidualProductTotal(
+                    paymentOption,
+                    orderproduct.productVariant?.price!,
+                    orderproduct.qty!,
+                  )}₽</span>
                 </div>
                 <div class="product-artical">
                   <span>Артикул:</span>
@@ -199,7 +265,7 @@ const generateInvoiceTemplet = (
           <span>
             <h1>Итого:</h1>
           </span>
-          <h2>${getTotalPrice(payload.cart, true)}₽</h2>
+          <h2>${getTotalPrice(payload.cart, paymentOption)}₽</h2>
         </div>
         <div class="comment-title-wrapper">
           <h1>Комментарий</h1>
@@ -213,6 +279,170 @@ const generateInvoiceTemplet = (
   `;
 };
 
+const handlePayClick =
+  (
+    router: NextRouter,
+    cart: Basket,
+    deliveryInfo: TDeliveryInfo,
+    paymentMethod: string,
+    setLoading: any,
+    reachGoal: any,
+    comment: string,
+    user: User,
+    dispatch: any,
+  ) =>
+  async () => {
+    if (paymentMethod == 'Не выбрано') {
+      openErrorNotification('Выберите способ оплаты');
+      return;
+    }
+    setLoading(true);
+    reachGoal('cta-click-order');
+
+    const payload = {
+      comment,
+    };
+
+    if (deliveryInfo && payload && cart) {
+      try {
+        const responseAdress = await AddressService.createAddress({
+          body: {
+            receiverName: deliveryInfo.receiverName,
+            receiverPhone: deliveryInfo.receiverPhone,
+            address: deliveryInfo.address,
+            roomOrOffice: deliveryInfo.roomOrOffice,
+            door: deliveryInfo.door,
+            floor: deliveryInfo.floor,
+            rignBell: deliveryInfo.rignBell,
+            zipCode: deliveryInfo.zipCode,
+          },
+        });
+
+        const findPaymentMethod = (paymentMethod: string) => {
+          switch (paymentMethod) {
+            case 'Наличные +0%':
+              return PaymentMethod.Cash;
+            case 'Без наличных +5%':
+              return PaymentMethod.NoCash;
+            case 'Расчётный счёт +12%':
+              return PaymentMethod.BankTransfer;
+            default:
+              return PaymentMethod.Cash;
+          }
+        };
+
+        await CheckoutService.createCheckout({
+          body: {
+            address: responseAdress,
+            basket: cart,
+            totalAmount: getTotalPrice(cart, paymentMethod),
+            comment: payload.comment,
+            userId: user?.id,
+            paymentMethod: findPaymentMethod(paymentMethod),
+          } as CheckoutDTO,
+        });
+
+        await dispatch(createCart());
+
+        const basketId = localStorage.getItem('basketId') ?? '';
+
+        dispatch(fetchCart(basketId));
+        openSuccessNotification('Ваш Заказ успешно');
+
+        router.push('/orders');
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        openErrorNotification('Ваш Заказ не прошел');
+      }
+
+      return;
+    }
+  };
+
+interface EmbeddedImage {
+  filename: string;
+  href: string;
+  cid: string;
+}
+
+const handleCheckoutWithoutRegister =
+  (
+    router: NextRouter,
+    cart: Basket,
+    deliveryInfo: TDeliveryInfo,
+    paymentMethod: string,
+    setLoading: any,
+    reachGoal: any,
+    comment: string,
+  ) =>
+  async () => {
+    if (paymentMethod == 'Не выбрано') {
+      openErrorNotification('Выберите способ оплаты');
+      return;
+    }
+    setLoading(true);
+    reachGoal('cta-click-order');
+    const payload = {
+      receiverName: deliveryInfo?.receiverName,
+      receiverPhone: deliveryInfo?.receiverPhone,
+      receiverEmail: deliveryInfo?.receiverEmail,
+      address: deliveryInfo?.address,
+      roomOrOffice: deliveryInfo?.roomOrOffice,
+      door: deliveryInfo?.door,
+      floor: deliveryInfo?.floor,
+      rignBell: deliveryInfo?.rignBell,
+      zipCode: deliveryInfo?.zipCode,
+      comment,
+      cart,
+    };
+
+    const cidImageMap: Record<string, string> = {};
+
+    const productAttachments: EmbeddedImage[] = [];
+    if (payload.cart?.orderProducts) {
+      for (const orderproduct of payload.cart.orderProducts) {
+        const imageName = orderproduct.productVariant?.images?.split(', ')[0];
+        if (imageName) {
+          const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
+          const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
+
+          productAttachments.push({
+            filename: imageName,
+            href: imageUrl, // URL for product image
+            cid: productImageCid,
+          });
+        }
+      }
+    }
+
+    const generatedHtml = generateInvoiceTemplet(
+      payload,
+      cidImageMap,
+      paymentMethod,
+    );
+
+    if (deliveryInfo && payload && cart) {
+      try {
+        await CheckoutService.createCheckoutWithoutRegister({
+          body: {
+            to: payload.receiverEmail,
+            subject: `Заказ ${payload.receiverName}`,
+            html: `${generatedHtml}`,
+            attachments: productAttachments,
+          },
+        });
+        openSuccessNotification('Ваш Заказ успешно');
+
+        router.push('/checkout/after-checkout');
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        openErrorNotification('Ваш Заказ не прошел, Попробуйте еще раз');
+      }
+    }
+  };
+
 export {
   DeliveryTooltip,
   getFormatedDate,
@@ -222,4 +452,8 @@ export {
   findTotalWheight,
   getTotalPriceSuperUser,
   generateInvoiceTemplet,
+  calculateIndvidualProductTotal,
+  calculateIndvidualPercent,
+  handlePayClick,
+  handleCheckoutWithoutRegister,
 };

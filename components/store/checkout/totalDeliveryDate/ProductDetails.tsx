@@ -41,7 +41,12 @@ const ProductDetails = () => {
                   prefetch={false}
                 >
                   <h1 title={orderProduct!?.product!?.name}>
-                    {orderProduct!?.product!?.name}
+                    {orderProduct!?.product!?.name?.split('(')[0]}{' '}
+                    {orderProduct?.productVariant?.artical!.includes('|')
+                      ? orderProduct?.productVariant
+                          ?.artical!.split('|')[0]
+                          .toUpperCase()
+                      : orderProduct?.productVariant?.artical!.toUpperCase()}
                   </h1>
                 </Link>
                 {/* ------------ rating --------------- */}
@@ -196,6 +201,7 @@ const Product = styled.div`
   }
 
   .product_title_description_wrapper {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
