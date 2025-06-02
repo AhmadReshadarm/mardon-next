@@ -175,7 +175,11 @@ const handleFormSubmitCheckout =
           }
         }
 
-        const generatedHtml = generateInvoiceTemplet(payload, cidImageMap);
+        const generatedHtml = generateInvoiceTemplet(
+          payload,
+          cidImageMap,
+          'Наличные +0%',
+        );
         openErrorNotification('В процессе: Отправка счета-фактуры на заказ...');
         await CheckoutService.createCheckoutWithoutRegister({
           body: {
