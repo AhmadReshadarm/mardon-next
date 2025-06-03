@@ -6,7 +6,6 @@ import {
   searchProducts,
 } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
-import { CategoryInTree } from 'swagger/services';
 import { Product } from 'swagger/services';
 import { PopupDisplay } from '../../constants';
 
@@ -15,25 +14,24 @@ const handleSearchItemClick = (dispatch: AppDispatch) => () => {
   dispatch(clearSearchQuery());
 };
 
-const handleSearchQueryChange =
-  (selected: CategoryInTree | undefined, dispatch: AppDispatch) => (e: any) => {
-    const searchQuery = e.target.value;
+const handleSearchQueryChange = (dispatch: AppDispatch) => (e: any) => {
+  const searchQuery = e.target.value;
 
-    dispatch(changeSearchQuery(searchQuery));
+  dispatch(changeSearchQuery(searchQuery));
 
-    if (!searchQuery || searchQuery == '') {
-      dispatch(clearSearchProducts());
+  if (!searchQuery || searchQuery == '') {
+    dispatch(clearSearchProducts());
 
-      return;
-    }
+    return;
+  }
 
-    const payload = {
-      name: searchQuery,
-      limit: 1000,
-    };
-
-    dispatch(searchProducts(payload));
+  const payload = {
+    name: searchQuery,
+    limit: 1000,
   };
+
+  dispatch(searchProducts(payload));
+};
 
 const handleSearchFormSubmit =
   (

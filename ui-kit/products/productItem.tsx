@@ -137,7 +137,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             }}
             className={styles.artical_wrapper}
           >
-            <span>Артикул(ы) : </span>
+            <span>Артикул(ы): </span>
             <div className={styles.artical_content_wrapper}>
               {filteredArticals.map((artical, index) => {
                 return (
@@ -182,7 +182,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             }}
             className={styles.artical_wrapper}
           >
-            <span>Цвет(а) : </span>
+            <span>Цвет(а): </span>
             {filteredColors.map((color, index) => {
               return (
                 <span

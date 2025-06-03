@@ -2,6 +2,7 @@ export enum ManageCheckoutFields {
   Variant = 'variant',
   ProductSize = 'productSize',
   Qty = 'qty',
+  IsAddToCart = 'isAddToCart',
   CheckouType = 'checkoutType',
   UserEmail = 'userEmail',
   ReceiverName = 'receiverName',
@@ -13,4 +14,5 @@ export enum ManageCheckoutFields {
   Floor = 'floor',
   RignBell = 'rignBell',
   ZipCode = 'zipCode',
+  PaymentMethod = 'paymentMethod',
 }

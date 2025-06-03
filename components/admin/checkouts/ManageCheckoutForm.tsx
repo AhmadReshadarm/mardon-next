@@ -4,15 +4,15 @@ import { TGlobalState } from 'redux/types';
 import styles from './checkouts.module.scss';
 import FormItem from '../generalComponents/FormItem';
 import styled from 'styled-components';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CategoryInTree, Product } from 'swagger/services';
-import { PopupDisplay } from 'components/store/storeLayout/constants';
-import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { useRouter } from 'next/router';
-import { changeSearchQuery } from 'redux/slicers/store/globalSlicer';
-import { handleSearchQueryChange } from 'components/store/storeLayout/utils/SearchBar/helpers';
-import { FilterBtn } from 'components/store/storeLayout/utils/SearchBar/FilterBtn';
-import FilterModal from 'components/store/storeLayout/utils/SearchBar/FilterModal';
+import {
+  changeSearchQuery,
+  clearSearchProducts,
+  searchProducts,
+} from 'redux/slicers/store/globalSlicer';
+// import { handleSearchQueryChange } from 'components/store/storeLayout/utils/SearchBar/helpers';
 import SearchItem from './SearchItemProducts';
 import Loading from 'ui-kit/Loading';
 import { ManageCheckoutFields } from './ManageCheckoutFields.enum';
@@ -21,6 +21,9 @@ import TextArea from 'antd/lib/input/TextArea';
 import { navigateTo } from 'common/helpers';
 import { Page } from 'routes/constants';
 import { handleFormSubmitCheckout } from './helpers';
+import { cleanSearchTerm } from 'components/store/catalog/helpers';
+import { AppDispatch } from 'redux/store';
+import { paymentMethod } from 'common/constants';
 const { Option } = Select;
 type Props = {
   title: string;
@@ -36,35 +39,44 @@ const ManageCheckoutFrom = ({ title }: Props) => {
   const router = useRouter();
   const { searchQuery, products, productsLoading } =
     useAppSelector<TGlobalState>((state) => state.global);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryInTree>();
-  const [isOpened, setIsOpened] = useState(false);
-  const [display, setDisplay] = useState(PopupDisplay.None);
-  const [menuRef, setMenuRef] = useState(null);
-  const [btnRef, setBtnRef] = useState(null);
-  const [listening, setListening] = useState(false);
-  const menuNode = useCallback((node: any) => {
-    setMenuRef(node);
-  }, []);
-  const btnNode = useCallback((node: any) => {
-    setBtnRef(node);
-  }, []);
-
-  useEffect(
-    outsideClickListner(
-      listening,
-      setListening,
-      menuRef,
-      btnRef,
-      setIsOpened,
-      setDisplay,
-    ),
-  );
 
   useEffect(() => {
     dispatch(changeSearchQuery(router.query.name as string));
   }, [router.query.name]);
 
   // ________________________________________________________________________
+  const timeoutRef: any = useRef(null);
+
+  const delayDebounceFn = (value) => {
+    const cleanedTerm = cleanSearchTerm(value);
+    const isValidSearch = cleanedTerm.length > 0;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      handleSearchQueryChange(dispatch, isValidSearch ? cleanedTerm : '');
+    }, 1000);
+  };
+
+  const handleSearchQueryChange = (dispatch: AppDispatch, searchQuery) => {
+    dispatch(changeSearchQuery(searchQuery));
+
+    if (!searchQuery || searchQuery == '') {
+      dispatch(clearSearchProducts());
+
+      return;
+    }
+
+    const payload = {
+      name: searchQuery,
+      limit: 1000,
+    };
+
+    dispatch(searchProducts(payload));
+  };
+
   return (
     <>
       {isSaveLoading ? (
@@ -98,7 +110,7 @@ const ManageCheckoutFrom = ({ title }: Props) => {
                 style={{ width: '100%' }}
                 placeholder={`Выберите тип заказа`}
                 onChange={(evt) => setForUsersInDB(evt)}
-                defaultValue={false}
+                // defaultValue={false}
               >
                 <Option key={0} value={true}>{`Да`}</Option>
                 <Option key={1} value={false}>{`Нет`}</Option>
@@ -120,28 +132,36 @@ const ManageCheckoutFrom = ({ title }: Props) => {
             ) : (
               ''
             )}
-
+            {/* ------------------------  payment method type ------------ */}
+            <Form.Item
+              label="Способ оплаты"
+              name={ManageCheckoutFields.PaymentMethod}
+              required
+            >
+              <Select
+                allowClear
+                style={{ width: '100%' }}
+                placeholder={`Выберите способ оплаты`}
+                // defaultValue={false}
+              >
+                {paymentMethod.slice(1, 3).map((method, index) => {
+                  return (
+                    <>
+                      <Option key={index} value={method}>
+                        {method}
+                      </Option>
+                    </>
+                  );
+                })}
+              </Select>
+            </Form.Item>
             {/* ----------------------SEARCH INPUT FOR PRODUCT---------------------- */}
             <SerachWrapper>
-              <FilterBtn
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-                setIsOpened={setIsOpened}
-                setDisplay={setDisplay}
-                btnNode={btnNode}
-              />
-              <FilterModal
-                isOpened={isOpened}
-                display={display}
-                setSelectedCategory={setSelectedCategory}
-                selectedCategory={selectedCategory!}
-                setIsOpened={setIsOpened}
-                setDisplay={setDisplay}
-                menuNode={menuNode}
-              />
               <span>Поиск товаров</span>
               <Input
-                onChange={handleSearchQueryChange(selectedCategory, dispatch)}
+                onChange={(evt) => {
+                  delayDebounceFn(evt.target.value);
+                }}
                 placeholder="Введите название товара"
               />
               {!!products.length && !productsLoading ? (
@@ -178,17 +198,20 @@ const ManageCheckoutFrom = ({ title }: Props) => {
               )}
             </SerachWrapper>
             {/* ----------------------BASKET INPUTS---------------------- */}
-            {basketList.map((product, index) => {
-              return (
-                <BasketProductForm
-                  key={`basketList-childs-key-${index}`}
-                  product={product}
-                  index={index}
-                  basketList={basketList}
-                  setBasketList={setBasketList}
-                />
-              );
-            })}
+            <SelectedContent>
+              {basketList.map((product, index) => {
+                return (
+                  <BasketProductForm
+                    key={`basketList-childs-key-${index}`}
+                    product={product}
+                    index={index}
+                    basketList={basketList}
+                    setBasketList={setBasketList}
+                  />
+                );
+              })}
+            </SelectedContent>
+
             <UserAddressInfoWrapper>
               {/* ----------------------RECIVER-NAME---------------------- */}
               <FormItem
@@ -228,30 +251,6 @@ const ManageCheckoutFrom = ({ title }: Props) => {
                   />
                 }
               />
-
-              {/* ----------------------ZIP-CODE---------------------- */}
-              {/* <Form.Item label="индекс" name={ManageCheckoutFields.ZipCode}>
-                <Input placeholder="Введите почтовый индекс" />
-              </Form.Item> */}
-              {/* ----------------------ZIP-DOOR---------------------- */}
-              {/* <Form.Item label="Подъезд" name={ManageCheckoutFields.Door}>
-                <Input placeholder="Введите Подъезд" />
-              </Form.Item> */}
-              {/* ----------------------ZIP-ROOM-OR-OFFICE---------------------- */}
-              {/* <Form.Item
-                label="Квартира/офис"
-                name={ManageCheckoutFields.RoomOrOffice}
-              >
-                <Input placeholder="Введите Квартира/офис" />
-              </Form.Item> */}
-              {/* ----------------------ZIP-FLOOR---------------------- */}
-              {/* <Form.Item label="Этаж" name={ManageCheckoutFields.Floor}>
-                <Input placeholder="Введите Этаж" />
-              </Form.Item> */}
-              {/* ----------------------ZIP-RIGN-BELL---------------------- */}
-              {/* <Form.Item label="Домофон" name={ManageCheckoutFields.RignBell}>
-                <Input placeholder="Введите Домофон" />
-            </Form.Item>*/}
             </UserAddressInfoWrapper>
             {/* ----------------------THE END OF INPUTS---------------------- */}
             <Form.Item className={styles.createProductForm__buttonsStack}>
@@ -289,7 +288,7 @@ const SerachWrapper = styled.div`
 
 const ResultsContent = styled.ul`
   width: 100%;
-  height: 350px;
+  height: 600px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
@@ -302,6 +301,18 @@ const ResultsContent = styled.ul`
   &::-webkit-scrollbar {
     width: 5px;
   }
+`;
+
+const SelectedContent = styled.ul`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  justify-content: space-evenly;
+  justify-items: flex-start;
+  align-items: flex-start;
+  padding: 15px;
+  gap: 30px;
 `;
 
 const EmptyResultAndLoaderWrapper = styled.div`

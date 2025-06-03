@@ -13,6 +13,7 @@ import {
   BasketService,
   BasketDTO,
   OrderProductDTO,
+  Basket,
 } from 'swagger/services';
 import { ManageCheckoutFields } from './ManageCheckoutFields.enum';
 import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpers';
@@ -85,48 +86,288 @@ const handleSearchItemClick = (
     setBasketList([product]);
   }
 };
-const convertBasketData = (basketList: Product[], form) => {
-  const payloadBasket: OrderProductDTO[] = [];
+// const convertBasketData = (basketList: Product[], form) => {
+//   const payloadBasket: OrderProductDTO[] = [];
 
-  for (let index = 0; index < basketList.length; index++) {
-    const productId: string = basketList[index].id!;
-    const qty: number = form[`${ManageCheckoutFields.Qty}[${index}]`];
-    // const productSize: string =
-    //   form[`${ManageCheckoutFields.ProductSize}[${index}]`];
-    const productVariantId: string =
-      form[`${ManageCheckoutFields.Variant}[${index}]`];
-    const product: Product = basketList[index];
-    const productVariant = basketList[index].productVariants?.find(
-      (variant) => variant.id === productVariantId,
-    );
-    const payload = {
-      productId,
-      qty,
-      // productSize,
-      productVariantId,
-      product,
-      productVariant,
-    };
+//   for (let index = 0; index < basketList.length; index++) {
+//     basketList[index].productVariants?.map((variant, variantIndex) => {
+//       if (
+//         !form[`${ManageCheckoutFields.Qty}[${index}][${variantIndex}]`] ||
+//         !form[`${ManageCheckoutFields.Variant}[${index}][${variantIndex}]`]
+//       ) {
+//         return;
+//       }
+//       const productId: string = basketList[index].id!;
+//       const qty: number =
+//         form[`${ManageCheckoutFields.Qty}[${index}][${variantIndex}]`];
+//       const productVariantId: string =
+//         form[`${ManageCheckoutFields.Variant}[${index}][${variantIndex}]`];
+//       const product: Product = basketList[index];
+//       const productVariant = basketList[index].productVariants?.find(
+//         (variant) => variant.id === productVariantId,
+//       );
+//       const payload = {
+//         productId,
+//         qty,
+//         productVariantId,
+//         product,
+//         productVariant,
+//       };
 
-    payloadBasket.push(payload);
+//       payloadBasket.push(payload);
+//     });
+//   }
+//   return payloadBasket;
+// };
+
+// function sleep(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
+
+const checkVariantInputs = (basketList: Product[], form: any) => {
+  let hasError = false;
+  let hasProductWithoutVariant = false;
+  let productErroredOn;
+  // First pass: Check if every product has at least one variant added
+  basketList.forEach((product, productIndex) => {
+    let productHasVariantAdded = false;
+
+    product.productVariants?.forEach((_, variantIndex) => {
+      const key = `${ManageCheckoutFields.IsAddToCart}[${productIndex}][${variantIndex}]`;
+      if (form[key]) {
+        productHasVariantAdded = true;
+      }
+    });
+
+    if (!productHasVariantAdded) {
+      productErroredOn = productIndex + 1;
+      hasProductWithoutVariant = true;
+      hasError = true;
+    }
+  });
+
+  // If any product has no variants added, show error and continue checking
+  if (hasProductWithoutVariant) {
+    openErrorNotification(`Выберите вариант для: ${productErroredOn} товар`);
+    // return true;
   }
-  return payloadBasket;
+
+  // Second pass: Validate added variants
+  basketList.forEach((product, productIndex) => {
+    product.productVariants?.forEach((variant, variantIndex) => {
+      const key = `${ManageCheckoutFields.IsAddToCart}[${productIndex}][${variantIndex}]`;
+      const variantKey = `${ManageCheckoutFields.Variant}[${productIndex}][${variantIndex}]`;
+
+      if (form[key]) {
+        const variantValue = form[variantKey];
+        if (!variantValue) {
+          openErrorNotification(
+            `Вариант ${variant.artical} не выбран в товаре ${productIndex + 1}`,
+          );
+          hasError = true;
+        }
+      }
+    });
+  });
+
+  return hasError;
 };
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// ---------------------
 
+// Optimized sleep function with callback support
+const withProgress = async (
+  message: string,
+  action: () => Promise<any>,
+  delay = 0,
+) => {
+  openErrorNotification(message);
+  if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay));
+  const result = await action();
+  return result;
+};
+
+// Optimized basket data conversion
+const convertBasketData = (
+  basketList: Product[],
+  form: any,
+): OrderProductDTO[] => {
+  return basketList.flatMap(
+    (product, index) =>
+      product.productVariants?.flatMap((variant, variantIndex) => {
+        const qty =
+          form[`${ManageCheckoutFields.Qty}[${index}][${variantIndex}]`];
+        const variantId =
+          form[`${ManageCheckoutFields.Variant}[${index}][${variantIndex}]`];
+
+        if (!qty || !variantId) return [];
+
+        return {
+          productId: product.id!,
+          qty: Number(qty),
+          productVariantId: variantId,
+          product,
+          productVariant: variant,
+        };
+      }) || [],
+  );
+};
+
+// Optimized checkout handler
 const handleFormSubmitCheckout =
-  (router: NextRouter, basketList: Product[], setSaveLoading) =>
-  async (form) => {
+  (
+    router: NextRouter,
+    basketList: Product[],
+    setSaveLoading: (loading: boolean) => void,
+  ) =>
+  async (form: any) => {
     setSaveLoading(true);
+
+    if (basketList.length == 0) {
+      setSaveLoading(false);
+      openErrorNotification('Добавить товары в корзину');
+      return;
+    }
+    if (checkVariantInputs(basketList, form)) {
+      setSaveLoading(false);
+      return;
+    }
+
     try {
       if (!form.checkoutType) {
-        const basket: any = {
-          orderProducts: convertBasketData(basketList, form),
-        };
-        const payload = {
+        return await handleGuestCheckout(
+          router,
+          basketList,
+          form,
+          setSaveLoading,
+        );
+      } else {
+        return await handleRegisteredCheckout(
+          router,
+          basketList,
+          form,
+          setSaveLoading,
+        );
+      }
+    } catch (error) {
+      openErrorNotification(`${error}`);
+      setSaveLoading(false);
+    }
+  };
+
+// Guest checkout handler
+const handleGuestCheckout = async (
+  router: NextRouter,
+  basketList: Product[],
+  form: any,
+  setSaveLoading: (loading: boolean) => void,
+) => {
+  const basket: Basket = { orderProducts: convertBasketData(basketList, form) };
+
+  const payload = {
+    receiverName: form.receiverName,
+    receiverPhone: form.receiverPhone,
+    receiverEmail: form.receiverEmail,
+    address: form.address,
+    comment: '',
+    cart: basket,
+  };
+
+  const productAttachments = basket.orderProducts!.flatMap((orderproduct) => {
+    const imageName = orderproduct.productVariant?.images?.split(',')[0];
+    return imageName
+      ? [
+          {
+            filename: imageName,
+            href: `https://nbhoz.ru/api/images/${imageName}`,
+            cid: `productImage_${orderproduct.productVariant?.artical}`,
+          },
+        ]
+      : [];
+  });
+
+  const generatedHtml = generateInvoiceTemplet(
+    payload,
+    Object.fromEntries(productAttachments.map((a) => [a.cid, a.href])),
+    form.paymentMethod,
+  );
+
+  await withProgress(
+    'В процессе: Отправка счета-фактуры на заказ...',
+    async () => {
+      await CheckoutService.createCheckoutWithoutRegister({
+        body: {
+          to: payload.receiverEmail,
+          subject: `Заказ ${payload.receiverName}`,
+          html: generatedHtml,
+          attachments: productAttachments,
+        },
+      });
+      openSuccessNotification('Счет заказа отправлен');
+      router.push('/admin/checkouts');
+      setSaveLoading(false);
+    },
+    500,
+  );
+};
+
+// Registered checkout handler
+const handleRegisteredCheckout = async (
+  router: NextRouter,
+  basketList: Product[],
+  form: any,
+  setSaveLoading: (loading: boolean) => void,
+) => {
+  const user = await withProgress(
+    'В процессе: Поиск пользователя...',
+    async () => {
+      const user = await UserService.findUserByEmail({ email: form.userEmail });
+      if (!user) throw new Error('Пользователь не найден');
+      openSuccessNotification('Успешный, пользователь найден');
+      return user;
+    },
+    500,
+  );
+
+  const basketId = await withProgress(
+    'В процессе: Создание корзины...',
+    async () => {
+      const basket = await BasketService.createBasket();
+      openSuccessNotification('Корзина создана');
+      return basket;
+    },
+    500,
+  );
+
+  const payload: BasketDTO = {
+    orderProducts: convertBasketData(basketList, form),
+  };
+
+  await withProgress(
+    'В процессе: Обновление корзины...',
+    async () => {
+      for (const orderProduct of payload.orderProducts || []) {
+        await BasketService.addToCart({
+          basketId: basketId.id,
+          body: {
+            productId: orderProduct.productId,
+            productVariantId: orderProduct.productVariantId,
+            qty: orderProduct.qty,
+          },
+        });
+      }
+      openSuccessNotification('Корзина обновлена');
+    },
+    500,
+  );
+
+  const basket = await BasketService.findBasketById({ basketId: basketId.id });
+
+  const responseAddress = await withProgress(
+    'В процессе: Сохранение адреса...',
+    async () => {
+      const address = await AddressService.createAddressDirect({
+        body: {
           receiverName: form.receiverName,
           receiverPhone: form.receiverPhone,
           receiverEmail: form.receiverEmail,
@@ -136,150 +377,186 @@ const handleFormSubmitCheckout =
           floor: form.floor,
           rignBell: form.rignBell,
           zipCode: form.zipCode,
+          userId: user.id,
+        },
+      });
+      openSuccessNotification('Адрес сохранен');
+      return address;
+    },
+    500,
+  );
+
+  await withProgress(
+    'В процессе: Завершение заказа...',
+    async () => {
+      await CheckoutService.createCheckout({
+        body: {
+          address: responseAddress,
+          basket: basketId.id,
+          totalAmount: getTotalPrice(basket, form.paymentMethod),
           comment: '',
-          cart: basket,
-        };
-
-        //       const payload = {
-        //   receiverName: deliveryInfo?.receiverName,
-        //   receiverPhone: deliveryInfo?.receiverPhone,
-        //   receiverEmail: deliveryInfo?.receiverEmail,
-        //   address: deliveryInfo?.address,
-        //   roomOrOffice: deliveryInfo?.roomOrOffice,
-        //   door: deliveryInfo?.door,
-        //   floor: deliveryInfo?.floor,
-        //   rignBell: deliveryInfo?.rignBell,
-        //   zipCode: deliveryInfo?.zipCode,
-        //   comment,
-        //   cart,
-        // };
-
-        // const generatedHtml = generateInvoiceTemplet(payload);
-        const cidImageMap: Record<string, string> = {};
-
-        const productAttachments: EmbeddedImage[] = [];
-        if (payload.cart?.orderProducts) {
-          for (const orderproduct of payload.cart.orderProducts) {
-            const imageName =
-              orderproduct.productVariant?.images?.split(',')[0];
-            if (imageName) {
-              const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
-              const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
-
-              productAttachments.push({
-                filename: imageName,
-                href: imageUrl, // URL for product image
-                cid: productImageCid,
-              });
-            }
-          }
-        }
-
-        const generatedHtml = generateInvoiceTemplet(
-          payload,
-          cidImageMap,
-          'Наличные +0%',
-        );
-        openErrorNotification('В процессе: Отправка счета-фактуры на заказ...');
-        await CheckoutService.createCheckoutWithoutRegister({
-          body: {
-            to: payload.receiverEmail,
-            subject: `Заказ ${payload.receiverName}`,
-            html: `${generatedHtml}`,
-          },
-        });
-
-        await sleep(3000);
-
-        openSuccessNotification('Счет заказа отправлен');
-        router.push('/admin/checkouts');
-        setSaveLoading(false);
-      }
-      if (form.checkoutType) {
-        openErrorNotification('В процессе: Поиск пользователя...');
-        const user = await UserService.findUserByEmail({
-          email: form.userEmail,
-        });
-        if (!user) {
-          openErrorNotification('Пользователь не найден');
-        }
-        await sleep(3000);
-        openSuccessNotification('Успешный, пользователь найден');
-        await sleep(1000);
-        openErrorNotification('В процессе: Создание корзины...');
-        const basketId = await BasketService.createBasket();
-        const payload: BasketDTO = {
-          orderProducts: convertBasketData(basketList, form),
-        };
-
-        await sleep(3000);
-        openSuccessNotification('Корзина создана');
-        await sleep(1000);
-        openErrorNotification('В процессе: Обновление корзины...');
-        let counter = 0;
-        let basket;
-        let simulatedPayload: any = {
-          orderProducts: [],
-        };
-        const addToBasket = async (payload: BasketDTO) => {
-          if (counter < payload.orderProducts?.length!) {
-            simulatedPayload.orderProducts!.push(
-              payload.orderProducts![counter],
-            );
-
-            basket = await BasketService.updateBasket({
-              basketId: basketId.id,
-              body: simulatedPayload,
-            });
-            counter = counter + 1;
-            addToBasket(payload);
-          }
-        };
-        await addToBasket(payload);
-
-        await sleep(3000);
-        openSuccessNotification('Корзина обновлена');
-        await sleep(1000);
-        openErrorNotification('В процессе: Сохранение адреса...');
-        const responseAdress = await AddressService.createAddressDirect({
-          body: {
-            receiverName: form.receiverName,
-            receiverPhone: form.receiverPhone,
-            receiverEmail: form.receiverEmail,
-            address: form.address,
-            roomOrOffice: form.roomOrOffice,
-            door: form.door,
-            floor: form.floor,
-            rignBell: form.rignBell,
-            zipCode: form.zipCode,
-            userId: user.id,
-          },
-        });
-        await sleep(3000);
-        openSuccessNotification('Адрес сохранен');
-        await sleep(1000);
-        openErrorNotification('В процессе: Завершение заказа...');
-        const saved = await CheckoutService.createCheckout({
-          body: {
-            address: responseAdress,
-            basket: basket,
-            totalAmount: getTotalPrice(basket, ''),
-            comment: '',
-            leaveNearDoor: false,
-            userId: user.id,
-          },
-        });
-        if (saved) {
-          openSuccessNotification('Заказ завершен');
-          router.push('/admin/checkouts');
-          setSaveLoading(false);
-        }
-      }
-    } catch (error) {
-      openErrorNotification(`${error}`);
+          userId: user.id,
+        },
+      });
+      openSuccessNotification('Заказ завершен');
+      router.push('/admin/checkouts');
       setSaveLoading(false);
-    }
-  };
+    },
+    500,
+  );
+};
+
+// ------------------
+// const handleFormSubmitCheckout =
+//   (router: NextRouter, basketList: Product[], setSaveLoading) =>
+//   async (form) => {
+//     setSaveLoading(true);
+
+//     if (checkVariantInputs(basketList, form)) {
+//       return;
+//     }
+
+//     try {
+//       if (!form.checkoutType) {
+//         const basket: any = {
+//           orderProducts: convertBasketData(basketList, form),
+//         };
+
+//         const payload = {
+//           receiverName: form.receiverName,
+//           receiverPhone: form.receiverPhone,
+//           receiverEmail: form.receiverEmail,
+//           address: form.address,
+//           comment: '',
+//           cart: basket,
+//         };
+
+//         const cidImageMap: Record<string, string> = {};
+
+//         const productAttachments: EmbeddedImage[] = [];
+//         if (payload.cart?.orderProducts) {
+//           for (const orderproduct of payload.cart.orderProducts) {
+//             const imageName =
+//               orderproduct.productVariant?.images?.split(',')[0];
+//             if (imageName) {
+//               const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
+//               const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
+
+//               productAttachments.push({
+//                 filename: imageName,
+//                 href: imageUrl, // URL for product image
+//                 cid: productImageCid,
+//               });
+//             }
+//           }
+//         }
+
+//         const generatedHtml = generateInvoiceTemplet(
+//           payload,
+//           cidImageMap,
+//           form.paymentMethod,
+//         );
+//         openErrorNotification('В процессе: Отправка счета-фактуры на заказ...');
+//         await CheckoutService.createCheckoutWithoutRegister({
+//           body: {
+//             to: payload.receiverEmail,
+//             subject: `Заказ ${payload.receiverName}`,
+//             html: `${generatedHtml}`,
+//           },
+//         });
+
+//         await sleep(3000);
+
+//         openSuccessNotification('Счет заказа отправлен');
+//         router.push('/admin/checkouts');
+//         setSaveLoading(false);
+//       }
+//       if (form.checkoutType) {
+//         openErrorNotification('В процессе: Поиск пользователя...');
+//         const user = await UserService.findUserByEmail({
+//           email: form.userEmail,
+//         });
+//         if (!user) {
+//           openErrorNotification('Пользователь не найден');
+//         }
+//         await sleep(3000);
+//         openSuccessNotification('Успешный, пользователь найден');
+//         await sleep(1000);
+//         openErrorNotification('В процессе: Создание корзины...');
+//         const basketId = await BasketService.createBasket();
+//         const payload: BasketDTO = {
+//           orderProducts: convertBasketData(basketList, form),
+//         };
+
+//         await sleep(3000);
+//         openSuccessNotification('Корзина создана');
+//         await sleep(1000);
+//         openErrorNotification('В процессе: Обновление корзины...');
+//         let counter = 0;
+
+//         const addToBasket = async (payload: BasketDTO) => {
+//           if (counter < payload.orderProducts?.length!) {
+//             const cartPayload = {
+//               productId: payload.orderProducts![counter].productId,
+//               productVariantId:
+//                 payload.orderProducts![counter].productVariantId,
+//               qty: payload.orderProducts![counter].qty,
+//             };
+//             await BasketService.addToCart({
+//               basketId: basketId.id,
+//               body: cartPayload,
+//             });
+//             counter = counter + 1;
+//             addToBasket(payload);
+//           }
+//         };
+//         await addToBasket(payload);
+
+//         await sleep(3000);
+//         openSuccessNotification('Корзина обновлена');
+//         const basket = await BasketService.findBasketById({
+//           basketId: basketId.id,
+//         });
+//         await sleep(1000);
+//         openErrorNotification('В процессе: Сохранение адреса...');
+//         const responseAdress = await AddressService.createAddressDirect({
+//           body: {
+//             receiverName: form.receiverName,
+//             receiverPhone: form.receiverPhone,
+//             receiverEmail: form.receiverEmail,
+//             address: form.address,
+//             roomOrOffice: form.roomOrOffice,
+//             door: form.door,
+//             floor: form.floor,
+//             rignBell: form.rignBell,
+//             zipCode: form.zipCode,
+//             userId: user.id,
+//           },
+//         });
+//         await sleep(3000);
+//         openSuccessNotification('Адрес сохранен');
+//         await sleep(1000);
+//         openErrorNotification('В процессе: Завершение заказа...');
+//         const saved = await CheckoutService.createCheckout({
+//           body: {
+//             address: responseAdress,
+//             basket: basketId.id,
+//             totalAmount: getTotalPrice(basket, form.paymentMethod),
+//             comment: '',
+//             userId: user.id,
+//           },
+//         });
+//         if (saved) {
+//           openSuccessNotification('Заказ завершен');
+//           router.push('/admin/checkouts');
+//           setSaveLoading(false);
+//         }
+//       }
+//     } catch (error) {
+//       openErrorNotification(`${error}`);
+//       setSaveLoading(false);
+//     }
+//   };
 
 export {
   handleRedirectCheckout,

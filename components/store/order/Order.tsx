@@ -10,6 +10,7 @@ import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import ProductItem from './ProductItem';
 import { Role } from 'common/enums/roles.enum';
+import { paymentMethod } from 'common/constants';
 
 type Props = {
   checkout: any;
@@ -81,15 +82,16 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             </div>
             <h3 className="order-key-value-header">Способ оплаты</h3>
             <div className="order-key-value">
-              <span className="key">Оплата при доставке:</span>
+              <span className="key">Сумма к оплату:</span>
               <span className="value">
-                <span className="value-content">
-                  {(checkout as any)?.totalAmount}
-                  ₽,
-                </span>
-                <span className="value-content">
-                  {checkout.paidFor ? 'оплачено' : 'Не оплачено'}
-                </span>
+                {(checkout as any)?.totalAmount}
+                ₽, {checkout.paidFor ? 'Оплачено' : 'Не оплачено'}
+              </span>
+            </div>
+            <div className="order-key-value">
+              <span className="key">Тип оплаты:</span>
+              <span className="value">
+                {paymentMethod[checkout.paymentMethod + 1]}
               </span>
             </div>
             <h3 className="order-key-value-header">Способ получения</h3>
