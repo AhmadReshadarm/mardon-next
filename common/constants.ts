@@ -11,7 +11,7 @@ export const basicRequestParams: BasicRequestParams = {
 export const paymentMethod = [
   'Не выбрано',
   'Наличные +0%',
-  'Без наличных +5%',
+  'По безналичному расчету +5%',
   // 'Расчётный счёт +12%',
 ];
 

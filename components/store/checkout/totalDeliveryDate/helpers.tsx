@@ -88,7 +88,7 @@ const getTotalPrice = (cart: Basket | null, selectedMethod: string) => {
   switch (selectedMethod) {
     case 'Наличные +0%':
       return totalAmount;
-    case 'Без наличных +5%':
+    case 'По безналичному расчету +5%':
       return totalAmount + (totalAmount * 5) / 100;
     case 'Расчётный счёт +12%':
       return totalAmount + (totalAmount * 12) / 100;
@@ -123,7 +123,7 @@ const calculateIndvidualProductTotal = (
   switch (selectedMethod) {
     case 'Наличные +0%':
       return productPrice * qty;
-    case 'Без наличных +5%':
+    case 'По безналичному расчету +5%':
       return (productPrice + (productPrice * 5) / 100) * qty;
     case 'Расчётный счёт +12%':
       return (productPrice + (productPrice * 12) / 100) * qty;
@@ -139,7 +139,7 @@ const calculateIndvidualPercent = (
   switch (selectedMethod) {
     case 'Наличные +0%':
       return productPrice;
-    case 'Без наличных +5%':
+    case 'По безналичному расчету +5%':
       return (productPrice * 5) / 100 + productPrice;
     case 'Расчётный счёт +12%':
       return (productPrice * 12) / 100 + productPrice;
@@ -467,7 +467,7 @@ const handlePayClick =
           switch (paymentMethod) {
             case 'Наличные +0%':
               return PaymentMethod.Cash;
-            case 'Без наличных +5%':
+            case 'По безналичному расчету +5%':
               return PaymentMethod.NoCash;
             case 'Расчётный счёт +12%':
               return PaymentMethod.BankTransfer;

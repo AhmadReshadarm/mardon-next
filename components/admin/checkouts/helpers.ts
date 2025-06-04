@@ -357,7 +357,7 @@ const handleRegisteredCheckout = async (
     switch (paymentMethod) {
       case 'Наличные +0%':
         return PaymentMethod.Cash;
-      case 'Без наличных +5%':
+      case 'По безналичному расчету +5%':
         return PaymentMethod.NoCash;
       case 'Расчётный счёт +12%':
         return PaymentMethod.BankTransfer;
