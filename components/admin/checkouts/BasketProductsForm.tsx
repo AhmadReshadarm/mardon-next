@@ -123,8 +123,6 @@ const ProductVariantItem: React.FC<PropsV> = ({
           gap: '10px',
         }}
       >
-        {/* <span>add to cart?</span> */}
-
         <Form.Item
           label="Добавить в корзину?"
           name={`${ManageCheckoutFields.IsAddToCart}[${index}][${variantIndex}]`}

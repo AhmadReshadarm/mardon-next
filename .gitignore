@@ -16,6 +16,7 @@ package-lock.json
 # production
 /build
 /swagger/services
+/pages/invoice.tsx
 
 # localhost data
 # /public/favicon.ico

@@ -14,12 +14,15 @@ import {
   BasketDTO,
   OrderProductDTO,
   Basket,
+  User,
+  CheckoutDTO,
 } from 'swagger/services';
 import { ManageCheckoutFields } from './ManageCheckoutFields.enum';
 import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpers';
 import { openErrorNotification } from 'common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { generateInvoiceTemplet } from 'components/store/checkout/totalDeliveryDate/helpers';
+import { PaymentMethod } from 'common/enums/paymentMethod.enum';
 
 interface EmbeddedImage {
   filename: string;
@@ -86,43 +89,6 @@ const handleSearchItemClick = (
     setBasketList([product]);
   }
 };
-// const convertBasketData = (basketList: Product[], form) => {
-//   const payloadBasket: OrderProductDTO[] = [];
-
-//   for (let index = 0; index < basketList.length; index++) {
-//     basketList[index].productVariants?.map((variant, variantIndex) => {
-//       if (
-//         !form[`${ManageCheckoutFields.Qty}[${index}][${variantIndex}]`] ||
-//         !form[`${ManageCheckoutFields.Variant}[${index}][${variantIndex}]`]
-//       ) {
-//         return;
-//       }
-//       const productId: string = basketList[index].id!;
-//       const qty: number =
-//         form[`${ManageCheckoutFields.Qty}[${index}][${variantIndex}]`];
-//       const productVariantId: string =
-//         form[`${ManageCheckoutFields.Variant}[${index}][${variantIndex}]`];
-//       const product: Product = basketList[index];
-//       const productVariant = basketList[index].productVariants?.find(
-//         (variant) => variant.id === productVariantId,
-//       );
-//       const payload = {
-//         productId,
-//         qty,
-//         productVariantId,
-//         product,
-//         productVariant,
-//       };
-
-//       payloadBasket.push(payload);
-//     });
-//   }
-//   return payloadBasket;
-// };
-
-// function sleep(ms: number) {
-//   return new Promise((resolve) => setTimeout(resolve, ms));
-// }
 
 const checkVariantInputs = (basketList: Product[], form: any) => {
   let hasError = false;
@@ -318,10 +284,12 @@ const handleRegisteredCheckout = async (
   form: any,
   setSaveLoading: (loading: boolean) => void,
 ) => {
-  const user = await withProgress(
+  const user: User = await withProgress(
     'В процессе: Поиск пользователя...',
     async () => {
-      const user = await UserService.findUserByEmail({ email: form.userEmail });
+      const user: User = await UserService.findUserByEmail({
+        email: form.userEmail,
+      });
       if (!user) throw new Error('Пользователь не найден');
       openSuccessNotification('Успешный, пользователь найден');
       return user;
@@ -361,7 +329,9 @@ const handleRegisteredCheckout = async (
     500,
   );
 
-  const basket = await BasketService.findBasketById({ basketId: basketId.id });
+  const basket: any = await BasketService.findBasketById({
+    basketId: basketId.id,
+  });
 
   const responseAddress = await withProgress(
     'В процессе: Сохранение адреса...',
@@ -372,11 +342,6 @@ const handleRegisteredCheckout = async (
           receiverPhone: form.receiverPhone,
           receiverEmail: form.receiverEmail,
           address: form.address,
-          roomOrOffice: form.roomOrOffice,
-          door: form.door,
-          floor: form.floor,
-          rignBell: form.rignBell,
-          zipCode: form.zipCode,
           userId: user.id,
         },
       });
@@ -386,17 +351,33 @@ const handleRegisteredCheckout = async (
     500,
   );
 
+  responseAddress.receiverEmail = user.email;
+
+  const findPaymentMethod = (paymentMethod: string) => {
+    switch (paymentMethod) {
+      case 'Наличные +0%':
+        return PaymentMethod.Cash;
+      case 'Без наличных +5%':
+        return PaymentMethod.NoCash;
+      case 'Расчётный счёт +12%':
+        return PaymentMethod.BankTransfer;
+      default:
+        return PaymentMethod.Cash;
+    }
+  };
+
   await withProgress(
     'В процессе: Завершение заказа...',
     async () => {
       await CheckoutService.createCheckout({
         body: {
           address: responseAddress,
-          basket: basketId.id,
+          basket: basket,
           totalAmount: getTotalPrice(basket, form.paymentMethod),
           comment: '',
-          userId: user.id,
-        },
+          userId: user?.id,
+          paymentMethod: findPaymentMethod(form.paymentMethod),
+        } as CheckoutDTO,
       });
       openSuccessNotification('Заказ завершен');
       router.push('/admin/checkouts');
@@ -405,158 +386,6 @@ const handleRegisteredCheckout = async (
     500,
   );
 };
-
-// ------------------
-// const handleFormSubmitCheckout =
-//   (router: NextRouter, basketList: Product[], setSaveLoading) =>
-//   async (form) => {
-//     setSaveLoading(true);
-
-//     if (checkVariantInputs(basketList, form)) {
-//       return;
-//     }
-
-//     try {
-//       if (!form.checkoutType) {
-//         const basket: any = {
-//           orderProducts: convertBasketData(basketList, form),
-//         };
-
-//         const payload = {
-//           receiverName: form.receiverName,
-//           receiverPhone: form.receiverPhone,
-//           receiverEmail: form.receiverEmail,
-//           address: form.address,
-//           comment: '',
-//           cart: basket,
-//         };
-
-//         const cidImageMap: Record<string, string> = {};
-
-//         const productAttachments: EmbeddedImage[] = [];
-//         if (payload.cart?.orderProducts) {
-//           for (const orderproduct of payload.cart.orderProducts) {
-//             const imageName =
-//               orderproduct.productVariant?.images?.split(',')[0];
-//             if (imageName) {
-//               const imageUrl = `https://nbhoz.ru/api/images/${imageName}`; // Construct product image URL
-//               const productImageCid = `productImage_${orderproduct.productVariant?.artical}`;
-
-//               productAttachments.push({
-//                 filename: imageName,
-//                 href: imageUrl, // URL for product image
-//                 cid: productImageCid,
-//               });
-//             }
-//           }
-//         }
-
-//         const generatedHtml = generateInvoiceTemplet(
-//           payload,
-//           cidImageMap,
-//           form.paymentMethod,
-//         );
-//         openErrorNotification('В процессе: Отправка счета-фактуры на заказ...');
-//         await CheckoutService.createCheckoutWithoutRegister({
-//           body: {
-//             to: payload.receiverEmail,
-//             subject: `Заказ ${payload.receiverName}`,
-//             html: `${generatedHtml}`,
-//           },
-//         });
-
-//         await sleep(3000);
-
-//         openSuccessNotification('Счет заказа отправлен');
-//         router.push('/admin/checkouts');
-//         setSaveLoading(false);
-//       }
-//       if (form.checkoutType) {
-//         openErrorNotification('В процессе: Поиск пользователя...');
-//         const user = await UserService.findUserByEmail({
-//           email: form.userEmail,
-//         });
-//         if (!user) {
-//           openErrorNotification('Пользователь не найден');
-//         }
-//         await sleep(3000);
-//         openSuccessNotification('Успешный, пользователь найден');
-//         await sleep(1000);
-//         openErrorNotification('В процессе: Создание корзины...');
-//         const basketId = await BasketService.createBasket();
-//         const payload: BasketDTO = {
-//           orderProducts: convertBasketData(basketList, form),
-//         };
-
-//         await sleep(3000);
-//         openSuccessNotification('Корзина создана');
-//         await sleep(1000);
-//         openErrorNotification('В процессе: Обновление корзины...');
-//         let counter = 0;
-
-//         const addToBasket = async (payload: BasketDTO) => {
-//           if (counter < payload.orderProducts?.length!) {
-//             const cartPayload = {
-//               productId: payload.orderProducts![counter].productId,
-//               productVariantId:
-//                 payload.orderProducts![counter].productVariantId,
-//               qty: payload.orderProducts![counter].qty,
-//             };
-//             await BasketService.addToCart({
-//               basketId: basketId.id,
-//               body: cartPayload,
-//             });
-//             counter = counter + 1;
-//             addToBasket(payload);
-//           }
-//         };
-//         await addToBasket(payload);
-
-//         await sleep(3000);
-//         openSuccessNotification('Корзина обновлена');
-//         const basket = await BasketService.findBasketById({
-//           basketId: basketId.id,
-//         });
-//         await sleep(1000);
-//         openErrorNotification('В процессе: Сохранение адреса...');
-//         const responseAdress = await AddressService.createAddressDirect({
-//           body: {
-//             receiverName: form.receiverName,
-//             receiverPhone: form.receiverPhone,
-//             receiverEmail: form.receiverEmail,
-//             address: form.address,
-//             roomOrOffice: form.roomOrOffice,
-//             door: form.door,
-//             floor: form.floor,
-//             rignBell: form.rignBell,
-//             zipCode: form.zipCode,
-//             userId: user.id,
-//           },
-//         });
-//         await sleep(3000);
-//         openSuccessNotification('Адрес сохранен');
-//         await sleep(1000);
-//         openErrorNotification('В процессе: Завершение заказа...');
-//         const saved = await CheckoutService.createCheckout({
-//           body: {
-//             address: responseAdress,
-//             basket: basketId.id,
-//             totalAmount: getTotalPrice(basket, form.paymentMethod),
-//             comment: '',
-//             userId: user.id,
-//           },
-//         });
-//         if (saved) {
-//           openSuccessNotification('Заказ завершен');
-//           router.push('/admin/checkouts');
-//           setSaveLoading(false);
-//         }
-//       }
-//     } catch (error) {
-//       openErrorNotification(`${error}`);
-//       setSaveLoading(false);
-//     }
-//   };
 
 export {
   handleRedirectCheckout,
