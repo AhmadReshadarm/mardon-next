@@ -44,6 +44,18 @@ const ProductInfo: React.FC<Props> = ({
     };
   });
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
+  const tagURl = product?.tags!.filter((tag) => {
+    if (
+      tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
+      tag.url?.match(/(?:^|\W)main_page(?:$|\W)/) ||
+      tag.url == '-' ||
+      tag.url == '_' ||
+      tag.url == ' '
+    ) {
+      return;
+    }
+    return tag;
+  });
 
   return (
     <div
@@ -62,8 +74,8 @@ const ProductInfo: React.FC<Props> = ({
                   quality={20}
                   priority={false}
                   src={'/icons/back_arrow_min.png'}
-                  // placeholder="blur"
-                  // blurDataURL={backArrow}
+                  placeholder="blur"
+                  blurDataURL={backArrow}
                   alt="Back to main arrow"
                 />
                 <span>Обратно на главную</span>
@@ -111,10 +123,7 @@ const ProductInfo: React.FC<Props> = ({
                   </span>
                 </Link>
               )}
-              {!!product?.tags![0] &&
-              product?.tags![0].url !== 'main_page' &&
-              product?.tags![0].url !== 'best_product' &&
-              product?.tags![0].url !== '-' ? (
+              {tagURl?.length !== 0 ? (
                 <>
                   <span>
                     <svg
@@ -134,19 +143,22 @@ const ProductInfo: React.FC<Props> = ({
                     </svg>
                   </span>
                   <Link
-                    href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}&tags=${product.tags[0].url}`}
+                    href={`/catalog?categories=${
+                      product?.category?.parent?.url
+                    }&page=1&subCategories=${product?.category?.url}&tags=${
+                      tagURl![0].url
+                    }`}
                     prefetch={false}
                   >
-                    <span title={product?.tags[0].name}>
-                      {product?.tags[0]?.name?.length! > 16 &&
-                      windowWidth > 1024
-                        ? `${product?.tags[0]?.name?.slice(0, 16)}..`
-                        : product?.tags[0]?.name}
+                    <span title={tagURl![0].name}>
+                      {tagURl![0].name?.length! > 16 && windowWidth > 1024
+                        ? `${tagURl![0].name?.slice(0, 16)}..`
+                        : tagURl![0].name}
                     </span>
                   </Link>
                 </>
               ) : (
-                ''
+                <></>
               )}
             </div>
             <ShareToSocial
