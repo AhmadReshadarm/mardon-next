@@ -8,14 +8,14 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch } from 'redux/hooks';
 import { YMaps } from 'react-yandex-maps';
 import styled from 'styled-components';
 import { baseUrl } from 'common/constant';
-import { TCartState } from 'redux/types';
-import { useRouter } from 'next/router';
+// import { TCartState } from 'redux/types';
+// import { useRouter } from 'next/router';
 import { fetchCart } from 'redux/slicers/store/cartSlicer';
-import { openErrorNotification } from 'common/helpers';
+// import { openErrorNotification } from 'common/helpers';
 import dynamic from 'next/dynamic';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
 const CheckoutContent = dynamic(() => import('components/store/checkout'), {
@@ -24,21 +24,21 @@ const CheckoutContent = dynamic(() => import('components/store/checkout'), {
 });
 
 const Checkout = () => {
-  const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const router = useRouter();
+  // const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  // const router = useRouter();
   const dispatch = useAppDispatch();
   const [isClient, setClient] = useState(false);
-  const [oneTimeNotification, setOneTimeNotification] = useState(false);
+  // const [oneTimeNotification, setOneTimeNotification] = useState(false);
   const getBasketId = () => {
     return localStorage.getItem('basketId');
   };
-  useEffect(() => {
-    if (cart?.orderProducts?.length == 0 && !oneTimeNotification) {
-      setOneTimeNotification(true);
-      openErrorNotification('Ваша корзина пуста');
-      router.push('/catalog');
-    }
-  }, [cart]);
+  // useEffect(() => {
+  //   if (cart?.orderProducts?.length == 0 && !oneTimeNotification) {
+  //     setOneTimeNotification(true);
+  //     openErrorNotification('Ваша корзина пуста');
+  //     router.push('/catalog');
+  //   }
+  // }, [cart]);
   useEffect(() => {
     const basketId: any = getBasketId();
     dispatch(fetchCart(basketId));
