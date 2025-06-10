@@ -69,12 +69,11 @@ const ProductItem: React.FC<Props> = ({ orderProduct, checkout }) => {
         }
         <div className="total-numbers">
           <span>
-            {orderProduct.productVariant?.price!} ₽ x {orderProduct.qty}
             {calculateIndvidualPercent(
               checkout.paymentMethod,
               orderProduct.productVariant?.price!,
             )}{' '}
-            шт ={' '}
+            ₽ x {orderProduct.qty} шт ={' '}
             {calculateIndvidualProductTotal(
               checkout.paymentMethod,
               orderProduct.productVariant?.price!,

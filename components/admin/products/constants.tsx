@@ -65,6 +65,9 @@ export const columns: ColumnsType<any> = [
       if (record.productVariants) {
         const images: string[] = [];
         record.productVariants.map((variant: any) => {
+          if (!variant.images) {
+            return <></>;
+          }
           const variantImages = variant.images?.split(', ');
           variantImages.map((image) => {
             images.push(image);
