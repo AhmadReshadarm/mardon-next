@@ -48,7 +48,12 @@ const Filters = (props: any) => {
         onClick={closeHandler}
         ref={btnNode}
       >
-        <span>{props.value}</span>
+        <span>
+          {props.value}
+          {props.value == 'По безналичному расчету +5%'
+            ? ' (Перевод на карта)'
+            : ''}
+        </span>
         <motion.span
           animate={isOpen ? 'open' : 'close'}
           variants={variants.rotate}
@@ -87,7 +92,12 @@ const Filters = (props: any) => {
                   props.setValue(option);
                 }}
               >
-                <span>{option}</span>
+                <span>
+                  {option}
+                  {option == 'По безналичному расчету +5%'
+                    ? ' (Перевод на карта)'
+                    : ''}
+                </span>
               </li>
             );
           })}

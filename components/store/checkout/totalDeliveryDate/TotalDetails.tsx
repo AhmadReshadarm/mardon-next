@@ -99,7 +99,7 @@ const TotalDetails = ({
                   Выберите способ оплаты
                 </span>
                 <Filters
-                  options={paymentMethod.slice(1, 3)}
+                  options={paymentMethod.slice(1, 4)}
                   value={paymentOption}
                   setValue={setPaymentOption}
                 />

@@ -79,19 +79,22 @@ const getDiscount = (cart: Basket | null) => {
   return oldPrice - totalAmount;
 };
 
+const roundUpto = function (number: number, upto: number) {
+  return Number(number.toFixed(upto));
+};
+
 const getTotalPrice = (cart: Basket | null, selectedMethod: string) => {
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
     return accum + Number(item.qty) * Number(item.productVariant?.price);
   }, 0)!;
 
-  // return totalAmount;
   switch (selectedMethod) {
     case 'Наличные +0%':
       return totalAmount;
     case 'По безналичному расчету +5%':
-      return totalAmount + (totalAmount * 5) / 100;
+      return roundUpto(totalAmount + (totalAmount * 5) / 100, 2);
     case 'Расчётный счёт +12%':
-      return totalAmount + (totalAmount * 12) / 100;
+      return roundUpto(totalAmount + (totalAmount * 12) / 100, 2);
     default:
       return totalAmount;
   }
@@ -124,9 +127,9 @@ const calculateIndvidualProductTotal = (
     case 'Наличные +0%':
       return productPrice * qty;
     case 'По безналичному расчету +5%':
-      return (productPrice + (productPrice * 5) / 100) * qty;
+      return roundUpto((productPrice + (productPrice * 5) / 100) * qty, 2);
     case 'Расчётный счёт +12%':
-      return (productPrice + (productPrice * 12) / 100) * qty;
+      return roundUpto((productPrice + (productPrice * 12) / 100) * qty, 2);
     default:
       return productPrice * qty;
   }
@@ -140,9 +143,9 @@ const calculateIndvidualPercent = (
     case 'Наличные +0%':
       return productPrice;
     case 'По безналичному расчету +5%':
-      return (productPrice * 5) / 100 + productPrice;
+      return roundUpto((productPrice * 5) / 100 + productPrice, 2);
     case 'Расчётный счёт +12%':
-      return (productPrice * 12) / 100 + productPrice;
+      return roundUpto((productPrice * 12) / 100 + productPrice, 2);
     default:
       return productPrice;
   }
@@ -437,6 +440,11 @@ const handlePayClick =
     dispatch: any,
   ) =>
   async () => {
+    if (!cart.orderProducts?.length) {
+      openErrorNotification('Ваша корзина пуста');
+      return;
+    }
+
     if (paymentMethod == 'Не выбрано') {
       openErrorNotification('Выберите способ оплаты');
       return;
