@@ -1,7 +1,26 @@
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
 import styles from '../genral-styles/error.module.css';
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { useAppDispatch } from 'redux/hooks';
+import { userHelpDisk } from 'redux/slicers/authSlicer';
+
 const Error = ({ statusCode }) => {
+  const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  useEffect(() => {
+    dispatch(
+      userHelpDisk({
+        email: 'info@nbhoz.ru',
+        text: `error happend in ${pathname} the error was ${
+          statusCode
+            ? `An error ${statusCode} occurred on server`
+            : 'client UI error'
+        }`,
+      }),
+    );
+  }, []);
   return (
     <>
       <Head>
@@ -37,6 +56,5 @@ Error.getInitialProps = ({ res, err }) => {
   return { statusCode };
 };
 
-// export default Error;
 Error.PageLayout = StoreLayout;
 export default Error;

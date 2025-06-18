@@ -1,5 +1,6 @@
 .Container {
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +10,7 @@
 
 .Wrapper {
   width: 100%;
+  height: 100%;
   max-width: 1500px;
   display: flex;
   flex-direction: row;
@@ -28,7 +30,7 @@
 
 .ErrorWrapper {
   text-align: center;
-  font-size: 3rem;
+  font-size: 4rem;
   font-family: var(--font-ricordi);
   font-weight: 600;
   background: linear-gradient(
@@ -56,17 +58,11 @@
 }
 
 .ContentWrapper > h4 {
-  font-size: 1.5rem;
-  font-family: var(--font-ricordi);
-  font-weight: 300;
-  color: #fff;
+  text-align: center;
 }
 
 .ContentWrapper > h2 {
-  font-size: 1.5rem;
-  font-family: var(--font-ricordi);
-  font-weight: 300;
-  color: #fff;
+  text-align: center;
 }
 
 /* laptopL */

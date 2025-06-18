@@ -1,0 +1,238 @@
+.Container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  transition: 300ms;
+}
+
+.FormContainer {
+  max-width: 1500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.FormContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.news_letter_image_wrapper {
+  width: 100%;
+  height: 50vh;
+  min-height: 500px;
+}
+
+.news_letter_image_wrapper > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news_letter_form_wrapper {
+  width: 100%;
+  height: 50vh;
+  min-height: 500px;
+  background-color: #ffffff;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.news_letter_content_parent {
+  width: 450px;
+  height: 450px;
+  min-width: 450px;
+  min-height: 450px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.content_row_wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.AuthTabWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  z-index: 9;
+}
+
+.auth_page_indecator {
+  width: 50px;
+  height: 3px;
+  background-color: #000000;
+}
+.auth_buttons_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.active_tab {
+  color: #000000 !important;
+}
+
+.auth_buttons_row > h2 {
+  font-family: var(--font-ricordi);
+  font-size: 1rem;
+  cursor: pointer;
+  color: #707f8d;
+  text-wrap: nowrap;
+}
+.auth_buttons_row > h2:hover {
+  color: #000000;
+}
+
+.Content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.feild_lable_text {
+  padding: 30px 0 0 0;
+}
+.inputs_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.inputs_wrapper > input {
+  width: 100%;
+  height: 40px;
+  padding: 0 20px;
+  border: none;
+  border-bottom: 1px solid #000000;
+  font-size: 1rem;
+  font-weight: 300;
+  background-color: transparent;
+}
+
+.inputs_wrapper > input::placeholder {
+  color: #949494;
+}
+
+.ActionBtn {
+  width: 200px;
+  height: 50px;
+  min-height: 50px;
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ActionBtn > span {
+  font-family: var(--font-ricordi);
+}
+
+.ActionBtn:active {
+  border: 1px solid;
+  background: #ffffff;
+  color: #000000;
+}
+
+/* laptopL */
+@media (min-width: 1240px) and (max-width: 1550px) {
+  .FormContainer {
+    max-width: 1230px;
+  }
+}
+
+/* laptopM */
+@media (min-width: 1024px) and (max-width: 1240px) {
+  .FormContainer {
+    max-width: unset;
+  }
+}
+
+/* Global 1 */
+@media (min-width: 100px) and (max-width: 1024px) {
+  .FormContainer {
+    max-width: unset;
+    width: 95%;
+  }
+
+  .news_letter_content_parent {
+    width: 95%;
+  }
+
+  .auth_page_indecator {
+    display: none;
+  }
+
+  .auth_buttons_row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .auth_buttons_row span {
+    display: none;
+  }
+}
+
+/* Global 2 */
+@media (min-width: 100px) and (max-width: 768px) {
+  .FormContent {
+    flex-direction: column;
+  }
+
+  .Content {
+    justify-content: flex-start;
+    gap: 30px;
+  }
+}
+
+/* Global 3 */
+@media (min-width: 100px) and (max-width: 285px) {
+  .ActionBtn {
+    width: 100%;
+  }
+}

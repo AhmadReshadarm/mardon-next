@@ -1,0 +1,264 @@
+.Container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+  gap: 40px;
+}
+
+.Wrapper {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+}
+
+.BackToMain {
+  width: 100%;
+  max-width: 1500px;
+  padding: 0 0 50px 0;
+}
+
+.back_to_main {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.back_to_main > img {
+  width: 40px;
+}
+
+.MapContainer {
+  width: 85vw;
+  height: 70vh;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+.MapAndAddressWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.address_container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+  z-index: 99;
+  background-color: #ffffff;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 30px;
+  margin-top: -60px;
+}
+
+.ContactsHeaderWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.ContactsHeaderWrapper > h2 {
+  width: 55%;
+}
+
+.ContactContentWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 0 0 20%;
+  gap: 90px;
+}
+
+.first_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  width: 50%;
+}
+
+.first_column_content_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  .address-copied {
+    cursor: pointer;
+  }
+}
+.first_column_last_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.second_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.second_column_content_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+}
+
+.phone_number_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.second_column_last_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.goto_contact_page_btn {
+  width: 200px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  background-color: #e3e2d6;
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.goto_contact_page_btn > span {
+  font-family: ver(--font-Jost);
+  font-size: 1rem;
+}
+
+.goto_contact_page_btn:hover {
+  background-color: #000000;
+  color: #ffffff;
+  transform: scale(1.02);
+}
+.goto_contact_page_btn:active {
+  transform: scale(1);
+}
+
+/* laptopL */
+@media (min-width: 1240px) and (max-width: 1550px) {
+  .Wrapper {
+    max-width: 1230px;
+  }
+
+  .BackToMain {
+    max-width: 1230px;
+  }
+}
+/* laptopM */
+@media (min-width: 1024px) and (max-width: 1240px) {
+  .Wrapper {
+    max-width: unset;
+  }
+  .BackToMain {
+    max-width: unset;
+  }
+}
+
+/* laptopS */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .ContactsHeaderWrapper > h2 {
+    width: 100%;
+    font-size: 1.2rem;
+  }
+}
+
+/* Global 1 */
+@media (min-width: 100px) and (max-width: 1024px) {
+  .Wrapper {
+    max-width: unset;
+    width: 95%;
+  }
+  .BackToMain {
+    max-width: unset;
+    width: 95%;
+  }
+}
+
+/* Global 2 */
+@media (min-width: 100px) and (max-width: 768px) {
+  .MapContainer {
+    height: 40vh;
+  }
+  .MapAndAddressWrapper {
+    align-items: center;
+  }
+  .address_container {
+    margin-top: 0;
+  }
+
+  .ContactsHeaderWrapper > h2 {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+/* Global 3 */
+@media (min-width: 100px) and (max-width: 1024px) {
+  .ContactContentWrapper {
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  .first_column {
+    width: 100%;
+  }
+  .second_column {
+    width: 100%;
+  }
+}
