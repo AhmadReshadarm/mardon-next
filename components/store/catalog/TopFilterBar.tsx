@@ -65,23 +65,10 @@ const TopFilterBar: React.FC<Props> = ({
     setSliderChanged(false);
   };
 
-  // const cleanSearchTerm = (term: string): string => {
-  //   if (!term.trim()) return '';
-
-  //   return term
-  //     .split(/\s+/)
-  //     .filter((word) => {
-  //       const cleanWord = word.replace(/[^\wа-яё-]/gi, '').toLowerCase();
-  //       return cleanWord.length >= 2 && !stopWords.includes(cleanWord);
-  //     })
-  //     .join(' ');
-  // };
-
   useEffect(() => {
     const cleanedTerm = cleanSearchTerm(searchTerm);
     const isValidSearch = cleanedTerm.length > 0;
     isValidSearch ? setActivateResetBtn(true) : setActivateResetBtn(false);
-    // searchTerm !== '' ? setActivateResetBtn(true) : setActivateResetBtn(false);
     if (clearSearchTerm) {
       setCurrentPage(1);
       setPageSize(12);
@@ -92,18 +79,6 @@ const TopFilterBar: React.FC<Props> = ({
       ]);
       setClearSearchTerm(false);
     } else {
-      // const delayDebounceFn = setTimeout(() => {
-      //   setCurrentPage(1);
-      //   setPageSize(12);
-
-      //   pushQueryParams([
-      //     { name: 'name', value: searchTerm },
-      //     { name: 'page', value: 1 },
-      //   ]);
-      // }, 1500);
-
-      // return () => clearTimeout(delayDebounceFn);
-
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -112,7 +87,6 @@ const TopFilterBar: React.FC<Props> = ({
         setCurrentPage(1);
         setPageSize(12);
         pushQueryParams([
-          // { name: 'name', value: searchTerm },
           { name: 'name', value: isValidSearch ? cleanedTerm : '' },
           { name: 'page', value: 1 },
         ]);
@@ -124,7 +98,7 @@ const TopFilterBar: React.FC<Props> = ({
     const queryParams = getQueryParams(window.location.search);
     const { name } = queryParams;
     if (!ActivateResetBtn && name !== undefined) {
-      setSearchTerm(name);
+      setSearchTerm(name[0]);
     }
   }, []);
 

@@ -92,6 +92,11 @@ const ProductItem: React.FC<Props> = ({ product }) => {
 
   const currentVariant = (artical) =>
     product.productVariants?.find((variant) => variant.artical == artical);
+  // this is neccesery for setting the varian for when the product search result changes it should also set the new
+  // variant, if this is not present the UI will show the previus product variant data
+  useEffect(() => {
+    setVariant(product.productVariants![0]);
+  }, [product]);
 
   return (
     <li

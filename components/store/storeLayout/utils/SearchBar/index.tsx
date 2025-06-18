@@ -19,6 +19,7 @@ import { getAnimationDelay } from 'ui-kit/products/helpers';
 import debounce from 'lodash/debounce';
 import styles from '../../styles/searchBar.module.css';
 import dynamic from 'next/dynamic';
+import { cleanSearchTerm } from 'components/store/catalog/helpers';
 const ProductItem = dynamic(() => import('ui-kit/products/productItem'), {
   ssr: false,
 });
@@ -70,9 +71,10 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
   );
 
   const handleSearchQueryWithdelay = (searchQuery) => {
+    const cleanedTerm = cleanSearchTerm(searchQuery);
     const payload = {
-      name: searchQuery,
-      artical: searchQuery,
+      name: cleanedTerm,
+      artical: cleanedTerm,
       limit: 100,
     };
 
