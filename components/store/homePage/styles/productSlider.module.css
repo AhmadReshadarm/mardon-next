@@ -97,8 +97,9 @@
   background-color: var(--buttonPrimary);
 }
 .title_n_index_indecator_top_wrapper > a > h1 {
-  font-family: var(--font-ricordi);
-  font-size: 1.2rem;
+  font-family: var(--font-Jost);
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .title_n_index_indecator_top_wrapper > a > h1:hover {
@@ -233,8 +234,9 @@
 }
 
 .product_description_wrapper > a > h1 {
-  font-family: var(--font-ricordi);
-  font-size: 1.2rem;
+  font-family: var(--font-Jost);
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .product_description_wrapper > a > h1:hover {
@@ -311,10 +313,10 @@
     max-width: 1230px;
   }
   .title_n_index_indecator_top_wrapper > a > h1 {
-    font-size: 0.9rem;
+    font-size: 1.3rem;
   }
   .product_description_wrapper > a > h1 {
-    font-size: 0.9rem;
+    font-size: 1.3rem;
   }
 }
 /* laptopM */
@@ -340,10 +342,10 @@
     justify-content: flex-start;
   }
   .title_n_index_indecator_top_wrapper > a > h1 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
   }
   .product_description_wrapper > a > h1 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
   }
   .description_mobile {
     display: flex;
@@ -404,10 +406,10 @@
     justify-content: flex-start;
   }
   .title_n_index_indecator_top_wrapper > a > h1 {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
   }
   .product_description_wrapper > a > h1 {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
   }
 }
 

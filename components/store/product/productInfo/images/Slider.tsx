@@ -164,7 +164,7 @@ const Slider: React.FC<Props> = ({
           key={page}
           custom={direction}
           variants={variants.slider}
-          initial="enter"
+          // initial="enter"
           animate="center"
           exit="exit"
           transition={{
@@ -207,10 +207,9 @@ const Slider: React.FC<Props> = ({
           <Image
             src={images[selectedIndex]}
             alt={alt}
-            itemProp="contentUrl"
             width={1080}
             height={1080}
-            priority={true}
+            priority
             placeholder="blur"
             blurDataURL={base64Image}
             className={styles.SliderImage}

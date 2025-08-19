@@ -117,6 +117,19 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
                 )}
               </span>
             </div>
+            {Role.Admin == user?.role ? (
+              <div
+                style={{ borderTop: '1px solid', paddingTop: '10px' }}
+                className="order-key-value"
+              >
+                <span className="key">Комментарий:</span>
+                <span className="value">
+                  <span>{checkout.comment}</span>
+                </span>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </Items>

@@ -24,8 +24,8 @@ import { cleanSearchTerm } from './helpers';
 type Props = {
   subCategories: Category[];
   priceRange: PriceRange;
-  expanded: boolean;
-  handleExpantionChange: any;
+  // expanded: boolean;
+  // handleExpantionChange: any;
   setCurrentPage: any;
   setPageSize: any;
   localFilters: Filter[];
@@ -38,13 +38,22 @@ type StyleProps = {
 const TopFilterBar: React.FC<Props> = ({
   subCategories,
   priceRange,
-  expanded,
-  handleExpantionChange,
+  // expanded,
+  // handleExpantionChange,
   setCurrentPage,
   setPageSize,
   localFilters,
 }) => {
-  const [isMoreFilters, setMoreFilters] = useState(true);
+  const cat_first_visit = localStorage.getItem('cat_first_visit');
+  const [expanded, setExpanded] = useState(!cat_first_visit ? true : false);
+
+  const handleExpantionChange = () => {
+    setExpanded((prev) => !prev);
+  };
+
+  const [isMoreFilters, setMoreFilters] = useState(
+    !cat_first_visit ? true : false,
+  );
   const [ActivateResetBtn, setActivateResetBtn] = useState(false);
   const [resetSlider, setResetSlider] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -169,6 +178,9 @@ const TopFilterBar: React.FC<Props> = ({
             onClick={() => {
               setMoreFilters(!isMoreFilters);
               handleExpantionChange();
+              if (!cat_first_visit) {
+                localStorage.setItem('cat_first_visit', 'true');
+              }
             }}
             onMouseOver={() => setIsHoverMobile(true)}
             onMouseLeave={() => setIsHoverMobile(false)}
@@ -336,7 +348,7 @@ const TopFilterBar: React.FC<Props> = ({
               : color.textPrimary,
           }}
         >
-          <span style={{ fontWeight: '500', fontFamily: 'Circe' }}>
+          <span>
             {isMoreFilters ? 'Закрыть категории' : 'Открытые категории'}
           </span>
           <span className="more-filter-icon">
@@ -1129,11 +1141,11 @@ const FiltersWrapper = styled<any>(motion.div)`
       display: flex;
       .clear-filter-mobile {
         font-size: 1.5rem;
-        font-weight: 500;
       }
       .save-and-close-btn-mobile {
-        font-size: 1.5rem;
-        font-weight: 500;
+        span {
+          font-size: 1.5rem;
+        }
       }
     }
   }
@@ -1161,7 +1173,9 @@ const FiltersWrapper = styled<any>(motion.div)`
         font-size: 1.2rem;
       }
       .save-and-close-btn-mobile {
-        font-size: 1.2rem;
+        span {
+          font-size: 1.2rem;
+        }
       }
     }
   }
@@ -1189,7 +1203,9 @@ const FiltersWrapper = styled<any>(motion.div)`
         font-size: 14px;
       }
       .save-and-close-btn-mobile {
-        font-size: 14px;
+        span {
+          font-size: 14px;
+        }
       }
     }
   }
@@ -1217,7 +1233,9 @@ const FiltersWrapper = styled<any>(motion.div)`
         font-size: 12px;
       }
       .save-and-close-btn-mobile {
-        font-size: 12px;
+        span {
+          font-size: 12px;
+        }
       }
     }
   }
@@ -1246,7 +1264,9 @@ const FiltersWrapper = styled<any>(motion.div)`
         font-size: 9px;
       }
       .save-and-close-btn-mobile {
-        font-size: 9px;
+        span {
+          font-size: 9px;
+        }
       }
     }
   }
@@ -1274,7 +1294,9 @@ const FiltersWrapper = styled<any>(motion.div)`
         font-size: 9px;
       }
       .save-and-close-btn-mobile {
-        font-size: 9px;
+        span {
+          font-size: 9px;
+        }
       }
     }
   }

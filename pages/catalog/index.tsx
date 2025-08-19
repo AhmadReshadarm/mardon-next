@@ -145,11 +145,11 @@ const CatalogPage = ({
     return color;
   });
 
-  const [expanded, setExpanded] = useState(true);
+  // const [expanded, setExpanded] = useState(true);
 
-  const handleExpantionChange = () => {
-    setExpanded((prev) => !prev);
-  };
+  // const handleExpantionChange = () => {
+  //   setExpanded((prev) => !prev);
+  // };
 
   const paginationLength = useAppSelector(
     (state) => state.catalog.productsLength,
@@ -280,8 +280,8 @@ const CatalogPage = ({
               <TopFilterBar
                 subCategories={subCategories}
                 priceRange={priceRange}
-                expanded={expanded}
-                handleExpantionChange={handleExpantionChange}
+                // expanded={expanded}
+                // handleExpantionChange={handleExpantionChange}
                 setCurrentPage={setCurrentPage}
                 setPageSize={setPageSize}
                 localFilters={localFilters}

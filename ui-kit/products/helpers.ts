@@ -58,10 +58,10 @@ const handleAddToCartBtnClick =
     if (!curOrderProduct) {
       openSuccessNotification(
         `Товар ${
-          product.name
-        } с артикул ${variant?.artical?.toLocaleUpperCase()} добавлены в корзину`,
+          product.name?.split('(')[0]
+        } ${variant?.artical?.toLocaleUpperCase()} добавлены в корзину`,
       );
-
+      //  с артикул
       dispatch(
         addToCart({
           productId: product.id,
@@ -109,9 +109,10 @@ const handleRemoveFromCartBtnClick =
     if (curOrderProduct) {
       openSuccessNotification(
         `Товар ${
-          product.name
-        } с артикул ${variant?.artical?.toLocaleUpperCase()} удален из корзины`,
+          product.name?.split('(')[0]
+        } ${variant?.artical?.toLocaleUpperCase()} удален из корзины`,
       );
+      //  с артикул
       const payload = {
         id: curOrderProduct.id,
       };

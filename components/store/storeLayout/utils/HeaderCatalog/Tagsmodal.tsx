@@ -69,6 +69,11 @@ const TagsWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 5px;
+  a {
+    span {
+      font-weight: 100;
+    }
+  }
 `;
 
 const TagsLoader = styled.div`

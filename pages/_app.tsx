@@ -10,7 +10,7 @@ const jost = Jost({
   subsets: ['cyrillic', 'latin'],
   display: 'swap',
   variable: '--font-Jost',
-  weight: '400',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -24,14 +24,23 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <style jsx global>{`
+          :root {
+            --font-Jost: ${jost.style.fontFamily};
+          }
+        `}</style>
       </Head>
       <DynamicLoadProvider>
         <ContextProvider>
           {Component.PageLayout ? (
             <Component.PageLayout>
-              <div className={`${jost.variable} font-sans`}>
-                <Component {...pageProps} key={router.asPath} />
-              </div>
+              {/* <div className={`${jost.variable} font-sans`}> */}
+              {/* <div
+                className={jost.variable}
+                style={{ fontFamily: 'var(--font-Jost)' }}
+              > */}
+              <Component {...pageProps} key={router.asPath} />
+              {/* </div> */}
             </Component.PageLayout>
           ) : (
             <Component {...pageProps} />

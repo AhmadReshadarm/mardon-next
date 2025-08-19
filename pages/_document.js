@@ -12,13 +12,13 @@ class MyDocument extends Document {
         <Head>
           <link rel="shortcut icon" href="/favicon.svg" />
 
-          <link
+          {/* <link
             rel="preload"
             href="/fonts/tt-ricordi-marmo-trial-variable.woff"
             as="font"
             type="font/woff"
             crossOrigin="anonymous"
-          />
+          /> */}
           {/* microsoft bing verification */}
           <meta
             name="msvalidate.01"
