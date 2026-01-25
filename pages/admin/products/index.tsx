@@ -141,7 +141,7 @@ const ProductsPage = () => {
             type="primary"
             onClick={navigateTo(router, Page.ADMIN_CREATE_PRODUCT)}
           >
-            Создать новый продукт
+            Создать новый товар
           </Button>
         </HeaderActionBtnWrapper>
       </div>

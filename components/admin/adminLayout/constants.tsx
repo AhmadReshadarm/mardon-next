@@ -21,7 +21,7 @@ import { PathWords, TMenuItem } from './types';
 
 export const menueItems: TMenuItem[] = [
   getItem('Категории', paths[Page.ADMIN_CATEGORIES], <PieChartOutlined />),
-  getItem('Продукты', paths[Page.ADMIN_PRODUCTS], <DesktopOutlined />),
+  getItem('Товары', paths[Page.ADMIN_PRODUCTS], <DesktopOutlined />),
   getItem('Цвета', paths[Page.ADMIN_COLORS], <BgColorsOutlined />),
   // getItem('Бренды', paths[Page.ADMIN_BRANDS], <HeatMapOutlined />),
   getItem('Коллекция', paths[Page.ADMIN_TAGS], <TagsOutlined />),
@@ -55,9 +55,9 @@ export const pathWords: PathWords = {
   // brands: 'Бренды',
   // 'brands/create-brand': 'Создание бренда',
   // 'brands/[id]': 'Редактирование бренда',
-  products: 'Продукты',
-  'products/create-product': 'Создание продукта',
-  'products/[id]': 'Редактирование продукта',
+  products: 'Товары',
+  'products/create-product': 'Создание товара',
+  'products/[id]': 'Редактирование товара',
   tags: 'Коллекция',
   'tags/create-tag': 'Создание Коллекция',
   'tags/[id]': 'Редактирование Коллекция',

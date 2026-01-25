@@ -18,7 +18,7 @@ import {
 import Head from 'next/head';
 
 const ManageProduct = () => {
-  const title = 'Редактирование продукта';
+  const title = 'Редактирование товара';
   const router = useRouter();
   const products = useAppSelector((state) => state.products.products);
   const filteredProducts = products.filter(
@@ -71,7 +71,7 @@ const ManageProduct = () => {
     <>
       <Head>
         <title>
-          Администрирование {`>`} Продукты {`>`} Редактирование продукта | NBHOZ
+          Администрирование {`>`} Товары {`>`} Редактирование товар | NBHOZ
         </title>
       </Head>
       <ManageProductForm

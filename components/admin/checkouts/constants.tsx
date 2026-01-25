@@ -93,6 +93,9 @@ const columns: ColumnsType<CheckoutsTableData> = [
             gridTemplateColumns: 'repeat(2, 1fr)',
             columnGap: '3px',
             rowGap: '3px',
+            overflowY:'scroll',
+            maxHeight:'250px',
+            padding:'20px 10px'
           }}
         >
           {record.basket.orderProducts.map((variant, index) => {

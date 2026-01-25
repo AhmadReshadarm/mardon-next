@@ -7,6 +7,7 @@ import {
   getErrorMassage,
   handleError,
   handlePending,
+  openErrorNotification,
 } from '../../common/helpers';
 
 export const createImage = createAsyncThunk<any, any, { rejectValue: string }>(
@@ -40,15 +41,41 @@ const multipleImagesSlicer = createSlice({
   name: 'multipleImages',
   initialState,
   reducers: {
+    // setDefaultImageList(state, action) {
+    //   if (!state.imagesMap[action.payload.index]) {
+    //     state.imagesMap[action.payload.index] = [];
+    //   }
+
+    //   const imagesList = [...state.imagesMap[action.payload.index]];
+    //   imagesList.push(action.payload.file);
+    //   state.imagesMap[action.payload.index] = imagesList;
+    // },
+
     setDefaultImageList(state, action) {
-      if (!state.imagesMap[action.payload.index]) {
-        state.imagesMap[action.payload.index] = [];
+      const { index, file } = action.payload;
+
+      if (!state.imagesMap[index]) {
+        state.imagesMap[index] = [];
       }
 
-      const imagesList = [...state.imagesMap[action.payload.index]];
-      imagesList.push(action.payload.file);
-      state.imagesMap[action.payload.index] = imagesList;
+      const normalizedFile = {
+        uid: file.uid ?? file.name,
+        name: file.name,
+        url: file.url,
+      };
+
+      const alreadyExists = state.imagesMap[index].some(
+        (img: any) => img.uid === normalizedFile.uid,
+      );
+
+      if (alreadyExists) {
+        openErrorNotification('Это изображение уже добавлено');
+        return;
+      }
+
+      state.imagesMap[index].push(normalizedFile);
     },
+
     removeImageFromList(state, action) {
       const imageList = state.imagesMap[action.payload.index];
       state.imagesMap[action.payload.index] = imageList.filter(
@@ -57,6 +84,9 @@ const multipleImagesSlicer = createSlice({
     },
     clearImageList(state) {
       state.imagesMap = initialState.imagesMap;
+    },
+    clearImageListForVariant(state, action) {
+      delete state.imagesMap[action.payload];
     },
   },
   extraReducers: (builder) => {
@@ -77,7 +107,11 @@ const multipleImagesSlicer = createSlice({
   },
 });
 
-export const { setDefaultImageList, removeImageFromList, clearImageList } =
-  multipleImagesSlicer.actions;
+export const {
+  setDefaultImageList,
+  removeImageFromList,
+  clearImageList,
+  clearImageListForVariant,
+} = multipleImagesSlicer.actions;
 
 export default multipleImagesSlicer.reducer;

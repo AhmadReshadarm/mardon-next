@@ -3,6 +3,8 @@ export enum ManageProductFields {
   Price = 'price',
   OldPrice = 'oldPrice',
   Artical = 'artical',
+  KeyValue = 'keyValue',
+  Value = 'value',
   Desc = 'desc',
   ShortDesc = 'shortDesc',
   Keywords = 'keywords',

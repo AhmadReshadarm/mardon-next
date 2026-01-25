@@ -7,6 +7,8 @@ import { InsertRowLeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useState } from 'react';
 import DatabaseImages from 'ui-kit/DatabaseImages';
+import { useAppDispatch } from 'redux/hooks';
+import { clearImageListForVariant } from 'redux/slicers/mutipleImagesSlicer';
 
 const { Option } = Select;
 
@@ -15,21 +17,22 @@ type Props = {
   index: number;
   setVariants: any;
   imagesList: Image[];
+  variantId: number;
 };
 const ProductVariant: React.FC<Props> = ({
   colors,
   index,
   setVariants,
   imagesList,
+  variantId,
 }) => {
-  const handleRemove = (index) => () => {
-    setVariants((prev) => {
-      const array = [...prev];
-      array.splice(index, 1);
+  const dispatch = useAppDispatch();
 
-      return array;
-    });
+  const handleRemove = (variantId: number) => () => {
+    setVariants((prev) => prev.filter((v) => v.id !== variantId));
+    dispatch(clearImageListForVariant(variantId));
   };
+
   const [isOpen, setOpen] = useState(false);
 
   return (
@@ -40,7 +43,7 @@ const ProductVariant: React.FC<Props> = ({
       <button
         type={'button'}
         className={styles['product-variant__remove']}
-        onClick={handleRemove(index)}
+        onClick={handleRemove(variantId)}
       >
         <svg
           width="15"
@@ -71,11 +74,15 @@ const ProductVariant: React.FC<Props> = ({
           />
         </svg>
       </button>
-      <Form.Item name={`id[${index}]`} style={{ display: 'none' }}>
-        <Input name={`id[${index}]`} />
+      <Form.Item name={`id[${variantId}]`} style={{ display: 'none' }}>
+        <Input name={`id[${variantId}]`} />
       </Form.Item>
       {/* ----------------------PRICE---------------------- */}
-      <Form.Item name={`${ManageProductFields.Price}[${index}]`} required>
+      <Form.Item
+        label="цена"
+        name={`${ManageProductFields.Price}[${variantId}]`}
+        required
+      >
         <Input
           min={1}
           required={true}
@@ -85,7 +92,10 @@ const ProductVariant: React.FC<Props> = ({
       </Form.Item>
       {/* ----------------------OLD PRICE---------------------- */}
 
-      <Form.Item name={`${ManageProductFields.OldPrice}[${index}]`}>
+      <Form.Item
+        label="Старая цена"
+        name={`${ManageProductFields.OldPrice}[${variantId}]`}
+      >
         <Input
           // required={true}
           type={'number'}
@@ -93,13 +103,17 @@ const ProductVariant: React.FC<Props> = ({
         />
       </Form.Item>
       {/* ----------------------Artical---------------------- */}
-      <Form.Item name={`${ManageProductFields.Artical}[${index}]`} required>
+      <Form.Item
+        label="Артикул (используйте заглавные буквы)"
+        name={`${ManageProductFields.Artical}[${variantId}]`}
+        required
+      >
         <Input required={true} placeholder="введите Артикул" />
       </Form.Item>
       {/* ----------------------AVAILABLE---------------------- */}
       <Form.Item
         label="В наличии"
-        name={`${ManageProductFields.Available}[${index}]`}
+        name={`${ManageProductFields.Available}[${variantId}]`}
         valuePropName="checked"
         required={true}
       >
@@ -108,7 +122,7 @@ const ProductVariant: React.FC<Props> = ({
       {/* ----------------------COLORS---------------------- */}
       <Form.Item
         label="Цвет"
-        name={`${ManageProductFields.Color}[${index}]`}
+        name={`${ManageProductFields.Color}[${variantId}]`}
         required={true}
       >
         <Select
@@ -143,11 +157,16 @@ const ProductVariant: React.FC<Props> = ({
           ))}
         </Select>
       </Form.Item>
-      <Form.Item name={`${ManageProductFields.Images}[${index}]`} required>
+      <Form.Item
+        style={{ border: '1px solid', padding: '15px', borderRadius: '10px' }}
+        label="Параметры загрузки изображений"
+        name={`${ManageProductFields.Images}[${variantId}]`}
+        required
+      >
         <MultipleImageUpload
           fileList={imagesList}
           isProduct={true}
-          index={index}
+          index={variantId}
         />
         <ButtonDevider>
           <Button
@@ -163,7 +182,7 @@ const ProductVariant: React.FC<Props> = ({
             isProducts={true}
             setOpen={setOpen}
             isOpen={isOpen}
-            prodcutVariantIndex={index}
+            prodcutVariantIndex={variantId}
           />
         ) : (
           ''

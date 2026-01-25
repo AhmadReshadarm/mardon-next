@@ -3,7 +3,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -63,9 +63,11 @@ const ManageProductForm = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
-  const initialValues = initialValuesConverter(product as Product);
-  const [curCategory, setCurCategory] = useState<Category>();
   const [variants, setVariants] = useState<any[]>([]);
+  const hasInitializedForm = useRef(false);
+
+  // const initialValues = initialValuesConverter(product as Product,  variants);
+  const [curCategory, setCurCategory] = useState<Category>();
   const [parameterProducts, setParameterProducts] = useState<
     ParameterProduct[]
   >([]);
@@ -74,11 +76,30 @@ const ManageProductForm = ({
   );
 
   useEffect(() => {
-    for (let index = 0; index < product?.productVariants?.length!; index++) {
-      initialValues[index]?.forEach((image) => {
-        dispatch(setDefaultImageList({ file: image, index }));
+    // set UI Varaints Ids in edit mode from DB id
+    if (product?.productVariants && editMode) {
+      const initialVariants = product.productVariants.map((v) => ({
+        id: v.id,
+      }));
+      setVariants(initialVariants);
+    }
+    // Initialize images
+    if (product && editMode) {
+      product!.productVariants?.forEach((variant, index) => {
+        const images = variant.images?.split(', ').map((image) => ({
+          uid: image,
+          name: image,
+          url: `/api/images/${image}`,
+        }));
+
+        images?.forEach((image) => {
+          dispatch(setDefaultImageList({ file: image, index: variant.id }));
+        });
       });
     }
+
+    // ---------------------------------------------------------------
+
     setCurCategory(product?.category);
     setParameterProducts(
       product?.category?.parameters?.map((parameter) => {
@@ -92,14 +113,28 @@ const ManageProductForm = ({
         };
       })!,
     );
-    setVariants(generateArrayOfNumbers(product?.productVariants?.length ?? 0));
+
     return () => {
       dispatch(clearImageList());
     };
   }, [product]);
 
+  useEffect(() => {
+    if (
+      product &&
+      editMode &&
+      variants.length > 0 &&
+      !hasInitializedForm.current
+    ) {
+      const values = initialValuesConverter(product, variants);
+      form.setFieldsValue(values);
+      hasInitializedForm.current = true;
+    }
+  }, [product, editMode, variants]);
+
   const handleAddVariant = () => {
-    setVariants((prev) => prev.concat({}));
+    const uniqueId = Math.floor(Math.random() * 5000);
+    setVariants((prev) => prev.concat({ id: uniqueId }));
   };
 
   const filteredTags = tags.map((tag) => {
@@ -123,9 +158,10 @@ const ManageProductForm = ({
             parameterProducts,
             variants.length,
             // editorModal,
+            variants,
           )}
           form={form}
-          initialValues={initialValues}
+          // initialValues={initialValues}
           requiredMark={true}
           className={styles.createProductForm}
         >
@@ -133,14 +169,14 @@ const ManageProductForm = ({
           <FormItem
             option={ManageProductFields.Name}
             children={
-              <Input required={true} placeholder="Введите имя продукта" />
+              <Input required={true} placeholder="Введите имя товара" />
             }
           />
           {/* ----------------------ULR---------------------- */}
           <FormItem
             option={ManageProductFields.Url}
             children={
-              <Input required={true} placeholder="Введите Url продукта" />
+              <Input required={true} placeholder="Введите Url товара" />
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
@@ -148,7 +184,11 @@ const ManageProductForm = ({
           <FormItem
             option={ManageProductFields.Desc}
             children={
-              <TextArea required={true} rows={10} placeholder="Описание" />
+              <TextArea
+                required={true}
+                rows={10}
+                placeholder="Введите описание"
+              />
             }
           />
 
@@ -159,7 +199,7 @@ const ManageProductForm = ({
               <TextArea
                 required={true}
                 rows={10}
-                placeholder="Краткое описание, Не более 350 символов"
+                placeholder="Введите краткое описание, Не более 350 символов"
               />
             }
           />
@@ -175,93 +215,86 @@ const ManageProductForm = ({
             }
           />
           {/* ----------------------CATEGORIES---------------------- */}
-          <Form.Item label="Категория" name="category" required>
-            <Select
-              onChange={handleCategoryChange(
-                categories,
-                setCurCategory,
-                setParameterProducts,
-              )}
-              style={{ width: '100%', height: '50px' }}
-            >
-              {categories?.map((item) => {
-                return (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                    style={{ padding: '10px' }}
-                  >
-                    <div
-                      style={{
-                        borderBottom: '1px solid #4096FF',
-                      }}
-                    >
-                      <p style={{ fontWeight: '600', fontSize: '1rem' }}>
-                        {item.parent?.name}{' '}
-                        <svg
-                          width="6"
-                          height="10"
-                          viewBox="0 0 6 10"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1 1.5L4.84375 5.53125L1.03125 9.34375"
-                            stroke="#4096FF"
-                            stroke-width="1.2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
-                        </svg>{' '}
-                        {item.name}
-                      </p>
-                    </div>
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-          {/* ----------------------TAGS---------------------- */}
-          <Form.Item label="коллекция" name="tags" style={{ height: '50px' }}>
-            <Select
-              mode="multiple"
-              allowClear
-              style={{
-                width: '100%',
-                height: '50px',
-              }}
-              placeholder={`Выберите несколько или одну коллекцию`}
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label ?? '')
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              options={filteredTags}
-            />
-            {/* {tags?.map((item) => (
-                <Option
-                  key={item.id}
-                  value={item.id}
-                  style={{ padding: '10px' }}
+          <FormItem
+            option={ManageProductFields.Category}
+            children={
+              <>
+                <Select
+                  onChange={handleCategoryChange(
+                    categories,
+                    setCurCategory,
+                    setParameterProducts,
+                  )}
+                  style={{ width: '100%', height: '50px' }}
                 >
-                  <p
-                    style={{
-                      fontWeight: '600',
-                      fontSize: '1rem',
-                      borderBottom: '1px solid #4096FF',
-                    }}
-                  >
-                    {`${item.name}`}
-                  </p>
-                </Option>
-              ))} */}
-            {/* </Select> */}
-          </Form.Item>
+                  {categories?.map((item) => {
+                    return (
+                      <Option
+                        key={item.id}
+                        value={item.id}
+                        style={{ padding: '10px' }}
+                      >
+                        <div
+                          style={{
+                            borderBottom: '1px solid #4096FF',
+                          }}
+                        >
+                          <p style={{ fontWeight: '600', fontSize: '1rem' }}>
+                            {item.parent?.name}{' '}
+                            <svg
+                              width="6"
+                              height="10"
+                              viewBox="0 0 6 10"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M1 1.5L4.84375 5.53125L1.03125 9.34375"
+                                stroke="#4096FF"
+                                stroke-width="1.2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></path>
+                            </svg>{' '}
+                            {item.name}
+                          </p>
+                        </div>
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </>
+            }
+          />
+
+          {/* ----------------------TAGS---------------------- */}
+          <FormItem
+            option={ManageProductFields.Tags}
+            children={
+              <>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{
+                    width: '100%',
+                    height: '50px',
+                  }}
+                  placeholder={`Выберите несколько или одну коллекцию`}
+                  showSearch
+                  filterOption={(input, option) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={filteredTags}
+                />
+              </>
+            }
+          />
 
           {/* ----------------------PRODUCT VARIANTS---------------------- */}
           <h2 style={{ fontSize: '26px', marginBottom: '20px' }}>
-            Варианты продукта
+            Варианты товара
           </h2>
           <div className={styles['product-variants']}>
             {variants.map((variant, index) => (
@@ -270,14 +303,15 @@ const ManageProductForm = ({
                 colors={colors}
                 index={index}
                 setVariants={setVariants}
-                imagesList={imagesMap[index]}
+                imagesList={imagesMap[variant.id] || []}
+                variantId={variant.id}
               />
             ))}
             <Button type="primary" onClick={handleAddVariant}>
               Добавить вариант
             </Button>
           </div>
-          {/* ----------------------IMAGES LIST---------------------- */}
+          {/* ----------------------Char List---------------------- */}
           {!!curCategory?.parameters?.length && (
             <>
               <h2 style={{ marginBottom: '10px' }}>Список характеристик</h2>

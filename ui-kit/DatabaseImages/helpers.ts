@@ -30,7 +30,11 @@ const handleSelectedImage = (
   if (isProducts) {
     dispatch(
       setDefaultImageList({
-        file: { name: filename, url: `/api/images/${filename}` },
+        file: {
+      uid: filename,
+      name: filename,
+      url: `/api/images/${filename}`,
+    },
         index,
       }),
     );

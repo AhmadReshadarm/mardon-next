@@ -50,6 +50,7 @@ const handleDataConvertation = (
   imagesMap: Object,
   parameterProducts: ParameterProduct[],
   variantsLength: number,
+  variantsUIArray: [{ id: number }],
 ) => {
   const newForm = { ...form };
   newForm.price = Number.parseInt(newForm.price, 10);
@@ -62,15 +63,19 @@ const handleDataConvertation = (
   const productVariants: any[] = [];
 
   for (let index = 0; index < variantsLength; index++) {
-    const id: string = form[`id[${index}]`];
-    const price: number = form[`${ManageProductFields.Price}[${index}]`];
-    const oldPrice: number = form[`${ManageProductFields.OldPrice}[${index}]`];
-    const artical: string = form[`${ManageProductFields.Artical}[${index}]`];
+    const variantId = variantsUIArray[index].id;
+    // const id: string = form[`id[${index}]`];
+    const id: string = form[`id[${variantsUIArray[index].id}]`];
+    const price: number = form[`${ManageProductFields.Price}[${variantId}]`];
+    const oldPrice: number =
+      form[`${ManageProductFields.OldPrice}[${variantId}]`];
+    const artical: string =
+      form[`${ManageProductFields.Artical}[${variantId}]`];
     // const wholeSalePrice: number =
     //   form[`${ManageProductFields.wholeSalePrice}[${index}]`];
     const available: boolean =
-      form[`${ManageProductFields.Available}[${index}]`];
-    const color: number = form[`${ManageProductFields.Color}[${index}]`];
+      form[`${ManageProductFields.Available}[${variantId}]`];
+    const color: number = form[`${ManageProductFields.Color}[${variantId}]`];
     const payload = {
       id,
       price,
@@ -81,7 +86,7 @@ const handleDataConvertation = (
       color,
       images: null,
     };
-    const images = imagesMap[index];
+    const images = imagesMap[variantId];
 
     if (images?.length) {
       const imageNameArray = images.map((image) => {
@@ -110,6 +115,18 @@ const checkForEmptyColorFieldInVariant = (variants: ProductVariant[]) => {
   });
   return { isEmpty, emptyVariant };
 };
+const checkForNoImageInVariant = (productVariants: ProductVariant[]) => {
+  let isEmpty = false;
+  let emptyVariant;
+  productVariants.map((variant, index) => {
+    if (variant.images == null) {
+      isEmpty = true;
+      emptyVariant = variant;
+    }
+  });
+  return { isEmpty, emptyVariant };
+};
+
 const handleFormSubmitProduct =
   (
     router: NextRouter,
@@ -118,6 +135,7 @@ const handleFormSubmitProduct =
     parameterProducts: ParameterProduct[],
     variantsLength: number,
     // desc: string,
+    variantsUIArray: any,
   ) =>
   async (form) => {
     // form.desc = desc;
@@ -127,7 +145,18 @@ const handleFormSubmitProduct =
       imagesMap,
       parameterProducts,
       variantsLength,
+      variantsUIArray,
     );
+
+    if (checkForNoImageInVariant(convertedForm.productVariants).isEmpty) {
+      openErrorNotification(
+        `Загрузите изображение или выберите его из базы данных. артикул товар ${
+          checkForNoImageInVariant(convertedForm.productVariants).emptyVariant
+            .artical
+        }`,
+      );
+      return;
+    }
 
     if (hasWhiteSpace(form.url)) {
       openErrorNotification(
@@ -154,6 +183,9 @@ const handleFormSubmitProduct =
       );
       return;
     }
+    // if(!checkForNoImageInVariant(convertedForm.productVariants)) {
+    //   return
+    // }
 
     if (router.query.id) {
       const isSaved: any = await dispatch(
@@ -209,27 +241,29 @@ const imagesConverter = (images) => {
   return imagesUrlArray;
 };
 
-const initialValuesConverter = (product: Product) => {
+const initialValuesConverter = (product: Product, variants: any[]) => {
   const newProduct: any & Product = { ...product };
-  newProduct.available = newProduct.available?.toString();
   newProduct.category = newProduct.category?.id;
-  // newProduct.brand = newProduct.brand?.id;
-
-  // newProduct.colors = multipleItemsConverter(newProduct.colors);
   newProduct.tags = multipleItemsConverter(newProduct.tags);
-  // newProduct.sizes = multipleItemsConverter(newProduct.sizes);
 
-  // newProduct.images = imagesConverter(newProduct.images);
   for (let index = 0; index < product?.productVariants?.length!; index++) {
-    const variant = product.productVariants![index];
-    newProduct[`id[${index}]`] = variant.id;
-    newProduct[`${ManageProductFields.Price}[${index}]`] = variant.price;
-    newProduct[`${ManageProductFields.OldPrice}[${index}]`] = variant.oldPrice;
-    newProduct[`${ManageProductFields.Artical}[${index}]`] = variant.artical;
-    newProduct[`${ManageProductFields.Available}[${index}]`] =
-      variant.available;
-    newProduct[`${ManageProductFields.Color}[${index}]`] = variant.color?.id;
-    newProduct[index] = imagesConverter(variant.images);
+    // const variant = product.productVariants![index];
+    const dbVariant: any = product.productVariants?.[index];
+    if (!dbVariant) return;
+    // ------------
+    const variantId = variants[index].id;
+
+    newProduct[`id[${variantId}]`] = dbVariant.id;
+    newProduct[`${ManageProductFields.Price}[${variantId}]`] = dbVariant.price;
+    newProduct[`${ManageProductFields.OldPrice}[${variantId}]`] =
+      dbVariant.oldPrice;
+    newProduct[`${ManageProductFields.Artical}[${variantId}]`] =
+      dbVariant.artical;
+    newProduct[`${ManageProductFields.Available}[${variantId}]`] =
+      dbVariant.available;
+    newProduct[`${ManageProductFields.Color}[${variantId}]`] =
+      dbVariant.color?.id;
+    // newProduct[variantId] = imagesConverter(dbVariant.images);
   }
 
   return newProduct;
