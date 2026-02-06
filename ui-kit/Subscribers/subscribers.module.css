@@ -193,14 +193,33 @@
   }
 }
 
+@media (min-width: 400px) and (max-width: 770px) {
+  .news_letter_form_wrapper {
+    padding: 0;
+  }
+
+  .news_letter_content_parent {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+@media (min-width: 100px) and (max-width: 400px) {
+  .news_letter_form_wrapper {
+    padding: 0;
+  }
+
+  .news_letter_content_parent {
+    width: 100%;
+    min-width: unset;
+    padding: 20px;
+  }
+}
+
 /* Global 1 */
 @media (min-width: 100px) and (max-width: 1024px) {
   .FormContainer {
     max-width: unset;
-    width: 95%;
-  }
-
-  .news_letter_content_parent {
     width: 95%;
   }
 

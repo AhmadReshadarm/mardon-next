@@ -4,6 +4,7 @@ import color from 'components/store/lib/ui.colors';
 import Link from 'next/link';
 import { devices } from 'components/store/lib/Devices';
 import { useInViewport } from 'components/store/storeLayout/useInViewport';
+import Image from 'next/image';
 
 const ContactsMainPage = (): JSX.Element => {
   const { isInViewport, ref } = useInViewport();
@@ -57,9 +58,9 @@ const ContactsMainPage = (): JSX.Element => {
                     </span>
                   </Link>
                   <span className="call-saperator">|</span>
-                  <Link href="tel:89266999952" prefetch={false}>
-                    <span title="позвонить 8-926-699-99-52">
-                      8-926-699-99-52
+                  <Link href="tel:89252909771" prefetch={false}>
+                    <span title="позвонить 8-925-290-97-71">
+                      8-925-290-97-71
                     </span>
                   </Link>
                   <span className="call-saperator">|</span>
@@ -67,6 +68,35 @@ const ContactsMainPage = (): JSX.Element => {
                     <span title="позвонить 8-926-899-99-54">
                       8-926-899-99-54
                     </span>
+                  </Link>
+                </div>
+              </div>
+              <div className="contents-rows">
+                <span className="icons-wrapper">
+                  <Image
+                    src="/icons/whatsapp.png"
+                    alt="nbhoz whatsapp"
+                    width={20}
+                    height={20}
+                    sizes="100vw"
+                    loading="lazy"
+                  />
+                </span>
+                <div className="call-wrapper">
+                  <Link
+                    href="https://wa.me/+79252909771"
+                    target="__blank"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      gap: '20px',
+                    }}
+                    title="Позвонить через WhatsApp"
+                    prefetch={false}
+                  >
+                    <span>8-925-290-97-71</span>
                   </Link>
                 </div>
               </div>

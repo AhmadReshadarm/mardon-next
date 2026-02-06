@@ -99,12 +99,12 @@ const Footer = (): JSX.Element => {
                           </Link>
                           <span className={styles.call_saperator}>|</span>
                           <Link
-                            aria-label="позвонить 89266999952"
-                            href="tel:89266999952"
+                            aria-label="позвонить 89252909771"
+                            href="tel:89252909771"
                             prefetch={false}
                           >
-                            <span title="позвонить 8-926-699-99-52">
-                              8-926-699-99-52
+                            <span title="позвонить 8-925-290-97-71">
+                              8-925-290-97-71
                             </span>
                           </Link>
                           <span className={styles.call_saperator}>|</span>
@@ -115,6 +115,33 @@ const Footer = (): JSX.Element => {
                             <span title="позвонить 8-926-899-99-54">
                               8-926-899-99-54
                             </span>
+                          </Link>
+                        </div>
+                      </div>
+                      <div className={styles.FooterRightContentWrapper}>
+                        <div className={styles.right_column_content}>
+                          <Link
+                            href="https://wa.me/+79252909771"
+                            target="__blank"
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              justifyContent: 'flex-start',
+                              gap: '20px',
+                            }}
+                            title="Позвонить через WhatsApp"
+                            prefetch={false}
+                          >
+                            <Image
+                              src="/icons/whatsapp.png"
+                              alt="nbhoz whatsapp"
+                              width={20}
+                              height={20}
+                              sizes="100vw"
+                              loading="lazy"
+                            />
+                            <span>8-925-290-97-71</span>
                           </Link>
                         </div>
                       </div>
