@@ -23,7 +23,7 @@
 export const handleHistory = (productId: any) => {
   const MAX_HISTORY = 24;
   const history = localStorage.getItem('history');
-
+  localStorage.setItem('history_updated', 'true');
   if (history) {
     const historyArray: any[] = JSON.parse(history);
 

@@ -66,12 +66,20 @@ const HeaderCart: React.FC<Props> = ({ cartButtonRef }) => {
 
   useEffect(() => {
     const userHistoy = localStorage.getItem('history');
-    if (userHistoy) {
+    const userHistoryUpdated = JSON.parse(
+      localStorage.getItem('history_updated')!,
+    );
+
+    if (
+      (userHistoy && isBasketOpen && historyProducts.length === 0) ||
+      (userHistoy && isBasketOpen && userHistoryUpdated)
+    ) {
       const payload = {
         userHistory: JSON.parse(userHistoy),
         limit: '1000',
       };
       dispatch(fetchHistoryProducts(payload));
+      localStorage.setItem('history_updated', 'false');
     }
   }, [isBasketOpen]);
 
