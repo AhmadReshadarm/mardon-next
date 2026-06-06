@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Product } from 'swagger/services';
 import styles from '../styles/productSlider.module.css';
 import SliderItems from './sliderItems';
+
 type Props = {
   caroselProducts: Product[];
   base64Image: any;
@@ -43,19 +44,13 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
       }}
     >
       <div className={styles.Wrapper}>
-        {caroselProducts.map((product, index) => {
-          return (
-            <SliderItems
-              product={product}
-              index={index}
-              caroselIndex={caroselIndex}
-              caroselProducts={caroselProducts}
-              base64Image={base64Image}
-              setCaroselIndex={setCaroselIndex}
-              setISMouseHover={setISMouseHover}
-            />
-          );
-        })}
+        <SliderItems
+          caroselIndex={caroselIndex}
+          caroselProducts={caroselProducts}
+          base64Image={base64Image}
+          setCaroselIndex={setCaroselIndex}
+          setISMouseHover={setISMouseHover}
+        />
       </div>
     </div>
   );

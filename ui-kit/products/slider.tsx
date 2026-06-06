@@ -206,7 +206,8 @@ const Slider: React.FC<Props> = ({
                 sizes="100vw"
                 loading="lazy"
                 priority={false}
-                onLoadingComplete={() => setLoadingComplet(true)}
+                // onLoadingComplete={() => setLoadingComplet(true)}
+                onLoad={() => setLoadingComplet(true)}
               />
             </motion.div>
           </AnimatePresence>

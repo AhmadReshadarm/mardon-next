@@ -361,9 +361,9 @@ const Products = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 15px;
+  // }
   @media ${devices.laptopS} {
     height: unset;
     overflow: hidden;

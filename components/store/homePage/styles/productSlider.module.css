@@ -62,7 +62,7 @@
 
 .cart_title_n_action_buttons_content {
   width: 95%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -157,22 +157,49 @@
 
 .dots_indecator_wrapper {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
+  max-width: 400px;
+  align-self: flex-end;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding: 10px 0 0 0;
 }
 
 .dots_indecator {
-  width: 6px;
-  height: 6px;
-  border: 1px solid;
-  border-radius: 50%;
+  display: inline-block;
   cursor: pointer;
+  min-width: 80px;
+  min-height: 80px;
+  max-width: 80px;
+  max-height: 80px;
+  margin: 0 5px;
+  overflow: hidden;
+}
+
+.thumbnaiImage_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  border-radius: 50%;
+  padding: 1px;
+}
+
+.slider_thumbnailImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 .active {
-  background-color: var(--buttonPrimary);
+  border: 2px solid #fff;
 }
 
 /* -------- */
@@ -274,6 +301,8 @@
   cursor: pointer;
   user-select: none;
   color: #000;
+  position: relative;
+  overflow: hidden;
 }
 
 @keyframes loading {
@@ -305,6 +334,26 @@
     transparent
   );
   animation: loading 0.8s infinite;
+}
+
+.NotInStockWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #f4f4f440;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.NotInStockLineThrough {
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  transform: rotate(-25deg);
 }
 
 /* laptopL */
@@ -349,6 +398,9 @@
   }
   .description_mobile {
     display: flex;
+  }
+  .dots_indecator_wrapper {
+    align-self: flex-start;
   }
 }
 
@@ -410,6 +462,9 @@
   }
   .product_description_wrapper > a > h1 {
     font-size: 1.2rem;
+  }
+  .dots_indecator_wrapper {
+    align-self: flex-start;
   }
 }
 

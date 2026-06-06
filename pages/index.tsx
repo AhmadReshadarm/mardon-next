@@ -48,7 +48,9 @@ export const getServerSideProps: GetServerSideProps<{
     if (!resSlides.ok) throw new Error('Failed to fetch slides');
     const slides: Slide[] = await resSlides.json();
 
-    const resCarosel = await fetch(`${apiUrl}/products?tags[]=main_page`);
+    const resCarosel = await fetch(
+      `${apiUrl}/products?tags[]=main_page&sortBy=id&orderBy=DESC`,
+    );
     if (!resCarosel.ok) throw new Error('Failed to fetch carousel products');
     const caroselData: { rows: Product[]; lenght: number } =
       await resCarosel.json();
