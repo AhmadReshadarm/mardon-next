@@ -122,9 +122,16 @@
 
 /* Global */
 @media (min-width: 100px) and (max-width: 1024px) {
+  .Container {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
   .Wrapper {
     max-width: unset;
     width: 95%;
+    padding: 0 0 10px 0;
   }
   .MenuButtonWrapper {
     display: none;

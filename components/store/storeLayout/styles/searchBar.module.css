@@ -11,6 +11,10 @@
   padding: 30px 0;
 }
 
+.SearchFormWrapperMobile {
+  display: none;
+}
+
 .header_Search_background {
   width: 100vw;
   height: 250px;
@@ -170,48 +174,48 @@
 @media (min-width: 768px) and (max-width: 1024px) {
   .ResultsContent {
     grid-template-columns: repeat(2, 1fr);
-    max-width: unset;
-    width: 95%;
+    /* max-width: unset;
+    width: 95%; */
   }
 }
 /* tabletL */
 @media (min-width: 440px) and (max-width: 768px) {
   .ResultsContent {
     grid-template-columns: repeat(2, 1fr);
-    max-width: unset;
-    width: 95%;
+    /* max-width: unset;
+    width: 95%; */
   }
 }
 /* tabletS */
 @media (min-width: 350px) and (max-width: 440px) {
   .ResultsContent {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: unset;
-    width: 95%;
+    grid-template-columns: repeat(1, 1fr);
+    /* max-width: unset;
+    width: 95%; */
   }
 }
 /* mobileL */
 @media (min-width: 285px) and (max-width: 350px) {
   .ResultsContent {
     grid-template-columns: repeat(1, 1fr);
-    max-width: unset;
-    width: 95%;
+    /* max-width: unset;
+    width: 95%; */
   }
 }
 /* mobileM */
 @media (min-width: 200px) and (max-width: 285px) {
   .ResultsContent {
     grid-template-columns: repeat(1, 1fr);
-    max-width: unset;
-    width: 95%;
+    /* max-width: unset;
+    width: 95%; */
   }
 }
 /* mobileS */
 @media (min-width: 100px) and (max-width: 200px) {
   .ResultsContent {
     grid-template-columns: repeat(1, 1fr);
-    max-width: unset;
-    width: 95%;
+    /* max-width: unset;
+    width: 95%; */
   }
 }
 
@@ -221,15 +225,34 @@
     position: unset;
     display: none;
   }
+  .SearchFormWrapperMobile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+  }
   .SearchForm {
     width: 100%;
     border: 1px solid;
   }
 
   .ResultsWrapper {
-    top: 200px;
+    top: 150px;
+    height: 110vh;
     background-color: var(--glassmorphismBg);
     backdrop-filter: blur(9px);
     -webkit-backdrop-filter: blur(9px);
+  }
+
+  .ResultsContent {
+    height: 70vh;
+    max-width: unset;
+    width: 95%;
+    display: inline-grid;
+    column-gap: 10px;
+    row-gap: 30px;
   }
 }

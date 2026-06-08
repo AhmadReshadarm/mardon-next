@@ -41,6 +41,7 @@ import {
   fetchWishlistProducts,
 } from 'redux/slicers/store/wishlistSlicer';
 import styles from './styles/header.module.css';
+import SearchMobile from './utils/SearchBar/searchMobile';
 
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
   ssr: false,
@@ -380,6 +381,7 @@ const Header = () => {
             searchButtonRef={searchButtonRef}
             windowWidth={windowWidth}
           />
+          <SearchMobile windowWidth={windowWidth} />
           <HeaderWishlist wishlistButtonRef={wishlistButtonRef} />
           <HeaderCart cartButtonRef={cartButtonRef} />
           <AuthorizationModel

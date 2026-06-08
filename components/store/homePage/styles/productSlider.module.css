@@ -419,6 +419,7 @@
     height: unset;
     flex-direction: column-reverse;
     padding: 10px;
+    border-radius: 30px;
   }
   .cart_image_wrapper {
     width: 100%;

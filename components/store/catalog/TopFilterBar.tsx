@@ -807,7 +807,7 @@ const FilterBarContent = styled.div<any>`
   border-radius: 30px;
   @media ${devices.laptopS} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
-    top: 0;
+    top: 98px;
     z-index: 9;
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block')};
@@ -823,7 +823,7 @@ const FilterBarContent = styled.div<any>`
   }
   @media ${devices.tabletL} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
-    top: 0;
+    top: 98px;
     z-index: 9;
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block')};
@@ -840,7 +840,7 @@ const FilterBarContent = styled.div<any>`
 
   @media ${devices.tabletS} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
-    top: 0;
+    top: 98px;
     z-index: 9;
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block')};
@@ -856,7 +856,7 @@ const FilterBarContent = styled.div<any>`
   }
   @media ${devices.mobileL} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
-    top: 0;
+    top: 98px;
     z-index: 9;
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block')};
@@ -873,7 +873,7 @@ const FilterBarContent = styled.div<any>`
 
   @media ${devices.mobileM} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
-    top: 0;
+    top: 98px;
     z-index: 9;
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block')};
@@ -890,7 +890,7 @@ const FilterBarContent = styled.div<any>`
 
   @media ${devices.mobileS} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
-    top: 0;
+    top: 98px;
     z-index: 9;
     .mobile-background {
       display: ${(props) => (!props.expanded ? 'none' : 'block')};
@@ -907,16 +907,16 @@ const FilterBarContent = styled.div<any>`
 `;
 
 const SelectedFiltersWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-items: flex-start;
-    gap:10px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    justify-items: flex-start;
-    padding: 40px 10px 10px 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: flex-start;
+  gap: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  justify-items: flex-start;
+  padding: 40px 10px 10px 10px;
 
   @media ${devices.laptopS} {
     width: 100%;
@@ -926,7 +926,7 @@ const SelectedFiltersWrapper = styled.div`
     justify-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
-    15px 20px 0 20px;
+    padding: 5px 10px 0 5px;
     gap: 20px;
   }
   @media ${devices.tabletL} {
@@ -937,7 +937,7 @@ const SelectedFiltersWrapper = styled.div`
     justify-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
-   15px 20px 0 20px;
+    padding: 5px 10px 0 5px;
     gap: 20px;
   }
   @media ${devices.tabletS} {
@@ -948,7 +948,7 @@ const SelectedFiltersWrapper = styled.div`
     justify-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
-   15px 20px 0 20px;
+    padding: 5px 10px 0 5px;
     gap: 20px;
   }
   @media ${devices.mobileL} {
@@ -959,7 +959,7 @@ const SelectedFiltersWrapper = styled.div`
     justify-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
-   15px 20px 0 20px;
+    padding: 5px 10px 0 5px;
     gap: 20px;
   }
   @media ${devices.mobileM} {
@@ -970,7 +970,7 @@ const SelectedFiltersWrapper = styled.div`
     justify-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
-    15px 20px 0 20px;
+    padding: 5px 10px 0 5px;
     gap: 20px;
   }
   @media ${devices.mobileS} {
@@ -981,7 +981,7 @@ const SelectedFiltersWrapper = styled.div`
     justify-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
-    15px 20px 0 20px;
+    padding: 5px 10px 0 5px;
     gap: 20px;
   }
 `;

@@ -58,7 +58,7 @@
 .category_image_wrapper > img {
   width: 100%;
   height: 85%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 @keyframes loading {
