@@ -12,7 +12,8 @@ const ZoomFullScreen: React.FC<PropsFullScreen> = ({ zoomImgSrc }) => {
         className="hidden-image-zoom"
         style={{ display: 'none' }}
         width={200}
-        preview={{ src: zoomImgSrc }}
+        // preview={{ src: zoomImgSrc }}
+        src={zoomImgSrc}
       />
     </>
   );

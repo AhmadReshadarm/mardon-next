@@ -36,6 +36,12 @@ const SearchMobile: React.FC<Props> = ({ windowWidth }) => {
   const [resultsActive, setResultActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   useEffect(() => {
+    if (router.pathname !== '/catalog') {
+      setResultActive(false);
+      setSearchQuery('');
+    }
+  }, [router]);
+  useEffect(() => {
     if (
       products.length > 0 ||
       searchQuery.trim() !== '' ||

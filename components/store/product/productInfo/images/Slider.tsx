@@ -157,6 +157,10 @@ const Slider: React.FC<Props> = ({
     }
   }, [touchEnd]);
 
+  useEffect(() => {
+    console.log(zoomImgSrc);
+  }, [zoom]);
+
   return (
     <div className={styles.SliderWrapper} id="image-zoom-controller">
       <AnimatePresence mode="wait" initial={false} custom={direction}>
