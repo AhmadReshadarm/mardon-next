@@ -39,3 +39,6 @@ robots.txt
 #cache
 /webprojnpm-cache
 nginx.conf
+
+# old files
+/public/fonts/Circe/
