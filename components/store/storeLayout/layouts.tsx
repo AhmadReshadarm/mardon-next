@@ -56,7 +56,8 @@ const StoreLayout = ({ children }: { children: React.ReactNode }) => {
       )}
 
       <Header />
-      {children}
+      <main role="main">{children}</main>
+
       <Footer />
     </>
   );

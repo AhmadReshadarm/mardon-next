@@ -14,7 +14,7 @@ const NavMobile = () => {
   const router = useRouter();
 
   return (
-    <div className={styles.NavWrap}>
+    <nav role="navigation" className={styles.NavWrap}>
       <Link aria-label="главная страница" href="/" prefetch={false}>
         <span className={styles.icons_wrapper_mobile}>
           <svg
@@ -136,7 +136,7 @@ const NavMobile = () => {
           </span>
         </Link>
       </div>
-    </div>
+    </nav>
   );
 };
 

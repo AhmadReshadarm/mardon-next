@@ -72,7 +72,11 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
       {isCatalogOpen && (
         <>
           <div className={styles.header_menu_background}></div>
-          <div className={styles.catelog_content_wrapper}>
+          <nav
+            role="navigation"
+            id="site-nav"
+            className={styles.catelog_content_wrapper}
+          >
             <div ref={ref} className={styles.category_menu_wrapper}>
               <div className={styles.header_spacer}></div>
               {isInViewport && (
@@ -94,7 +98,7 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
                 <div className={styles.ImageLoader} />
               )}
             </div>
-          </div>
+          </nav>
         </>
       )}
     </motion.div>

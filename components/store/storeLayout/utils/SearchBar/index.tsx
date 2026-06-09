@@ -115,6 +115,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
               dispatch,
             )}
             className={styles.SearchForm}
+            role="search"
           >
             <div
               onClick={() => {
@@ -144,7 +145,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
             <input
               onChange={handleChangeOnquary}
               placeholder="Введите ключевые слова, артикул или символы"
-              type="input"
+              type="search"
               value={searchQuery}
               className={styles.SearchFieldInput}
             />

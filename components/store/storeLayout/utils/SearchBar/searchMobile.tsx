@@ -120,6 +120,7 @@ const SearchMobile: React.FC<Props> = ({ windowWidth }) => {
             });
           }}
           className={styles.SearchForm}
+          role="search"
         >
           <div
             onClick={() => {
@@ -150,7 +151,7 @@ const SearchMobile: React.FC<Props> = ({ windowWidth }) => {
           <input
             onChange={handleChangeOnquary}
             placeholder="Введите ключевые слова, артикул или символы"
-            type="input"
+            type="search"
             value={searchQuery}
             className={styles.SearchFieldInput}
           />

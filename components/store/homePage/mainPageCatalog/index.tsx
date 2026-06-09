@@ -98,7 +98,7 @@ const MainPageCatalog = (): JSX.Element => {
           </div>
         </HeaderWrapper>
 
-        <CatalogContentWrapper>
+        <CatalogContentWrapper role="navigation">
           <ImageSlider
             categories={categoriesData}
             page={page}
@@ -185,7 +185,7 @@ const HeaderWrapper = styled.div`
   }
 `;
 
-const CatalogContentWrapper = styled.div`
+const CatalogContentWrapper = styled.nav`
   width: 100%;
   display: flex;
   flex-direction: row;

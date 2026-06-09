@@ -187,7 +187,7 @@ const Header = () => {
 
   return (
     <>
-      <div className={styles.Container}>
+      <header role="banner" className={styles.Container}>
         <div className={styles.Wrapper}>
           <div className={styles.Content}>
             {/* ---------------------- catelog ------------------------- */}
@@ -202,6 +202,11 @@ const Header = () => {
               )}
               title="каталог"
               className={styles.MenuButtonWrapper}
+              id="menu-toggle"
+              aria-controls="site-nav"
+              aria-expanded="false"
+              aria-haspopup="menu"
+              aria-label="Open main menu"
             >
               {catelogDisplay == PopupDisplay.None ? (
                 <MenueNormalStateSVG
@@ -389,7 +394,7 @@ const Header = () => {
             windowWidth={windowWidth}
           />
         </div>
-      </div>
+      </header>
       <NavMobile />
     </>
   );

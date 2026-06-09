@@ -44,13 +44,16 @@ const Footer = (): JSX.Element => {
     <>
       {isClient ? (
         <>
-          <div className={styles.Container} ref={ref}>
+          <footer role="contentinfo" className={styles.Container} ref={ref}>
             {isInViewport && (
               <div className={styles.Wrapper}>
                 <div className={styles.FooterContentWrapper}>
                   <div className={styles.FooterTopContentWrapper}>
                     <div className={styles.FooterLeftContentWrapper}>
-                      <div className={styles.footer_columns_wrapper}>
+                      <nav
+                        role="navigation"
+                        className={styles.footer_columns_wrapper}
+                      >
                         <span title="Каталог" className={styles.columns_header}>
                           Каталог
                         </span>
@@ -66,7 +69,7 @@ const Footer = (): JSX.Element => {
                             </Link>
                           );
                         })}
-                      </div>
+                      </nav>
 
                       <div className={styles.footer_columns_wrapper}>
                         <span className={styles.columns_header}>О нас</span>
@@ -263,7 +266,7 @@ const Footer = (): JSX.Element => {
                 </div>
               </div>
             )}
-          </div>
+          </footer>
           {showCookiesNotifi ? (
             <div
               title="Политикой использования файлов cookies."
