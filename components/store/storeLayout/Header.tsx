@@ -386,7 +386,7 @@ const Header = () => {
             searchButtonRef={searchButtonRef}
             windowWidth={windowWidth}
           />
-          <SearchMobile windowWidth={windowWidth} />
+          <SearchMobile />
           <HeaderWishlist wishlistButtonRef={wishlistButtonRef} />
           <HeaderCart cartButtonRef={cartButtonRef} />
           <AuthorizationModel

@@ -10,24 +10,34 @@ type Props = {
 const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
   return (
     <li className={styles.ProductItemWrapper}>
-      <a href={`/product/${orderProduct!.product?.url}`}>
-        <img
-          src={`/api/images/${
-            orderProduct?.productVariant?.images?.split(', ')[0]
-          }`}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/img_not_found.png';
-          }}
-          className={styles.product_img}
-        />
-      </a>
+      <div className={styles.image_n_mobile_action_btn_wrapper}>
+        <a href={`/product/${orderProduct!.product?.url}`}>
+          <img
+            src={`/api/images/${
+              orderProduct?.productVariant?.images?.split(', ')[0]
+            }`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/img_not_found.png';
+            }}
+            className={styles.product_img}
+          />
+        </a>
+        <div className={styles.action_buttons_wrapper_mobile}>
+          <AddToWishlist product={orderProduct!?.product!} />
+          <AddToCart
+            product={orderProduct!?.product!}
+            qty={orderProduct!?.qty!}
+            variant={orderProduct.productVariant}
+          />
+        </div>
+      </div>
       <div className={styles.product_details_wrapper}>
         <div className={styles.product_title_description_wrapper}>
           <Link href={`/product/${orderProduct!.product?.url}`}>
             <h1 title={orderProduct!?.product!?.name}>
-              {orderProduct!?.product!?.name?.length! > 18
-                ? orderProduct!?.product!?.name?.slice(0, 18) + ' ...'
+              {orderProduct!?.product!?.name?.length! > 40
+                ? orderProduct!?.product!?.name?.slice(0, 40) + ' ...'
                 : orderProduct!?.product!?.name}
             </h1>
           </Link>

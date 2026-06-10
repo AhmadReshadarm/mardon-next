@@ -1,22 +1,35 @@
 import styles from './cartStyles.module.css';
 
-const CartItemLoader = ({ windowWidth }) => {
+const CartItemLoader = () => {
   return (
     <li className={styles.ProductItemWrapper}>
-      <span
-        style={{
-          width: windowWidth <= 1024 ? `${windowWidth - 60}px` : '180px',
-          height: windowWidth <= 1024 ? `${windowWidth - 60}px` : '180px',
-          borderRadius: 0,
-        }}
-        className={`${styles.loader_img} ${styles.LoaderMask}`}
-      />
+      <div className={styles.loader_imageLoader_wrapper}>
+        <span className={`${styles.loader_img} ${styles.LoaderMask}`} />
+        <div className={styles.action_btn_loader_wrapper}>
+          <div
+            className={styles.LoaderMask}
+            style={{
+              width: '120px',
+              height: '50px',
+              borderRadius: '30px',
+            }}
+          />
+          <div
+            className={styles.LoaderMask}
+            style={{
+              width: '120px',
+              height: '50px',
+              borderRadius: '30px',
+            }}
+          />
+        </div>
+      </div>
 
       <div className={styles.product_details_wrapper}>
         <div className={styles.product_title_description_wrapper}>
           <span
-            style={{ width: '200px', height: '25px' }}
-            className={styles.LoaderMask}
+            // style={{ width: '200px', height: '25px' }}
+            className={`${styles.LoaderMask} ${styles.loader_title}`}
           />
 
           {/* ------------ rating --------------- */}

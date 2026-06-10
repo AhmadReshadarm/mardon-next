@@ -26,6 +26,20 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
   const [incrementPressed, setIncrementPressed] = useState(false);
   const [inputValue, setInputValue] = useState(String(qty));
   const [isEditing, setIsEditing] = useState(false);
+  const [windowWidth, setWindowWidth]: [any, any] = useState(null);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
 
   // Sync local state with prop when not editing
   useEffect(() => {
@@ -74,45 +88,93 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
         >
           <>
             {!decrementPressed ? (
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_99_565)">
-                  <path
-                    d="M9.66667 15V17.6667H23V15H9.66667ZM16.3333 3C8.97334 3 3 8.97334 3 16.3333C3 23.6933 8.97334 29.6667 16.3333 29.6667C23.6933 29.6667 29.6667 23.6933 29.6667 16.3333C29.6667 8.97334 23.6933 3 16.3333 3ZM16.3333 27C10.4533 27 5.66667 22.2133 5.66667 16.3333C5.66667 10.4533 10.4533 5.66667 16.3333 5.66667C22.2133 5.66667 27 10.4533 27 16.3333C27 22.2133 22.2133 27 16.3333 27Z"
-                    fill="#949494"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_99_565">
-                    <rect width="32" height="32" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+              <>
+                {windowWidth > 1024 ? (
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_99_565)">
+                      <path
+                        d="M9.66667 15V17.6667H23V15H9.66667ZM16.3333 3C8.97334 3 3 8.97334 3 16.3333C3 23.6933 8.97334 29.6667 16.3333 29.6667C23.6933 29.6667 29.6667 23.6933 29.6667 16.3333C29.6667 8.97334 23.6933 3 16.3333 3ZM16.3333 27C10.4533 27 5.66667 22.2133 5.66667 16.3333C5.66667 10.4533 10.4533 5.66667 16.3333 5.66667C22.2133 5.66667 27 10.4533 27 16.3333C27 22.2133 22.2133 27 16.3333 27Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_99_565">
+                        <rect width="32" height="32" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                ) : (
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_2001_23)">
+                      <path
+                        d="M6.25 11.25V13.75H18.75V11.25H6.25ZM12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM12.5 22.5C6.9875 22.5 2.5 18.0125 2.5 12.5C2.5 6.9875 6.9875 2.5 12.5 2.5C18.0125 2.5 22.5 6.9875 22.5 12.5C22.5 18.0125 18.0125 22.5 12.5 22.5Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2001_23">
+                        <rect width="25" height="25" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </>
             ) : (
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_99_559)">
-                  <path
-                    d="M15.9994 2.66663C8.63935 2.66663 2.66602 8.63996 2.66602 16C2.66602 23.36 8.63935 29.3333 15.9994 29.3333C23.3594 29.3333 29.3327 23.36 29.3327 16C29.3327 8.63996 23.3594 2.66663 15.9994 2.66663ZM22.666 17.3333H9.33268V14.6666H22.666V17.3333Z"
-                    fill="#949494"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_99_559">
-                    <rect width="32" height="32" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+              <>
+                {windowWidth > 1024 ? (
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_99_559)">
+                      <path
+                        d="M15.9994 2.66663C8.63935 2.66663 2.66602 8.63996 2.66602 16C2.66602 23.36 8.63935 29.3333 15.9994 29.3333C23.3594 29.3333 29.3327 23.36 29.3327 16C29.3327 8.63996 23.3594 2.66663 15.9994 2.66663ZM22.666 17.3333H9.33268V14.6666H22.666V17.3333Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_99_559">
+                        <rect width="32" height="32" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                ) : (
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_2001_29)">
+                      <path
+                        d="M12.5 2.08337C6.74998 2.08337 2.08331 6.75004 2.08331 12.5C2.08331 18.25 6.74998 22.9167 12.5 22.9167C18.25 22.9167 22.9167 18.25 22.9167 12.5C22.9167 6.75004 18.25 2.08337 12.5 2.08337ZM17.7083 13.5417H7.29165V11.4584H17.7083V13.5417Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2001_29">
+                        <rect width="25" height="25" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </>
             )}
           </>
         </motion.button>
@@ -177,45 +239,93 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
         >
           <>
             {!incrementPressed ? (
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_99_566)">
-                  <path
-                    d="M17.6667 9.66667H15V15H9.66667V17.6667H15V23H17.6667V17.6667H23V15H17.6667V9.66667ZM16.3333 3C8.97334 3 3 8.97334 3 16.3333C3 23.6933 8.97334 29.6667 16.3333 29.6667C23.6933 29.6667 29.6667 23.6933 29.6667 16.3333C29.6667 8.97334 23.6933 3 16.3333 3ZM16.3333 27C10.4533 27 5.66667 22.2133 5.66667 16.3333C5.66667 10.4533 10.4533 5.66667 16.3333 5.66667C22.2133 5.66667 27 10.4533 27 16.3333C27 22.2133 22.2133 27 16.3333 27Z"
-                    fill="#949494"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_99_566">
-                    <rect width="32" height="32" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+              <>
+                {windowWidth > 1024 ? (
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_99_566)">
+                      <path
+                        d="M17.6667 9.66667H15V15H9.66667V17.6667H15V23H17.6667V17.6667H23V15H17.6667V9.66667ZM16.3333 3C8.97334 3 3 8.97334 3 16.3333C3 23.6933 8.97334 29.6667 16.3333 29.6667C23.6933 29.6667 29.6667 23.6933 29.6667 16.3333C29.6667 8.97334 23.6933 3 16.3333 3ZM16.3333 27C10.4533 27 5.66667 22.2133 5.66667 16.3333C5.66667 10.4533 10.4533 5.66667 16.3333 5.66667C22.2133 5.66667 27 10.4533 27 16.3333C27 22.2133 22.2133 27 16.3333 27Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_99_566">
+                        <rect width="32" height="32" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                ) : (
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_2001_20)">
+                      <path
+                        d="M13.75 6.25H11.25V11.25H6.25V13.75H11.25V18.75H13.75V13.75H18.75V11.25H13.75V6.25ZM12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM12.5 22.5C6.9875 22.5 2.5 18.0125 2.5 12.5C2.5 6.9875 6.9875 2.5 12.5 2.5C18.0125 2.5 22.5 6.9875 22.5 12.5C22.5 18.0125 18.0125 22.5 12.5 22.5Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2001_20">
+                        <rect width="25" height="25" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </>
             ) : (
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_99_560)">
-                  <path
-                    d="M15.9994 2.66663C8.63935 2.66663 2.66602 8.63996 2.66602 16C2.66602 23.36 8.63935 29.3333 15.9994 29.3333C23.3594 29.3333 29.3327 23.36 29.3327 16C29.3327 8.63996 23.3594 2.66663 15.9994 2.66663ZM22.666 17.3333H17.3327V22.6666H14.666V17.3333H9.33268V14.6666H14.666V9.33329H17.3327V14.6666H22.666V17.3333Z"
-                    fill="#949494"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_99_560">
-                    <rect width="32" height="32" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+              <>
+                {windowWidth > 1024 ? (
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_99_560)">
+                      <path
+                        d="M15.9994 2.66663C8.63935 2.66663 2.66602 8.63996 2.66602 16C2.66602 23.36 8.63935 29.3333 15.9994 29.3333C23.3594 29.3333 29.3327 23.36 29.3327 16C29.3327 8.63996 23.3594 2.66663 15.9994 2.66663ZM22.666 17.3333H17.3327V22.6666H14.666V17.3333H9.33268V14.6666H14.666V9.33329H17.3327V14.6666H22.666V17.3333Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_99_560">
+                        <rect width="32" height="32" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                ) : (
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_2001_26)">
+                      <path
+                        d="M12.5 2.08337C6.74998 2.08337 2.08331 6.75004 2.08331 12.5C2.08331 18.25 6.74998 22.9167 12.5 22.9167C18.25 22.9167 22.9167 18.25 22.9167 12.5C22.9167 6.75004 18.25 2.08337 12.5 2.08337ZM17.7083 13.5417H13.5416V17.7084H11.4583V13.5417H7.29165V11.4584H11.4583V7.29171H13.5416V11.4584H17.7083V13.5417Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2001_26">
+                        <rect width="25" height="25" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </>
             )}
           </>
         </motion.button>

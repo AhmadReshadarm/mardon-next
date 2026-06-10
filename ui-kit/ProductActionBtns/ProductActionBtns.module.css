@@ -115,29 +115,15 @@
   border: none;
 }
 
-/* laptopM */
-@media (min-width: 1024px) and (max-width: 1240px) {
+/* global 1 */
+@media (min-width: 100px) and (max-width: 1024px) {
   .CartButtonWrapper {
-    width: 140px;
-  }
-
-  .WishlistButtonWrapper {
-    width: 140px;
-  }
-  .InWishlistButtonContent {
-    width: 140px;
-  }
-}
-
-/* tabletS */
-@media (min-width: 350px) and (max-width: 440px) {
-  .CartButtonWrapper {
-    width: 125px;
+    width: 120px;
   }
   .WishlistButtonWrapper {
-    width: 125px;
+    width: 120px;
   }
   .InWishlistButtonContent {
-    width: 125px;
+    width: 120px;
   }
 }

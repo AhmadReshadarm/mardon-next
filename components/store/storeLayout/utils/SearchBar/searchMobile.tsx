@@ -18,10 +18,7 @@ const ProductItem = dynamic(() => import('ui-kit/products/productItem'), {
   ssr: false,
 });
 
-type Props = {
-  windowWidth: number;
-};
-const SearchMobile: React.FC<Props> = ({ windowWidth }) => {
+const SearchMobile = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { products, productsLoading } = useAppSelector<TGlobalState>(
@@ -90,7 +87,14 @@ const SearchMobile: React.FC<Props> = ({ windowWidth }) => {
     <div className={styles.searchFormContainer}>
       <div
         style={{
-          display: router.pathname == '/catalog' ? 'none' : 'flex',
+          display:
+            router.pathname == '/catalog' ||
+            router.pathname == '/wishlist' ||
+            router.pathname == '/cart' ||
+            router.pathname == '/checkout' ||
+            router.pathname == '/profile'
+              ? 'none'
+              : 'flex',
         }}
         className={styles.SearchFormWrapperMobile}
       >

@@ -38,24 +38,35 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
   return (
     <li className={styles.ProductItemWrapper} key={index}>
       <>
-        <Link href={`/product/${product?.url}`} prefetch={false}>
-          <img
-            src={`/api/images/${
-              variant.images ? variant.images.split(', ')[0] : ''
-            }`}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/img_not_found.png';
-            }}
-            className={styles.product_img}
-          />
-        </Link>
+        <div className={styles.image_n_mobile_action_btn_wrapper}>
+          <Link href={`/product/${product?.url}`} prefetch={false}>
+            <img
+              src={`/api/images/${
+                variant.images ? variant.images.split(', ')[0] : ''
+              }`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/img_not_found.png';
+              }}
+              className={styles.product_img}
+            />
+          </Link>
+          <div className={styles.action_buttons_wrapper_mobile}>
+            <AddToWishlist product={product} />
+            <AddToCart
+              product={product}
+              qty={findCartQTY(product, cart!, variant)}
+              variant={variant}
+            />
+          </div>
+        </div>
+
         <div className={styles.product_details_wrapper}>
           <div className={styles.product_title_description_wrapper}>
             <Link href={`/product/${product?.url}`} prefetch={false}>
               <h1 title={product!?.name}>
-                {product!?.name?.length! > 18
-                  ? product!?.name?.slice(0, 18) + ' ...'
+                {product!?.name?.length! > 40
+                  ? product!?.name?.slice(0, 40) + ' ...'
                   : product!?.name}
               </h1>
             </Link>

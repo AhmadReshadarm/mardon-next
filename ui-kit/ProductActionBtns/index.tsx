@@ -27,9 +27,9 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
   const [isAdding, setIsAdding] = useState(false);
 
   // ------------------- end of UI Hooks --------------------
-
+  // style={{ minWidth: '150px' }}
   return (
-    <div style={{ minWidth: '150px' }}>
+    <>
       {!checkIfItemInCart(product, cart!, variant) ? (
         <button
           onClick={async () => {
@@ -62,7 +62,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
       ) : (
         <ItemCounter product={product} qty={qty} variant={variant} />
       )}
-    </div>
+    </>
   );
 };
 

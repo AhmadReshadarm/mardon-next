@@ -32,7 +32,7 @@ const WishlistItems = () => {
         {wishlist?.items?.length && !loading ? (
           <Suspense
             fallback={emptyLoading.map((item, index) => {
-              return <CartItemLoader key={index} windowWidth={windowWidth} />;
+              return <CartItemLoader key={index} />;
             })}
           >
             {wishlist.products!.map((product, index) => {
@@ -44,7 +44,7 @@ const WishlistItems = () => {
         ) : loading ? (
           <>
             {emptyLoading.map((item, index) => {
-              return <CartItemLoader key={index} windowWidth={windowWidth} />;
+              return <CartItemLoader key={index} />;
             })}
           </>
         ) : (

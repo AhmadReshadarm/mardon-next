@@ -125,7 +125,7 @@ const BasketItems: React.FC<Props> = ({}) => {
           <>
             {loadingHistory ? (
               emptyLoading.map((item, index) => {
-                return <CartItemLoader key={index} windowWidth={windowWidth} />;
+                return <CartItemLoader key={index} />;
               })
             ) : (
               <></>

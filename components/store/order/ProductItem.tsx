@@ -69,18 +69,20 @@ const ProductItem: React.FC<Props> = ({ orderProduct, checkout }) => {
         }
         <div className="total-numbers">
           <span>
-            {calculateIndvidualPercent(
-              checkout.paymentMethod,
-              orderProduct.productPrice!,
-              // orderProduct.productVariant?.price!,
-            )}{' '}
+            {Math.floor(
+              calculateIndvidualPercent(
+                checkout.paymentMethod,
+                orderProduct.productPrice!,
+              ),
+            ).toFixed(2)}{' '}
             ₽ x {orderProduct.qty} шт ={' '}
-            {calculateIndvidualProductTotal(
-              checkout.paymentMethod,
-              // orderProduct.productVariant?.price!,
-              orderProduct.productPrice!,
-              orderProduct.qty!,
-            )}{' '}
+            {Math.floor(
+              calculateIndvidualProductTotal(
+                checkout.paymentMethod,
+                orderProduct.productPrice!,
+                orderProduct.qty!,
+              ),
+            ).toFixed(2)}{' '}
             ₽
           </span>
         </div>
