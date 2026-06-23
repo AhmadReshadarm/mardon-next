@@ -13,7 +13,7 @@ import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
@@ -158,6 +158,7 @@ const CatalogPage = ({
   // ------------------------- pagination handlers ---------------------------
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize]: [number, any] = useState(12);
+  const containerRef = useRef<HTMLDivElement>(null);
   const handlePageChange = (
     page: number,
     pageSize: number,
@@ -170,6 +171,10 @@ const CatalogPage = ({
       { name: 'limit', value: pageSize },
     ]);
     // window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    containerRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   };
   // ---------------------------------------------------------------------------
 
@@ -285,11 +290,12 @@ const CatalogPage = ({
                 setCurrentPage={setCurrentPage}
                 setPageSize={setPageSize}
                 localFilters={localFilters}
+                containerRef={containerRef}
               />
 
               <Content>
                 <Products>
-                  <ProductGrid />
+                  <ProductGrid containerRef={containerRef} />
                 </Products>
                 <Pagination
                   style={{ marginTop: '20px' }}

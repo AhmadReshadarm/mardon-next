@@ -29,6 +29,7 @@ type Props = {
   setCurrentPage: any;
   setPageSize: any;
   localFilters: Filter[];
+  containerRef?: any;
 };
 
 type StyleProps = {
@@ -43,6 +44,7 @@ const TopFilterBar: React.FC<Props> = ({
   setCurrentPage,
   setPageSize,
   localFilters,
+  containerRef,
 }) => {
   const cat_first_visit = localStorage.getItem('cat_first_visit');
   const [expanded, setExpanded] = useState(!cat_first_visit ? true : false);
@@ -131,11 +133,11 @@ const TopFilterBar: React.FC<Props> = ({
     (state) => state.catalog,
   );
 
-  useEffect(() => {
-    if (expanded) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }
-  }, [expanded, isMoreFilters]);
+  // useEffect(() => {
+  //   if (expanded) {
+  //     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  //   }
+  // }, [expanded, isMoreFilters]);
 
   return (
     <FilterBarContent expanded={expanded}>
@@ -386,7 +388,11 @@ const TopFilterBar: React.FC<Props> = ({
             <span>Наименование товара: {searchTerm}</span>
             <button
               onClick={() => {
-                window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                // window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                containerRef.current?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
                 setClearSearchTerm(true);
                 setSearchTerm('');
               }}
@@ -451,10 +457,14 @@ const TopFilterBar: React.FC<Props> = ({
 
                             <button
                               onClick={() => {
-                                window.scrollTo({
-                                  top: 0,
-                                  left: 0,
+                                // window.scrollTo({
+                                //   top: 0,
+                                //   left: 0,
+                                //   behavior: 'smooth',
+                                // });
+                                containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
+                                  block: 'start',
                                 });
                                 const curOption = selectedFilter.options?.find(
                                   (option) => option.id === selectedColor.id,
@@ -521,10 +531,14 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Тип товара: {selectedType.name}</span>
                             <button
                               onClick={() => {
-                                window.scrollTo({
-                                  top: 0,
-                                  left: 0,
+                                // window.scrollTo({
+                                //   top: 0,
+                                //   left: 0,
+                                //   behavior: 'smooth',
+                                // });
+                                containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
+                                  block: 'start',
                                 });
                                 const curOption = selectedFilter.options?.find(
                                   (option) => option.id === selectedType.id,
@@ -592,10 +606,14 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Категории: {selectedCategory.name}</span>
                             <button
                               onClick={() => {
-                                window.scrollTo({
-                                  top: 0,
-                                  left: 0,
+                                // window.scrollTo({
+                                //   top: 0,
+                                //   left: 0,
+                                //   behavior: 'smooth',
+                                // });
+                                containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
+                                  block: 'start',
                                 });
                                 const curOption: any =
                                   selectedFilter.options?.find(
@@ -662,10 +680,14 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Подкатегори: {selectedSubCategory.name}</span>
                             <button
                               onClick={() => {
-                                window.scrollTo({
-                                  top: 0,
-                                  left: 0,
+                                // window.scrollTo({
+                                //   top: 0,
+                                //   left: 0,
+                                //   behavior: 'smooth',
+                                // });
+                                containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
+                                  block: 'start',
                                 });
                                 const curOption: any =
                                   selectedFilter.options?.find(
@@ -731,10 +753,14 @@ const TopFilterBar: React.FC<Props> = ({
                       </span>
                       <button
                         onClick={() => {
-                          window.scrollTo({
-                            top: 0,
-                            left: 0,
+                          // window.scrollTo({
+                          //   top: 0,
+                          //   left: 0,
+                          //   behavior: 'smooth',
+                          // });
+                          containerRef.current?.scrollIntoView({
                             behavior: 'smooth',
+                            block: 'start',
                           });
                           setResetSlider(true);
                           setSliderChanged(false);
