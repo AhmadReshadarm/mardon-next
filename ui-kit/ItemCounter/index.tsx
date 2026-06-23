@@ -73,7 +73,7 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
           onClick={() => {
             const newQty = qty - 1;
             if (newQty < 1) {
-              openErrorNotification('Должно быть число от 1 до 10000');
+              openErrorNotification('Должно быть число от 1 до 100000');
               return;
             }
             setInputValue(String(newQty)); // Optimistic update
@@ -190,8 +190,8 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
             if (newValue === '') return;
 
             const numValue = Number(newValue);
-            if (numValue < 1 || numValue > 10000) {
-              openErrorNotification('Должно быть число от 1 до 10000');
+            if (numValue < 1 || numValue > 100000) {
+              openErrorNotification('Должно быть число от 1 до 100000');
               return;
             }
 
@@ -203,8 +203,8 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
           onBlur={() => {
             setIsEditing(false);
             const numValue = inputValue === '' ? 1 : Number(inputValue);
-            if (numValue < 1 || numValue > 10000) {
-              openErrorNotification('Должно быть число от 1 до 10000');
+            if (numValue < 1 || numValue > 100000) {
+              openErrorNotification('Должно быть число от 1 до 100000');
               setInputValue(String(qty));
               return;
             }
@@ -220,8 +220,8 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
           onMouseUp={() => setIncrementPressed(false)}
           onClick={() => {
             const newQty = qty + 1;
-            if (newQty > 10000) {
-              openErrorNotification('Должно быть число от 1 до 10000');
+            if (newQty > 100000) {
+              openErrorNotification('Должно быть число от 1 до 100000');
               return;
             }
             setInputValue(String(newQty)); // Optimistic update
