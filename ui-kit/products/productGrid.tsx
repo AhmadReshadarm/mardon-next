@@ -5,15 +5,24 @@ import { emptyLoading } from 'common/constants';
 import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
 import styles from './styles/productGrid.module.css';
+import { useEffect, useRef } from 'react';
 
 const ProductGrid = () => {
   const { products, productsLoading } = useAppSelector<TCatalogState>(
     (state) => state.catalog,
   );
   const delay = getAnimationDelay(products.length);
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (products.length > 0 && !productsLoading) {
+      containerRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [products, productsLoading]);
   return (
-    <>
+    <div ref={containerRef}>
       {products.length !== 0 && !productsLoading ? (
         <ul className={styles.Grid}>
           <>
@@ -46,7 +55,7 @@ const ProductGrid = () => {
           })}
         </ul>
       )}
-    </>
+    </div>
   );
 };
 
