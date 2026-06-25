@@ -347,14 +347,14 @@ const handleProductDownloadInExcel = (
         { header: 'Артикул товара', key: 'artical', width: 20 },
         { header: 'Цена', key: 'price', width: 10 },
         { header: 'Ссылка на товара', key: 'link', width: 55 },
-        { header: 'Изображение', key: 'image', width: 21 },
+        { header: 'Изображение', key: 'image', width: 15 },
       ];
       sheet.getRow(1).alignment = {
         vertical: 'middle',
         horizontal: 'center',
         wrapText: true,
       };
-      sheet.properties.defaultRowHeight = 115;
+      sheet.properties.defaultRowHeight = 70;
 
       let counter = 0;
       let progress = 0;
@@ -369,7 +369,9 @@ const handleProductDownloadInExcel = (
                 const images = variant.images ? variant.images.split(', ') : [];
 
                 const responseImage = await fetch(
-                  `https://nbhoz.ru/api/images/${images[0]}`,
+                  `https://nbhoz.ru/api/images/compress/${
+                    images[0]
+                  }?qlty=1&width=${80}&height=${80}&lossless=false`,
                 );
 
                 const buffer = await responseImage.arrayBuffer();
@@ -395,8 +397,8 @@ const handleProductDownloadInExcel = (
                 });
 
                 await sheet.addImage(imageId, {
-                  tl: { col: 5, row: sheet.rowCount - 1 },
-                  ext: { width: 150, height: 150 },
+                  tl: { col: 2, row: sheet.rowCount - 1 },
+                  ext: { width: 80, height: 80 },
                   editAs: 'oneCell',
                 });
                 sheet.getRow(sheet.rowCount).alignment = {

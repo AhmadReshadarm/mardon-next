@@ -172,6 +172,7 @@ export const fetchProductsInExcelFile = createAsyncThunk<
   async function (_, { rejectWithValue }): Promise<any> {
     try {
       const response = (await ProductService.getProducts({
+        // offset: `999`,
         limit: 10000,
       })) as unknown as { rows: Product[]; length: number };
       return response;

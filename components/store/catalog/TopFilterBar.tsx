@@ -133,12 +133,40 @@ const TopFilterBar: React.FC<Props> = ({
     (state) => state.catalog,
   );
 
-  // useEffect(() => {
-  //   if (expanded) {
-  //     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  //   }
-  // }, [expanded, isMoreFilters]);
+  const [isInviewPortState, setIsInviewPortState] = useState(false);
 
+  const isInViewport = (el: HTMLElement): boolean => {
+    const r = el.getBoundingClientRect();
+
+    return (
+      r.top < window.innerHeight &&
+      r.bottom > 0 &&
+      r.left < window.innerWidth &&
+      r.right > 0
+    );
+  };
+
+  useEffect(() => {
+    const checkVisibility = () => {
+      if (containerRef?.current) {
+        const isVisible = isInViewport(containerRef.current);
+        setIsInviewPortState(isVisible);
+      }
+    };
+
+    // Initial check
+    checkVisibility();
+
+    // Attach event listeners
+    window.addEventListener('scroll', checkVisibility);
+    window.addEventListener('resize', checkVisibility);
+
+    return () => {
+      window.removeEventListener('scroll', checkVisibility);
+      window.removeEventListener('resize', checkVisibility);
+    };
+  });
+  // , [containerRef]
   return (
     <FilterBarContent expanded={expanded}>
       <div
@@ -381,14 +409,36 @@ const TopFilterBar: React.FC<Props> = ({
       </ActionButtonsWrapper>
 
       {/* ----------------------------- end category menu state aciton buttons ---------------------- */}
-      <SelectedFiltersWrapper className="selected-parent">
+      <SelectedFiltersWrapper
+        style={{
+          border:
+            (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
+              ? '1px solid #74747459'
+              : 'none',
+          position:
+            (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
+              ? 'sticky'
+              : 'unset',
+        }}
+        className="selected-parent"
+      >
+        <div
+          style={{
+            display:
+              (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
+                ? 'block'
+                : 'none',
+          }}
+          className="title-wrapper"
+        >
+          <h3 className="selected-filters-title">Выбранные фильтры</h3>
+        </div>
         {/* ----------------------------------------- seleceted Filters start ------------------------------------------- */}
         {searchTerm !== '' ? (
           <SelectedFiltersButtons className="selected-filter-child">
             <span>Наименование товара: {searchTerm}</span>
             <button
               onClick={() => {
-                // window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
                 containerRef.current?.scrollIntoView({
                   behavior: 'smooth',
                   block: 'start',
@@ -457,11 +507,6 @@ const TopFilterBar: React.FC<Props> = ({
 
                             <button
                               onClick={() => {
-                                // window.scrollTo({
-                                //   top: 0,
-                                //   left: 0,
-                                //   behavior: 'smooth',
-                                // });
                                 containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
                                   block: 'start',
@@ -531,11 +576,6 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Тип товара: {selectedType.name}</span>
                             <button
                               onClick={() => {
-                                // window.scrollTo({
-                                //   top: 0,
-                                //   left: 0,
-                                //   behavior: 'smooth',
-                                // });
                                 containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
                                   block: 'start',
@@ -606,11 +646,6 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Категории: {selectedCategory.name}</span>
                             <button
                               onClick={() => {
-                                // window.scrollTo({
-                                //   top: 0,
-                                //   left: 0,
-                                //   behavior: 'smooth',
-                                // });
                                 containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
                                   block: 'start',
@@ -625,7 +660,6 @@ const TopFilterBar: React.FC<Props> = ({
                                 selectedFilter.onChange(curOption);
                                 setResetSlider(true);
                                 setSliderChanged(false);
-                                // setSelectedCategory(undefined);
                               }}
                             >
                               <svg
@@ -680,11 +714,6 @@ const TopFilterBar: React.FC<Props> = ({
                             <span>Подкатегори: {selectedSubCategory.name}</span>
                             <button
                               onClick={() => {
-                                // window.scrollTo({
-                                //   top: 0,
-                                //   left: 0,
-                                //   behavior: 'smooth',
-                                // });
                                 containerRef.current?.scrollIntoView({
                                   behavior: 'smooth',
                                   block: 'start',
@@ -753,11 +782,6 @@ const TopFilterBar: React.FC<Props> = ({
                       </span>
                       <button
                         onClick={() => {
-                          // window.scrollTo({
-                          //   top: 0,
-                          //   left: 0,
-                          //   behavior: 'smooth',
-                          // });
                           containerRef.current?.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start',
@@ -810,6 +834,28 @@ const TopFilterBar: React.FC<Props> = ({
 
         {/* ------------------------------------ end of selected filters -------------------------------------- */}
       </SelectedFiltersWrapper>
+      <div
+        style={{
+          display:
+            (subCategories.length !== 0 || ActivateResetBtn) &&
+            isMoreFilters &&
+            !isInviewPortState
+              ? 'flex'
+              : 'none',
+        }}
+        className="float-button-wrapper"
+        onClick={() => {
+          containerRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }}
+      >
+        <button className="float-button">
+          {`Показать товары`.toUpperCase()}
+        </button>
+        <div className="float-buttom-mask" />
+      </div>
     </FilterBarContent>
   );
 };
@@ -831,6 +877,103 @@ const FilterBarContent = styled.div<any>`
   padding: 10px 20px 10px 20px;
   background-color: #f3f2f0;
   border-radius: 30px;
+  position: relative;
+
+  @keyframes loading {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes rainbowSlide {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .float-button-wrapper {
+    width: 204px;
+    height: 54px;
+    border-radius: 30px;
+    overflow: hidden;
+    background: transparent;
+    position: fixed;
+    bottom: 130px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: 200ms;
+    &:hover {
+      transform: scale(1.005);
+    }
+    &:active {
+      transform: scale(1);
+    }
+    &::before {
+      content: '';
+      width: 210px;
+      height: 210px;
+      position: absolute;
+      background: linear-gradient(
+        45deg,
+        #0000ff,
+        #4b0082,
+        #8b00ff,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00
+      );
+      animation: rainbowSlide 6s linear infinite;
+      z-index: 0;
+    }
+
+    .float-button {
+      width: 200px;
+      height: 50px;
+      min-width: 200px;
+      border-radius: 30px;
+      background-color: #000000;
+      color: #ffffff;
+      position: absolute;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .float-buttom-mask {
+      width: 200px;
+      height: 50px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+    }
+    .float-buttom-mask::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateX(-100px);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      animation: loading 3s infinite;
+    }
+  }
+
   @media ${devices.laptopS} {
     position: ${(props) => (!props.expanded ? 'sticky' : 'unset')};
     top: 98px;
@@ -928,6 +1071,11 @@ const FilterBarContent = styled.div<any>`
       background-color: ${color.activeIcons};
       opacity: 0.6;
       z-index: 100000;
+    }
+  }
+  @media (min-width: 100px) and (max-width: 1024px) {
+    .float-button-wrapper {
+      display: none !important;
     }
   }
 `;
@@ -943,7 +1091,22 @@ const SelectedFiltersWrapper = styled.div`
   overflow-y: hidden;
   justify-items: flex-start;
   padding: 40px 10px 10px 10px;
+  bottom: 10px;
+  background-color: #fff;
+  border-radius: 30px;
+  margin-top: 20px;
 
+  .title-wrapper {
+    position: relative;
+    .selected-filters-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      position: absolute;
+      top: -60px;
+      left: 20px;
+      white-space: nowrap;
+    }
+  }
   @media ${devices.laptopS} {
     width: 100%;
     display: flex;
@@ -1009,6 +1172,15 @@ const SelectedFiltersWrapper = styled.div`
     overflow-y: hidden;
     padding: 5px 10px 0 5px;
     gap: 20px;
+  }
+  @media (min-width: 100px) and (max-width: 1024px) {
+    border: none !important;
+    position: unset !important;
+    border-radius: 0;
+    margin-top: 0;
+    .title-wrapper {
+      display: none !important;
+    }
   }
 `;
 
