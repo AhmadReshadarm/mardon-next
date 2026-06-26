@@ -163,8 +163,8 @@ const TopFilterBar: React.FC<Props> = ({
       window.removeEventListener('scroll', checkVisibility);
       window.removeEventListener('resize', checkVisibility);
     };
-  }, [containerRef, expanded, localFilters]);
-  //
+  });
+  // , [containerRef, expanded, localFilters]
 
   return (
     <FilterBarContent expanded={expanded}>

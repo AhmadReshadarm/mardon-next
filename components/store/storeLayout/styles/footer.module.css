@@ -216,8 +216,8 @@
 }
 
 /* laptopL */
-@media (min-width: 1240px) and (max-width: 1550px) {
-}
+/* @media (min-width: 1240px) and (max-width: 1550px) {
+} */
 /* laptopM */
 @media (min-width: 1024px) and (max-width: 1240px) {
   .call_row_wrapper {
@@ -316,6 +316,10 @@
   .CookiesNotification {
     bottom: 0;
     right: 0;
+  }
+  .scroll_button_to_top {
+    bottom: 70px;
+    right: 10px;
   }
 }
 
