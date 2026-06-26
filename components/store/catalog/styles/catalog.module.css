@@ -1,0 +1,102 @@
+.Container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.Wrapper {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.Content
+  > .ant-pagination
+  > .ant-pagination-options
+  > .ant-pagination-options-size-changer
+  > .ant-select-selector:hover {
+  cursor: pointer;
+}
+
+.CatelogContentWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.Products {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* laptopM */
+@media (min-width: 1024px) and (max-width: 1240px) {
+  .Wrapper {
+    max-width: unset;
+  }
+}
+
+/* laptopS */
+@media (min-width: 768px) and (max-width: 1024px) {
+}
+/* tabletL */
+@media (min-width: 440px) and (max-width: 768px) {
+}
+/* tabletS */
+@media (min-width: 350px) and (max-width: 440px) {
+}
+
+/* mobileL */
+@media (min-width: 285px) and (max-width: 350px) {
+  .Content {
+    margin-left: 0;
+    padding: 10px 15px;
+  }
+}
+
+/* mobileM */
+@media (min-width: 200px) and (max-width: 285px) {
+  .CatelogContentWrapper {
+    flex-direction: column;
+  }
+}
+/* mobileS */
+@media (min-width: 100px) and (max-width: 200px) {
+  .CatelogContentWrapper {
+    flex-direction: column;
+  }
+}
+
+/* global 100 - 1024px */
+
+@media (min-width: 100px) and (max-width: 1024px) {
+  .Wrapper {
+    max-width: unset;
+    width: 95%;
+    flex-direction: column;
+  }
+  .Products {
+    height: unset;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+}

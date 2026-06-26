@@ -19,7 +19,7 @@ import NameFilter from './topFilters/NameFilter';
 import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
 import { Filter } from './types';
-import { cleanSearchTerm } from './helpers';
+import { cleanSearchTerm, useIsBelowViewport } from './helpers';
 
 type Props = {
   subCategories: Category[];
@@ -28,6 +28,7 @@ type Props = {
   setPageSize: any;
   localFilters: Filter[];
   containerRef?: any;
+  veiwPortcontainerRef: any;
 };
 
 type StyleProps = {
@@ -41,6 +42,7 @@ const TopFilterBar: React.FC<Props> = ({
   setPageSize,
   localFilters,
   containerRef,
+  veiwPortcontainerRef,
 }) => {
   const cat_first_visit = localStorage.getItem('cat_first_visit');
   const [expanded, setExpanded] = useState(!cat_first_visit ? true : false);
@@ -129,42 +131,16 @@ const TopFilterBar: React.FC<Props> = ({
     (state) => state.catalog,
   );
 
-  const [isInviewPortState, setIsInviewPortState] = useState(false);
-
-  const isInViewport = (el: HTMLElement): boolean => {
-    const r = el.getBoundingClientRect();
-
-    return (
-      r.top < window.innerHeight &&
-      r.bottom > 0 &&
-      r.left < window.innerWidth &&
-      r.right > 0
-    );
-  };
-
-  useEffect(() => {
-    const checkVisibility = () => {
-      if (containerRef?.current) {
-        const isVisible = isInViewport(containerRef.current);
-        setIsInviewPortState(isVisible);
-      }
-    };
-
-    // Initial check
-    checkVisibility();
-
-    // Attach event listeners
-    window.addEventListener('scroll', checkVisibility);
-    window.addEventListener('resize', checkVisibility);
-    if (expanded) {
-      setIsInviewPortState(false);
-    }
-    return () => {
-      window.removeEventListener('scroll', checkVisibility);
-      window.removeEventListener('resize', checkVisibility);
-    };
-  });
-  // , [containerRef, expanded, localFilters]
+  const isInViewport = useIsBelowViewport(veiwPortcontainerRef, [
+    subCategories.length,
+    ActivateResetBtn,
+    isMoreFilters,
+    expanded,
+  ]);
+  const showFloatButton =
+    (subCategories.length !== 0 || ActivateResetBtn) &&
+    isMoreFilters &&
+    isInViewport;
 
   return (
     <FilterBarContent expanded={expanded}>
@@ -810,12 +786,7 @@ const TopFilterBar: React.FC<Props> = ({
       </SelectedFiltersWrapper>
       <div
         style={{
-          display:
-            (subCategories.length !== 0 || ActivateResetBtn) &&
-            isMoreFilters &&
-            !isInviewPortState
-              ? 'flex'
-              : 'none',
+          display: showFloatButton ? 'flex' : 'none',
         }}
         className="float-button-wrapper"
         onClick={() => {

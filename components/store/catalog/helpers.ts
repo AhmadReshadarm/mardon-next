@@ -15,6 +15,7 @@ import { AppDispatch } from 'redux/store';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { TFiltersConfig } from './types';
 import { stopWords } from 'common/constants';
+import { useEffect, useMemo, useState } from 'react';
 
 const PAGE_ITEMS_LIMIT = 12;
 
@@ -242,10 +243,43 @@ const cleanSearchTerm = (term: string): string => {
     .join(' ');
 };
 
+const useIsBelowViewport = (
+  ref: React.RefObject<HTMLElement>,
+  deps: any[] = [],
+) => {
+  const [isBelow, setIsBelow] = useState(true);
+
+  useEffect(() => {
+    const checkPosition = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      setIsBelow(rect.top > window.innerHeight);
+    };
+
+    checkPosition();
+
+    window.addEventListener('scroll', checkPosition, { passive: true });
+    window.addEventListener('resize', checkPosition);
+    return () => {
+      window.removeEventListener('scroll', checkPosition);
+      window.removeEventListener('resize', checkPosition);
+    };
+  }, [ref]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setIsBelow(rect.top > window.innerHeight);
+  }, deps);
+
+  return isBelow;
+};
+
 export {
   convertQueryParams,
   getFiltersConfig,
   setPriceRange,
   onLocationChange,
   cleanSearchTerm,
+  useIsBelowViewport,
 };

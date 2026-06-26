@@ -8,16 +8,12 @@ import {
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
-import { devices } from 'components/store/lib/Devices';
-import variants from 'components/store/lib/variants';
-import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
-import styled from 'styled-components';
 import { Color, Product } from 'swagger/services';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import Pagination from 'antd/es/pagination';
@@ -26,6 +22,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { LoaderMask } from 'ui-kit/generalLoaderMask';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
+import styles from 'components/store/catalog/styles/catalog.module.css';
 const TopFilterBar = dynamic(
   () => import('components/store/catalog/TopFilterBar'),
   {
@@ -159,6 +156,7 @@ const CatalogPage = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize]: [number, any] = useState(12);
   const containerRef = useRef<HTMLDivElement>(null);
+  const veiwPortcontainerRef = useRef<HTMLDivElement>(null);
   const handlePageChange = (
     page: number,
     pageSize: number,
@@ -269,19 +267,9 @@ const CatalogPage = ({
       </Head>
 
       {isClient ? (
-        <Container
-          variants={variants.fadInOut}
-          key="header"
-          initial="start"
-          animate="middle"
-          exit="end"
-          flex_direction="column"
-          justify_content="center"
-          align_items="center"
-          padding="10px 0"
-        >
-          <Wrapper flex_direction="column">
-            <CatelogContentWrapper>
+        <div className={styles.Container}>
+          <div className={styles.Wrapper}>
+            <div className={styles.CatelogContentWrapper}>
               <TopFilterBar
                 subCategories={subCategories}
                 priceRange={priceRange}
@@ -291,12 +279,13 @@ const CatalogPage = ({
                 setPageSize={setPageSize}
                 localFilters={localFilters}
                 containerRef={containerRef}
+                veiwPortcontainerRef={veiwPortcontainerRef}
               />
 
-              <Content>
-                <Products>
+              <div className={styles.Content}>
+                <div className={styles.Products} ref={veiwPortcontainerRef}>
                   <ProductGrid containerRef={containerRef} />
-                </Products>
+                </div>
                 <Pagination
                   style={{ marginTop: '20px' }}
                   defaultCurrent={currentPage}
@@ -309,102 +298,16 @@ const CatalogPage = ({
                   }}
                   locale={{ items_per_page: '/ странице' }}
                 />
-              </Content>
-            </CatelogContentWrapper>
-          </Wrapper>
-        </Container>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         ''
       )}
     </>
   );
 };
-
-const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  .ant-pagination {
-    .ant-pagination-options {
-      .ant-pagination-options-size-changer {
-        .ant-select-selector {
-          &:hover {
-            cursor: pointer;
-          }
-        }
-      }
-    }
-  }
-  @media ${devices.mobileL} {
-    margin-left: 0;
-    padding: 10px 15px;
-  }
-`;
-
-const CatelogContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-
-  @media ${devices.mobileM} {
-    flex-direction: column;
-  }
-
-  @media ${devices.mobileS} {
-    flex-direction: column;
-  }
-`;
-
-const Products = styled.div`
-  width: 100%;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
-  // &::-webkit-scrollbar {
-  //   width: 15px;
-  // }
-  @media ${devices.laptopS} {
-    height: unset;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-
-  @media ${devices.tabletL} {
-    height: unset;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-
-  @media ${devices.tabletS} {
-    height: unset;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-
-  @media ${devices.mobileL} {
-    height: unset;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-  @media ${devices.mobileM} {
-    height: unset;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-
-  @media ${devices.mobileS} {
-    height: unset;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-`;
 
 CatalogPage.PageLayout = StoreLayout;
 
