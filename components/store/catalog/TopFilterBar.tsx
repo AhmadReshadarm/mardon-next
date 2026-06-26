@@ -160,13 +160,16 @@ const TopFilterBar: React.FC<Props> = ({
     // Attach event listeners
     window.addEventListener('scroll', checkVisibility);
     window.addEventListener('resize', checkVisibility);
+    if (expanded) {
+      setIsInviewPortState(false);
+    }
 
     return () => {
       window.removeEventListener('scroll', checkVisibility);
       window.removeEventListener('resize', checkVisibility);
     };
-  });
-  // , [containerRef]
+  }, [containerRef, expanded, localFilters]);
+  //
   return (
     <FilterBarContent expanded={expanded}>
       <div
@@ -419,18 +422,11 @@ const TopFilterBar: React.FC<Props> = ({
             (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
               ? 'sticky'
               : 'unset',
+          display: subCategories.length !== 0 ? 'flex' : 'none',
         }}
         className="selected-parent"
       >
-        <div
-          style={{
-            display:
-              (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
-                ? 'block'
-                : 'none',
-          }}
-          className="title-wrapper"
-        >
+        <div className="title-wrapper">
           <h3 className="selected-filters-title">Выбранные фильтры</h3>
         </div>
         {/* ----------------------------------------- seleceted Filters start ------------------------------------------- */}
@@ -1193,7 +1189,7 @@ const SelectedFiltersButtons = styled.div`
   gap: 5px;
   padding: 5px;
   border-radius: 30px;
-  cursor: pointer;
+
   border: 1px solid #c1ab93;
   background-color: #e8d9ca;
   transition: 150ms;
@@ -1209,6 +1205,7 @@ const SelectedFiltersButtons = styled.div`
     text-align: center;
     white-space: nowrap;
     color: #000;
+    user-select: none;
   }
   button {
     width: 100%;
@@ -1222,6 +1219,14 @@ const SelectedFiltersButtons = styled.div`
     text-align: center;
     white-space: nowrap;
     color: #000;
+    cursor: pointer;
+    transition: 250ms;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:active {
+      transform: scale(1);
+    }
   }
   .selected-color-warpper {
     display: flex;

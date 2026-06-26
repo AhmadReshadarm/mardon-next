@@ -1,16 +1,16 @@
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
-import { devices } from 'components/store/lib/Devices';
 import {
   Container,
   Wrapper,
   Content,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import styled from 'styled-components';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
 import Link from 'next/link';
+import Image from 'next/image';
+import styles from 'components/store/product/styles/dropDowns.module.css';
 const ReturnPolicy = () => {
   return (
     <>
@@ -45,71 +45,103 @@ const ReturnPolicy = () => {
             justify_content="flex-start"
             gap="30px"
           >
-            <Headers>О доставке</Headers>
-            <Headers className="dilevery-title">
+            <h1 className={styles.dilevery_title}>О доставке</h1>
+            <h3 className={styles.dilevery_title}>
               КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?
-            </Headers>
+            </h3>
 
-            <Contents>
-              Бесплатная доставка по Москве и в любую транспортную компанию при
-              заказе от 70 000 рублей.
-            </Contents>
-            <Contents>
+            <span className={styles.Content}>
+              Бесплатная доставка по Москве при заказе от 70 000 рублей.
+            </span>
+            <span className={styles.Content}>
               При меньшей сумме заказа возможен самовывоз или платная доставка.
-            </Contents>
-            <Contents>
+            </span>
+            <span className={styles.Content}>
               Стоимость платной доставки определяется после оформления заказа.
               Наш менеджер свяжется с вами, чтобы уточнить адрес доставки и
               цену.
-            </Contents>
-            <Headers className="dilevery-title">
-              {`Где находятся наши склады`.toUpperCase()}?
-            </Headers>
-            <Contents>
+            </span>
+            <h3 className={styles.dilevery_title}>
+              СКОЛЬКО СТОИТ ДОСТАВКА ДО ТРАНСПОРТНЫМ КОМПАНИЯМ?
+            </h3>
+            <span className={styles.Content}>
+              Бесплатная доставка до любую транспортную компанию в Москве.
+            </span>
+            <h3 className={styles.dilevery_title}>
+              С КАКИМИ ТРАНСПОРТНЫМИ КОМПАНИЯМИ ВЫ СОТРУДНИЧАЕТЕ?
+            </h3>
+            <span className={styles.Content}>
+              Мы сотрудничаем с любыми транспортными компаниями, если у них есть
+              представительство или филиал в Москве.
+            </span>
+            <span className={styles.Content}>
+              Некоторые известные транспортные компании, с которыми мы
+              периодически сотрудничаем (СДЭК, ПЭК, Деловые Линии, Мейджик
+              транс).
+            </span>
+            <h3 className={styles.dilevery_title}>
+              ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?
+            </h3>
+            <span className={styles.Content}>
               Наши склады находятся в разных районах Москвы. После оформления
               заказа мы свяжемся с вами, чтобы уточнить адрес доставки или
               самовывоза с ближайшего к вам склада.
-            </Contents>
-            <Contents>
+            </span>
+            <span className={styles.Content}>
               По дополнительным вопросам обращаться по номеру телефона:{' '}
-              <Link style={{ color: color.ok }} href="tel:89254865444">
-                <span>8-925-486-54-44</span>
+              <Link
+                title="По дополнительным вопросам обращаться по номеру телефона 8-925-486-54-44"
+                href="tel:89254865444"
+                prefetch={false}
+              >
+                <span
+                  style={{
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  8-925-486-54-44
+                </span>
               </Link>
               .
-            </Contents>
-            <Contents>
+            </span>
+            <span
+              style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
+            >
+              Или по номеру:
+              <Link
+                href="https://wa.me/+79252909771"
+                target="__blank"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  gap: '5px',
+                }}
+                title="Позвонить через WhatsApp"
+                prefetch={false}
+              >
+                <Image
+                  src="/icons/whatsapp.png"
+                  alt="nbhoz whatsapp"
+                  width={20}
+                  height={20}
+                  sizes="100vw"
+                  loading="lazy"
+                />
+                <span>8-925-290-97-71</span>
+              </Link>
+            </span>
+            <span className={styles.Content}>
               Дополнительная скидка рассчитывается индивидуально и зависит от
               количества заказанного товара.
-            </Contents>
+            </span>
           </Content>
         </Wrapper>
       </Container>
     </>
   );
 };
-
-const Headers = styled.h1`
-  width: 100%;
-  text-align: start;
-  font-size: 1.5rem;
-  font-weight: 500;
-  @media ${devices.mobileL} {
-    max-width: 95vw;
-  }
-`;
-
-const Contents = styled.span`
-  width: 80%;
-  text-align: start;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  .dilevery-title {
-    font-weight: 500;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
 
 ReturnPolicy.PageLayout = StoreLayout;
 
