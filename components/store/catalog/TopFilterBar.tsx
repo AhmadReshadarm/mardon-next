@@ -159,13 +159,13 @@ const TopFilterBar: React.FC<Props> = ({
     if (expanded) {
       setIsInviewPortState(false);
     }
-
     return () => {
       window.removeEventListener('scroll', checkVisibility);
       window.removeEventListener('resize', checkVisibility);
     };
   }, [containerRef, expanded, localFilters]);
   //
+
   return (
     <FilterBarContent expanded={expanded}>
       <div
@@ -174,7 +174,7 @@ const TopFilterBar: React.FC<Props> = ({
           setMoreFilters(!isMoreFilters);
           handleExpantionChange();
         }}
-      ></div>
+      />
       <FiltersWrapper
         expanded={expanded}
         animate={{ height: isMoreFilters ? 'unset' : '0px' }}
@@ -411,18 +411,23 @@ const TopFilterBar: React.FC<Props> = ({
       <SelectedFiltersWrapper
         style={{
           border:
-            (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
+            subCategories.length !== 0 || ActivateResetBtn
               ? '1px solid #74747459'
               : 'none',
           position:
             (subCategories.length !== 0 || ActivateResetBtn) && isMoreFilters
               ? 'sticky'
               : 'unset',
-          display: subCategories.length !== 0 ? 'flex' : 'none',
         }}
         className="selected-parent"
       >
-        <div className="title-wrapper">
+        <div
+          style={{
+            display:
+              subCategories.length !== 0 || ActivateResetBtn ? 'flex' : 'none',
+          }}
+          className="title-wrapper"
+        >
           <h3 className="selected-filters-title">Выбранные фильтры</h3>
         </div>
         {/* ----------------------------------------- seleceted Filters start ------------------------------------------- */}
@@ -758,6 +763,7 @@ const TopFilterBar: React.FC<Props> = ({
                           setSliderChanged(false);
                           const values: any = [null, null];
                           selectedFilter.onChange(values);
+                          setActivateResetBtn(false);
                         }}
                       >
                         <svg
@@ -846,7 +852,7 @@ const FilterBarContent = styled.div<any>`
   background-color: #f3f2f0;
   border-radius: 30px;
   position: relative;
-
+  gap: 5px;
   @keyframes loading {
     0% {
       transform: translateX(-100%);
@@ -1144,7 +1150,7 @@ const SelectedFiltersWrapper = styled.div`
   @media (min-width: 100px) and (max-width: 1024px) {
     border: none !important;
     position: unset !important;
-    border-radius: 0;
+    border-radius: 15px;
     margin-top: 0;
     .title-wrapper {
       display: none !important;
