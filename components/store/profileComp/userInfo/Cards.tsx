@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { handleEdit, handleHover } from './helpers';
-import { useState } from 'react';
 import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 const cards = generateArrayOfNumbers(2);
 const Cards = () => {

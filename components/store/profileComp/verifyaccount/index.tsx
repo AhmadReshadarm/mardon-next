@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
-import styled from 'styled-components';
 import { verifyUserEmailByToken } from 'redux/slicers/authSlicer';
 
 const VerifyAcountByToken = () => {
@@ -26,16 +25,11 @@ const VerifyAcountByToken = () => {
 
   return (
     <>
-      <Counter>пожалуйста, подождите</Counter>
+      <h2 style={{ fontSize: '2rem' }}>пожалуйста, подождите</h2>
       <p>Мы проверяем информацию о подтверждении вашей электронной почты</p>
       <span>Вы будете перенаправлены на личные кабинет, после: {counter}</span>
     </>
   );
 };
-
-const Counter = styled.h2`
-  font-size: 2rem;
-  font-family: var(--font-ricordi);
-`;
 
 export default VerifyAcountByToken;

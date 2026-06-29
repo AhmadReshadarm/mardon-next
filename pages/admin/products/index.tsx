@@ -111,6 +111,10 @@ const ProductsPage = () => {
   ) as unknown as DataType[];
   const [loadingProgress, seLoadingProgress] = useState(0);
   const [loadingData, setLoadingData] = useState(false);
+  const [{ offset, limit }, setPayload] = useState({
+    offset: '0',
+    limit: '10000',
+  });
 
   return (
     <>
@@ -120,6 +124,22 @@ const ProductsPage = () => {
       <div className={styles.productsHeader}>
         <h1 className={styles.productsHeader__title}>Продукты</h1>
         <HeaderActionBtnWrapper>
+          <div>
+            <input
+              value={offset}
+              type="number"
+              onChange={(e) => {
+                setPayload({ offset: e.target.value, limit });
+              }}
+            />
+            <input
+              value={limit}
+              type="number"
+              onChange={(e) => {
+                setPayload({ offset, limit: e.target.value });
+              }}
+            />
+          </div>
           <Button
             className={styles.productsHeader__createProductButton}
             type="primary"
@@ -129,6 +149,7 @@ const ProductsPage = () => {
                 setLoadingData,
                 ExcelJs,
                 seLoadingProgress,
+                { offset, limit },
               )
             }
           >

@@ -165,15 +165,14 @@ export const fetchSizes = createAsyncThunk<
 
 export const fetchProductsInExcelFile = createAsyncThunk<
   any,
-  undefined,
+  { offset; limit },
   { rejectValue: string }
 >(
   'tags/fetchProductsInExcelFile',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload, { rejectWithValue }): Promise<any> {
     try {
       const response = (await ProductService.getProducts({
-        // offset: `999`,
-        limit: 10000,
+        ...payload,
       })) as unknown as { rows: Product[]; length: number };
       return response;
     } catch (error: any) {

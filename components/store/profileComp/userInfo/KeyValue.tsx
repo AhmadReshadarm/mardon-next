@@ -1,11 +1,7 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { handleEdit, handleHover } from './helpers';
 import { useState } from 'react';
-import { devices } from 'components/store/lib/Devices';
-import { styleProps } from 'components/store/lib/types';
 import styles from 'components/store/profileComp/styles/profile.module.css';
 
 const KeyValue = (props: any) => {

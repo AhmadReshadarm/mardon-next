@@ -325,9 +325,10 @@ const handleProductDownloadInExcel = (
   setLoadingData,
   ExcelJs,
   seLoadingProgress,
+  payload,
 ) => {
   setLoadingData(true);
-  dispatch(fetchProductsInExcelFile())
+  dispatch(fetchProductsInExcelFile(payload))
     .then(unwrapResult)
     .then((response: ProductResponse) => {
       setLoadingData(true);
@@ -397,7 +398,7 @@ const handleProductDownloadInExcel = (
                 });
 
                 await sheet.addImage(imageId, {
-                  tl: { col: 2, row: sheet.rowCount - 1 },
+                  tl: { col: 5, row: sheet.rowCount - 1 },
                   ext: { width: 80, height: 80 },
                   editAs: 'oneCell',
                 });
