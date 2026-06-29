@@ -1,0 +1,760 @@
+/* Global Reset & Theme Colors */
+
+/* --- Global Page Layouts --- */
+.pageContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-beige);
+  padding: 60px 0 100px 0;
+}
+
+.pageWrapper {
+  width: 100%;
+  max-width: 1500px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pageContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* --- Profile Layout (Desktop) --- */
+.profileContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+  position: relative;
+}
+
+/* --- Sidebar --- */
+
+.containerSideBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+}
+
+.sidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background-color: #f5f2eb;
+}
+
+.sidebarNav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: var(--bg-light);
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarNavItem {
+  width: 100%;
+  padding: 20px 25px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: background 0.2s ease, border-left 0.2s ease;
+  background: transparent;
+  border-left: 2px solid transparent;
+}
+
+.sidebarNavItem:hover {
+  background: #fcfcfc;
+}
+
+.sidebarNavItem.active {
+  background: #fcfcfc;
+  border-left: 2px solid var(--primary-black);
+  font-weight: 500;
+}
+
+/* --- Main Content Area --- */
+.mainWrapper {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding-top: 10px;
+}
+
+/* ------- user data info --------- */
+.user_data_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 50px 0;
+}
+.user_data_info_wrapper {
+  width: 100%;
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  user-select: none;
+}
+.keyValueWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+.keyValueWrapper:hover {
+  background-color: #0000000d;
+}
+
+.key {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: #000000;
+}
+.value {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.edit_data {
+  cursor: pointer;
+  color: #000000;
+}
+
+.edit_data:hover {
+  color: #ed3969;
+}
+
+/* --- Shared Components --- */
+.sectionHeader {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+.sectionHeader::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--text-dark);
+  margin-top: 10px;
+}
+.action_bottun_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 15px;
+}
+.actionButton {
+  width: 150px;
+  height: 50px;
+  min-width: 150px;
+  min-height: 50px;
+  background: var(--primary-black);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.actionButton:hover {
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  width: 150px;
+  height: 50px;
+  min-width: 150px;
+  min-height: 50px;
+  background: var(--primary-gold);
+  color: var(--text-dark);
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.secondaryButton:hover {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+.outlineButton {
+  background: transparent;
+  color: var(--text-dark);
+  border: 1px solid var(--border-light);
+  border-radius: 40px;
+  padding: 10px 25px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.outlineButton:hover {
+  background: var(--bg-light);
+}
+
+.inputField {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 12px 15px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  width: 100%;
+  transition: border 0.2s;
+}
+.inputField:focus {
+  outline: none;
+  border-color: var(--primary-black);
+}
+.inputField::placeholder {
+  color: #c0bdb8;
+}
+
+/* --- User Info Component --- */
+.userInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+}
+
+.user_data_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.userProfileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--bg-light);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 10px;
+}
+.userProfileImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.userImageChange {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.userProfileImage:hover .userImageChange {
+  opacity: 1;
+}
+.user_info_text_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.userName {
+  font-size: 1.8rem;
+  font-weight: 400;
+  font-family: var(--font-heading);
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.userEmail {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.errText {
+  color: #b33c3c;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+/* --- Reviews --- */
+.reviewsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.reviewsList {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.reviewItem {
+  background: var(--bg-light);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.reviewInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.reviewProductTitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.reviewProductTitle:hover {
+  color: var(--primary-gold);
+}
+.reviewText {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.reviewImageWrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.reviewImageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Add Review / Popups --- */
+.popupContainer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.addReviewContainer {
+  background: var(--bg-light);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 95%;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  background: #f0f0f0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.closeBtn:hover {
+  background: #e0e0e0;
+}
+
+.previewWrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+.previewItem {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.previewItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.deleteItemBtn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #b33c3c;
+}
+
+/* --- Change Password --- */
+.changepswContainer {
+  width: 100%;
+}
+.changepswForm {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 400px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+.formLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+}
+.requiredStar {
+  color: #b33c3c;
+}
+.tooltipHelp {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  cursor: help;
+}
+.confidentialityIcon {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* --- Settings --- */
+.settingsContainer {
+  width: 100%;
+}
+.notificationWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.mailIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notificationContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.notifyRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.notifyEmailWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.checkboxWrapper input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-black);
+}
+
+/* --- User Data Popup (Settings) --- */
+.userDataContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  background: var(--bg-light);
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+}
+.inputGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* --- Auth Fallback (For !user) --- */
+.authContainer {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+.authWrapper {
+  width: 100%;
+  /* max-width: 450px; */
+  background: var(--bg-light);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-soft);
+}
+.authContent {
+  width: 100%;
+  height: 100vh;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .profileContainer {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .sidebarWrapper {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    top: -85px;
+  }
+  .sidebarNav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+    border-radius: 40px;
+  }
+  .sidebarNavItem {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding: 15px 25px;
+    white-space: nowrap;
+  }
+  .sidebarNavItem.active {
+    border-left: none;
+    border-bottom: 2px solid var(--primary-black);
+  }
+  .mainWrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 30px 0;
+  }
+  .userName {
+    font-size: 1.5rem;
+  }
+  .reviewItem {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .reviewImageWrapper {
+    width: 100%;
+    height: 200px;
+  }
+  .notificationWrapper {
+    flex-direction: column;
+  }
+  .notifyRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .notifyEmailWrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+  .notifyEmailWrapper input,
+  .notifyEmailWrapper button {
+    width: 100%;
+  }
+  .addReviewContainer {
+    padding: 25px;
+  }
+  .userDataContainer {
+    padding: 25px;
+  }
+}
+
+/* laptopM */
+@media (min-width: 1024px) and (max-width: 1240px) {
+}
+
+/* laptopS */
+@media (min-width: 768px) and (max-width: 1024px) {
+}
+/* tabletL */
+@media (min-width: 440px) and (max-width: 768px) {
+}
+/* tabletS */
+@media (min-width: 350px) and (max-width: 440px) {
+  .userProfileImage {
+    width: 70px;
+    height: 70px;
+  }
+}
+/* mobileL */
+@media (min-width: 285px) and (max-width: 350px) {
+  .userProfileImage {
+    width: 60px;
+    height: 60px;
+  }
+}
+/* mobileM */
+@media (min-width: 200px) and (max-width: 285px) {
+  .userProfileImage {
+    width: 60px;
+    height: 60px;
+  }
+}
+/* mobileS */
+@media (min-width: 100px) and (max-width: 200px) {
+  .userProfileImage {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* global 1 */
+@media (min-width: 100px) and (max-width: 1024px) {
+  .containerSideBar {
+    width: 100%;
+  }
+  .user_data_wrapper {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 15px;
+  }
+  .edit_data {
+    display: none !important;
+  }
+}
+
+/* global 2 */
+@media (min-width: 350px) and (max-width: 1024px) {
+  .action_bottun_wrapper {
+    flex-direction: row;
+  }
+}
+
+/* global 3 */
+@media (min-width: 100px) and (max-width: 350px) {
+  .action_bottun_wrapper {
+    flex-direction: column;
+  }
+}

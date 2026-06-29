@@ -1,8 +1,6 @@
-import styled from 'styled-components';
-import { Container, Header } from '../common';
 import KeyValue from './KeyValue';
 import { useMemo, useEffect } from 'react';
-import { devices } from 'components/store/lib/Devices';
+import styles from 'components/store/profileComp/styles/profile.module.css';
 
 const UserInfo = (props: any) => {
   const { userInfoRef, setActive, user } = props;
@@ -22,9 +20,9 @@ const UserInfo = (props: any) => {
     };
   }, [userInfoRef, observer]);
   return (
-    <Container id="userinfo" ref={userInfoRef}>
-      <Header>Личные данные</Header>
-      <Wrapper>
+    <div className={styles.user_data_container} id="userinfo" ref={userInfoRef}>
+      <h2 className={styles.sectionHeader}>Личные данные</h2>
+      <div className={styles.user_data_info_wrapper}>
         <KeyValue
           {...props}
           delay={0.05}
@@ -37,38 +35,9 @@ const UserInfo = (props: any) => {
           keyData="Почта"
           valueData={user.email}
         />
-      </Wrapper>
-    </Container>
+      </div>
+    </div>
   );
 };
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-  user-select: none;
-  h2 {
-    padding: 0 20px;
-  }
-  @media ${devices.tabletL} {
-    height: 100%;
-  }
-  @media ${devices.tabletS} {
-    height: 100%;
-  }
-  @media ${devices.mobileL} {
-    height: 100%;
-  }
-  @media ${devices.mobileM} {
-    height: 100%;
-  }
-  @media ${devices.mobileS} {
-    height: 100%;
-  }
-`;
 
 export default UserInfo;

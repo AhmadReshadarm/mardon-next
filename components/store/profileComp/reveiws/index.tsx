@@ -1,5 +1,7 @@
-import styled from 'styled-components';
-import { Container, Header } from '../common';
+// components/store/profileComp/reveiws/index.tsx
+// REMOVED: import styled from 'styled-components';
+// REMOVED: import { Container, Header } from '../common';
+import styles from '../styles/profile.module.css'; // NEW
 import ReviewsItems from './ReviewItems';
 import { useMemo, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -7,6 +9,7 @@ import { fetchUserReviews } from 'redux/slicers/store/profileSlicer';
 import { TProfileState } from 'redux/types';
 import { TAuthState } from 'redux/types';
 import Loading from 'ui-kit/Loading';
+
 const Reveiws = (props: any) => {
   const dispatch = useAppDispatch();
   const { reveiwsRef, setActive } = props;
@@ -30,37 +33,25 @@ const Reveiws = (props: any) => {
       observer.disconnect();
     };
   }, [reveiwsRef, observer]);
+
   return (
-    <Container id="reviews" ref={reveiwsRef}>
-      <Header>Мои отзывы</Header>
+    <div className={styles.reviewsContainer} id="reviews" ref={reveiwsRef}>
+      <h2 className={styles.sectionHeader}>Мои отзывы</h2>
       {!loading ? (
         reviews.length !== 0 ? (
-          <ReviewsList>
+          <ul className={styles.reviewsList}>
             {reviews?.map((review, index) => {
               return <ReviewsItems review={review} key={index} />;
             })}
-          </ReviewsList>
+          </ul>
         ) : (
-          <div>У вас еще нет отзывов</div>
+          <div style={{ color: '#666' }}>У вас еще нет отзывов</div>
         )
       ) : (
         <Loading />
       )}
-    </Container>
+    </div>
   );
 };
-
-const ReviewsList = styled.ul`
-  width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100vh;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-`;
 
 export default Reveiws;

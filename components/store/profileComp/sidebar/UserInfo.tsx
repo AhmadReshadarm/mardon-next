@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
@@ -17,6 +16,8 @@ import { devices } from 'components/store/lib/Devices';
 import { AppDispatch } from 'redux/store';
 import { clearSingleImage, createSigleImage } from 'redux/slicers/imagesSlicer';
 import { openErrorNotification } from 'common/helpers';
+import styles from '../styles/profile.module.css'; // NEW
+
 const UserInfo = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [counter, setCoutner] = useState(30);
@@ -65,52 +66,58 @@ const UserInfo = () => {
 
   //  _______________________________
   return (
-    <Wrapper>
-      <div className="user-profile-image">
-        <img
-          src={src !== '' ? src : `/api/images/${user?.image}`}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
-          }}
-        />
+    <div className={styles.userInfoWrapper}>
+      <div className={styles.user_data_wrapper}>
+        <div className={styles.userProfileImage}>
+          <img
+            src={src !== '' ? src : `/api/images/${user?.image}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
+            }}
+          />
 
-        <input
-          style={{ display: 'none' }}
-          ref={inputRef}
-          type="file"
-          name="img"
-          max={4}
-          accept="image/png, image/gif, image/jpeg"
-          onChange={(evt) => handleUserImageUpload(evt, setSrc, dispatch)}
-        />
-        <div
-          onClick={(evt) => trigerImageUpload(evt)}
-          className="user-image-change"
-        ></div>
+          <input
+            style={{ display: 'none' }}
+            ref={inputRef}
+            type="file"
+            name="img"
+            max={4}
+            accept="image/png, image/gif, image/jpeg"
+            onChange={(evt) => handleUserImageUpload(evt, setSrc, dispatch)}
+          />
+          <div
+            onClick={(evt) => trigerImageUpload(evt)}
+            className={styles.userImageChange}
+          >
+            Изменить
+          </div>
+        </div>
+
+        <div className={styles.user_info_text_wrapper}>
+          <h1 className={styles.userName}>
+            {`${user?.firstName?.slice(0, 30)} ${user?.lastName?.slice(0, 30)}`}
+            <span
+              style={{ color: color.ok, fontSize: '0.7rem', fontWeight: 300 }}
+            >
+              {user?.role === Role.SuperUser ? 'премия' : ''}
+            </span>
+          </h1>
+          <span className={styles.userEmail}>{user?.email}</span>
+        </div>
       </div>
-
-      <h1>
-        {`${user?.firstName?.slice(0, 30)} ${user?.lastName?.slice(0, 30)}`}
-        <span style={{ color: color.ok, fontSize: '0.7rem' }}>
-          {user?.role === Role.SuperUser ? 'премия' : ''}
-        </span>
-      </h1>
-      <span
-        style={{ color: user?.isVerified ? color.textSecondary : color.hover }}
-      >
-        {user?.email}
-      </span>
       {!user?.isVerified ? (
         <>
-          <Err
+          <motion.span
+            className={styles.errText}
             initial="init"
             animate="animate"
             variants={variants.fadInSlideUp}
           >
             Ваш аккаунт не подтвержден
-          </Err>
-          <ActionBtns
+          </motion.span>
+          <button
+            className={styles.actionButton}
             disabled={counterStart || iteration > 4 ? true : false}
             onClick={() => {
               dispatch(sendVerificationToken());
@@ -123,7 +130,7 @@ const UserInfo = () => {
               : iteration > 4
               ? 'Повторите попытку через 24 часа.'
               : 'Отправить мне подтверждение'}
-          </ActionBtns>
+          </button>
         </>
       ) : (
         ''
@@ -131,7 +138,8 @@ const UserInfo = () => {
       {!imageList ? (
         ''
       ) : (
-        <ActionBtns
+        <button
+          className={styles.actionButton}
           onClick={() => {
             dispatch(
               updateUserById({ userId: user?.id!, user: { image: imageList } }),
@@ -140,19 +148,22 @@ const UserInfo = () => {
           }}
         >
           Сохранить изображение
-        </ActionBtns>
+        </button>
       )}
-      <ActionBtns onClick={() => dispatch(signout())}>Выйти</ActionBtns>
-
-      <ActionBtns>
-        <Link
-          className="action-btn-with-link"
-          style={{ width: '100%' }}
-          href="/orders"
+      <div className={styles.action_bottun_wrapper}>
+        <button
+          className={styles.actionButton}
+          onClick={() => dispatch(signout())}
         >
-          <span style={{ width: '20px', height: '20px' }}>
+          Выйти
+        </button>
+
+        <Link href="/orders" className={styles.secondaryButton}>
+          <span
+            style={{ width: '20px', height: '20px', display: 'inline-block' }}
+          >
             <svg
-              fill="#606060"
+              fill="#1a1a1a"
               fillRule="evenodd"
               id="Layer_1"
               data-name="Layer 1"
@@ -170,118 +181,9 @@ const UserInfo = () => {
           </span>
           <span>Мои заказы</span>
         </Link>
-      </ActionBtns>
-    </Wrapper>
+      </div>
+    </div>
   );
 };
-
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  .user-profile-image {
-    width: 80px;
-    border-radius: 50%;
-    position: relative;
-    transition: 200ms;
-    img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .user-image-change {
-      min-width: 80px;
-      min-height: 80px;
-      border-radius: 50%;
-      background: transparent;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    &:hover {
-      &::before {
-        content: 'Изменять';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        background-color: ${color.glassmorphismBg};
-        backdrop-filter: blur(9px);
-        -webkit-backdrop-filter: blur(9px);
-      }
-    }
-  }
-  h1 {
-    font-size: 1.5rem;
-  }
-`;
-
-const Err = styled(motion.span)`
-  color: ${color.hover};
-`;
-
-const ActionBtns = styled.button`
-  width: 200px;
-  height: 40px;
-  border-radius: 3px;
-  background-color: ${color.btnSecondery};
-  cursor: pointer;
-  transition: 300ms;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  &:hover {
-    background-color: ${color.searchBtnBg};
-
-    transform: scale(1.02);
-  }
-  &:active {
-    transform: scale(1);
-    background-color: ${color.btnPrimary};
-    color: ${color.textPrimary};
-    span {
-      color: ${color.textPrimary};
-    }
-  }
-  span {
-    font-family: ver(--font-Jost);
-    font-size: 1rem;
-  }
-  .action-btn-with-link {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-  }
-`;
 
 export default UserInfo;

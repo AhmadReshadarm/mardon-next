@@ -14,6 +14,15 @@
   --bgProduct: #f9f9f9;
   --hover: #ed3969;
   --yellow: #edba64;
+  /* ------------------ */
+  --bg-beige: #f5f2eb;
+  --bg-light: #ffffff;
+  --text-dark: #1a1a1a;
+  --text-muted: #666666;
+  --primary-black: #1a1a1a;
+  --primary-gold: #c9b792;
+  --border-light: #e3e0d3;
+  --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
 @font-face {

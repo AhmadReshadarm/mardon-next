@@ -1,6 +1,6 @@
 const data = {
-  firstName: 'Rishad',
-  lastName: 'Mohammadi',
+  firstName: 'name ',
+  lastName: 'lastName',
   email: 'email@mail.ru',
   address: '',
 };

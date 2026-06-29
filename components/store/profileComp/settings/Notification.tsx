@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+// components/store/profileComp/settings/Notification.tsx
+// REMOVED: import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
@@ -16,6 +17,7 @@ import {
 } from 'redux/slicers/subscriberSlicer';
 import { User } from 'swagger/services';
 import Loading from 'ui-kit/Loading';
+import styles from '../styles/profile.module.css'; // NEW
 
 type Props = {
   user: User;
@@ -42,8 +44,8 @@ const Notifactions: React.FC<Props> = ({ user }) => {
     }
   };
   return (
-    <NotifactionWrapper>
-      <span className="mail-icon">
+    <div className={styles.notificationWrapper}>
+      <div className={styles.mailIcon}>
         <svg
           width="24"
           height="25"
@@ -51,7 +53,7 @@ const Notifactions: React.FC<Props> = ({ user }) => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g clip-path="url(#clip0_317_1705)">
+          <g clipPath="url(#clip0_317_1705)">
             <path
               d="M20 4.5H4C2.9 4.5 2.01 5.4 2.01 6.5L2 18.5C2 19.6 2.9 20.5 4 20.5H20C21.1 20.5 22 19.6 22 18.5V6.5C22 5.4 21.1 4.5 20 4.5ZM20 18.5H4V8.5L12 13.5L20 8.5V18.5ZM12 11.5L4 6.5H20L12 11.5Z"
               fill="black"
@@ -68,27 +70,32 @@ const Notifactions: React.FC<Props> = ({ user }) => {
             </clipPath>
           </defs>
         </svg>
-      </span>
-      <Notifaction>
-        <h2>Уведомления</h2>
-        <span style={{ color: color.hover }}>
+      </div>
+      <div className={styles.notificationContent}>
+        <h3 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading)' }}>
+          Уведомления
+        </h3>
+        <span style={{ color: color.hover, fontSize: '0.9rem' }}>
           Изменив почта, вам также нужно будет подтвердить свой адрес
           электронной почты.
         </span>
-        <div className="input-wrapper">
-          <span style={{ color: color.textSecondary }}>Получать на адрес</span>
+        <div className={styles.notifyRow}>
+          <span style={{ color: color.textSecondary, minWidth: '140px' }}>
+            Получать на адрес
+          </span>
           {editNotify ? (
-            <div className="notify-email-wrapper">
+            <div className={styles.notifyEmailWrapper}>
               <motion.input
                 whileHover="hover"
                 whileTap="tap"
                 variants={variants.boxShadow}
                 type="text"
+                className={styles.inputField}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button
-                className="change-email-btn"
+                className={styles.secondaryButton}
                 style={{
                   backgroundColor:
                     isEmpty(email) || !isEmail(email)
@@ -104,17 +111,17 @@ const Notifactions: React.FC<Props> = ({ user }) => {
                 Сохранить
               </button>
               <button
-                className="change-email-btn"
+                className={styles.outlineButton}
                 onClick={() => setEditNotify(false)}
               >
                 Отмена
               </button>
             </div>
           ) : (
-            <div className="notify-email-wrapper">
-              <motion.span>{email}</motion.span>
+            <div className={styles.notifyEmailWrapper}>
+              <motion.span style={{ fontSize: '1rem' }}>{email}</motion.span>
               <button
-                className="change-email-btn"
+                className={styles.outlineButton}
                 onClick={() => setEditNotify(true)}
               >
                 Изменить
@@ -126,7 +133,7 @@ const Notifactions: React.FC<Props> = ({ user }) => {
         {!loading ? (
           <div
             onClick={() => handleSubscribtion(user.firstName!, user.email!)}
-            className="check-box-wrapper "
+            className={styles.checkboxWrapper}
           >
             <input
               type="checkbox"
@@ -144,217 +151,9 @@ const Notifactions: React.FC<Props> = ({ user }) => {
         ) : (
           <Loading />
         )}
-      </Notifaction>
-    </NotifactionWrapper>
+      </div>
+    </div>
   );
 };
-
-const NotifactionWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  user-select: none;
-  h2 {
-    font-size: 1.3rem;
-    font-weight: 300;
-  }
-  .mail-icon {
-    width: 40px;
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-const Notifaction = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-  .check-box-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    span {
-      font-size: 1rem;
-    }
-  }
-  .input-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    gap: 50px;
-    span {
-      font-size: 1rem;
-    }
-    .notify-email-wrapper {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 20px;
-
-      input {
-        width: 200px;
-        height: 40px;
-        border-radius: 5px;
-        padding: 0 10px;
-        font-size: 1rem;
-        font-weight: 300;
-        background-color: ${color.btnSecondery};
-        border: none;
-      }
-      button {
-        width: 200px;
-        height: 40px;
-        border-radius: 3px;
-        background-color: ${color.btnSecondery};
-        cursor: pointer;
-        transition: 300ms;
-        &:hover {
-          background-color: ${color.btnPrimary} !important;
-          color: ${color.textPrimary};
-          transform: scale(1.02);
-        }
-        &:active {
-          transform: scale(1);
-        }
-        span {
-          font-family: ver(--font-Jost);
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-
-  @media ${devices.laptopS} {
-    .input-wrapper {
-      flex-direction: column;
-      gap: 10px;
-      span {
-        width: 100%;
-      }
-      .notify-email-wrapper {
-        width: 100%;
-        flex-direction: column;
-        .change-email-btn {
-          width: 100%;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-  }
-  @media ${devices.tabletL} {
-    .input-wrapper {
-      flex-direction: column;
-      gap: 10px;
-      span {
-        width: 100%;
-      }
-      .notify-email-wrapper {
-        width: 100%;
-        flex-direction: column;
-        .change-email-btn {
-          width: 100%;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-  }
-  @media ${devices.tabletS} {
-    .input-wrapper {
-      flex-direction: column;
-      gap: 10px;
-      span {
-        width: 100%;
-      }
-      .notify-email-wrapper {
-        width: 100%;
-        flex-direction: column;
-        .change-email-btn {
-          width: 100%;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-  }
-  @media ${devices.mobileL} {
-    .input-wrapper {
-      flex-direction: column;
-      gap: 10px;
-      span {
-        width: 100%;
-      }
-      .notify-email-wrapper {
-        width: 100%;
-        flex-direction: column;
-        .change-email-btn {
-          width: 100%;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-  }
-  @media ${devices.mobileM} {
-    .input-wrapper {
-      flex-direction: column;
-      gap: 10px;
-      span {
-        width: 100%;
-      }
-      .notify-email-wrapper {
-        width: 100%;
-        flex-direction: column;
-        .change-email-btn {
-          width: 100%;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-  }
-  @media ${devices.mobileS} {
-    .input-wrapper {
-      flex-direction: column;
-      gap: 10px;
-      span {
-        width: 100%;
-      }
-      .notify-email-wrapper {
-        width: 100%;
-        flex-direction: column;
-        .change-email-btn {
-          width: 100%;
-        }
-        input {
-          width: 100%;
-        }
-      }
-    }
-  }
-`;
 
 export default Notifactions;
