@@ -1,0 +1,484 @@
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes rainbowSlide {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.SearchAndCategoryWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.FilterBarContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 20px 10px 20px;
+  background-color: #f3f2f0;
+  border-radius: 30px;
+  position: relative;
+  gap: 5px;
+}
+
+.mobile_background {
+  display: none;
+}
+
+.float_button_wrapper {
+  width: 204px;
+  height: 54px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: transparent;
+  position: fixed;
+  bottom: 130px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: 200ms;
+}
+
+.float_button_wrapper:hover {
+  transform: scale(1.005);
+}
+
+.float_button_wrapper:active {
+  transform: scale(1);
+}
+
+.float_button_wrapper::before {
+  content: '';
+  width: 210px;
+  height: 210px;
+  position: absolute;
+  background: linear-gradient(
+    45deg,
+    #0000ff,
+    #4b0082,
+    #8b00ff,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00
+  );
+  animation: rainbowSlide 6s linear infinite;
+  z-index: 0;
+}
+
+.float_button {
+  width: 200px;
+  height: 50px;
+  min-width: 200px;
+  border-radius: 30px;
+  background-color: #000000;
+  color: #ffffff;
+  position: absolute;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.float_buttom_mask {
+  width: 200px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+.float_buttom_mask::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100px);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: loading 3s infinite;
+}
+
+.SelectedFiltersWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: flex-start;
+  gap: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  justify-items: flex-start;
+  padding: 40px 10px 10px 10px;
+  bottom: 10px;
+  background-color: #fff;
+  border-radius: 30px;
+  margin-top: 20px;
+}
+
+.title_wrapper {
+  position: relative;
+}
+
+.selected_filters_title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  position: absolute;
+  top: -60px;
+  left: 20px;
+  white-space: nowrap;
+}
+
+.SelectedFiltersButtons {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 30px;
+
+  border: 1px solid #c1ab93;
+  background-color: #e8d9ca;
+  transition: 150ms;
+}
+.SelectedFiltersButtons > span {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  padding: 8px;
+  font-size: 1rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #000;
+  user-select: none;
+}
+
+.SelectedFiltersButtons > button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  padding: 8px;
+  font-size: 1rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #000;
+  cursor: pointer;
+  transition: 250ms;
+}
+
+.SelectedFiltersButtons > button:hover {
+  transform: scale(1.1);
+}
+.SelectedFiltersButtons > button:active {
+  transform: scale(1);
+}
+
+.selected_color_warpper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.selected_color_indecator {
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  border-radius: 50%;
+  border: 1px solid #00000052;
+}
+
+/* ---------- Action Buttons ---------- */
+.ActionButtonsWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.MoreFiltersButton {
+  width: 200px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  gap: 20px;
+  border: 1px solid #949494;
+  cursor: pointer;
+  transition: 300ms;
+  background: none;
+}
+.MoreFiltersButton:hover {
+  transform: scale(1.02);
+}
+.MoreFiltersButton:active {
+  transform: scale(1);
+  background-color: #c1ab93; /* btnPrimary fallback, will be overridden by inline style */
+  color: #ffffff;
+}
+.MoreFiltersButton .more-filter-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.ResetButton {
+  width: 200px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  gap: 20px;
+  border: 1px solid #949494;
+  cursor: pointer;
+  transition: 150ms;
+  background: none;
+}
+.ResetButton:hover {
+  transform: scale(1.02);
+}
+.ResetButton:active {
+  transform: scale(1);
+  background-color: #c1ab93;
+  color: #ffffff;
+}
+
+/* ---------- FiltersWrapper (grid + mobile bottom sheet) ---------- */
+.FiltersWrapper {
+  width: 100%;
+  display: inline-grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 50px;
+  row-gap: 30px;
+  padding: 10px;
+  justify-items: center;
+}
+
+/* grid children spanning rules */
+.FiltersWrapper > *:nth-child(2),
+.FiltersWrapper > *:nth-child(3) {
+  grid-column: span 3;
+}
+
+.FiltersWrapper > *:nth-child(n + 4) {
+  grid-column: span 2;
+}
+
+/* Mobile action buttons inside FiltersWrapper */
+.mobileFilterActionButtons {
+  display: none;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  padding: 20px 0px;
+  background-color: #fff;
+  z-index: 10;
+}
+.mobileFilterActionButtons span {
+  cursor: pointer;
+}
+.clearFilterMobile {
+  border: 1px solid #00000047;
+  padding: 5px 15px;
+  border-radius: 50px;
+}
+.saveAndCloseBtnMobile {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #00000047;
+  padding: 5px 15px;
+  border-radius: 50px;
+  position: relative;
+}
+.saveAndCloseBtnMobile::before {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  background-color: #000;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+.saveAndCloseBtnMobileAnimation {
+  color: #fff;
+}
+.saveAndCloseBtnMobileAnimation::before {
+  left: 0;
+  width: 100%;
+}
+
+/* ---------- Media Queries ---------- */
+
+/* laptopM */
+@media (min-width: 1024px) and (max-width: 1240px) {
+}
+
+/* laptopS */
+@media (min-width: 768px) and (max-width: 1024px) {
+}
+/* tabletL */
+@media (min-width: 440px) and (max-width: 768px) {
+}
+/* tabletS */
+@media (min-width: 350px) and (max-width: 440px) {
+}
+/* mobileL */
+@media (min-width: 285px) and (max-width: 350px) {
+}
+/* mobileM */
+@media (min-width: 200px) and (max-width: 285px) {
+}
+/* mobileS */
+@media (min-width: 100px) and (max-width: 200px) {
+}
+
+/* global 100 - 1024px (tablets & mobiles) */
+@media (min-width: 100px) and (max-width: 1024px) {
+  .FilterBarContent {
+    top: 98px;
+    z-index: 9;
+  }
+
+  /* ---------- Mobile overlay background ---------- */
+  .mobile_background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    opacity: 0.6;
+    z-index: 100000;
+  }
+  .mobile_background_active {
+    display: block;
+  }
+
+  .filter_bar_content_sticky {
+    position: sticky;
+  }
+
+  .float_button_wrapper {
+    display: none !important;
+  }
+
+  /* Selected filters adjustments */
+  .SelectedFiltersWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: flex-start;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 5px 10px 0 5px;
+    gap: 20px;
+    border: none !important;
+    position: unset !important;
+    border-radius: 15px;
+    margin-top: 0;
+  }
+  .title_wrapper {
+    display: none !important;
+  }
+
+  /* FiltersWrapper transforms into a bottom sheet */
+  .FiltersWrapper {
+    height: 100% !important;
+    position: fixed;
+    z-index: 100000;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 70vh;
+    min-height: 70vh;
+    border-radius: 40px 40px 0 0;
+    padding: 0 15px 15px 15px;
+    gap: 20px;
+    transition: 300ms;
+  }
+
+  /* Expand / collapse transforms */
+  .FiltersWrapper.expanded {
+    transform: translate(0, 0);
+  }
+  .FiltersWrapper.collapsed {
+    transform: translate(0, 100%);
+  }
+
+  /* Show mobile action buttons inside the sheet */
+  .mobileFilterActionButtons {
+    display: flex;
+  }
+
+  /* Font sizes inside the bottom sheet */
+  .clearFilterMobile {
+    font-size: 1.5rem;
+  }
+  .saveAndCloseBtnMobile span {
+    font-size: 1.5rem;
+  }
+
+  /* Hide Reset button on small screens */
+  .ResetButton {
+    display: none;
+  }
+}
+
+/* Action buttons vertical on very small screens */
+@media (max-width: 440px) {
+  .ActionButtonsWrapper {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

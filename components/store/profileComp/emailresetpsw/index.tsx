@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-import color from 'components/store/lib/ui.colors';
-import { devices } from 'components/store/lib/Devices';
+import styles from 'components/store//profileComp/styles/resetPassword.module.css';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import { useEffect, useState } from 'react';
@@ -8,6 +6,7 @@ import { handleResetClick } from './helpers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+
 const EmailResetPsw = () => {
   const [email, setEmail] = useState('');
   const [inputErr, setInputErr] = useState(false);
@@ -15,13 +14,15 @@ const EmailResetPsw = () => {
   const [counterStart, setCounterStart] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (localStorage.getItem('accessToken')) {
       router.push('/');
     }
   }, []);
+
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (counter == 0) {
         setCoutner(30);
         setCounterStart(false);
@@ -29,52 +30,40 @@ const EmailResetPsw = () => {
       }
       if (counterStart) setCoutner(counter - 1);
     }, 1000);
+    return () => clearTimeout(timer);
   }, [counter, counterStart]);
+
   return (
     <>
-      <Title>Сброс пароля</Title>
-      <span
-        style={{
-          width: '200px',
-          textAlign: 'center',
-          fontSize: '1rem',
-        }}
-      >
+      <h2 className={styles.title}>Сброс пароля</h2>
+      <span className={styles.subtitle}>
         Мы отправим вам письмо на ваш адрес электронной почты для сброса пароля
       </span>
-      <InputWrapper>
-        <input
-          type="email"
-          value={email}
-          placeholder={
-            (isEmpty(email) || !isEmail(email)) && inputErr
-              ? 'Эл. адрес не может быть пустым'
-              : 'Эл. адрес'
-          }
-          style={{
-            border: `solid 1px ${
+      <form className={styles.form}>
+        <div className={styles.inputWrapper}>
+          <input
+            type="email"
+            value={email}
+            placeholder={
               (isEmpty(email) || !isEmail(email)) && inputErr
-                ? color.hover
-                : color.searchBtnBg
-            }`,
-          }}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setInputErr(true);
-          }}
-        />
+                ? 'Эл. адрес не может быть пустым'
+                : 'Эл. адрес'
+            }
+            className={styles.input}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setInputErr(true);
+            }}
+          />
+        </div>
         <button
+          type="button"
           onClick={(e) => {
             e.preventDefault();
             handleResetClick(email, dispatch);
             setCounterStart(true);
           }}
-          style={{
-            backgroundColor:
-              isEmpty(email) || !isEmail(email) || counterStart
-                ? color.textSecondary
-                : color.btnPrimary,
-          }}
+          className={styles.button}
           disabled={
             isEmpty(email) || !isEmail(email) || counterStart ? true : false
           }
@@ -85,74 +74,12 @@ const EmailResetPsw = () => {
               : 'Отправь мне ссылку'}
           </span>
         </button>
-        <Link href="/help" className="somthing-is-wrong">
+        <Link href="/help" className={styles.link}>
           <span>Что-то пошло не так? напишите нам</span>
         </Link>
-      </InputWrapper>
+      </form>
     </>
   );
 };
 
-const Title = styled.h2`
-  font-size: 1.5rem;
-`;
-
-const InputWrapper = styled.form`
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  input {
-    width: 200px;
-    height: 40px;
-    border-radius: 3px;
-    padding: 0 10px;
-    background-color: ${color.searchBtnBg};
-    color: ${color.textPrimary};
-  }
-  button {
-    width: 200px;
-    height: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 3px;
-    background-color: ${color.btnSecondery};
-    cursor: pointer;
-    transition: 300ms;
-    &:hover {
-      background-color: ${color.btnPrimary};
-      color: ${color.textPrimary};
-      transform: scale(1.02);
-    }
-    &:active {
-      transform: scale(1);
-    }
-    span {
-      font-size: 1rem;
-      font-weight: 300;
-      color: ${color.textPrimary};
-    }
-  }
-  a {
-    width: 200px;
-    span {
-      &:hover {
-        color: ${color.hoverBtnBg};
-      }
-    }
-  }
-  @media ${devices.tabletL} {
-    width: 100%;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-`;
 export default EmailResetPsw;

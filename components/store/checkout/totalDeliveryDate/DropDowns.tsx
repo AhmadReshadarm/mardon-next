@@ -1,44 +1,49 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
-import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-import { styleProps } from 'components/store/lib/types';
 import InfoDropdown from './DropDownsParrent';
-import { devices } from 'components/store/lib/Devices';
 import Link from 'next/link';
-
+import Image from 'next/image';
+import styles from 'components/store/product/styles/dropDowns.module.css';
 const DropDowns = () => {
   return (
-    <InfoContainer
-      key="info-product-page"
-      custom={0.3}
-      initial="init"
-      whileInView="animate"
-      exit={{ y: -20, opacity: 0, transition: { delay: 0.2 } }}
-      viewport={{ once: true }}
-      variants={variants.fadInSlideUp}
-    >
+    <div className={styles.InfoContainer}>
       <InfoDropdown title="О доставке и оплате">
-        <h3>КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?</h3>
+        <h3 className={styles.dilevery_title}>
+          КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?
+        </h3>
 
-        <Contents>
-          Бесплатная доставка по Москве и в любую транспортную компанию при
-          заказе от 70 000 рублей.
-        </Contents>
-        <Contents>
+        <span className={styles.Content}>
+          Бесплатная доставка по Москве при заказе от 70 000 рублей.
+        </span>
+        <span className={styles.Content}>
           При меньшей сумме заказа возможен самовывоз или платная доставка.
-        </Contents>
-        <Contents>
+        </span>
+        <span className={styles.Content}>
           Стоимость платной доставки определяется после оформления заказа. Наш
           менеджер свяжется с вами, чтобы уточнить адрес доставки и цену.
-        </Contents>
-        <h3>ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?</h3>
-        <Contents>
+        </span>
+        <h3 className={styles.dilevery_title}>
+          СКОЛЬКО СТОИТ ДОСТАВКА ДО ТРАНСПОРТНЫМ КОМПАНИЯМ?
+        </h3>
+        <span className={styles.Content}>
+          Бесплатная доставка до любую транспортную компанию в Москве.
+        </span>
+        <h3 className={styles.dilevery_title}>
+          С КАКИМИ ТРАНСПОРТНЫМИ КОМПАНИЯМИ ВЫ СОТРУДНИЧАЕТЕ?
+        </h3>
+        <span className={styles.Content}>
+          Мы сотрудничаем с любыми транспортными компаниями, если у них есть
+          представительство или филиал в Москве.
+        </span>
+        <span className={styles.Content}>
+          Некоторые известные транспортные компании, с которыми мы периодически
+          сотрудничаем (СДЭК, ПЭК, Деловые Линии, Мейджик транс).
+        </span>
+        <h3 className={styles.dilevery_title}>ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?</h3>
+        <span className={styles.Content}>
           Наши склады находятся в разных районах Москвы. После оформления заказа
           мы свяжемся с вами, чтобы уточнить адрес доставки или самовывоза с
           ближайшего к вам склада.
-        </Contents>
-        <Contents>
+        </span>
+        <span className={styles.Content}>
           По дополнительным вопросам обращаться по номеру телефона:{' '}
           <Link
             title="По дополнительным вопросам обращаться по номеру телефона 8-925-486-54-44"
@@ -47,8 +52,6 @@ const DropDowns = () => {
           >
             <span
               style={{
-                fontWeight: 500,
-                fontFamily: 'var(--font-Circe)',
                 whiteSpace: 'nowrap',
               }}
             >
@@ -56,54 +59,45 @@ const DropDowns = () => {
             </span>
           </Link>
           .
-        </Contents>
-        <Contents>
+        </span>
+        <span style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+          Или по номеру:
+          <Link
+            href="https://wa.me/+79252909771"
+            target="__blank"
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              gap: '5px',
+            }}
+            title="Позвонить через WhatsApp"
+            prefetch={false}
+          >
+            <Image
+              src="/icons/whatsapp.png"
+              alt="nbhoz whatsapp"
+              width={20}
+              height={20}
+              sizes="100vw"
+              loading="lazy"
+            />
+            <span>8-925-290-97-71</span>
+          </Link>
+        </span>
+        <span className={styles.Content}>
           Дополнительная скидка рассчитывается индивидуально и зависит от
           количества заказанного товара.
-        </Contents>
+        </span>
         <h3>Как можно оплатить?</h3>
-        <Contents>
+        <span className={styles.Content}>
           Мы принимаем оплату через расчетный счет или наличными при доставке
           или самовывоз.
-        </Contents>
+        </span>
       </InfoDropdown>
-    </InfoContainer>
+    </div>
   );
 };
-
-const InfoContainer = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-itmes: flex-start;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: ${color.textPrimary};
-  margin-top: ${(P: styleProps) => P.margintop};
-  user-select: none;
-`;
-
-const Contents = styled.span`
-  width: 100%;
-  text-align: start;
-  line-height: 1.5rem;
-  font-size: 1rem;
-  @media ${devices.tabletL} {
-    width: 100%;
-  }
-  @media ${devices.tabletS} {
-    width: 100%;
-  }
-  @media ${devices.mobileL} {
-    width: 100%;
-  }
-  @media ${devices.mobileM} {
-    width: 100%;
-  }
-  @media ${devices.mobileS} {
-    width: 100%;
-  }
-`;
 
 export default DropDowns;

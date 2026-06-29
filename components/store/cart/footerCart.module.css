@@ -5,6 +5,8 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--backgroundPrimary);
+  position: sticky;
+  bottom: 0;
 }
 
 .footer_spliter {
@@ -72,7 +74,7 @@
     width: 100%;
   }
   .Wrapper {
-    position: sticky;
+    /* position: sticky; */
     bottom: 55px;
   }
 }

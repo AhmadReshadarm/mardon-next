@@ -20,6 +20,7 @@ import { useAppSelector } from 'redux/hooks';
 import { TCatalogState } from 'redux/types';
 import { Filter } from './types';
 import { cleanSearchTerm, useIsBelowViewport } from './helpers';
+// import styles from './styles/topFilterBar.module.css';
 
 type Props = {
   subCategories: Category[];

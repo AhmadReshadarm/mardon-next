@@ -5,7 +5,7 @@ import { TAuthState } from 'redux/types';
 import { PopupDisplay } from '../../../constants';
 import SignIn from './signin';
 import SignUp from './signup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../../../styles/headerAuth.module.css';
 type Props = {
   direction: number;
@@ -16,6 +16,20 @@ type Props = {
 const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
   const { loading } = useAppSelector<TAuthState>((state) => state.auth);
   const [isHelperActive, setIshelperActive] = useState(true);
+  const [isCapON, setIsCapON] = useState(false);
+  useEffect(() => {
+    document.addEventListener('keydown', function (event) {
+      if (event.getModifierState('CapsLock')) {
+        console.log('Caps Lock is ON');
+        setIsCapON(true);
+        // Show a message to the user
+      } else {
+        console.log('Caps Lock is OFF');
+        // Hide the message
+        setIsCapON(false);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -112,6 +126,13 @@ const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
               display: loading ? PopupDisplay.Flex : PopupDisplay.None,
             }}
           />
+          <div
+            className={styles.is_caps_lock_on}
+            style={{ display: isCapON ? 'flex' : 'none' }}
+          >
+            <span className={styles.is_caps_lock_on_indecator} />
+            <span>Caps Lock включена</span>
+          </div>
         </div>
       </div>
     </>

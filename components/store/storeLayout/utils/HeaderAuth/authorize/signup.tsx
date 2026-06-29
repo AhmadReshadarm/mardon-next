@@ -46,7 +46,7 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
               placeholder="Эл. адрес"
               type="email"
               value={email}
-              onChange={(evt) => setEmail(evt.target.value)}
+              onChange={(evt) => setEmail(evt.target.value.toLowerCase())}
             />
 
             <div

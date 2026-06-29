@@ -64,6 +64,27 @@
   padding: 60px;
 }
 
+.is_caps_lock_on {
+  position: absolute;
+  top: 0;
+  right: 60px;
+  background-color: rgb(147, 147, 147);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
+
+.is_caps_lock_on_indecator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: greenyellow;
+}
+
 .AuthHeader {
   width: 100%;
   display: flex;
@@ -183,5 +204,8 @@
   .auth_parrent_wrapper {
     width: 100%;
     padding: 0;
+  }
+  .is_caps_lock_on {
+    display: none !important;
   }
 }

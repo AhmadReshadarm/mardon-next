@@ -71,6 +71,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
                 placeholder="Введите Ваш пароль"
                 type="password"
                 autoComplete="current-password"
+                name="password"
                 value={password}
                 onChange={(e) => {
                   setAuthPayload([email, e.target.value]);
