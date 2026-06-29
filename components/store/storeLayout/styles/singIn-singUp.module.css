@@ -56,11 +56,21 @@
   font-family: var(--font-ricordi);
 }
 
+.action_buttons_wrapper > button:hover {
+  cursor: pointer;
+}
+
 .action_buttons_wrapper > button:active {
   border: 1px solid;
   background-color: var(--backgroundPrimary) !important;
   color: var(--textSecondary);
 }
+
+.action_buttons_wrapper > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .newsletter_wrapper {
   padding: 5px 0;
   display: flex;
@@ -78,6 +88,15 @@
   align-items: flex-start;
   gap: 5px;
   position: relative;
+}
+
+.confidentialityIcon {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .newsletter_wrapper > label {

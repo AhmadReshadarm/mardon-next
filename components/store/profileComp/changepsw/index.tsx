@@ -1,11 +1,9 @@
-// components/store/profileComp/changepsw/index.tsx
-import { motion } from 'framer-motion';
 import isEmpty from 'validator/lib/isEmpty';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import React, { useState, useMemo, useEffect } from 'react';
 import { InputsTooltip, handleChangePsw } from './helpers';
 import styles from '../styles/profile.module.css';
+import Image from 'next/image';
 
 const Changepsw = (props: any) => {
   const { changePswRef, setActive, user } = props;
@@ -59,7 +57,7 @@ const Changepsw = (props: any) => {
         style={{ cursor: 'default' }}
         onClick={() => {
           props.setIsChangePassword(false);
-        }} // no-op
+        }}
       >
         <svg
           width="15"
@@ -95,7 +93,13 @@ const Changepsw = (props: any) => {
         Изменить пароль
       </h2>
 
-      {isCap && <span className={styles.errText}>Капслок включен</span>}
+      <div
+        className={styles.is_caps_lock_on}
+        style={{ display: isCap ? 'flex' : 'none' }}
+      >
+        <span className={styles.is_caps_lock_on_indecator} />
+        <span>Caps Lock включена</span>
+      </div>
 
       <form className={styles.inputGrid}>
         {/* Old Password */}
@@ -122,10 +126,7 @@ const Changepsw = (props: any) => {
               <span className={styles.tooltipHelp}>?</span>
             </InputsTooltip>
           </label>
-          <motion.input
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
+          <input
             className={styles.inputField}
             placeholder={
               isEmpty(oldPsw) && oldPswInput
@@ -152,7 +153,16 @@ const Changepsw = (props: any) => {
           />
           <div className={styles.confidentialityIcon}>
             <span onClick={toggleOldPsw} style={{ cursor: 'pointer' }}>
-              {oldPswVisible ? '👁️' : '🙈'}
+              {oldPswVisible ? (
+                '👁️'
+              ) : (
+                <Image
+                  src="/icons/peaking.gif"
+                  width={20}
+                  height={20}
+                  alt="peaking emoji"
+                />
+              )}
             </span>
           </div>
         </div>
@@ -179,10 +189,7 @@ const Changepsw = (props: any) => {
               <span className={styles.tooltipHelp}>?</span>
             </InputsTooltip>
           </label>
-          <motion.input
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
+          <input
             className={styles.inputField}
             placeholder={
               isEmpty(psw) && pswInput
@@ -207,7 +214,16 @@ const Changepsw = (props: any) => {
           />
           <div className={styles.confidentialityIcon}>
             <span onClick={toggleNewPsw} style={{ cursor: 'pointer' }}>
-              {newPswVisible ? '👁️' : '🙈'}
+              {newPswVisible ? (
+                '👁️'
+              ) : (
+                <Image
+                  src="/icons/peaking.gif"
+                  width={20}
+                  height={20}
+                  alt="peaking emoji"
+                />
+              )}
             </span>
           </div>
         </div>
@@ -235,10 +251,7 @@ const Changepsw = (props: any) => {
               <span className={styles.tooltipHelp}>?</span>
             </InputsTooltip>
           </label>
-          <motion.input
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
+          <input
             className={styles.inputField}
             placeholder={
               isEmpty(repeatPsw) && repeatPswInput
@@ -265,7 +278,16 @@ const Changepsw = (props: any) => {
           />
           <div className={styles.confidentialityIcon}>
             <span onClick={toggleRepeatPsw} style={{ cursor: 'pointer' }}>
-              {repeatPswVisible ? '👁️' : '🙈'}
+              {repeatPswVisible ? (
+                '👁️'
+              ) : (
+                <Image
+                  src="/icons/peaking.gif"
+                  width={20}
+                  height={20}
+                  alt="peaking emoji"
+                />
+              )}
             </span>
           </div>
         </div>

@@ -85,22 +85,19 @@ const Notifactions: React.FC<Props> = ({ user }) => {
           </span>
           {editNotify ? (
             <div className={styles.notifyEmailWrapper}>
-              <motion.input
-                whileHover="hover"
-                whileTap="tap"
-                variants={variants.boxShadow}
-                type="text"
+              <input
+                type="email"
                 className={styles.inputField}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button
-                className={styles.secondaryButton}
+                className={styles.special_action_button}
                 style={{
                   backgroundColor:
                     isEmpty(email) || !isEmail(email)
-                      ? color.bgProduct
-                      : color.btnSecondery,
+                      ? 'var(--border-light)'
+                      : 'var(--primary-gold)',
                 }}
                 disabled={isEmpty(email) || !isEmail(email) ? true : false}
                 onClick={() => {
@@ -112,14 +109,17 @@ const Notifactions: React.FC<Props> = ({ user }) => {
               </button>
               <button
                 className={styles.outlineButton}
-                onClick={() => setEditNotify(false)}
+                onClick={() => {
+                  setEditNotify(false);
+                  setEmail(user.email);
+                }}
               >
                 Отмена
               </button>
             </div>
           ) : (
             <div className={styles.notifyEmailWrapper}>
-              <motion.span style={{ fontSize: '1rem' }}>{email}</motion.span>
+              <span>{user.email}</span>
               <button
                 className={styles.outlineButton}
                 onClick={() => setEditNotify(true)}

@@ -85,10 +85,7 @@ const UserData = (props: any) => {
                 <span className={styles.tooltipHelp}>?</span>
               </InputsTooltip>
             </label>
-            <motion.input
-              whileHover="hover"
-              whileTap="tap"
-              variants={variants.boxShadow}
+            <input
               className={styles.inputField}
               placeholder={firstNameInput ? 'не может быть пустым' : 'Имя'}
               type="text"
@@ -131,10 +128,7 @@ const UserData = (props: any) => {
                 <span className={styles.tooltipHelp}>?</span>
               </InputsTooltip>
             </label>
-            <motion.input
-              whileHover="hover"
-              whileTap="tap"
-              variants={variants.boxShadow}
+            <input
               className={styles.inputField}
               placeholder={firstNameInput ? 'не может быть пустым' : 'Фамилия'}
               type="text"
@@ -164,22 +158,12 @@ const UserData = (props: any) => {
           style={{
             backgroundColor:
               isEmpty(firstName) || isEmpty(lastName)
-                ? // ||
-                  // isEmpty(phoneNumber) ||
-                  // isEmpty(address)
-                  'var(--border-light)'
+                ? 'var(--border-light)'
                 : 'var(--primary-black)',
             width: '100%',
             marginTop: '10px',
           }}
-          disabled={
-            isEmpty(firstName) || isEmpty(lastName)
-              ? // ||
-                // isEmpty(phoneNumber) ||
-                // isEmpty(address)
-                true
-              : false
-          }
+          disabled={isEmpty(firstName) || isEmpty(lastName) ? true : false}
           onClick={(e) => {
             e.preventDefault();
             handleDataChange({ user, payload, setServerResponse, dispatch });
@@ -192,17 +176,6 @@ const UserData = (props: any) => {
         >
           Сохранить изменения
         </button>
-        <span
-          className="success"
-          style={{ color: '#2e7d32', marginTop: '10px', display: 'block' }}
-        >
-          {success ? 'Изменения сохранены' : ''}
-        </span>
-        <span style={{ color: color.hover }}>
-          {serverResponse != 200 && serverResponse != undefined
-            ? 'Ошибка сервера'
-            : ''}
-        </span>
       </form>
     </div>
   );
