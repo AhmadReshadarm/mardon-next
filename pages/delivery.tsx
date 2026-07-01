@@ -1,10 +1,3 @@
-import variants from 'components/store/lib/variants';
-import color from 'components/store/lib/ui.colors';
-import {
-  Container,
-  Wrapper,
-  Content,
-} from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import { baseUrl } from '../common/constant';
@@ -27,45 +20,15 @@ const ReturnPolicy = () => {
         }}
         image={`${baseUrl}/static/logo_800x800.png`}
       />
-      <Container
-        variants={variants.fadInOut}
-        key="profile-page"
-        initial="start"
-        animate="middle"
-        exit="end"
-        flex_direction="column"
-        justify_content="center"
-        align_items="center"
-        padding="200px 0"
-        bg_color={color.textPrimary}
-      >
-        <Wrapper>
-          <Content
-            flex_direction="column"
-            justify_content="flex-start"
-            gap="30px"
-          >
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <div className={styles.content}>
             <h1 className={styles.dilevery_title}>О доставке</h1>
             <h3 className={styles.dilevery_title}>
-              КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?
-            </h3>
-
-            <span className={styles.Content}>
-              Бесплатная доставка по Москве при заказе от 70 000 рублей.
-            </span>
-            <span className={styles.Content}>
-              При меньшей сумме заказа возможен самовывоз или платная доставка.
-            </span>
-            <span className={styles.Content}>
-              Стоимость платной доставки определяется после оформления заказа.
-              Наш менеджер свяжется с вами, чтобы уточнить адрес доставки и
-              цену.
-            </span>
-            <h3 className={styles.dilevery_title}>
-              СКОЛЬКО СТОИТ ДОСТАВКА ДО ТРАНСПОРТНЫМ КОМПАНИЯМ?
+              СКОЛЬКО СТОИТ ДОСТАВКА ДО ТРАНСПОРТНЫХ КОМПАНИЙ?
             </h3>
             <span className={styles.Content}>
-              Бесплатная доставка до любую транспортную компанию в Москве.
+              Бесплатная доставка до любой транспортной компании в Москве.
             </span>
             <h3 className={styles.dilevery_title}>
               С КАКИМИ ТРАНСПОРТНЫМИ КОМПАНИЯМИ ВЫ СОТРУДНИЧАЕТЕ?
@@ -78,6 +41,18 @@ const ReturnPolicy = () => {
               Некоторые известные транспортные компании, с которыми мы
               периодически сотрудничаем (СДЭК, ПЭК, Деловые Линии, Мейджик
               транс).
+            </span>
+            <h3>У ВАС ЕСТЬ ВОЗМОЖНОСТЬ БЕСПЛАТНОЙ ДОСТАВКИ?</h3>
+            <span className={styles.Content}>
+              Бесплатная доставка только по Москве при заказе от 70 000 рублей.
+            </span>
+            <span className={styles.Content}>
+              При меньшей сумме заказа возможен самовывоз или платная доставка.
+            </span>
+            <span className={styles.Content}>
+              Стоимость платной доставки определяется после оформления заказа.
+              Наш менеджер свяжется с вами, чтобы уточнить адрес доставки и
+              цену.
             </span>
             <h3 className={styles.dilevery_title}>
               ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?
@@ -136,9 +111,9 @@ const ReturnPolicy = () => {
               Дополнительная скидка рассчитывается индивидуально и зависит от
               количества заказанного товара.
             </span>
-          </Content>
-        </Wrapper>
-      </Container>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

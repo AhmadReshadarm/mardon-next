@@ -13,6 +13,7 @@ type Props = {
   questionRef: MutableRefObject<any>;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
+  descRef: any;
 };
 
 const Details: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const Details: React.FC<Props> = ({
   reviewRef,
   setSelectedIndex,
   paginateImage,
+  descRef,
 }) => {
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
@@ -47,11 +49,22 @@ const Details: React.FC<Props> = ({
             <span itemProp="description">
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 150
-                  ? product?.desc?.split('|')[0].slice(0, 150) + '...'
+                  ? product?.desc?.split('|')[0].slice(0, 150)
                   : product?.desc?.split('|')[0]
                 : product?.desc?.length! > 150
-                ? product?.desc?.slice(0, 150) + '...'
+                ? product?.desc?.slice(0, 150)
                 : product?.desc?.slice(0, 150)}
+            </span>
+            <span
+              className={styles.load_more_dots}
+              onClick={() => {
+                descRef.current?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+              }}
+            >
+              ....
             </span>
           </p>
         </div>

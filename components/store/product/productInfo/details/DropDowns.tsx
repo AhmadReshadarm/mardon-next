@@ -8,9 +8,10 @@ import styles from '../../styles/dropDowns.module.css';
 import Image from 'next/image';
 type Props = {
   parameterProducts?: ParameterProduct[];
+  descRef: any;
 };
 
-const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
+const DropDowns: React.FC<Props> = ({ parameterProducts, descRef }) => {
   const { product, loading }: TProductInfoState = useAppSelector(
     (state) => state.productInfo,
   );
@@ -18,7 +19,7 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
   return (
     <div className={styles.InfoContainer}>
       <InfoDropdown title="Описание">
-        <p>
+        <p ref={descRef}>
           {!loading
             ? product?.desc?.includes('|')
               ? product?.desc
@@ -72,24 +73,10 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
       </InfoDropdown>
       <InfoDropdown title="Подробнее о доставке">
         <h3 className={styles.dilevery_title}>
-          КАКОВА СТОИМОСТЬ И ВАРИАНТЫ ДОСТАВКИ?
-        </h3>
-
-        <span className={styles.Content}>
-          Бесплатная доставка по Москве при заказе от 70 000 рублей.
-        </span>
-        <span className={styles.Content}>
-          При меньшей сумме заказа возможен самовывоз или платная доставка.
-        </span>
-        <span className={styles.Content}>
-          Стоимость платной доставки определяется после оформления заказа. Наш
-          менеджер свяжется с вами, чтобы уточнить адрес доставки и цену.
-        </span>
-        <h3 className={styles.dilevery_title}>
-          СКОЛЬКО СТОИТ ДОСТАВКА ДО ТРАНСПОРТНЫМ КОМПАНИЯМ?
+          СКОЛЬКО СТОИТ ДОСТАВКА ДО ТРАНСПОРТНЫХ КОМПАНИЙ?
         </h3>
         <span className={styles.Content}>
-          Бесплатная доставка до любую транспортную компанию в Москве.
+          Бесплатная доставка до любой транспортной компании в Москве.
         </span>
         <h3 className={styles.dilevery_title}>
           С КАКИМИ ТРАНСПОРТНЫМИ КОМПАНИЯМИ ВЫ СОТРУДНИЧАЕТЕ?
@@ -102,7 +89,18 @@ const DropDowns: React.FC<Props> = ({ parameterProducts }) => {
           Некоторые известные транспортные компании, с которыми мы периодически
           сотрудничаем (СДЭК, ПЭК, Деловые Линии, Мейджик транс).
         </span>
-        <h3 className={styles.dilevery_title}>ГДЕ НАХОДЯТСЯ НАШИ СКЛАДЫ?</h3>
+        <h3>У ВАС ЕСТЬ ВОЗМОЖНОСТЬ БЕСПЛАТНОЙ ДОСТАВКИ?</h3>
+        <span className={styles.Content}>
+          Бесплатная доставка только по Москве при заказе от 70 000 рублей.
+        </span>
+        <span className={styles.Content}>
+          При меньшей сумме заказа возможен самовывоз или платная доставка.
+        </span>
+        <span className={styles.Content}>
+          Стоимость платной доставки определяется после оформления заказа. Наш
+          менеджер свяжется с вами, чтобы уточнить адрес доставки и цену.
+        </span>
+        <h3 className={styles.dilevery_title}>ГДЕ НАХОДЯТСЯ ВАШИ СКЛАДЫ?</h3>
         <span className={styles.Content}>
           Наши склады находятся в разных районах Москвы. После оформления заказа
           мы свяжемся с вами, чтобы уточнить адрес доставки или самовывоза с

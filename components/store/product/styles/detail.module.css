@@ -24,6 +24,10 @@
   padding-right: 50px;
 }
 
+.load_more_dots {
+  cursor: pointer;
+}
+
 .product_header_1 {
   font-family: var(--font-Jost);
   font-size: 1.25rem;
