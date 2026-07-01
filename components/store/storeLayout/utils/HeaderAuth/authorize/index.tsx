@@ -20,16 +20,27 @@ const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
   useEffect(() => {
     document.addEventListener('keydown', function (event) {
       if (event.getModifierState('CapsLock')) {
-        console.log('Caps Lock is ON');
         setIsCapON(true);
-        // Show a message to the user
       } else {
-        console.log('Caps Lock is OFF');
-        // Hide the message
         setIsCapON(false);
       }
     });
   }, []);
+
+  useEffect(() => {
+    const isNewUser = localStorage.getItem('INU');
+    const parsedIsNewUser = JSON.parse(isNewUser!);
+    if (parsedIsNewUser > 1) {
+      setIshelperActive(false);
+    }
+  }, []);
+
+  const handleIsHelperActive = () => {
+    const isNewUser = localStorage.getItem('INU');
+    const parsedIsNewUser = JSON.parse(isNewUser!);
+    localStorage.setItem('INU', `${parsedIsNewUser + 1}`);
+    setIshelperActive(false);
+  };
 
   return (
     <>
@@ -57,7 +68,7 @@ const Authorization: React.FC<Props> = ({ direction, authType, paginate }) => {
                   <div className={`${styles.box} ${styles.arrow_top}`}>
                     <span
                       className={styles.helper_close_btn}
-                      onClick={() => setIshelperActive(false)}
+                      onClick={handleIsHelperActive}
                     >
                       <svg
                         width="15"

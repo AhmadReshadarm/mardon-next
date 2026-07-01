@@ -46,7 +46,7 @@
 }
 
 .auth_intial_image_wrapper {
-  width: 45%;
+  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -57,11 +57,11 @@
   object-fit: cover;
 }
 .auth_parrent_wrapper {
-  width: 55%;
-  height: 100%;
+  width: 100%;
   position: relative;
   overflow: hidden;
   padding: 60px;
+  min-height: 370px;
 }
 
 .is_caps_lock_on {
@@ -206,6 +206,7 @@
     padding: 0;
   }
   .is_caps_lock_on {
-    display: none !important;
+    top: 200px;
+    right: 0px;
   }
 }

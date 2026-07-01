@@ -17,6 +17,7 @@ import { setOneClickBy } from 'redux/slicers/store/cartSlicer';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import styles from '../../../styles/singIn-singUp.module.css';
+import Image from 'next/image';
 type Props = {
   direction: number;
   authType: string;
@@ -31,6 +32,9 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
   const { isAuthFormOpen, authDisplay } = useAppSelector<TGlobalUIState>(
     (state) => state.globalUI,
   );
+  const [iconVisible, setIconvisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const togglePswVis = () => setPasswordVisible(!passwordVisible);
   const router = useRouter();
   return (
     <motion.div
@@ -69,14 +73,35 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               <input
                 className={styles.AuthInput}
                 placeholder="Введите Ваш пароль"
-                type="password"
+                type={!passwordVisible ? 'password' : 'text'}
                 autoComplete="current-password"
                 name="password"
                 value={password}
                 onChange={(e) => {
                   setAuthPayload([email, e.target.value]);
+                  setIconvisible(e.target.value !== '' ? true : false);
                 }}
               />
+              <div
+                style={{ display: iconVisible ? 'block' : 'none' }}
+                className={styles.confidentialityIcon}
+              >
+                <span
+                  onClick={togglePswVis}
+                  style={{ cursor: 'pointer', userSelect: 'none' }}
+                >
+                  <span style={{ display: passwordVisible ? 'block' : 'none' }}>
+                    👁️
+                  </span>
+                  <Image
+                    style={{ display: !passwordVisible ? 'block' : 'none' }}
+                    src="/icons/peaking.gif"
+                    width={20}
+                    height={20}
+                    alt="peaking emoji"
+                  />
+                </span>
+              </div>
               <Link
                 onClick={handleMenuStateRedux(
                   dispatch,
