@@ -1,4 +1,4 @@
-import { Button, Form, Input, List, Select, Spin } from 'antd';
+import { Button, Form, Input, List, Select, Spin, Switch } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
@@ -214,6 +214,15 @@ const ManageProductForm = ({
               />
             }
           />
+          {/* ----------------------AVAILABLE---------------------- */}
+          <Form.Item
+            label="Публиковать?"
+            name={`${ManageProductFields.Publish}`}
+            valuePropName="checked"
+            required={true}
+          >
+            <Switch />
+          </Form.Item>
           {/* ----------------------CATEGORIES---------------------- */}
           <FormItem
             option={ManageProductFields.Category}

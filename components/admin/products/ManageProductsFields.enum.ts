@@ -14,4 +14,5 @@ export enum ManageProductFields {
   Images = 'images',
   Tags = 'tags',
   Url = 'url',
+  Publish = 'publish',
 }

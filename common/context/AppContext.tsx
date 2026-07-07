@@ -5,7 +5,7 @@ interface ContextValue {
   setOffset?;
 }
 
-const AppContext = createContext<ContextValue>({ offset: 0 });
+const AppContext = createContext<ContextValue>({ offset: 5 });
 
 const ContextProvider = ({ children }) => {
   const [offset, setOffset] = useState(0);

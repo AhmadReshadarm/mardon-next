@@ -187,6 +187,7 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     limit: limit ? limit : PAGE_ITEMS_LIMIT,
     offset: Number(limit ?? PAGE_ITEMS_LIMIT) * (Number(page ?? 1) - 1),
     available: available ? Boolean(available) : undefined,
+    publish: true,
   };
   //
 
