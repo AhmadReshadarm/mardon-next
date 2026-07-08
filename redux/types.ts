@@ -221,8 +221,8 @@ type TFilters = {
   minPrice?: number;
   maxPrice?: number;
   desc?: string;
-  publish?: boolean;
-  available?: boolean;
+  publish?: string;
+  available?: string;
   userHistory?: string[];
   colors?: string[];
   categories?: string[];

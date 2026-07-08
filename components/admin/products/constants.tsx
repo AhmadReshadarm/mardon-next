@@ -178,7 +178,7 @@ export const columns: ColumnsType<any> = [
     width: '8.5%',
   },
   {
-    title: 'Артикул | Цена | Статус на складе',
+    title: 'Артикул | Цена | Статус на складе | Опубликовано',
     dataIndex: 'price',
     render: (_, record) => {
       return (

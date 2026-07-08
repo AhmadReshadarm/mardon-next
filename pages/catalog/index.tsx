@@ -96,29 +96,36 @@ const CatalogPage = () => {
   const router = useRouter();
   const { categories, subCategories, colors, tags, priceRange } =
     useAppSelector<TCatalogState>((state) => state.catalog);
-  const [selectedCategory, setSelectedCategory] = useState<
-    string | undefined
-  >();
+  // const [selectedCategory, setSelectedCategory] = useState<
+  //   string | undefined
+  // >();
 
   const handleLocationChange = onLocationChange(dispatch);
   const [firstLoad, setFirstLoad] = useState(true);
+  const lastQueryRef = useRef<string | null>(null);
   useEffect(() => {
     localStorage.removeItem('location');
-    window.addEventListener('locationChange', () => {
-      handleLocationChange();
-    });
+
+    const wrappedHandler = async () => {
+      const currentQS = window.location.search;
+      if (lastQueryRef.current === currentQS) return;
+      lastQueryRef.current = currentQS;
+      await handleLocationChange();
+    };
+
+    window.addEventListener('locationChange', wrappedHandler);
     setPriceRange(dispatch);
 
     (async () => {
       if (firstLoad) {
         await dispatch(fetchParentCategories());
-        await handleLocationChange();
+        await wrappedHandler();
         setFirstLoad(false);
       }
     })();
 
     return () => {
-      window.removeEventListener('locationChange', handleLocationChange);
+      window.removeEventListener('locationChange', wrappedHandler);
     };
   }, []);
 
@@ -220,25 +227,25 @@ const CatalogPage = () => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
 
-  useEffect(() => {
-    const filtersCategory = localFilters.filter(
-      (filter) => filter.type === FilterType.SINGLE_SELECTION,
-    );
-    const checkedCategory = filtersCategory.map((filter) => {
-      const checkedOption = filter.options!.filter(
-        (option) => option.checked === true,
-      );
-      return checkedOption;
-    });
+  // useEffect(() => {
+  //   const filtersCategory = localFilters.filter(
+  //     (filter) => filter.type === FilterType.SINGLE_SELECTION,
+  //   );
+  //   const checkedCategory = filtersCategory.map((filter) => {
+  //     const checkedOption = filter.options!.filter(
+  //       (option) => option.checked === true,
+  //     );
+  //     return checkedOption;
+  //   });
 
-    if (checkedCategory[0].length > 0) {
-      if (checkedCategory[1].length > 0) {
-        setSelectedCategory(checkedCategory[1][0].name);
-      } else {
-        setSelectedCategory(checkedCategory[0][0].name);
-      }
-    }
-  }, [localFilters]);
+  //   if (checkedCategory[0].length > 0) {
+  //     if (checkedCategory[1].length > 0) {
+  //       setSelectedCategory(checkedCategory[1][0].name);
+  //     } else {
+  //       setSelectedCategory(checkedCategory[0][0].name);
+  //     }
+  //   }
+  // }, [localFilters]);
 
   return (
     <>

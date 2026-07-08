@@ -15,7 +15,7 @@ import { AppDispatch } from 'redux/store';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { TFiltersConfig } from './types';
 import { stopWords } from 'common/constants';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const PAGE_ITEMS_LIMIT = 12;
 
@@ -31,6 +31,7 @@ const convertQueryParams = (query: {
     sortBy,
     name,
     available,
+    publish,
   } = query;
 
   const categoriesArray = categories
@@ -69,6 +70,11 @@ const convertQueryParams = (query: {
       ? available[0]
       : [available][0]
     : undefined;
+  const publishQuary = publish
+    ? Array.isArray(publish)
+      ? publish[0]
+      : publish[0]
+    : undefined;
 
   return {
     categories: categoriesArray,
@@ -78,7 +84,8 @@ const convertQueryParams = (query: {
     orderBy: orderByQuary,
     sortBy: sortByQuary,
     name: nameQuary,
-    available: Boolean(availableQuary),
+    available: availableQuary,
+    publish: publishQuary,
   };
 };
 
@@ -186,10 +193,83 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     orderBy: orderBy ? String(orderBy) : 'DESC',
     limit: limit ? limit : PAGE_ITEMS_LIMIT,
     offset: Number(limit ?? PAGE_ITEMS_LIMIT) * (Number(page ?? 1) - 1),
-    available: available ? Boolean(available) : undefined,
-    publish: true,
+    available: available ? available[0] : undefined,
+    publish: 'true',
   };
-  //
+
+  dispatch(setPage(Number(page ?? 1)));
+
+  dispatch(fetchProducts(payload));
+
+  const curLocation = localStorage.getItem('location')!;
+  localStorage.setItem('location', window.location.search);
+
+  const rawPrevQueryParams = getQueryParams(curLocation);
+  const prevQueryParams = convertQueryParams(rawPrevQueryParams);
+  setPriceRange(dispatch);
+
+  if (
+    JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories)
+  ) {
+    const category = categories ? categories[0] : '';
+
+    if (category) {
+      await dispatch(fetchSubCategories(category));
+      await dispatch(fetchColors({ parent: category }));
+    } else {
+      dispatch(clearSubCategories());
+      dispatch(clearColors());
+    }
+  }
+
+  if (
+    JSON.stringify(prevQueryParams.subCategories) !==
+    JSON.stringify(subCategories)
+  ) {
+    const subCategory = subCategories ? subCategories[0] : '';
+    if (subCategories) {
+      await dispatch(fetchColors({ category: subCategories[0] }));
+      await dispatch(fetchTags({ children: subCategory }));
+    } else {
+      dispatch(clearTags());
+      dispatch(clearColors());
+    }
+  }
+  return () => dispatch(clearProducts());
+};
+const onLocationChangeAdmin = (dispatch: AppDispatch) => async () => {
+  const queryParams = getQueryParams(window.location.search);
+
+  const {
+    minPrice,
+    maxPrice,
+    name,
+    page,
+    limit,
+    sortBy,
+    orderBy,
+    available,
+    publish,
+  } = queryParams;
+
+  const { categories, subCategories, colors, tags } =
+    convertQueryParams(queryParams);
+
+  const payload = {
+    colors,
+    tags,
+    name: name ? name[0] : undefined,
+    parent: categories ? categories[0] : undefined,
+    categories: subCategories,
+    minPrice: minPrice ? Number(minPrice) : undefined,
+    maxPrice: maxPrice ? Number(maxPrice) : undefined,
+    sortBy: sortBy ? String(sortBy) : 'id',
+    orderBy: orderBy ? String(orderBy) : 'DESC',
+    limit: limit ? limit : PAGE_ITEMS_LIMIT,
+    offset: Number(limit ?? PAGE_ITEMS_LIMIT) * (Number(page ?? 1) - 1),
+    available: available ? available[0] : undefined,
+    publish: publish ? publish[0] : undefined,
+  };
 
   dispatch(setPage(Number(page ?? 1)));
 
@@ -283,4 +363,5 @@ export {
   onLocationChange,
   cleanSearchTerm,
   useIsBelowViewport,
+  onLocationChangeAdmin,
 };

@@ -1692,7 +1692,13 @@
               "type": "string"
             }
           },
-
+          {
+            "name": "publish",
+            "in": "query",
+            "description": "Filtering product by published status",
+            "required": false,
+            "type": "string"
+          },
           {
             "name": "minPrice",
             "in": "query",
@@ -1719,7 +1725,7 @@
             "in": "query",
             "description": "Filtering products by available",
             "required": false,
-            "type": "boolean"
+            "type": "string"
           },
           {
             "name": "colors",

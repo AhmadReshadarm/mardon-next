@@ -7,7 +7,6 @@ import ColorFilter from 'components/store/catalog/filters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/filters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelectionFilter';
-import InStockFilter from 'components/store/catalog/filters/inStockFilter';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -18,6 +17,7 @@ import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import OrderByAndSortBySelectionFilter from './filters/OrderByAndSortBySelectionFilter';
 import NameFilterAdmin from './filters/NameFilter';
+import ToggleFilter from './filters/toggleFilter';
 
 type Props = {
   categories: Category[];
@@ -106,12 +106,10 @@ const FilterBar: React.FC<Props> = ({
               />
             )) ||
             (filter.type === FilterType.IN_STOCK && (
-              <InStockFilter
-                title={filter.title}
-                onChange={filter.onChange}
-                setPageSize={setPageSize}
-                setCurrentPage={setCurrentPage}
-              />
+              <ToggleFilter title={filter.title} onChange={filter.onChange} />
+            )) ||
+            (filter.type === FilterType.PUBLISH && (
+              <ToggleFilter title={filter.title} onChange={filter.onChange} />
             )) ||
             (filter.type === FilterType.ORDER_BY &&
               !!filter.options?.length && (

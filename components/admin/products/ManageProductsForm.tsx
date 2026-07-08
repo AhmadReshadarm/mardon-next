@@ -214,7 +214,7 @@ const ManageProductForm = ({
               />
             }
           />
-          {/* ----------------------AVAILABLE---------------------- */}
+          {/* ----------------------PUBLISH---------------------- */}
           <Form.Item
             label="Публиковать?"
             name={`${ManageProductFields.Publish}`}

@@ -75,31 +75,69 @@ const TopFilterBar: React.FC<Props> = ({
     setSliderChanged(false);
   };
 
+  // useEffect(() => {
+  //   const cleanedTerm = cleanSearchTerm(searchTerm);
+  //   const isValidSearch = cleanedTerm.length > 0;
+  //   isValidSearch ? setActivateResetBtn(true) : setActivateResetBtn(false);
+  //   if (clearSearchTerm) {
+  //     setCurrentPage(1);
+  //     setPageSize(12);
+
+  //     pushQueryParams([
+  //       { name: 'name', value: searchTerm },
+  //       { name: 'page', value: 1 },
+  //     ]);
+  //     setClearSearchTerm(false);
+  //   } else {
+  //     if (timeoutRef.current) {
+  //       clearTimeout(timeoutRef.current);
+  //     }
+
+  //     timeoutRef.current = setTimeout(() => {
+  //       setCurrentPage(1);
+  //       setPageSize(12);
+  //       pushQueryParams([
+  //         { name: 'name', value: isValidSearch ? cleanedTerm : '' },
+  //         { name: 'page', value: 1 },
+  //       ]);
+  //     }, 1000);
+  //   }
+  // }, [searchTerm]);
+
+  // Inside the effect that pushes searchTerm:
   useEffect(() => {
     const cleanedTerm = cleanSearchTerm(searchTerm);
     const isValidSearch = cleanedTerm.length > 0;
     isValidSearch ? setActivateResetBtn(true) : setActivateResetBtn(false);
+
+    // Read the current 'name' from the URL
+    const currentName = getQueryParams(window.location.search)?.name?.[0] || '';
+
     if (clearSearchTerm) {
       setCurrentPage(1);
       setPageSize(12);
-
-      pushQueryParams([
-        { name: 'name', value: searchTerm },
-        { name: 'page', value: 1 },
-      ]);
+      // Only push if the new value is actually different
+      if ('' !== currentName) {
+        pushQueryParams([
+          { name: 'name', value: '' },
+          { name: 'page', value: 1 },
+        ]);
+      }
       setClearSearchTerm(false);
     } else {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-
       timeoutRef.current = setTimeout(() => {
-        setCurrentPage(1);
-        setPageSize(12);
-        pushQueryParams([
-          { name: 'name', value: isValidSearch ? cleanedTerm : '' },
-          { name: 'page', value: 1 },
-        ]);
+        // Skip pushing if the cleaned term is the same as the current URL parameter
+        if (isValidSearch ? cleanedTerm !== currentName : currentName !== '') {
+          setCurrentPage(1);
+          setPageSize(12);
+          pushQueryParams([
+            { name: 'name', value: isValidSearch ? cleanedTerm : '' },
+            { name: 'page', value: 1 },
+          ]);
+        }
       }, 1000);
     }
   }, [searchTerm]);

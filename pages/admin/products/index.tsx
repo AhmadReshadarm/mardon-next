@@ -5,7 +5,7 @@ import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/products/constants';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
 import styles from './index.module.scss';
@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { devices } from 'components/store/lib/Devices';
 import { TCatalogState } from 'redux/types';
 import {
-  onLocationChange,
+  onLocationChangeAdmin,
   setPriceRange,
 } from 'components/store/catalog/helpers';
 import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
@@ -39,7 +39,7 @@ const ProductsPage = () => {
     productsLoading,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
 
-  const handleLocationChange = onLocationChange(dispatch);
+  const handleLocationChange = onLocationChangeAdmin(dispatch);
   const paginationLength = useAppSelector(
     (state) => state.catalog.productsLength,
   );
@@ -47,23 +47,30 @@ const ProductsPage = () => {
   const [pageSize, setPageSize]: [number, any] = useState(12);
 
   const [firstLoad, setFirstLoad] = useState(true);
+  const lastQueryRef = useRef<string | null>(null);
   useEffect(() => {
     localStorage.removeItem('location');
-    window.addEventListener('locationChange', () => {
-      handleLocationChange();
-    });
+
+    const wrappedHandler = async () => {
+      const currentQS = window.location.search;
+      if (lastQueryRef.current === currentQS) return;
+      lastQueryRef.current = currentQS;
+      await handleLocationChange();
+    };
+
+    window.addEventListener('locationChange', wrappedHandler);
     setPriceRange(dispatch);
 
     (async () => {
       if (firstLoad) {
         await dispatch(fetchParentCategories());
-        await handleLocationChange();
+        await wrappedHandler();
         setFirstLoad(false);
       }
     })();
 
     return () => {
-      window.removeEventListener('locationChange', handleLocationChange);
+      window.removeEventListener('locationChange', wrappedHandler);
     };
   }, []);
 

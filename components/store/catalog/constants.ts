@@ -12,6 +12,7 @@ enum FilterType {
   SORT_BY,
   SEARCH_TERM,
   IN_STOCK,
+  PUBLISH,
 }
 
 const getFilters = ({
@@ -51,18 +52,20 @@ const getFilters = ({
       title: 'Товары нет в наличии',
       type: FilterType.IN_STOCK,
       onChange: (available: boolean) => {
-        if (available) {
-          pushQueryParams([
-            { name: 'available', value: 'false' },
-            { name: 'page', value: 1 },
-          ]);
-        }
-        if (!available) {
-          pushQueryParams([
-            { name: 'available', value: undefined },
-            { name: 'page', value: 1 },
-          ]);
-        }
+        pushQueryParams([
+          { name: 'available', value: available ? 'true' : 'false' },
+          { name: 'page', value: 1 },
+        ]);
+      },
+    },
+    {
+      title: 'Опубликовано',
+      type: FilterType.PUBLISH,
+      onChange: (publish: boolean) => {
+        pushQueryParams([
+          { name: 'publish', value: publish ? 'true' : 'false' },
+          { name: 'page', value: 1 },
+        ]);
       },
     },
     {
