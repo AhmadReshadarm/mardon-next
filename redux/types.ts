@@ -298,7 +298,7 @@ interface FetchPayload {
   offset: string;
   originalName?: string;
   filename?: string;
-  available?: boolean;
+  available?: string;
   showOnMain?: boolean;
 }
 
