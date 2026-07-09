@@ -102,7 +102,17 @@ const ProductsPage = () => {
 
   // ___________________________________________________________________
   let dataSource = products?.map(
-    ({ id, name, desc, category, tags, url, productVariants, ...rest }) => ({
+    ({
+      id,
+      name,
+      desc,
+      category,
+      tags,
+      url,
+      productVariants,
+      publish,
+      ...rest
+    }) => ({
       key: id,
       id,
       name,
@@ -110,6 +120,7 @@ const ProductsPage = () => {
       category,
       tags,
       url,
+      publish,
       productVariants,
       isCheckBoxEnabled,
       selectedProducts,

@@ -203,6 +203,20 @@ export const columns: ColumnsType<any> = [
               <span>{variant.available ? 'да' : 'нет'}</span>
             </li>
           ))}
+          <li
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+            key={record.id}
+          >
+            <span style={{ whiteSpace: 'nowrap' }}>Опубликовано</span>
+            <span>:</span>
+            <span>{record.publish ? 'да' : 'нет'}</span>
+          </li>
         </ul>
       );
     },

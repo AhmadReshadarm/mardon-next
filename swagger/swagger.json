@@ -7200,6 +7200,9 @@
         "keywords": {
           "type": "string"
         },
+        "publish": {
+          "type": "string"
+        },
         "createdAt": {
           "type": "string",
           "readOnly": true
