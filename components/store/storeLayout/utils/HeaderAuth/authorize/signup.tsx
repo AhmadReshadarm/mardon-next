@@ -58,7 +58,7 @@ const SignUp: React.FC<Props> = ({ direction, authType, paginate }) => {
                 Подписаться на новостную рассылку
               </label>
             </div>
-            {isAuthFormOpen || router.pathname == '/profile' ? (
+            {router.asPath !== '/checkout' ? (
               ''
             ) : (
               <span

@@ -5413,6 +5413,13 @@
             "description": "admin-token or user-token"
           },
           {
+            "name": "token",
+            "in": "query",
+            "description": "Send token via query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "",
@@ -8076,6 +8083,9 @@
         },
         "showOnMain": {
           "type": "boolean"
+        },
+        "token": {
+          "type": "string"
         }
       }
     },

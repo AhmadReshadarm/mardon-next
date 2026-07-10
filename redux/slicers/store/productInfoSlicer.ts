@@ -183,7 +183,10 @@ export const createReview = createAsyncThunk<
   'productInfo/createReview',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const removed = await ReviewService.createReview({ body: payload });
+      const removed = await ReviewService.createReview({
+        body: payload,
+        token: payload.token,
+      });
 
       return removed;
     } catch (error: any) {

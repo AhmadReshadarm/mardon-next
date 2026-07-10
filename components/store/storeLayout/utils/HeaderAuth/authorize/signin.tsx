@@ -115,9 +115,7 @@ const SignIn: React.FC<Props> = ({ direction, authType }) => {
               >
                 <span>Забыли пароль?</span>
               </Link>
-              {isAuthFormOpen ||
-              router.pathname == '/profile' ||
-              router.pathname == '/orders' ? (
+              {router.asPath !== '/checkout' ? (
                 ''
               ) : (
                 <span
