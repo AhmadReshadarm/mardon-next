@@ -78,13 +78,8 @@ const AddReviewExternal: React.FC<Props> = ({ product, token }) => {
         token,
       };
 
-      try {
-        await dispatch(createReviewByOneTimeToken(payload)).unwrap();
-        setSubmitted(true);
-        openErrorNotification('Ваш отзыв успешно отправлен!');
-      } catch (err) {
-        // error handled by thunk
-      }
+      dispatch(createReviewByOneTimeToken(payload));
+      setSubmitted(true);
     };
 
   if (submitted) {
@@ -96,7 +91,7 @@ const AddReviewExternal: React.FC<Props> = ({ product, token }) => {
         variants={variants.fadeOutSlideOut}
       >
         <div className={styles.successMessage}>
-          <span>✅ Ваш отзыв отправлен!</span>
+          <span>Ваш отзыв отправлен!</span>
           <span>
             Если вы захотите изменить его, это можно сделать в личном кабинете.
           </span>
