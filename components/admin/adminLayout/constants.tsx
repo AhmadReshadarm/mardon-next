@@ -65,6 +65,8 @@ export const pathWords: PathWords = {
   // 'sizes/create-size': 'Создание размер',
   // 'sizes/[id]': 'Редактирование размер',
   reviews: 'Отзывы',
+  'reviews/one-time-token':
+    'Сгенерировать одноразовую ссылку для добавления отзыва.',
   questions: 'Вопросы',
   checkouts: 'Заказы',
   // newsPosts: 'Новости',

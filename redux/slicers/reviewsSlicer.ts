@@ -55,6 +55,21 @@ export const changeShowOnMain = createAsyncThunk<
   },
 );
 
+export const generateOneTimeToken = createAsyncThunk<
+  { token: string },
+  { publicKey: string },
+  { rejectValue: string }
+>(
+  'reviews/generateOneTimeToken',
+  async function ({ publicKey }, { rejectWithValue }): Promise<any> {
+    try {
+      return await ReviewService.generateOneTimeToken({ publicKey });
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 export const deleteReview = createAsyncThunk<
   string,
   string,
@@ -75,6 +90,7 @@ const initialState: TReviewState = {
   loading: false,
   saveLoading: false,
   reviewsLenght: 0,
+  oneTimeToken: '',
 };
 
 const reviewsSlicer = createSlice({
@@ -95,6 +111,13 @@ const reviewsSlicer = createSlice({
         state.loading = false;
       })
       .addCase(fetchReviews.rejected, handleError)
+      //generateOneTimeToken
+      .addCase(generateOneTimeToken.pending, handlePending)
+      .addCase(generateOneTimeToken.fulfilled, (state, action) => {
+        state.oneTimeToken = action.payload.token;
+        state.loading = false;
+      })
+      .addCase(generateOneTimeToken.rejected, handleError)
       //deleteReview
       .addCase(deleteReview.pending, handleChangePending)
       .addCase(deleteReview.fulfilled, (state, action) => {

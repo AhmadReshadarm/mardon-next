@@ -10,7 +10,14 @@
   }
 }
 
-
+.buttonsWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px;
+}
 
 .spinner {
   display: block;

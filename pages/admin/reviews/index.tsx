@@ -1,4 +1,4 @@
-import { Spin, Table } from 'antd';
+import { Button, Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { AppContext } from 'common/context/AppContext';
 import { DataType } from 'common/interfaces/data-type.interface';
@@ -13,10 +13,14 @@ import {
 } from '../../../redux/slicers/reviewsSlicer';
 import styles from './index.module.scss';
 import Head from 'next/head';
+import { navigateTo } from 'common/helpers';
+import { useRouter } from 'next/router';
+import { Page } from 'routes/constants';
 
 const ReviewsPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { offset, setOffset } = useContext(AppContext);
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
   const reviews = useAppSelector((state) => state.reviews.reviews);
@@ -55,6 +59,15 @@ const ReviewsPage = () => {
       <div className={styles.reviewsHeader}>
         <h1 className={styles.reviewsHeader__title}>Отзывы</h1>
       </div>
+      <div className={styles.buttonsWrapper}>
+        <Button
+          type="primary"
+          onClick={navigateTo(router, Page.ADMIN_ONE_TIME_TOKEN)}
+        >
+          Сгенерировать одноразовую ссылку для добавления отзыва.
+        </Button>
+      </div>
+
       {isLoading ? (
         <Spin className={styles.spinner} size="large" />
       ) : (

@@ -46,6 +46,24 @@ export const fetchChosenProduct = createAsyncThunk<
   },
 );
 
+export const fetchProductsByIDs = createAsyncThunk<
+  Product[],
+  string[],
+  { rejectValue: string }
+>(
+  'products/fetchProductsByIDs',
+  async function (ids, { rejectWithValue }): Promise<any> {
+    try {
+      return await Promise.all(
+        ids.map((id) => ProductService.findProductById({ productId: id })),
+      );
+      // return results;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 export const createProduct = createAsyncThunk<
   Product,
   PayloadProduct,
@@ -113,6 +131,7 @@ const initialState: TProductState = {
   chosenProduct: null,
   loading: false,
   saveLoading: false,
+  reveiwProducts: [],
 };
 
 const productsSlicer = createSlice({
@@ -142,6 +161,13 @@ const productsSlicer = createSlice({
         state.loading = false;
       })
       .addCase(fetchChosenProduct.rejected, handleError)
+      //fetchProductsByIDs
+      .addCase(fetchProductsByIDs.pending, handlePending)
+      .addCase(fetchProductsByIDs.fulfilled, (state, action) => {
+        state.reveiwProducts = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProductsByIDs.rejected, handleError)
       //createProduct
       .addCase(createProduct.pending, handleChangePending)
       .addCase(createProduct.fulfilled, (state) => {

@@ -79,6 +79,7 @@ type TProductState = {
   chosenProduct: Product | null;
   loading: boolean;
   saveLoading: boolean;
+  reveiwProducts: Product[];
 };
 
 interface SlideImage {
@@ -143,6 +144,17 @@ interface MailOptionsDTO {
   html: string;
 }
 
+interface OneTimeTokenReviewCustomDTO {
+  id?: string;
+  rating?: number;
+  text?: string;
+  images?: string;
+  productId?: string;
+  userId?: string;
+  showOnMain?: boolean;
+  token: string;
+}
+
 interface TNewsRequest {
   limit: string;
   offset: string;
@@ -158,6 +170,7 @@ type TReviewState = {
   loading: boolean;
   saveLoading: boolean;
   reviewsLenght: number;
+  oneTimeToken: string;
 };
 
 type TQuestionState = {
@@ -409,4 +422,5 @@ export type {
   ImageDTO,
   TSubscribers,
   MailOptionsDTO,
+  OneTimeTokenReviewCustomDTO,
 };

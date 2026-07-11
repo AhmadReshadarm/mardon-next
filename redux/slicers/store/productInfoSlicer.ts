@@ -6,7 +6,7 @@ import {
   reviewDropdownOption,
 } from 'components/store/product/constants';
 import { getReactionNumber } from 'components/store/product/reviewsAndQuastions/reviews/helpers';
-import { TProductInfoState } from 'redux/types';
+import { OneTimeTokenReviewCustomDTO, TProductInfoState } from 'redux/types';
 import {
   Comment,
   CommentReaction,
@@ -183,12 +183,31 @@ export const createReview = createAsyncThunk<
   'productInfo/createReview',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const removed = await ReviewService.createReview({
+      const created = await ReviewService.createReview({
+        body: payload,
+      });
+
+      return created;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const createReviewByOneTimeToken = createAsyncThunk<
+  Review,
+  OneTimeTokenReviewCustomDTO,
+  { rejectValue: string }
+>(
+  'productInfo/createReviewByOneTimeToken',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const created = await ReviewService.postReviewByToken({
         body: payload,
         token: payload.token,
       });
 
-      return removed;
+      return created;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -728,6 +747,16 @@ const productInfoSlicer = createSlice({
         state.saveLoading = false;
       })
       .addCase(createReview.rejected, handleError)
+      //createReviewByOneTimeToken
+      .addCase(createReviewByOneTimeToken.pending, handleChangePending)
+      .addCase(createReviewByOneTimeToken.fulfilled, (state, action) => {
+        if (state.product?.reviews) {
+          state.product?.reviews!.push(action.payload);
+        }
+        openSuccessNotification('Спасибо за ваш обзор');
+        state.saveLoading = false;
+      })
+      .addCase(createReviewByOneTimeToken.rejected, handleError)
       //updateReview
       .addCase(updateReview.pending, handleChangePending)
       .addCase(updateReview.fulfilled, (state, action) => {

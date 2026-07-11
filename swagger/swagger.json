@@ -5413,13 +5413,6 @@
             "description": "admin-token or user-token"
           },
           {
-            "name": "token",
-            "in": "query",
-            "description": "Send token via query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "in": "body",
             "name": "body",
             "description": "",
@@ -5447,6 +5440,100 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/reviews/by-token": {
+      "post": {
+        "tags": ["review"],
+        "summary": "Post reviews by admin generate one time token",
+        "operationId": "postReviewByToken",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "description": "one time token for posting reviews"
+          },
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/OneTimeTokenReviewDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Review request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/reviews/one-time-token/{publicKey}": {
+      "get": {
+        "tags": ["review"],
+        "summary": "Generate a one time token for posting reviews",
+        "operationId": "generateOneTimeToken",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
+          {
+            "name": "publicKey",
+            "in": "path",
+            "description": "User public key to generate one time token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": { "token": "string" }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Review not found"
           }
         }
       }
@@ -8083,9 +8170,39 @@
         },
         "showOnMain": {
           "type": "boolean"
+        }
+      }
+    },
+    "OneTimeTokenReviewDTO": {
+      "required": ["rating", "productId", "userId", "token"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "rating": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "text": {
+          "type": "string"
+        },
+        "images": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "showOnMain": {
+          "type": "boolean"
         },
         "token": {
-          "type": "string"
+          "type": "string",
+          "required": true
         }
       }
     },

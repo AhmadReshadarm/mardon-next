@@ -1,0 +1,259 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  font-family: 'Jost', sans-serif;
+}
+
+.title {
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.productArea {
+  margin: 20px 0 30px;
+}
+
+.status {
+  color: #888;
+  font-style: italic;
+}
+
+.productListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #f0f4f8;
+  border-radius: 8px;
+}
+
+.checkAll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.selectedCount {
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.productList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+.productItem {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.productItem:last-child {
+  border-bottom: none;
+}
+
+.productLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+
+/* Remove button – hidden by default, shown on hover */
+.removeBtn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show on hover over the product item */
+.productItem:hover .removeBtn {
+  opacity: 1;
+}
+
+.productLabel:hover {
+  background: #f9fafb;
+}
+
+.thumbnail {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.productInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.productName {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #2c3e50;
+}
+
+.artical {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.generateBtn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 30px;
+  background: #1976d2;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.generateBtn:hover:not(:disabled) {
+  background: #115293;
+}
+
+.generateBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resultBox {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.resultBox p {
+  margin: 0 0 12px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.linkRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.linkText {
+  flex: 1;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  word-break: break-all;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  user-select: all;
+}
+
+.copyBtn {
+  padding: 10px 18px;
+  background: #388e3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.copyBtn:hover {
+  background: #2e7d32;
+}
+
+.selectedSection {
+  margin-bottom: 20px;
+}
+
+.selectedHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.clearBtn {
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.clearBtn:hover {
+  background: #b71c1c;
+}
+
+/* When a product is in the selected list, hide its checkbox (we already
+   don't render one), but keep the same item appearance */
+.productLabelNoCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  cursor: default;
+}
