@@ -14,14 +14,14 @@ const VerifyAcountByToken = () => {
     }
   }, []);
   const [counter, setCounter] = useState(2);
-  useEffect(() => {
-    if (counter >= 1) {
-      setTimeout(() => setCounter(counter - 1), 1000);
-    }
-    if (counter < 1) {
-      router.push('/checkout');
-    }
-  }, [counter]);
+  // useEffect(() => {
+  //   if (counter >= 1) {
+  //     setTimeout(() => setCounter(counter - 1), 1000);
+  //   }
+  //   if (counter < 1) {
+  //     router.push('/profile');
+  //   }
+  // }, [counter]);
 
   return (
     <>

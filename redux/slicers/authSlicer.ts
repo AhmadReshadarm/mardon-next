@@ -94,7 +94,8 @@ export const verifyUserEmailByToken = createAsyncThunk<
 
       return repsonse;
     } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
+      // return rejectWithValue(getErrorMassage(error.response.status));
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -349,7 +350,12 @@ const authSlicer = createSlice({
         openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
       })
-      .addCase(verifyUserEmailByToken.rejected, handleError)
+      .addCase(verifyUserEmailByToken.rejected, (state, action) => {
+        state.loading = false;
+        state.serverErr = Number(action.payload);
+        const popUpMsg = getErrorMassage(Number(action.payload));
+        openErrorNotification(popUpMsg);
+      })
       //send reset verification token
       .addCase(sendVerificationToken.pending, handlePending)
       .addCase(sendVerificationToken.fulfilled, (state, action) => {

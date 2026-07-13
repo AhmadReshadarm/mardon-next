@@ -1,6 +1,3 @@
-// components/store/profileComp/reveiws/index.tsx
-// REMOVED: import styled from 'styled-components';
-// REMOVED: import { Container, Header } from '../common';
 import styles from '../styles/profile.module.css'; // NEW
 import ReviewsItems from './ReviewItems';
 import { useMemo, useEffect } from 'react';

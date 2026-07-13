@@ -1,0 +1,126 @@
+/* Global variables are available in :root, use them here */
+
+.page {
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: var(--bg-beige);
+}
+
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-light);
+  border-radius: 24px;
+  padding: 50px 40px;
+  box-shadow: var(--shadow-soft), 0 0 0 1px var(--border-light);
+  text-align: center;
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-light);
+  border-top: 4px solid var(--primary-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.checkmark {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary-gold);
+  color: var(--bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.crossmark {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--hover);
+  color: var(--bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.state h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.state p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-family: var(--font-Jost);
+}
+
+.btnPrimary {
+  background-color: var(--primary-black);
+  color: var(--textPrimary);
+  border-color: var(--primary-black);
+}
+
+.btnPrimary:hover {
+  background-color: var(--primary-gold);
+  border-color: var(--primary-gold);
+  color: var(--text-dark);
+}
+
+.btnSecondary {
+  background-color: transparent;
+  color: var(--text-dark);
+  border-color: var(--primary-gold);
+}
+
+.btnSecondary:hover {
+  background-color: var(--primary-gold);
+  color: var(--bg-light);
+}

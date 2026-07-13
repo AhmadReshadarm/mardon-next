@@ -1,15 +1,11 @@
-// components/store/profileComp/reveiws/ReviewItems.tsx
-// REMOVED: import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { Rating } from '@mui/material';
 import Link from 'next/link';
 import AddReview from './AddReview';
 import { Review } from 'swagger/services';
-import { devices } from 'components/store/lib/Devices';
-import styles from '../styles/profile.module.css'; // NEW
+import styles from '../styles/profile.module.css';
 
 type Props = {
   review: Review;
