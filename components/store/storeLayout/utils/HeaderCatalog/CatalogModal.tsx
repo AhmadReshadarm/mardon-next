@@ -171,7 +171,6 @@ const MainCatalogWrapper = styled.div`
       font-size: 1.5rem;
       transition: 200ms;
       font-weight: 700;
-      // font-family: var(--font-ricordi);
     }
   }
 `;
@@ -206,7 +205,6 @@ const SubCategoriesContainer = styled.div`
     transition: 200ms;
     font-size: 1.1rem;
     font-weight: 600;
-    // font-family: var(--font-Circe);
   }
 `;
 

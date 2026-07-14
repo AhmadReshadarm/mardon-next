@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import SEOstatic from 'components/store/SEO/SEOstatic';
-import { baseUrl } from '../common/constant';
+import { baseUrl, FALLBACK_BLUR_DATA_URL } from '../common/constant';
 import { Product, Slide } from 'swagger/services';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
@@ -39,67 +39,87 @@ const ContactsMainPage = dynamic(
 export const getServerSideProps: GetServerSideProps<{
   slides: Slide[];
   caroselProducts: Product[];
-  base64Image: string | null;
-  base64Image_2: string | null;
-}> = (async () => {
+  base64Image: string;
+  base64Image_2: string;
+  slidesError: boolean;
+  carouselError: boolean;
+}> = async () => {
   const apiUrl = process.env.API_URL || 'http://localhost:4010';
+
+  // ---------- fetch slides ----------
+  let slides: Slide[] = [];
+  let slidesError = false;
   try {
     const resSlides = await fetch(`${apiUrl}/slides`);
     if (!resSlides.ok) throw new Error('Failed to fetch slides');
-    const slides: Slide[] = await resSlides.json();
+    slides = await resSlides.json();
+  } catch (error) {
+    console.error('Slides fetch error:', error);
+    slidesError = true;
+    slides = [];
+  }
 
+  // ---------- fetch carousel products ----------
+  let caroselProducts: Product[] = [];
+  let carouselError = false;
+  try {
     const resCarosel = await fetch(
       `${apiUrl}/products?tags[]=main_page&sortBy=id&orderBy=DESC&limit=100`,
     );
     if (!resCarosel.ok) throw new Error('Failed to fetch carousel products');
-    const caroselData: { rows: Product[]; lenght: number } =
+    const caroselData: { rows: Product[]; length: number } =
       await resCarosel.json();
-    const caroselProducts = caroselData.rows;
+    caroselProducts = caroselData.rows;
+  } catch (error) {
+    console.error('Carousel products fetch error:', error);
+    carouselError = true;
+    caroselProducts = [];
+  }
 
-    let caroselImages: string[] = [];
-    if (caroselProducts.length > 0 && caroselProducts[0].productVariants) {
-      caroselImages = getProductVariantsImages(
+  // ---------- generate base64 placeholders (non‑critical) ----------
+  let base64Image = FALLBACK_BLUR_DATA_URL;
+  let base64Image_2 = FALLBACK_BLUR_DATA_URL;
+
+  try {
+    if (
+      !carouselError &&
+      caroselProducts.length > 0 &&
+      caroselProducts[0].productVariants
+    ) {
+      const caroselImages = getProductVariantsImages(
         caroselProducts[0].productVariants,
       );
+      if (caroselImages.length > 0) {
+        const url = `${apiUrl}/images/compress/${caroselImages[0]}?qlty=1&width=100&height=100&lossless=false`;
+        const result = await getBase64Image(url);
+        if (result) base64Image = result;
+      }
     }
-
-    const firstCarouselImageUrl =
-      caroselImages.length > 0
-        ? `${apiUrl}/images/compress/${caroselImages[0]}?qlty=1&width=100&height=100&lossless=false`
-        : '';
-    const firstSlideImageUrl =
-      slides.length > 0 && slides[0].image
-        ? `${apiUrl}/images/compress/${slides[0].image}?qlty=1&width=190&height=80&lossless=false`
-        : '';
-
-    const base64Image = await getBase64Image(firstCarouselImageUrl);
-    const base64Image_2 = await getBase64Image(firstSlideImageUrl);
-
-    return {
-      props: {
-        slides,
-        caroselProducts,
-        base64Image,
-        base64Image_2,
-      },
-    };
-  } catch (error) {
-    console.error('Error in getServerSideProps:', error);
-    return {
-      props: {
-        slides: [],
-        caroselProducts: [],
-        base64Image: null,
-        base64Image_2: null,
-      },
-    };
+  } catch (e) {
+    console.error('Failed to get carousel base64 placeholder:', e);
   }
-}) as GetServerSideProps<{
-  slides: Slide[];
-  caroselProducts: Product[];
-  base64Image: string | null;
-  base64Image_2: string | null;
-}>;
+
+  try {
+    if (!slidesError && slides.length > 0 && slides[0].image) {
+      const url = `${apiUrl}/images/compress/${slides[0].image}?qlty=1&width=190&height=80&lossless=false`;
+      const result = await getBase64Image(url);
+      if (result) base64Image_2 = result;
+    }
+  } catch (e) {
+    console.error('Failed to get slides base64 placeholder:', e);
+  }
+
+  return {
+    props: {
+      slides,
+      caroselProducts,
+      base64Image,
+      base64Image_2,
+      slidesError,
+      carouselError,
+    },
+  };
+};
 
 // ---------------------------------------------------------------------------------------
 
@@ -110,6 +130,8 @@ const IndexPage: React.FC<IndexPageProps> & {
 } = ({
   slides,
   caroselProducts,
+  slidesError,
+  carouselError,
   base64Image,
   base64Image_2,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -136,10 +158,15 @@ const IndexPage: React.FC<IndexPageProps> & {
       <Head>
         <link rel="canonical" href="https://nbhoz.ru" />
       </Head>
-      <Banners slides={slides} base64Image_2={base64Image_2} />
+      <Banners
+        slides={slides}
+        base64Image_2={base64Image_2}
+        error={slidesError}
+      />
       <ProductsSlider
         caroselProducts={caroselProducts}
         base64Image={base64Image}
+        error={carouselError}
       />
 
       <div ref={catalogSection.ref}>

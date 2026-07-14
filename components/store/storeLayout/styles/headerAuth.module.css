@@ -95,7 +95,7 @@
 }
 
 .AuthHeader > h3 {
-  font-family: var(--font-ricordi);
+  font-family: var(--font-Jost);
   font-size: 2rem;
 }
 .AuthHeader > span {
@@ -114,7 +114,7 @@
 }
 
 .auth_buttons_row > h2 {
-  font-family: var(--font-ricordi);
+  font-family: var(--font-Jost);
   font-size: 1.5rem;
   cursor: pointer;
   color: var(--textBase);

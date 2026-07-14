@@ -53,7 +53,7 @@
   border-radius: 30px;
   background-color: var(--buttonPrimary);
   color: var(--textPrimary);
-  font-family: var(--font-ricordi);
+  font-family: var(--font-Jost);
 }
 
 .action_buttons_wrapper > button:hover {

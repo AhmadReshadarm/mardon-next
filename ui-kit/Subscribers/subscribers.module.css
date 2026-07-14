@@ -102,7 +102,6 @@
 }
 
 .auth_buttons_row > h2 {
-  font-family: var(--font-ricordi);
   font-size: 1rem;
   cursor: pointer;
   color: #707f8d;
@@ -167,10 +166,6 @@
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-}
-
-.ActionBtn > span {
-  font-family: var(--font-ricordi);
 }
 
 .ActionBtn:active {

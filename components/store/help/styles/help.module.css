@@ -58,7 +58,7 @@
 }
 
 .input_label_wrapper label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-Jost);
   font-size: 14px;
   color: #888888;
   font-weight: 300;
@@ -125,7 +125,7 @@
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-Jost);
 }
 
 /* Media Queries */

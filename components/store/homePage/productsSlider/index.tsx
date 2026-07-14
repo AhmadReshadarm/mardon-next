@@ -6,9 +6,14 @@ import SliderItems from './sliderItems';
 type Props = {
   caroselProducts: Product[];
   base64Image: any;
+  error?: boolean;
 };
 
-const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
+const ProductsSlider: React.FC<Props> = ({
+  caroselProducts,
+  base64Image,
+  error,
+}) => {
   // ------------------- UI hooks --------------------------------
 
   const [caroselIndex, setCaroselIndex] = useState<number>(0);
@@ -25,6 +30,19 @@ const ProductsSlider: React.FC<Props> = ({ caroselProducts, base64Image }) => {
 
     return () => clearTimeout(timer);
   }, [caroselIndex, isMouseHover]);
+
+  if (error && caroselProducts.length === 0) {
+    return (
+      <div className={styles.Container}>
+        <div className={styles.Wrapper}>
+          <p style={{ textAlign: 'center', padding: '2rem' }}>
+            Не удалось загрузить карусель товаров. Пожалуйста, обновите
+            страницу.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

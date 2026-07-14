@@ -245,7 +245,7 @@ const SubCategoriesContainer = styled.div`
     transition: 200ms;
     font-size: 1rem;
     font-weight: 500;
-    font-family: var(--font-Circe);
+    font-family: var(--font-Jost);
   }
 `;
 

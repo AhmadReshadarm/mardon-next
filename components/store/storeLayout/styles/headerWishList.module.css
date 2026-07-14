@@ -38,7 +38,7 @@
 }
 
 .empty_wrapper > h1 {
-  font-family: var(--font-ricordi);
+  font-family: var(--font-Jost);
 }
 
 .PopupDivider {
@@ -87,7 +87,7 @@
   color: var(--textPrimary);
   border: none;
   border-radius: 30px;
-  font-family: var(--font-ricordi);
+  font-family: var(--font-Jost);
 }
 
 .ActionBtns:active {
@@ -106,7 +106,7 @@
 
 .TotalPriceWrapper > h1 {
   font-size: 1.8rem;
-  font-family: var(--font-ricordi);
+  font-family: var(--font-Jost);
   color: var(--textBase);
   white-space: nowrap;
 }

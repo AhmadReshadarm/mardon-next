@@ -162,7 +162,7 @@ const Wrapper = styled.div`
     padding: 0 0 50px 0;
     h1 {
       font-size: 3rem;
-      font-family: var(--font-ricordi);
+      font-family: var(--font-Jost);
       text-align: center;
     }
   }

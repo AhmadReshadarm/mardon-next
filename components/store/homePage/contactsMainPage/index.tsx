@@ -264,7 +264,7 @@ const ContactContentWrapper = styled.div`
     justify-content: flex-start;
     h1 {
       font-size: 3rem;
-      font-family: var(--font-ricordi);
+      font-family: var(--font-Jost);
       text-align: left;
     }
   }

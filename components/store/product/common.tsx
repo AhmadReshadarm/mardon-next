@@ -10,7 +10,7 @@ const HeaderWrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   h3 {
-    font-family: var(--font-ricordi);
+    font-family: var(--font-Jost);
     font-size: 3.2rem;
     margin: 0;
     color: ${color.textPrimary};

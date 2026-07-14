@@ -31,7 +31,6 @@
 .ErrorWrapper {
   text-align: center;
   font-size: 4rem;
-  font-family: var(--font-ricordi);
   font-weight: 600;
   background: linear-gradient(
     90deg,

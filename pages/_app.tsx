@@ -4,14 +4,39 @@ import 'styles.css';
 import { wrapper } from '../redux/store';
 import { ContextProvider } from 'common/context/AppContext';
 import Head from 'next/head';
-import { Jost } from 'next/font/google';
+import localFont from 'next/font/local';
 import { DynamicLoadProvider } from '../common/context/DynamicLoadContext';
-const jost = Jost({
-  subsets: ['cyrillic', 'latin'],
-  display: 'swap',
+
+const jost = localFont({
+  src: [
+    {
+      path: '../public/fonts/Jost/Jost-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Jost/Jost-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Jost/Jost-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/Jost/Jost-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  display: 'optional',
   variable: '--font-Jost',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  adjustFontFallback: 'Arial',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
 });
+
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
     PageLayout?: React.FC<any>;
@@ -32,19 +57,15 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
       </Head>
       <DynamicLoadProvider>
         <ContextProvider>
-          {Component.PageLayout ? (
-            <Component.PageLayout>
-              {/* <div className={`${jost.variable} font-sans`}> */}
-              {/* <div
-                className={jost.variable}
-                style={{ fontFamily: 'var(--font-Jost)' }}
-              > */}
-              <Component {...pageProps} key={router.asPath} />
-              {/* </div> */}
-            </Component.PageLayout>
-          ) : (
-            <Component {...pageProps} />
-          )}
+          <div className={jost.variable}>
+            {Component.PageLayout ? (
+              <Component.PageLayout>
+                <Component {...pageProps} key={router.asPath} />
+              </Component.PageLayout>
+            ) : (
+              <Component {...pageProps} />
+            )}
+          </div>
         </ContextProvider>
       </DynamicLoadProvider>
     </>

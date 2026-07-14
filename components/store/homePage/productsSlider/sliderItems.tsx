@@ -7,6 +7,7 @@ import { TCartState } from 'redux/types';
 import Link from 'next/link';
 import styles from '../styles/productSlider.module.css';
 import Image from 'next/image';
+import { FALLBACK_BLUR_DATA_URL } from 'common/constant';
 
 type Props = {
   // product: Product;
@@ -71,7 +72,7 @@ const SliderItems: React.FC<Props> = ({
   // -------------------------------------------
   const currentVariant = (artical) =>
     currentSlide.productVariants?.find((variant) => variant.artical == artical);
-
+  const safeBlurDataURL = base64Image || FALLBACK_BLUR_DATA_URL;
   return (
     <>
       {/* {caroselIndex === index ? ( */}
@@ -272,7 +273,7 @@ const SliderItems: React.FC<Props> = ({
                           height={80}
                           priority={true}
                           placeholder="blur"
-                          blurDataURL={base64Image}
+                          blurDataURL={safeBlurDataURL}
                         />
                       </div>
                     </span>
@@ -308,7 +309,7 @@ const SliderItems: React.FC<Props> = ({
                 height={1080}
                 priority={true}
                 placeholder="blur"
-                blurDataURL={base64Image}
+                blurDataURL={safeBlurDataURL}
               />
             </div>
           </Link>

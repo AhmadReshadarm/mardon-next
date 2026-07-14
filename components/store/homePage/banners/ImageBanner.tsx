@@ -14,12 +14,14 @@ import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState, TGlobalState } from 'redux/types';
 import styles from '../styles/banners.module.css';
 import Image from 'next/image';
+import { FALLBACK_BLUR_DATA_URL } from 'common/constant';
 type Props = {
   slides: Slide[];
   base64Image_2: any;
+  error?: boolean;
 };
 
-const ImageBanner: React.FC<Props> = ({ slides, base64Image_2 }) => {
+const ImageBanner: React.FC<Props> = ({ slides, base64Image_2, error }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, Number(slides?.length), page);
 
@@ -42,6 +44,19 @@ const ImageBanner: React.FC<Props> = ({ slides, base64Image_2 }) => {
     isAuthFormOpen,
   } = useAppSelector<TGlobalUIState>((state) => state.globalUI);
   const { searchQuery } = useAppSelector<TGlobalState>((state) => state.global);
+  const safeBlurDataURL = base64Image_2 || FALLBACK_BLUR_DATA_URL;
+
+  if (error && slides.length === 0) {
+    return (
+      <div className={styles.Container}>
+        <div className={styles.Wrapper}>
+          <p style={{ textAlign: 'center', padding: '2rem' }}>
+            Не удалось загрузить слайды. Пожалуйста, обновите страницу.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -119,7 +134,7 @@ const ImageBanner: React.FC<Props> = ({ slides, base64Image_2 }) => {
               width={1920}
               height={800}
               placeholder="blur"
-              blurDataURL={base64Image_2}
+              blurDataURL={safeBlurDataURL}
             />
           </motion.div>
         </AnimatePresence>
