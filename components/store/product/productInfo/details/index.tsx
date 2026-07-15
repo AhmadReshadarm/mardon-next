@@ -1,52 +1,38 @@
 import { Rating } from '@mui/material';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
-import { Basket, Product, ProductVariant } from 'swagger/services';
+import { Product } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
-import { useAppSelector } from 'redux/hooks';
-import { TCartState } from 'redux/types';
 import styles from '../../styles/detail.module.css';
+
 type Props = {
-  product?: Product;
-  selectedIndex: number;
+  product: Product;
   reviewRef: MutableRefObject<any>;
   questionRef: MutableRefObject<any>;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
-  paginateImage: Dispatch<SetStateAction<number>>;
   descRef: any;
 };
 
 const Details: React.FC<Props> = ({
   product,
-  selectedIndex,
   questionRef,
   reviewRef,
   setSelectedIndex,
-  paginateImage,
   descRef,
 }) => {
-  const { variant } = useAppSelector<TCartState>((state) => state.cart);
-
-  const cart: Basket = useAppSelector((state) => state.cart.cart);
-
-  const checkHasOldPrice = (productVariant: ProductVariant) => {
-    if (productVariant?.oldPrice) return true;
-    return false;
-  };
+  const productVariant = product?.productVariants![0];
 
   return (
     <div className={styles.DetailsContainer}>
       <div className={styles.UserSelectWrapper}>
         <div className={styles.product_title_wrapper}>
           <div className={styles.title_top_bar}></div>
-          <h1 className={styles.product_header_1} itemProp="name">
-            {product?.name}
-          </h1>
+          <h1 className={styles.product_header_1}>{product?.name}</h1>
         </div>
 
         <div className={styles.short_description_wrapper}>
           <p>
-            <span itemProp="description">
+            <span>
               {product?.desc?.includes('|')
                 ? product?.desc?.split('|')[0]?.length! > 150
                   ? product?.desc?.split('|')[0].slice(0, 150)
@@ -121,16 +107,13 @@ const Details: React.FC<Props> = ({
             </div>
           </div>
           <div className={styles.PriceWrapper}>
-            <div className={styles.PriceItem}>
-              {checkHasOldPrice(variant! ?? product?.productVariants![0])
-                ? `${
-                    variant?.oldPrice ?? product?.productVariants![0]?.oldPrice
-                  } ₽`
-                : ''}
+            <div
+              style={{ display: productVariant?.oldPrice ? 'block' : 'none' }}
+              className={styles.PriceItem}
+            >
+              `${productVariant?.oldPrice} ₽`
             </div>
-            <div className={styles.PriceItem}>
-              {variant?.price ?? product?.productVariants![0]?.price} ₽
-            </div>
+            <div className={styles.PriceItem}>{productVariant?.price} ₽</div>
           </div>
         </div>
 
@@ -138,16 +121,11 @@ const Details: React.FC<Props> = ({
           <div className={styles.info_size_wrapper}>
             <span className={styles.title}>Выберите артикул:</span>
           </div>
-          <ColorPicker
-            variantColor={variant?.color ?? product?.productVariants![0]?.color}
-            productVariants={product?.productVariants}
-            setSelectedIndex={setSelectedIndex}
-            product={product}
-          />
+          <ColorPicker setSelectedIndex={setSelectedIndex} product={product} />
         </div>
       </div>
 
-      <ActionBtns cart={cart} product={product!} />
+      <ActionBtns product={product!} />
     </div>
   );
 };

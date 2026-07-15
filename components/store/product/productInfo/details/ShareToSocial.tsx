@@ -1,37 +1,32 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { handleMobileShare } from './helpers';
 import { PopupDisplay } from 'components/store/storeLayout/constants';
 import styles from '../../styles/shareToSocial.module.css';
-import dynamic from 'next/dynamic';
-import { useDynamicSection } from 'common/helpers/useDynamicSection.helper';
-const ShareToSocialContent = dynamic(() => import('./ShareToSocialContent'));
+import { Product } from 'swagger/services';
+import ShareToSocialContent from './ShareToSocialContent';
+
+import { baseUrl } from 'common/constant';
+import { useAppSelector } from 'redux/hooks';
+import { TCartState } from 'redux/types';
 
 type Props = {
-  productId?: string;
-  title?: string;
-  artical?: string;
+  product: Product;
 };
 
-const ShareToSocial: React.FC<Props> = ({ title, artical }) => {
-  const router = useRouter();
+const ShareToSocial: React.FC<Props> = ({ product }) => {
   // _______________socila menu hooks _______________
   const [isOpen, setOpen] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
   const [menuRef, setMenuRef] = useState(null);
   const [btnRef, setBtnRef] = useState(null);
   const [listening, setListening] = useState(false);
-  const [baseUrl, setBaseUrl] = useState('');
+
   const menuNode = useCallback((node: any) => {
     setMenuRef(node);
   }, []);
   const btnNode = useCallback((node: any) => {
     setBtnRef(node);
-  }, []);
-
-  useEffect(() => {
-    setBaseUrl(window.location.origin);
   }, []);
 
   useEffect(
@@ -52,17 +47,16 @@ const ShareToSocial: React.FC<Props> = ({ title, artical }) => {
       );
     }, 100);
   };
-
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
   const shareData = {
-    title: title,
-    url: `${baseUrl}${router.asPath}`,
+    title: product.name,
+    url: `${baseUrl}/product/${product.url}`,
   };
-
-  const shareToSocialContent = useDynamicSection('ShareToSocialContent');
+  const intialData = product.productVariants![0].artical;
   return (
-    <div ref={shareToSocialContent.ref} className={styles.SocialParent}>
+    <div className={styles.SocialParent}>
       <div className={styles.product_artical_wrapper}>
-        <span>{`Артикул товара: ${artical?.toLocaleUpperCase()}`}</span>
+        <span>{`Артикул товара: ${variant?.artical ?? intialData}`}</span>
       </div>
       <button
         className={styles.share_btn_pc}
@@ -115,7 +109,7 @@ const ShareToSocial: React.FC<Props> = ({ title, artical }) => {
         style={{ display: display }}
         className={styles.ShareToSocialWrapper}
       >
-        {shareToSocialContent.shouldRender ? <ShareToSocialContent /> : <></>}
+        <ShareToSocialContent product={product} />
       </div>
     </div>
   );

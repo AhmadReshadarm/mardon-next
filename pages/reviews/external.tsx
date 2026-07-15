@@ -93,7 +93,7 @@ const ExternalReviewPage = ({
   ]);
 
   // SEO: rendered unconditionally so social crawlers always get meta tags
-  const seoProduct = firstProduct || undefined;
+  const seoProduct: any = firstProduct || undefined;
   const seoImages = imagesWithUrl || [];
 
   return (

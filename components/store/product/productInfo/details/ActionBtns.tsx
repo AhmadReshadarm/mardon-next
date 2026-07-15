@@ -9,12 +9,12 @@ import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
 import styles from '../../styles/detail.module.css';
 type Props = {
-  cart: Basket;
   product: Product;
 };
 
-const ActionBtns: React.FC<Props> = ({ cart, product }) => {
+const ActionBtns: React.FC<Props> = ({ product }) => {
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
+  const cart: Basket = useAppSelector((state) => state.cart.cart);
 
   const handleGoToCart = () => {
     clearVariant();

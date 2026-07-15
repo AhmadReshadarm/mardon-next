@@ -1,43 +1,36 @@
 import InfoDropdown from './DropDownsParrent';
-import { ParameterProduct } from 'swagger/services';
-import { useAppSelector } from 'redux/hooks';
-import { TProductInfoState } from 'redux/types';
+import { Product } from 'swagger/services';
 import Link from 'next/link';
 import InfoDropdownReturn from './DropDownsParrentReturn';
 import styles from '../../styles/dropDowns.module.css';
 import Image from 'next/image';
 type Props = {
-  parameterProducts?: ParameterProduct[];
   descRef: any;
+  product: Product;
 };
 
-const DropDowns: React.FC<Props> = ({ parameterProducts, descRef }) => {
-  const { product, loading }: TProductInfoState = useAppSelector(
-    (state) => state.productInfo,
-  );
-
+const DropDowns: React.FC<Props> = ({ descRef, product }) => {
+  const parameterProducts = product?.parameterProducts;
   return (
     <div className={styles.InfoContainer}>
       <InfoDropdown title="Описание">
         <p ref={descRef}>
-          {!loading
-            ? product?.desc?.includes('|')
-              ? product?.desc
-                  ?.split('|')[1]
-                  .split(`\n`)
-                  .map((text) => (
-                    <>
-                      {text}
-                      <br />
-                    </>
-                  ))
-              : product?.desc?.split(`\n`).map((text) => (
+          {product?.desc?.includes('|')
+            ? product?.desc
+                ?.split('|')[1]
+                .split(`\n`)
+                .map((text) => (
                   <>
                     {text}
                     <br />
                   </>
                 ))
-            : ''}
+            : product?.desc?.split(`\n`).map((text) => (
+                <>
+                  {text}
+                  <br />
+                </>
+              ))}
         </p>
         <span className={styles.title} style={{ color: '#B30000' }}>
           Товар в коробке по цветам не продаются, там микс цвета в коробке идут.

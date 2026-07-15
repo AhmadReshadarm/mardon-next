@@ -1,7 +1,7 @@
 import color from 'components/store/lib/ui.colors';
 import { ImageTooltip } from './helpers';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Color, Product, ProductVariant } from 'swagger/services';
+import { Product, ProductVariant } from 'swagger/services';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setVariant } from 'redux/slicers/store/cartSlicer';
 import Image from 'next/image';
@@ -9,40 +9,33 @@ import styles from '../../styles/detail.module.css';
 import { TCartState } from 'redux/types';
 
 type Props = {
-  variantColor: Color | undefined;
-  productVariants: ProductVariant[] | undefined;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   product: Product | undefined;
 };
 
-const ColorPicker: React.FC<Props> = ({
-  variantColor,
-  productVariants,
-  setSelectedIndex,
-  product,
-}) => {
+const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
   const [loadingComplet, setLoadingComplet] = useState(false);
   const dispatch = useAppDispatch();
   const SelectedVariant = useAppSelector<TCartState>(
     (state) => state.cart.variant,
   );
+  const productVariants = product?.productVariants;
+  const variantColor = product?.productVariants![0].color;
   const handleImageChange =
     (variant: ProductVariant, setSelectedIndex: (index: number) => void) =>
     () => {
       dispatch(setVariant(variant));
       setSelectedIndex(0);
     };
-  // variant.artical!
-  const [initialVariant, setInitialVariant] = useState(productVariants![0]);
+
   useEffect(() => {
-    dispatch(setVariant(initialVariant));
+    dispatch(setVariant(productVariants![0]));
   }, []);
 
   return (
     <div className={styles.ColorPickerContainer}>
       <ul className={styles.ColorPickerList}>
         {productVariants?.map((variant, colIndex) => {
-          if (!initialVariant) setInitialVariant(variant);
           const images = variant.images ? variant.images.split(', ') : [];
 
           return (

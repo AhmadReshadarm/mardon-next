@@ -4,17 +4,14 @@ import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { Product } from 'swagger/services';
 import Link from 'next/link';
-import { useAppSelector } from 'redux/hooks';
-import { TCartState } from 'redux/types';
 import Image from 'next/image';
 import ShareToSocial from './details/ShareToSocial';
 import DropDowns from './details/DropDowns';
 import styles from '../styles/productInfoMain.module.css';
-// import backArrow from '../../../../public/icons/back_arrow_min.png';
 import { BRAND_BLUR_DATA_URL } from 'common/constant';
 
 type Props = {
-  product?: Product;
+  product: Product;
   reviewRef: MutableRefObject<any>;
   questionRef: MutableRefObject<any>;
   base64Image: any;
@@ -44,7 +41,7 @@ const ProductInfo: React.FC<Props> = ({
       window.removeEventListener('resize', handleWindowResize);
     };
   });
-  const { variant } = useAppSelector<TCartState>((state) => state.cart);
+  // const { variant } = useAppSelector<TCartState>((state) => state.cart);
   const tagURl = product?.tags!.filter((tag) => {
     if (
       tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
@@ -61,11 +58,7 @@ const ProductInfo: React.FC<Props> = ({
   const descRef = useRef(null);
 
   return (
-    <div
-      className={styles.Container}
-      itemScope
-      itemType="https://schema.org/ImageObject"
-    >
+    <div className={styles.Container}>
       <div className={styles.Wrapper}>
         <div className={styles.Content}>
           <div className={styles.NavWrapper}>
@@ -164,11 +157,7 @@ const ProductInfo: React.FC<Props> = ({
                 <></>
               )}
             </div>
-            <ShareToSocial
-              title={product?.name}
-              productId={product?.id}
-              artical={variant?.artical ?? product?.productVariants![0].artical}
-            />
+            <ShareToSocial product={product} />
           </div>
           <div className={styles.ContentCotainer}>
             <div className={styles.Grid}>
@@ -185,8 +174,6 @@ const ProductInfo: React.FC<Props> = ({
               />
               <Details
                 product={product}
-                selectedIndex={selectedIndex}
-                paginateImage={paginateImage}
                 reviewRef={reviewRef}
                 questionRef={questionRef}
                 setSelectedIndex={setSelectedIndex}
@@ -194,10 +181,7 @@ const ProductInfo: React.FC<Props> = ({
               />
             </div>
           </div>
-          <DropDowns
-            parameterProducts={product?.parameterProducts}
-            descRef={descRef}
-          />
+          <DropDowns descRef={descRef} product={product} />
         </div>
       </div>
     </div>

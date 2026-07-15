@@ -158,9 +158,9 @@ const Slider: React.FC<Props> = ({
     }
   }, [touchEnd]);
 
-  useEffect(() => {
-    console.log(zoomImgSrc);
-  }, [zoom]);
+  // useEffect(() => {
+  //   console.log(zoomImgSrc);
+  // }, [zoom]);
   const safeBlurDataURL = base64Image || FALLBACK_BLUR_DATA_URL;
   return (
     <div className={styles.SliderWrapper} id="image-zoom-controller">
