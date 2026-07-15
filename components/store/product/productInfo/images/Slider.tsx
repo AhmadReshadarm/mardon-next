@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
 import styles from '../../styles/images.module.css';
+import { FALLBACK_BLUR_DATA_URL } from 'common/constant';
 type Props = {
   images: string[];
   selectedIndex: number;
@@ -160,7 +161,7 @@ const Slider: React.FC<Props> = ({
   useEffect(() => {
     console.log(zoomImgSrc);
   }, [zoom]);
-
+  const safeBlurDataURL = base64Image || FALLBACK_BLUR_DATA_URL;
   return (
     <div className={styles.SliderWrapper} id="image-zoom-controller">
       <AnimatePresence mode="wait" initial={false} custom={direction}>
@@ -215,7 +216,7 @@ const Slider: React.FC<Props> = ({
             height={1080}
             priority
             placeholder="blur"
-            blurDataURL={base64Image}
+            blurDataURL={safeBlurDataURL}
             className={styles.SliderImage}
             onContextMenu={(e) => e.preventDefault()}
           />

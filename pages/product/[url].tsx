@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<{
         // body not parseable – treat as a generic error
       }
 
-      // If the payload indicates a 404 (backend misconfiguration), show 404 page
+      // If the payload indicates a 404, show 404 page
       if (
         errorData?.statusCode === 404 ||
         errorData?.messages?.[0]?.includes?.('not found')
