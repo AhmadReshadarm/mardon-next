@@ -1,7 +1,7 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import variants from 'components/store/lib/variants';
-import { handleDragEnd } from './helpers';
-import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
+// import { motion, AnimatePresence } from 'framer-motion';
+// import variants from 'components/store/lib/variants';
+// import { handleDragEnd } from './helpers';
+// import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { useEffect, useState } from 'react';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
@@ -164,64 +164,64 @@ const Slider: React.FC<Props> = ({
   const safeBlurDataURL = base64Image || FALLBACK_BLUR_DATA_URL;
   return (
     <div className={styles.SliderWrapper} id="image-zoom-controller">
-      <AnimatePresence mode="wait" initial={false} custom={direction}>
-        <motion.div
-          key={page}
-          custom={direction}
-          variants={variants.slider}
-          // initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: 'spring', stiffness: 300, damping: 30 },
-            opacity: { duration: 0.4 },
-          }}
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={1}
-          onDragEnd={handleDragEnd(
-            paginateImage,
-            SWIPE_CONFIDENCE_THRESHOLD,
-            images.length - 1,
-            setSelectedIndex,
-            selectedIndex,
-          )}
-          draggable={true}
-          className={styles.SliderSlide}
-          onTouchStart={(e) => {
-            handleTouchStart(e);
-            handlePinchStart(e);
-          }}
-          onTouchMove={(e) => {
-            handlePinchMove(e);
-            e.preventDefault();
-          }}
-          onTouchEnd={(e) => {
-            handleTouchEnd(e);
-            setInitialPinchDistance(null);
-          }}
-          onClick={() => {
-            setZoom(true);
-            setZoomImgSrc(images[selectedIndex]);
-            setTimeout(() => {
-              const btnImg: any = document.querySelector('.hidden-image-zoom');
-              btnImg.click();
-            }, 300);
-          }}
-        >
-          <Image
-            src={images[selectedIndex] ?? safeBlurDataURL}
-            alt={alt}
-            width={1080}
-            height={1080}
-            priority
-            placeholder="blur"
-            blurDataURL={safeBlurDataURL}
-            className={styles.SliderImage}
-            onContextMenu={(e) => e.preventDefault()}
-          />
-        </motion.div>
-      </AnimatePresence>
+      {/* <AnimatePresence mode="wait" initial={false} custom={direction}> */}
+      <div
+        // key={page}
+        // custom={direction}
+        // variants={variants.slider}
+        // // initial="enter"
+        // animate="center"
+        // exit="exit"
+        // transition={{
+        //   x: { type: 'spring', stiffness: 300, damping: 30 },
+        //   opacity: { duration: 0.4 },
+        // }}
+        // drag="x"
+        // dragConstraints={{ left: 0, right: 0 }}
+        // dragElastic={1}
+        // onDragEnd={handleDragEnd(
+        //   paginateImage,
+        //   SWIPE_CONFIDENCE_THRESHOLD,
+        //   images.length - 1,
+        //   setSelectedIndex,
+        //   selectedIndex,
+        // )}
+        // draggable={true}
+        className={styles.SliderSlide}
+        onTouchStart={(e) => {
+          handleTouchStart(e);
+          handlePinchStart(e);
+        }}
+        onTouchMove={(e) => {
+          handlePinchMove(e);
+          e.preventDefault();
+        }}
+        onTouchEnd={(e) => {
+          handleTouchEnd(e);
+          setInitialPinchDistance(null);
+        }}
+        onClick={() => {
+          setZoom(true);
+          setZoomImgSrc(images[selectedIndex]);
+          setTimeout(() => {
+            const btnImg: any = document.querySelector('.hidden-image-zoom');
+            btnImg.click();
+          }, 300);
+        }}
+      >
+        <Image
+          src={images[selectedIndex] ?? safeBlurDataURL}
+          alt={alt}
+          width={1080}
+          height={1080}
+          priority
+          placeholder="blur"
+          blurDataURL={safeBlurDataURL}
+          className={styles.SliderImage}
+          // onContextMenu={(e) => e.preventDefault()}
+        />
+      </div>
+      {/* </AnimatePresence> */}
 
       <ul className={styles.image_indecator_mobile}>
         {images.map((image, index) => {
