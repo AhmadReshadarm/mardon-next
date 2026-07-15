@@ -4,6 +4,8 @@ import ColorPicker from './ColorPicker';
 import { Product } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import styles from '../../styles/detail.module.css';
+import { useAppSelector } from 'redux/hooks';
+import { TCartState } from 'redux/types';
 
 type Props = {
   product: Product;
@@ -21,7 +23,7 @@ const Details: React.FC<Props> = ({
   descRef,
 }) => {
   const productVariant = product?.productVariants![0];
-
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
   return (
     <div className={styles.DetailsContainer}>
       <div className={styles.UserSelectWrapper}>
@@ -111,9 +113,11 @@ const Details: React.FC<Props> = ({
               style={{ display: productVariant?.oldPrice ? 'block' : 'none' }}
               className={styles.PriceItem}
             >
-              `${productVariant?.oldPrice} ₽`
+              `${variant?.oldPrice ?? productVariant?.oldPrice} ₽`
             </div>
-            <div className={styles.PriceItem}>{productVariant?.price} ₽</div>
+            <div className={styles.PriceItem}>
+              {variant?.price ?? productVariant?.price} ₽
+            </div>
           </div>
         </div>
 

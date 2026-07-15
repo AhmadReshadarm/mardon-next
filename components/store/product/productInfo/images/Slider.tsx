@@ -210,7 +210,7 @@ const Slider: React.FC<Props> = ({
           }}
         >
           <Image
-            src={images[selectedIndex]}
+            src={images[selectedIndex] ?? safeBlurDataURL}
             alt={alt}
             width={1080}
             height={1080}
@@ -233,6 +233,7 @@ const Slider: React.FC<Props> = ({
                 backgroundColor:
                   selectedIndex == index ? '#000000' : 'transparent',
               }}
+              onClick={() => setSelectedIndex(index)}
             ></li>
           );
         })}

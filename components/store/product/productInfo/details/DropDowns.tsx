@@ -132,7 +132,7 @@ const DropDowns: React.FC<Props> = ({ descRef, product }) => {
             prefetch={false}
           >
             <Image
-              src="/icons/whatsapp.png"
+              src="/icons/whatsapp_20x20.png"
               alt="nbhoz whatsapp"
               width={20}
               height={20}

@@ -7,6 +7,7 @@ import { setVariant } from 'redux/slicers/store/cartSlicer';
 import Image from 'next/image';
 import styles from '../../styles/detail.module.css';
 import { TCartState } from 'redux/types';
+import { BRAND_BLUR_DATA_URL } from 'common/constant';
 
 type Props = {
   setSelectedIndex: Dispatch<SetStateAction<number>>;
@@ -51,13 +52,15 @@ const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
                       height: '100px',
                       objectFit: 'cover',
                     }}
-                    src={`/api/images/${images[0]}`}
+                    src={`/api/images/compress/${images[0]}?qlty=25&width=100&height=100&lossless=false`}
                     alt={`${images[0]}`}
-                    width={0}
-                    height={0}
+                    width={100}
+                    height={100}
                     sizes="100vw"
                     loading="lazy"
                     priority={false}
+                    placeholder="blur"
+                    blurDataURL={BRAND_BLUR_DATA_URL}
                   />
                   <hr
                     style={{
@@ -137,19 +140,7 @@ const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
                         : 'none',
                   }}
                 >
-                  <div
-                    style={{ display: loadingComplet ? 'none' : 'flex' }}
-                    className={styles.LoaderMask}
-                  />
                   <Image
-                    style={{
-                      width: variant === SelectedVariant ? '48px' : '50px',
-                      height: variant === SelectedVariant ? '48px' : '50px',
-
-                      opacity: loadingComplet ? 1 : 0,
-                      position: loadingComplet ? 'inherit' : 'absolute',
-                      zIndex: loadingComplet ? 1 : -1,
-                    }}
                     src={`/api/images/compress/${images[0]}?qlty=10&width=50&height=50&lossless=true`}
                     alt={`${
                       product?.name?.includes('(')
@@ -160,7 +151,8 @@ const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
                     height={50}
                     loading="lazy"
                     priority={false}
-                    onLoadingComplete={() => setLoadingComplet(true)}
+                    placeholder="blur"
+                    blurDataURL={BRAND_BLUR_DATA_URL}
                   />
                   {!variant.available ? (
                     <div className={styles.not_available_mask}>
