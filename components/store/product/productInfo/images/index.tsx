@@ -29,13 +29,11 @@ const Images: React.FC<Props> = ({
   base64Image,
 }) => {
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
-  let thumbnaiImages: string[] = [];
-  const initialThumbnailImages =
-    product?.productVariants![0].images?.split(', ');
 
-  if (variant) {
-    thumbnaiImages = variant!.images ? variant!.images.split(', ') : [];
-  }
+  let selectedImages = variant
+    ? variant!.images!.split(', ')
+    : product?.productVariants![0].images?.split(', ');
+
   const handleImageChange =
     (
       index: number,
@@ -54,7 +52,7 @@ const Images: React.FC<Props> = ({
   return (
     <div className={styles.ImagesContainer}>
       <ul className={styles.thumbnails_wrapper}>
-        {(thumbnaiImages ?? initialThumbnailImages).map((image, index) => {
+        {selectedImages!.map((image, index) => {
           return (
             <li
               className={styles.thumbnails_circle}

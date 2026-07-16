@@ -1,12 +1,14 @@
-// import { motion, AnimatePresence } from 'framer-motion';
-// import variants from 'components/store/lib/variants';
-// import { handleDragEnd } from './helpers';
-// import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
+import { motion, AnimatePresence } from 'framer-motion';
+import variants from 'components/store/lib/variants';
+import { handleDragEnd } from './helpers';
+import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { useEffect, useState } from 'react';
 import ZoomFullScreen from 'ui-kit/ZoomFullScreen';
 import Image from 'next/image';
 import styles from '../../styles/images.module.css';
 import { FALLBACK_BLUR_DATA_URL } from 'common/constant';
+import { useAppSelector } from 'redux/hooks';
+import { TCartState } from 'redux/types';
 type Props = {
   images: string[];
   selectedIndex: number;
@@ -30,7 +32,7 @@ const Slider: React.FC<Props> = ({
 }) => {
   const [zoomImgSrc, setZoomImgSrc] = useState(images[selectedIndex]);
   const [zoom, setZoom] = useState(false);
-
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
   // --------------------------------------------
   useEffect(() => {
     function hideOnClickOutside(element1, element2) {
@@ -158,70 +160,78 @@ const Slider: React.FC<Props> = ({
     }
   }, [touchEnd]);
 
-  // useEffect(() => {
-  //   console.log(zoomImgSrc);
-  // }, [zoom]);
+  const buildImages = (images: string[]) => {
+    const withUrlUI: string[] = [];
+    for (const img of images) {
+      withUrlUI.push(`/api/images/${img}`);
+    }
+    return withUrlUI;
+  };
   const safeBlurDataURL = base64Image || FALLBACK_BLUR_DATA_URL;
+  const variantImages = variant?.images?.split(', ');
+
+  const selectedImages = variant ? buildImages(variantImages!) : images;
+
   return (
     <div className={styles.SliderWrapper} id="image-zoom-controller">
-      {/* <AnimatePresence mode="wait" initial={false} custom={direction}> */}
-      <div
-        // key={page}
-        // custom={direction}
-        // variants={variants.slider}
-        // // initial="enter"
-        // animate="center"
-        // exit="exit"
-        // transition={{
-        //   x: { type: 'spring', stiffness: 300, damping: 30 },
-        //   opacity: { duration: 0.4 },
-        // }}
-        // drag="x"
-        // dragConstraints={{ left: 0, right: 0 }}
-        // dragElastic={1}
-        // onDragEnd={handleDragEnd(
-        //   paginateImage,
-        //   SWIPE_CONFIDENCE_THRESHOLD,
-        //   images.length - 1,
-        //   setSelectedIndex,
-        //   selectedIndex,
-        // )}
-        // draggable={true}
-        className={styles.SliderSlide}
-        onTouchStart={(e) => {
-          handleTouchStart(e);
-          handlePinchStart(e);
-        }}
-        onTouchMove={(e) => {
-          handlePinchMove(e);
-          e.preventDefault();
-        }}
-        onTouchEnd={(e) => {
-          handleTouchEnd(e);
-          setInitialPinchDistance(null);
-        }}
-        onClick={() => {
-          setZoom(true);
-          setZoomImgSrc(images[selectedIndex]);
-          setTimeout(() => {
-            const btnImg: any = document.querySelector('.hidden-image-zoom');
-            btnImg.click();
-          }, 300);
-        }}
-      >
-        <Image
-          src={images[selectedIndex] ?? safeBlurDataURL}
-          alt={alt}
-          width={1080}
-          height={1080}
-          priority
-          placeholder="blur"
-          blurDataURL={safeBlurDataURL}
-          className={styles.SliderImage}
-          // onContextMenu={(e) => e.preventDefault()}
-        />
-      </div>
-      {/* </AnimatePresence> */}
+      <AnimatePresence mode="wait" initial={false} custom={direction}>
+        <motion.div
+          key={page}
+          custom={direction}
+          variants={variants.slider}
+          // initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: 'spring', stiffness: 300, damping: 30 },
+            opacity: { duration: 0.4 },
+          }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={handleDragEnd(
+            paginateImage,
+            SWIPE_CONFIDENCE_THRESHOLD,
+            images.length - 1,
+            setSelectedIndex,
+            selectedIndex,
+          )}
+          draggable={true}
+          className={styles.SliderSlide}
+          onTouchStart={(e) => {
+            handleTouchStart(e);
+            handlePinchStart(e);
+          }}
+          onTouchMove={(e) => {
+            handlePinchMove(e);
+            e.preventDefault();
+          }}
+          onTouchEnd={(e) => {
+            handleTouchEnd(e);
+            setInitialPinchDistance(null);
+          }}
+          onClick={() => {
+            setZoom(true);
+            setZoomImgSrc(images[selectedIndex]);
+            setTimeout(() => {
+              const btnImg: any = document.querySelector('.hidden-image-zoom');
+              btnImg.click();
+            }, 300);
+          }}
+        >
+          <Image
+            src={selectedImages[selectedIndex]}
+            alt={alt}
+            width={1080}
+            height={1080}
+            priority
+            placeholder="blur"
+            blurDataURL={safeBlurDataURL}
+            className={styles.SliderImage}
+            // onContextMenu={(e) => e.preventDefault()}
+          />
+        </motion.div>
+      </AnimatePresence>
 
       <ul className={styles.image_indecator_mobile}>
         {images.map((image, index) => {

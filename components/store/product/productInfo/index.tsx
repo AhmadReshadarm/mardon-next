@@ -1,4 +1,4 @@
-import { MutableRefObject, useState, useEffect, useRef } from 'react';
+import { MutableRefObject, useState, useRef } from 'react';
 import Images from './images';
 import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
@@ -27,21 +27,6 @@ const ProductInfo: React.FC<Props> = ({
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
-  const [windowWidth, setWindowWidth] = useState(1025);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
-  // const { variant } = useAppSelector<TCartState>((state) => state.cart);
   const tagURl = product?.tags!.filter((tag) => {
     if (
       tag.url?.match(/(?:^|\W)best_product(?:$|\W)/) ||
@@ -82,11 +67,11 @@ const ProductInfo: React.FC<Props> = ({
                   href={`/catalog?categories=${product?.category?.parent.url}&page=1`}
                   prefetch={false}
                 >
-                  <span title={product?.category?.parent?.name}>
-                    {product?.category?.parent?.name?.length! > 16 &&
-                    windowWidth > 1024
-                      ? `${product?.category?.parent?.name?.slice(0, 16)}..`
-                      : product?.category?.parent?.name}
+                  <span
+                    className={styles.truncatedText}
+                    title={product?.category?.parent?.name}
+                  >
+                    {product?.category?.parent?.name}
                   </span>
                 </Link>
               )}
@@ -112,10 +97,11 @@ const ProductInfo: React.FC<Props> = ({
                   href={`/catalog?categories=${product?.category?.parent?.url}&page=1&subCategories=${product?.category?.url}`}
                   prefetch={false}
                 >
-                  <span title={product?.category?.name}>
-                    {product?.category?.name?.length! > 16 && windowWidth > 1024
-                      ? `${product?.category?.name?.slice(0, 16)}..`
-                      : product?.category?.name}
+                  <span
+                    className={styles.truncatedText}
+                    title={product?.category?.name}
+                  >
+                    {product?.category?.name}
                   </span>
                 </Link>
               )}
@@ -146,10 +132,11 @@ const ProductInfo: React.FC<Props> = ({
                     }`}
                     prefetch={false}
                   >
-                    <span title={tagURl![0].name}>
-                      {tagURl![0].name?.length! > 16 && windowWidth > 1024
-                        ? `${tagURl![0].name?.slice(0, 16)}..`
-                        : tagURl![0].name}
+                    <span
+                      className={styles.truncatedText}
+                      title={tagURl![0].name}
+                    >
+                      {tagURl![0].name}
                     </span>
                   </Link>
                 </>

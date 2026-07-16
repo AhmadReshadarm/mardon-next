@@ -37,10 +37,10 @@
 
 .thumbnails_circle {
   position: relative;
-  width: 65px;
-  height: 65px;
-  min-width: 65px;
-  min-height: 65px;
+  width: 66px;
+  height: 66px;
+  min-width: 66px;
+  min-height: 66px;
   border-radius: 5px;
   cursor: pointer;
   background: linear-gradient(
@@ -52,6 +52,11 @@
     #bc1888 100%
   );
   padding: 1px;
+}
+
+.thumbnails_circle > img {
+  width: 65px;
+  height: 65px;
 }
 
 .LoaderMask {
