@@ -164,9 +164,21 @@ const ProductItem: React.FC<Props> = ({ product }) => {
                     key={index}
                     type="button"
                   >
-                    {artical!.includes('|')
-                      ? artical!.split('|')[0].toUpperCase()
-                      : artical!.toUpperCase()}
+                    {artical!.includes('|') ? (
+                      <>
+                        <span>{artical!.split('|')[0].toUpperCase()}: </span>
+                        <span style={{ fontWeight: 'bold' }}>
+                          {variant.price} ₽
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>{artical!.toUpperCase()}: </span>
+                        <span style={{ fontWeight: 'bold' }}>
+                          {variant.price} ₽
+                        </span>
+                      </>
+                    )}
                     {!currentVariant(artical)?.available ? (
                       <div className={styles.NotInStockWrapper}>
                         <div className={styles.NotInStockLineThrough} />

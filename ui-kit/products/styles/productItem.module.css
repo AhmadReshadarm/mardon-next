@@ -224,7 +224,8 @@
   user-select: none;
   color: #000;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
+  white-space: nowrap;
 }
 
 /* Global 1 */
