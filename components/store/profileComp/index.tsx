@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import SideBar from './sidebar';
 import UserInfo from './userInfo';
 import Reveiws from './reveiws';
@@ -55,25 +55,17 @@ const ProfileComp = (props: any) => {
               {...props}
             />
             <Reveiws {...props} reveiwsRef={reveiwsRef} />
-            <button
-              className={styles.secondaryButton}
-              onClick={() => setIsChangePassword(true)}
-            >
-              Изменить пароль
-            </button>
-            <div
-              className={styles.popupContainer}
-              style={{ display: isChangePassword ? 'flex' : 'none' }}
-            >
-              <Changepsw
-                {...props}
-                setIsChangePassword={setIsChangePassword}
-                changePswRef={changePswRef}
-                user={user}
-              />
-            </div>
 
-            <Settings {...props} settingsRef={settingsRef} user={user} />
+            <Changepsw
+              {...props}
+              isChangePassword={isChangePassword}
+              setIsChangePassword={setIsChangePassword}
+              changePswRef={changePswRef}
+              setActive={setActive}
+              user={user}
+            />
+
+            <Settings {...props} settingsRef={settingsRef} />
           </div>
         </div>
       )}

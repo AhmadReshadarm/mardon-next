@@ -1,0 +1,202 @@
+/* components/store/profileComp/styles/resetPassword.module.css */
+
+:root {
+  --font-Jost: 'Jost', sans-serif;
+  --text-dark: #1a1a1a;
+  --text-muted: #666666;
+  --primary-black: #1a1a1a;
+  --primary-gold: #c9b792;
+  --border-light: #e3e0d3;
+  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.04);
+  --bg-beige: #f5f2eb;
+  --bg-light: #ffffff;
+  --hover: #ed3969;
+}
+
+/* Main Page Layout (Matches "Send Email Token" Page) */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+  background-color: var(--bg-beige);
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  background-color: var(--bg-light);
+  padding: 60px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Typography */
+.title {
+  font-family: var(--font-Jost);
+  font-size: 28px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-family: var(--font-Jost);
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+  color: var(--text-muted);
+  max-width: 300px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* --- Inputs (Exact structure from Changepsw to fix layout) --- */
+.formGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative; /* Crucial for absolute positioning of eye */
+}
+
+.formLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-family: var(--font-Jost);
+  color: var(--text-dark);
+}
+
+.requiredStar {
+  color: var(--hover);
+}
+
+.tooltipHelp {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  cursor: help;
+  font-family: var(--font-Jost);
+}
+
+.inputField {
+  background: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 12px 40px 12px 15px; /* Added right padding for eye */
+  font-family: var(--font-Jost);
+  font-size: 1rem;
+  width: 100%;
+  transition: border 0.2s;
+}
+.inputField:focus {
+  outline: none;
+  border-color: var(--primary-black);
+}
+.inputField::placeholder {
+  color: #c0bdb8;
+}
+
+/* Fix: Absolute positioning prevents it from being under the input */
+.confidentialityIcon {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.is_caps_lock_on {
+  background-color: rgb(147, 147, 147);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  margin-top: -10px;
+}
+
+.is_caps_lock_on_indecator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: greenyellow;
+}
+
+/* --- Buttons (Matches Changepsw) --- */
+.actionButton {
+  height: 50px;
+  min-height: 50px;
+  border: none;
+  border-radius: 30px;
+  font-family: var(--font-Jost);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 150ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.actionButton:hover:not(:disabled) {
+  transform: scale(1.005);
+}
+.actionButton:active:not(:disabled) {
+  transform: scale(1);
+}
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .wrapper {
+    width: 95%;
+  }
+  .content {
+    max-width: 100%;
+    padding: 40px 20px;
+  }
+}
+@media (max-width: 768px) {
+  .actionButton {
+    width: 100% !important;
+  }
+}

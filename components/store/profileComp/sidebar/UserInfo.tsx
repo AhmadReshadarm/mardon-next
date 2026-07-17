@@ -1,6 +1,4 @@
-import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import { useState, useEffect, useRef } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { Role } from 'common/enums/roles.enum';
@@ -12,11 +10,11 @@ import {
   updateUserById,
 } from 'redux/slicers/authSlicer';
 import Link from 'next/link';
-import { devices } from 'components/store/lib/Devices';
 import { AppDispatch } from 'redux/store';
 import { clearSingleImage, createSigleImage } from 'redux/slicers/imagesSlicer';
 import { openErrorNotification } from 'common/helpers';
 import styles from '../styles/profile.module.css'; // NEW
+import Image from 'next/image';
 
 const UserInfo = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
@@ -39,12 +37,7 @@ const UserInfo = () => {
   // _________________ image upload funtion __________________
   const imageList = useAppSelector<string>((state) => state.images.singleImage);
   const inputRef = useRef<any>(null);
-  const [src, setSrc] = useState('');
-  const handleUserImageUpload = async (
-    event: any,
-    setSrc: any,
-    dispatch: AppDispatch,
-  ) => {
+  const handleUserImageUpload = async (event: any, dispatch: AppDispatch) => {
     const fileObj = event.target.files;
     if (!fileObj[0] || fileObj[0].size > 1000000) {
       openErrorNotification('Размер файла более 1 МБ не допускается.');
@@ -56,7 +49,6 @@ const UserInfo = () => {
     };
 
     await dispatch(createSigleImage({ config, file: fileObj[0] }));
-    setSrc(URL.createObjectURL(fileObj[0]));
   };
 
   const trigerImageUpload = (evt: any) => {
@@ -68,13 +60,19 @@ const UserInfo = () => {
   return (
     <div className={styles.userInfoWrapper}>
       <div className={styles.user_data_wrapper}>
-        <div className={styles.userProfileImage}>
-          <img
-            src={src !== '' ? src : `/api/images/${user?.image}`}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
-            }}
+        <div className={styles.profile_image_wrapper}>
+          <Image
+            src={
+              user?.image
+                ? `/api/images/compress/${user?.image}?qlty=1&width=100&height=100&lossless=false`
+                : `https://api.dicebear.com/7.x/initials/png?radius=50&seed=${
+                    user?.firstName === '' ? 'Аноним' : user?.firstName
+                  }`
+            }
+            alt={`${user?.email} профиль`}
+            width={100}
+            height={100}
+            className={styles.profileImage}
           />
 
           <input
@@ -84,7 +82,7 @@ const UserInfo = () => {
             name="img"
             max={4}
             accept="image/png, image/gif, image/jpeg"
-            onChange={(evt) => handleUserImageUpload(evt, setSrc, dispatch)}
+            onChange={(evt) => handleUserImageUpload(evt, dispatch)}
           />
           <div
             onClick={(evt) => trigerImageUpload(evt)}
@@ -92,11 +90,19 @@ const UserInfo = () => {
           >
             Изменить
           </div>
+          <button
+            onClick={(evt) => trigerImageUpload(evt)}
+            className={styles.change_profile_pic_btn_mobile}
+          >
+            Изменить
+          </button>
         </div>
 
         <div className={styles.user_info_text_wrapper}>
           <h1 className={styles.userName}>
-            {`${user?.firstName?.slice(0, 30)} ${user?.lastName?.slice(0, 30)}`}
+            {user?.firstName === '' && user.lastName === ''
+              ? 'Аноним'
+              : `${user?.firstName} ${user?.lastName}`}
             <span
               style={{ color: color.ok, fontSize: '0.7rem', fontWeight: 300 }}
             >
@@ -108,14 +114,7 @@ const UserInfo = () => {
       </div>
       {!user?.isVerified ? (
         <>
-          <motion.span
-            className={styles.errText}
-            initial="init"
-            animate="animate"
-            variants={variants.fadInSlideUp}
-          >
-            Ваш аккаунт не подтвержден
-          </motion.span>
+          <span className={styles.errText}>Ваш аккаунт не подтвержден</span>
           <button
             className={styles.actionButton}
             disabled={counterStart || iteration > 4 ? true : false}

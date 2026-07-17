@@ -1,12 +1,7 @@
-// components/store/profileComp/settings/index.tsx
-// REMOVED: import styled from 'styled-components';
-import color from 'components/store/lib/ui.colors';
-// REMOVED: import { Container, Header } from '../common';
 import styles from '../styles/profile.module.css'; // NEW
 import { useEffect, useMemo, useState } from 'react';
 import Notifactions from './Notification';
 import UserData from './userData';
-import { devices } from 'components/store/lib/Devices';
 
 const Settings = (props: any) => {
   const { settingsRef, setActive } = props;
@@ -49,7 +44,7 @@ const Settings = (props: any) => {
           Изменить данные
         </button>
       </div>
-      <UserData isOpen={isOpen} setOpen={setOpen} {...props} />
+      <UserData isOpen={isOpen} setOpen={setOpen} />
     </div>
   );
 };

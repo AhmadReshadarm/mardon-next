@@ -42,6 +42,7 @@ import {
 } from 'redux/slicers/store/wishlistSlicer';
 import styles from './styles/header.module.css';
 import SearchMobile from './utils/SearchBar/searchMobile';
+import Image from 'next/image';
 
 const HeaderCatalog = dynamic(() => import('./utils/HeaderCatalog/index'), {
   ssr: false,
@@ -358,7 +359,7 @@ const Header = () => {
                   title="личный кабинет"
                   style={{ display: user ? 'flex' : 'none' }}
                 >
-                  <img
+                  <Image
                     style={{
                       width: '32px',
                       height: '32px',
@@ -366,13 +367,15 @@ const Header = () => {
                       objectFit: 'cover',
                     }}
                     src={
-                      user
-                        ? user!.image
-                          ? `/api/images/${user!.image}`
-                          : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
-                        : ''
+                      user?.image
+                        ? `/api/images/compress/${user?.image}?qlty=1&width=100&height=100&lossless=false`
+                        : `https://api.dicebear.com/7.x/initials/png?radius=50&seed=${
+                            user?.firstName === '' ? 'Аноним' : user?.firstName
+                          }`
                     }
-                    alt="личный кабинет"
+                    width={32}
+                    height={32}
+                    alt={`${user?.email} профиль`}
                   />
                 </button>
               </div>

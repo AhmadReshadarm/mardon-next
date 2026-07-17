@@ -11,6 +11,7 @@ module.exports = {
         hostname: 'avatars.dicebear.com',
         pathname: '**',
       },
+      { protocol: 'https', hostname: 'api.dicebear.com', pathname: '**' },
     ],
   },
   async headers() {

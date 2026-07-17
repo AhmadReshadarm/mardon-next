@@ -13,6 +13,7 @@ import {
 } from 'redux/slicers/store/globalUISlicer';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalUIState } from 'redux/types';
+import Image from 'next/image';
 type StyleProps = {
   width: number;
 };
@@ -40,23 +41,36 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
         <AuthDevider style={{ justifyContent: 'flex-start' }}>
           <Link legacyBehavior href="/profile" prefetch={false}>
             <span>
-              <motion.img
+              <Image
+                // src={
+                //   user?.image
+                //     ? `/api/images/${user.image}`
+                //     : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
+                // }
+                // onError={({ currentTarget }) => {
+                //   currentTarget.onerror = null;
+                //   currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
+                // }}
                 src={
                   user?.image
-                    ? `/api/images/${user.image}`
-                    : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`
+                    ? `/api/images/compress/${user?.image}?qlty=1&width=100&height=100&lossless=false`
+                    : `https://api.dicebear.com/7.x/initials/png?radius=50&seed=${
+                        user?.firstName === '' ? 'Аноним' : user?.firstName
+                      }`
                 }
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${user?.firstName}`;
-                }}
-                alt="profile"
+                alt={`${user?.email} профиль`}
+                width={80}
+                height={80}
                 className="user-profile-image"
               />
             </span>
           </Link>
           <ProfileDataWrapper>
-            <h3>{`${user?.firstName} ${user?.lastName}`}</h3>
+            <h3>
+              {user?.firstName === '' && user.lastName === ''
+                ? 'Аноним'
+                : `${user?.firstName} ${user?.lastName}`}
+            </h3>
             <span className="user-email">{user?.email}</span>
             <Link href="/profile" prefetch={false}>
               <span

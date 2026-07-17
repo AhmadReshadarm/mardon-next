@@ -5,6 +5,10 @@ import { UserService } from 'swagger/services';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { openErrorNotification } from 'common/helpers';
 import { updateUserById } from 'redux/slicers/authSlicer';
+import {
+  createSubscriber,
+  deleteSubscriber,
+} from 'redux/slicers/subscriberSlicer';
 const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -25,89 +29,59 @@ const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const handleEmailChange = async ({ user, email }) => {
-  try {
-    if (email == user.email) {
-      openErrorNotification('Ничего не изменилось 🤔');
-      return;
-    }
-    await UserService.updateUser({ userId: user.id, body: { email } });
-
-    openSuccessNotification('Успешно изменено 🙌');
-    openSuccessNotification(
-      'Письмо с подтверждение аккаунта отправлено вам на почту 📬',
-    );
-  } catch (error: any) {
-    switch (error.response.status) {
-      case 409:
-        openErrorNotification('Ничего не изменилось 🤔');
-        break;
-      case 401:
-        openErrorNotification('Несанкционированный доступ');
-        break;
-      case 403:
-        openErrorNotification('Срок действия ключа истек');
-        break;
-      case 404:
-        openErrorNotification('Данные не найдены');
-        break;
-      default:
-        openErrorNotification(
-          'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
-        );
-        break;
-    }
-  }
-};
-
-const handleDataChange = async ({
-  user,
-  payload,
-  setServerResponse,
+const handleSubscribtion = (
+  name: string,
+  email: string,
   dispatch,
-}) => {
-  try {
-    if (
-      user.firstName == payload.firstName &&
-      user.lastName == payload.lastName
-    ) {
-      openErrorNotification('Ничего не изменилось');
-      return;
-    }
-    // await UserService.updateUser({ userId: user.id, body: payload });
-    dispatch(
-      updateUserById({
-        userId: user?.id!,
-        user: { firstName: payload.firstName, lastName: payload.lastName },
-      }),
-    );
-    setServerResponse(200);
-    openSuccessNotification('Успешно изменено 🙌');
-  } catch (error: any) {
-    setServerResponse(error.response.status);
-    switch (error.response.status) {
-      case 409:
-        openErrorNotification('Ничего не изменилось');
-        break;
-      case 401:
-        openErrorNotification('Несанкционированный доступ');
-        break;
-      case 403:
-        openErrorNotification('Срок действия ключа истек');
-        break;
-      case 404:
-        openErrorNotification('Данные не найдены');
-        break;
-      default:
-        openErrorNotification(
-          'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
-        );
-        break;
-    }
-    setTimeout(() => {
-      setServerResponse(undefined);
-    }, 1000);
+  Subscriber,
+) => {
+  if (Subscriber) {
+    dispatch(deleteSubscriber(email));
+    return;
+  }
+  if (!Subscriber) {
+    dispatch(createSubscriber({ name, email }));
+    return;
   }
 };
 
-export { InputsTooltip, handleEmailChange, handleDataChange };
+const handleEmailChange = async ({ user, email, dispatch }) => {
+  if (email == user.email) {
+    openErrorNotification('Ничего не изменилось.');
+    return;
+  }
+
+  dispatch(
+    updateUserById({
+      userId: user?.id!,
+      user: { email },
+    }),
+  );
+};
+
+const handleDataChange = async ({ user, payload, dispatch }) => {
+  if (
+    user.firstName == payload.firstName &&
+    user.lastName == payload.lastName
+  ) {
+    openErrorNotification('Ничего не изменилось');
+    return;
+  }
+  if (payload.firstName.length > 20 || payload.lastName.length > 20) {
+    openErrorNotification('Максимально допустимое количество символов: 20');
+    return;
+  }
+  dispatch(
+    updateUserById({
+      userId: user?.id!,
+      user: { firstName: payload.firstName, lastName: payload.lastName },
+    }),
+  );
+};
+
+export {
+  InputsTooltip,
+  handleEmailChange,
+  handleDataChange,
+  handleSubscribtion,
+};

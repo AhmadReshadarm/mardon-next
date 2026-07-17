@@ -1,48 +1,26 @@
-// components/store/profileComp/settings/Notification.tsx
-// REMOVED: import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-import { devices } from 'components/store/lib/Devices';
 import { useEffect, useState } from 'react';
-import { handleEmailChange } from './helpers';
+import { handleEmailChange, handleSubscribtion } from './helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { TSubscribers } from 'redux/types';
-import {
-  createSubscriber,
-  deleteSubscriber,
-  fetchSubscriberByEmail,
-} from 'redux/slicers/subscriberSlicer';
-import { User } from 'swagger/services';
+import { TAuthState, TSubscribers } from 'redux/types';
+import { fetchSubscriberByEmail } from 'redux/slicers/subscriberSlicer';
 import Loading from 'ui-kit/Loading';
-import styles from '../styles/profile.module.css'; // NEW
+import styles from '../styles/profile.module.css';
 
-type Props = {
-  user: User;
-};
-
-const Notifactions: React.FC<Props> = ({ user }) => {
+const Notifactions = () => {
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [editNotify, setEditNotify] = useState(false);
-  const [email, setEmail] = useState(user.email);
+  const [email, setEmail] = useState(user?.email);
   const { Subscriber, loading } = useAppSelector<TSubscribers>(
     (state) => state.subscribers,
   );
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchSubscriberByEmail(user.email as string));
+    dispatch(fetchSubscriberByEmail(user?.email as string));
   }, []);
-  const handleSubscribtion = (name: string, email: string) => {
-    if (Subscriber) {
-      dispatch(deleteSubscriber(user.email as string));
-      return;
-    }
-    if (!Subscriber) {
-      dispatch(createSubscriber({ name, email }));
-      return;
-    }
-  };
+
   return (
     <div className={styles.notificationWrapper}>
       <div className={styles.mailIcon}>
@@ -102,7 +80,7 @@ const Notifactions: React.FC<Props> = ({ user }) => {
                 disabled={isEmpty(email) || !isEmail(email) ? true : false}
                 onClick={() => {
                   setEditNotify(false);
-                  handleEmailChange({ user, email });
+                  handleEmailChange({ user, email, dispatch });
                 }}
               >
                 Сохранить
@@ -111,7 +89,7 @@ const Notifactions: React.FC<Props> = ({ user }) => {
                 className={styles.outlineButton}
                 onClick={() => {
                   setEditNotify(false);
-                  setEmail(user.email);
+                  setEmail(user?.email);
                 }}
               >
                 Отмена
@@ -119,7 +97,7 @@ const Notifactions: React.FC<Props> = ({ user }) => {
             </div>
           ) : (
             <div className={styles.notifyEmailWrapper}>
-              <span>{user.email}</span>
+              <span>{user?.email}</span>
               <button
                 className={styles.outlineButton}
                 onClick={() => setEditNotify(true)}
@@ -132,7 +110,14 @@ const Notifactions: React.FC<Props> = ({ user }) => {
 
         {!loading ? (
           <div
-            onClick={() => handleSubscribtion(user.firstName!, user.email!)}
+            onClick={() =>
+              handleSubscribtion(
+                user?.firstName!,
+                user?.email!,
+                dispatch,
+                Subscriber,
+              )
+            }
             className={styles.checkboxWrapper}
           >
             <input

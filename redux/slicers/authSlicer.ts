@@ -192,7 +192,7 @@ export const updateUserById = createAsyncThunk<
       });
       return response.user;
     } catch (error: any) {
-      return rejectWithValue(error.response.status);
+      return rejectWithValue(getErrorMassage(error.response.status));
     }
   },
 );
@@ -414,7 +414,7 @@ const authSlicer = createSlice({
       .addCase(
         updateUserById.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
-          openErrorNotification(getErrorMassage(action.payload));
+          openErrorNotification(action.payload);
           state.loading = false;
         },
       )

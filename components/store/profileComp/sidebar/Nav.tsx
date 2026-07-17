@@ -1,8 +1,5 @@
-// components/store/profileComp/sidebar/Nav.tsx
-// REMOVED: import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
-import { devices } from 'components/store/lib/Devices';
 import styles from '../styles/profile.module.css'; // NEW
 
 const Nav = (props: any) => {

@@ -9,15 +9,8 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 
 import Head from 'next/head';
 import { baseUrl } from 'common/constant';
-import dynamic from 'next/dynamic';
-import { LoaderMask } from 'ui-kit/generalLoaderMask';
-const ConfirmResetPsw = dynamic(
-  () => import('components/store/profileComp/confirmResetPsw'),
-  {
-    ssr: false,
-    loading: () => <LoaderMask />,
-  },
-);
+
+import ConfirmResetPsw from 'components/store/profileComp/confirmResetPsw';
 const ConfirmPswReset = () => {
   return (
     <>

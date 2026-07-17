@@ -1,28 +1,18 @@
-import { motion } from 'framer-motion';
 import React, { useState } from 'react';
-import isEmpty from 'validator/lib/isEmpty';
-import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
-
 import styles from '../styles/profile.module.css'; // NEW
-import { InputsTooltip } from './helpers';
 import { handleDataChange } from './helpers';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
 
 const UserData = (props: any) => {
-  const { isOpen, setOpen, user } = props;
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [serverResponse, setServerResponse] = useState(undefined);
+  const { isOpen, setOpen } = props;
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
 
-  const [
-    [firstNameInput, lastNameInput, phoneNumberInput, addressInput],
-    setInputsErr,
-  ] = useState([false, false, false, false]);
-  const [success, setSuccess] = useState(false);
   const payload = {
-    firstName,
-    lastName,
+    firstName: firstName,
+    lastName: lastName,
   };
   const dispatch = useAppDispatch();
 
@@ -70,108 +60,50 @@ const UserData = (props: any) => {
             <label className={styles.formLabel}>
               <b>
                 <span>Имя</span>
-                <span className={styles.requiredStar}>*</span>
               </b>
-              <InputsTooltip
-                enterTouchDelay={0}
-                leaveTouchDelay={5000}
-                key="firstname-tip"
-                title={
-                  <React.Fragment>
-                    <span>Это поле обязательно к заполнению</span>
-                  </React.Fragment>
-                }
-              >
-                <span className={styles.tooltipHelp}>?</span>
-              </InputsTooltip>
             </label>
             <input
               className={styles.inputField}
-              placeholder={firstNameInput ? 'не может быть пустым' : 'Имя'}
+              placeholder="Имя"
               type="text"
               id="user-firstname"
               value={firstName}
               style={{
-                border: `solid 1px ${
-                  isEmpty(firstName) && firstNameInput
-                    ? '#b33c3c'
-                    : 'var(--border-light)'
-                }`,
+                border: 'solid 1px var(--border-light)',
               }}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-                setInputsErr([
-                  true,
-                  lastNameInput,
-                  phoneNumberInput,
-                  addressInput,
-                ]);
-              }}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className={styles.formGroup}>
             <label className={styles.formLabel}>
               <b>
                 <span>Фамилия</span>
-                <span className={styles.requiredStar}>*</span>
               </b>
-              <InputsTooltip
-                enterTouchDelay={0}
-                leaveTouchDelay={5000}
-                key="lastname-tip"
-                title={
-                  <React.Fragment>
-                    <span>Это поле обязательно к заполнению</span>
-                  </React.Fragment>
-                }
-              >
-                <span className={styles.tooltipHelp}>?</span>
-              </InputsTooltip>
             </label>
             <input
               className={styles.inputField}
-              placeholder={firstNameInput ? 'не может быть пустым' : 'Фамилия'}
+              placeholder="Фамилия"
               type="text"
               id="user-familyname"
               value={lastName}
               style={{
-                border: `solid 1px ${
-                  isEmpty(lastName) && lastNameInput
-                    ? '#b33c3c'
-                    : 'var(--border-light)'
-                }`,
+                border: 'solid 1px var(--border-light)',
               }}
-              onChange={(e) => {
-                setLastName(e.target.value);
-                setInputsErr([
-                  firstNameInput,
-                  true,
-                  phoneNumberInput,
-                  addressInput,
-                ]);
-              }}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
         </div>
         <button
           className={styles.actionButton}
           style={{
-            backgroundColor:
-              isEmpty(firstName) || isEmpty(lastName)
-                ? 'var(--border-light)'
-                : 'var(--primary-black)',
+            backgroundColor: 'var(--primary-black)',
             width: '100%',
             marginTop: '10px',
           }}
-          disabled={isEmpty(firstName) || isEmpty(lastName) ? true : false}
           onClick={(e) => {
             e.preventDefault();
-            handleDataChange({ user, payload, setServerResponse, dispatch });
+            handleDataChange({ user, payload, dispatch });
             setOpen(false);
-            setSuccess(serverResponse == 200 ? true : false);
-            setTimeout(() => {
-              setSuccess(false);
-            }, 800);
           }}
         >
           Сохранить изменения

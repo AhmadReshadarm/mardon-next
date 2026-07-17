@@ -226,7 +226,11 @@ const Review = ({ product }) => {
                   </div>
                   <div className={styles.ReviewReplyItem}>
                     <div className={styles.review_header}>
-                      <h3>{review?.user?.firstName}</h3>
+                      <h3>
+                        {review?.user?.firstName === ''
+                          ? 'Аноним'
+                          : review?.user?.firstName}
+                      </h3>
                       <span className={styles.date_stars}>
                         <span className={styles.post_date}>
                           {moment(review.createdAt).format('DD.MM.YYYY')}
@@ -461,8 +465,16 @@ const Review = ({ product }) => {
                         <div className={styles.ReviewReplyItem}>
                           <div className={styles.review_header}>
                             <div className={styles.replied_to_wrapper}>
-                              <h3>{comment.user?.firstName}</h3>
-                              <span>{`в ответ ${review.user?.firstName}`}</span>
+                              <h3>
+                                {comment.user?.firstName === ''
+                                  ? 'Аноним'
+                                  : comment.user?.firstName}
+                              </h3>
+                              <span>
+                                {review?.user?.firstName === ''
+                                  ? 'в ответ Аноним'
+                                  : `в ответ ${review.user?.firstName}`}
+                              </span>
                             </div>
                             <span className={styles.date_stars}>
                               <span className={styles.post_date}>
