@@ -1,99 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import isEmpty from 'validator/lib/isEmpty';
+import { handleResetClick } from './helpers';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
-import { openErrorNotification } from 'common/helpers';
-import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { InputsTooltip } from 'components/store/checkout/helpers';
-import { handleResetClick } from './helpers';
-import styles from 'components/store/profileComp/styles/resetPassword.module.css';
-
+import styles from '../styles/confirmResetPsw.module.css';
+import Image from 'next/image';
+import Link from 'next/link';
 const ConfirmResetPsw = () => {
   const [psw, setPsw] = useState('');
   const [repeatPsw, setRepeatPsw] = useState('');
-  const [pswErr, setPswErr] = useState(false);
-  const [repeatErr, setRepeatErr] = useState(false);
-  const [isCap, setCap] = useState(false);
-  const [oldPswVisible, setOldPswVisible] = useState(false);
-  const [newPswVisible, setNewPswVisible] = useState(false);
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [repeatPasswordVisible, setRepeatpasswordVisible] = useState(false);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
-
+  const [isCapON, setIsCapON] = useState(false);
   useEffect(() => {
-    if (isCap) openErrorNotification('Включен Капс лок (Caps Lock on)');
-    if (!isCap) openSuccessNotification('Капс лок выключен (Caps Lock off)');
-  }, [isCap]);
+    document.addEventListener('keydown', function (event) {
+      if (event.getModifierState('CapsLock')) {
+        setIsCapON(true);
+      } else {
+        setIsCapON(false);
+      }
+    });
+  }, []);
 
-  const isFormValid = !isEmpty(psw) && !isEmpty(repeatPsw) && psw === repeatPsw;
-
+  const togglePasswordVisible = () => setPasswordVisible(!passwordVisible);
+  const toggleRepeatPasswordVisible = () =>
+    setRepeatpasswordVisible(!repeatPasswordVisible);
   return (
-    <div className={styles.content}>
-      <h2 className={styles.title}>Сбросить пароль</h2>
-      <span className={styles.subtitle}>
-        Введите новый пароль для вашей учетной записи
-      </span>
-
-      <form className={styles.form}>
-        {/* CAPS LOCK WARNING (Same as Changepsw) */}
-        <div
-          className={styles.is_caps_lock_on}
-          style={{
-            display: isCap ? 'flex' : 'none',
-            position: 'relative',
-            top: '-10px',
-            right: '0',
-          }}
-        >
-          <span className={styles.is_caps_lock_on_indecator} />
-          <span>Caps Lock включена</span>
-        </div>
-
-        {/* New Password Input */}
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel} htmlFor="new-psw">
+    <>
+      <form
+        onSubmit={(evt) => handleResetClick(evt, psw, router, dispatch)}
+        className={styles.form_cart_wrapper}
+      >
+        <h2 className={styles.form_title}>Сбросить пароль</h2>
+        <div className={styles.Auth_inputs_wrapper}>
+          <label className={styles.form_label_wrapper} htmlFor="password">
             <b>
-              <span>Пароль</span>
-              <span className={styles.requiredStar}>*</span>
+              <span className={styles.lable_title}>Пароль</span>
+              <span className={styles.required}>*</span>
             </b>
-            <InputsTooltip
-              enterTouchDelay={0}
-              leaveTouchDelay={5000}
-              key="psw-tip"
-              title={<span>Это поле обязательно к заполнению</span>}
-            >
-              <span className={styles.tooltipHelp}>?</span>
-            </InputsTooltip>
           </label>
-
           <input
-            className={styles.inputField}
-            placeholder={
-              pswErr ? 'Пароль не может быть пустым' : 'Новый пароль'
-            }
-            type={newPswVisible ? 'text' : 'password'}
-            id="new-psw"
+            placeholder="Пароль"
+            type={passwordVisible ? 'text' : 'password'}
+            id="password"
             value={psw}
-            style={{
-              border: `solid 1px ${pswErr ? '#b33c3c' : 'var(--border-light)'}`,
-            }}
-            onChange={(e) => {
-              setPsw(e.target.value);
-              setPswErr(isEmpty(e.target.value));
-            }}
-            onKeyUp={(e) =>
-              setCap(e.getModifierState('CapsLock') ? true : false)
-            }
+            onChange={(e) => setPsw(e.target.value)}
+            className={styles.input_feild}
           />
-
-          {/* Fix: Absolutely positioned eye icon */}
           <div className={styles.confidentialityIcon}>
-            <span
-              onClick={() => setNewPswVisible(!newPswVisible)}
-              style={{ cursor: 'pointer' }}
-            >
-              {newPswVisible ? (
+            <span onClick={togglePasswordVisible} style={{ cursor: 'pointer' }}>
+              {passwordVisible ? (
                 '👁️'
               ) : (
                 <Image
@@ -101,66 +60,36 @@ const ConfirmResetPsw = () => {
                   width={20}
                   height={20}
                   alt="peaking emoji"
-                  unoptimized
                 />
               )}
             </span>
           </div>
         </div>
-
-        {/* Repeat Password Input */}
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel} htmlFor="repeat-psw">
+        {/*  --------------------------- */}
+        <div className={styles.Auth_inputs_wrapper}>
+          <label
+            className={styles.form_label_wrapper}
+            htmlFor="signup-password-repeat"
+          >
             <b>
-              <span>Повторите пароль</span>
-              <span className={styles.requiredStar}>*</span>
+              <span className={styles.lable_title}>Повторите пароль</span>
+              <span className={styles.required}>*</span>
             </b>
-            <InputsTooltip
-              enterTouchDelay={0}
-              leaveTouchDelay={5000}
-              key="rpeat-psw-tip"
-              title={
-                <React.Fragment>
-                  <span>Это поле обязательно к заполнению</span>
-                  <span style={{ color: 'var(--hover)' }}>
-                    повторите тот же пароль сверху
-                  </span>
-                </React.Fragment>
-              }
-            >
-              <span className={styles.tooltipHelp}>?</span>
-            </InputsTooltip>
           </label>
-
           <input
-            className={styles.inputField}
-            placeholder={
-              repeatErr ? 'Пароль не может быть пустым' : 'Повторите пароль'
-            }
-            type={oldPswVisible ? 'text' : 'password'}
-            id="repeat-psw"
+            placeholder="Повторите пароль"
+            type={repeatPasswordVisible ? 'text' : 'password'}
+            id="signup-password-repeat"
             value={repeatPsw}
-            style={{
-              border: `solid 1px ${
-                repeatErr ? '#b33c3c' : 'var(--border-light)'
-              }`,
-            }}
-            onChange={(e) => {
-              setRepeatPsw(e.target.value);
-              setRepeatErr(isEmpty(e.target.value));
-            }}
-            onKeyUp={(e) =>
-              setCap(e.getModifierState('CapsLock') ? true : false)
-            }
+            onChange={(e) => setRepeatPsw(e.target.value)}
+            className={styles.input_feild}
           />
-
-          {/* Fix: Absolutely positioned eye icon */}
           <div className={styles.confidentialityIcon}>
             <span
-              onClick={() => setOldPswVisible(!oldPswVisible)}
+              onClick={toggleRepeatPasswordVisible}
               style={{ cursor: 'pointer' }}
             >
-              {oldPswVisible ? (
+              {repeatPasswordVisible ? (
                 '👁️'
               ) : (
                 <Image
@@ -168,34 +97,40 @@ const ConfirmResetPsw = () => {
                   width={20}
                   height={20}
                   alt="peaking emoji"
-                  unoptimized
                 />
               )}
             </span>
           </div>
         </div>
 
-        {/* Submit Button (Styled exactly as in Changepsw) */}
         <button
-          className={styles.actionButton}
           style={{
-            backgroundColor: isFormValid
-              ? 'var(--primary-black)'
-              : 'var(--border-light)',
-            width: '100%',
-            marginTop: '15px',
-            color: isFormValid ? 'var(--bg-light)' : 'var(--primary-black)',
+            backgroundColor:
+              psw.trim() !== '' && repeatPsw.trim() !== '' && psw === repeatPsw
+                ? '#000000'
+                : '#a0a0a0',
           }}
-          disabled={!isFormValid}
-          onClick={(e) => {
-            e.preventDefault();
-            handleResetClick(psw, router, dispatch);
-          }}
+          disabled={
+            psw.trim() !== '' && repeatPsw.trim() !== '' && psw === repeatPsw
+              ? false
+              : true
+          }
+          className={styles.submit_button}
         >
           Изменить пароль
         </button>
+        <Link href="/help" className={styles.link}>
+          <span>Что-то пошло не так? напишите нам</span>
+        </Link>
       </form>
-    </div>
+      <div
+        className={styles.is_caps_lock_on}
+        style={{ display: isCapON ? 'flex' : 'none' }}
+      >
+        <span className={styles.is_caps_lock_on_indecator} />
+        <span>Caps Lock включена</span>
+      </div>
+    </>
   );
 };
 

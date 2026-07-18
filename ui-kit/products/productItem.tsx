@@ -74,11 +74,24 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       minMaxWidth: calculateImageSizeContainer(windowWidth).minMaxWidth,
     });
   }, [windowWidth]);
-  const articals = product.productVariants?.map((variant) => variant.artical);
-  // remove the repated product artical from array to only show in UI once
-  const filteredArticals = articals!.filter(function (value, index, array) {
-    return array.indexOf(value) === index;
+  const articals = product.productVariants?.map((variant) => {
+    return { artical: variant.artical, price: variant.price };
   });
+
+  // remove the repated product artical from array to only show in UI once
+  const filteredArticals = filterRepeatedValues(articals);
+
+  function filterRepeatedValues(arr) {
+    const seen = new Set<string>();
+
+    return arr.filter((item) => {
+      const key = JSON.stringify(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
   const colors: string[] = [];
   product.productVariants!.map((variant) => {
     if (variant.color?.url !== '-') {
@@ -140,16 +153,16 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             style={{
               alignItems: filteredArticals.length > 2 ? 'flex-start' : 'center',
             }}
-            className={styles.artical_wrapper}
+            className={`${styles.artical_wrapper} ${styles.artical_wrapper_mobile}`}
           >
             <span>Артикул(ы): </span>
             <div className={styles.artical_content_wrapper}>
-              {filteredArticals.map((artical, index) => {
+              {filteredArticals.map((articalVariant, index) => {
                 return (
                   <button
                     onClick={() => {
                       const currentOrderVariant = product.productVariants?.find(
-                        (variant) => variant.artical == artical,
+                        (variant) => variant.artical == articalVariant.artical,
                       );
 
                       if (currentOrderVariant) {
@@ -158,28 +171,32 @@ const ProductItem: React.FC<Props> = ({ product }) => {
                     }}
                     style={{
                       borderColor:
-                        variant.artical == artical ? '#000' : '#00000029',
+                        variant.artical == articalVariant.artical
+                          ? '#000'
+                          : '#00000029',
                     }}
                     className={styles.artical_variant_selector}
                     key={index}
                     type="button"
                   >
-                    {artical!.includes('|') ? (
+                    {articalVariant.artical!.includes('|') ? (
                       <>
-                        <span>{artical!.split('|')[0].toUpperCase()}: </span>
+                        <span>
+                          {articalVariant.artical!.split('|')[0].toUpperCase()}:{' '}
+                        </span>
                         <span style={{ fontWeight: 'bold' }}>
-                          {variant.price} ₽
+                          {articalVariant.price} ₽
                         </span>
                       </>
                     ) : (
                       <>
-                        <span>{artical!.toUpperCase()}: </span>
+                        <span>{articalVariant.artical!.toUpperCase()}: </span>
                         <span style={{ fontWeight: 'bold' }}>
-                          {variant.price} ₽
+                          {articalVariant.price} ₽
                         </span>
                       </>
                     )}
-                    {!currentVariant(artical)?.available ? (
+                    {!currentVariant(articalVariant.artical)?.available ? (
                       <div className={styles.NotInStockWrapper}>
                         <div className={styles.NotInStockLineThrough} />
                       </div>
