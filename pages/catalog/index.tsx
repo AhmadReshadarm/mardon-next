@@ -5,6 +5,8 @@ import {
 import {
   convertQueryParams,
   getFiltersConfig,
+  getSeoData,
+  getSeoImage,
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
@@ -14,91 +16,75 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
-import { Color, Product } from 'swagger/services';
+import { CategoryInTree, Color } from 'swagger/services';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 import Pagination from 'antd/es/pagination';
 import Head from 'next/head';
-// import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import dynamic from 'next/dynamic';
-import { LoaderMask } from 'ui-kit/generalLoaderMask';
+import { InferGetServerSidePropsType } from 'next';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import styles from 'components/store/catalog/styles/catalog.module.css';
-import { baseUrl } from 'common/constant';
-const TopFilterBar = dynamic(
-  () => import('components/store/catalog/TopFilterBar'),
-  {
-    ssr: false,
-    loading: () => <LoaderMask />,
-  },
-);
-const ProductGrid = dynamic(() => import('ui-kit/products/productGrid'), {
-  ssr: false,
-  loading: () => <LoaderMask />,
-});
 
-// const queryStringToObject = (url) =>
-//   Object.fromEntries([...new URLSearchParams(url.split('?')[1])]);
+import TopFilterBar from 'components/store/catalog/TopFilterBar';
+import ProductGrid from 'ui-kit/products/productGrid';
+const queryStringToObject = (url) =>
+  Object.fromEntries([...new URLSearchParams(url.split('?')[1])]);
 
-// export const getServerSideProps = (async (context) => {
-//   const query = context.resolvedUrl;
+export const getServerSideProps = async (context) => {
+  const query = context.resolvedUrl;
+  const baseURL = process.env.API_URL;
+  const queryObj = {
+    categories:
+      queryStringToObject(query).categories == undefined
+        ? null
+        : queryStringToObject(query).categories,
+    subCategories:
+      queryStringToObject(query).subCategories == undefined
+        ? null
+        : queryStringToObject(query).subCategories,
+  };
 
-//   const queryObj = {
-//     categories:
-//       queryStringToObject(query).categories == undefined
-//         ? null
-//         : queryStringToObject(query).categories,
-//     subCategories:
-//       queryStringToObject(query).subCategories == undefined
-//         ? null
-//         : queryStringToObject(query).subCategories,
-//   };
+  const url = `${baseURL}/categories/categoriesTree`;
 
-//   const url = `${process.env.API_URL}/products?${
-//     queryObj.categories ? 'parent=' + queryObj.categories : ''
-//   }${
-//     queryObj.subCategories
-//       ? queryObj.categories
-//         ? '&categories[]=' + queryObj.subCategories
-//         : 'categories[]=' + queryObj.subCategories
-//       : ''
-//   }`;
+  const resp = await fetch(url);
+  const localizedData = (await resp.json()) as CategoryInTree[];
+  const { categories, subCategories } = queryObj;
 
-//   // Fetch data from external API
-//   try {
-//     const res = await fetch(url);
-//     const repo = await res.json();
-//     const randomProduct = Math.floor(Math.random() * repo.rows?.length);
-//     // Pass data to the page via props
-//     return {
-//       props: {
-//         repo: repo.rows,
-//         randomProduct,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       props: {
-//         repo: [],
-//         randomProduct: 0,
-//       },
-//     };
-//   }
-// }) as GetServerSideProps<{ repo: Product[]; randomProduct: number }>;
+  let filteredData = localizedData;
 
-// =
-// ({
-// repo,
-// randomProduct,
-// }: InferGetServerSidePropsType<typeof getServerSideProps>)
+  if (categories) {
+    filteredData = filteredData.filter((cat) => cat.url === categories);
+  }
 
-const CatalogPage = () => {
+  if (subCategories) {
+    filteredData = filteredData
+      .map((cat) => ({
+        ...cat,
+        children:
+          cat.children?.filter((child) => child.url === subCategories) || [],
+      }))
+      .filter((cat) => cat.children && cat.children.length > 0);
+  }
+
+  const seoData = getSeoData(localizedData, queryObj);
+  const seoImage = getSeoImage(localizedData, queryObj);
+
+  return {
+    props: {
+      seoData,
+      seoImage,
+    },
+  };
+};
+
+const CatalogPage = ({
+  seoData: initialSeoData,
+  seoImage: initialSeoImage,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { categories, subCategories, colors, tags, priceRange } =
     useAppSelector<TCatalogState>((state) => state.catalog);
-  // const [selectedCategory, setSelectedCategory] = useState<
-  //   string | undefined
-  // >();
+  const [seoData, setSeoData] = useState(initialSeoData);
 
   const handleLocationChange = onLocationChange(dispatch);
   const [firstLoad, setFirstLoad] = useState(true);
@@ -152,12 +138,6 @@ const CatalogPage = () => {
     }
     return color;
   });
-
-  // const [expanded, setExpanded] = useState(true);
-
-  // const handleExpantionChange = () => {
-  //   setExpanded((prev) => !prev);
-  // };
 
   const paginationLength = useAppSelector(
     (state) => state.catalog.productsLength,
@@ -227,64 +207,49 @@ const CatalogPage = () => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
 
-  // useEffect(() => {
-  //   const filtersCategory = localFilters.filter(
-  //     (filter) => filter.type === FilterType.SINGLE_SELECTION,
-  //   );
-  //   const checkedCategory = filtersCategory.map((filter) => {
-  //     const checkedOption = filter.options!.filter(
-  //       (option) => option.checked === true,
-  //     );
-  //     return checkedOption;
-  //   });
+  useEffect(() => {
+    const filtersCategory = localFilters.filter(
+      (filter) => filter.type === FilterType.SINGLE_SELECTION,
+    );
+    const checkedCategory = filtersCategory.map((filter) => {
+      const checkedOption = filter.options!.filter(
+        (option) => option.checked === true,
+      );
+      return checkedOption;
+    });
 
-  //   if (checkedCategory[0].length > 0) {
-  //     if (checkedCategory[1].length > 0) {
-  //       setSelectedCategory(checkedCategory[1][0].name);
-  //     } else {
-  //       setSelectedCategory(checkedCategory[0][0].name);
-  //     }
-  //   }
-  // }, [localFilters]);
+    if (checkedCategory[0].length > 0) {
+      if (checkedCategory[1].length > 0) {
+        setSeoData({
+          ...seoData,
+          realName: `${checkedCategory[0][0].name} > ${checkedCategory[1][0].name}`,
+        });
+      } else {
+        setSeoData({ ...seoData, realName: checkedCategory[0][0].name });
+      }
+    } else {
+      setSeoData({
+        ...seoData,
+        realName: 'Каталог | NBHOZ - Опт Товаров для Дома и Бизнеса',
+      });
+    }
+  }, [localFilters]);
 
   return (
     <>
-      {/* {repo.length !== 0 ? ( */}
       <SEOstatic
-        // page={{
-        //   realName: `${selectedCategory ?? 'Каталог'} | NBHOZ`,
-        //   name: `${
-        //     repo[randomProduct].category?.parent?.name +
-        //     ' > ' +
-        //     repo[randomProduct].category?.name
-        //   }`,
-        //   url: `${router.asPath}`,
-        //   desc: `${
-        //     repo[0].category?.name ?? 'Каталог'
-        //   } - покупайте Опт на NBHOZ по выгодным ценам! оптом ${
-        //     repo[randomProduct]?.shortDesc
-        //   }`,
-        //   keywords: `${repo[randomProduct]?.keywords}`,
-        //   createdAt: repo[randomProduct]?.createdAt,
-        //   updatedAt: repo[randomProduct]?.updatedAt,
-
-        // }}
-        // image={`https://nbhoz.ru/api/images/${repo[0]?.category?.parent?.image}`}
         page={{
-          realName: 'Каталог | NBHOZ - Опт Товаров для Дома и Бизнеса',
-          name: 'Каталог | NBHOZ - Опт Товаров для Дома и Бизнеса',
-          url: `${router.asPath}`,
-          desc: 'Оптовый поставщик товаров для дома и бизнеса. У нас вы найдете широкий ассортимент хозяйственных товаров, включая уборочный инвентарь, товары для ремонта, и многое другое. Закажите оптом и получите выгодные цены!',
-          keywords:
-            'оптом, товары для дома, хозяйственные товары, мелкая оптовая торговля, купить оптом, продажа оптом, оптовый склад, оптовый поставщик, швабры, губки, столовые приборы, инструменты, коврики, спортивный инвентарь',
-          createdAt: '2023-10-18T00:00:00Z',
-          updatedAt: new Date().toISOString(),
+          realName: seoData.realName,
+          name: seoData.name,
+          url: seoData.url,
+          desc: seoData.desc,
+          keywords: seoData.keywords,
+          createdAt: seoData.createdAt,
+          updatedAt: seoData.updatedAt,
         }}
-        image={`${baseUrl}/static/logo_800x800.png`}
+        image={initialSeoImage}
       />
-      {/* ) : (
-        ''
-      )} */}
+
       <Head>
         <link rel="canonical" href="https://nbhoz.ru/catalog" />
       </Head>

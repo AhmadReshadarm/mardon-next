@@ -16,6 +16,7 @@ import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { TFiltersConfig } from './types';
 import { stopWords } from 'common/constants';
 import { useEffect, useState } from 'react';
+import { CategoryInTree } from 'swagger/services';
 
 const PAGE_ITEMS_LIMIT = 12;
 
@@ -103,7 +104,7 @@ const getFiltersConfig = ({
       name,
       url,
       checked: !!filters.categories?.find((categoryUrl) => categoryUrl === url),
-      ImageUrl: `/api/images/${image}`,
+      ImageUrl: `/api/images/compress/${image}?qlty=50&width=320&height=200&lossless=false`,
     })) as FilterOption[],
     subSectionOptions: subCategories.map(({ id, name, url, image }) => ({
       id,
@@ -112,7 +113,7 @@ const getFiltersConfig = ({
       checked: !!filters.subCategories?.find(
         (categoryUrl) => categoryUrl === url,
       ),
-      ImageUrl: `/api/images/${image}`,
+      ImageUrl: `/api/images/compress/${image}?qlty=50&width=320&height=200&lossless=false`,
     })) as FilterOption[],
     colorOptions: colors.map(({ id, name, url, code }) => ({
       id,
@@ -356,6 +357,114 @@ const useIsBelowViewport = (
   return isBelow;
 };
 
+// ----------------- SEO Helpers -----------------------------
+// Default SEO data when no category is selected
+const defaultSeoData = {
+  realName: 'Каталог | NBHOZ - Опт Товаров для Дома и Бизнеса',
+  name: 'Каталог | NBHOZ - Опт Товаров для Дома и Бизнеса',
+  desc: 'Оптовый поставщик товаров для дома и бизнеса. У нас вы найдете широкий ассортимент хозяйственных товаров, включая уборочный инвентарь, товары для ремонта, и многое другое. Закажите оптом и получите выгодные цены!',
+  keywords:
+    'оптом, товары для дома, хозяйственные товары, мелкая оптовая торговля, купить оптом, продажа оптом, оптовый склад, оптовый поставщик, швабры, губки, столовые приборы, инструменты, коврики, спортивный инвентарь',
+  createdAt: '2023-10-18T00:00:00Z',
+  updatedAt: new Date().toISOString(),
+};
+
+const defaultSeoImage = 'https://nbhoz.ru/static/logo_800x800.png';
+
+// Helper to generate a keywords string (can be extended)
+const generateKeywords = (item: CategoryInTree): string => {
+  return defaultSeoData.keywords; // or construct from item.name etc.
+};
+
+/**
+ * Build SEO data from a category list and the current query
+ */
+function getSeoData(
+  categoriesList: CategoryInTree[],
+  query: { categories?: string | null; subCategories?: string | null },
+) {
+  const { categories: catUrl, subCategories: subUrl } = query;
+
+  // If no category is selected, return default
+  if (!catUrl) {
+    return { ...defaultSeoData, url: '/catalog' };
+  }
+
+  // Find the matching parent category
+  const category = categoriesList.find((c) => c.url === catUrl);
+  if (!category) {
+    // fallback to default (should not happen)
+    return { ...defaultSeoData, url: `/catalog?categories=${catUrl}` };
+  }
+
+  // If no sub‑category is selected, use category data
+  if (!subUrl) {
+    return {
+      realName: `${category.name} | NBHOZ`,
+      name: `${category.name} | NBHOZ`,
+      url: `/catalog?categories=${category.url}`,
+      desc: category.desc || defaultSeoData.desc,
+      keywords: generateKeywords(category),
+      createdAt: category.createdAt || defaultSeoData.createdAt,
+      updatedAt: category.updatedAt || defaultSeoData.updatedAt,
+    };
+  }
+
+  // Find the sub‑category
+  const subCategory = category.children?.find((child) => child.url === subUrl);
+  if (!subCategory) {
+    // sub‑category not found – fallback to category
+    return {
+      realName: `${category.name} | NBHOZ`,
+      name: `${category.name} | NBHOZ`,
+      url: `/catalog?categories=${category.url}`,
+      desc: category.desc || defaultSeoData.desc,
+      keywords: generateKeywords(category),
+      createdAt: category.createdAt || defaultSeoData.createdAt,
+      updatedAt: category.updatedAt || defaultSeoData.updatedAt,
+    };
+  }
+
+  // Both category and sub‑category exist
+  return {
+    realName: `${category.name} > ${subCategory.name} | NBHOZ`,
+    name: `${category.name} > ${subCategory.name} | NBHOZ`,
+    url: `/catalog?categories=${category.url}&subCategories=${subCategory.url}`,
+    desc: subCategory.desc || category.desc || defaultSeoData.desc,
+    keywords: generateKeywords(subCategory) || generateKeywords(category),
+    createdAt:
+      subCategory.createdAt || category.createdAt || defaultSeoData.createdAt,
+    updatedAt:
+      subCategory.updatedAt || category.updatedAt || defaultSeoData.updatedAt,
+  };
+}
+
+/**
+ * Build the OG image URL
+ */
+function getSeoImage(
+  categoriesList: CategoryInTree[],
+  query: { categories?: string | null; subCategories?: string | null },
+): string {
+  const { categories: catUrl, subCategories: subUrl } = query;
+  if (!catUrl) return defaultSeoImage;
+
+  const category = categoriesList.find((c) => c.url === catUrl);
+  if (!category) return defaultSeoImage;
+
+  // Prefer sub‑category image if available, else category image
+  if (subUrl) {
+    const sub = category.children?.find((child) => child.url === subUrl);
+    if (sub?.image) return `https://nbhoz.ru/api/images/${sub.image}`;
+  }
+
+  if (category.image) return `https://nbhoz.ru/api/images/${category.image}`;
+
+  return defaultSeoImage;
+}
+
+// ----------------- end of SEO Helpers ------------------------
+
 export {
   convertQueryParams,
   getFiltersConfig,
@@ -364,4 +473,6 @@ export {
   cleanSearchTerm,
   useIsBelowViewport,
   onLocationChangeAdmin,
+  getSeoData,
+  getSeoImage,
 };

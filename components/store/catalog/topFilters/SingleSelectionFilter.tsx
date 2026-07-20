@@ -74,8 +74,8 @@ const SingleSelectionFilter: React.FC<Props> = ({
           >
             <Image
               src={option.ImageUrl!}
-              width={1080}
-              height={1080}
+              width={320}
+              height={200}
               alt={option.name}
             />
             <span>{option.name}</span>
