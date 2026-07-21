@@ -4,6 +4,8 @@ import {
 } from 'common/helpers/manageQueryParams.helper';
 import {
   convertQueryParams,
+  defaultSeoData,
+  defaultSeoImage,
   getFiltersConfig,
   getSeoData,
   getSeoImage,
@@ -26,54 +28,82 @@ import styles from 'components/store/catalog/styles/catalog.module.css';
 
 import TopFilterBar from 'components/store/catalog/TopFilterBar';
 import ProductGrid from 'ui-kit/products/productGrid';
+import {
+  getClientErrorDetails,
+  getServerErrorDetails,
+  sendErrorReport,
+} from 'common/helpers/errorLogger.helper';
 const queryStringToObject = (url) =>
   Object.fromEntries([...new URLSearchParams(url.split('?')[1])]);
 
 export const getServerSideProps = async (context) => {
-  const query = context.resolvedUrl;
-  const baseURL = process.env.API_URL;
-  const queryObj = {
-    categories:
-      queryStringToObject(query).categories == undefined
-        ? null
-        : queryStringToObject(query).categories,
-    subCategories:
-      queryStringToObject(query).subCategories == undefined
-        ? null
-        : queryStringToObject(query).subCategories,
-  };
+  try {
+    const query = context.resolvedUrl;
+    const baseURL = process.env.API_URL;
+    if (!baseURL) {
+      throw new Error('API_URL environment variable is not set');
+    }
 
-  const url = `${baseURL}/categories/categoriesTree`;
+    const queryObj = {
+      categories:
+        queryStringToObject(query).categories == undefined
+          ? null
+          : queryStringToObject(query).categories,
+      subCategories:
+        queryStringToObject(query).subCategories == undefined
+          ? null
+          : queryStringToObject(query).subCategories,
+    };
 
-  const resp = await fetch(url);
-  const localizedData = (await resp.json()) as CategoryInTree[];
-  const { categories, subCategories } = queryObj;
+    const url = `${baseURL}/categories/categoriesTree`;
+    const resp = await fetch(url);
+    if (!resp.ok) {
+      throw new Error(
+        `Failed to fetch categories: ${resp.status} ${resp.statusText}`,
+      );
+    }
 
-  let filteredData = localizedData;
+    const localizedData = (await resp.json()) as CategoryInTree[];
+    const { categories, subCategories } = queryObj;
 
-  if (categories) {
-    filteredData = filteredData.filter((cat) => cat.url === categories);
+    let filteredData = localizedData;
+
+    if (categories) {
+      filteredData = filteredData.filter((cat) => cat.url === categories);
+    }
+
+    if (subCategories) {
+      filteredData = filteredData
+        .map((cat) => ({
+          ...cat,
+          children:
+            cat.children?.filter((child) => child.url === subCategories) || [],
+        }))
+        .filter((cat) => cat.children && cat.children.length > 0);
+    }
+
+    const seoData = getSeoData(localizedData, queryObj);
+    const seoImage = getSeoImage(localizedData, queryObj);
+
+    return {
+      props: {
+        seoData,
+        seoImage,
+      },
+    };
+  } catch (error: any) {
+    console.error('Error in getServerSideProps:', error);
+    const details = getServerErrorDetails(error, context.req);
+    // Fire-and-forget report (don't await to avoid blocking)
+    sendErrorReport(details, true).catch(console.error);
+    // Return defaults to keep page functional
+    return {
+      props: {
+        seoData: defaultSeoData,
+        seoImage: defaultSeoImage,
+      },
+    };
   }
-
-  if (subCategories) {
-    filteredData = filteredData
-      .map((cat) => ({
-        ...cat,
-        children:
-          cat.children?.filter((child) => child.url === subCategories) || [],
-      }))
-      .filter((cat) => cat.children && cat.children.length > 0);
-  }
-
-  const seoData = getSeoData(localizedData, queryObj);
-  const seoImage = getSeoImage(localizedData, queryObj);
-
-  return {
-    props: {
-      seoData,
-      seoImage,
-    },
-  };
 };
 
 const CatalogPage = ({
@@ -103,10 +133,23 @@ const CatalogPage = ({
     setPriceRange(dispatch);
 
     (async () => {
-      if (firstLoad) {
-        await dispatch(fetchParentCategories());
-        await wrappedHandler();
-        setFirstLoad(false);
+      // if (firstLoad) {
+      //   await dispatch(fetchParentCategories());
+      //   await wrappedHandler();
+      //   setFirstLoad(false);
+      // }
+
+      try {
+        if (firstLoad) {
+          await dispatch(fetchParentCategories());
+          await wrappedHandler();
+          setFirstLoad(false);
+        }
+      } catch (error: any) {
+        const details = getClientErrorDetails(error, {
+          action: 'catalogInit',
+        });
+        sendErrorReport(details, false);
       }
     })();
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import color from '../lib/ui.colors';
 import Link from 'next/link';
-import TelegraSVG from '../../../assets/telegramcolored.svg';
+// import TelegraSVG from '../../../assets/telegramcolored.svg';
 
 const Footer = () => {
   const copyRighYear = new Date().getFullYear();
@@ -37,9 +37,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             href="https://t.me/nbhoz"
           >
-            <span>
-              <TelegraSVG />
-            </span>
+            <span>{/* <TelegraSVG /> */}</span>
           </Link>
           <Link
             target="_blank"

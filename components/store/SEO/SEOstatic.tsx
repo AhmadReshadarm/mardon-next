@@ -59,7 +59,7 @@ const socialTags = ({
 };
 
 const SEOstatic = ({ page, image }) => {
-  const url = `https://nbhoz.ru${page.url}`; // no need to add / it will be provided by router
+  const url = `https://nbhoz.ru${page.url}`;
 
   return (
     <Head>

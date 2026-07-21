@@ -45,6 +45,7 @@ export type ComponentWithPageLayout = AppProps & {
 
 function App({ Component, pageProps }: ComponentWithPageLayout) {
   const router = useRouter();
+
   return (
     <>
       <Head>

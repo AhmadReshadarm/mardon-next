@@ -96,7 +96,7 @@
 .ResultsContent {
   width: 100%;
   max-width: 1500px;
-  height: 80vh;
+  max-height: 80vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
