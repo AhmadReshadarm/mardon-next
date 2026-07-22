@@ -93,6 +93,7 @@ import {
 } from 'common/helpers/errorLogger.helper';
 import styles from '../genral-styles/error.module.css';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 interface ErrorPageProps {
   statusCode: number;
@@ -153,12 +154,9 @@ const ErrorPage = ({
                 позже. Спасибо за Ваш выбор. С Уважением, Ваш NBHOZ
               </h4>
             </div>
-            <button
-              onClick={() => router.refresh()}
-              className={styles.refreshButton}
-            >
-              Обновить страницу
-            </button>
+            <Link href="/" className={styles.refreshButton}>
+              Продолжить покупки
+            </Link>
             <span>
               <p>
                 {statusCode

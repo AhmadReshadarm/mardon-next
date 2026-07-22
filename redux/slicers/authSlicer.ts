@@ -54,8 +54,8 @@ export const userSignin = createAsyncThunk<
 
       return response;
     } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-      // return rejectWithValue(error.response.status);
+      // return rejectWithValue(getErrorMassage(error.response.status));
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -316,12 +316,20 @@ const authSlicer = createSlice({
         openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
       })
-      .addCase(userSignin.rejected, handleError)
-      //  userSignin.rejected,
-      //   (state, action: PayloadAction<any, any, any, any>) => {
-      //     state.loading = false;
-      //     state.serverErr = action.payload;
-      //   },
+      .addCase(userSignin.rejected, (state, action) => {
+        if (Number(action.payload) === 400) {
+          openErrorNotification(
+            'Неверное имя пользователя. Пожалуйста, попробуйте еще раз.',
+          );
+        }
+        if (Number(action.payload) === 401) {
+          openErrorNotification(
+            'Неверный пароль. Пожалуйста, попробуйте еще раз.',
+          );
+        }
+
+        state.loading = false;
+      })
       //signup
       .addCase(signup.pending, handlePending)
       .addCase(signup.fulfilled, (state, action) => {
