@@ -113,7 +113,7 @@ const Details: React.FC<Props> = ({
               style={{ display: productVariant?.oldPrice ? 'block' : 'none' }}
               className={styles.PriceItem}
             >
-              `${variant?.oldPrice ?? productVariant?.oldPrice} ₽`
+              {variant?.oldPrice ?? productVariant?.oldPrice} ₽
             </div>
             <div className={styles.PriceItem}>
               {variant?.price ?? productVariant?.price} ₽
