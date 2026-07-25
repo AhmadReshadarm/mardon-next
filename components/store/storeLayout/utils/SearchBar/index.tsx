@@ -76,6 +76,7 @@ const SearchBar: React.FC<Props> = ({ searchButtonRef, windowWidth }) => {
       name: cleanedTerm,
       artical: cleanedTerm,
       limit: 12,
+      publish: 'true',
     };
 
     dispatch(searchProducts(payload));
