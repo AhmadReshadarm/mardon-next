@@ -120,7 +120,8 @@ const CatalogPage = ({
   const [firstLoad, setFirstLoad] = useState(true);
   const lastQueryRef = useRef<string | null>(null);
   useEffect(() => {
-    localStorage.removeItem('location');
+    const curLocation = localStorage.getItem('location');
+    if (curLocation) localStorage.removeItem('location');
 
     const wrappedHandler = async () => {
       const currentQS = window.location.search;
