@@ -104,7 +104,8 @@ const getFiltersConfig = ({
       name,
       url,
       checked: !!filters.categories?.find((categoryUrl) => categoryUrl === url),
-      ImageUrl: `/api/images/compress/${image}?qlty=50&width=320&height=200&lossless=false`,
+      // ImageUrl: `/api/images/compress/${image}?qlty=50&width=320&height=200&lossless=false`,
+      ImageUrl: image,
     })) as FilterOption[],
     subSectionOptions: subCategories.map(({ id, name, url, image }) => ({
       id,
@@ -113,7 +114,8 @@ const getFiltersConfig = ({
       checked: !!filters.subCategories?.find(
         (categoryUrl) => categoryUrl === url,
       ),
-      ImageUrl: `/api/images/compress/${image}?qlty=50&width=320&height=200&lossless=false`,
+      // ImageUrl: `/api/images/compress/${image}?qlty=50&width=320&height=200&lossless=false`,
+      ImageUrl: image,
     })) as FilterOption[],
     colorOptions: colors.map(({ id, name, url, code }) => ({
       id,

@@ -4,6 +4,7 @@ import { CategoryInTree } from 'swagger/services';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import Image from 'next/image';
+import imageLoader from 'common/helpers/imageLoader.helper';
 
 type Props = {
   categories: CategoryInTree[];
@@ -35,13 +36,16 @@ const ImageSlider: React.FC<Props> = ({
         >
           <Slider
             alt={`${categories[index]?.name!}`}
-            src={`/api/images/${categories[index]?.image}`}
+            // src={`/api/images/${categories[index]?.image}`}
+            src={categories[index]?.image!}
+            // loader={imageLoader}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src = '/img_not_found.png';
             }}
             width={0}
             height={0}
+            quality={50}
             sizes="100vw"
             loading="lazy"
           />

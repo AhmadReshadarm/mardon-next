@@ -71,7 +71,8 @@ const Images: React.FC<Props> = ({
               )}
             >
               <Image
-                src={`/api/images/compress/${image}?qlty=25&width=65&height=65&lossless=false`}
+                // src={`/api/images/compress/${image}?qlty=25&width=65&height=65&lossless=false`}
+                src={image}
                 alt={`${
                   product?.name?.includes('(')
                     ? product.name.split('(')[0]
@@ -79,7 +80,9 @@ const Images: React.FC<Props> = ({
                 }- ${product?.id} - ${index + 1}`}
                 width={65}
                 height={65}
+                quality={25}
                 loading="lazy"
+                sizes="65px"
                 priority={false}
                 style={{
                   border: selectedIndex == index ? '2px solid white' : 'none',

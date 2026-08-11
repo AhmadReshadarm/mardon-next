@@ -30,7 +30,9 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
     if (!loading) {
       categories.map((category) => {
         if (!isSet) {
-          setHoveredCategory(`/api/images/${category.image}`);
+          // setHoveredCategory(`/api/images/${category.image}`);
+
+          setHoveredCategory(category.image!);
         }
         isSet = true;
       });
@@ -91,6 +93,7 @@ const HeaderCatalog: React.FC<Props> = ({ catelogButtonRef }) => {
                   alt={hoveredCategory}
                   width={0}
                   height={0}
+                  quality={10}
                   sizes="100vw"
                   loading="lazy"
                 />

@@ -15,6 +15,7 @@ import { TGlobalUIState, TGlobalState } from 'redux/types';
 import styles from '../styles/banners.module.css';
 import Image from 'next/image';
 import { FALLBACK_BLUR_DATA_URL } from 'common/constant';
+import imageLoader from 'common/helpers/imageLoader.helper';
 type Props = {
   slides: Slide[];
   base64Image_2: any;
@@ -128,13 +129,17 @@ const ImageBanner: React.FC<Props> = ({ slides, base64Image_2, error }) => {
                   ? styles.isDisplay
                   : ''
               } slider-img`}
+              // loader={imageLoader}
               alt={`${slides[imageIndex]?.link}`}
-              src={`/api/images/${slides[imageIndex]?.image}`}
+              src={slides[imageIndex]?.image!}
+              // src={`/api/images/${slides[imageIndex]?.image}`}
               priority={true}
               width={1920}
               height={800}
+              quality={75}
               placeholder="blur"
               blurDataURL={safeBlurDataURL}
+              sizes="100vw"
             />
           </motion.div>
         </AnimatePresence>

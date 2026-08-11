@@ -52,11 +52,13 @@ const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
                       height: '100px',
                       objectFit: 'cover',
                     }}
-                    src={`/api/images/compress/${images[0]}?qlty=25&width=100&height=100&lossless=false`}
+                    // src={`/api/images/compress/${images[0]}?qlty=25&width=100&height=100&lossless=false`}
+                    src={images[0]}
                     alt={`${images[0]}`}
                     width={100}
                     height={100}
-                    sizes="100vw"
+                    quality={5}
+                    sizes="100px"
                     loading="lazy"
                     priority={false}
                     placeholder="blur"
@@ -141,7 +143,8 @@ const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
                   }}
                 >
                   <Image
-                    src={`/api/images/compress/${images[0]}?qlty=10&width=50&height=50&lossless=true`}
+                    // src={`/api/images/compress/${images[0]}?qlty=10&width=50&height=50&lossless=true`}
+                    src={images[0]}
                     alt={`${
                       product?.name?.includes('(')
                         ? product.name.split('(')[0]
@@ -149,6 +152,8 @@ const ColorPicker: React.FC<Props> = ({ setSelectedIndex, product }) => {
                     }- ${variant.artical!}`}
                     width={50}
                     height={50}
+                    quality={25}
+                    sizes="50px"
                     loading="lazy"
                     priority={false}
                     placeholder="blur"

@@ -43,7 +43,8 @@ export const getServerSideProps: GetServerSideProps<{
     const withUrlUI: string[] = [];
     for (const img of images) {
       withUrl.push(`${baseUrl}/api/images/${img}`);
-      withUrlUI.push(`/api/images/${img}`);
+      // withUrlUI.push(`/api/images/${img}`);
+      withUrlUI.push(img);
     }
     return { imagesWithUrl: withUrl, imagesWithUrlUI: withUrlUI };
   };

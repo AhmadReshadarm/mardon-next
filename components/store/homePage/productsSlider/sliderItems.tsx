@@ -8,6 +8,7 @@ import Link from 'next/link';
 import styles from '../styles/productSlider.module.css';
 import Image from 'next/image';
 import { FALLBACK_BLUR_DATA_URL } from 'common/constant';
+import imageLoader from 'common/helpers/imageLoader.helper';
 
 type Props = {
   // product: Product;
@@ -267,13 +268,17 @@ const SliderItems: React.FC<Props> = ({
                           className={`${styles.slider_thumbnailImage} ${
                             caroselIndex == index ? styles.active : ''
                           }`}
-                          src={`/api/images/${thumbnailImage}`}
+                          // loader={imageLoader}
+                          // src={`/api/images/${thumbnailImage}`}
+                          src={thumbnailImage}
                           alt={product?.name!}
                           width={80}
                           height={80}
+                          quality={25}
                           priority={true}
                           placeholder="blur"
                           blurDataURL={safeBlurDataURL}
+                          sizes="80px"
                         />
                       </div>
                     </span>
@@ -303,13 +308,17 @@ const SliderItems: React.FC<Props> = ({
               </ul>
               <Image
                 className="product-slider-img"
-                src={`/api/images/${images[imageIndex]}`}
+                // src={`/api/images/${images[imageIndex]}`}
+                src={images[imageIndex]}
+                loader={imageLoader}
                 alt={currentSlide?.name!}
-                width={1080}
-                height={1080}
+                width={325}
+                height={325}
+                quality={50}
                 priority={true}
                 placeholder="blur"
                 blurDataURL={safeBlurDataURL}
+                sizes="325px, (max-width: 1024px) 100vw"
               />
             </div>
           </Link>

@@ -2,13 +2,8 @@ import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import { Container } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import dynamic from 'next/dynamic';
-import { LoaderMask } from 'ui-kit/generalLoaderMask';
 import Head from 'next/head';
-const ReviewsItems = dynamic(() => import('components/store/reviews'), {
-  ssr: false,
-  loading: () => <LoaderMask />,
-});
+import ReviewsItems from 'components/store/reviews';
 const Reviews = () => {
   return (
     <>

@@ -366,15 +366,23 @@ const Header = () => {
                       borderRadius: '50%',
                       objectFit: 'cover',
                     }}
+                    // src={
+                    //   user?.image
+                    //     ? `/api/images/compress/${user?.image}?qlty=1&width=100&height=100&lossless=false`
+                    //     : `https://api.dicebear.com/7.x/initials/png?radius=50&seed=${
+                    //         user?.firstName === '' ? 'Аноним' : user?.firstName
+                    //       }`
+                    // }
                     src={
                       user?.image
-                        ? `/api/images/compress/${user?.image}?qlty=1&width=100&height=100&lossless=false`
+                        ? user.image // just the filename
                         : `https://api.dicebear.com/7.x/initials/png?radius=50&seed=${
-                            user?.firstName === '' ? 'Аноним' : user?.firstName
+                            user?.firstName || 'Аноним'
                           }`
                     }
                     width={32}
                     height={32}
+                    quality={5}
                     alt={`${user?.email} профиль`}
                   />
                 </button>

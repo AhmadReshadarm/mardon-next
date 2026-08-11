@@ -200,9 +200,11 @@ const Slider: React.FC<Props> = ({
                   zIndex: loadingComplet ? 1 : -1,
                 }}
                 alt={`${product.name}`}
-                src={`/api/images/${images[imageIndex]}`}
+                // src={`/api/images/${images[imageIndex]}`}
+                src={images[imageIndex]}
                 width={0}
                 height={0}
+                quality={50}
                 sizes="100vw"
                 loading="lazy"
                 priority={false}

@@ -76,6 +76,10 @@ const SingleSelectionFilter: React.FC<Props> = ({
               src={option.ImageUrl!}
               width={320}
               height={200}
+              quality={25}
+              sizes="100vw"
+              loading="lazy"
+              priority={false}
               alt={option.name}
             />
             <span>{option.name}</span>

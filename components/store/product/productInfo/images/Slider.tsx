@@ -129,7 +129,7 @@ const Slider: React.FC<Props> = ({
       // Trigger zoom when pinch expands beyond 10% of initial distance
       if (currentDistance / initialPinchDistance > 1.1) {
         setZoom(true);
-        setZoomImgSrc(images[selectedIndex]);
+        setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
         setTimeout(() => {
           const btnImg: any = document.querySelector('.hidden-image-zoom');
           btnImg.click();
@@ -150,7 +150,7 @@ const Slider: React.FC<Props> = ({
     // Tap detection (only if not pinching)
     if (Math.abs(dx) < 5 && Math.abs(dy) < 5 && dt < 200 && isClickOrTouch) {
       setZoom(true);
-      setZoomImgSrc(images[selectedIndex]);
+      setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
       setTimeout(() => {
         const btnImg = document.querySelector(
           '.hidden-image-zoom',
@@ -163,7 +163,8 @@ const Slider: React.FC<Props> = ({
   const buildImages = (images: string[]) => {
     const withUrlUI: string[] = [];
     for (const img of images) {
-      withUrlUI.push(`/api/images/${img}`);
+      // withUrlUI.push(`/api/images/${img}`);
+      withUrlUI.push(img);
     }
     return withUrlUI;
   };
@@ -212,7 +213,7 @@ const Slider: React.FC<Props> = ({
           }}
           onClick={() => {
             setZoom(true);
-            setZoomImgSrc(images[selectedIndex]);
+            setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
             setTimeout(() => {
               const btnImg: any = document.querySelector('.hidden-image-zoom');
               btnImg.click();
@@ -222,13 +223,14 @@ const Slider: React.FC<Props> = ({
           <Image
             src={selectedImages[selectedIndex]}
             alt={alt}
-            width={1080}
-            height={1080}
-            priority
+            width={600}
+            height={600}
+            quality={50}
+            sizes="(max-width: 285px) 280px, (max-width: 350px) 300px, (max-width: 768px) 350px, (max-width: 1240px) 500px, 600px"
+            priority={true}
             placeholder="blur"
             blurDataURL={safeBlurDataURL}
             className={styles.SliderImage}
-            // onContextMenu={(e) => e.preventDefault()}
           />
         </motion.div>
       </AnimatePresence>
@@ -254,7 +256,7 @@ const Slider: React.FC<Props> = ({
           onClick={(e) => {
             e.preventDefault();
             setZoom(true);
-            setZoomImgSrc(images[selectedIndex]);
+            setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
             setTimeout(() => {
               const btnImg: any = document.querySelector('.hidden-image-zoom');
               btnImg.click();

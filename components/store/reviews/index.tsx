@@ -14,6 +14,7 @@ import { fetchReviews } from 'redux/slicers/reviewsSlicer';
 import Subscribers from 'ui-kit/Subscribers';
 // import { Pagination } from 'antd';
 import Pagination from 'antd/es/pagination';
+import Image from 'next/image';
 
 const ReviewsItems = () => {
   const dispatch = useAppDispatch();
@@ -91,22 +92,29 @@ const ReviewsItems = () => {
                             />
                           </span>
                           <ReviewWrapper>
-                            <img
+                            <Image
                               title={
                                 review.user?.firstName
                                   ? review.user?.firstName
                                   : 'Unknown'
                               }
+                              // src={
+                              //   review.user?.image
+                              //     ? `/api/images/${review.user.image}`
+                              //     : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${
+                              //         review.user?.firstName
+                              //           ? review.user?.firstName
+                              //           : 'Unknown'
+                              //       }`
+                              // }
                               src={
                                 review.user?.image
-                                  ? `/api/images/${review.user.image}`
-                                  : `https://api.dicebear.com/7.x/initials/svg?radius=50&seed=${
-                                      review.user?.firstName
-                                        ? review.user?.firstName
-                                        : 'Unknown'
+                                  ? review.user.image // just the filename
+                                  : `https://api.dicebear.com/7.x/initials/png?radius=50&seed=${
+                                      review.user?.firstName || 'Аноним'
                                     }`
                               }
-                              alt={review.user?.firstName}
+                              alt={review.user?.firstName!}
                               className="image-wrapper"
                               onError={({ currentTarget }) => {
                                 currentTarget.onerror = null;
@@ -116,6 +124,10 @@ const ReviewsItems = () => {
                                     : 'Unknown'
                                 }`;
                               }}
+                              width={50}
+                              height={50}
+                              sizes="50px"
+                              loading="lazy"
                             />
                             <div className="review-text-btn-wrapper">
                               <h2 className="user-name-wrapper">
@@ -131,9 +143,14 @@ const ReviewsItems = () => {
                     </div>
 
                     <div className="product-image-wrapper">
-                      <img
-                        src={`/api/images/${images[0]!}`}
-                        alt={review.product?.name}
+                      <Image
+                        // src={`/api/images/${images[0]!}`}
+                        src={images[0]!}
+                        alt={review.product?.name!}
+                        width={220}
+                        height={220}
+                        quality={5}
+                        sizes="220px"
                         onError={({ currentTarget }) => {
                           currentTarget.onerror = null;
                           currentTarget.src = '/img_not_found.png';
