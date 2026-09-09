@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import SideBar from './sidebar';
 import UserInfo from './userInfo';
 import Reveiws from './reveiws';
@@ -8,7 +8,7 @@ import { useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import { UsePagination } from '../storeLayout/utils/HeaderAuth/authorize/helpers';
 import Authorization from '../storeLayout/utils/HeaderAuth/authorize';
-import styles from './styles/profile.module.css'; // NEW
+import styles from './styles/profile.module.css';
 
 const ProfileComp = (props: any) => {
   const { setActive } = props;

@@ -391,6 +391,11 @@ const TopFilterBar: React.FC<Props> = ({
               ? color.textSecondary
               : color.textPrimary,
           }}
+          aria-label={
+            isMoreFilters ? 'Закрыть категории' : 'Открытые категории'
+          }
+          name={isMoreFilters ? 'Закрыть категории' : 'Открытые категории'}
+          title={isMoreFilters ? 'Закрыть категории' : 'Открытые категории'}
         >
           <span>
             {isMoreFilters ? 'Закрыть категории' : 'Открытые категории'}
@@ -417,6 +422,9 @@ const TopFilterBar: React.FC<Props> = ({
               ? 'flex'
               : 'none'
           }
+          aria-label="Очистить все фильтры"
+          name="Очистить все фильтры"
+          title="Очистить все фильтры"
         >
           <span>Сбросить фильтры</span>
         </ResetButton>
@@ -454,6 +462,9 @@ const TopFilterBar: React.FC<Props> = ({
                 setClearSearchTerm(true);
                 setSearchTerm('');
               }}
+              aria-label={`Очистить фильтр «Наименование товара: ${searchTerm}»`}
+              name={`Очистить фильтр «Наименование товара: ${searchTerm}»`}
+              title={`Очистить фильтр «Наименование товара: ${searchTerm}»`}
             >
               <svg
                 width="15"
@@ -527,6 +538,9 @@ const TopFilterBar: React.FC<Props> = ({
 
                                 selectedFilter.onChange(selectedOptions);
                               }}
+                              aria-label={`Очистить фильтр «Цвет: ${selectedColor.name}»`}
+                              name={`Очистить фильтр «Цвет: ${selectedColor.name}»`}
+                              title={`Очистить фильтр «Цвет: ${selectedColor.name}»`}
                             >
                               <svg
                                 width="15"
@@ -593,6 +607,9 @@ const TopFilterBar: React.FC<Props> = ({
 
                                 selectedFilter.onChange(selectedOptions);
                               }}
+                              aria-label={`Очистить фильтр «Тип товара: ${selectedType.name}»`}
+                              name={`Очистить фильтр «Тип товара: ${selectedType.name}»`}
+                              title={`Очистить фильтр «Тип товара: ${selectedType.name}»`}
                             >
                               <svg
                                 width="15"
@@ -657,6 +674,9 @@ const TopFilterBar: React.FC<Props> = ({
                                 setResetSlider(true);
                                 setSliderChanged(false);
                               }}
+                              aria-label={`Очистить фильтр «Категории: ${selectedCategory.name}»`}
+                              name={`Очистить фильтр «Категории: ${selectedCategory.name}»`}
+                              title={`Очистить фильтр «Категории: ${selectedCategory.name}»`}
                             >
                               <svg
                                 width="15"
@@ -721,6 +741,9 @@ const TopFilterBar: React.FC<Props> = ({
                                 setResetSlider(true);
                                 setSliderChanged(false);
                               }}
+                              aria-label={`Очистить фильтр «Подкатегори: ${selectedSubCategory.name}»`}
+                              name={`Очистить фильтр «Подкатегори: ${selectedSubCategory.name}»`}
+                              title={`Очистить фильтр «Подкатегори: ${selectedSubCategory.name}»`}
                             >
                               <svg
                                 width="15"
@@ -780,6 +803,9 @@ const TopFilterBar: React.FC<Props> = ({
                           selectedFilter.onChange(values);
                           setActivateResetBtn(false);
                         }}
+                        aria-label="Очистить фильтр «ценовой диапозон»"
+                        name="Очистить фильтр «ценовой диапозон»"
+                        title="Очистить фильтр «ценовой диапозон»"
                       >
                         <svg
                           width="15"
@@ -834,8 +860,14 @@ const TopFilterBar: React.FC<Props> = ({
             block: 'start',
           });
         }}
+        title="Показать результаты фильтра"
       >
-        <button className="float-button">
+        <button
+          className="float-button"
+          aria-label="Показать результаты фильтра"
+          name="Показать результаты фильтра"
+          title="Показать результаты фильтра"
+        >
           {`Показать товары`.toUpperCase()}
         </button>
         <div className="float-buttom-mask" />

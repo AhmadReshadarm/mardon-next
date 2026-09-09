@@ -263,6 +263,9 @@ const Slider: React.FC<Props> = ({
               }, 300);
             }}
             className={styles.ImageZoomButton}
+            name="Увеличение изображения"
+            aria-label="Увеличение изображения"
+            title="Увеличение изображения"
           >
             <svg
               viewBox="64 64 896 896"

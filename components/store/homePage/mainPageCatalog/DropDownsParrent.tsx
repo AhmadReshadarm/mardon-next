@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import { devices } from 'components/store/lib/Devices';
 
@@ -23,6 +23,15 @@ const InfoDropdown = ({
 }: Props) => {
   const [openInfo, setOpenInfo] = useState(false);
   const [displayInfo, setDisplayInfo] = useState('none');
+
+  useEffect(() => {
+    if (index !== stateIndex) {
+      setOpenInfo(false);
+      setTimeout(() => {
+        setDisplayInfo('none');
+      }, 200);
+    }
+  }, [stateIndex]);
 
   return (
     <InfoWrappers>

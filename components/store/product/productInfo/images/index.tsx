@@ -97,6 +97,7 @@ const Images: React.FC<Props> = ({
 
       <Slider
         images={images}
+        // images={selectedImages}
         selectedIndex={selectedIndex}
         setSelectedIndex={setSelectedIndex}
         direction={direction}

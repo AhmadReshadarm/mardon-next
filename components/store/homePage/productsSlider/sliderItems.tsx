@@ -141,6 +141,21 @@ const SliderItems: React.FC<Props> = ({
                             className={styles.artical_variant_selector}
                             key={`${artical}-${index}`}
                             type="button"
+                            name={`Выбрать артикул ${
+                              artical!.includes('|')
+                                ? artical!.split('|')[0].toUpperCase()
+                                : artical!.toUpperCase()
+                            }`}
+                            aria-label={`Выбрать артикул ${
+                              artical!.includes('|')
+                                ? artical!.split('|')[0].toUpperCase()
+                                : artical!.toUpperCase()
+                            }`}
+                            title={`Выбрать артикул ${
+                              artical!.includes('|')
+                                ? artical!.split('|')[0].toUpperCase()
+                                : artical!.toUpperCase()
+                            }`}
                           >
                             {artical!.includes('|')
                               ? artical!.split('|')[0].toUpperCase()
@@ -262,6 +277,7 @@ const SliderItems: React.FC<Props> = ({
                         setISMouseHover(true);
                       }}
                       key={`${product.name}-${index}`}
+                      title={product?.name!}
                     >
                       <div className={`${styles.thumbnaiImage_wrapper} `}>
                         <Image
@@ -302,7 +318,7 @@ const SliderItems: React.FC<Props> = ({
                       }}
                       className={styles.image_index}
                       key={`${image}-${index}`}
-                    ></li>
+                    />
                   );
                 })}
               </ul>

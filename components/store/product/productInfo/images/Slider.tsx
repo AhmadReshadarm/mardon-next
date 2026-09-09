@@ -129,7 +129,7 @@ const Slider: React.FC<Props> = ({
       // Trigger zoom when pinch expands beyond 10% of initial distance
       if (currentDistance / initialPinchDistance > 1.1) {
         setZoom(true);
-        setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
+        setZoomImgSrc(`/api/images/${selectedImages[selectedIndex]}`);
         setTimeout(() => {
           const btnImg: any = document.querySelector('.hidden-image-zoom');
           btnImg.click();
@@ -150,7 +150,7 @@ const Slider: React.FC<Props> = ({
     // Tap detection (only if not pinching)
     if (Math.abs(dx) < 5 && Math.abs(dy) < 5 && dt < 200 && isClickOrTouch) {
       setZoom(true);
-      setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
+      setZoomImgSrc(`/api/images/${selectedImages[selectedIndex]}`);
       setTimeout(() => {
         const btnImg = document.querySelector(
           '.hidden-image-zoom',
@@ -213,7 +213,7 @@ const Slider: React.FC<Props> = ({
           }}
           onClick={() => {
             setZoom(true);
-            setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
+            setZoomImgSrc(`/api/images/${selectedImages[selectedIndex]}`);
             setTimeout(() => {
               const btnImg: any = document.querySelector('.hidden-image-zoom');
               btnImg.click();
@@ -256,7 +256,7 @@ const Slider: React.FC<Props> = ({
           onClick={(e) => {
             e.preventDefault();
             setZoom(true);
-            setZoomImgSrc(`/api/images/${images[selectedIndex]}`);
+            setZoomImgSrc(`/api/images/${selectedImages[selectedIndex]}`);
             setTimeout(() => {
               const btnImg: any = document.querySelector('.hidden-image-zoom');
               btnImg.click();
@@ -265,6 +265,9 @@ const Slider: React.FC<Props> = ({
           className={styles.ImageZoomButton}
           title="Увеличить до полного экрана"
           type="button"
+          role="button"
+          aria-label="zoom image"
+          name="Image magnification"
         >
           <svg
             viewBox="64 64 896 896"

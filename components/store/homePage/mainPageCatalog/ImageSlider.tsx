@@ -83,13 +83,15 @@ const ImageSliderWrapper = styled.div`
 `;
 
 const Slider = styled(Image)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 30px;
 `;
 
 const SliderSlide = styled(motion.div)`
-  width: 80%;
   height: 100%;
   position: absolute;
   right: 50px;

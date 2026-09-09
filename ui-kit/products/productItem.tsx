@@ -178,6 +178,21 @@ const ProductItem: React.FC<Props> = ({ product }) => {
                     className={styles.artical_variant_selector}
                     key={index}
                     type="button"
+                    name={`Выбрать артикул ${
+                      articalVariant.artical!.includes('|')
+                        ? articalVariant.artical!.split('|')[0].toUpperCase()
+                        : articalVariant.artical!.toUpperCase()
+                    }`}
+                    aria-label={`Выбрать артикул ${
+                      articalVariant.artical!.includes('|')
+                        ? articalVariant.artical!.split('|')[0].toUpperCase()
+                        : articalVariant.artical!.toUpperCase()
+                    }`}
+                    title={`Выбрать артикул ${
+                      articalVariant.artical!.includes('|')
+                        ? articalVariant.artical!.split('|')[0].toUpperCase()
+                        : articalVariant.artical!.toUpperCase()
+                    }`}
                   >
                     {articalVariant.artical!.includes('|') ? (
                       <>
