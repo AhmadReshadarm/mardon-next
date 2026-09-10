@@ -138,7 +138,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  user-select: none;
+  /* user-select: none; */
 }
 
 .ReviewReplyContent {
@@ -308,7 +308,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  user-select: none;
+  /* user-select: none; */
   padding: 0 0 0 50px;
 }
 
@@ -341,7 +341,7 @@
   font-size: 18px;
   padding: 20px;
   outline: none;
-  user-select: none;
+  /* user-select: none; */
 }
 
 .SendUserCommentBtn {

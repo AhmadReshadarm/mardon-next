@@ -2,10 +2,12 @@ import { Rating } from '@mui/material';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
 import { Product } from 'swagger/services';
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
 import styles from '../../styles/detail.module.css';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
+import { useCopyToClipboard } from './helpers';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 
 type Props = {
   product: Product;
@@ -24,12 +26,26 @@ const Details: React.FC<Props> = ({
 }) => {
   const productVariant = product?.productVariants![0];
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
+  const [isCopied, setCopied, copy] = useCopyToClipboard();
+  useEffect(() => {
+    if (isCopied) {
+      openSuccessNotification('Скопировано в буфер обмена');
+    }
+  }, [isCopied]);
   return (
     <div className={styles.DetailsContainer}>
       <div className={styles.UserSelectWrapper}>
         <div className={styles.product_title_wrapper}>
           <div className={styles.title_top_bar}></div>
-          <h1 className={styles.product_header_1}>{product?.name}</h1>
+          <h1
+            onClick={() => {
+              copy(product.name);
+              setTimeout(setCopied(false), 300);
+            }}
+            className={styles.product_header_1}
+          >
+            {product?.name}
+          </h1>
         </div>
 
         <div className={styles.short_description_wrapper}>

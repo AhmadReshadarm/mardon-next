@@ -85,7 +85,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  user-select: none;
+  /* user-select: none; */
   z-index: 2;
 }
 

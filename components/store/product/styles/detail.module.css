@@ -16,7 +16,8 @@
   align-items: flex-start;
   gap: 20px;
   border-radius: 15px;
-  user-select: none;
+
+  /* user-select: none; */
 }
 
 .short_description_wrapper {
@@ -32,6 +33,7 @@
   font-family: var(--font-Jost);
   font-size: 1.25rem;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .product_title_wrapper {
