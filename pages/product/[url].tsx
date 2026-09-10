@@ -188,11 +188,11 @@ const ProductInfoPage = ({
       {isClient ? (
         <>
           <Recomendation product={repo} />
-          <ReveiwsAndQuastions
+          {/* <ReveiwsAndQuastions
             product={repo}
             reviewRef={reviewBtnRef}
             questionRef={questionBtnRef}
-          />
+          /> */}
         </>
       ) : (
         <LoaderMask />

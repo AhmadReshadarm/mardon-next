@@ -43,7 +43,7 @@ const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
           </Link>
 
           {/* ------------ rating --------------- */}
-          <div
+          {/* <div
             title={`${
               Math.floor(Number(orderProduct!?.product?.reviewCount)) == 1
                 ? Math.floor(Number(orderProduct!?.product?.reviewCount)) +
@@ -88,7 +88,7 @@ const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
                 : Math.floor(Number(orderProduct!?.product?.reviewCount)) +
                   ' Оценок'}
             </span>
-          </div>
+          </div> */}
           {/* ------------- end of rating ---------------- */}
           {/* ----------- color ------------------- */}
           <div

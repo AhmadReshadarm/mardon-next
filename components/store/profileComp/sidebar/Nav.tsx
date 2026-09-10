@@ -23,7 +23,7 @@ const Nav = (props: any) => {
 
   const navItems = [
     { id: 'profile', label: 'Личные данные', ref: userInfoRef },
-    { id: 'reveiws', label: 'Отзывы', ref: reveiwsRef },
+    // { id: 'reveiws', label: 'Отзывы', ref: reveiwsRef },
     { id: 'changePsw', label: 'Изменить пароль', ref: changePswRef },
     { id: 'settings', label: 'Настройки', ref: settingsRef },
   ];

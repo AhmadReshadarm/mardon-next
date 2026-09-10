@@ -251,14 +251,19 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           {/* ------------ rating --------------- */}
           <div
             title={`${
-              Math.floor(product.reviews?.length!) == 1
-                ? Math.floor(product.reviews?.length!) + ' Оценка'
-                : Math.floor(product.reviews?.length!) / 2 == 0
-                ? Math.floor(product.reviews?.length!) + ' Оценки'
-                : Math.floor(product.reviews?.length!) + ' Оценок'
+              // Math.floor(product.reviews?.length!) == 1
+              //   ? Math.floor(product.reviews?.length!) + ' Оценка'
+              //   : Math.floor(product.reviews?.length!) / 2 == 0
+              //   ? Math.floor(product.reviews?.length!) + ' Оценки'
+              //   : Math.floor(product.reviews?.length!) + ' Оценок'
+              product.reviewCount == 1
+                ? product.reviewCount + ' Оценка'
+                : Number(product.reviewCount) / 2 == 0
+                ? product.reviewCount + ' Оценки'
+                : product.reviewCount + ' Оценок'
             } `}
             className={styles.rating_wrapper}
-            style={{ display: product.reviews?.length! == 0 ? 'none' : 'flex' }}
+            style={{ display: product.reviewCount == 0 ? 'none' : 'flex' }}
           >
             <span className={styles.review_star}>
               <svg

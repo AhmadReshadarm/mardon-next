@@ -254,13 +254,12 @@ const SEO: React.FC<Props> = ({ product, images }) => {
     additionalProperty: additionalProperties,
     offers: offersToUse,
     // Only include aggregateRating if there are actual reviews
-    ...(product?.reviews &&
-      product.reviews.length > 0 &&
-      product?.rating?.avg && {
+    ...(Number(product.reviewCount) > 0 &&
+      product.avrgRating && {
         aggregateRating: {
           '@type': 'AggregateRating',
-          ratingValue: product.rating.avg,
-          reviewCount: product.reviews.length,
+          ratingValue: product.avrgRating,
+          reviewCount: product.reviewCount,
         },
       }),
   };

@@ -7309,6 +7309,14 @@
           "type": "number",
           "readOnly": true
         },
+        "questionCount": {
+          "type": "number",
+          "readOnly": true
+        },
+        "avrgRating": {
+          "type": "number",
+          "readyOnly": true
+        },
         "category": {
           "type": "object",
           "$ref": "#/definitions/Category"

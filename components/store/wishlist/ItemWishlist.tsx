@@ -71,7 +71,7 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
               </h1>
             </Link>
             {/* ------------ rating --------------- */}
-            <div
+            {/* <div
               title={`${
                 Math.floor(product!?.reviews?.length!) == 1
                   ? Math.floor(product!?.reviews?.length!) + ' Оценка'
@@ -105,7 +105,7 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
                   ? Math.floor(product!?.reviews?.length!) + ' Оценки'
                   : Math.floor(product!?.reviews?.length!) + ' Оценок'}
               </span>
-            </div>
+            </div> */}
             {/* ------------- end of rating ---------------- */}
             {/* ----------- color ------------------- */}
             <div

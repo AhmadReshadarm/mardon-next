@@ -97,7 +97,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
         </AuthDevider>
       </ProfileWrapper>
       <div className="profile-action-btn">
-        <Link href="/profile#reviews" prefetch={false}>
+        {/* <Link href="/profile#reviews" prefetch={false}>
           <AuthDevider
             whileHover="hover"
             whileTap="tap"
@@ -156,7 +156,7 @@ const Profile: React.FC<Props> = ({ user, direction }) => {
             </svg>
             <span>Мои отзывы</span>
           </AuthDevider>
-        </Link>
+        </Link> */}
         <Link href="/orders" prefetch={false}>
           <AuthDevider
             whileHover="hover"

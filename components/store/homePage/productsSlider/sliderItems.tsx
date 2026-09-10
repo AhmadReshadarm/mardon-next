@@ -74,6 +74,7 @@ const SliderItems: React.FC<Props> = ({
   const currentVariant = (artical) =>
     currentSlide.productVariants?.find((variant) => variant.artical == artical);
   const safeBlurDataURL = base64Image || FALLBACK_BLUR_DATA_URL;
+
   return (
     <>
       {/* {caroselIndex === index ? ( */}
@@ -210,16 +211,20 @@ const SliderItems: React.FC<Props> = ({
                 {/* ------------ rating --------------- */}
                 <div
                   title={`${
-                    Math.floor(currentSlide.reviews?.length!) == 1
-                      ? Math.floor(currentSlide.reviews?.length!) + ' Оценка'
-                      : Math.floor(currentSlide.reviews?.length!) / 2 == 0
-                      ? Math.floor(currentSlide.reviews?.length!) + ' Оценки'
-                      : Math.floor(currentSlide.reviews?.length!) + ' Оценок'
+                    // Math.floor(currentSlide.reviews?.length!) == 1
+                    //   ? Math.floor(currentSlide.reviews?.length!) + ' Оценка'
+                    //   : Math.floor(currentSlide.reviews?.length!) / 2 == 0
+                    //   ? Math.floor(currentSlide.reviews?.length!) + ' Оценки'
+                    //   : Math.floor(currentSlide.reviews?.length!) + ' Оценок'
+                    currentSlide.reviewCount == 1
+                      ? currentSlide.reviewCount + ' Оценка'
+                      : Number(currentSlide.reviewCount) / 2 == 0
+                      ? currentSlide.reviewCount + ' Оценки'
+                      : `${Number(currentSlide.reviewCount)} Оценок`
                   } `}
                   className={styles.rating_wrapper}
                   style={{
-                    display:
-                      currentSlide.reviews?.length! == 0 ? 'none' : 'flex',
+                    display: currentSlide.reviewCount == 0 ? 'none' : 'flex',
                   }}
                 >
                   <span className={styles.review_star}>

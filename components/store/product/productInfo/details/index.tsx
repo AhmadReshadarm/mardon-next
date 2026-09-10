@@ -73,7 +73,7 @@ const Details: React.FC<Props> = ({
           </p>
         </div>
         <div className={styles.ConvoContainer}>
-          <div className={styles.convo_contentWrapper}>
+          {/* <div className={styles.convo_contentWrapper}>
             <div className={styles.ConvoWrappers}>
               <Rating
                 value={product?.rating?.avg}
@@ -90,7 +90,7 @@ const Details: React.FC<Props> = ({
                   reviewRef.current.scrollIntoView();
                 }}
               >
-                <span>{product?.reviews?.length ?? 0}</span>
+                <span>{product.reviewCount ?? 0}</span>
                 <span>Отзыв(ов) об этом товаре</span>
               </span>
             </div>
@@ -120,10 +120,10 @@ const Details: React.FC<Props> = ({
                   questionRef.current.scrollIntoView();
                 }}
               >
-                <span>{product?.questions?.length} вопрос(ов) о товаре</span>
+                <span>{product.questionCount} вопрос(ов) о товаре</span>
               </span>
             </div>
-          </div>
+          </div> */}
           <div className={styles.PriceWrapper}>
             <div
               style={{ display: productVariant?.oldPrice ? 'block' : 'none' }}

@@ -54,7 +54,7 @@ const ProfileComp = (props: any) => {
               user={user}
               {...props}
             />
-            <Reveiws {...props} reveiwsRef={reveiwsRef} />
+            {/* <Reveiws {...props} reveiwsRef={reveiwsRef} /> */}
 
             <Changepsw
               {...props}
