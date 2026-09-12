@@ -463,11 +463,6 @@ const handlePayClick =
             receiverName: deliveryInfo.receiverName,
             receiverPhone: deliveryInfo.receiverPhone,
             address: deliveryInfo.address,
-            roomOrOffice: deliveryInfo.roomOrOffice,
-            door: deliveryInfo.door,
-            floor: deliveryInfo.floor,
-            rignBell: deliveryInfo.rignBell,
-            zipCode: deliveryInfo.zipCode,
           },
         });
 
@@ -541,11 +536,7 @@ const handleCheckoutWithoutRegister =
       receiverPhone: deliveryInfo?.receiverPhone,
       receiverEmail: deliveryInfo?.receiverEmail,
       address: deliveryInfo?.address,
-      roomOrOffice: deliveryInfo?.roomOrOffice,
-      door: deliveryInfo?.door,
-      floor: deliveryInfo?.floor,
-      rignBell: deliveryInfo?.rignBell,
-      zipCode: deliveryInfo?.zipCode,
+
       comment,
       cart,
     };

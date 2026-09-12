@@ -53,6 +53,9 @@ const CheckoutContent = () => {
       default:
         break;
     }
+    if (!user) {
+      setBacktoFinal(false);
+    }
   }, [user, step, isOneClickBuy, hasAddress]);
 
   return (
@@ -85,11 +88,14 @@ const CheckoutContent = () => {
           display: activeUI == 'userData' ? 'flex' : 'none',
         }}
       >
-        <UserData
-          setStep={setStep}
-          backToFinal={backToFinal}
-          setHasAddress={setHasAddress}
-        />
+        {activeUI === 'userData' && (
+          <UserData
+            step={step}
+            setStep={setStep}
+            backToFinal={backToFinal}
+            setHasAddress={setHasAddress}
+          />
+        )}
       </MapContainer>
       <CompleteOrderContainer
         style={{

@@ -348,11 +348,11 @@ type TDeliveryInfo = {
   receiverPhone?: string;
   receiverEmail?: string;
   address?: string;
-  roomOrOffice?: string;
-  door?: string;
-  floor?: string;
-  rignBell?: string;
-  zipCode?: string;
+  // roomOrOffice?: string;
+  // door?: string;
+  // floor?: string;
+  // rignBell?: string;
+  // zipCode?: string;
 };
 
 type TOrderInfo = {

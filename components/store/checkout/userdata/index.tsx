@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import isEmpty from 'validator/lib/isEmpty';
-import isEmail from 'validator/lib/isEmail';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
 import MapContainer from './MapContainer';
@@ -15,33 +13,31 @@ import {
   fetchAddress,
   setDeliveryInfo,
 } from 'redux/slicers/store/checkoutSlicer';
-import { TStoreCheckoutState, TCartState } from 'redux/types';
+import { TStoreCheckoutState, TCartState, TAuthState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
 import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { initialStateAdress } from './constant';
 import { openErrorNotification } from 'common/helpers';
+import { isValidEmail } from 'common/helpers/validEmail.helper';
 
-const UserData = ({ setStep, backToFinal, setHasAddress }) => {
+const UserData = ({ step, setStep, backToFinal, setHasAddress }) => {
   const dispatch = useAppDispatch();
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
   );
   const { isOneClickBuy } = useAppSelector<TCartState>((state) => state.cart);
 
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const mapRef: any = useRef(null);
 
   const [viewport, setViewPort] = useState({ ...initialStateAdress });
 
   const [address, setAddress] = useState('');
-  const [zipCode, setPostCode] = useState('');
-  const [roomOrOffice, setRoomOrOffice] = useState('');
-  const [door, setDoor] = useState('');
-  const [floor, setFloor] = useState('');
-  const [rignBell, setRingBell] = useState('');
   const [receiverName, setFullname] = useState('');
   const [receiverPhone, setPhone] = useState('+7');
   const [emailWithoutRegister, setEmailWithoutRegister] = useState('');
-  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [autofill, setAutoFill] = useState(false);
+  const [mapDrag, setMapDrag] = useState(false);
 
   const handleClickBack = () => {
     if (address == '') {
@@ -60,7 +56,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       openErrorNotification('Адрес электронной почты пуст');
       return;
     }
-    if (!isEmail(emailWithoutRegister) && isOneClickBuy) {
+    if (!isValidEmail(emailWithoutRegister) && isOneClickBuy) {
       openErrorNotification('Неправильный адрес электронной почты');
       return;
     }
@@ -70,11 +66,6 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       receiverName,
       receiverPhone,
       receiverEmail: emailWithoutRegister,
-      floor,
-      door,
-      roomOrOffice,
-      zipCode,
-      rignBell,
     };
     dispatch(setDeliveryInfo(payload));
     setStep(2);
@@ -98,7 +89,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       openErrorNotification('Адрес электронной почты пуст');
       return;
     }
-    if (!isEmail(emailWithoutRegister) && isOneClickBuy) {
+    if (!isValidEmail(emailWithoutRegister) && isOneClickBuy) {
       openErrorNotification('Неправильный адрес электронной почты');
       return;
     }
@@ -108,11 +99,6 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       receiverName,
       receiverPhone,
       receiverEmail: emailWithoutRegister,
-      floor,
-      door,
-      roomOrOffice,
-      zipCode,
-      rignBell,
     };
     dispatch(setDeliveryInfo(payload));
     setStep(2);
@@ -121,36 +107,48 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
 
   useEffect(() => {
     setAddress(deliveryInfo?.address ?? '');
-    setPostCode(deliveryInfo?.zipCode ?? '');
-    setRoomOrOffice(deliveryInfo?.roomOrOffice ?? '');
-    setDoor(deliveryInfo?.door ?? '');
-    setFloor(deliveryInfo?.floor ?? '');
-    setRingBell(deliveryInfo?.rignBell ?? '');
     setFullname(deliveryInfo?.receiverName ?? '');
     setPhone(deliveryInfo?.receiverPhone ?? '');
     setEmailWithoutRegister(deliveryInfo?.receiverEmail ?? '');
-    setAddress(deliveryInfo?.address ?? '');
-  }, []);
+  }, [step, user, deliveryInfo]);
 
   useEffect(() => {
     dispatch(fetchCheckouts());
-    dispatch(fetchAddress());
-  }, []);
-
-  useEffect(() => {
-    isEmpty(address) || isEmpty(receiverName) || isEmpty(receiverPhone)
-      ? setSubmitDisabled(true)
-      : setSubmitDisabled(false);
-    if (isOneClickBuy) {
-      isEmpty(address) ||
-      isEmpty(receiverName) ||
-      isEmpty(receiverPhone) ||
-      !isEmail(emailWithoutRegister) ||
-      isEmpty(emailWithoutRegister)
-        ? setSubmitDisabled(true)
-        : setSubmitDisabled(false);
+    if (step == 1) {
+      dispatch(fetchAddress());
+      setMapDrag(false);
     }
-  }, [address, receiverName, receiverPhone, emailWithoutRegister]);
+  }, [step, user]);
+
+  const formWrapperRef = useRef<HTMLDivElement>(null);
+
+  const handleFormKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Enter') return;
+
+    const target = e.target as HTMLElement;
+    if (target.tagName !== 'INPUT') return;
+    if (target.getAttribute('data-enter-nav') !== 'true') return;
+
+    e.preventDefault();
+
+    const root = formWrapperRef.current;
+    if (!root) return;
+
+    const inputs = Array.from(
+      root.querySelectorAll<HTMLInputElement>('input[data-enter-nav="true"]'),
+    );
+
+    const currentIndex = inputs.indexOf(target as HTMLInputElement);
+    if (currentIndex === -1) return;
+
+    const nextInput = inputs[currentIndex + 1];
+
+    if (nextInput) {
+      nextInput.focus();
+    } else {
+      handleClickSave();
+    }
+  };
 
   return (
     <Container>
@@ -159,7 +157,13 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
         setViewPort={setViewPort}
         setAddress={setAddress}
         mapRef={mapRef}
-        setPostCode={setPostCode}
+        address={address}
+        setAutoFill={setAutoFill}
+        autofill={autofill}
+        backToFinal={backToFinal}
+        mapDrag={mapDrag}
+        setMapDrag={setMapDrag}
+        step={step}
       />
       <FormContainer
         initial="init"
@@ -173,7 +177,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
         ) : (
           ''
         )}
-        <FormWrapper>
+        <FormWrapper ref={formWrapperRef} onKeyDown={handleFormKeyDown}>
           <h3>Куда доставить заказ?</h3>
           <span className="sub-addres-info">
             Укажите адрес на карте или нажмите кнопку "Определить
@@ -182,9 +186,9 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
           <AutoFill
             address={address}
             setAddress={setAddress}
-            setPostCode={setPostCode}
             setViewPort={setViewPort}
             mapRef={mapRef}
+            setAutoFill={setAutoFill}
           />
           <button
             className="geolocate"
@@ -211,18 +215,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
             </span>
             <span>Определить местоположение</span>
           </button>
-          {/* <AddressDetails
-            roomOrOffice={roomOrOffice}
-            setRoomOrOffice={setRoomOrOffice}
-            postCode={zipCode}
-            setPostCode={setPostCode}
-            door={door}
-            setDoor={setDoor}
-            floor={floor}
-            setFloor={setFloor}
-            rignBell={rignBell}
-            setRingBell={setRingBell}
-          /> */}
+
           <ReciverData
             fullName={receiverName}
             setFullname={setFullname}
@@ -231,11 +224,7 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
             emailWithoutRegister={emailWithoutRegister}
             setEmailWithoutRegister={setEmailWithoutRegister}
           />
-          <ActionBtns
-            bgcolor={color.textSecondary}
-            // disabled={submitDisabled}
-            onClick={handleClickSave}
-          >
+          <ActionBtns bgcolor={color.textSecondary} onClick={handleClickSave}>
             Сохранить и продолжить
           </ActionBtns>
         </FormWrapper>

@@ -1,4 +1,5 @@
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import { InputsTooltip } from '../helpers';
 import React from 'react';
 import { DetailsRowWrapper, DetailsColumnWrapper } from './common';
@@ -40,7 +41,7 @@ const ReciverData = (props: any) => {
               <span className="tool-tip">?</span>
             </InputsTooltip>
           </label>
-          <TextField
+          {/* <TextField
             id="address-reciver-fullname"
             fullWidth
             label="Имя и фамилия"
@@ -49,6 +50,13 @@ const ReciverData = (props: any) => {
             value={fullName}
             defaultValue=""
             onChange={(e) => setFullname(e.target.value)}
+          /> */}
+          <OutlinedInput
+            id="address-reciver-fullname"
+            fullWidth
+            value={fullName}
+            onChange={(e) => setFullname(e.target.value)}
+            inputProps={{ 'data-enter-nav': true }}
           />
         </DetailsColumnWrapper>
       </DetailsRowWrapper>
@@ -78,9 +86,8 @@ const ReciverData = (props: any) => {
             disabled={false}
             maskChar=" "
             onChange={(e) => setPhone(e.target.value)}
-            style={{ padding: '16.5px 14px' }}
           >
-            {() => (
+            {/* {() => (
               <PhoneField>
                 <TextField
                   id="address-reciver-phone"
@@ -91,6 +98,14 @@ const ReciverData = (props: any) => {
                   placeholder="+7 (999) 999 99 99"
                 />
               </PhoneField>
+            )} */}
+            {(inputProps: any) => (
+              <OutlinedInput
+                {...inputProps}
+                id="address-reciver-phone"
+                fullWidth
+                inputProps={{ 'data-enter-nav': true }}
+              />
             )}
           </InputMask>
         </DetailsColumnWrapper>
@@ -116,7 +131,7 @@ const ReciverData = (props: any) => {
                 <span className="tool-tip">?</span>
               </InputsTooltip>
             </label>
-            <TextField
+            {/* <TextField
               id="address-reciver-email"
               fullWidth
               label="Адрес электронной почты"
@@ -127,6 +142,15 @@ const ReciverData = (props: any) => {
               value={emailWithoutRegister}
               defaultValue=""
               onChange={(e) => setEmailWithoutRegister(e.target.value)}
+            /> */}
+            <OutlinedInput
+              id="address-reciver-email"
+              fullWidth
+              placeholder="mail@mail.ru"
+              type="email"
+              value={emailWithoutRegister}
+              onChange={(e) => setEmailWithoutRegister(e.target.value)}
+              inputProps={{ 'data-enter-nav': true }}
             />
           </DetailsColumnWrapper>
         </DetailsRowWrapper>

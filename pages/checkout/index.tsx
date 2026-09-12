@@ -36,22 +36,26 @@ const Checkout = () => {
 
   return (
     <>
-      <YMaps
-        query={{
-          apikey: '92d38bbd-1ea5-438f-b3bc-6a74d7658532',
-          lang: 'ru_RU',
-        }}
-      >
-        <Head>
-          <title>Оформить заказ | Nbhoz</title>
-          <meta
-            property="og:image"
-            name="og:image"
-            content={`${baseUrl}/static/logo_800x800.png`}
-          />
-        </Head>
+      <Head>
+        <title>Оформить заказ | Nbhoz</title>
+        <meta
+          property="og:image"
+          name="og:image"
+          content={`${baseUrl}/static/logo_800x800.png`}
+        />
+      </Head>
 
-        {isClient ? (
+      {isClient ? (
+        <YMaps
+          query={
+            {
+              apikey: '92d38bbd-1ea5-438f-b3bc-6a74d7658532',
+              // apikey: '1f77d979-6623-4e95-b33d-096a7f2121d7',
+              suggest_apikey: '30264212-2582-484c-b24c-81f60c22fe99',
+              lang: 'ru_RU',
+            } as any
+          }
+        >
           <Container
             key="container-checkout"
             flex_direction="row"
@@ -74,10 +78,10 @@ const Checkout = () => {
               </Content>
             </Wrapper>
           </Container>
-        ) : (
-          <LoaderMask />
-        )}
-      </YMaps>
+        </YMaps>
+      ) : (
+        <LoaderMask />
+      )}
     </>
   );
 };

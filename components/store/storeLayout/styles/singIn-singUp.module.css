@@ -4,7 +4,7 @@
   position: absolute;
   top: 70px;
   left: 0;
-  padding: 60px;
+  padding: 40px 60px;
 }
 
 .Content > a {
@@ -26,7 +26,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
 }

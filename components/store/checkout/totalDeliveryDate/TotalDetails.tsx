@@ -19,6 +19,7 @@ import { useMetrica, YandexMetricaProvider } from 'next-yandex-metrica';
 import variants from 'components/store/lib/variants';
 import Filters from 'components/store/product/reviewsAndQuastions/Filters';
 import { paymentMethod } from 'common/constants';
+import Script from 'next/script';
 
 const TotalDetails = ({
   comment,
@@ -38,6 +39,21 @@ const TotalDetails = ({
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const estimated_delivery_date = new Date().toISOString().split('T')[0];
 
+  const renderOptIn = () => {
+    const gapi = (window as any).gapi;
+    if (!gapi) return;
+
+    gapi.load('surveyoptin', () => {
+      gapi.surveyoptin.render({
+        merchant_id: 5338706929,
+        order_id: cart?.id?.toString(),
+        email: isOneClickBuy ? deliveryInfo?.receiverEmail : user?.email,
+        delivery_country: 'RU',
+        estimated_delivery_date: estimated_delivery_date,
+      });
+    });
+  };
+
   return (
     <>
       <YandexMetricaProvider
@@ -47,6 +63,7 @@ const TotalDetails = ({
           trackLinks: true,
           accurateTrackBounce: true,
         }}
+        router={router as any}
       >
         <Container>
           <Wrapper>
@@ -154,7 +171,7 @@ const TotalDetails = ({
             <DropDowns />
           </Wrapper>
         </Container>
-        <script
+        {/* <script
           src="https://apis.google.com/js/platform.js?onload=renderOptIn"
           async
           defer
@@ -172,8 +189,23 @@ const TotalDetails = ({
           });
         })}`,
           }}
-        />
+        /> */}
       </YandexMetricaProvider>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.___gcfg = {
+              lang: 'ru'
+            };
+          `,
+        }}
+      />
+      <Script
+        id="google-customer-reviews"
+        src="https://apis.google.com/js/platform.js"
+        strategy="afterInteractive"
+        onLoad={renderOptIn}
+      />
     </>
   );
 };
