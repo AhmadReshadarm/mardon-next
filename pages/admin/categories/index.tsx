@@ -47,6 +47,8 @@ const CategoriesPage = () => {
       fetchCategories({
         offset: String(offset),
         limit: '20',
+        sortBy: 'id',
+        orderBy: 'ASC',
       }),
     );
 
@@ -95,6 +97,8 @@ const CategoriesPage = () => {
               fetchCategories({
                 offset: String(newOffset),
                 limit: '20',
+                sortBy: 'id',
+                orderBy: 'ASC',
               }),
             );
             setCurrentPage(event.current as number);

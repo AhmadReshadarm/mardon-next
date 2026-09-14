@@ -24,6 +24,8 @@ export const fetchCategories = createAsyncThunk<
       return await CategoryService.getCategories({
         limit: payload?.limit,
         offset: payload?.offset,
+        sortBy: payload?.sortBy,
+        orderBy: payload?.orderBy,
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));

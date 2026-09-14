@@ -111,6 +111,10 @@ const ProductItem: React.FC<Props> = ({ product }) => {
     setVariant(product.productVariants![0]);
   }, [product]);
 
+  const stockNumber = product.parameterProducts?.find(
+    (param) => param.parameter?.name === 'В коробке, шт',
+  );
+
   return (
     <li
       // key={key}
@@ -288,6 +292,23 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             </span>
           </div>
           {/* ------------- end of rating ---------------- */}
+          {/* ----------- inStock Number ------------------- */}
+          {!stockNumber ? (
+            <></>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+              }}
+              className={styles.artical_wrapper}
+            >
+              <span>В коробке: </span>
+              {filteredColors.map((color, index) => {
+                return <span key={index}>{stockNumber.value}</span>;
+              })}
+            </div>
+          )}
+          {/* ---------- end of nStock Number ----------- */}
           <div className={styles.product_price_wrapper}>
             <span>{variant.price} ₽</span>
             {/* -------------- end of price --------------- */}
