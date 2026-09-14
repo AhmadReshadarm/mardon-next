@@ -53,9 +53,6 @@ const CheckoutContent = () => {
       default:
         break;
     }
-    if (!user) {
-      setBacktoFinal(false);
-    }
   }, [user, step, isOneClickBuy, hasAddress]);
 
   return (
@@ -94,6 +91,7 @@ const CheckoutContent = () => {
             setStep={setStep}
             backToFinal={backToFinal}
             setHasAddress={setHasAddress}
+            setBacktoFinal={setBacktoFinal}
           />
         )}
       </MapContainer>

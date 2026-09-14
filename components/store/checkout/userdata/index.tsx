@@ -20,7 +20,13 @@ import { initialStateAdress } from './constant';
 import { openErrorNotification } from 'common/helpers';
 import { isValidEmail } from 'common/helpers/validEmail.helper';
 
-const UserData = ({ step, setStep, backToFinal, setHasAddress }) => {
+const UserData = ({
+  step,
+  setStep,
+  backToFinal,
+  setBacktoFinal,
+  setHasAddress,
+}) => {
   const dispatch = useAppDispatch();
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
@@ -40,36 +46,14 @@ const UserData = ({ step, setStep, backToFinal, setHasAddress }) => {
   const [mapDrag, setMapDrag] = useState(false);
 
   const handleClickBack = () => {
-    if (address == '') {
-      openErrorNotification('Адрес пуст');
-      return;
-    }
-    if (receiverName == '') {
-      openErrorNotification('Имя пусто');
-      return;
-    }
-    if (receiverPhone == '') {
-      openErrorNotification('Телефон пуст');
-      return;
-    }
-    if (emailWithoutRegister == '' && isOneClickBuy) {
-      openErrorNotification('Адрес электронной почты пуст');
-      return;
-    }
-    if (!isValidEmail(emailWithoutRegister) && isOneClickBuy) {
-      openErrorNotification('Неправильный адрес электронной почты');
-      return;
-    }
+    setAddress(deliveryInfo?.address ?? '');
+    setFullname(deliveryInfo?.receiverName ?? '');
+    setPhone(deliveryInfo?.receiverPhone ?? '');
+    setEmailWithoutRegister(deliveryInfo?.receiverEmail ?? '');
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    const payload = {
-      address,
-      receiverName,
-      receiverPhone,
-      receiverEmail: emailWithoutRegister,
-    };
-    dispatch(setDeliveryInfo(payload));
     setStep(2);
     setHasAddress(true);
+    setBacktoFinal(false);
   };
 
   const handleClickSave = () => {
@@ -103,6 +87,7 @@ const UserData = ({ step, setStep, backToFinal, setHasAddress }) => {
     dispatch(setDeliveryInfo(payload));
     setStep(2);
     setHasAddress(true);
+    setBacktoFinal(false);
   };
 
   useEffect(() => {
@@ -114,7 +99,7 @@ const UserData = ({ step, setStep, backToFinal, setHasAddress }) => {
 
   useEffect(() => {
     dispatch(fetchCheckouts());
-    if (step == 1) {
+    if (step == 1 && !backToFinal) {
       dispatch(fetchAddress());
       setMapDrag(false);
     }

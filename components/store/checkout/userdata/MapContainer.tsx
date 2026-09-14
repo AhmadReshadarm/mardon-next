@@ -342,13 +342,12 @@ const MapContainer = (props: any) => {
 
   useEffect(() => {
     if (
+      !backToFinal &&
       !autofill &&
-      deliveryInfo?.address !== '' &&
       !mapDrag &&
       mapConstructor &&
-      !backToFinal
+      deliveryInfo?.address !== ''
     ) {
-      console.log('this is in deliveryinfo : ' + backToFinal);
       mapConstructor
         .geocode(deliveryInfo?.address)
         .then((res) => {
@@ -368,11 +367,9 @@ const MapContainer = (props: any) => {
   }, [deliveryInfo, mapConstructor]);
 
   useEffect(() => {
-    if (!autofill && backToFinal && !mapDrag && mapConstructor) {
-      console.log('this is in back to final: ' + backToFinal);
-
+    if (backToFinal && !autofill && !mapDrag && mapConstructor) {
       mapConstructor
-        .geocode(address)
+        .geocode(deliveryInfo?.address)
         .then((res) => {
           const obj = res.geoObjects.get(0);
           if (!obj) return;
@@ -387,7 +384,7 @@ const MapContainer = (props: any) => {
           console.log('geocoding failure');
         });
     }
-  }, [backToFinal, step]);
+  }, [backToFinal, step, mapConstructor]);
 
   return (
     <MapContianerWrapper>
