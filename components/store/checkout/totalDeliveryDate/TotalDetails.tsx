@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import { devices } from 'components/store/lib/Devices';
 import { TAuthState } from 'redux/types';
 import DropDowns from './DropDowns';
-import { useMetrica, YandexMetricaProvider } from 'next-yandex-metrica';
+import { useMetrica } from 'next-yandex-metrica'; //YandexMetricaProvider
 import variants from 'components/store/lib/variants';
 import Filters from 'components/store/product/reviewsAndQuastions/Filters';
 import { paymentMethod } from 'common/constants';
@@ -56,7 +56,7 @@ const TotalDetails = ({
 
   return (
     <>
-      <YandexMetricaProvider
+      {/* <YandexMetricaProvider
         tagID={96632717}
         initParameters={{
           clickmap: true,
@@ -64,114 +64,112 @@ const TotalDetails = ({
           accurateTrackBounce: true,
         }}
         router={router as any}
-      >
-        <Container>
-          <Wrapper>
-            <Content>
-              <ItemColumn>
-                <PlaceOrderButton
-                  onClick={
-                    isOneClickBuy
-                      ? handleCheckoutWithoutRegister(
-                          router,
-                          cart!,
-                          deliveryInfo!,
-                          paymentOption,
-                          setLoading,
-                          reachGoal,
-                          comment,
-                        )
-                      : handlePayClick(
-                          router,
-                          cart!,
-                          deliveryInfo!,
-                          paymentOption,
-                          setLoading,
-                          reachGoal,
-                          comment,
-                          user!,
-                          dispatch,
-                        )
-                  }
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                >
-                  <span>Завершить мой заказ</span>
-                </PlaceOrderButton>
-                <span className="user-agreement-text">
-                  Нажимая на кнопку, вы соглашаетесь с{' '}
-                  <Link href="/privacy">
-                    <span>Политика безопасности</span>
-                  </Link>
-                  , а также с{' '}
-                  <Link href="/user-agreement">
-                    <span>Пользовательское соглашение</span>
-                  </Link>
-                </span>
-              </ItemColumn>
+      > */}
+      <Container>
+        <Wrapper>
+          <Content>
+            <ItemColumn>
+              <PlaceOrderButton
+                onClick={
+                  isOneClickBuy
+                    ? handleCheckoutWithoutRegister(
+                        router,
+                        cart!,
+                        deliveryInfo!,
+                        paymentOption,
+                        setLoading,
+                        reachGoal,
+                        comment,
+                      )
+                    : handlePayClick(
+                        router,
+                        cart!,
+                        deliveryInfo!,
+                        paymentOption,
+                        setLoading,
+                        reachGoal,
+                        comment,
+                        user!,
+                        dispatch,
+                      )
+                }
+                whileHover="hover"
+                whileTap="tap"
+                variants={variants.boxShadow}
+              >
+                <span>Завершить мой заказ</span>
+              </PlaceOrderButton>
+              <span className="user-agreement-text">
+                Нажимая на кнопку, вы соглашаетесь с{' '}
+                <Link href="/privacy">
+                  <span>Политика безопасности</span>
+                </Link>
+                , а также с{' '}
+                <Link href="/user-agreement">
+                  <span>Пользовательское соглашение</span>
+                </Link>
+              </span>
+            </ItemColumn>
 
-              <ItemColumn style={{ borderBottom: 'none' }}>
-                <span className="payment_method_title">
-                  Выберите способ оплаты
-                </span>
-                <Filters
-                  options={paymentMethod.slice(1, 4)}
-                  value={paymentOption}
-                  setValue={setPaymentOption}
-                />
-              </ItemColumn>
+            <ItemColumn style={{ borderBottom: 'none' }}>
+              <span className="payment_method_title">
+                Выберите способ оплаты
+              </span>
+              <Filters
+                options={paymentMethod.slice(1, 4)}
+                value={paymentOption}
+                setValue={setPaymentOption}
+              />
+            </ItemColumn>
 
-              <ItemRowWrapper>
-                <ItemRow>
-                  <h3>Ваш заказ</h3>
-                  <span className="product-wheight">
-                    {cart?.orderProducts?.length} товар(ов) •
-                  </span>
-                </ItemRow>
-                {cart?.orderProducts?.map((product: any, index) => {
-                  return (
-                    <ItemRow key={index}>
-                      <span title={product.product.name}>
-                        {product.product?.name?.slice(0, 20)}..
-                      </span>
-                      <p className="product-price-mobile-wrapper">
-                        <span>{product!.qty} шт</span> *{'  '}
-                        <span>
-                          {calculateIndvidualPercent(
-                            paymentOption,
-                            product.productVariant?.price,
-                          )}{' '}
-                          ₽
-                        </span>
-                        {'  '}
-                        <span>=</span>
-                        {'  '}
-                        <span style={{ whiteSpace: 'nowrap' }}>
-                          {calculateIndvidualProductTotal(
-                            paymentOption,
-                            product.productVariant?.price,
-                            product.qty,
-                          )}{' '}
-                          ₽
-                        </span>
-                      </p>
-                    </ItemRow>
-                  );
-                })}
-              </ItemRowWrapper>
+            <ItemRowWrapper>
               <ItemRow>
-                <h3 className="total">Итого</h3>
-                <h3 className="total">
-                  {getTotalPrice(cart, paymentOption)} ₽
-                </h3>
+                <h3>Ваш заказ</h3>
+                <span className="product-wheight">
+                  {cart?.orderProducts?.length} товар(ов) •
+                </span>
               </ItemRow>
-            </Content>
+              {cart?.orderProducts?.map((product: any, index) => {
+                return (
+                  <ItemRow key={index}>
+                    <span title={product.product.name}>
+                      {product.product?.name?.slice(0, 20)}..
+                    </span>
+                    <p className="product-price-mobile-wrapper">
+                      <span>{product!.qty} шт</span> *{'  '}
+                      <span>
+                        {calculateIndvidualPercent(
+                          paymentOption,
+                          product.productVariant?.price,
+                        )}{' '}
+                        ₽
+                      </span>
+                      {'  '}
+                      <span>=</span>
+                      {'  '}
+                      <span style={{ whiteSpace: 'nowrap' }}>
+                        {calculateIndvidualProductTotal(
+                          paymentOption,
+                          product.productVariant?.price,
+                          product.qty,
+                        )}{' '}
+                        ₽
+                      </span>
+                    </p>
+                  </ItemRow>
+                );
+              })}
+            </ItemRowWrapper>
+            <ItemRow>
+              <h3 className="total">Итого</h3>
+              <h3 className="total">{getTotalPrice(cart, paymentOption)} ₽</h3>
+            </ItemRow>
+          </Content>
 
-            <DropDowns />
-          </Wrapper>
-        </Container>
-        {/* <script
+          <DropDowns />
+        </Wrapper>
+      </Container>
+      {/* <script
           src="https://apis.google.com/js/platform.js?onload=renderOptIn"
           async
           defer
@@ -190,7 +188,7 @@ const TotalDetails = ({
         })}`,
           }}
         /> */}
-      </YandexMetricaProvider>
+      {/* </YandexMetricaProvider> */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
