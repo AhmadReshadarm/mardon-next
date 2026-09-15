@@ -302,10 +302,8 @@ const ProductItem: React.FC<Props> = ({ product }) => {
               }}
               className={styles.artical_wrapper}
             >
-              <span>В коробке: </span>
-              {filteredColors.map((color, index) => {
-                return <span key={index}>{stockNumber.value}</span>;
-              })}
+              <span style={{ whiteSpace: 'nowrap' }}>В коробке: </span>
+              <span>{stockNumber.value}</span>
             </div>
           )}
           {/* ---------- end of nStock Number ----------- */}

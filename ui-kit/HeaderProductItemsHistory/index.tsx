@@ -53,6 +53,10 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
   const currentVariant = (artical) =>
     product.productVariants?.find((variant) => variant.artical == artical);
 
+  const stockNumber = product.parameterProducts?.find(
+    (param) => param.parameter?.name === 'В коробке, шт',
+  );
+
   return (
     <li className={styles.ProductItemWrapper}>
       <>
@@ -213,28 +217,45 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
             </div>
             {/* ---------------- end of artical --------------- */}
           </div>
-
-          <div className={styles.price_sperator_wrapper}>
+          <div className={styles.inStock_wrapper_mobile}>
+            <span style={{ whiteSpace: 'nowrap' }}>В коробке: </span>{' '}
+            <span>{stockNumber?.value}</span>
+          </div>
+          <div className={styles.price_sperator_wrapper_mobile}>
             <div className={styles.old_new_price_wrapper}>
-              {/* <span
-                style={{
-                  display: variant.oldPrice ? 'none' : 'flex',
-                }}
-                className={styles.old_price}
-              >
-                {variant.oldPrice} ₽
-              </span> */}
               <span>{variant.price} ₽</span>
             </div>
           </div>
         </div>
-        <div className={styles.action_buttons_wrapper}>
+        {/* <div className={styles.action_buttons_wrapper}>
           <AddToWishlist product={product} />
           <AddToCart
             product={product}
             qty={findCartQTY(product, cart!, variant)}
             variant={variant}
           />
+        </div> */}
+        <div className={styles.price_and_stock_number_wrapper}>
+          <div className={styles.price_sperator_wrapper}>
+            <div className={styles.old_new_price_wrapper}>
+              <span style={{ fontSize: '1.2rem', fontWeight: 600 }}>
+                {variant.price} ₽
+              </span>
+            </div>
+          </div>
+          <div className={styles.inStock_wrapper}>
+            <span style={{ whiteSpace: 'nowrap' }}>В коробке: </span>{' '}
+            <span>{stockNumber?.value}</span>
+          </div>
+
+          <div className={styles.action_buttons_wrapper}>
+            <AddToWishlist product={product} />
+            <AddToCart
+              product={product}
+              qty={findCartQTY(product, cart!, variant)}
+              variant={variant}
+            />
+          </div>
         </div>
       </>
     </li>
