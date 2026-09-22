@@ -19,9 +19,10 @@ import styles from '../../styles/headerWishList.module.css';
 import dynamic from 'next/dynamic';
 import { fetchHistoryProducts } from 'redux/slicers/store/globalSlicer';
 import HeaderProductItmesHistory from 'ui-kit/HeaderProductItemsHistory';
-const HeaderProductItmes = dynamic(() => import('ui-kit/HeaderProductItems'), {
-  ssr: false,
-});
+// const HeaderProductItmes = dynamic(() => import('ui-kit/HeaderProductItems'), {
+//   ssr: false,
+// });
+import HeaderProductItmes from 'ui-kit/HeaderProductItems';
 type Props = {
   cartButtonRef: HTMLDivElement | any;
 };

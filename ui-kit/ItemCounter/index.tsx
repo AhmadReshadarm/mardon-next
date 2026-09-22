@@ -56,10 +56,32 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
   }, []);
 
   // -----------------------------------------------
+  const minimumAllowedOrder = variant?.minimumAllowedOrder ?? 1;
+
+  const normalizeQty = (qty) => {
+    let currentQty = qty;
+    const reminder = qty % minimumAllowedOrder;
+    const halfMinimum = minimumAllowedOrder / 2;
+
+    let nearMinimum = reminder > halfMinimum;
+
+    if (nearMinimum) {
+      const defrence = minimumAllowedOrder - reminder;
+
+      currentQty = qty + defrence;
+    }
+    if (!nearMinimum) {
+      currentQty = qty - reminder;
+    }
+
+    return currentQty;
+  };
+
   return (
     <div
       // onClick={(e) => e.preventDefault()}
       className={styles.ItemCounterWrapper}
+      style={{ cursor: loading ? 'wait' : 'auto' }}
     >
       <motion.div
         initial={{ width: '0px', opacity: 0 }}
@@ -71,9 +93,14 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
           onMouseDown={() => setDecrementPressed(true)}
           onMouseUp={() => setDecrementPressed(false)}
           onClick={() => {
-            const newQty = qty - 1;
-            if (newQty < 1) {
-              openErrorNotification('Должно быть число от 1 до 100000');
+            let normalizedQty = normalizeQty(qty);
+
+            const newQty = normalizedQty - minimumAllowedOrder;
+
+            if (newQty < minimumAllowedOrder) {
+              openErrorNotification(
+                `Минимальный допустимый заказ для этого товара — ${minimumAllowedOrder} штук.`,
+              );
               return;
             }
             setInputValue(String(newQty)); // Optimistic update
@@ -190,21 +217,43 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
             if (newValue === '') return;
 
             const numValue = Number(newValue);
-            if (numValue < 1 || numValue > 100000) {
-              openErrorNotification('Должно быть число от 1 до 100000');
+            const isBoxOrder = numValue % minimumAllowedOrder === 0;
+
+            const numberLimit = numValue.toString().length > 10;
+            if (numberLimit) {
+              openErrorNotification(
+                'Недопустимо! \nДостигнут предел допустимого объема ввода.',
+              );
               return;
             }
-
             timeoutId.current = setTimeout(() => {
+              if (!isBoxOrder) {
+                openErrorNotification(
+                  `Неверно указано количество единиц. Используйте формулу: {количество коробок} × ${minimumAllowedOrder} шт.`,
+                );
+                return;
+              }
               handleProductCartQty(numValue, product, dispatch, cart!, variant);
             }, 500);
           }}
           onFocus={() => setIsEditing(true)}
           onBlur={() => {
             setIsEditing(false);
-            const numValue = inputValue === '' ? 1 : Number(inputValue);
-            if (numValue < 1 || numValue > 100000) {
-              openErrorNotification('Должно быть число от 1 до 100000');
+            // const numValue = inputValue === '' ? 1 : Number(inputValue);
+            const numValue =
+              inputValue === '' ? minimumAllowedOrder : Number(inputValue);
+            const isBoxOrder = numValue % minimumAllowedOrder === 0;
+
+            if (!isBoxOrder) {
+              return;
+            }
+
+            const numberLimit = numValue.toString().length > 10;
+
+            if (numberLimit) {
+              openErrorNotification(
+                'Недопустимо! \nДостигнут предел допустимого объема ввода.',
+              );
               setInputValue(String(qty));
               return;
             }
@@ -219,9 +268,14 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
           onMouseDown={() => setIncrementPressed(true)}
           onMouseUp={() => setIncrementPressed(false)}
           onClick={() => {
-            const newQty = qty + 1;
-            if (newQty > 100000) {
-              openErrorNotification('Должно быть число от 1 до 100000');
+            let normalizedQty = normalizeQty(qty);
+            const newQty = normalizedQty + minimumAllowedOrder;
+            const maxLimitNumber = newQty.toString().length > 10;
+
+            if (maxLimitNumber) {
+              openErrorNotification(
+                'Недопустимо! \nДостигнут предел допустимого объема ввода.',
+              );
               return;
             }
             setInputValue(String(newQty)); // Optimistic update

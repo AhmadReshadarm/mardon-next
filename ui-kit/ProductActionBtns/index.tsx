@@ -9,7 +9,8 @@ import {
 import { useState } from 'react';
 import styles from './ProductActionBtns.module.css';
 import dynamic from 'next/dynamic';
-const ItemCounter = dynamic(() => import('ui-kit/ItemCounter'));
+// const ItemCounter = dynamic(() => import('ui-kit/ItemCounter'));
+import ItemCounter from 'ui-kit/ItemCounter';
 
 type PropsCart = {
   product: Product;

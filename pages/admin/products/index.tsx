@@ -23,6 +23,7 @@ import ExcelJs from 'exceljs';
 import Head from 'next/head';
 import IncreaseOrDecreasePrice from 'components/admin/products/increaseOrDecreasePrice';
 import { handleProductDownloadInExcel } from 'components/admin/products/helpers';
+import SetPricesFromJson from 'components/admin/products/SetPricesFromJson';
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -167,7 +168,7 @@ const ProductsPage = () => {
                 setLoadingData,
                 ExcelJs,
                 seLoadingProgress,
-                { offset, limit },
+                { offset, limit, orderBy: 'DESC', sortBy: 'id' },
               )
             }
           >
@@ -187,6 +188,7 @@ const ProductsPage = () => {
 
       <CatelogContentWrapper>
         <SideBarWrapper>
+          <SetPricesFromJson />
           <IncreaseOrDecreasePrice />
           <FilterBar
             categories={categories}

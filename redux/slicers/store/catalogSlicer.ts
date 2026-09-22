@@ -165,7 +165,7 @@ export const fetchSizes = createAsyncThunk<
 
 export const fetchProductsInExcelFile = createAsyncThunk<
   any,
-  { offset; limit },
+  { offset; limit; sortBy; orderBy },
   { rejectValue: string }
 >(
   'tags/fetchProductsInExcelFile',

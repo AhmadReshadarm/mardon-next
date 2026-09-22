@@ -65,7 +65,7 @@ const handleAddToCartBtnClick =
       dispatch(
         addToCart({
           productId: product.id,
-          qty: 1,
+          qty: variant?.minimumAllowedOrder ?? 1,
           productVariantId: variant.id,
         }),
       );

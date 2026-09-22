@@ -71,8 +71,8 @@ const handleDataConvertation = (
       form[`${ManageProductFields.OldPrice}[${variantId}]`];
     const artical: string =
       form[`${ManageProductFields.Artical}[${variantId}]`];
-    // const wholeSalePrice: number =
-    //   form[`${ManageProductFields.wholeSalePrice}[${index}]`];
+    const minimumAllowedOrder: number =
+      form[`${ManageProductFields.minimumAllowedOrder}[${variantId}]`];
     const available: boolean =
       form[`${ManageProductFields.Available}[${variantId}]`];
     const color: number = form[`${ManageProductFields.Color}[${variantId}]`];
@@ -82,6 +82,7 @@ const handleDataConvertation = (
       oldPrice,
       // wholeSalePrice,
       artical,
+      minimumAllowedOrder,
       available,
       color,
       images: null,
@@ -259,6 +260,8 @@ const initialValuesConverter = (product: Product, variants: any[]) => {
       dbVariant.oldPrice;
     newProduct[`${ManageProductFields.Artical}[${variantId}]`] =
       dbVariant.artical;
+    newProduct[`${ManageProductFields.minimumAllowedOrder}[${variantId}]`] =
+      dbVariant.minimumAllowedOrder;
     newProduct[`${ManageProductFields.Available}[${variantId}]`] =
       dbVariant.available;
     newProduct[`${ManageProductFields.Color}[${variantId}]`] =
@@ -328,120 +331,270 @@ const handleProductDownloadInExcel = (
   payload,
 ) => {
   setLoadingData(true);
+
   dispatch(fetchProductsInExcelFile(payload))
     .then(unwrapResult)
     .then((response: ProductResponse) => {
-      setLoadingData(true);
       if (!response.rows || !Array.isArray(response.rows)) {
         console.error(
           'Error: Products data is missing or not in the expected format.',
           response,
         );
-        return; // Exit the function to prevent further errors
+        setLoadingData(false);
+        return;
       }
 
-      let workBook = new ExcelJs.Workbook();
+      const workBook = new ExcelJs.Workbook();
       const sheet = workBook.addWorksheet('subscribers');
+
+      // 3 pairs: artical - price - new price - artical - price - new price - artical - price - new price
       sheet.columns = [
-        { header: 'ID', key: 'id', width: 10 },
-        { header: 'Наименование товара', key: 'name', width: 40 },
-        { header: 'Артикул товара', key: 'artical', width: 20 },
-        { header: 'Цена', key: 'price', width: 10 },
-        { header: 'Ссылка на товара', key: 'link', width: 55 },
-        { header: 'Изображение', key: 'image', width: 15 },
+        { header: 'Артикул', key: 'artical1', width: 18 },
+        { header: 'Цена', key: 'price1', width: 10 },
+        { header: 'Новая цена', key: 'newPrice1', width: 12 },
+        { header: 'Артикул', key: 'artical2', width: 18 },
+        { header: 'Цена', key: 'price2', width: 10 },
+        { header: 'Новая цена', key: 'newPrice2', width: 12 },
+        { header: 'Артикул', key: 'artical3', width: 18 },
+        { header: 'Цена', key: 'price3', width: 10 },
+        { header: 'Новая цена', key: 'newPrice3', width: 12 },
       ];
-      sheet.getRow(1).alignment = {
+
+      sheet.properties.defaultRowHeight = 20;
+
+      // A4 print settings
+      sheet.pageSetup = {
+        paperSize: 9, // A4
+        orientation: 'portrait',
+        fitToPage: true,
+        fitToWidth: 1,
+        fitToHeight: 0,
+        horizontalCentered: true,
+        margins: {
+          left: 0.3,
+          right: 0.3,
+          top: 0.4,
+          bottom: 0.4,
+          header: 0.2,
+          footer: 0.2,
+        },
+      };
+
+      const headerRow = sheet.getRow(1);
+      headerRow.font = { bold: true, size: 10 };
+      headerRow.alignment = {
         vertical: 'middle',
-        horizontal: 'center',
+        horizontal: 'left',
         wrapText: true,
       };
-      sheet.properties.defaultRowHeight = 70;
+      headerRow.height = 24;
 
-      let counter = 0;
-      let progress = 0;
-      const productIteration = async () => {
-        if (counter < response.rows!.length) {
-          progress = Math.floor((counter * 100) / response.rows!.length);
+      const cleanArtical = (artical?: string) => {
+        if (!artical) return '';
+        return artical.includes('|')
+          ? artical.split('|')[0].toLocaleUpperCase()
+          : artical.toLocaleUpperCase();
+      };
+
+      const formatPrice = (price?: string | number) =>
+        price ? `${price} ₽` : 'N/A';
+
+      // 1. Flatten all variants into a single array
+      const allVariants: ProductVariant[] = [];
+      response.rows.forEach((row) => {
+        if (row?.productVariants) {
+          allVariants.push(...row.productVariants);
+        }
+      });
+
+      const totalItems = allVariants.length;
+      // Calculate how many items fit in one column (round up to ensure all items are included)
+      const itemsPerColumn = Math.ceil(totalItems / 3);
+
+      const generateExcelRows = async () => {
+        for (let i = 0; i < itemsPerColumn; i++) {
+          // Update progress
+          const progress = Math.floor((i * 100) / itemsPerColumn);
           seLoadingProgress(progress);
 
-          await Promise.all(
-            response.rows![counter]?.productVariants!?.map(
-              async (variant: ProductVariant) => {
-                const images = variant.images ? variant.images.split(', ') : [];
+          // Get items for each column based on the offset
+          const v1 = allVariants[i];
+          const v2 = allVariants[i + itemsPerColumn];
+          const v3 = allVariants[i + itemsPerColumn * 2];
 
-                const responseImage = await fetch(
-                  `https://nbhoz.ru/api/images/compress/${
-                    images[0]
-                  }?qlty=1&width=${80}&height=${80}&lossless=false`,
-                );
+          const rowData = {
+            artical1: v1 ? cleanArtical(v1.artical) : '',
+            price1: v1 ? formatPrice(v1.price) : '',
+            newPrice1: '', // Left empty for manual entry
 
-                const buffer = await responseImage.arrayBuffer();
-                const imageId = workBook.addImage({
-                  buffer: buffer,
-                  extension: 'jpeg',
-                });
-                await sheet.addRow({
-                  id: response.rows![counter]?.id,
-                  name: response.rows![counter]?.name,
-                  artical: variant.artical!.includes('|')
-                    ? variant.artical!.split('|')[0].toLocaleUpperCase()
-                    : variant.artical!.toLocaleUpperCase(),
-                  price: variant.price ? `${variant.price} ₽` : 'N/A',
-                  link: {
-                    text: `https://nbhoz.ru/product/${
-                      response.rows![counter]?.url
-                    }`,
-                    hyperlink: `https://nbhoz.ru/product/${
-                      response.rows![counter]?.url
-                    }`,
-                  },
-                });
+            artical2: v2 ? cleanArtical(v2.artical) : '',
+            price2: v2 ? formatPrice(v2.price) : '',
+            newPrice2: '', // Left empty for manual entry
 
-                await sheet.addImage(imageId, {
-                  tl: { col: 5, row: sheet.rowCount - 1 },
-                  ext: { width: 80, height: 80 },
-                  editAs: 'oneCell',
-                });
-                sheet.getRow(sheet.rowCount).alignment = {
-                  vertical: 'middle',
-                  horizontal: 'center',
-                  wrapText: true,
-                };
-              },
-            ),
-          );
+            artical3: v3 ? cleanArtical(v3.artical) : '',
+            price3: v3 ? formatPrice(v3.price) : '',
+            newPrice3: '', // Left empty for manual entry
+          };
 
-          counter = counter + 1;
-          productIteration();
-        } else {
-          try {
-            workBook.xlsx.writeBuffer().then((data) => {
-              const blob = new Blob([data], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              });
-              const url = window.URL.createObjectURL(blob);
-              const anchor = document.createElement('a');
-              anchor.href = url;
-              anchor.download = `${
-                new Date().toISOString().split('T')[0]
-              }.xlsx`;
-              anchor.click();
-              window.URL.revokeObjectURL(url);
-            });
-            seLoadingProgress(100);
-            setLoadingData(false);
-            seLoadingProgress(0);
-          } catch (error) {
-            console.log(error);
-          }
+          const row = sheet.addRow(rowData);
+          row.alignment = {
+            vertical: 'middle',
+            horizontal: 'left',
+            wrapText: true,
+          };
+        }
+
+        try {
+          const data = await workBook.xlsx.writeBuffer();
+          const blob = new Blob([data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          const url = window.URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = url;
+          anchor.download = `${new Date().toISOString().split('T')[0]}.xlsx`;
+          anchor.click();
+          window.URL.revokeObjectURL(url);
+
+          seLoadingProgress(100);
+          setLoadingData(false);
+          seLoadingProgress(0);
+        } catch (error) {
+          console.log(error);
+          setLoadingData(false);
         }
       };
-      productIteration();
+
+      generateExcelRows();
     })
     .catch((error) => {
       console.log(error);
+      setLoadingData(false);
     });
 };
+
+// const handleProductDownloadInExcel = (
+//   dispatch,
+//   setLoadingData,
+//   ExcelJs,
+//   seLoadingProgress,
+//   payload,
+// ) => {
+//   setLoadingData(true);
+//   dispatch(fetchProductsInExcelFile(payload))
+//     .then(unwrapResult)
+//     .then((response: ProductResponse) => {
+//       setLoadingData(true);
+//       if (!response.rows || !Array.isArray(response.rows)) {
+//         console.error(
+//           'Error: Products data is missing or not in the expected format.',
+//           response,
+//         );
+//         return; // Exit the function to prevent further errors
+//       }
+
+//       let workBook = new ExcelJs.Workbook();
+//       const sheet = workBook.addWorksheet('subscribers');
+//       sheet.columns = [
+//         { header: 'ID', key: 'id', width: 10 },
+//         { header: 'Наименование товара', key: 'name', width: 40 },
+//         { header: 'Артикул товара', key: 'artical', width: 20 },
+//         { header: 'Цена', key: 'price', width: 10 },
+//         { header: 'Ссылка на товара', key: 'link', width: 55 },
+//         { header: 'Изображение', key: 'image', width: 15 },
+//       ];
+//       sheet.getRow(1).alignment = {
+//         vertical: 'middle',
+//         horizontal: 'center',
+//         wrapText: true,
+//       };
+//       sheet.properties.defaultRowHeight = 70;
+
+//       let counter = 0;
+//       let progress = 0;
+//       const productIteration = async () => {
+//         if (counter < response.rows!.length) {
+//           progress = Math.floor((counter * 100) / response.rows!.length);
+//           seLoadingProgress(progress);
+
+//           await Promise.all(
+//             response.rows![counter]?.productVariants!?.map(
+//               async (variant: ProductVariant) => {
+//                 const images = variant.images ? variant.images.split(', ') : [];
+
+//                 const responseImage = await fetch(
+//                   `https://nbhoz.ru/api/images/compress/${
+//                     images[0]
+//                   }?qlty=1&width=${80}&height=${80}&lossless=false`,
+//                 );
+
+//                 const buffer = await responseImage.arrayBuffer();
+//                 const imageId = workBook.addImage({
+//                   buffer: buffer,
+//                   extension: 'jpeg',
+//                 });
+//                 await sheet.addRow({
+//                   id: response.rows![counter]?.id,
+//                   name: response.rows![counter]?.name,
+//                   artical: variant.artical!.includes('|')
+//                     ? variant.artical!.split('|')[0].toLocaleUpperCase()
+//                     : variant.artical!.toLocaleUpperCase(),
+//                   price: variant.price ? `${variant.price} ₽` : 'N/A',
+//                   link: {
+//                     text: `https://nbhoz.ru/product/${
+//                       response.rows![counter]?.url
+//                     }`,
+//                     hyperlink: `https://nbhoz.ru/product/${
+//                       response.rows![counter]?.url
+//                     }`,
+//                   },
+//                 });
+
+//                 await sheet.addImage(imageId, {
+//                   tl: { col: 5, row: sheet.rowCount - 1 },
+//                   ext: { width: 80, height: 80 },
+//                   editAs: 'oneCell',
+//                 });
+//                 sheet.getRow(sheet.rowCount).alignment = {
+//                   vertical: 'middle',
+//                   horizontal: 'center',
+//                   wrapText: true,
+//                 };
+//               },
+//             ),
+//           );
+
+//           counter = counter + 1;
+//           productIteration();
+//         } else {
+//           try {
+//             workBook.xlsx.writeBuffer().then((data) => {
+//               const blob = new Blob([data], {
+//                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//               });
+//               const url = window.URL.createObjectURL(blob);
+//               const anchor = document.createElement('a');
+//               anchor.href = url;
+//               anchor.download = `${
+//                 new Date().toISOString().split('T')[0]
+//               }.xlsx`;
+//               anchor.click();
+//               window.URL.revokeObjectURL(url);
+//             });
+//             seLoadingProgress(100);
+//             setLoadingData(false);
+//             seLoadingProgress(0);
+//           } catch (error) {
+//             console.log(error);
+//           }
+//         }
+//       };
+//       productIteration();
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
 
 export {
   handleDeleteProduct,

@@ -3,6 +3,7 @@ export enum ManageProductFields {
   Price = 'price',
   OldPrice = 'oldPrice',
   Artical = 'artical',
+  minimumAllowedOrder = 'minimumAllowedOrder',
   KeyValue = 'keyValue',
   Value = 'value',
   Desc = 'desc',

@@ -351,6 +351,20 @@
   color: var(--buttonPrimary);
 }
 
+.inCartNumber {
+  height: 30px;
+  order: 4;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.inCartNumber > span {
+  font-weight: 600;
+}
+
 /* laptopS */
 @media (min-width: 768px) and (max-width: 1024px) {
   .ColorPickerList {

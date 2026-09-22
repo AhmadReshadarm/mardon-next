@@ -26,11 +26,11 @@ const ActionBtns: React.FC<Props> = ({ product }) => {
         <AddToWishlist product={product!} />
         <AddToCart
           product={product!}
-          qty={findCartQTY(product, cart!, variant!)}
+          qty={findCartQTY(product, cart!, variant!)!}
           variant={variant ?? product?.productVariants![0]}
         />
       </div>
-      {checkIfItemInCart(product, cart!) && (
+      {checkIfItemInCart(product, cart!, variant!) && (
         <div className={styles.CounterAndGotoCartWrapper}>
           <Link href="/cart" prefetch={false}>
             <div className={styles.AddtoCartWrapper}>
@@ -38,7 +38,7 @@ const ActionBtns: React.FC<Props> = ({ product }) => {
                 onClick={handleGoToCart}
                 className={styles.in_cart}
                 type="button"
-                title="ПЕРЕЙТИ В КОРЗИНУ"
+                title="Перейти в корзину"
               >
                 <span>ПЕРЕЙТИ В КОРЗИНУ</span>
               </button>

@@ -102,6 +102,7 @@ const ProductVariant: React.FC<Props> = ({
           placeholder="Введите устаревшую стоимость продукта"
         />
       </Form.Item>
+
       {/* ----------------------Artical---------------------- */}
       <Form.Item
         label="Артикул (используйте заглавные буквы)"
@@ -109,6 +110,18 @@ const ProductVariant: React.FC<Props> = ({
         required
       >
         <Input required={true} placeholder="введите Артикул" />
+      </Form.Item>
+      {/* ----------------------minimumAllowedOrder---------------------- */}
+
+      <Form.Item
+        label="минимальное количество заказов, (штук)"
+        name={`${ManageProductFields.minimumAllowedOrder}[${variantId}]`}
+      >
+        <Input
+          // required={true}
+          type={'number'}
+          placeholder="Введите минимальное количество разрешенных заказов"
+        />
       </Form.Item>
       {/* ----------------------AVAILABLE---------------------- */}
       <Form.Item

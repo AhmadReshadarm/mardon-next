@@ -1,13 +1,15 @@
 import { Rating } from '@mui/material';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
-import { Product } from 'swagger/services';
+import { Basket, Product } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
 import styles from '../../styles/detail.module.css';
 import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { useCopyToClipboard } from './helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
+import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
 
 type Props = {
   product: Product;
@@ -26,12 +28,19 @@ const Details: React.FC<Props> = ({
 }) => {
   const productVariant = product?.productVariants![0];
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
+  const cart: Basket = useAppSelector((state) => state.cart.cart);
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   useEffect(() => {
     if (isCopied) {
       openSuccessNotification('Скопировано в буфер обмена');
     }
   }, [isCopied]);
+  const num = findCartQTY(product, cart!, variant!)!;
+  const formattedBoxNumber = num.toLocaleString();
+  const minimumAllowedOrder = variant
+    ? variant.minimumAllowedOrder
+    : productVariant.minimumAllowedOrder;
+
   return (
     <div className={styles.DetailsContainer}>
       <div className={styles.UserSelectWrapper}>
@@ -72,6 +81,7 @@ const Details: React.FC<Props> = ({
             </span>
           </p>
         </div>
+
         <div className={styles.ConvoContainer}>
           {/* <div className={styles.convo_contentWrapper}>
             <div className={styles.ConvoWrappers}>
@@ -142,6 +152,28 @@ const Details: React.FC<Props> = ({
             <span className={styles.title}>Выберите артикул:</span>
           </div>
           <ColorPicker setSelectedIndex={setSelectedIndex} product={product} />
+        </div>
+        <div className={styles.inCartNumber}>
+          {checkIfItemInCart(product, cart!, variant!) &&
+          num.toString().length > 4 ? (
+            <>
+              <span>{formattedBoxNumber}</span>
+              <span>штук</span>
+            </>
+          ) : (
+            <>
+              <span>
+                {minimumAllowedOrder! > 1 ? (
+                  <>
+                    Минимальный заказ — {minimumAllowedOrder} штук в одной
+                    коробке.
+                  </>
+                ) : (
+                  <></>
+                )}
+              </span>
+            </>
+          )}
         </div>
       </div>
 

@@ -21,8 +21,9 @@ const HeaderProductItmes: React.FC<Props> = ({
   handleMenuState,
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
-  const [variant, setVariant]: [any, any] = useState(
+  const [Defaultvariant, setVariant]: [any, any] = useState(
     dataType == 'wishlist' ? product!.productVariants![0] : {},
   );
 
@@ -54,6 +55,7 @@ const HeaderProductItmes: React.FC<Props> = ({
     dataType == 'wishlist'
       ? product!.productVariants?.find((variant) => variant.artical == artical)
       : null;
+
   return (
     <li className={styles.ProductItemWrapper}>
       {dataType == 'cart' ? (
@@ -207,7 +209,7 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToCart
               product={orderProduct!?.product!}
               qty={orderProduct!?.qty!}
-              variant={orderProduct?.productVariant}
+              variant={variant!}
             />
           </div>
         </>
@@ -220,7 +222,9 @@ const HeaderProductItmes: React.FC<Props> = ({
           >
             <img
               src={`/api/images/${
-                variant.images ? variant.images.split(', ')[0] : ''
+                Defaultvariant.images
+                  ? Defaultvariant.images.split(', ')[0]
+                  : ''
               }`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
@@ -334,7 +338,9 @@ const HeaderProductItmes: React.FC<Props> = ({
                         }}
                         style={{
                           borderColor:
-                            variant.artical == artical ? '#000' : '#00000029',
+                            Defaultvariant.artical == artical
+                              ? '#000'
+                              : '#00000029',
                         }}
                       >
                         {artical!.includes('|')
@@ -355,7 +361,7 @@ const HeaderProductItmes: React.FC<Props> = ({
             </div>
             <div className={styles.price_sperator_wrapper}>
               <div className={styles.old_new_price_wrapper}>
-                <span>{variant.price} ₽</span>
+                <span>{Defaultvariant.price} ₽</span>
               </div>
             </div>
           </div>
@@ -363,8 +369,8 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToWishlist product={product!} />
             <AddToCart
               product={product!}
-              qty={findCartQTY(product, cart!, variant)}
-              variant={variant}
+              qty={findCartQTY(product, cart!, variant!)}
+              variant={variant!}
             />
           </div>
         </>
