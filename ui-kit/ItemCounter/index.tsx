@@ -217,9 +217,11 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
             if (newValue === '') return;
 
             const numValue = Number(newValue);
+
             const isBoxOrder = numValue % minimumAllowedOrder === 0;
 
             const numberLimit = numValue.toString().length > 10;
+
             if (numberLimit) {
               openErrorNotification(
                 'Недопустимо! \nДостигнут предел допустимого объема ввода.',
@@ -227,6 +229,12 @@ const ItemCounter: React.FC<Props> = ({ qty, product, variant }) => {
               return;
             }
             timeoutId.current = setTimeout(() => {
+              if (numValue < minimumAllowedOrder) {
+                openErrorNotification(
+                  `Минимальный допустимый заказ для этого товара — ${minimumAllowedOrder} штук.`,
+                );
+                return;
+              }
               if (!isBoxOrder) {
                 openErrorNotification(
                   `Неверно указано количество единиц. Используйте формулу: {количество коробок} × ${minimumAllowedOrder} шт.`,

@@ -209,7 +209,7 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToCart
               product={orderProduct!?.product!}
               qty={orderProduct!?.qty!}
-              variant={variant!}
+              variant={orderProduct?.productVariant}
             />
           </div>
         </>
@@ -370,7 +370,7 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToCart
               product={product!}
               qty={findCartQTY(product, cart!, variant!)}
-              variant={variant!}
+              variant={orderProduct?.productVariant}
             />
           </div>
         </>

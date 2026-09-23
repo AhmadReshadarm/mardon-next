@@ -2,7 +2,7 @@ import color from 'components/store/lib/ui.colors';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
-import { AppDispatch } from 'redux/store';
+// import { AppDispatch } from 'redux/store';
 import { openErrorNotification } from 'common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { editProduct, fetchChosenProduct } from 'redux/slicers/productsSlicer';

@@ -24,6 +24,7 @@ import Head from 'next/head';
 import IncreaseOrDecreasePrice from 'components/admin/products/increaseOrDecreasePrice';
 import { handleProductDownloadInExcel } from 'components/admin/products/helpers';
 import SetPricesFromJson from 'components/admin/products/SetPricesFromJson';
+import SetMinimumAllowedOrder from 'components/admin/products/SetMinimumAllowedOrder';
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -188,6 +189,7 @@ const ProductsPage = () => {
 
       <CatelogContentWrapper>
         <SideBarWrapper>
+          <SetMinimumAllowedOrder />
           <SetPricesFromJson />
           <IncreaseOrDecreasePrice />
           <FilterBar
