@@ -189,8 +189,8 @@ const ProductsPage = () => {
 
       <CatelogContentWrapper>
         <SideBarWrapper>
-          <SetMinimumAllowedOrder />
-          <SetPricesFromJson />
+          {/* <SetMinimumAllowedOrder />
+          <SetPricesFromJson /> */}
           <IncreaseOrDecreasePrice />
           <FilterBar
             categories={categories}

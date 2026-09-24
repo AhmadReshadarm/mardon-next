@@ -1,6 +1,6 @@
 import { sizesNum } from 'components/store/lib/Devices';
 import Link from 'next/link';
-import { Product } from 'swagger/services';
+import { Product, ProductVariant } from 'swagger/services';
 import Slider from './slider';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Basket } from 'swagger/services';
@@ -79,7 +79,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
   });
 
   // remove the repated product artical from array to only show in UI once
-  const filteredArticals = filterRepeatedValues(articals);
+  const filteredArticals: ProductVariant[] = filterRepeatedValues(articals);
 
   function filterRepeatedValues(arr) {
     const seen = new Set<string>();
@@ -110,10 +110,6 @@ const ProductItem: React.FC<Props> = ({ product }) => {
   useEffect(() => {
     setVariant(product.productVariants![0]);
   }, [product]);
-
-  const stockNumber = product.parameterProducts?.find(
-    (param) => param.parameter?.name === 'В коробке, шт',
-  );
 
   return (
     <li
@@ -293,9 +289,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           </div>
           {/* ------------- end of rating ---------------- */}
           {/* ----------- inStock Number ------------------- */}
-          {!stockNumber ? (
-            <></>
-          ) : (
+          {variant.minimumAllowedOrder! > 1 ? (
             <div
               style={{
                 display: 'flex',
@@ -303,8 +297,10 @@ const ProductItem: React.FC<Props> = ({ product }) => {
               className={styles.artical_wrapper}
             >
               <span style={{ whiteSpace: 'nowrap' }}>В коробке: </span>
-              <span>{stockNumber.value}</span>
+              <span>{variant.minimumAllowedOrder} штук</span>
             </div>
+          ) : (
+            <></>
           )}
           {/* ---------- end of nStock Number ----------- */}
           <div className={styles.product_price_wrapper}>

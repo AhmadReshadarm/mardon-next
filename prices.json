@@ -584,3 +584,66 @@
   {"article":"ST-2704","price":335},
   {"article":"ST-2703","price":120}
 ]
+
+
+// #1845 "Футляр для очков (ST-4622)" — no "В коробке, шт" parameter
+// #1781 "Замок удобный(ST-20119)(ST-20118)(ST-20117)(ST-20116)" — could not extract a single number from "48 и 72 шт."
+// #1757 "Хороший секатор для растений (ST-20094)(ST-20095)" — could not extract a single number from "60 и 48 шт."
+// #1748 "Вакуумный термос удобный (ST-4716)(ST-4717)(ST-4718)(ST-4719)" — could not extract a single number from "40, 30 шт."
+// #1708 "Силиконовые формы для кухни оптом (ST-3061 | ST-3062)" — could not extract a single number from "100 шт. 200 шт."
+// #1693 "Нож-шинковка для капусты (ST-145)" — could not extract a single number from "100 шт. И 144 шт."
+// #1683 "Прачечный мяч для стиральной машины (ST-4559 | ST-4600 | ST-4601)" — could not extract a single number from "144 шт. 144 шт. 120 шт."
+// #1634 "Велосипедный тросовый замок с ключами (ST-2997)" — could not extract a single number from "120 шт. и 100 шт."
+// #1629 "Многофункциональная точилка для ножей (ST-4604)" — could not extract a single number from "120 шт. 96 шт."
+// #1620 "Терка металлическая многофункциональная для кухни оптом (ST-4462 | ST-" — could not extract a single number from "72 шт. и 144 шт."
+// #1604 "Терка металлическая для кухни (ST-2567 | ST-2568)" — could not extract a single number from "96 шт, 44 шт."
+// #1588 "Терка серая четырехгранная оптом для кухни (ST-4168)" — "В коробке, шт" parameter has no value
+// #1492 "Металлические вешалки для брюк с зажимами оптом - размеры 31.5 и 32см " — could not extract a single number from "12 штук в одной упаковке, 50 упаковок в одной коробке"
+// #1472 "Оптом: Микрофибровые салфетки для уборки 30*30 см, 5 шт/уп. (ST-1369)" — could not extract a single number from "в коробке 600 упаковок, каждая упаковка содержит 5 штук"
+// #1459 "Качественные резинки оптом - разноцветные, 50/100 г (ST-2690, ST-2691)" — could not extract a single number from "ST-2690: 200 шт. ST-2691: 400 шт."
+// #1425 "Кухонные щипцы оптом: нержавейка, выгодная цена (ST-2557)" — "В коробке, шт" parameter has no value
+// #1360 "Спортивная бутылка для воды: инновации, комфорт и стиль (ST-640)" — "В коробке, шт" parameter has no value
+// #1203 "Детский непромокаемый дождевик: безопасность и комфорт для маленьких н" — "В коробке, шт" parameter has no value
+// #1202 "дождевик - устойчивое решение для ваших погодных условий (ST-1946)" — "В коробке, шт" parameter has no value
+// #1199 "Зелёный пластиковый дождевик: идеальная защита от непогоды" — "В коробке, шт" parameter has no value
+// #258 "Шило (ST-157)" — "В коробке, шт" parameter has no value
+// #1059 "Губка металлическая для посуды (ST-20272)" — ambiguous: 2 "В коробке, шт" parameters with values
+// #494 "Ложка столовая (ST-506)" — ambiguous: 2 "В коробке, шт" parameters with values
+// #267 "прищепки бельевые деревянные (ST-20310)" — ambiguous: 2 "В коробке, шт" parameters with values
+// #213 "Тройник универсальный - разветвитель для розетки (ST-7516)" — ambiguous: 2 "В коробке, шт" parameters with values
+// #44 "Стеклянный распылитель для масла оптом: здоровое приготовление пищи (S" — ambiguous: 2 "В коробке, шт" parameters with values
+// #39 "Оптом: Прочные силиконовые коврики для выпечки и кондитерки (3 размера" — ambiguous: 2 "В коробке, шт" parameters with values
+// #1 "Бумажные Формы для кексов (ST-20904)" — ambiguous: 2 "В коробке, шт" parameters with values
+// #88 "Набор для мясорубки (ST-1044)" — no "В коробке, шт" parameter
+
+
+
+#1452 "Стеклянные контейнеры для хранения продуктов оптом с крышками - ланчбо" — could not extract a single number from "ST-2562: 36 шт. ST-2563: 26 шт. ST-2564: 48 шт. ST-2562: 48 шт. ST-2943: 36 шт"
+#1438 "Оптовая продажа гибких тросов для чистки канализации 3 и 5 метров (ST-" — could not extract a single number from "ST-818: 80 шт. ST-819: 50 шт."
+#1424 "Нержавеющие Термосы Оптом: Прочные, Надежные, Разные Объемы (ST-2526, " — could not extract a single number from "ST-2526: 12 шт, ST-2532: 12 шт, ST-2533: 10 шт"
+#1413 "Оптовая продажа бамбуковых подставок для горячего, "Heat Pad", защита " — could not extract a single number from "ST-2413: 200 шт, ST-2414: 120 шт"
+#1405 "Чайник из нержавеющей стали Classy Kettle - оптом по выгодной цене (ST" — could not extract a single number from "ST-6510: 35шт, ST-6511: 35шт, ST-6512: 35шт"
+#1401 "Термос для чая и кофе оптом - DayDays, (ST-2516, ST-2517, ST-2518)" — could not extract a single number from "ST-2516: 12 шт, ST-2517: 12 шт, ST-2518: 12 шт"
+#1397 "Термос "DayDays": Оптовая продажа термосов для дома и офиса (ST-2489, " — could not extract a single number from "ST-2489: 12шт. ST-2490: 12шт. ST-2492: 12шт. ST-2493: 12шт. ST-2494: 12шт."
+#1395 "Термосов Daydays: 0,6L (ST-2486) и 1L (ST-2487) - Увеличьте Прибыль с " — could not extract a single number from "(ST-2486 - 12 шт), (ST-2487 - 12 шт)"
+#1394 "Оптовые поставки термосов Daydays: Идеальный выбор для дома и путешест" — could not extract a single number from "(ST-2481 - 48 шт), (ST-2482 - 36 шт), (ST-2483 - 24 шт), (ST-2484 - 12 шт)"
+#1390 "DAYDAYS 2.5L, 3.0L и 3.5L Нержавеющая сталь насос-вакуумный кувшин - о" — could not extract a single number from "ST-1096: 6шт, ST-1099: 4шт, ST-1100: 4шт"
+#1265 "Крючки для ванной самоклеящийся (ST-694)" — could not extract a single number from "упаковка 50 шт, В коробка 300 шт." this is the correct one ->В коробка 300 шт.
+#145 "Набор ниток (ST-20606)" — could not extract a single number from "1500шт, 150уп" this is the correct one ->150уп
+#144 "Набор ниток белый (ST-20605)" — could not extract a single number from "1500шт, 150уп" this is the correct one ->150уп
+#143 "Набор ниток черный (ST-20604)" — could not extract a single number from "1500шт, 150уп" this is the correct one ->150уп
+#142 "Набор ниток разноцветный (ST-20603)" — could not extract a single number from "1500шт, 150уп" this is the correct one ->150уп
+#126 "Набор ниток 100 ПП черный (ST-2171)" — could not extract a single number from "1000 шт. 100 упаковок" this is the correct one ->100 упаковок
+#125 "Набор ниток 100 ЛШ белый (ST-2170)" — could not extract a single number from "1000 шт. 100 упаковок." this is the correct one ->100 упаковок
+#73 "Нож столовый (ST-6523)" — could not extract a single number from "В коробке 100 штук, упаковок 600 штук" this is the correct one -> В коробке 100 штук
+
+
+
+
+#1059 "Губка металлическая для посуды (ST-20272)" — ambiguous: 2 "В коробке, шт" parameters with values
+#494 "Ложка столовая (ST-506)" — ambiguous: 2 "В коробке, шт" parameters with values
+#267 "прищепки бельевые деревянные (ST-20310)" — ambiguous: 2 "В коробке, шт" parameters with values
+#213 "Тройник универсальный - разветвитель для розетки (ST-7516)" — ambiguous: 2 "В коробке, шт" parameters with values
+#44 "Стеклянный распылитель для масла оптом: здоровое приготовление пищи (S" — ambiguous: 2 "В коробке, шт" parameters with values
+#39 "Оптом: Прочные силиконовые коврики для выпечки и кондитерки (3 размера" — ambiguous: 2 "В коробке, шт" parameters with values
+#1 "Бумажные Формы для кексов (ST-20904)" — ambiguous: 2 "В коробке, шт" parameters with values

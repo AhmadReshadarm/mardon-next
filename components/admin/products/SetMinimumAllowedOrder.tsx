@@ -8,7 +8,7 @@ import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.
 import { editProduct } from 'redux/slicers/productsSlicer';
 import { fetchProducts } from 'redux/slicers/store/catalogSlicer';
 
-/* ----------------------------- helpers ----------------------------- */
+/* ------------------------------ helpers ------------------------------ */
 
 const BATCH_SIZE = 100;
 
@@ -20,10 +20,10 @@ const normalizeArticle = (artical?: string | null): string => {
     : artical.trim().toUpperCase();
 };
 
-/** Matches "В коробке, шт", "В коробке шт", "В коробке", "В коробке, шт." ... */
+/** Matches "В коробке, шт", "В коробке шт", "В коробке", "В коробке, шт.", "В коробка" ... */
 const isBoxParam = (name?: string | null): boolean => {
   if (!name) return false;
-  return /^в\s+коробке(\s*,?\s*шт\.?)?$/i.test(name.trim());
+  return /^в\s+коробк[аеи](\s*,?\s*шт\.?)?$/i.test(name.trim());
 };
 
 const isEmptyValue = (value?: string | null): boolean => {
@@ -33,74 +33,105 @@ const isEmptyValue = (value?: string | null): boolean => {
 };
 
 /**
- * Extract a single numeric value out of a simple string.
- *  "50 шт"                                          -> 50
- *  "220"                                            -> 220
- *  "100 слоев в одной упаковке и 100 упаковок..."   -> 100  (all numbers equal)
- *  "10 упаковок, 100 шт"                            -> 10   (prefers N... "в коробке")
- *  "10 - 20 шт"                                     -> null (ambiguous)
+ * Article pattern: 2-6 uppercase letters, optional space/dash,
+ * 1-8 digits, optional trailing uppercase letter.
+ * Matches "ST-2562", "ST-5201", "ST-2022A", "ST 818", etc.
+ */
+const ARTICLE_REGEX_SOURCE = '[A-ZА-Я]{2,6}[\\s-]?\\d{1,8}[A-ZА-Я]?';
+
+const findArticles = (raw: string) => {
+  const re = new RegExp(ARTICLE_REGEX_SOURCE, 'g');
+  const out: { article: string; index: number; length: number }[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(raw)) !== null) {
+    out.push({ article: m[0], index: m.index, length: m[0].length });
+    if (m.index === re.lastIndex) re.lastIndex++;
+  }
+  return out;
+};
+
+/**
+ * Parse per-variant strings such as:
+ *   "ST-21067: 30 шт | ST-21068: 20 шт | ST-5150: 20 шт"
+ *   "ST-2562: 36 шт. ST-2563: 26 шт. ST-2564: 48 шт."
+ *   "ST-2526: 12 шт, ST-2532: 12 шт, ST-2533: 10 шт"
+ *   "ST-6510: 35шт, ST-6511: 35шт, ST-6512: 35шт"
+ *   "(ST-2486 - 12 шт), (ST-2487 - 12 шт)"
+ *
+ * Returns Map<normalized article, quantity> — first occurrence wins
+ * when the same article appears twice. Returns null if no article found.
+ */
+const extractPerVariant = (raw: string): Map<string, number> | null => {
+  const matches = findArticles(raw);
+  if (matches.length === 0) return null;
+
+  const map = new Map<string, number>();
+
+  for (let i = 0; i < matches.length; i++) {
+    const { article, index, length } = matches[i];
+    const normalized = normalizeArticle(article);
+    if (map.has(normalized)) continue;
+
+    const endIdx = index + length;
+    const nextIdx = i + 1 < matches.length ? matches[i + 1].index : raw.length;
+    const segment = raw.slice(endIdx, nextIdx);
+
+    const nums = segment.match(/\d+/g);
+    if (nums && nums.length > 0) {
+      map.set(normalized, Number(nums[0]));
+    }
+  }
+
+  return map.size >= 1 ? map : null;
+};
+
+/**
+ * Extract a single numeric value from a non-per-variant string.
+ *
+ * Rules in order:
+ *  1. "коробк*" is present → take the number immediately after the word,
+ *     or the last number before it if nothing follows.
+ *       "упаковка 50 шт, В коробка 300 шт."                     → 300
+ *       "В коробке 100 штук, упаковок 600 штук"                 → 100
+ *       "100 слоев в одной упаковке и 100 упаковок в коробке"   → 100
+ *  2. "N уп" / "N упаковок" → take N
+ *       "1500шт,150уп"                                          → 150
+ *       "1000 шт. 100 упаковок"                                 → 100
+ *  3. Exactly one unique number → take it
+ *       "50 шт"                                                 → 50
+ *       "220"                                                   → 220
+ *  4. Otherwise → null (ambiguous)
  */
 const extractSingleNumber = (raw: string): number | null => {
   const v = raw.trim();
   if (!v) return null;
 
-  const nums = v.match(/\d+/g);
-  if (!nums || nums.length === 0) return null;
+  // Rule 1: "коробк*"
+  const boxMatch = v.match(/коробк/i);
+  if (boxMatch && boxMatch.index !== undefined) {
+    const afterIdx = boxMatch.index + boxMatch[0].length;
+    const after = v.slice(afterIdx, afterIdx + 40);
+    const numAfter = after.match(/\d+/);
+    if (numAfter) return Number(numAfter[0]);
 
-  const unique = new Set(nums);
-  if (unique.size === 1) return Number(nums[0]);
-
-  // Prefer a number immediately preceding "в коробке"
-  const boxMatch = v.match(/(\d+)[^\d]{0,60}?в\s*коробке/i);
-  if (boxMatch) return Number(boxMatch[1]);
-
-  return null;
-};
-
-/**
- * Parse a per-variant value like:
- *   "ST-21067: 30 шт | ST-21068: 20 шт | ST-5150: 20 шт"
- * Returns a map of normalized article -> quantity.
- */
-const extractPerVariant = (raw: string): Map<string, number> => {
-  const map = new Map<string, number>();
-  const parts = raw.split('|');
-
-  for (const rawPart of parts) {
-    const part = rawPart.trim();
-    if (!part) continue;
-
-    let article = '';
-    let rest = '';
-
-    const colonIdx = part.indexOf(':');
-    if (colonIdx !== -1) {
-      article = part.slice(0, colonIdx).trim();
-      rest = part.slice(colonIdx + 1).trim();
-    } else {
-      // "ST-21067 - 30 шт"  / "ST-21067 30 шт"
-      const m = part.match(
-        /^([A-Za-zА-Яа-я]+[\s-]?\d+[A-Za-z]?)\s*[-\s]\s*(.+)$/,
-      );
-      if (m) {
-        article = m[1].trim();
-        rest = m[2].trim();
-      }
+    const before = v.slice(Math.max(0, boxMatch.index - 60), boxMatch.index);
+    const numsBefore = before.match(/\d+/g);
+    if (numsBefore && numsBefore.length > 0) {
+      return Number(numsBefore[numsBefore.length - 1]);
     }
-
-    if (!article || !rest) continue;
-
-    const nums = rest.match(/\d+/g);
-    if (!nums || nums.length === 0) continue;
-
-    // Use the last number — that's the "шт" quantity in these strings.
-    const num = Number(nums[nums.length - 1]);
-    if (!Number.isFinite(num)) continue;
-
-    map.set(normalizeArticle(article), num);
   }
 
-  return map;
+  // Rule 2: "N уп"
+  const upMatch = v.match(/(\d+)\s*уп/i);
+  if (upMatch) return Number(upMatch[1]);
+
+  // Rule 3: single unique number
+  const allNums = v.match(/\d+/g);
+  if (allNums && new Set(allNums).size === 1) {
+    return Number(allNums[0]);
+  }
+
+  return null;
 };
 
 type Resolution =
@@ -108,13 +139,8 @@ type Resolution =
   | { kind: 'perVariant'; map: Map<string, number> }
   | { kind: 'error'; reason: string };
 
-/**
- * Look at a product's parameterProducts and figure out the intended
- * `minimumAllowedOrder` value(s).
- */
 const resolveMinimumOrder = (product: any): Resolution => {
   const params = product.parameterProducts || [];
-
   const boxParams = params.filter((p: any) => isBoxParam(p?.parameter?.name));
 
   if (boxParams.length === 0) {
@@ -136,18 +162,13 @@ const resolveMinimumOrder = (product: any): Resolution => {
 
   const value = String(withValues[0].value).trim();
 
-  // Per-variant format
-  if (value.includes('|')) {
-    const map = extractPerVariant(value);
-    if (map.size === 0) {
-      return {
-        kind: 'error',
-        reason: `could not parse per-variant value: "${value}"`,
-      };
-    }
-    return { kind: 'perVariant', map };
+  // First try to interpret as per-variant (any article mentioned).
+  const perVariant = extractPerVariant(value);
+  if (perVariant) {
+    return { kind: 'perVariant', map: perVariant };
   }
 
+  // Otherwise single number for all variants.
   const single = extractSingleNumber(value);
   if (single === null) {
     return {
@@ -159,10 +180,6 @@ const resolveMinimumOrder = (product: any): Resolution => {
   return { kind: 'single', value: single };
 };
 
-/**
- * Build the payload we send to `editProduct`, replacing only
- * `minimumAllowedOrder` on each variant via the supplied resolver.
- */
 const buildPayload = (product: any, resolve: (variant: any) => number) => ({
   id: product.id,
   name: product.name,
@@ -201,6 +218,7 @@ const SetMinimumAllowedOrder = () => {
   const [successLog, setSuccessLog] = useState<string[]>([]);
   const [errorLog, setErrorLog] = useState<string[]>([]);
   const [skippedLog, setSkippedLog] = useState<string[]>([]);
+  const [ignoredLog, setIgnoredLog] = useState<string[]>([]);
 
   const handleRun = async () => {
     setRunning(true);
@@ -208,9 +226,10 @@ const SetMinimumAllowedOrder = () => {
     setSuccessLog([]);
     setErrorLog([]);
     setSkippedLog([]);
+    setIgnoredLog([]);
 
     try {
-      /* ------------------ 1. Fetch all products ------------------ */
+      /* ---------- 1. Fetch all products in batches ---------- */
       const all: any[] = [];
       let offset = 0;
       let total = Infinity;
@@ -249,10 +268,11 @@ const SetMinimumAllowedOrder = () => {
 
       setStatus(`Fetched ${all.length} products — processing…`);
 
-      /* ------------------ 2. Process each product ------------------ */
+      /* ---------- 2. Process each product ---------- */
       const success: string[] = [];
       const errors: string[] = [];
       const skipped: string[] = [];
+      const ignored: string[] = [];
 
       for (let i = 0; i < all.length; i++) {
         const product = all[i];
@@ -264,8 +284,14 @@ const SetMinimumAllowedOrder = () => {
           ).slice(0, 60)}…`,
         );
 
-        const shortName = String(product.name || '').slice(0, 70);
+        // Ignore unpublished products entirely.
+        if (product.publish === false) {
+          ignored.push(`#${product.id} — unpublished`);
+          setIgnoredLog([...ignored]);
+          continue;
+        }
 
+        const shortName = String(product.name || '').slice(0, 70);
         const resolution = resolveMinimumOrder(product);
 
         if (resolution.kind === 'error') {
@@ -285,7 +311,6 @@ const SetMinimumAllowedOrder = () => {
 
         if (resolution.kind === 'single') {
           const target = resolution.value;
-
           const allAlreadySet = variants.every(
             (v: any) => v.minimumAllowedOrder === target,
           );
@@ -296,14 +321,11 @@ const SetMinimumAllowedOrder = () => {
           }
 
           const payload: any = buildPayload(product, () => target);
-          //   const save: any = await dispatch(
-          //     editProduct({ ...payload, id: product.id }),
-          //   );
-          console.log('from single');
 
-          console.log(payload);
+          const save: any = await dispatch(
+            editProduct({ ...payload, id: product.id }),
+          );
 
-          const save: any = true;
           if (save?.error) {
             errors.push(`#${product.id} — save failed`);
             setErrorLog([...errors]);
@@ -316,13 +338,12 @@ const SetMinimumAllowedOrder = () => {
           continue;
         }
 
-        /* -------- per-variant (map: normalized article → number) -------- */
+        /* ---------- per-variant branch ---------- */
         const map = resolution.map;
 
         const resolvedVariants = variants.filter((v: any) =>
           map.has(normalizeArticle(v.artical)),
         );
-
         const missingArticles = variants
           .filter((v: any) => !map.has(normalizeArticle(v.artical)))
           .map((v: any) => v.artical);
@@ -359,13 +380,9 @@ const SetMinimumAllowedOrder = () => {
             variant.minimumAllowedOrder,
         );
 
-        // const save: any = await dispatch(
-        //   editProduct({ ...payload, id: product.id }),
-        // );
-        console.log(payload);
-
-        const save: any = true;
-
+        const save: any = await dispatch(
+          editProduct({ ...payload, id: product.id }),
+        );
         if (save?.error) {
           errors.push(`#${product.id} — save failed`);
           setErrorLog([...errors]);
@@ -385,9 +402,9 @@ const SetMinimumAllowedOrder = () => {
         }
       }
 
-      /* ------------------ 3. Done ------------------ */
+      /* ---------- 3. Done ---------- */
       setStatus(
-        `Done. ${success.length} updated · ${errors.length} error(s) · ${skipped.length} skipped.`,
+        `Done. ${success.length} updated · ${errors.length} error(s) · ${skipped.length} skipped · ${ignored.length} ignored (unpublished).`,
       );
       openSuccessNotification('Finished processing all products');
     } catch (err) {
@@ -437,6 +454,7 @@ const SetMinimumAllowedOrder = () => {
             setSuccessLog([]);
             setErrorLog([]);
             setSkippedLog([]);
+            setIgnoredLog([]);
             setStatus('');
           }}
           style={{ opacity: running ? 0.6 : 1 }}
@@ -460,6 +478,11 @@ const SetMinimumAllowedOrder = () => {
       <LogSection>
         <LogHeader>↷ Skipped / already correct ({skippedLog.length})</LogHeader>
         {skippedLog.length === 0 ? <Empty>—</Empty> : renderList(skippedLog)}
+      </LogSection>
+
+      <LogSection>
+        <LogHeader>⊘ Ignored — publish=false ({ignoredLog.length})</LogHeader>
+        {ignoredLog.length === 0 ? <Empty>—</Empty> : renderList(ignoredLog)}
       </LogSection>
     </Wrapper>
   );

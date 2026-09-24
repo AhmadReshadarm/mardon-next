@@ -353,7 +353,6 @@
 
 .inCartNumber {
   height: 30px;
-  order: 4;
   display: flex;
   flex-direction: row;
   align-items: center;

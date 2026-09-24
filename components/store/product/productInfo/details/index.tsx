@@ -37,9 +37,8 @@ const Details: React.FC<Props> = ({
   }, [isCopied]);
   const num = findCartQTY(product, cart!, variant!)!;
   const formattedBoxNumber = num.toLocaleString();
-  const minimumAllowedOrder = variant
-    ? variant.minimumAllowedOrder
-    : productVariant.minimumAllowedOrder;
+  const minimumAllowedOrder =
+    variant?.minimumAllowedOrder ?? productVariant.minimumAllowedOrder;
 
   return (
     <div className={styles.DetailsContainer}>
@@ -147,12 +146,6 @@ const Details: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className={styles.SizePickerWrapper}>
-          <div className={styles.info_size_wrapper}>
-            <span className={styles.title}>Выберите артикул:</span>
-          </div>
-          <ColorPicker setSelectedIndex={setSelectedIndex} product={product} />
-        </div>
         <div className={styles.inCartNumber}>
           {checkIfItemInCart(product, cart!, variant!) &&
           num.toString().length > 4 ? (
@@ -174,6 +167,13 @@ const Details: React.FC<Props> = ({
               </span>
             </>
           )}
+        </div>
+
+        <div className={styles.SizePickerWrapper}>
+          <div className={styles.info_size_wrapper}>
+            <span className={styles.title}>Выберите артикул:</span>
+          </div>
+          <ColorPicker setSelectedIndex={setSelectedIndex} product={product} />
         </div>
       </div>
 
