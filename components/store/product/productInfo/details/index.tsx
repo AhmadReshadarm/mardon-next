@@ -8,7 +8,7 @@ import { useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { useCopyToClipboard } from './helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
+// import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
 import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
 
 type Props = {
@@ -35,8 +35,8 @@ const Details: React.FC<Props> = ({
       openSuccessNotification('Скопировано в буфер обмена');
     }
   }, [isCopied]);
-  const num = findCartQTY(product, cart!, variant!)!;
-  const formattedBoxNumber = num.toLocaleString();
+  // const num = findCartQTY(product, cart!, variant ?? productVariant);
+  // const formattedBoxNumber = num.toLocaleString();
   const minimumAllowedOrder =
     variant?.minimumAllowedOrder ?? productVariant.minimumAllowedOrder;
 
@@ -150,8 +150,8 @@ const Details: React.FC<Props> = ({
           {checkIfItemInCart(product, cart!, variant!) &&
           num.toString().length > 4 ? (
             <>
-              <span>{formattedBoxNumber}</span>
-              <span>штук</span>
+              {/* <span>{formattedBoxNumber}</span>
+              <span>штук</span> */}
             </>
           ) : (
             <>

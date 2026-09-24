@@ -5,7 +5,7 @@ const findCartQTY = (
   cart: Basket | undefined,
   variant?: ProductVariant,
 ) => {
-  let qty = variant?.minimumAllowedOrder;
+  let qty = variant?.minimumAllowedOrder ?? 1;
   cart?.orderProducts?.find((orderProduct) => {
     if (orderProduct.productVariant?.id == variant?.id) {
       qty = orderProduct.qty!;
