@@ -264,7 +264,7 @@ const SliderItems: React.FC<Props> = ({
                   <AddToWishlist product={currentSlide!} />
                   <AddToCart
                     product={currentSlide}
-                    qty={findCartQTY(currentSlide, cart!, variant)}
+                    qty={findCartQTY(currentSlide, cart!, variant)!}
                     variant={variant}
                   />
                 </div>
