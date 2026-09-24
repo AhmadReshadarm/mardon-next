@@ -21,7 +21,7 @@ const HeaderProductItmes: React.FC<Props> = ({
   handleMenuState,
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-  const { variant } = useAppSelector<TCartState>((state) => state.cart);
+  // const { variant } = useAppSelector<TCartState>((state) => state.cart);
 
   const [Defaultvariant, setVariant]: [any, any] = useState(
     dataType == 'wishlist' ? product!.productVariants![0] : {},
@@ -362,6 +362,15 @@ const HeaderProductItmes: React.FC<Props> = ({
             <div className={styles.price_sperator_wrapper}>
               <div className={styles.old_new_price_wrapper}>
                 <span>{Defaultvariant.price} ₽</span>
+                {Defaultvariant.minimumAllowedOrder > 1 ? (
+                  <>
+                    <span>|</span>
+                    <span>В коробке: </span>
+                    <span>{Defaultvariant.minimumAllowedOrder} штук</span>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
@@ -369,8 +378,8 @@ const HeaderProductItmes: React.FC<Props> = ({
             <AddToWishlist product={product!} />
             <AddToCart
               product={product!}
-              qty={findCartQTY(product, cart!, variant!)}
-              variant={orderProduct?.productVariant}
+              qty={findCartQTY(product, cart!, Defaultvariant)!}
+              variant={Defaultvariant}
             />
           </div>
         </>

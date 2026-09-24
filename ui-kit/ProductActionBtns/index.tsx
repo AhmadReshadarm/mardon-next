@@ -29,6 +29,7 @@ export const AddToCart: React.FC<PropsCart> = ({ product, qty, variant }) => {
 
   // ------------------- end of UI Hooks --------------------
   // style={{ minWidth: '150px' }}
+
   return (
     <>
       {!checkIfItemInCart(product, cart!, variant) ? (

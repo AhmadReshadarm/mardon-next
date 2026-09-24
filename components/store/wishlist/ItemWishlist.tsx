@@ -55,7 +55,7 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
-              qty={findCartQTY(product, cart!, variant)}
+              qty={findCartQTY(product, cart!, variant)!}
               variant={variant}
             />
           </div>
@@ -173,6 +173,15 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
           <div className={styles.price_sperator_wrapper}>
             <div className={styles.old_new_price_wrapper}>
               <span>{variant.price} ₽</span>
+              {variant.minimumAllowedOrder! > 1 ? (
+                <>
+                  <span>|</span>
+                  <span>В коробке: </span>
+                  <span>{variant.minimumAllowedOrder} штук</span>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
@@ -180,7 +189,7 @@ const ItemWishlist: React.FC<Props> = ({ product, index }) => {
           <AddToWishlist product={product} />
           <AddToCart
             product={product}
-            qty={findCartQTY(product, cart!, variant)}
+            qty={findCartQTY(product, cart!, variant)!}
             variant={variant}
           />
         </div>

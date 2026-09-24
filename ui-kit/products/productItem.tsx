@@ -311,7 +311,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
-              qty={findCartQTY(product, cart, variant)}
+              qty={findCartQTY(product, cart, variant)!}
               variant={variant}
             />
           </div>

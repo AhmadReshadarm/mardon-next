@@ -81,7 +81,7 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
-              qty={findCartQTY(product, cart!, variant)}
+              qty={findCartQTY(product, cart!, variant)!}
               variant={variant}
             />
           </div>
@@ -243,16 +243,21 @@ const HeaderProductItmesHistory: React.FC<Props> = ({
               </span>
             </div>
           </div>
-          <div className={styles.inStock_wrapper}>
-            <span style={{ whiteSpace: 'nowrap' }}>В коробке: </span>{' '}
-            <span>{stockNumber?.value}</span>
-          </div>
+
+          {variant.minimumAllowedOrder! > 1 ? (
+            <div className={styles.inStock_wrapper}>
+              <span style={{ whiteSpace: 'nowrap' }}>В коробке: </span>
+              <span>{variant.minimumAllowedOrder} штук</span>
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className={styles.action_buttons_wrapper}>
             <AddToWishlist product={product} />
             <AddToCart
               product={product}
-              qty={findCartQTY(product, cart!, variant)}
+              qty={findCartQTY(product, cart!, variant)!}
               variant={variant}
             />
           </div>
