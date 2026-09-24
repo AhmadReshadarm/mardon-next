@@ -147,26 +147,15 @@ const Details: React.FC<Props> = ({
         </div>
 
         <div className={styles.inCartNumber}>
-          {checkIfItemInCart(product, cart!, variant!) &&
-          num.toString().length > 4 ? (
-            <>
-              {/* <span>{formattedBoxNumber}</span>
-              <span>штук</span> */}
-            </>
-          ) : (
-            <>
-              <span>
-                {minimumAllowedOrder! > 1 ? (
-                  <>
-                    Минимальный заказ — {minimumAllowedOrder} штук в одной
-                    коробке.
-                  </>
-                ) : (
-                  <></>
-                )}
-              </span>
-            </>
-          )}
+          <span>
+            {minimumAllowedOrder! > 1 ? (
+              <>
+                Минимальный заказ — {minimumAllowedOrder} штук в одной коробке.
+              </>
+            ) : (
+              <></>
+            )}
+          </span>
         </div>
 
         <div className={styles.SizePickerWrapper}>
