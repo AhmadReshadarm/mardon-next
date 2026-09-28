@@ -101,6 +101,9 @@ const handleDataConvertation = (
   }
 
   newForm.productVariants = productVariants;
+  newForm.avrgRating = 0;
+  newForm.reviewCount = 0;
+  newForm.questionCount = 0;
 
   return newForm;
 };
