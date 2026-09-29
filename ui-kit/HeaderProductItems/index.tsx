@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
 import { Color, OrderProduct, Product } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import { findCartQTY } from './helpers';
 import styles from './headerProductItems.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fixPriceMissMatchOrBoxMissMatch } from 'components/store/cart/helpers';
 
 type Props = {
   orderProduct?: OrderProduct;
@@ -22,7 +23,7 @@ const HeaderProductItmes: React.FC<Props> = ({
 }) => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   // const { variant } = useAppSelector<TCartState>((state) => state.cart);
-
+  const dispatch = useAppDispatch();
   const [Defaultvariant, setVariant]: [any, any] = useState(
     dataType == 'wishlist' ? product!.productVariants![0] : {},
   );
@@ -55,6 +56,17 @@ const HeaderProductItmes: React.FC<Props> = ({
     dataType == 'wishlist'
       ? product!.productVariants?.find((variant) => variant.artical == artical)
       : null;
+
+  useEffect(() => {
+    if (cart && orderProduct?.productVariant) {
+      fixPriceMissMatchOrBoxMissMatch(
+        orderProduct.product!,
+        cart,
+        orderProduct.productVariant,
+        dispatch,
+      );
+    }
+  }, [cart, orderProduct]);
 
   return (
     <li className={styles.ProductItemWrapper}>

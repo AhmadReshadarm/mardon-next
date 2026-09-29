@@ -56,16 +56,17 @@ const handleAddToCartBtnClick =
       (orderProduct) => orderProduct.productVariant?.id == variant?.id,
     );
     if (!curOrderProduct) {
-      openSuccessNotification(
-        `Товар ${
-          product.name?.split('(')[0]
-        } ${variant?.artical?.toLocaleUpperCase()} добавлены в корзину`,
-      );
+      // openSuccessNotification(
+      //   `Товар ${
+      //     product.name?.split('(')[0]
+      //   } ${variant?.artical?.toLocaleUpperCase()} добавлены в корзину`,
+      // );
       //  с артикул
       dispatch(
         addToCart({
           productId: product.id,
           qty: variant?.minimumAllowedOrder,
+          // qty: 1,
           productVariantId: variant.id,
         }),
       );
@@ -107,14 +108,15 @@ const handleRemoveFromCartBtnClick =
       (orderProduct) => orderProduct.productVariant?.id == variant?.id,
     );
     if (curOrderProduct) {
-      openSuccessNotification(
-        `Товар ${
-          product.name?.split('(')[0]
-        } ${variant?.artical?.toLocaleUpperCase()} удален из корзины`,
-      );
+      // openSuccessNotification(
+      //   `Товар ${
+      //     product.name?.split('(')[0]
+      //   } ${variant?.artical?.toLocaleUpperCase()} удален из корзины`,
+      // );
       //  с артикул
       const payload = {
         id: curOrderProduct.id,
+        varId: curOrderProduct.productVariant?.artical,
       };
 
       dispatch(removeFromCart(payload));

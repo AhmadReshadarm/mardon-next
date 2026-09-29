@@ -1,7 +1,18 @@
-import { OrderProduct, Product, Basket } from 'swagger/services';
+import {
+  OrderProduct,
+  Product,
+  Basket,
+  ProductVariant,
+} from 'swagger/services';
 import { Role } from 'common/enums/roles.enum';
-import { updateCart, clearCart } from 'redux/slicers/store/cartSlicer';
+import {
+  updateCart,
+  clearCart,
+  updateCartQty,
+} from 'redux/slicers/store/cartSlicer';
 import { AppDispatch } from 'redux/store';
+import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
+import { fetchChosenProduct } from 'redux/slicers/productsSlicer';
 
 const getTotalQuantity = (orderProducts: OrderProduct[]) => {
   return orderProducts?.reduce((accum, orderProduct) => {
@@ -109,6 +120,76 @@ const handleRemoveClick = (dispatch: AppDispatch) => {
   }
 };
 
+// -------------------------------- TEMPRORY SLUTION FOR CART DESCRIPENCY -------------------------------
+
+const checkPriceMissMatch = (
+  product: Product,
+  cart: Basket,
+  variant: ProductVariant,
+) => {
+  const variantToCheck = product.productVariants?.find(
+    (productVariant) => productVariant.id === variant.id,
+  );
+
+  return !cart.orderProducts?.find(
+    (product) => product.productPrice == variantToCheck?.price,
+  );
+};
+
+const checkBoxMissMatch = (
+  product: Product,
+  cart: Basket,
+  variant: ProductVariant,
+) => {
+  const variantToCheck = product.productVariants?.find(
+    (productVariant) => productVariant.id === variant.id,
+  );
+
+  return (
+    cart.orderProducts?.find(
+      (orderProduct) => orderProduct.productVariant?.id == variantToCheck?.id,
+    )?.qty! < variantToCheck?.minimumAllowedOrder!
+  );
+};
+
+const fixPriceMissMatchOrBoxMissMatch = async (
+  product: Product,
+  cart: Basket,
+  variant: ProductVariant,
+  dispatch,
+) => {
+  if (checkIfItemInCart(product, cart!, variant)) {
+    const fullRes: any = await dispatch(
+      fetchChosenProduct(product.id as string),
+    );
+    const fullProduct: Product = fullRes?.payload;
+
+    if (
+      checkPriceMissMatch(fullProduct, cart, variant) ||
+      checkBoxMissMatch(fullProduct, cart, variant)
+    ) {
+      const curOrderProduct = cart?.orderProducts?.find(
+        (orderProduct) => orderProduct.productVariant?.id == variant?.id,
+      );
+      const serverValueToSet = fullProduct.productVariants?.find(
+        (productVariant) => productVariant.id == variant.id,
+      );
+      dispatch(
+        updateCartQty({
+          id: curOrderProduct?.id,
+          productId: product.id,
+          qty: serverValueToSet!.minimumAllowedOrder, // update to new min order per box
+          productPrice: serverValueToSet!.price, // update to new price
+          basketId: cart?.id,
+          productVariantId: curOrderProduct?.productVariant?.id,
+        }),
+      );
+    }
+  }
+};
+
+// ------------------------------------------------------------------------------------------------------
+
 export {
   getTotalQuantity,
   getTotalPrice,
@@ -117,4 +198,5 @@ export {
   handleItemRemove,
   handleItemCountChange,
   handleRemoveClick,
+  fixPriceMissMatchOrBoxMissMatch,
 };

@@ -1,13 +1,29 @@
 import Link from 'next/link';
-import { OrderProduct, Product } from 'swagger/services';
+import { OrderProduct } from 'swagger/services';
 import { AddToCart, AddToWishlist } from 'ui-kit/ProductActionBtns';
 import styles from './cartStyles.module.css';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TCartState } from 'redux/types';
+import { fixPriceMissMatchOrBoxMissMatch } from './helpers';
 type Props = {
   orderProduct: OrderProduct;
-  product?: Product;
 };
 
-const CartItem: React.FC<Props> = ({ orderProduct, product }) => {
+const CartItem: React.FC<Props> = ({ orderProduct }) => {
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (cart && orderProduct.productVariant) {
+      fixPriceMissMatchOrBoxMissMatch(
+        orderProduct.product!,
+        cart,
+        orderProduct.productVariant,
+        dispatch,
+      );
+    }
+  }, [cart, orderProduct]);
+
   return (
     <li className={styles.ProductItemWrapper}>
       <div className={styles.image_n_mobile_action_btn_wrapper}>

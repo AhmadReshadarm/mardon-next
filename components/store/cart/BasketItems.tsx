@@ -17,20 +17,20 @@ const BasketItems: React.FC<Props> = ({}) => {
 
   const dispatch = useAppDispatch();
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  // useEffect(() => {
+  //   setWindowWidth(window.innerWidth);
+  //   const handleWindowResize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //   };
 
-    window.addEventListener('resize', handleWindowResize);
+  //   window.addEventListener('resize', handleWindowResize);
 
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
+  //   return () => {
+  //     window.removeEventListener('resize', handleWindowResize);
+  //   };
+  // });
 
   const [historyUI, setHistoryUI] = useState(historyProducts);
   useEffect(() => {

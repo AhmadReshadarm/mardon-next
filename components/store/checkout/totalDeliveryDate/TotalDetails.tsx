@@ -6,8 +6,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState, TStoreCheckoutState } from 'redux/types';
 import {
   getTotalPrice,
-  calculateIndvidualProductTotal,
-  calculateIndvidualPercent,
   handlePayClick,
   handleCheckoutWithoutRegister,
 } from './helpers';
@@ -20,6 +18,7 @@ import variants from 'components/store/lib/variants';
 import Filters from 'components/store/product/reviewsAndQuastions/Filters';
 import { paymentMethod } from 'common/constants';
 import Script from 'next/script';
+import OrderFinalBillList from './OrderBillFinalList';
 
 const TotalDetails = ({
   comment,
@@ -131,32 +130,11 @@ const TotalDetails = ({
               </ItemRow>
               {cart?.orderProducts?.map((product: any, index) => {
                 return (
-                  <ItemRow key={index}>
-                    <span title={product.product.name}>
-                      {product.product?.name?.slice(0, 20)}..
-                    </span>
-                    <p className="product-price-mobile-wrapper">
-                      <span>{product!.qty} шт</span> *{'  '}
-                      <span>
-                        {calculateIndvidualPercent(
-                          paymentOption,
-                          product.productVariant?.price,
-                        )}{' '}
-                        ₽
-                      </span>
-                      {'  '}
-                      <span>=</span>
-                      {'  '}
-                      <span style={{ whiteSpace: 'nowrap' }}>
-                        {calculateIndvidualProductTotal(
-                          paymentOption,
-                          product.productVariant?.price,
-                          product.qty,
-                        )}{' '}
-                        ₽
-                      </span>
-                    </p>
-                  </ItemRow>
+                  <OrderFinalBillList
+                    orderProduct={product}
+                    paymentOption={paymentOption}
+                    key={index}
+                  />
                 );
               })}
             </ItemRowWrapper>

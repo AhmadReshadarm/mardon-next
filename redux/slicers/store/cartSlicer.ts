@@ -5,6 +5,7 @@ import {
   handlePending,
   openErrorNotification,
 } from 'common/helpers';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { TCartState } from 'redux/types';
 import {
   Basket,
@@ -78,7 +79,8 @@ export const updateCart = createAsyncThunk<
 );
 
 export const addToCart = createAsyncThunk<
-  Basket,
+  // Basket,
+  { varId: string; basket: Basket },
   OrderProductDTO,
   { rejectValue: string }
 >(
@@ -87,10 +89,11 @@ export const addToCart = createAsyncThunk<
     try {
       const basketId = localStorage.getItem('basketId') ?? '';
 
-      return await BasketService.addToCart({
+      const resp = await BasketService.addToCart({
         basketId,
         body: payload,
       });
+      return { varId: payload.productVariantId, basket: resp };
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -118,22 +121,22 @@ export const updateCartQty = createAsyncThunk<
 );
 
 export const removeFromCart = createAsyncThunk<
-  Basket,
+  // Basket,
+  { varId: string; basket: Basket },
   OrderProductWithJoins,
   { rejectValue: string }
 >(
   'cart/removeFromCart',
-  async function (
-    payload: OrderProductWithJoins,
-    { rejectWithValue },
-  ): Promise<any> {
+  async function (payload: any, { rejectWithValue }): Promise<any> {
     try {
       const basketId = localStorage.getItem('basketId') ?? '';
 
-      return await BasketService.removeFromCart({
+      // return
+      const resp = await BasketService.removeFromCart({
         basketId,
         body: payload,
       });
+      return { varId: payload.varId, basket: resp };
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -214,8 +217,17 @@ const cartSlicer = createSlice({
         state.countLoading = true;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
-        state.cart = action.payload;
+        state.cart = action.payload.basket;
         state.countLoading = false;
+
+        openSuccessNotification(
+          `Товар по артикул (${action.payload.basket.orderProducts
+            ?.find(
+              (orderProduct) =>
+                orderProduct.productVariant?.id == action.payload.varId,
+            )
+            ?.productVariant?.artical!.toUpperCase()}) добавлены в корзину`,
+        );
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.countLoading = false;
@@ -233,8 +245,12 @@ const cartSlicer = createSlice({
         state.countLoading = true;
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
-        state.cart = action.payload;
+        state.cart = action.payload.basket;
         state.countLoading = false;
+
+        openSuccessNotification(
+          `Товар по артикул (${action.payload.varId.toUpperCase()}) удален из корзины`,
+        );
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.countLoading = false;
