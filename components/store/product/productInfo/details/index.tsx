@@ -1,7 +1,7 @@
-import { Rating } from '@mui/material';
+// import { Rating } from '@mui/material';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
-import { Basket, Product } from 'swagger/services';
+import { Product } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
 import styles from '../../styles/detail.module.css';
 import { useAppSelector } from 'redux/hooks';
@@ -9,7 +9,7 @@ import { TCartState } from 'redux/types';
 import { useCopyToClipboard } from './helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 // import { findCartQTY } from 'ui-kit/HeaderProductItems/helpers';
-import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
+// import { checkIfItemInCart } from 'ui-kit/ProductActionBtns/helpers';
 
 type Props = {
   product: Product;
@@ -28,7 +28,7 @@ const Details: React.FC<Props> = ({
 }) => {
   const productVariant = product?.productVariants![0];
   const { variant } = useAppSelector<TCartState>((state) => state.cart);
-  const cart: Basket = useAppSelector((state) => state.cart.cart);
+  // const cart: Basket = useAppSelector((state) => state.cart.cart);
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   useEffect(() => {
     if (isCopied) {

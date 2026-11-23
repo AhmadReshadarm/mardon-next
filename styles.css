@@ -23,6 +23,7 @@
   --primary-gold: #c9b792;
   --border-light: #e3e0d3;
   --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.03);
+  --ant-image-z-index-popup: 999;
 }
 
 /* @font-face {

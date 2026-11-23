@@ -56,7 +56,7 @@ const Slider: React.FC<Props> = ({
     setTimeout(() => {
       if (zoom) {
         let zoomImg = document.querySelector('.ant-image-preview-img');
-        let zoomCtr = document.querySelector('.ant-image-preview-operations');
+        let zoomCtr = document.querySelector('.ant-image-preview-body');
         hideOnClickOutside(zoomImg, zoomCtr);
       }
     }, 300);

@@ -16,7 +16,7 @@ const FormItem = ({ children, option, valuePropName, initialValue }: Props) => {
       label={InputField[capitalizeFirstLetter(option)]}
       name={option}
       initialValue={initialValue}
-      fieldKey={option}
+      // fieldKey={option}
       required
     >
       {children}

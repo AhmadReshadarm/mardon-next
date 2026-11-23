@@ -78,7 +78,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: var(glassmorphismBg);
+  background-color: var(--glassmorphismBg);
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
   transition: 200ms;
