@@ -6,6 +6,7 @@ type PropsFullScreen = {
 };
 
 const ZoomFullScreen: React.FC<PropsFullScreen> = ({ zoomImgSrc }) => {
+  // just trying to remain the files
   return (
     <>
       <Image
